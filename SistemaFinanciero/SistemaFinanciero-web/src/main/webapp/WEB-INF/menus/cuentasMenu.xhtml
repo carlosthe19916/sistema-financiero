@@ -9,6 +9,86 @@
 
 <ui:composition>
 
-	<div>menu de prueba 1</div>
+	<div>
+		<h:form>
+
+			<p:growl id="messages" />
+
+			<h3>Plain Menu</h3>
+			<p:menu>
+				<p:submenu label="Ajax Menuitems">
+					<p:menuitem value="Save" actionListener="#{menuBean.save}"
+						update="messages" icon="ui-icon-disk" />
+					<p:menuitem value="Update" actionListener="#{menuBean.update}"
+						update="messages" icon="ui-icon-arrowrefresh-1-w" />
+				</p:submenu>
+				<p:submenu label="Non-Ajax Menuitem">
+					<p:menuitem value="Delete" actionListener="#{menuBean.delete}"
+						update="messages" ajax="false" icon="ui-icon-close" />
+				</p:submenu>
+				<p:submenu label="Navigations">
+					<p:menuitem value="External" url="http://www.primefaces.org"
+						icon="ui-icon-home" />
+					<p:menuitem value="Internal" outcome="/mobile/index"
+						icon="ui-icon-star" />
+				</p:submenu>
+			</p:menu>
+
+			<h3>Overlay</h3>
+			<p:commandButton id="dynaButton" value="Show" type="button" />
+			<p:menu overlay="true" trigger="dynaButton" my="left top"
+				at="left bottom">
+				<p:submenu label="Ajax Menuitems">
+					<p:menuitem value="Save" actionListener="#{menuBean.save}"
+						update="messages" icon="ui-icon-disk" />
+					<p:menuitem value="Update" actionListener="#{menuBean.update}"
+						update="messages" icon="ui-icon-arrowrefresh-1-w" />
+				</p:submenu>
+				<p:submenu label="Non-Ajax Menuitem">
+					<p:menuitem value="Delete" actionListener="#{menuBean.delete}"
+						update="messages" ajax="false" icon="ui-icon-close" />
+				</p:submenu>
+				<p:submenu label="Navigations">
+					<p:menuitem value="External" url="http://www.primefaces.org"
+						icon="ui-icon-home" />
+					<p:menuitem value="Internal" outcome="/mobile/index"
+						icon="ui-icon-star" />
+				</p:submenu>
+			</p:menu>
+
+			<h3>Programmatic Menu</h3>
+			<p:menu model="#{menuBean.model}" />
+
+		</h:form>
+
+		<div>
+			<h3>Aperturar Cuentas</h3>
+			<ul>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>Cancelar Cuentas</h3>
+			<ul>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>Otras Operaciones</h3>
+			<ul>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+				<li><a href="#">Crear Cuenta Corriente</a></li>
+			</ul>
+		</div>
+	</div>
+
 </ui:composition>
 </html>
