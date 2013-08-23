@@ -1,3 +1,3 @@
-default.configuration=SistemaFinanciero-ejb (1)
+default.configuration=SistemaFinanciero-web
 eclipse.preferences.version=1
 hibernate3.enabled=true
