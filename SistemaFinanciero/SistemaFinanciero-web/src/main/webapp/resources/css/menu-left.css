@@ -1,0 +1,53 @@
+.sf-menu-left {
+	z-index: 1;
+	position: relative;
+	bottom: 0;
+	left: 0;
+	width: 246px;
+	background-color: #fff;
+}
+
+.sf-submenu-left {
+	border-bottom: 1px solid #ebebeb;
+}
+
+.sf-submenu-left h3 {
+	color: #518f55 !important;
+	-webkit-margin-before: 10px;
+	-webkit-margin-after: 0px;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 20px;
+
+}
+
+.sf-submenu-left ul {
+	margin: 0;
+	padding: 0;
+	display: block;
+	list-style-type: disc;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 18px;
+}
+
+.sf-submenu-left ul li {
+	list-style: none;
+	padding: 5px;
+}
+
+.sf-submenu-left ul li:hover {
+	background-color: #f1f1f1;
+
+}
+
+.sf-submenu-left ul a {
+	color: #444 !important;
+padding-left: 10px;
+}
+
+.sf-submenu-left ul a:hover {
+	text-decoration: underline;
+}

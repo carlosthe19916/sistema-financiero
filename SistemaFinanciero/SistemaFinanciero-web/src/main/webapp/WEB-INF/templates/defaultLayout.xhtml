@@ -11,7 +11,38 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 	<h:outputStylesheet library="css" name="stylesheet.css" />
+	<h:outputStylesheet library="css" name="menu-left.css" />
+
+	<!-- primefaces css -->
 	<h:outputStylesheet library="css" name="default.css" />
+
+	<!-- Google Style buttons -->
+	<h:outputStylesheet library="css" name="css3-buttons.css" />
+	<h:outputStylesheet library="css" name="tiptip.css" />
+
+	<h:outputScript library="js" name="jquery.tiptip.js"></h:outputScript>
+
+	<script type="text/javascript">
+	    $(document).ready(function () {
+	    	 // Launch TipTip tooltip
+	        $('.tiptip a.button, .tiptip button').tipTip();
+
+	     	// Toggle the dropdown menu's
+	        $(".dropdown .button, .dropdown button").click(function () {
+	            $(this).parent().find('.dropdown-slider').slideToggle('fast');
+	            $(this).find('span.toggle').toggleClass('active');
+	            return false;
+	        });
+
+	     	// Close open dropdown slider/s by clicking elsewhwere on page
+	        $(document).bind('click', function (e) {
+	            if (e.target.id != $('.dropdown').attr('class')) {
+	                $('.dropdown-slider').slideUp();
+	                $('span.toggle').removeClass('active');
+	            }
+	        }); // END document.bind
+	    });
+	</script>
 	
 	<title><ui:insert name="title" /></title>
 </h:head>

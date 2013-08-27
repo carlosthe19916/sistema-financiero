@@ -86,6 +86,7 @@ table[Attributes Style] {
 	background-color: #4c7ed1;
 	position: relative;
 	overflow: hidden;
+	
 }
 
 .sf-menu-ul-left {
@@ -185,6 +186,7 @@ table[Attributes Style] {
 	width: 4px;
 	z-index: 1;
 	content: "";
+	left: 242px;
 }
 
 .sf-layout-main-widget {

@@ -23,10 +23,90 @@
 	</ui:define>
 
 
-		<!-- Definiendo el cuerpo de la pagina -->
-		<ui:define name="content">
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+		<div>
+			<div class="buttons">
+				<h:form>
+					<div class="tiptip">
+						<h:commandLink styleClass="button left" title="Nuevo Trabajador"
+							onclick="dlgCrearTrabajador.show();return false;">
+							<span class="icon icon3"></span>
+							<span class="label">Nuevo</span>
+						</h:commandLink>
+						<h:commandLink action="#" styleClass="button middle"
+							title="Editar Trabajador">
+							<span class="icon icon145"></span>
+							<span class="label">Editar</span>
+						</h:commandLink>
+						<h:commandLink action="#" styleClass="button right"
+							title="Eliminar Trabajador">
+							<span class="icon icon186"></span>
+							<span class="label">Eliminar</span>
+						</h:commandLink>
+					</div>
+					<div class="dropdown">
+						<h:outputLink styleClass="button">
+							<span class="icon icon96">&nbsp;</span>
+							<span class="label">Otros</span>
+							<span class="toggle">&nbsp;</span>
+						</h:outputLink>
+						<div class="dropdown-slider">
+							<h:commandLink action="#" styleClass="ddm">
+								<span class="icon icon96">&nbsp;</span>
+								<span class="label">Vacaciones</span>
+							</h:commandLink>
+							<h:commandLink action="#" styleClass="ddm">
+								<span class="icon icon96">&nbsp;</span>
+								<span class="label">Mas</span>
+							</h:commandLink>
+							<h:commandLink action="#" styleClass="ddm">
+								<span class="icon icon96">&nbsp;</span>
+								<span class="label">Mas</span>
+							</h:commandLink>
+						</div>
+						<!-- /.dropdown-slider -->
+					</div>
+					<!-- /.dropdown -->
+				</h:form>
+			</div>
+		</div>
+		<div>
+			<div class="buttons">
+				<h:form>
+					<table>
+						<tr>
+							<td><h:outputLabel>Buscar:</h:outputLabel></td>
+							<td><p:inputText id="txtBuscar" size="80" /> <p:watermark
+									value="search for" for="txtBuscar" /></td>
+						</tr>
+					</table>
+				</h:form>
+			</div>
+		</div>
+		<table>
+			<tr>
+				<td>Campo 1</td>
+				<td><p:inputText></p:inputText></td>
+			</tr>
+			<tr>
+				<td>Campo 1</td>
+				<td><p:inputText></p:inputText></td>
+			</tr>
+			<tr>
+				<td>Campo 1</td>
+				<td><p:inputText></p:inputText></td>
+			</tr>
+		</table>
+		<div>
+			<button class="action blue">
+				<span class="label">Save</span>
+			</button>
+			<button class="action">
+				<span class="label">Cancel</span>
+			</button>
+		</div>
 
-
-		</ui:define>
+	</ui:define>
 </ui:composition>
 </html>
