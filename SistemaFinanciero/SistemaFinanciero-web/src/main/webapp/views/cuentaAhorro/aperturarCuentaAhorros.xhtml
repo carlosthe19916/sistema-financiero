@@ -26,10 +26,97 @@
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
 		<div>
-			<h3>Aperturar Cuenta de Ahorros</h3>
+			<h4>Aperturar Cuenta de Ahorros</h4>
+		</div>
+		<div>
+			<table>
+				<tr>
+					<td>Tipo Persona:</td>
+					<td><p:selectOneMenu value="#{personaMB.persona.sexo}">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Masculino" itemValue="1" />
+							<f:selectItem itemLabel="Femenino" itemValue="2" />
+						</p:selectOneMenu></td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<div>
+				<h:link hreflang="#" value="Editar" />
+			</div>
+			<div>
+				<table border="1" width="100%">
+					<thead>
+						<tr>
+							<td>Persona Natural</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>DNI:</td>
+							<td>46779354</td>
+						</tr>
+						<tr>
+							<td>Apellidos y Nombres:</td>
+							<td>QUISPE SACCATOMA, JUAN CARLOS</td>
+						</tr>
+						<tr>
+							<td>Fecha Nacimiento:</td>
+							<td>12/12/2013</td>
+						</tr>
+						<tr>
+							<td>Sexo:</td>
+							<td>MASCULINO</td>
+						</tr>
+						<tr>
+							<td>Ocupacion:</td>
+							<td>ARQUITECTO</td>
+						</tr>
+						<tr>
+							<td>Direccion:</td>
+							<td>JR. DOS DE MAYO 987</td>
+							<td>Referencia:</td>
+							<td>PARQUE CENTRAL</td>
+						</tr>
+						<tr>
+							<td>Telefono:</td>
+							<td>965874525</td>
+							<td>Celular:</td>
+							<td>96587452</td>
+						</tr>
+						<tr>
+							<td>Email:</td>
+							<td>juan@gmail.com</td>
+						</tr>
+						<tr>
+							<td>Beneficiarios:</td>
+							<td>
+								<ul>
+									<li>1</li>
+									<li>1</li>
+									<li>1</li>
+									<li>1</li>
+									<li>1</li>
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 
+
+		<p:dialog id="modalDialog" header="Registrar Trabajador"
+			widgetVar="dlgPersonaNatural" modal="true" height="480">
+
+			<h:form>
+				<p:wizard>
+					<a>fdsf</a>
+				</p:wizard>
+			</h:form>
+
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>
