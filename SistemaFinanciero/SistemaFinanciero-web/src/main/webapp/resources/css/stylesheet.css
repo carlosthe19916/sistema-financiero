@@ -20,6 +20,7 @@ div {
 .content {
 	padding: 0;
 	margin: 0;
+	min-height:550px; 
 }
 
 .header a,.content a,.footer a {
@@ -74,16 +75,16 @@ table[Attributes Style] {
 
 .sf-menu {
 	height: 40px;
-	background-image: linear-gradient(top, #5587e2 0, #4678c6 100%);
-	background-image: -o-linear-gradient(top, #5587e2 0, #4678c6 100%);
-	background-image: -moz-linear-gradient(top, #5587e2 0, #4678c6 100%);
-	background-image: -webkit-linear-gradient(top, #5587e2 0, #4678c6 100%);
-	background-image: -ms-linear-gradient(#5587e2, #4678c6);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5587e2),
-		to(#4678c6));
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #5587e2),
-		color-stop(1, #4678c6));
-	background-color: #4c7ed1;
+	background-image: linear-gradient(top, #5ea462 0, #518f55 100%);
+	background-image: -o-linear-gradient(top, #5ea462 0, #518f55 100%);
+	background-image: -moz-linear-gradient(top, #5ea462 0, #518f55 100%);
+	background-image: -webkit-linear-gradient(top, #5ea462 0, #518f55 100%);
+	background-image: -ms-linear-gradient(#5ea462, #518f55);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5ea462),
+		to(#518f55));
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #5ea462),
+		color-stop(1, #518f55));
+	background-color: #518f55;
 	position: relative;
 	overflow: hidden;
 	
@@ -116,32 +117,38 @@ table[Attributes Style] {
 	border-right: 1px solid #769ed4;
 	text-shadow: 0 -1px 0 #1d52a3;
 	padding: 12px 20px 0;
-	border-right: 1px solid #769ed4;
+	border-right: 1px solid #7AB47F;
 	font-weight: bold;
 	float: left;
 	cursor: pointer;
 }
 
+.sf-menu-ul-li-a:hover {
+	text-decoration: none;
+}
+
 .sf-menu-ul-left .sf-menu-ul-li-a {
 	border-right: none;
-	border-left: 1px solid #769ed4;
+	border-left: 1px solid #7AB47F;
 	margin: 0;
 }
 
 .sf-menu-ul-li-a:hover {
-	background-image: linear-gradient(top, #0e3e89 0, #5886c2 100%);
-	background-image: -o-linear-gradient(top, #0e3e89 0, #5886c2 100%);
-	background-image: -moz-linear-gradient(top, #0e3e89 0, #5886c2 100%);
-	background-image: -webkit-linear-gradient(top, #0e3e89 0, #5886c2 100%);
-	background-image: -ms-linear-gradient(top, #0e3e89 0, #5886c2 100%);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0e3e89),
-		to(#5886c2));
+	background-image: linear-gradient(top, #417845 0, #417845 100%);
+	background-image: -o-linear-gradient(top, #417845 0, #417845 100%);
+	background-image: -moz-linear-gradient(top, #417845 0, #417845 100%);
+	background-image: -webkit-linear-gradient(top, #417845 0, #417845 100%);
+	background-image: -ms-linear-gradient(top, #417845 0, #417845 100%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#417845),
+		to(#417845));
 	color: #fff;
-	-webkit-box-shadow: inset 1px 1px 0 #1d52a3, inset -1px -1px 0 #1d52a3;
-	-moz-box-shadow: inset 1px 1px 0 #1d52a3, inset -1px -1px 0 #1d52a3;
-	box-shadow: inset 1px 1px 0 #1d52a3, inset -1px -1px 0 #1d52a3;
+	-webkit-box-shadow: inset 1px 1px 0 #1d52a3, inset -1px -1px 0 #417845;
+	-moz-box-shadow: inset 1px 1px 0 #1d52a3, inset -1px -1px 0 #417845;
+	box-shadow: inset 1px 1px 0 #417845, inset -1px -1px 0 #417845;
 	cursor: pointer;
-	text-shadow: 0 1px 0 #1d52a3;
+	text-shadow: 0 1px 0 #417845;
+	
+
 }
 
 .sf-menu-ul-li-a:FOCUS {
