@@ -25,14 +25,14 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-		<div>
-			<h4>Aperturar Cuenta de Ahorros</h4>
+		<div class="sf-content-cabecera">
+			<h2>Aperturar Cuenta de Ahorros</h2>
 		</div>
 		<div>
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td><p:selectOneMenu value="#{personaMB.persona.sexo}">
+					<td><p:selectOneMenu >
 							<f:selectItem itemLabel="Select One" itemValue="" />
 							<f:selectItem itemLabel="Masculino" itemValue="1" />
 							<f:selectItem itemLabel="Femenino" itemValue="2" />
@@ -40,81 +40,138 @@
 				</tr>
 			</table>
 		</div>
-		<div>
-			<div>
-				<h:link hreflang="#" value="Editar" />
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:form>
+					<h:commandLink  onclick="dlgCrearTrabajador.show();return false;"
+						value="Editar" />
+				</h:form>
 			</div>
-			<div>
-				<table border="1" width="100%">
-					<thead>
-						<tr>
-							<td>Persona Natural</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>DNI:</td>
-							<td>46779354</td>
-						</tr>
-						<tr>
-							<td>Apellidos y Nombres:</td>
-							<td>QUISPE SACCATOMA, JUAN CARLOS</td>
-						</tr>
-						<tr>
-							<td>Fecha Nacimiento:</td>
-							<td>12/12/2013</td>
-						</tr>
-						<tr>
-							<td>Sexo:</td>
-							<td>MASCULINO</td>
-						</tr>
-						<tr>
-							<td>Ocupacion:</td>
-							<td>ARQUITECTO</td>
-						</tr>
-						<tr>
-							<td>Direccion:</td>
-							<td>JR. DOS DE MAYO 987</td>
-							<td>Referencia:</td>
-							<td>PARQUE CENTRAL</td>
-						</tr>
-						<tr>
-							<td>Telefono:</td>
-							<td>965874525</td>
-							<td>Celular:</td>
-							<td>96587452</td>
-						</tr>
-						<tr>
-							<td>Email:</td>
-							<td>juan@gmail.com</td>
-						</tr>
-						<tr>
-							<td>Beneficiarios:</td>
-							<td>
-								<ul>
-									<li>1</li>
-									<li>1</li>
-									<li>1</li>
-									<li>1</li>
-									<li>1</li>
-								</ul>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Persona Natural</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>DNI:</td>
+								<td><label class="sf-label-bold">46779354</label></td>
+							</tr>
+							<tr>
+								<td>Apellidos y Nombres:</td>
+								<td><label class="sf-label-bold">QUISPE SACCATOMA,
+										JUAN CARLOS</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Nacimiento:</td>
+								<td><label class="sf-label-bold"> 12/12/2013</label></td>
+							</tr>
+							<tr>
+								<td>Sexo:</td>
+								<td><label class="sf-label-bold">MASCULINO</label></td>
+							</tr>
+							<tr>
+								<td>Ocupacion:</td>
+								<td><label class="sf-label-bold">ARQUITECTO</label></td>
+							</tr>
+							<tr>
+								<td>Direccion:</td>
+								<td><label class="sf-label-bold">JR. DOS DE MAYO
+										987</label></td>
+								<td>Referencia:</td>
+								<td><label class="sf-label-bold">PARQUE CENTRAL</label></td>
+							</tr>
+							<tr>
+								<td>Telefono:</td>
+								<td><label class="sf-label-bold">965874525</label></td>
+								<td>Celular:</td>
+								<td><label class="sf-label-bold">96587452</label></td>
+							</tr>
+							<tr>
+								<td>Email:</td>
+								<td><label class="sf-label-bold">juan@gmail.com</label></td>
+							</tr>
+							<tr>
+								<td>Beneficiarios:</td>
+								<td>
+									<ul class="sf-label-bold">
+										<li>1</li>
+										<li>1</li>
+										<li>1</li>
+										<li>1</li>
+										<li>1</li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<a href="">Editar</a>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Datos Financieros</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>Moneda:</td>
+								<td><label class="sf-label-bold">Nuevos Soles</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Apertura:</td>
+								<td><label class="sf-label-bold">12/12/2013</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Nacimiento:</td>
+								<td><label class="sf-label-bold">Tasa Interes</label></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<a href="">Editar</a>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Titulares</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>Moneda:</td>
+								<td><label class="sf-label-bold">Nuevos Soles</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Apertura:</td>
+								<td><label class="sf-label-bold">12/12/2013</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Nacimiento:</td>
+								<td><label class="sf-label-bold">Tasa Interes</label></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 
-
-
 		<p:dialog id="modalDialog" header="Registrar Trabajador"
-			widgetVar="dlgPersonaNatural" modal="true" height="480">
+			widgetVar="dlgCrearTrabajador" modal="true" height="480">
 
-			<h:form>
-				<p:wizard>
-					<a>fdsf</a>
-				</p:wizard>
-			</h:form>
+			<ui:include src="personaNatural.xhtml" />
+
 
 		</p:dialog>
 	</ui:define>
