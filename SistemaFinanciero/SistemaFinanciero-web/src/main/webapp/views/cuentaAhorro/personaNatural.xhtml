@@ -14,39 +14,34 @@
 
 	<h:form>
 		<table>
-			<tr class = "">
+			<tr class="">
 				<td colspan="6"><p:outputLabel>REGISTRAR DATOS DE PERSONA NATURAL</p:outputLabel>
 				</td>
 			</tr>
-			<tr class = "">
+			<tr class="">
 				<td colspan="6"><p:outputLabel>DATOS PERSONALES</p:outputLabel>
 				</td>
 			</tr>
 			<tr>
 				<td align="right"><p:outputLabel>DNI:</p:outputLabel></td>
-				<td><p:inputText id="txtDni"
-						value="" /></td>
+				<td><p:inputText id="txtDni" value="" /></td>
 			</tr>
 			<tr>
 				<td align="right"><p:outputLabel>Apellido Paterno:</p:outputLabel></td>
-				<td><p:inputText id="txtApellidoPaterno"
-						value="" /></td>
+				<td><p:inputText id="txtApellidoPaterno" value="" /></td>
 				<td align="right"><p:outputLabel>Apellido Materno:</p:outputLabel></td>
-				<td><p:inputText id="txtApellidoMaterno"
-						value="" /></td>
+				<td><p:inputText id="txtApellidoMaterno" value="" /></td>
 			</tr>
 			<tr>
 				<td align="right"><p:outputLabel>Nombres:</p:outputLabel></td>
-				<td colspan="3"><p:inputText id="txtNombres"
-						value="" size="76" /></td>
+				<td colspan="3"><p:inputText id="txtNombres" value="" size="76" /></td>
 			</tr>
 			<tr>
 				<td align="right"><p:outputLabel>Fecha Nacimiento:</p:outputLabel></td>
-				<td><p:calendar value="#{personaMB.persona.fechaNacimiento}"
-						id="txtFechaNacimiento" /> <p:watermark for="txtFechaNacimiento"
-						value="dd/mm/yyyy" /></td>
+				<td><p:calendar id="txtFechaNacimiento" /> <p:watermark
+						for="txtFechaNacimiento" value="dd/mm/yyyy" /></td>
 				<td align="right"><p:outputLabel>Sexo:</p:outputLabel></td>
-				<td><p:selectOneMenu value="#{personaMB.persona.sexo}">
+				<td><p:selectOneMenu>
 						<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 						<f:selectItem itemLabel="Masculino" itemValue="1" />
 						<f:selectItem itemLabel="Femenino" itemValue="2" />
@@ -57,8 +52,7 @@
 			</tr>
 			<tr>
 				<td align="right"><p:outputLabel>Ocupación:</p:outputLabel></td>
-				<td colspan="3"><p:inputText id="txtOcupacion"
-						value="" size="" /></td>
+				<td colspan="3"><p:inputText id="txtOcupacion" value="" size="" /></td>
 			</tr>
 			<tr>
 				<td align="right"><p:outputLabel>Dirección:</p:outputLabel></td>
@@ -70,15 +64,14 @@
 			</tr>
 			<tr>
 				<td align="right"><p:outputLabel>Telefono:</p:outputLabel></td>
-				<td><p:inputText id="txtTelefono"
-						value="" /></td>
+				<td><p:inputText id="txtTelefono" value="" /></td>
 				<td align="right"><p:outputLabel>Celular:</p:outputLabel></td>
-				<td><p:inputText id="txtCelular"
-						value="" /></td>
+				<td><p:inputText id="txtCelular" value="" /></td>
 			</tr>
 			<tr>
 				<td align="right"><p:outputLabel>Correo Electrónico:</p:outputLabel></td>
-				<td colspan="5"><p:inputText id="txtCorreoElectronico" size="76"></p:inputText></td>
+				<td colspan="5"><p:inputText id="txtCorreoElectronico"
+						size="76"></p:inputText></td>
 			</tr>
 		</table>
 	</h:form>

@@ -32,7 +32,7 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td><p:selectOneMenu value="#{personaMB.persona.sexo}">
+					<td><p:selectOneMenu >
 							<f:selectItem itemLabel="Select One" itemValue="" />
 							<f:selectItem itemLabel="Masculino" itemValue="1" />
 							<f:selectItem itemLabel="Femenino" itemValue="2" />
@@ -42,7 +42,10 @@
 		</div>
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<a href="">Editar</a>
+				<h:form>
+					<h:commandLink  onclick="dlgCrearTrabajador.show();return false;"
+						value="Editar" />
+				</h:form>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -163,6 +166,14 @@
 				</div>
 			</div>
 		</div>
+
+		<p:dialog id="modalDialog" header="Registrar Trabajador"
+			widgetVar="dlgCrearTrabajador" modal="true" height="480">
+
+			<ui:include src="personaNatural.xhtml" />
+
+
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>
