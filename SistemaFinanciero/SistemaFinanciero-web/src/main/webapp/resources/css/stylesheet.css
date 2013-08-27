@@ -61,7 +61,7 @@ td,th {
 	font-family: arial, sans-serif;
 	font-size: 100%;
 	display: table-cell;
-	vertical-align: inherit;
+	vertical-align: top;
 }
 
 table[Attributes Style] {
