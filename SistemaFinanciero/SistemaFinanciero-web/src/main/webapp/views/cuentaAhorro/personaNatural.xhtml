@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<ui:composition>
+
+
+	<h:form>
+		<table>
+			<tr class="ui-panel-titlebar ui-widget-header ui-corner-all">
+				<td colspan="6"><p:outputLabel>DATOS PERSONALES</p:outputLabel>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><p:outputLabel>DNI:</p:outputLabel></td>
+				<td><p:inputText id="txtDni"
+						value="#{personaMB.persona.numeroDni}" /></td>
+			</tr>
+			<tr>
+				<td align="right"><p:outputLabel>Ap. Paterno:</p:outputLabel></td>
+				<td><p:inputText id="txtApellidoPaterno"
+						value="#{personaMB.persona.primerApellido}" /></td>
+				<td align="right"><p:outputLabel>Ap. Materno:</p:outputLabel></td>
+				<td><p:inputText id="txtApellidoMaterno"
+						value="#{personaMB.persona.segundoApellido}" /></td>
+			</tr>
+			<tr>
+				<td align="right"><p:outputLabel>Nombres:</p:outputLabel></td>
+				<td colspan="3"><p:inputText id="txtNombres"
+						value="#{personaMB.persona.prenombres}" size="76" /></td>
+			</tr>
+			<tr>
+				<td align="right"><p:outputLabel>Fecha Nac.:</p:outputLabel></td>
+				<td><p:calendar value="#{personaMB.persona.fechaNacimiento}"
+						id="txtFechaNacimiento" /> <p:watermark for="txtFechaNacimiento"
+						value="dd/mm/yyy" /></td>
+				<td align="right"><p:outputLabel>Genero:</p:outputLabel></td>
+				<td><p:selectOneMenu value="#{personaMB.persona.sexo}">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="Masculino" itemValue="1" />
+						<f:selectItem itemLabel="Femenino" itemValue="2" />
+					</p:selectOneMenu></td>
+			</tr>
+			<tr>
+				<td align="right"><p:outputLabel>E. Civil.:</p:outputLabel></td>
+				<td><p:selectOneMenu value="#{personaMB.persona.estadoCivil}">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="Soltero" itemValue="1" />
+						<f:selectItem itemLabel="Casado" itemValue="2" />
+					</p:selectOneMenu></td>
+				<td align="right"><h:outputLabel>G. Instruccion:</h:outputLabel>
+				</td>
+				<td colspan="3"><p:selectOneMenu
+						value="#{personaMB.persona.gradoInstruccion}">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="Superior" itemValue="1" />
+						<f:selectItem itemLabel="Secundaria" itemValue="2" />
+						<f:selectItem itemLabel="Primaria" itemValue="3" />
+					</p:selectOneMenu></td>
+			</tr>
+			<tr class="ui-panel-titlebar ui-widget-header ui-corner-all">
+				<td colspan="6"><p:outputLabel>DIRECCION</p:outputLabel></td>
+			</tr>
+			<tr>
+				<td align="right"><p:outputLabel>Departamento:</p:outputLabel>
+				</td>
+				<td><p:selectOneMenu value="#{personaMB.persona.estadoCivil}">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="Soltero" itemValue="1" />
+						<f:selectItem itemLabel="Casado" itemValue="2" />
+					</p:selectOneMenu></td>
+				<td><p:selectOneMenu value="#{personaMB.persona.estadoCivil}">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="Soltero" itemValue="1" />
+						<f:selectItem itemLabel="Casado" itemValue="2" />
+					</p:selectOneMenu></td>
+				<td><p:selectOneMenu value="#{personaMB.persona.estadoCivil}">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="Soltero" itemValue="1" />
+						<f:selectItem itemLabel="Casado" itemValue="2" />
+					</p:selectOneMenu></td>
+			</tr>
+			<tr>
+				<td align="right"><p:outputLabel>Direccion:</p:outputLabel></td>
+				<td colspan="5"><p:inputText size="76"></p:inputText></td>
+			</tr>
+			<tr>
+				<td align="right"><p:outputLabel>Referencia:</p:outputLabel></td>
+				<td colspan="5"><p:inputText size="76" /></td>
+			</tr>
+		</table>
+	</h:form>
+
+
+</ui:composition>
+</html>
