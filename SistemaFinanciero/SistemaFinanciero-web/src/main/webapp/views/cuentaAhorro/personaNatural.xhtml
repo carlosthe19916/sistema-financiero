@@ -7,83 +7,88 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-
-
 <ui:composition>
-
-
 	<h:form>
-		<table>
-			<tr class="">
-				<td colspan="6"><p:outputLabel>REGISTRAR DATOS DE PERSONA NATURAL</p:outputLabel>
-				</td>
-			</tr>
-			<tr class="">
-				<td colspan="6"><p:outputLabel>DATOS PERSONALES</p:outputLabel>
-				</td>
-			</tr>
-			<tr>
-				<td align="right"><p:outputLabel>DNI:</p:outputLabel></td>
-				<td><p:inputText id="txtDni" value="" /></td>
-			</tr>
-			<tr>
-				<td align="right"><p:outputLabel>Apellido Paterno:</p:outputLabel></td>
-				<td><p:inputText id="txtApellidoPaterno" value="" /></td>
-				<td align="right"><p:outputLabel>Apellido Materno:</p:outputLabel></td>
-				<td><p:inputText id="txtApellidoMaterno" value="" /></td>
-			</tr>
-			<tr>
-				<td align="right"><p:outputLabel>Nombres:</p:outputLabel></td>
 
-				<td colspan="3"><p:inputText id="txtNombres" value="" size="76" /></td>
-
-				<td colspan="3"><p:inputText id="txtNombres"
-						value="" size="71" /></td>
-
-			</tr>
-			<tr>
-				<td align="right"><p:outputLabel>Fecha Nacimiento:</p:outputLabel></td>
-				<td><p:calendar id="txtFechaNacimiento" /> <p:watermark
-						for="txtFechaNacimiento" value="dd/mm/yyyy" /></td>
-				<td align="right"><p:outputLabel>Sexo:</p:outputLabel></td>
-				<td><p:selectOneMenu>
-						<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-						<f:selectItem itemLabel="Masculino" itemValue="1" />
-						<f:selectItem itemLabel="Femenino" itemValue="2" />
-					</p:selectOneMenu></td>
-			</tr>
-			<tr class="">
-				<td colspan="6"><p:outputLabel>DATOS ADICIONALES</p:outputLabel></td>
-			</tr>
-			<tr>
-				<td align="right"><p:outputLabel>Ocupación:</p:outputLabel></td>
-				<td colspan="3"><p:inputText id="txtOcupacion" value="" size="" /></td>
-			</tr>
-			<tr>
-				<td align="right"><p:outputLabel>Dirección:</p:outputLabel></td>
-				<td colspan="5"><p:inputText id="txtDireccion" size="71"></p:inputText></td>
-			</tr>
-			<tr>
-				<td align="right"><p:outputLabel>Referencia:</p:outputLabel></td>
-				<td colspan="5"><p:inputText id="txtReferencia" size="71" /></td>
-			</tr>
-			
-			<tr>
-				<td align="right"><p:outputLabel>Telefono:</p:outputLabel></td>
-				<td><p:inputText id="txtTelefono" value="" /></td>
-				<td align="right"><p:outputLabel>Celular:</p:outputLabel></td>
-				<td><p:inputText id="txtCelular" value="" /></td>
-			</tr>
-			<tr>
-				<td align="right"><p:outputLabel>Correo Electrónico:</p:outputLabel></td>
-
-				<td colspan="5"><p:inputText id="txtCorreoElectronico"
-						size="76"></p:inputText></td>
-
-				<td colspan="5"><p:inputText id="txtCorreoElectronico" size="73"></p:inputText></td>
-
-			</tr>
-		</table>
 	</h:form>
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Persona Natural" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la ventana emergente -->
+	<div class="sf-agrupador">
+		<div class="sf-agrupador-content">
+			<div class="sf-agrupador-content-cabecera">
+				<h3>DATOS ADICIONALES</h3>
+			</div>
+			<div class="sf-agrupador-content-table">
+				<table>
+					<tr>
+						<td align="right"><p:outputLabel>DNI:</p:outputLabel></td>
+						<td><p:inputText id="txtDni" value="" /></td>
+					</tr>
+					<tr>
+						<td align="right"><p:outputLabel>Apellido Paterno:</p:outputLabel></td>
+						<td><p:inputText id="txtApellidoPaterno" value="" /></td>
+						<td align="right"><p:outputLabel>Apellido Materno:</p:outputLabel></td>
+						<td><p:inputText id="txtApellidoMaterno" value="" /></td>
+					</tr>
+					<tr>
+						<td align="right"><p:outputLabel>Nombres:</p:outputLabel></td>
+						<td colspan="3"><p:inputText id="txtNombres" value=""
+								size="71" /></td>
+					</tr>
+					<tr>
+						<td align="right"><p:outputLabel>Fecha Nacimiento:</p:outputLabel></td>
+						<td><p:calendar id="txtFechaNacimiento" /> <p:watermark
+								for="txtFechaNacimiento" value="dd/mm/yyyy" /></td>
+						<td align="right"><p:outputLabel>Sexo:</p:outputLabel></td>
+						<td><p:selectOneMenu>
+								<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+								<f:selectItem itemLabel="Masculino" itemValue="1" />
+								<f:selectItem itemLabel="Femenino" itemValue="2" />
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="sf-agrupador">
+		<div class="sf-agrupador-content">
+			<div class="sf-agrupador-content-cabecera">
+				<h3>DATOS ADICIONALES</h3>
+			</div>
+			<div class="sf-agrupador-content-table">
+				<table>
+					<tr>
+						<td align="right"><p:outputLabel>Ocupación:</p:outputLabel></td>
+						<td colspan="3"><p:inputText id="txtOcupacion" value=""
+								size="" /></td>
+					</tr>
+					<tr>
+						<td align="right"><p:outputLabel>Dirección:</p:outputLabel></td>
+						<td colspan="5"><p:inputText id="txtDireccion" size="71"></p:inputText></td>
+					</tr>
+					<tr>
+						<td align="right"><p:outputLabel>Referencia:</p:outputLabel></td>
+						<td colspan="5"><p:inputText id="txtReferencia" size="71" /></td>
+					</tr>
+
+					<tr>
+						<td align="right"><p:outputLabel>Telefono:</p:outputLabel></td>
+						<td><p:inputText id="txtTelefono" value="" /></td>
+						<td align="right"><p:outputLabel>Celular:</p:outputLabel></td>
+						<td><p:inputText id="txtCelular" value="" /></td>
+					</tr>
+					<tr>
+						<td align="right"><p:outputLabel>Correo Electrónico:</p:outputLabel></td>
+						<td colspan="5"><p:inputText id="txtCorreoElectronico"
+								size="73"></p:inputText></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </ui:composition>
 </html>

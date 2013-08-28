@@ -32,7 +32,7 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td><p:selectOneMenu >
+					<td><p:selectOneMenu>
 							<f:selectItem itemLabel="Select One" itemValue="" />
 							<f:selectItem itemLabel="Masculino" itemValue="1" />
 							<f:selectItem itemLabel="Femenino" itemValue="2" />
@@ -43,13 +43,14 @@
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
 				<h:form>
-					<h:commandLink  onclick="dlgCrearTrabajador.show();return false;"
+
+					<h:commandLink onclick="dlgPersonaNatural.show();return false;"
 						value="Editar" />
 				</h:form>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
-					<h3>Persona Natural</h3>
+					<h3>PERSONA NATURAL</h3>
 				</div>
 				<div class="sf-agrupador-content-table">
 					<table width="100%">
@@ -116,7 +117,7 @@
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
-					<h3>Datos Financieros</h3>
+					<h3>DATOS FINANCIEROS</h3>
 				</div>
 				<div class="sf-agrupador-content-table">
 					<table width="100%">
@@ -144,7 +145,36 @@
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
-					<h3>Titulares</h3>
+					<h3>BENEFICIARIOS</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>Moneda:</td>
+								<td><label class="sf-label-bold">Nuevos Soles</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Apertura:</td>
+								<td><label class="sf-label-bold">12/12/2013</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Nacimiento:</td>
+								<td><label class="sf-label-bold">Tasa Interes</label></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<a href="">Editar</a>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>TITULARES</h3>
 				</div>
 				<div class="sf-agrupador-content-table">
 					<table width="100%">
@@ -167,12 +197,9 @@
 			</div>
 		</div>
 
-		<p:dialog id="modalDialog" header="Registrar Trabajador"
-			widgetVar="dlgCrearTrabajador" modal="true" height="480">
-
-			<ui:include src="personaJuridica.xhtml" />
-
-
+		<p:dialog id="modalDialog" header="REGISTRAR PERSONA NATURAL"
+			widgetVar="dlgPersonaNatural" modal="true" height="480">
+			<ui:include src="personaNatural.xhtml" />
 		</p:dialog>
 	</ui:define>
 </ui:composition>
