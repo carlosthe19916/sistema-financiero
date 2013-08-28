@@ -253,6 +253,7 @@ button.red:active,.button.red:active {
 	-moz-transition: color .20s;
 	-o-transition: color .20s;
 	transition: color .20s;
+	font-size: 11px; /*añadido por carlos*/
 }
 
 button span.label {
