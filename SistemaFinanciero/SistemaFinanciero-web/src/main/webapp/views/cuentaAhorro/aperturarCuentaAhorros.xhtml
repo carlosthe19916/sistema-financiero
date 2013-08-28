@@ -32,7 +32,7 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td><p:selectOneMenu >
+					<td><p:selectOneMenu>
 							<f:selectItem itemLabel="Select One" itemValue="" />
 							<f:selectItem itemLabel="Masculino" itemValue="1" />
 							<f:selectItem itemLabel="Femenino" itemValue="2" />
@@ -43,7 +43,7 @@
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
 				<h:form>
-					<h:commandLink  onclick="dlgCrearTrabajador.show();return false;"
+					<h:commandLink onclick="dlgCrearTrabajador.show();return false;"
 						value="Editar" />
 				</h:form>
 			</div>
@@ -140,7 +140,7 @@
 		</div>
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<a href="">Editar</a>
+				<h:outputLink onclick="dlgRegistrarTitulares.show();return false;">Editar</h:outputLink>				
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -168,11 +168,14 @@
 		</div>
 
 		<p:dialog id="modalDialog" header="Registrar Trabajador"
-			widgetVar="dlgCrearTrabajador" modal="true" height="480">
+			widgetVar="dlgCrearTrabajador" modal="true" height="300">
 
 			<ui:include src="personaJuridica.xhtml" />
+		</p:dialog>
 
-
+		<p:dialog id="modalDialogTitulares" header="Registrar Titulares"
+			widgetVar="dlgRegistrarTitulares" modal="true" height="350">
+			<ui:include src="/views/maestros/titulares.xhtml" />
 		</p:dialog>
 	</ui:define>
 </ui:composition>
