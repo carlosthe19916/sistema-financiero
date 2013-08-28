@@ -43,10 +43,9 @@
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
 				<h:form>
-
-					<h:commandLink onclick="dlgPersonaNatural.show();return false;"
-						value="Editar" />
 				</h:form>
+				
+				<h:outputLink onclick="dlgPersonaNatural.show();return false;">Editar</h:outputLink>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -141,7 +140,7 @@
 		</div>
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<a href="">Editar</a>
+				<h:outputLink onclick="dlgBeneficiarios.show();return false;">Editar</h:outputLink>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -197,10 +196,16 @@
 			</div>
 		</div>
 
-		<p:dialog id="modalDialog" header="REGISTRAR PERSONA NATURAL"
+		<p:dialog id="modalDialog1" header="REGISTRAR PERSONA NATURAL"
 			widgetVar="dlgPersonaNatural" modal="true" height="480">
 			<ui:include src="personaNatural.xhtml" />
 		</p:dialog>
+		
+		<p:dialog id="modalDialog2" header="REGISTRAR BENEFICIARIOS"
+			widgetVar="dlgBeneficiarios" modal="true" height="480">
+			<ui:include src="beneficiarios.xhtml" />
+		</p:dialog>
+				
 	</ui:define>
 </ui:composition>
 </html>
