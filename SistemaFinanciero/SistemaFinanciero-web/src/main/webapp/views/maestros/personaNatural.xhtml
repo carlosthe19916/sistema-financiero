@@ -14,45 +14,60 @@
 
 	<h:form>
 		<table>
-			<tr class="">
+			<tr>
 				<td colspan="6"><p:outputLabel>REGISTRAR DATOS DE PERSONA NATURAL</p:outputLabel>
 				</td>
 			</tr>
-			<tr class="">
+			<tr>
 				<td colspan="6"><p:outputLabel>DATOS PERSONALES</p:outputLabel>
 				</td>
 			</tr>
 			<tr>
-				<td align="right"><p:outputLabel>DNI:</p:outputLabel></td>
-				<td><p:inputText id="txtDni" value="" /></td>
+				<td><p:outputLabel>DNI:</p:outputLabel></td>
+				<td><p:inputText id="txtDniPersonaNatural" value="" /></td>
 			</tr>
 			<tr>
-				<td align="right"><p:outputLabel>Apellido Paterno:</p:outputLabel></td>
-				<td><p:inputText id="txtApellidoPaterno" value="" /></td>
-				<td align="right"><p:outputLabel>Apellido Materno:</p:outputLabel></td>
-				<td><p:inputText id="txtApellidoMaterno" value="" /></td>
+				<td>
+					<p:outputLabel>Apellido Paterno:</p:outputLabel>
+				</td>
+				<td>
+					<p:inputText id="txtApellidoPaternoPersonaNatural"/>
+				</td>
+				<td>
+					<p:outputLabel>Apellido Materno:</p:outputLabel>
+				</td>
+				<td>
+					<p:inputText id="txtApellidoMaternoPersonaNatural"/>
+				</td>
 			</tr>
 			<tr>
-				<td align="right"><p:outputLabel>Nombres:</p:outputLabel></td>
+				<td>
+					<p:outputLabel>Nombres:</p:outputLabel>
+				</td>
 
-				<td colspan="3"><p:inputText id="txtNombres" value="" size="76" /></td>
-
-				<td colspan="3"><p:inputText id="txtNombres"
-						value="" size="71" /></td>
+				<td colspan="3">
+					<p:inputText id="txtNombresPersonaNatural" value="" size="76" />
+				</td>
 
 			</tr>
 			<tr>
-				<td align="right"><p:outputLabel>Fecha Nacimiento:</p:outputLabel></td>
-				<td><p:calendar id="txtFechaNacimiento" /> <p:watermark
-						for="txtFechaNacimiento" value="dd/mm/yyyy" /></td>
-				<td align="right"><p:outputLabel>Sexo:</p:outputLabel></td>
-				<td><p:selectOneMenu>
+				<td>
+					<p:outputLabel>Fecha Nacimiento:</p:outputLabel>
+				</td>
+				<td>
+					<p:calendar id="txtFechaNacimiento" /> <p:watermark
+						for="txtFechaNacimiento" value="dd/mm/yyyy" />
+				</td>
+				<td><p:outputLabel>Sexo:</p:outputLabel></td>
+				<td>
+					<p:selectOneMenu>
 						<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 						<f:selectItem itemLabel="Masculino" itemValue="1" />
 						<f:selectItem itemLabel="Femenino" itemValue="2" />
-					</p:selectOneMenu></td>
+					</p:selectOneMenu>
+				</td>
 			</tr>
-			<tr class="">
+			<tr>
 				<td colspan="6"><p:outputLabel>DATOS ADICIONALES</p:outputLabel></td>
 			</tr>
 			<tr>
@@ -67,7 +82,7 @@
 				<td align="right"><p:outputLabel>Referencia:</p:outputLabel></td>
 				<td colspan="5"><p:inputText id="txtReferencia" size="71" /></td>
 			</tr>
-			
+
 			<tr>
 				<td align="right"><p:outputLabel>Telefono:</p:outputLabel></td>
 				<td><p:inputText id="txtTelefono" value="" /></td>
@@ -79,8 +94,6 @@
 
 				<td colspan="5"><p:inputText id="txtCorreoElectronico"
 						size="76"></p:inputText></td>
-
-				<td colspan="5"><p:inputText id="txtCorreoElectronico" size="73"></p:inputText></td>
 
 			</tr>
 		</table>

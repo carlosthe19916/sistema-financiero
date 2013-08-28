@@ -11,6 +11,12 @@
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
+	<script type="text/javascript">
+		$(document).ready(function () {
+			
+		});
+	</script>
+
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
 		<h:outputText value="Trabajador" />
@@ -32,20 +38,18 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td><p:selectOneMenu>
-							<f:selectItem itemLabel="Select One" itemValue="" />
-							<f:selectItem itemLabel="Masculino" itemValue="1" />
-							<f:selectItem itemLabel="Femenino" itemValue="2" />
-						</p:selectOneMenu></td>
+					<td>
+						<p:selectOneMenu id="cmbTipoPersona" value="#{aperturarCuentaAhorrosMB.tipoPersonaSeleccionada}" >
+							<f:selectItem itemValue="" itemLabel="Select one" />
+							<f:selectItems value="#{aperturarCuentaAhorrosMB.listTipoPersona.entrySet()}" var="a" itemLabel="#{a.value}" itemValue="#{a.key}" />
+						</p:selectOneMenu>
+					</td>
 				</tr>
 			</table>
 		</div>
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<h:form>
-					<h:commandLink onclick="dlgCrearTrabajador.show();return false;"
-						value="Editar" />
-				</h:form>
+				<h:outputLink onclick="dlgRegistrarPersona.show();return false;">Editar</h:outputLink>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -140,7 +144,7 @@
 		</div>
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<h:outputLink onclick="dlgRegistrarTitulares.show();return false;">Editar</h:outputLink>				
+				<h:outputLink onclick="dlgRegistrarTitulares.show();return false;">Editar</h:outputLink>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -167,10 +171,9 @@
 			</div>
 		</div>
 
-		<p:dialog id="modalDialog" header="Registrar Trabajador"
-			widgetVar="dlgCrearTrabajador" modal="true" height="300">
-
-			<ui:include src="personaJuridica.xhtml" />
+		<p:dialog id="modalDialogPersona" header="Persona Natural"
+			widgetVar="dlgRegistrarPersona" modal="true" height="400">
+			<ui:include src="#{aperturarCuentaAhorrosMB.mostrarDialog()}" />
 		</p:dialog>
 
 		<p:dialog id="modalDialogTitulares" header="Registrar Titulares"
