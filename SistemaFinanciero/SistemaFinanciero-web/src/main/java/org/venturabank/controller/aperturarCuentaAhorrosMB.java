@@ -1,15 +1,14 @@
 package org.venturabank.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 
 @ManagedBean
+
 public class aperturarCuentaAhorrosMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,14 +20,13 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		listTipoPersona = new HashMap<Integer, String>();
 		listTipoPersona.put(1, "Persona Natural");
 		listTipoPersona.put(2, "Persona Juridica");
-
+		
+		this.tipoPersonaSeleccionada = 5;
 	}
 	
 	public String mostrarDialog(){
-		/*if(this.tipoPersonaSeleccionada == 1)
+		if(this.tipoPersonaSeleccionada == 2)
 			return "/views/maestros/titulares.xhtml";
-		if(this.tipoPersonaSeleccionada == 1)
-			return "/views/maestros/personaJuridica.xhtml";*/
 		return "/views/maestros/personaJuridica.xhtml";
 	}
 
