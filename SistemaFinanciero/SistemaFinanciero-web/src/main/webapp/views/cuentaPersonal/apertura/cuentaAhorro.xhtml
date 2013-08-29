@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Trabajador" />
+	</ui:define>
+
+
+	<!-- content -->
+	<ui:define name="menu-left">
+		<ui:include src="/WEB-INF/menus/cuentasMenu.xhtml" />
+	</ui:define>
+
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+		<div class="sf-content-cabecera">
+			<h2>Aperturar Cuenta de Ahorros</h2>
+		</div>
+		<div>
+			<table>
+				<tr>
+					<td>Tipo Persona:</td>
+					<td>
+						<h:form>
+							<p:selectOneMenu id="cmbTipoPersona1"
+								value="#{aperturarCuentaAhorrosMB.tipoPersonaSeleccionada}"
+								onchange="javascript: return this.form.submit();">
+								<f:selectItem itemValue="0" itemLabel="Select one" />
+								<f:selectItem itemValue="1" itemLabel="Persona Natural" />
+								<f:selectItem itemValue="2" itemLabel="Persona Juridica" />
+								<f:ajax render=":modalDialogBeneficiarios" />
+							</p:selectOneMenu>
+						</h:form>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:outputLink onclick="dlgPersonaNatural.show();return false;">Editar</h:outputLink>				
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Persona Natural</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>DNI:</td>
+								<td><label class="sf-label-bold">46779354</label></td>
+							</tr>
+							<tr>
+								<td>Apellidos y Nombres:</td>
+								<td><label class="sf-label-bold">QUISPE SACCATOMA,
+										JUAN CARLOS</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Nacimiento:</td>
+								<td><label class="sf-label-bold"> 12/12/2013</label></td>
+							</tr>
+							<tr>
+								<td>Sexo:</td>
+								<td><label class="sf-label-bold">MASCULINO</label></td>
+							</tr>
+							<tr>
+								<td>Ocupacion:</td>
+								<td><label class="sf-label-bold">ARQUITECTO</label></td>
+							</tr>
+							<tr>
+								<td>Direccion:</td>
+								<td><label class="sf-label-bold">JR. DOS DE MAYO
+										987</label></td>
+								<td>Referencia:</td>
+								<td><label class="sf-label-bold">PARQUE CENTRAL</label></td>
+							</tr>
+							<tr>
+								<td>Telefono:</td>
+								<td><label class="sf-label-bold">965874525</label></td>
+								<td>Celular:</td>
+								<td><label class="sf-label-bold">96587452</label></td>
+							</tr>
+							<tr>
+								<td>Email:</td>
+								<td><label class="sf-label-bold">juan@gmail.com</label></td>
+							</tr>
+							<tr>
+								<td>Beneficiarios:</td>
+								<td>
+									<ul class="sf-label-bold">
+										<li>1</li>
+										<li>1</li>
+										<li>1</li>
+										<li>1</li>
+										<li>1</li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<a href="">Editar</a>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Datos Financieros</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>Moneda:</td>
+								<td><label class="sf-label-bold">Nuevos Soles</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Apertura:</td>
+								<td><label class="sf-label-bold">12/12/2013</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Nacimiento:</td>
+								<td><label class="sf-label-bold">Tasa Interes</label></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:outputLink
+					onclick="dlgRegistrarBeneficiarios.show();return false;">Editar</h:outputLink>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Beneficiarios</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>Moneda:</td>
+								<td><label class="sf-label-bold">Nuevos Soles</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Apertura:</td>
+								<td><label class="sf-label-bold">12/12/2013</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Nacimiento:</td>
+								<td><label class="sf-label-bold">Tasa Interes</label></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:outputLink onclick="dlgRegistrarTitulares.show();return false;">Editar</h:outputLink>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Titulares</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>Moneda:</td>
+								<td><label class="sf-label-bold">Nuevos Soles</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Apertura:</td>
+								<td><label class="sf-label-bold">12/12/2013</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Nacimiento:</td>
+								<td><label class="sf-label-bold">Tasa Interes</label></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<p:dialog id="modalDialogPersonaNatural" header="Persona Natural"
+			widgetVar="dlgPersonaNatural" modal="true" height="400">
+			<ui:include src="/views/maestros/personaNatural.xhtml" />
+		</p:dialog>
+
+		<p:dialog id="modalDialogBeneficiarios"
+			header="Registrar Beneficiarios"
+			widgetVar="dlgRegistrarBeneficiarios" modal="true" height="350">
+			<ui:include src="#{aperturarCuentaAhorrosMB.mostrarDialog()}" />
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
+</html>
