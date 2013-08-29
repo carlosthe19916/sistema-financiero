@@ -51,7 +51,7 @@
 		</div>
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<h:outputLink onclick="dlgRegistrarPersona.show();return false;">Editar</h:outputLink>
+				<h:outputLink onclick="dlgPersonaNatural.show();return false;">Editar</h:outputLink>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -144,6 +144,36 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:outputLink onclick="dlgRegistrarBeneficiarios.show();return false;">Editar</h:outputLink>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Beneficiarios</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>Moneda:</td>
+								<td><label class="sf-label-bold">Nuevos Soles</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Apertura:</td>
+								<td><label class="sf-label-bold">12/12/2013</label></td>
+							</tr>
+							<tr>
+								<td>Fecha Nacimiento:</td>
+								<td><label class="sf-label-bold">Tasa Interes</label></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
 				<h:outputLink onclick="dlgRegistrarTitulares.show();return false;">Editar</h:outputLink>
@@ -173,14 +203,20 @@
 			</div>
 		</div>
 
-		<p:dialog id="modalDialogPersona" header="Persona Natural"
-			widgetVar="dlgRegistrarPersona" modal="true" height="400">
-			<ui:include src="#{aperturarCuentaAhorrosMB.mostrarDialog()}" />
+		<p:dialog id="modalDialogPersonaNatural" header="Persona Natural"
+			widgetVar="dlgPersonaNatural" modal="true" height="400">
+			<ui:include src="/views/maestros/personaNatural.xhtml" />
+			
+		</p:dialog>
+
+		<p:dialog id="modalDialogBeneficiarios" header="Registrar Beneficiarios"
+			widgetVar="dlgRegistrarBeneficiarios" modal="true" height="350">
+			<ui:include src="/views/maestros/beneficiarios.xhtml" />
 		</p:dialog>
 
 		<p:dialog id="modalDialogTitulares" header="Registrar Titulares"
 			widgetVar="dlgRegistrarTitulares" modal="true" height="350">
-			<ui:include src="/views/maestros/titulares.xhtml" />
+			<ui:include src="#{aperturarCuentaAhorrosMB.mostrarDialog()}" />
 		</p:dialog>
 	</ui:define>
 </ui:composition>
