@@ -49,13 +49,27 @@
 			</table>
 		</div>
 			
+		<!-- PersonaNatural -->
 		<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
 			<ui:param name="componentName" value="personaNatural" />
-		</ui:include>
-		
-		<ui:include src="/views/maestros/personaNatural.xhtml">
+			<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+		</ui:include>		
+		<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
+			<ui:param name="componentName" value="dlgPersonaNatural" />
 			<ui:param name="componentToUpdated" value="personaNatural" />
 		</ui:include>
+		<!-- end PersonaNatural -->
+		
+		<!-- PersonaJuridica -->
+		<ui:include src="/views/maestros/personaJuridicaResumen.xhtml">
+			<ui:param name="componentName" value="personaJuridica" />
+			<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
+		</ui:include>		
+		<ui:include src="/views/maestros/personaJuridicaDialog.xhtml">
+			<ui:param name="componentName" value="dlgPersonaJuridica" />
+			<ui:param name="componentToUpdated" value="personaJuridica" />
+		</ui:include>
+		<!-- end PersonaJuridica -->
 		
 	</ui:define>
 </ui:composition>

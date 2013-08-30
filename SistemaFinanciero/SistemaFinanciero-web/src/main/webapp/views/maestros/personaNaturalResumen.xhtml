@@ -12,7 +12,7 @@
 	<h:panelGroup id="#{componentName}">
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<h:outputLink onclick="dlgPersonaNatural.show();return false;">Editar</h:outputLink>
+				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -34,7 +34,7 @@
 									<p:outputLabel value="Apellidos y Nombres:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{personaNaturalManagedBean.nombres}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{personaNaturalManagedBean.getNombreCompleto()}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
 							<tr>
