@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<h:panelGroup id="#{componentName}">
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:outputLink onclick="dlgPersonaNatural.show();return false;">Editar</h:outputLink>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Persona Natural</h3>
+				</div>		
+				<div class="sf-agrupador-content-table">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td>
+									<p:outputLabel value="DNI:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{personaNaturalManagedBean.dni}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Apellidos y Nombres:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{personaNaturalManagedBean.nombres}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Fecha Nacimiento:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{personaNaturalManagedBean.fechaNacimiento}" styleClass="sf-label-bold" />
+								</td>
+								<td>
+									<p:outputLabel value="Sexo:" />
+								</td>
+								<td>
+									<p:outputLabel styleClass="sf-label-bold" />
+								</td>
+							</tr>	
+							<tr>
+								<td>
+									<p:outputLabel value="Ocupación:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{personaNaturalManagedBean.ocupacion}" styleClass="sf-label-bold" /></td>
+							</tr>						
+							<tr>
+								<td>
+									<p:outputLabel value="Dirección:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{personaNaturalManagedBean.direccion}" styleClass="sf-label-bold" /></td>
+								<td>
+									<p:outputLabel value="Referencia:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{personaNaturalManagedBean.referencia}" styleClass="sf-label-bold" />
+								</td>
+							</tr>							
+							<tr>
+								<td>
+									<p:outputLabel value="Teléfono:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{personaNaturalManagedBean.telefono}" styleClass="sf-label-bold" />
+								</td>
+								<td>
+									<p:outputLabel value="Celular:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{personaNaturalManagedBean.celular}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Email:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{personaNaturalManagedBean.email}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</h:panelGroup>
+	
+</ui:composition>
+</html>
