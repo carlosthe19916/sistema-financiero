@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+<h:form>
+	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="300">		
+		<div id="panelPersonaNatural">
+			<div class="sf-agrupador">
+				<div class="sf-agrupador-content">
+					<div class="sf-agrupador-content-cabecera">
+						<h3>DATOS PERSONALES</h3>
+					</div>
+					<div class="sf-agrupador-content-table">
+						<table>
+							<tr>
+								<td>
+									<p:outputLabel>Moneda:</p:outputLabel>
+								</td>
+								<td>
+									<p:selectOneMenu value="">
+										<f:selectItem itemLabel="Soles"/>
+										<f:selectItem itemLabel="Dolares"/>
+										<f:selectItem itemLabel="Euros"/>
+									</p:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel>Fecha Apertura:</p:outputLabel>
+								</td>
+								<td>
+									<p:inputText />
+								</td>
+								<td>
+									<p:outputLabel>Tasa de Interes:</p:outputLabel>
+								</td>
+								<td>
+									<p:inputText />
+								</td>
+							</tr>							
+						</table>
+					</div>
+				</div>
+			</div>
+		
+			<div class="sf-buttons">							
+				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
+				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
+			</div>
+		</div>
+	</p:dialog>
+</h:form>
+</ui:composition>
+</html>
