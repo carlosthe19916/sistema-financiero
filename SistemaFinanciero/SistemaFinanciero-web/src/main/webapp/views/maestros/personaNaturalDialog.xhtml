@@ -9,7 +9,7 @@
 
 <ui:composition>
 <h:form>
-	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="400">		
+	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="450">		
 		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -129,9 +129,7 @@
 				</div>
 			</div>
 		
-			<div class="sf-buttons">			
-				<p:commandButton value="Prueba" update=":#{componentToUpdated}">					
-				</p:commandButton>
+			<div class="sf-buttons">							
 				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>
