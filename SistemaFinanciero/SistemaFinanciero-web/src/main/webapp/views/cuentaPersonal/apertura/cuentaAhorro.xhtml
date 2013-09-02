@@ -69,10 +69,26 @@
 				</ui:include>
 			</h:panelGrid>
 			<!-- end PersonaJuridica -->
-		</h:panelGroup>
+			
+			
+			<h:panelGrid rendered="#{aperturarCuentaAhorrosMB.isPersonaJuridica()}">			
+				<ui:include src="/views/maestros/representanteLegal.xhtml">				
+				</ui:include>
+			</h:panelGrid>
+			
+			<h:panelGrid rendered="#{aperturarCuentaAhorrosMB.isPersonaJuridica()}">			
+				<ui:include src="/views/maestros/accionista.xhtml">				
+				</ui:include>
+			</h:panelGrid>
 			
 			<h:panelGrid>			
-				<ui:include src="datosFinancierosResumenCuentaAhorro.xhtml">				
+				<ui:include src="datosFinancierosCuentaAhorroResumen.xhtml">
+					<ui:param name="componentName" value="datosFinancierosCuentaAhorro" />
+					<ui:param name="editarOutputDialog" value="dlgDatosFinancierosCuentaAhorro" />
+				</ui:include>		
+				<ui:include src="datosFinancierosCuentaAhorroDialog.xhtml">
+					<ui:param name="componentName" value="dlgDatosFinancierosCuentaAhorro" />
+					<ui:param name="componentToUpdated" value="datosFinancierosCuentaAhorro" />
 				</ui:include>
 			</h:panelGrid>
 			
@@ -81,11 +97,11 @@
 				</ui:include>
 			</h:panelGrid>
 			
-			<h:panelGrid>			
+			<h:panelGrid rendered="#{aperturarCuentaAhorrosMB.isPersonaNatural()}">			
 				<ui:include src="/views/maestros/beneficiarios.xhtml">				
 				</ui:include>
 			</h:panelGrid>
-			
+		</h:panelGroup>	
 			
 	</ui:define>
 </ui:composition>

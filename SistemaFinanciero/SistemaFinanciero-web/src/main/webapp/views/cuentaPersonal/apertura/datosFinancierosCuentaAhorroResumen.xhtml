@@ -9,10 +9,10 @@
 
 <ui:composition>
 
-	<h:panelGroup>
+	<h:panelGroup id="#{componentName}">
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<h:outputLink onclick="">Editar</h:outputLink>
+				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -39,7 +39,7 @@
 							</tr>
 							<tr>
 								<td>
-									<p:outputLabel value="Tasa de Interès:" />
+									<p:outputLabel value="Tasa de Interés:" />
 								</td>
 								<td>
 									<p:outputLabel />
