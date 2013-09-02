@@ -10,6 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="tarjetadebito",schema="cuentapersonal")
 @NamedQuery(name="Tarjetadebito.findAll", query="SELECT t FROM Tarjetadebito t")
 public class Tarjetadebito implements Serializable {
 	private static final long serialVersionUID = 1L;

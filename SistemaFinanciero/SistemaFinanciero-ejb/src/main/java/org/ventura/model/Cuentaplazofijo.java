@@ -6,18 +6,18 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the cuentaplazofijo database table.
  * 
  */
 @Entity
-@NamedQuery(name="Cuentaplazofijo.findAll", query="SELECT c FROM Cuentaplazofijo c")
+@Table(name = "cuentaplazofijo", schema = "cuentapersonal")
+@NamedQuery(name = "Cuentaplazofijo.findAll", query = "SELECT c FROM Cuentaplazofijo c")
 public class Cuentaplazofijo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String numerocuentaplazofijo;
 
 	private String dni;
@@ -46,27 +46,27 @@ public class Cuentaplazofijo implements Serializable {
 
 	private double trea;
 
-	//bi-directional many-to-one association to Beneficiariocuenta
-	@OneToMany(mappedBy="cuentaplazofijo")
+	// bi-directional many-to-one association to Beneficiariocuenta
+	@OneToMany(mappedBy = "cuentaplazofijo")
 	private List<Beneficiariocuenta> beneficiariocuentas;
 
-	//bi-directional many-to-one association to Estadocuenta
+	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
-	@JoinColumn(name="idestadocuenta")
+	@JoinColumn(name = "idestadocuenta")
 	private Estadocuenta estadocuenta;
 
-	//bi-directional many-to-one association to Frecuenciacapitalizacion
+	// bi-directional many-to-one association to Frecuenciacapitalizacion
 	@ManyToOne
-	@JoinColumn(name="idfrecuenciacapitalizacion")
+	@JoinColumn(name = "idfrecuenciacapitalizacion")
 	private Frecuenciacapitalizacion frecuenciacapitalizacion;
 
-	//bi-directional many-to-one association to Retirointere
+	// bi-directional many-to-one association to Retirointere
 	@ManyToOne
-	@JoinColumn(name="idretirointeres")
-	private Retirointere retirointere;
+	@JoinColumn(name = "idretirointeres")
+	private Retirointeres retirointere;
 
-	//bi-directional many-to-one association to Titularcuenta
-	@OneToMany(mappedBy="cuentaplazofijo")
+	// bi-directional many-to-one association to Titularcuenta
+	@OneToMany(mappedBy = "cuentaplazofijo")
 	private List<Titularcuenta> titularcuentas;
 
 	public Cuentaplazofijo() {
@@ -180,18 +180,21 @@ public class Cuentaplazofijo implements Serializable {
 		return this.beneficiariocuentas;
 	}
 
-	public void setBeneficiariocuentas(List<Beneficiariocuenta> beneficiariocuentas) {
+	public void setBeneficiariocuentas(
+			List<Beneficiariocuenta> beneficiariocuentas) {
 		this.beneficiariocuentas = beneficiariocuentas;
 	}
 
-	public Beneficiariocuenta addBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta addBeneficiariocuenta(
+			Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().add(beneficiariocuenta);
 		beneficiariocuenta.setCuentaplazofijo(this);
 
 		return beneficiariocuenta;
 	}
 
-	public Beneficiariocuenta removeBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta removeBeneficiariocuenta(
+			Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().remove(beneficiariocuenta);
 		beneficiariocuenta.setCuentaplazofijo(null);
 
@@ -210,15 +213,16 @@ public class Cuentaplazofijo implements Serializable {
 		return this.frecuenciacapitalizacion;
 	}
 
-	public void setFrecuenciacapitalizacion(Frecuenciacapitalizacion frecuenciacapitalizacion) {
+	public void setFrecuenciacapitalizacion(
+			Frecuenciacapitalizacion frecuenciacapitalizacion) {
 		this.frecuenciacapitalizacion = frecuenciacapitalizacion;
 	}
 
-	public Retirointere getRetirointere() {
+	public Retirointeres getRetirointere() {
 		return this.retirointere;
 	}
 
-	public void setRetirointere(Retirointere retirointere) {
+	public void setRetirointere(Retirointeres retirointere) {
 		this.retirointere = retirointere;
 	}
 
