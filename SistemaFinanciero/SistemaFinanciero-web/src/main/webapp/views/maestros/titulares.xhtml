@@ -7,49 +7,54 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-
-
 <ui:composition>
 
-	<div>
-		<table>
-			<tr>
-				<td>Cantidad de Retirantes:</td>
-				<td><p:inputText></p:inputText></td>
-			</tr>
-		</table>
-	</div>
-	<div>
-		<h:form>
-			<p:dataTable>
-				<p:column headerText="Nro">
-					<h:outputText value="#{car.model}" />
-				</p:column>
-
-				<p:column headerText="DNI(*)">
-					<h:outputText value="#{car.year}" />
-				</p:column>
-
-				<p:column headerText="Apellido Paterno">
-					<h:outputText value="#{car.manufacturer}" />
-				</p:column>
-
-				<p:column headerText="Apellido Materno">
-					<h:outputText value="#{car.color}" />
-				</p:column>
-				<p:column headerText="Nombres">
-					<h:outputText value="#{car.color}" />
-				</p:column>
-			</p:dataTable>
-		</h:form>
-	</div>
-	<div>
-		<button class="action green">
-			<span class="label">Aceptar</span>
-		</button>
-		<button class="action">
-			<span class="label">Cancel</span>
-		</button>
-	</div>
+	<h:panelGroup>
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Titulares</h3>
+				</div>		
+				<div class="sf-agrupador-content-table">
+					<div>
+							<table>
+								<tr>
+									<td>Cantidad de Retirantes:</td>
+									<td><p:inputText></p:inputText></td>
+								</tr>
+							</table>
+						</div>
+						<div>
+							<h:form>
+								<p:dataTable>
+									<p:column headerText="Nro">
+										<h:outputText value="#{car.model}" />
+									</p:column>
+					
+									<p:column headerText="DNI(*)">
+										<h:outputText value="#{car.year}" />
+									</p:column>
+					
+									<p:column headerText="Apellido Paterno">
+										<h:outputText value="#{car.manufacturer}" />
+									</p:column>
+					
+									<p:column headerText="Apellido Materno">
+										<h:outputText value="#{car.color}" />
+									</p:column>
+									<p:column headerText="Nombres">
+										<h:outputText value="#{car.color}" />
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</div>
+				</div>
+			</div>
+		</div>
+	</h:panelGroup>
+	
 </ui:composition>
 </html>

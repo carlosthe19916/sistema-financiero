@@ -23,7 +23,7 @@
 									<p:outputLabel>DNI:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtDniPN" value="#{personaNaturalManagedBean.dni}" />
+									<p:inputText id="txtDniPN" value="#{aperturarCuentaAhorrosMB.personaNaturalManagedBean.dni}" />
 								</td>
 							</tr>
 							<tr>
@@ -130,6 +130,8 @@
 			</div>
 		
 			<div class="sf-buttons">			
+				<p:commandButton value="Prueba" update=":#{componentToUpdated}">					
+				</p:commandButton>
 				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>
