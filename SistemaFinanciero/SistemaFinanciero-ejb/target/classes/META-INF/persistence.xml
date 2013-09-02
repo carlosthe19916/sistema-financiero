@@ -38,7 +38,7 @@
 		<class>org.ventura.model.Estadocuenta</class>
 		<class>org.ventura.model.Estadotargeta</class>
 		<class>org.ventura.model.Frecuenciacapitalizacion</class>
-		<class>org.ventura.model.Retirointere</class>
+		<class>org.ventura.model.Retirointeres</class>
 		<class>org.ventura.model.Targetadebitoasignadocuentacorriente</class>
 		<class>org.ventura.model.TargetadebitoasignadocuentacorrientePK</class>
 		<class>org.ventura.model.Tarjetadebito</class>

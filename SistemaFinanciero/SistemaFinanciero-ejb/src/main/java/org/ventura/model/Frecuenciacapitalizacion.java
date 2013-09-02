@@ -10,6 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="frecuenciacapitalizacion",schema="cuentapersonal")
 @NamedQuery(name="Frecuenciacapitalizacion.findAll", query="SELECT f FROM Frecuenciacapitalizacion f")
 public class Frecuenciacapitalizacion implements Serializable {
 	private static final long serialVersionUID = 1L;

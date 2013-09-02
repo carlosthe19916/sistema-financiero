@@ -3,35 +3,36 @@ package org.ventura.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the beneficiariocuenta database table.
  * 
  */
 @Entity
-@NamedQuery(name="Beneficiariocuenta.findAll", query="SELECT b FROM Beneficiariocuenta b")
+@Table(name = "beneficiariocuenta", schema = "cuentapersonal")
+@NamedQuery(name = "Beneficiariocuenta.findAll", query = "SELECT b FROM Beneficiariocuenta b")
 public class Beneficiariocuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	private String dni;
 
 	private Integer idbeneficiariocuenta;
 
 	private double porcentajebeneficio;
 
-	//bi-directional many-to-one association to Cuentaahorro
+	// bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
-	@JoinColumn(name="numerocuentaahorro")
+	@JoinColumn(name = "numerocuentaahorro")
 	private Cuentaahorro cuentaahorro;
 
-	//bi-directional many-to-one association to Cuentacorriente
+	// bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name="numerocuentacorriente")
+	@JoinColumn(name = "numerocuentacorriente")
 	private Cuentacorriente cuentacorriente;
 
-	//bi-directional many-to-one association to Cuentaplazofijo
+	// bi-directional many-to-one association to Cuentaplazofijo
 	@ManyToOne
-	@JoinColumn(name="numerocuentaplazofijo")
+	@JoinColumn(name = "numerocuentaplazofijo")
 	private Cuentaplazofijo cuentaplazofijo;
 
 	public Beneficiariocuenta() {

@@ -9,6 +9,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Table(name="targetadebitoasignadocuentacorriente",schema="cuentapersonal")
 @NamedQuery(name="Targetadebitoasignadocuentacorriente.findAll", query="SELECT t FROM Targetadebitoasignadocuentacorriente t")
 public class Targetadebitoasignadocuentacorriente implements Serializable {
 	private static final long serialVersionUID = 1L;

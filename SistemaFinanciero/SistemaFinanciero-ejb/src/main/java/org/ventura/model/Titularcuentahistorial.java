@@ -10,6 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="titularcuentahistorial", schema="cuentapersonal")
 @NamedQuery(name="Titularcuentahistorial.findAll", query="SELECT t FROM Titularcuentahistorial t")
 public class Titularcuentahistorial implements Serializable {
 	private static final long serialVersionUID = 1L;
