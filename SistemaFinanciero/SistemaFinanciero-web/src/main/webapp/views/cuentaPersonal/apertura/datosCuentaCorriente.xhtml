@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+<h:form>			
+		<div id="panelCuentaCorrient">
+			<div class="sf-agrupador">
+				<div class="sf-agrupador-content">
+					<div class="sf-agrupador-content-cabecera">
+						<h3>FINALIDAD DE LA APERTURA</h3>
+					</div>
+					<div class="sf-agrupador-content-table">
+						<table>
+							<tr>
+								<td>
+									<input type="radio" name="xhtml_mp_tutorial_chapter" value="1"/>
+								</td>
+								<td>
+									<p:outputLabel>Pago de Planillas</p:outputLabel>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="radio" name="xhtml_mp_tutorial_chapter" value="2"/>
+								</td>
+								<td>
+									<p:outputLabel>Pago a Proveedores</p:outputLabel>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="radio" name="xhtml_mp_tutorial_chapter" value="3"/>
+								</td>
+								<td>
+									<p:outputLabel>Manejo de Liquidez</p:outputLabel>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="radio" name="xhtml_mp_tutorial_chapter" value="4"/>
+								</td>
+								<td colspan="3">
+									<p:outputLabel>Facilidades Crediticias</p:outputLabel>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="radio" name="xhtml_mp_tutorial_chapter" value="5"/>
+								</td>
+								<td>
+									<p:outputLabel>Otros (Especificar)</p:outputLabel>
+								</td>
+								<td>
+									<p:inputText id="txtOtros" value="" size="50"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="sf-agrupador">
+				<div class="sf-agrupador-content">
+					<div class="sf-agrupador-content-cabecera">
+						<h3>DATOS FINANCIEROS DE APERTURA</h3>
+					</div>
+					<div class="sf-agrupador-content-table">
+						<table>
+							<tr>
+								<td>
+									<p:outputLabel>Moneda</p:outputLabel>
+								</td>
+								<td>
+									<p:selectOneMenu>
+										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										<f:selectItem itemLabel="Nuevos Soles (S/.)" itemValue="1" />
+										<f:selectItem itemLabel="Dolares Americanos ($)" itemValue="2" />}
+										<f:selectItem itemLabel="Euros (€)" itemValue="3" />
+									</p:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td align="right">
+									<p:outputLabel>Fecha Apertura:</p:outputLabel>
+								</td>
+								<td>
+									<p:calendar id="txtFechaApertura" size="20" /> 
+									<p:watermark for="txtFechaApertura" value="dd/mm/yyyy" />
+								</td>
+							</tr>
+							<tr>
+								<td align="right">
+									<p:outputLabel>Tasa de Interes:</p:outputLabel>
+								</td>
+								<td>
+									<p:spinner id="spnTasaInteresCC" value="" stepFactor="0.01" size="17"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+</h:form>
+</ui:composition>
+</html>

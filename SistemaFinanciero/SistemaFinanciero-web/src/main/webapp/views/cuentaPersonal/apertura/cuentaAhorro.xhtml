@@ -22,59 +22,62 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-		
+
 		<div class="sf-content-cabecera">
 			<h2>Aperturar Cuenta de Ahorros</h2>
 		</div>
-		
+
 		<div>
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td>
-						<h:form>
-							<p:selectOneMenu id="combo" value="#{aperturarCuentaAhorrosMB.tipoPersonaSelected}">
-								<f:selectItems value="#{aperturarCuentaAhorrosMB.tipoPersonas.entrySet()}" var ="map" itemValue="#{map.key}" itemLabel="#{map.value}"/>
-								<f:ajax render=":panelPersona"/>
+					<td><h:form>
+							<p:selectOneMenu id="combo"
+								value="#{aperturarCuentaAhorrosMB.tipoPersonaSelected}">
+								<f:selectItems
+									value="#{aperturarCuentaAhorrosMB.tipoPersonas.entrySet()}"
+									var="map" itemValue="#{map.key}" itemLabel="#{map.value}" />
+								<f:ajax render=":panelPersona" />
 							</p:selectOneMenu>
-						</h:form>						
-					</td>
+						</h:form></td>
 				</tr>
 			</table>
-		</div>	
- 
- <h:panelGroup id = "panelPersona">
-		<!-- PersonaNatural -->
-		<h:panelGrid id="panelPersonaNatural" rendered="#{aperturarCuentaAhorrosMB.isPersonaNatural()}">
-			<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
-				<ui:param name="componentName" value="personaNatural" />
-				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
-			</ui:include>		
-			<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
-				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated" value="personaNatural" />
-			</ui:include>
-		</h:panelGrid>
-		<!-- end PersonaNatural -->
-		
-				<!-- PersonaJuridica -->
-		<h:panelGrid id = "panelPersonaJuridica" rendered="#{aperturarCuentaAhorrosMB.isPersonaJuridica()}">
-			<ui:include src="/views/maestros/personaJuridicaResumen.xhtml">
-				<ui:param name="componentName" value="personaJuridica" />
-				<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
-			</ui:include>		
-			<ui:include src="/views/maestros/personaJuridicaDialog.xhtml">
-				<ui:param name="componentName" value="dlgPersonaJuridica" />
-				<ui:param name="componentToUpdated" value="personaJuridica" />
-			</ui:include>
-		</h:panelGrid>
-		<!-- end PersonaJuridica -->
-</h:panelGroup>
-			
-			<h:panelGrid>			
-				<ui:include src="/views/maestros/titulares.xhtml">				
+		</div>
+
+		<h:panelGroup id="panelPersona">
+			<!-- PersonaNatural -->
+			<h:panelGrid id="panelPersonaNatural"
+				rendered="#{aperturarCuentaAhorrosMB.isPersonaNatural()}">
+				<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
+					<ui:param name="componentName" value="personaNatural" />
+					<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+				</ui:include>
+				<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
+					<ui:param name="componentName" value="dlgPersonaNatural" />
+					<ui:param name="componentToUpdated" value="personaNatural" />
 				</ui:include>
 			</h:panelGrid>
+			<!-- end PersonaNatural -->
+
+			<!-- PersonaJuridica -->
+			<h:panelGrid id="panelPersonaJuridica"
+				rendered="#{aperturarCuentaAhorrosMB.isPersonaJuridica()}">
+				<ui:include src="/views/maestros/personaJuridicaResumen.xhtml">
+					<ui:param name="componentName" value="personaJuridica" />
+					<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
+				</ui:include>
+				<ui:include src="/views/maestros/personaJuridicaDialog.xhtml">
+					<ui:param name="componentName" value="dlgPersonaJuridica" />
+					<ui:param name="componentToUpdated" value="personaJuridica" />
+				</ui:include>
+			</h:panelGrid>
+			<!-- end PersonaJuridica -->
+		</h:panelGroup>
+
+		<h:panelGrid>
+			<ui:include src="/views/maestros/titulares.xhtml">
+			</ui:include>
+		</h:panelGrid>
 	</ui:define>
 </ui:composition>
 </html>
