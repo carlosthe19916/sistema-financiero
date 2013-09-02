@@ -17,108 +17,47 @@
 		<h:outputText value="Beneficiarios" />
 	</ui:define>
 
-
 	<!-- Definiendo el cuerpo de la ventana emergente beneficiarios-->
-	<div class="sf-agrupador">
-		<table border="1">
-			<thead>
-				<tr>
-					<th>N°</th>
-					<th>DNI</th>
-					<th>APELLIDO PATERNO</th>
-					<th>APELLIDO MATERNO</th>
-					<th>NOMBRES</th>
-					<th>% BENEFICIO</th>
-				</tr>
-			</thead>
+	<h:panelGroup>
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Beneficiarios</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<div>
+						<h:form>
+							<p:dataTable>
+								<p:column headerText="Nro">
+									<h:outputText value="#{car.model}" />
+								</p:column>
 
-			<tbody>
-				<tr>
-					<th>1</th>
-					<td><p:column headerText="#{msg['app_text_4']}"
-							sortBy="#{computer.name}">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{computer.name}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText id="name1-1" value="#{computer.name}"
-										label="#{msg['app_text_4']}" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column></td>
-					<td><p:column headerText="#{msg['app_text_4']}"
-							sortBy="#{computer.name}">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{computer.name}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText id="name1-2" value="#{computer.name}"
-										label="#{msg['app_text_4']}" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column></td>
-					<td><p:column headerText="#{msg['app_text_4']}"
-							sortBy="#{computer.name}">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{computer.name}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText id="name1-3" value="#{computer.name}"
-										label="#{msg['app_text_4']}" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column></td>
-					<td><p:column headerText="#{msg['app_text_4']}"
-							sortBy="#{computer.name}">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{computer.name}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText id="name1-4" value="#{computer.name}"
-										label="#{msg['app_text_4']}" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column></td>
-					<td><p:column headerText="#{msg['app_text_4']}"
-							sortBy="#{computer.name}">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{computer.name}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputText id="name1-5" value="#{computer.name}"
-										label="#{msg['app_text_4']}" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column></td>
-				</tr>
-				<tr>
-					<th>-</th>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-				</tr>
-				<tr>
-					<th>-</th>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-<div class= "button.green:hover" >	
-<input type = "submit" value="Guardar" />
-</div>
+								<p:column headerText="DNI">
+									<h:outputText value="#{car.year}" />
+								</p:column>
 
+								<p:column headerText="Apellido Paterno(*)">
+									<h:outputText value="#{car.manufacturer}" />
+								</p:column>
+
+								<p:column headerText="Apellido Materno(*)">
+									<h:outputText value="#{car.color}" />
+								</p:column>
+								<p:column headerText="Nombres(*)">
+									<h:outputText value="#{car.color}" />
+								</p:column>
+								<p:column headerText="Porcentaje(*)">
+									<h:outputText value="#{car.color}" />
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</h:panelGroup>
 </ui:composition>
 </html>
