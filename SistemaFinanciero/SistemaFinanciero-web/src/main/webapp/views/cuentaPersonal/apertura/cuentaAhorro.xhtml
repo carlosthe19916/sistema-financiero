@@ -24,7 +24,7 @@
 	<ui:define name="content">
 		
 		<div class="sf-content-cabecera">
-			<h2>Aperturar Cuenta a Plazo Fijo</h2>
+			<h2>Aperturar Cuenta de Ahorros</h2>
 		</div>
 		
 		<div>
@@ -33,8 +33,8 @@
 					<td>Tipo Persona:</td>
 					<td>
 						<h:form>
-							<p:selectOneMenu id="combo" value="#{aperturarCuentaPlazoFijoMB.tipoPersonaSelected}">
-								<f:selectItems value="#{aperturarCuentaPlazoFijoMB.tipoPersonas.entrySet()}" var ="map" itemValue="#{map.key}" itemLabel="#{map.value}"/>
+							<p:selectOneMenu id="combo" value="#{aperturarCuentaAhorrosMB.tipoPersonaSelected}">
+								<f:selectItems value="#{aperturarCuentaAhorrosMB.tipoPersonas.entrySet()}" var ="map" itemValue="#{map.key}" itemLabel="#{map.value}"/>
 								<f:ajax render=":panelPersona"/>
 							</p:selectOneMenu>
 						</h:form>						
@@ -45,7 +45,7 @@
  
  		<h:panelGroup id = "panelPersona">
 			<!-- PersonaNatural -->
-			<h:panelGrid id="panelPersonaNatural" rendered="#{aperturarCuentaPlazoFijoMB.isPersonaNatural()}">
+			<h:panelGrid id="panelPersonaNatural" rendered="#{aperturarCuentaAhorrosMB.isPersonaNatural()}">
 				<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
 					<ui:param name="componentName" value="personaNatural" />
 					<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
@@ -58,7 +58,7 @@
 			<!-- end PersonaNatural -->
 			
 			<!-- PersonaJuridica -->
-			<h:panelGrid id = "panelPersonaJuridica" rendered="#{aperturarCuentaPlazoFijoMB.isPersonaJuridica()}">
+			<h:panelGrid id = "panelPersonaJuridica" rendered="#{aperturarCuentaAhorrosMB.isPersonaJuridica()}">
 				<ui:include src="/views/maestros/personaJuridicaResumen.xhtml">
 					<ui:param name="componentName" value="personaJuridica" />
 					<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
@@ -71,24 +71,24 @@
 			<!-- end PersonaJuridica -->
 			
 			
-			<h:panelGrid rendered="#{aperturarCuentaPlazoFijoMB.isPersonaJuridica()}">			
+			<h:panelGrid rendered="#{aperturarCuentaAhorrosMB.isPersonaJuridica()}">			
 				<ui:include src="/views/maestros/representanteLegal.xhtml">				
 				</ui:include>
 			</h:panelGrid>
 			
-			<h:panelGrid rendered="#{aperturarCuentaPlazoFijoMB.isPersonaJuridica()}">			
+			<h:panelGrid rendered="#{aperturarCuentaAhorrosMB.isPersonaJuridica()}">			
 				<ui:include src="/views/maestros/accionista.xhtml">				
 				</ui:include>
 			</h:panelGrid>
 			
 			<h:panelGrid>			
-				<ui:include src="datosFinancierosCuentaPlazoFijoResumen.xhtml">
-					<ui:param name="componentName" value="datosFinancierosCuentaPlazoFijo" />
-					<ui:param name="editarOutputDialog" value="dlgDatosFinancierosCuentaPlazoFijo" />
+				<ui:include src="datosFinancierosCuentaAhorroResumen.xhtml">
+					<ui:param name="componentName" value="datosFinancierosCuentaAhorro" />
+					<ui:param name="editarOutputDialog" value="dlgDatosFinancierosCuentaAhorro" />
 				</ui:include>		
-				<ui:include src="datosFinancierosCuentaPlazoFijoDialog.xhtml">
-					<ui:param name="componentName" value="dlgDatosFinancierosCuentaPlazoFijo" />
-					<ui:param name="componentToUpdated" value="datosFinancierosCuentaPlazoFijo" />
+				<ui:include src="datosFinancierosCuentaAhorroDialog.xhtml">
+					<ui:param name="componentName" value="dlgDatosFinancierosCuentaAhorro" />
+					<ui:param name="componentToUpdated" value="datosFinancierosCuentaAhorro" />
 				</ui:include>
 			</h:panelGrid>
 			
@@ -97,7 +97,10 @@
 				</ui:include>
 			</h:panelGrid>
 			
-			
+			<h:panelGrid rendered="#{aperturarCuentaAhorrosMB.isPersonaNatural()}">			
+				<ui:include src="/views/maestros/beneficiarios.xhtml">				
+				</ui:include>
+			</h:panelGrid>
 		</h:panelGroup>	
 			
 	</ui:define>
