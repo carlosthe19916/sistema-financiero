@@ -25,6 +25,8 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
+	dni:
+	<h:outputLabel value="#{manabeanpreba.personanatural.dni}" />
 		<div>
 			<div class="buttons">
 				<h:form>
@@ -107,6 +109,7 @@
 			</button>
 		</div>
 
+<p:commandButton value="#{manabeanpreba.guardarEnBaseDeDatos()}"></p:commandButton>
 	</ui:define>
 </ui:composition>
 </html>
