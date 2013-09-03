@@ -10,15 +10,17 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="titularcuenta", schema="cuentapersonal")
+@Table(name="titularcuenta",schema="cuentapersonal")
 @NamedQuery(name="Titularcuenta.findAll", query="SELECT t FROM Titularcuenta t")
 public class Titularcuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idtitularcuenta;
 
+	@Column(nullable=false, length=8)
 	private String dni;
 
 	//bi-directional many-to-one association to Cuentaahorro

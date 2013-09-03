@@ -16,17 +16,21 @@ public class Cuentacorrientehistorial implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idcuentacorrientehistorial;
 
+	@Column(nullable=false)
 	private Integer cantidadretirantes;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
+	@Column(nullable=false)
 	private double tasainteres;
 
 	//bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name="numerocuentacorriente")
+	@JoinColumn(name="numerocuentacorriente", nullable=false)
 	private Cuentacorriente cuentacorriente;
 
 	public Cuentacorrientehistorial() {

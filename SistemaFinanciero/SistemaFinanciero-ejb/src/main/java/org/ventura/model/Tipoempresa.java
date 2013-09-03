@@ -10,15 +10,17 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="tipoempresa",schema="persona")
+@Table(name="tipoempresa", schema = "persona")
 @NamedQuery(name="Tipoempresa.findAll", query="SELECT t FROM Tipoempresa t")
 public class Tipoempresa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idtipoempresa;
 
+	@Column(length=50)
 	private String denominacion;
 
 	private Boolean estado;

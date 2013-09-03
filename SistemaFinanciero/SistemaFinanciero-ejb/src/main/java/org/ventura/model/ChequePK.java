@@ -12,9 +12,10 @@ public class ChequePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false)
+	@Column(insertable=false, updatable=false, unique=true, nullable=false)
 	private Integer numerochequeraporcliente;
 
+	@Column(unique=true, nullable=false)
 	private Integer numerocheque;
 
 	public ChequePK() {

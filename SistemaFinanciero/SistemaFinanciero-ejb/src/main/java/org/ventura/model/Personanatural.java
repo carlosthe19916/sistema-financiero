@@ -11,40 +11,53 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="personanatural",schema="persona")
+@Table(name="personanatural", schema = "persona")
 @NamedQuery(name="Personanatural.findAll", query="SELECT p FROM Personanatural p")
 public class Personanatural implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false, length=8)
 	private String dni;
 
+	@Column(nullable=false, length=40)
 	private String apellidomaterno;
 
+	@Column(nullable=false, length=40)
 	private String apellidopaterno;
 
+	@Column(length=30)
 	private String celular;
 
+	@Column(length=200)
 	private String direccion;
 
+	@Column(length=50)
 	private String email;
 
 	@Temporal(TemporalType.DATE)
+	@Column(nullable=false)
 	private Date fechanacimiento;
 
+	@Column(length=200)
 	private String firma;
 
 	private Integer idestadocivil;
 
+	@Column(nullable=false)
 	private Integer idsexo;
 
+	@Column(nullable=false, length=50)
 	private String nombres;
 
+	@Column(length=50)
 	private String ocupacion;
 
+	@Column(length=100)
 	private String referencia;
 
+	@Column(length=30)
 	private String telefono;
 
 	//bi-directional many-to-one association to Accionista

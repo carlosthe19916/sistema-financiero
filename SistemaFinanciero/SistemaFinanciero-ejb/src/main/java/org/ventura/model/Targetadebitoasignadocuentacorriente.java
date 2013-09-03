@@ -17,20 +17,22 @@ public class Targetadebitoasignadocuentacorriente implements Serializable {
 	@EmbeddedId
 	private TargetadebitoasignadocuentacorrientePK id;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
+	@Column(nullable=false)
 	private Integer fechaactiva;
 
 	private Integer fechainactiva;
 
 	//bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name="numerocuentacorriente")
+	@JoinColumn(name="numerocuentacorriente", nullable=false, insertable=false, updatable=false)
 	private Cuentacorriente cuentacorriente;
 
 	//bi-directional many-to-one association to Tarjetadebito
 	@ManyToOne
-	@JoinColumn(name="numerotargeta")
+	@JoinColumn(name="numerotargeta", nullable=false, insertable=false, updatable=false)
 	private Tarjetadebito tarjetadebito;
 
 	public Targetadebitoasignadocuentacorriente() {

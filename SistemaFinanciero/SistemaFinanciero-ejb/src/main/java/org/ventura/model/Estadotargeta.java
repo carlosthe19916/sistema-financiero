@@ -17,12 +17,16 @@ public class Estadotargeta implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idestadotargeta;
 
+	@Column(length=50)
 	private String abreviatura;
 
+	@Column(nullable=false, length=50)
 	private String denominacion;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
 	//bi-directional many-to-one association to Tarjetadebito

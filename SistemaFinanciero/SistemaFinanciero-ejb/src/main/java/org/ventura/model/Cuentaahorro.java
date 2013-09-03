@@ -11,24 +11,30 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name = "cuentaahorro", schema = "cuentapersonal")
+@Table(name="cuentaahorro",schema="cuentapersonal")
 @NamedQuery(name="Cuentaahorro.findAll", query="SELECT c FROM Cuentaahorro c")
 public class Cuentaahorro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false, length=14)
 	private String numerocuentaahorro;
 
+	@Column(length=8)
 	private String dni;
 
 	@Temporal(TemporalType.DATE)
+	@Column(nullable=false)
 	private Date fechaapertura;
 
+	@Column(nullable=false)
 	private Integer idtipomoneda;
 
+	@Column(length=11)
 	private String ruc;
 
+	@Column(nullable=false)
 	private double saldo;
 
 	//bi-directional many-to-one association to Beneficiariocuenta
@@ -37,7 +43,7 @@ public class Cuentaahorro implements Serializable {
 
 	//bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
-	@JoinColumn(name="idestadocuenta")
+	@JoinColumn(name="idestadocuenta", nullable=false)
 	private Estadocuenta estadocuenta;
 
 	//bi-directional many-to-one association to Cuentaahorrohistorial

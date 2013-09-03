@@ -16,6 +16,7 @@ public class Personajuridicacliente implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false, length=11)
 	private String ruc;
 
 	public Personajuridicacliente() {

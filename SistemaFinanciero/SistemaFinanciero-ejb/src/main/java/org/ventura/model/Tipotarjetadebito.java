@@ -17,10 +17,13 @@ public class Tipotarjetadebito implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idtargetadebitotipo;
 
+	@Column(nullable=false, length=50)
 	private String denominacion;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
 	//bi-directional many-to-one association to Tarjetadebito

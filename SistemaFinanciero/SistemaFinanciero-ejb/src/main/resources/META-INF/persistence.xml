@@ -15,14 +15,8 @@
         http://java.sun.com/xml/ns/persistence
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="SistemaFinancieroPU" transaction-type="JTA">
-		<!-- If you are running in a production environment, add a managed data 
-			source, this example data source is just for development and testing! -->
-		<!-- The datasource is deployed as <EAR>/META-INF/SistemaFinanciero-ds.xml, 
-			you can find it in the source at ear/src/main/application/META-INF/SistemaFinanciero-ds.xml -->
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/SistemaFinancieroDS</jta-data-source>
-		<class>org.ventura.model.Personajuridicacliente</class>
-		<class>org.ventura.model.Personanaturalcliente</class>
+		<jta-data-source>java:jboss/datasource/SistemaFinancieroDS</jta-data-source>
 		<class>org.ventura.model.Beneficiariocuenta</class>
 		<class>org.ventura.model.Cheque</class>
 		<class>org.ventura.model.ChequePK</class>
@@ -38,7 +32,7 @@
 		<class>org.ventura.model.Estadocuenta</class>
 		<class>org.ventura.model.Estadotargeta</class>
 		<class>org.ventura.model.Frecuenciacapitalizacion</class>
-		<class>org.ventura.model.Retirointeres</class>
+		<class>org.ventura.model.Retirointere</class>
 		<class>org.ventura.model.Targetadebitoasignadocuentacorriente</class>
 		<class>org.ventura.model.TargetadebitoasignadocuentacorrientePK</class>
 		<class>org.ventura.model.Tarjetadebito</class>
@@ -47,6 +41,8 @@
 		<class>org.ventura.model.Tipotarjetadebito</class>
 		<class>org.ventura.model.Titularcuenta</class>
 		<class>org.ventura.model.Titularcuentahistorial</class>
+		<class>org.ventura.model.Personajuridicacliente</class>
+		<class>org.ventura.model.Personanaturalcliente</class>
 		<class>org.ventura.model.Estadocivil</class>
 		<class>org.ventura.model.Sexo</class>
 		<class>org.ventura.model.Tipomoneda</class>
@@ -56,12 +52,12 @@
 		<class>org.ventura.model.Personajuridica</class>
 		<class>org.ventura.model.Personanatural</class>
 		<class>org.ventura.model.Tipoempresa</class>
-		<class>org.ventura.model.Sucursal</class>
-
-		<properties>
+		<class>org.ventura.model.Sucursal</class>			
+		
+		<properties>			
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
-			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.show_sql" value="false" />			
 		</properties>
 	</persistence-unit>
 </persistence>

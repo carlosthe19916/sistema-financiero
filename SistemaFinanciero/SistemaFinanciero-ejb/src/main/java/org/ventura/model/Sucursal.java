@@ -9,20 +9,26 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Table(name="sucursal", schema = "sucursal")
 @NamedQuery(name="Sucursal.findAll", query="SELECT s FROM Sucursal s")
 public class Sucursal implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idsucursal;
 
+	@Column(length=10)
 	private String abreviatura;
 
+	@Column(nullable=false, length=150)
 	private String denominacion;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
+	@Column(nullable=false, length=6)
 	private String idubigeo;
 
 	public Sucursal() {

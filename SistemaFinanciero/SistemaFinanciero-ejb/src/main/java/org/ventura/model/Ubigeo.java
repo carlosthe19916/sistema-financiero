@@ -1,6 +1,7 @@
 package org.ventura.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -9,21 +10,26 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="ubigeo", schema="maestro")
+@Table(name="ubigeo", schema = "maestro")
 @NamedQuery(name="Ubigeo.findAll", query="SELECT u FROM Ubigeo u")
 public class Ubigeo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false, length=6)
 	private String idubigeo;
 
+	@Column(length=70)
 	private String departamento;
 
+	@Column(nullable=false, length=70)
 	private String distrito;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
+	@Column(nullable=false, length=70)
 	private String provincia;
 
 	public Ubigeo() {

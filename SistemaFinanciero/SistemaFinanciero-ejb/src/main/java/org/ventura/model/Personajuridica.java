@@ -11,34 +11,44 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="personajuridica",schema="persona")
+@Table(name="personajuridica", schema = "persona")
 @NamedQuery(name="Personajuridica.findAll", query="SELECT p FROM Personajuridica p")
 public class Personajuridica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false, length=11)
 	private String ruc;
 
+	@Column(length=50)
 	private String actividadprincipal;
 
+	@Column(length=30)
 	private String celular;
 
+	@Column(length=200)
 	private String direccion;
 
+	@Column(length=50)
 	private String email;
 
 	@Temporal(TemporalType.DATE)
+	@Column(nullable=false)
 	private Date fechaconstitucion;
 
 	private Boolean finsocial;
 
+	@Column(length=50)
 	private String nombrecomercial;
 
+	@Column(nullable=false, length=50)
 	private String razonsocial;
 
+	@Column(length=100)
 	private String referencia;
 
+	@Column(length=20)
 	private String telefono;
 
 	//bi-directional many-to-one association to Accionista
@@ -47,12 +57,12 @@ public class Personajuridica implements Serializable {
 
 	//bi-directional many-to-one association to Personanatural
 	@ManyToOne
-	@JoinColumn(name="dnirepresentantelegal")
+	@JoinColumn(name="dnirepresentantelegal", nullable=false)
 	private Personanatural personanatural;
 
 	//bi-directional many-to-one association to Tipoempresa
 	@ManyToOne
-	@JoinColumn(name="idtipoempresa")
+	@JoinColumn(name="idtipoempresa", nullable=false)
 	private Tipoempresa tipoempresa;
 
 	public Personajuridica() {

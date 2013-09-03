@@ -10,19 +10,23 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name = "chequeestado", schema = "cuentapersonal")
+@Table(name="chequeestado",schema="cuentapersonal")
 @NamedQuery(name="Chequeestado.findAll", query="SELECT c FROM Chequeestado c")
 public class Chequeestado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idchequeestado;
 
+	@Column(length=2)
 	private String abreviatura;
 
+	@Column(nullable=false, length=50)
 	private String denominacion;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
 	//bi-directional many-to-one association to Cheque

@@ -6,67 +6,80 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * The persistent class for the cuentaplazofijo database table.
  * 
  */
 @Entity
-@Table(name = "cuentaplazofijo", schema = "cuentapersonal")
-@NamedQuery(name = "Cuentaplazofijo.findAll", query = "SELECT c FROM Cuentaplazofijo c")
+@Table(name="cuentaplazofijo",schema="cuentapersonal")
+@NamedQuery(name="Cuentaplazofijo.findAll", query="SELECT c FROM Cuentaplazofijo c")
 public class Cuentaplazofijo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false, length=14)
 	private String numerocuentaplazofijo;
 
+	@Column(length=8)
 	private String dni;
 
 	@Temporal(TemporalType.DATE)
 	private Date fechaapertura;
 
 	@Temporal(TemporalType.DATE)
+	@Column(nullable=false)
 	private Date fechavencimiento;
 
+	@Column(nullable=false)
 	private Integer idtipomoneda;
 
+	@Column(nullable=false)
 	private double itf;
 
+	@Column(nullable=false)
 	private double monto;
 
+	@Column(nullable=false)
 	private double montointerespagado;
 
+	@Column(length=11)
 	private String ruc;
 
+	@Column(precision=131089)
 	private BigDecimal tasainteres;
 
+	@Column(nullable=false)
 	private double ticeaf;
 
+	@Column(length=20)
 	private String tiporetiro;
 
+	@Column(nullable=false)
 	private double trea;
 
-	// bi-directional many-to-one association to Beneficiariocuenta
-	@OneToMany(mappedBy = "cuentaplazofijo")
+	//bi-directional many-to-one association to Beneficiariocuenta
+	@OneToMany(mappedBy="cuentaplazofijo")
 	private List<Beneficiariocuenta> beneficiariocuentas;
 
-	// bi-directional many-to-one association to Estadocuenta
+	//bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
-	@JoinColumn(name = "idestadocuenta")
+	@JoinColumn(name="idestadocuenta", nullable=false)
 	private Estadocuenta estadocuenta;
 
-	// bi-directional many-to-one association to Frecuenciacapitalizacion
+	//bi-directional many-to-one association to Frecuenciacapitalizacion
 	@ManyToOne
-	@JoinColumn(name = "idfrecuenciacapitalizacion")
+	@JoinColumn(name="idfrecuenciacapitalizacion", nullable=false)
 	private Frecuenciacapitalizacion frecuenciacapitalizacion;
 
-	// bi-directional many-to-one association to Retirointere
+	//bi-directional many-to-one association to Retirointere
 	@ManyToOne
-	@JoinColumn(name = "idretirointeres")
-	private Retirointeres retirointere;
+	@JoinColumn(name="idretirointeres", nullable=false)
+	private Retirointere retirointere;
 
-	// bi-directional many-to-one association to Titularcuenta
-	@OneToMany(mappedBy = "cuentaplazofijo")
+	//bi-directional many-to-one association to Titularcuenta
+	@OneToMany(mappedBy="cuentaplazofijo")
 	private List<Titularcuenta> titularcuentas;
 
 	public Cuentaplazofijo() {
@@ -180,21 +193,18 @@ public class Cuentaplazofijo implements Serializable {
 		return this.beneficiariocuentas;
 	}
 
-	public void setBeneficiariocuentas(
-			List<Beneficiariocuenta> beneficiariocuentas) {
+	public void setBeneficiariocuentas(List<Beneficiariocuenta> beneficiariocuentas) {
 		this.beneficiariocuentas = beneficiariocuentas;
 	}
 
-	public Beneficiariocuenta addBeneficiariocuenta(
-			Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta addBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().add(beneficiariocuenta);
 		beneficiariocuenta.setCuentaplazofijo(this);
 
 		return beneficiariocuenta;
 	}
 
-	public Beneficiariocuenta removeBeneficiariocuenta(
-			Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta removeBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().remove(beneficiariocuenta);
 		beneficiariocuenta.setCuentaplazofijo(null);
 
@@ -213,16 +223,15 @@ public class Cuentaplazofijo implements Serializable {
 		return this.frecuenciacapitalizacion;
 	}
 
-	public void setFrecuenciacapitalizacion(
-			Frecuenciacapitalizacion frecuenciacapitalizacion) {
+	public void setFrecuenciacapitalizacion(Frecuenciacapitalizacion frecuenciacapitalizacion) {
 		this.frecuenciacapitalizacion = frecuenciacapitalizacion;
 	}
 
-	public Retirointeres getRetirointere() {
+	public Retirointere getRetirointere() {
 		return this.retirointere;
 	}
 
-	public void setRetirointere(Retirointeres retirointere) {
+	public void setRetirointere(Retirointere retirointere) {
 		this.retirointere = retirointere;
 	}
 

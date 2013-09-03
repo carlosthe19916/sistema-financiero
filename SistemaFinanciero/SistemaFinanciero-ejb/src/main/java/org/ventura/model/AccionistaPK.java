@@ -12,10 +12,10 @@ public class AccionistaPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false)
+	@Column(insertable=false, updatable=false, unique=true, nullable=false, length=11)
 	private String ruc;
 
-	@Column(insertable=false, updatable=false)
+	@Column(insertable=false, updatable=false, unique=true, nullable=false, length=8)
 	private String dni;
 
 	public AccionistaPK() {

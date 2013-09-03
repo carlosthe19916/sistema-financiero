@@ -11,7 +11,7 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name = "chequera", schema = "cuentapersonal")
+@Table(name="chequera",schema="cuentapersonal")
 @NamedQuery(name="Chequera.findAll", query="SELECT c FROM Chequera c")
 public class Chequera implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,15 +19,19 @@ public class Chequera implements Serializable {
 	@EmbeddedId
 	private ChequeraPK id;
 
+	@Column(nullable=false)
 	private Integer cantidad;
 
 	@Temporal(TemporalType.DATE)
 	private Date fechaentrega;
 
+	@Column(nullable=false)
 	private Integer idsucursal;
 
+	@Column(nullable=false)
 	private Integer numerofin;
 
+	@Column(nullable=false)
 	private Integer numeroinicio;
 
 	//bi-directional many-to-one association to Cheque
@@ -36,12 +40,12 @@ public class Chequera implements Serializable {
 
 	//bi-directional many-to-one association to Chequeraestado
 	@ManyToOne
-	@JoinColumn(name="idchequeraestado")
+	@JoinColumn(name="idchequeraestado", nullable=false)
 	private Chequeraestado chequeraestado;
 
 	//bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name="numerocuentacorriente")
+	@JoinColumn(name="numerocuentacorriente", nullable=false, insertable=false, updatable=false)
 	private Cuentacorriente cuentacorriente;
 
 	public Chequera() {

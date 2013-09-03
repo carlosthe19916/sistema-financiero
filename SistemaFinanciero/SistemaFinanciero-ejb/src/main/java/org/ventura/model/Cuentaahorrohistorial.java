@@ -9,24 +9,28 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name = "cuentaahorrohistorial", schema = "cuentapersonal")
+@Table(name="cuentaahorrohistorial",schema="cuentapersonal")
 @NamedQuery(name="Cuentaahorrohistorial.findAll", query="SELECT c FROM Cuentaahorrohistorial c")
 public class Cuentaahorrohistorial implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idcuentaahorrohistorial;
 
+	@Column(nullable=false)
 	private Integer cantidadretirantes;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
+	@Column(nullable=false)
 	private double tasainteres;
 
 	//bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
-	@JoinColumn(name="numerocuentaahorro")
+	@JoinColumn(name="numerocuentaahorro", nullable=false)
 	private Cuentaahorro cuentaahorro;
 
 	public Cuentaahorrohistorial() {

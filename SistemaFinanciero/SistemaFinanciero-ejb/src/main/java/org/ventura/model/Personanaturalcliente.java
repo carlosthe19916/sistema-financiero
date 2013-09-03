@@ -9,13 +9,14 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="personanaturalcliente",schema="cliente")
+@Table(name="personanaturalcliente",schema ="cliente")
 @NamedQuery(name="Personanaturalcliente.findAll", query="SELECT p FROM Personanaturalcliente p")
 public class Personanaturalcliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false, length=8)
 	private String dni;
 
 	public Personanaturalcliente() {

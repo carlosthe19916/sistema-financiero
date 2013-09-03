@@ -17,6 +17,7 @@ public class Tarjetadebito implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false, length=16)
 	private String numerotargeta;
 
 	//bi-directional many-to-one association to Targetadebitoasignadocuentacorriente
@@ -25,12 +26,12 @@ public class Tarjetadebito implements Serializable {
 
 	//bi-directional many-to-one association to Estadotargeta
 	@ManyToOne
-	@JoinColumn(name="idestadotargeta")
+	@JoinColumn(name="idestadotargeta", nullable=false)
 	private Estadotargeta estadotargeta;
 
 	//bi-directional many-to-one association to Tipotarjetadebito
 	@ManyToOne
-	@JoinColumn(name="idtargetadebitotipo")
+	@JoinColumn(name="idtargetadebitotipo", nullable=false)
 	private Tipotarjetadebito tipotarjetadebito;
 
 	//bi-directional many-to-one association to Tarjetadebitoasignadocuentaahorro

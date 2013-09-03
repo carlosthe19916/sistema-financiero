@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="Tarjetadebitoasignadocuentaahorro",schema="cuentapersonal")
+@Table(name="tarjetadebitoasignadocuentaahorro",schema="cuentapersonal")
 @NamedQuery(name="Tarjetadebitoasignadocuentaahorro.findAll", query="SELECT t FROM Tarjetadebitoasignadocuentaahorro t")
 public class Tarjetadebitoasignadocuentaahorro implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -18,8 +18,10 @@ public class Tarjetadebitoasignadocuentaahorro implements Serializable {
 	@EmbeddedId
 	private TarjetadebitoasignadocuentaahorroPK id;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
+	@Column(nullable=false)
 	private Integer fechaactiva;
 
 	@Temporal(TemporalType.DATE)
@@ -27,12 +29,12 @@ public class Tarjetadebitoasignadocuentaahorro implements Serializable {
 
 	//bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
-	@JoinColumn(name="numerocuentaahorro")
+	@JoinColumn(name="numerocuentaahorro", nullable=false, insertable=false, updatable=false)
 	private Cuentaahorro cuentaahorro;
 
 	//bi-directional many-to-one association to Tarjetadebito
 	@ManyToOne
-	@JoinColumn(name="numerotargeta")
+	@JoinColumn(name="numerotargeta", nullable=false, insertable=false, updatable=false)
 	private Tarjetadebito tarjetadebito;
 
 	public Tarjetadebitoasignadocuentaahorro() {

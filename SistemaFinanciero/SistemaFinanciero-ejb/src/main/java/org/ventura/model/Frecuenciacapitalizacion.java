@@ -17,12 +17,16 @@ public class Frecuenciacapitalizacion implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idfrecuenciacapitalizacion;
 
+	@Column(nullable=false, length=30)
 	private String denomicacion;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
+	@Column(nullable=false)
 	private Integer numerodias;
 
 	//bi-directional many-to-one association to Cuentaplazofijo

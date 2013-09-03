@@ -1,6 +1,7 @@
 package org.ventura.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name = "accionista", schema = "persona")
+@Table(name="accionista", schema = "persona")
 @NamedQuery(name="Accionista.findAll", query="SELECT a FROM Accionista a")
 public class Accionista implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -17,18 +18,20 @@ public class Accionista implements Serializable {
 	@EmbeddedId
 	private AccionistaPK id;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
+	@Column(nullable=false)
 	private double porcentajeparticipacion;
 
 	//bi-directional many-to-one association to Personajuridica
 	@ManyToOne
-	@JoinColumn(name="ruc")
+	@JoinColumn(name="ruc", nullable=false, insertable=false, updatable=false)
 	private Personajuridica personajuridica;
 
 	//bi-directional many-to-one association to Personanatural
 	@ManyToOne
-	@JoinColumn(name="dni")
+	@JoinColumn(name="dni", nullable=false, insertable=false, updatable=false)
 	private Personanatural personanatural;
 
 	public Accionista() {

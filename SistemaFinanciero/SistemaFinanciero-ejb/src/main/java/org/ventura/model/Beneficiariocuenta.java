@@ -3,47 +3,44 @@ package org.ventura.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 /**
  * The persistent class for the beneficiariocuenta database table.
  * 
  */
 @Entity
-@Table(name = "beneficiariocuenta", schema = "cuentapersonal")
-@NamedQuery(name = "Beneficiariocuenta.findAll", query = "SELECT b FROM Beneficiariocuenta b")
+@Table(name="beneficiariocuenta",schema="cuentapersonal")
+@NamedQuery(name="Beneficiariocuenta.findAll", query="SELECT b FROM Beneficiariocuenta b")
 public class Beneficiariocuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String dni;
-
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idbeneficiariocuenta;
 
+	@Column(nullable=false, length=8)
+	private String dni;
+
+	@Column(nullable=false)
 	private double porcentajebeneficio;
 
-	// bi-directional many-to-one association to Cuentaahorro
+	//bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
-	@JoinColumn(name = "numerocuentaahorro")
+	@JoinColumn(name="numerocuentaahorro", nullable=false)
 	private Cuentaahorro cuentaahorro;
 
-	// bi-directional many-to-one association to Cuentacorriente
+	//bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name = "numerocuentacorriente")
+	@JoinColumn(name="numerocuentacorriente")
 	private Cuentacorriente cuentacorriente;
 
-	// bi-directional many-to-one association to Cuentaplazofijo
+	//bi-directional many-to-one association to Cuentaplazofijo
 	@ManyToOne
-	@JoinColumn(name = "numerocuentaplazofijo")
+	@JoinColumn(name="numerocuentaplazofijo")
 	private Cuentaplazofijo cuentaplazofijo;
 
 	public Beneficiariocuenta() {
-	}
-
-	public String getDni() {
-		return this.dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
 	}
 
 	public Integer getIdbeneficiariocuenta() {
@@ -52,6 +49,14 @@ public class Beneficiariocuenta implements Serializable {
 
 	public void setIdbeneficiariocuenta(Integer idbeneficiariocuenta) {
 		this.idbeneficiariocuenta = idbeneficiariocuenta;
+	}
+
+	public String getDni() {
+		return this.dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
 	public double getPorcentajebeneficio() {

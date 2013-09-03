@@ -12,10 +12,10 @@ public class TargetadebitoasignadocuentacorrientePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false)
+	@Column(insertable=false, updatable=false, unique=true, nullable=false, length=14)
 	private String numerocuentacorriente;
 
-	@Column(insertable=false, updatable=false)
+	@Column(insertable=false, updatable=false, unique=true, nullable=false, length=16)
 	private String numerotargeta;
 
 	public TargetadebitoasignadocuentacorrientePK() {

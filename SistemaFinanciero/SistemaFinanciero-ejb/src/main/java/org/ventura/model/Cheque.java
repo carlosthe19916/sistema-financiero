@@ -9,7 +9,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name = "cheque", schema = "cuentapersonal")
+@Table(name="cheque",schema="cuentapersonal")
 @NamedQuery(name="Cheque.findAll", query="SELECT c FROM Cheque c")
 public class Cheque implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,14 +19,14 @@ public class Cheque implements Serializable {
 
 	//bi-directional many-to-one association to Chequeestado
 	@ManyToOne
-	@JoinColumn(name="idestadocheque")
+	@JoinColumn(name="idestadocheque", nullable=false)
 	private Chequeestado chequeestado;
 
 	//bi-directional many-to-one association to Chequera
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="numerochequeraporcliente", referencedColumnName="numerocuentacorriente"),
-		@JoinColumn(name="numerocuentacorriente", referencedColumnName="numerochequeraporcliente")
+		@JoinColumn(name="numerochequeraporcliente", referencedColumnName="numerocuentacorriente", nullable=false, insertable=false, updatable=false),
+		@JoinColumn(name="numerocuentacorriente", referencedColumnName="numerochequeraporcliente", nullable=false, insertable=false, updatable=false)
 		})
 	private Chequera chequera;
 

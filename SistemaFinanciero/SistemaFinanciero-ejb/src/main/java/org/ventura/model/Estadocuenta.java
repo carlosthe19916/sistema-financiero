@@ -17,10 +17,13 @@ public class Estadocuenta implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idestadocuenta;
 
+	@Column(length=3)
 	private String abreviatura;
 
+	@Column(nullable=false, length=20)
 	private String denominacion;
 
 	private Boolean estado;

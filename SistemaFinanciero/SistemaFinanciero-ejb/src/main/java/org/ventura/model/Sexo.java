@@ -1,6 +1,7 @@
 package org.ventura.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -9,17 +10,20 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="sexo", schema="maestro")
+@Table(name="sexo", schema = "maestro")
 @NamedQuery(name="Sexo.findAll", query="SELECT s FROM Sexo s")
 public class Sexo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idsexo;
 
+	@Column(length=1)
 	private String abreviatura;
 
+	@Column(length=15)
 	private String denominacion;
 
 	private Boolean estado;
