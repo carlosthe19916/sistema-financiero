@@ -2,7 +2,6 @@ package org.ventura.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -10,7 +9,7 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="chequeraestado",schema="cuentapersonal")
+@Table(name="chequeraestado", schema ="cuentapersonal")
 @NamedQuery(name="Chequeraestado.findAll", query="SELECT c FROM Chequeraestado c")
 public class Chequeraestado implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,10 +27,6 @@ public class Chequeraestado implements Serializable {
 
 	@Column(nullable=false)
 	private Boolean estado;
-
-	//bi-directional many-to-one association to Chequera
-	@OneToMany(mappedBy="chequeraestado")
-	private List<Chequera> chequeras;
 
 	public Chequeraestado() {
 	}
@@ -66,28 +61,6 @@ public class Chequeraestado implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public List<Chequera> getChequeras() {
-		return this.chequeras;
-	}
-
-	public void setChequeras(List<Chequera> chequeras) {
-		this.chequeras = chequeras;
-	}
-
-	public Chequera addChequera(Chequera chequera) {
-		getChequeras().add(chequera);
-		chequera.setChequeraestado(this);
-
-		return chequera;
-	}
-
-	public Chequera removeChequera(Chequera chequera) {
-		getChequeras().remove(chequera);
-		chequera.setChequeraestado(null);
-
-		return chequera;
 	}
 
 }

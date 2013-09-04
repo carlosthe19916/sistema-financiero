@@ -5,14 +5,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.ventura.facade.FacadeDAO;
+import org.ventura.facade.SexoFacadeLocal;
 import org.ventura.model.Sexo;
 
-public class SexoDAO implements FacadeDAO<Integer, Sexo> {
+@Stateless
+public class SexoDAO implements SexoFacadeLocal {
 
 	@PersistenceContext(unitName = "SistemaFinancieroPU")
     private EntityManager em;

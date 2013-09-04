@@ -4,26 +4,28 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the sexo database table.
  * 
  */
 @Entity
-@Table(name="sexo", schema = "maestro")
-@NamedQuery(name="Sexo.findAll", query="SELECT s FROM Sexo s")
+@Table(name = "sexo", schema = "maestro")
+@NamedQuery(name = "Sexo.findAll", query = "SELECT s FROM Sexo s")
 public class Sexo implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
+	
+	public final static String findAll = "org.ventura.model.Sexo.findAll";
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
 	private Integer idsexo;
 
-	@Column(length=1)
+	@Column(length = 1)
 	private String abreviatura;
 
-	@Column(length=15)
+	@Column(length = 15)
 	private String denominacion;
 
 	private Boolean estado;

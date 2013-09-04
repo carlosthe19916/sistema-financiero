@@ -18,18 +18,12 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasource/SistemaFinancieroDS</jta-data-source>
 		<class>org.ventura.model.Beneficiariocuenta</class>
-		<class>org.ventura.model.Cheque</class>
 		<class>org.ventura.model.ChequePK</class>
-		<class>org.ventura.model.Chequeestado</class>
-		<class>org.ventura.model.Chequera</class>
 		<class>org.ventura.model.ChequeraPK</class>
-		<class>org.ventura.model.Chequeraestado</class>
 		<class>org.ventura.model.Cuentaahorro</class>
 		<class>org.ventura.model.Cuentaahorrohistorial</class>
-		<class>org.ventura.model.Cuentacorriente</class>
 		<class>org.ventura.model.Cuentacorrientehistorial</class>
 		<class>org.ventura.model.Cuentaplazofijo</class>
-		<class>org.ventura.model.Estadocuenta</class>
 		<class>org.ventura.model.Estadotargeta</class>
 		<class>org.ventura.model.Frecuenciacapitalizacion</class>
 		<class>org.ventura.model.Retirointere</class>
@@ -52,12 +46,19 @@
 		<class>org.ventura.model.Personajuridica</class>
 		<class>org.ventura.model.Personanatural</class>
 		<class>org.ventura.model.Tipoempresa</class>
-		<class>org.ventura.model.Sucursal</class>			
+		<class>org.ventura.model.Sucursal</class>
+		<class>org.ventura.model.Cheque</class>
+		<class>org.ventura.model.Chequeestado</class>
+		<class>org.ventura.model.Chequera</class>
+		<class>org.ventura.model.Chequeraestado</class>
+		<class>org.ventura.model.Cuentacorriente</class>
+		<class>org.ventura.model.Estadocuenta</class>			
 		
 		<properties>			
 			<!-- Properties for Hibernate -->
-			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="false" />			
 		</properties>
 	</persistence-unit>
+	
 </persistence>

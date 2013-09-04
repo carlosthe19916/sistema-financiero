@@ -12,25 +12,25 @@ public class ChequePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false, unique=true, nullable=false)
-	private Integer numerochequeraporcliente;
-
 	@Column(unique=true, nullable=false)
 	private Integer numerocheque;
 
+	@Column(insertable=false, updatable=false, unique=true, nullable=false)
+	private Integer numerochequeraporcliente;
+
 	public ChequePK() {
-	}
-	public Integer getNumerochequeraporcliente() {
-		return this.numerochequeraporcliente;
-	}
-	public void setNumerochequeraporcliente(Integer numerochequeraporcliente) {
-		this.numerochequeraporcliente = numerochequeraporcliente;
 	}
 	public Integer getNumerocheque() {
 		return this.numerocheque;
 	}
 	public void setNumerocheque(Integer numerocheque) {
 		this.numerocheque = numerocheque;
+	}
+	public Integer getNumerochequeraporcliente() {
+		return this.numerochequeraporcliente;
+	}
+	public void setNumerochequeraporcliente(Integer numerochequeraporcliente) {
+		this.numerochequeraporcliente = numerochequeraporcliente;
 	}
 
 	public boolean equals(Object other) {
@@ -42,15 +42,15 @@ public class ChequePK implements Serializable {
 		}
 		ChequePK castOther = (ChequePK)other;
 		return 
-			this.numerochequeraporcliente.equals(castOther.numerochequeraporcliente)
-			&& this.numerocheque.equals(castOther.numerocheque);
+			this.numerocheque.equals(castOther.numerocheque)
+			&& this.numerochequeraporcliente.equals(castOther.numerochequeraporcliente);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + this.numerochequeraporcliente.hashCode();
 		hash = hash * prime + this.numerocheque.hashCode();
+		hash = hash * prime + this.numerochequeraporcliente.hashCode();
 		
 		return hash;
 	}

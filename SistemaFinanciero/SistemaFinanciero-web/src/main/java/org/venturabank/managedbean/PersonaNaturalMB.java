@@ -1,6 +1,7 @@
 package org.venturabank.managedbean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -8,14 +9,17 @@ import javax.faces.bean.NoneScoped;
 import javax.faces.bean.SessionScoped;
 
 import org.ventura.dao.CrudService;
+import org.ventura.facade.SexoFacadeLocal;
 import org.ventura.model.Estadocivil;
+import org.ventura.model.Sexo;
 
 @ManagedBean
 @SessionScoped
 public class PersonaNaturalMB {
 
+	
 	@EJB
-	CrudService crudService;
+	SexoFacadeLocal facade;
 	
 	private String prueba;
 	
@@ -25,7 +29,15 @@ public class PersonaNaturalMB {
 	}
 	
 	public void tablaEstadoCivil(){
-		//crudService.findWithNamedQuery(Estadocivil.findAll);
+		Sexo prueba = new Sexo();
+		prueba.setIdsexo(1);
+		prueba.setDenominacion("prueba");
+		prueba.setAbreviatura("p");
+		prueba.setEstado(true);
+		
+		facade.create(prueba);
+		
+		this.prueba = prueba.toString();
 	}
 
 	public String getPrueba() {

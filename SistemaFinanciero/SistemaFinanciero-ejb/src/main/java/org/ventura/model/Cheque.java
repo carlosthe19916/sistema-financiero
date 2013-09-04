@@ -9,7 +9,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="cheque",schema="cuentapersonal")
+@Table(name="cheque", schema = "cuentapersonal")
 @NamedQuery(name="Cheque.findAll", query="SELECT c FROM Cheque c")
 public class Cheque implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -17,18 +17,11 @@ public class Cheque implements Serializable {
 	@EmbeddedId
 	private ChequePK id;
 
-	//bi-directional many-to-one association to Chequeestado
-	@ManyToOne
-	@JoinColumn(name="idestadocheque", nullable=false)
-	private Chequeestado chequeestado;
+	@Column(nullable=false)
+	private Integer idestadocheque;
 
-	//bi-directional many-to-one association to Chequera
-	@ManyToOne
-	@JoinColumns({
-		@JoinColumn(name="numerochequeraporcliente", referencedColumnName="numerocuentacorriente", nullable=false, insertable=false, updatable=false),
-		@JoinColumn(name="numerocuentacorriente", referencedColumnName="numerochequeraporcliente", nullable=false, insertable=false, updatable=false)
-		})
-	private Chequera chequera;
+	@Column(nullable=false, length=14)
+	private String numerocuentacorriente;
 
 	public Cheque() {
 	}
@@ -41,20 +34,20 @@ public class Cheque implements Serializable {
 		this.id = id;
 	}
 
-	public Chequeestado getChequeestado() {
-		return this.chequeestado;
+	public Integer getIdestadocheque() {
+		return this.idestadocheque;
 	}
 
-	public void setChequeestado(Chequeestado chequeestado) {
-		this.chequeestado = chequeestado;
+	public void setIdestadocheque(Integer idestadocheque) {
+		this.idestadocheque = idestadocheque;
 	}
 
-	public Chequera getChequera() {
-		return this.chequera;
+	public String getNumerocuentacorriente() {
+		return this.numerocuentacorriente;
 	}
 
-	public void setChequera(Chequera chequera) {
-		this.chequera = chequera;
+	public void setNumerocuentacorriente(String numerocuentacorriente) {
+		this.numerocuentacorriente = numerocuentacorriente;
 	}
 
 }
