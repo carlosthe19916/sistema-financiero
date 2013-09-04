@@ -1,6 +1,7 @@
 package org.ventura.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -11,8 +12,11 @@ import javax.persistence.*;
 @Table(name = "estadocivil", schema = "maestro")
 @NamedQuery(name = "Estadocivil.findAll", query = "SELECT e FROM Estadocivil e")
 public class Estadocivil implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
+	public final static String findAll = "org.ventura.dao.findAll";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
