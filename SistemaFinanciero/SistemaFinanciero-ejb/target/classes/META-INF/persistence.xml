@@ -20,13 +20,10 @@
 		<class>org.ventura.model.Personajuridicacliente</class>
 		<class>org.ventura.model.Personanaturalcliente</class>
 		<class>org.ventura.model.Beneficiariocuenta</class>
-		<class>org.ventura.model.Cheque</class>
 		<class>org.ventura.model.ChequePK</class>
-		<class>org.ventura.model.Chequera</class>
 		<class>org.ventura.model.ChequeraPK</class>
 		<class>org.ventura.model.Cuentaahorro</class>
 		<class>org.ventura.model.Cuentaahorrohistorial</class>
-		<class>org.ventura.model.Cuentacorriente</class>
 		<class>org.ventura.model.Cuentacorrientehistorial</class>
 		<class>org.ventura.model.Cuentaplazofijo</class>
 		<class>org.ventura.model.Tarjetadebito</class>
@@ -52,11 +49,14 @@
 		<class>org.ventura.model.Personajuridica</class>
 		<class>org.ventura.model.Personanatural</class>
 		<class>org.ventura.model.Tipoempresa</class>
-		<class>org.ventura.model.Sucursal</class>			
+		<class>org.ventura.model.Sucursal</class>
+		<class>org.ventura.model.Cheque</class>
+		<class>org.ventura.model.Chequera</class>
+		<class>org.ventura.model.Cuentacorriente</class>			
 		
 		<properties>			
 			<!-- Properties for Hibernate -->
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="validate" />
 			<property name="hibernate.show_sql" value="false" />			
 		</properties>
 	</persistence-unit>
