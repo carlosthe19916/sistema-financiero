@@ -2,7 +2,6 @@ package org.ventura.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,6 @@ public class Cuentaplazofijo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(unique=true, nullable=false, length=14)
 	private String numerocuentaplazofijo;
 
@@ -31,6 +29,15 @@ public class Cuentaplazofijo implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
 	private Date fechavencimiento;
+
+	@Column(nullable=false)
+	private Integer idestadocuenta;
+
+	@Column(nullable=false)
+	private Integer idfrecuenciacapitalizacion;
+
+	@Column(nullable=false)
+	private Integer idretirointeres;
 
 	@Column(nullable=false)
 	private Integer idtipomoneda;
@@ -47,8 +54,7 @@ public class Cuentaplazofijo implements Serializable {
 	@Column(length=11)
 	private String ruc;
 
-	@Column(precision=131089)
-	private BigDecimal tasainteres;
+	private double tasainteres;
 
 	@Column(nullable=false)
 	private double ticeaf;
@@ -62,21 +68,6 @@ public class Cuentaplazofijo implements Serializable {
 	//bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy="cuentaplazofijo")
 	private List<Beneficiariocuenta> beneficiariocuentas;
-
-	//bi-directional many-to-one association to Estadocuenta
-	@ManyToOne
-	@JoinColumn(name="idestadocuenta", nullable=false)
-	private Estadocuenta estadocuenta;
-
-	//bi-directional many-to-one association to Frecuenciacapitalizacion
-	@ManyToOne
-	@JoinColumn(name="idfrecuenciacapitalizacion", nullable=false)
-	private Frecuenciacapitalizacion frecuenciacapitalizacion;
-
-	//bi-directional many-to-one association to Retirointere
-	@ManyToOne
-	@JoinColumn(name="idretirointeres", nullable=false)
-	private Retirointere retirointere;
 
 	//bi-directional many-to-one association to Titularcuenta
 	@OneToMany(mappedBy="cuentaplazofijo")
@@ -115,6 +106,30 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setFechavencimiento(Date fechavencimiento) {
 		this.fechavencimiento = fechavencimiento;
+	}
+
+	public Integer getIdestadocuenta() {
+		return this.idestadocuenta;
+	}
+
+	public void setIdestadocuenta(Integer idestadocuenta) {
+		this.idestadocuenta = idestadocuenta;
+	}
+
+	public Integer getIdfrecuenciacapitalizacion() {
+		return this.idfrecuenciacapitalizacion;
+	}
+
+	public void setIdfrecuenciacapitalizacion(Integer idfrecuenciacapitalizacion) {
+		this.idfrecuenciacapitalizacion = idfrecuenciacapitalizacion;
+	}
+
+	public Integer getIdretirointeres() {
+		return this.idretirointeres;
+	}
+
+	public void setIdretirointeres(Integer idretirointeres) {
+		this.idretirointeres = idretirointeres;
 	}
 
 	public Integer getIdtipomoneda() {
@@ -157,11 +172,11 @@ public class Cuentaplazofijo implements Serializable {
 		this.ruc = ruc;
 	}
 
-	public BigDecimal getTasainteres() {
+	public double getTasainteres() {
 		return this.tasainteres;
 	}
 
-	public void setTasainteres(BigDecimal tasainteres) {
+	public void setTasainteres(double tasainteres) {
 		this.tasainteres = tasainteres;
 	}
 
@@ -209,30 +224,6 @@ public class Cuentaplazofijo implements Serializable {
 		beneficiariocuenta.setCuentaplazofijo(null);
 
 		return beneficiariocuenta;
-	}
-
-	public Estadocuenta getEstadocuenta() {
-		return this.estadocuenta;
-	}
-
-	public void setEstadocuenta(Estadocuenta estadocuenta) {
-		this.estadocuenta = estadocuenta;
-	}
-
-	public Frecuenciacapitalizacion getFrecuenciacapitalizacion() {
-		return this.frecuenciacapitalizacion;
-	}
-
-	public void setFrecuenciacapitalizacion(Frecuenciacapitalizacion frecuenciacapitalizacion) {
-		this.frecuenciacapitalizacion = frecuenciacapitalizacion;
-	}
-
-	public Retirointere getRetirointere() {
-		return this.retirointere;
-	}
-
-	public void setRetirointere(Retirointere retirointere) {
-		this.retirointere = retirointere;
 	}
 
 	public List<Titularcuenta> getTitularcuentas() {

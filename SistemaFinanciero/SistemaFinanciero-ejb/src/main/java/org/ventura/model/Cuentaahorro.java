@@ -17,7 +17,6 @@ public class Cuentaahorro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(unique=true, nullable=false, length=14)
 	private String numerocuentaahorro;
 
@@ -27,6 +26,9 @@ public class Cuentaahorro implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
 	private Date fechaapertura;
+
+	@Column(nullable=false)
+	private Integer idestadocuenta;
 
 	@Column(nullable=false)
 	private Integer idtipomoneda;
@@ -40,11 +42,6 @@ public class Cuentaahorro implements Serializable {
 	//bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy="cuentaahorro")
 	private List<Beneficiariocuenta> beneficiariocuentas;
-
-	//bi-directional many-to-one association to Estadocuenta
-	@ManyToOne
-	@JoinColumn(name="idestadocuenta", nullable=false)
-	private Estadocuenta estadocuenta;
 
 	//bi-directional many-to-one association to Cuentaahorrohistorial
 	@OneToMany(mappedBy="cuentaahorro")
@@ -83,6 +80,14 @@ public class Cuentaahorro implements Serializable {
 
 	public void setFechaapertura(Date fechaapertura) {
 		this.fechaapertura = fechaapertura;
+	}
+
+	public Integer getIdestadocuenta() {
+		return this.idestadocuenta;
+	}
+
+	public void setIdestadocuenta(Integer idestadocuenta) {
+		this.idestadocuenta = idestadocuenta;
 	}
 
 	public Integer getIdtipomoneda() {
@@ -129,14 +134,6 @@ public class Cuentaahorro implements Serializable {
 		beneficiariocuenta.setCuentaahorro(null);
 
 		return beneficiariocuenta;
-	}
-
-	public Estadocuenta getEstadocuenta() {
-		return this.estadocuenta;
-	}
-
-	public void setEstadocuenta(Estadocuenta estadocuenta) {
-		this.estadocuenta = estadocuenta;
 	}
 
 	public List<Cuentaahorrohistorial> getCuentaahorrohistorials() {

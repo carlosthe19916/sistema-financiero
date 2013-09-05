@@ -1,7 +1,6 @@
 package org.ventura.model;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
 
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="tipomoneda", schema = "maestro")
+@Table(name="tipomoneda",schema="maestro")
 @NamedQuery(name="Tipomoneda.findAll", query="SELECT t FROM Tipomoneda t")
 public class Tipomoneda implements Serializable {
 	private static final long serialVersionUID = 1L;

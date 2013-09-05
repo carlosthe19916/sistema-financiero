@@ -16,27 +16,22 @@ public class Tarjetadebito implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(unique=true, nullable=false, length=16)
 	private String numerotargeta;
 
-	//bi-directional many-to-one association to Targetadebitoasignadocuentacorriente
-	@OneToMany(mappedBy="tarjetadebito")
-	private List<Targetadebitoasignadocuentacorriente> targetadebitoasignadocuentacorrientes;
+	@Column(nullable=false)
+	private Integer idestadotargeta;
 
-	//bi-directional many-to-one association to Estadotargeta
-	@ManyToOne
-	@JoinColumn(name="idestadotargeta", nullable=false)
-	private Estadotargeta estadotargeta;
-
-	//bi-directional many-to-one association to Tipotarjetadebito
-	@ManyToOne
-	@JoinColumn(name="idtargetadebitotipo", nullable=false)
-	private Tipotarjetadebito tipotarjetadebito;
+	@Column(nullable=false)
+	private Integer idtargetadebitotipo;
 
 	//bi-directional many-to-one association to Tarjetadebitoasignadocuentaahorro
 	@OneToMany(mappedBy="tarjetadebito")
 	private List<Tarjetadebitoasignadocuentaahorro> tarjetadebitoasignadocuentaahorros;
+
+	//bi-directional many-to-one association to Tarjetadebitoasignadocuentacorriente
+	@OneToMany(mappedBy="tarjetadebito")
+	private List<Tarjetadebitoasignadocuentacorriente> tarjetadebitoasignadocuentacorrientes;
 
 	public Tarjetadebito() {
 	}
@@ -49,42 +44,20 @@ public class Tarjetadebito implements Serializable {
 		this.numerotargeta = numerotargeta;
 	}
 
-	public List<Targetadebitoasignadocuentacorriente> getTargetadebitoasignadocuentacorrientes() {
-		return this.targetadebitoasignadocuentacorrientes;
+	public Integer getIdestadotargeta() {
+		return this.idestadotargeta;
 	}
 
-	public void setTargetadebitoasignadocuentacorrientes(List<Targetadebitoasignadocuentacorriente> targetadebitoasignadocuentacorrientes) {
-		this.targetadebitoasignadocuentacorrientes = targetadebitoasignadocuentacorrientes;
+	public void setIdestadotargeta(Integer idestadotargeta) {
+		this.idestadotargeta = idestadotargeta;
 	}
 
-	public Targetadebitoasignadocuentacorriente addTargetadebitoasignadocuentacorriente(Targetadebitoasignadocuentacorriente targetadebitoasignadocuentacorriente) {
-		getTargetadebitoasignadocuentacorrientes().add(targetadebitoasignadocuentacorriente);
-		targetadebitoasignadocuentacorriente.setTarjetadebito(this);
-
-		return targetadebitoasignadocuentacorriente;
+	public Integer getIdtargetadebitotipo() {
+		return this.idtargetadebitotipo;
 	}
 
-	public Targetadebitoasignadocuentacorriente removeTargetadebitoasignadocuentacorriente(Targetadebitoasignadocuentacorriente targetadebitoasignadocuentacorriente) {
-		getTargetadebitoasignadocuentacorrientes().remove(targetadebitoasignadocuentacorriente);
-		targetadebitoasignadocuentacorriente.setTarjetadebito(null);
-
-		return targetadebitoasignadocuentacorriente;
-	}
-
-	public Estadotargeta getEstadotargeta() {
-		return this.estadotargeta;
-	}
-
-	public void setEstadotargeta(Estadotargeta estadotargeta) {
-		this.estadotargeta = estadotargeta;
-	}
-
-	public Tipotarjetadebito getTipotarjetadebito() {
-		return this.tipotarjetadebito;
-	}
-
-	public void setTipotarjetadebito(Tipotarjetadebito tipotarjetadebito) {
-		this.tipotarjetadebito = tipotarjetadebito;
+	public void setIdtargetadebitotipo(Integer idtargetadebitotipo) {
+		this.idtargetadebitotipo = idtargetadebitotipo;
 	}
 
 	public List<Tarjetadebitoasignadocuentaahorro> getTarjetadebitoasignadocuentaahorros() {
@@ -107,6 +80,28 @@ public class Tarjetadebito implements Serializable {
 		tarjetadebitoasignadocuentaahorro.setTarjetadebito(null);
 
 		return tarjetadebitoasignadocuentaahorro;
+	}
+
+	public List<Tarjetadebitoasignadocuentacorriente> getTarjetadebitoasignadocuentacorrientes() {
+		return this.tarjetadebitoasignadocuentacorrientes;
+	}
+
+	public void setTarjetadebitoasignadocuentacorrientes(List<Tarjetadebitoasignadocuentacorriente> tarjetadebitoasignadocuentacorrientes) {
+		this.tarjetadebitoasignadocuentacorrientes = tarjetadebitoasignadocuentacorrientes;
+	}
+
+	public Tarjetadebitoasignadocuentacorriente addTarjetadebitoasignadocuentacorriente(Tarjetadebitoasignadocuentacorriente tarjetadebitoasignadocuentacorriente) {
+		getTarjetadebitoasignadocuentacorrientes().add(tarjetadebitoasignadocuentacorriente);
+		tarjetadebitoasignadocuentacorriente.setTarjetadebito(this);
+
+		return tarjetadebitoasignadocuentacorriente;
+	}
+
+	public Tarjetadebitoasignadocuentacorriente removeTarjetadebitoasignadocuentacorriente(Tarjetadebitoasignadocuentacorriente tarjetadebitoasignadocuentacorriente) {
+		getTarjetadebitoasignadocuentacorrientes().remove(tarjetadebitoasignadocuentacorriente);
+		tarjetadebitoasignadocuentacorriente.setTarjetadebito(null);
+
+		return tarjetadebitoasignadocuentacorriente;
 	}
 
 }

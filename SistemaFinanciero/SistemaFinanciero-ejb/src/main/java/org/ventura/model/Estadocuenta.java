@@ -3,25 +3,26 @@ package org.ventura.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 /**
  * The persistent class for the estadocuenta database table.
  * 
  */
 @Entity
-@Table(name = "estadocuenta", schema = "cuentapersonal")
-@NamedQuery(name = "Estadocuenta.findAll", query = "SELECT e FROM Estadocuenta e")
+@Table(name="estadocuenta",schema="cuentapersonal")
+@NamedQuery(name="Estadocuenta.findAll", query="SELECT e FROM Estadocuenta e")
 public class Estadocuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(unique = true, nullable = false)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	private Integer idestadocuenta;
 
-	@Column(length = 3)
+	@Column(length=3)
 	private String abreviatura;
 
-	@Column(nullable = false, length = 20)
+	@Column(nullable=false, length=20)
 	private String denominacion;
 
 	private Boolean estado;

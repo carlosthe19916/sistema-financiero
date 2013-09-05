@@ -11,13 +11,12 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="personajuridica", schema = "persona")
+@Table(name="personajuridica",schema="persona")
 @NamedQuery(name="Personajuridica.findAll", query="SELECT p FROM Personajuridica p")
 public class Personajuridica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(unique=true, nullable=false, length=11)
 	private String ruc;
 
@@ -39,6 +38,9 @@ public class Personajuridica implements Serializable {
 
 	private Boolean finsocial;
 
+	@Column(nullable=false)
+	private Integer idtipoempresa;
+
 	@Column(length=50)
 	private String nombrecomercial;
 
@@ -59,11 +61,6 @@ public class Personajuridica implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="dnirepresentantelegal", nullable=false)
 	private Personanatural personanatural;
-
-	//bi-directional many-to-one association to Tipoempresa
-	@ManyToOne
-	@JoinColumn(name="idtipoempresa", nullable=false)
-	private Tipoempresa tipoempresa;
 
 	public Personajuridica() {
 	}
@@ -122,6 +119,14 @@ public class Personajuridica implements Serializable {
 
 	public void setFinsocial(Boolean finsocial) {
 		this.finsocial = finsocial;
+	}
+
+	public Integer getIdtipoempresa() {
+		return this.idtipoempresa;
+	}
+
+	public void setIdtipoempresa(Integer idtipoempresa) {
+		this.idtipoempresa = idtipoempresa;
 	}
 
 	public String getNombrecomercial() {
@@ -184,14 +189,6 @@ public class Personajuridica implements Serializable {
 
 	public void setPersonanatural(Personanatural personanatural) {
 		this.personanatural = personanatural;
-	}
-
-	public Tipoempresa getTipoempresa() {
-		return this.tipoempresa;
-	}
-
-	public void setTipoempresa(Tipoempresa tipoempresa) {
-		this.tipoempresa = tipoempresa;
 	}
 
 }

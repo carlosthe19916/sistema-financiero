@@ -2,7 +2,6 @@ package org.ventura.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -25,10 +24,6 @@ public class Tipotarjetadebito implements Serializable {
 
 	@Column(nullable=false)
 	private Boolean estado;
-
-	//bi-directional many-to-one association to Tarjetadebito
-	@OneToMany(mappedBy="tipotarjetadebito")
-	private List<Tarjetadebito> tarjetadebitos;
 
 	public Tipotarjetadebito() {
 	}
@@ -55,28 +50,6 @@ public class Tipotarjetadebito implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public List<Tarjetadebito> getTarjetadebitos() {
-		return this.tarjetadebitos;
-	}
-
-	public void setTarjetadebitos(List<Tarjetadebito> tarjetadebitos) {
-		this.tarjetadebitos = tarjetadebitos;
-	}
-
-	public Tarjetadebito addTarjetadebito(Tarjetadebito tarjetadebito) {
-		getTarjetadebitos().add(tarjetadebito);
-		tarjetadebito.setTipotarjetadebito(this);
-
-		return tarjetadebito;
-	}
-
-	public Tarjetadebito removeTarjetadebito(Tarjetadebito tarjetadebito) {
-		getTarjetadebitos().remove(tarjetadebito);
-		tarjetadebito.setTipotarjetadebito(null);
-
-		return tarjetadebito;
 	}
 
 }

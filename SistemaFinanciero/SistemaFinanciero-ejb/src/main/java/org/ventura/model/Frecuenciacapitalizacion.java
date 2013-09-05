@@ -2,7 +2,6 @@ package org.ventura.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -28,10 +27,6 @@ public class Frecuenciacapitalizacion implements Serializable {
 
 	@Column(nullable=false)
 	private Integer numerodias;
-
-	//bi-directional many-to-one association to Cuentaplazofijo
-	@OneToMany(mappedBy="frecuenciacapitalizacion")
-	private List<Cuentaplazofijo> cuentaplazofijos;
 
 	public Frecuenciacapitalizacion() {
 	}
@@ -66,28 +61,6 @@ public class Frecuenciacapitalizacion implements Serializable {
 
 	public void setNumerodias(Integer numerodias) {
 		this.numerodias = numerodias;
-	}
-
-	public List<Cuentaplazofijo> getCuentaplazofijos() {
-		return this.cuentaplazofijos;
-	}
-
-	public void setCuentaplazofijos(List<Cuentaplazofijo> cuentaplazofijos) {
-		this.cuentaplazofijos = cuentaplazofijos;
-	}
-
-	public Cuentaplazofijo addCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) {
-		getCuentaplazofijos().add(cuentaplazofijo);
-		cuentaplazofijo.setFrecuenciacapitalizacion(this);
-
-		return cuentaplazofijo;
-	}
-
-	public Cuentaplazofijo removeCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) {
-		getCuentaplazofijos().remove(cuentaplazofijo);
-		cuentaplazofijo.setFrecuenciacapitalizacion(null);
-
-		return cuentaplazofijo;
 	}
 
 }

@@ -11,13 +11,12 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="personanatural", schema = "persona")
+@Table(name="personanatural",schema="persona")
 @NamedQuery(name="Personanatural.findAll", query="SELECT p FROM Personanatural p")
 public class Personanatural implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(unique=true, nullable=false, length=8)
 	private String dni;
 
