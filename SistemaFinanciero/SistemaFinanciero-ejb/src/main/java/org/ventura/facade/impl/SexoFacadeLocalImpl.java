@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 
 import org.ventura.dao.impl.SexoDAO;
@@ -12,6 +13,7 @@ import org.ventura.facade.SexoFacadeLocal;
 import org.ventura.model.Sexo;
 
 @Stateless
+@Local(SexoFacadeLocal.class)
 public class SexoFacadeLocalImpl implements SexoFacadeLocal {
 
 	@EJB

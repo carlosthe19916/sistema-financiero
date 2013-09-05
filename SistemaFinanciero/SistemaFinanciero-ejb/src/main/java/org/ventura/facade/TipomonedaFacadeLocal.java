@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
+
 import org.ventura.model.Tipomoneda;
 
-@Local
+@Remote
 public interface TipomonedaFacadeLocal {
 	
 	public Tipomoneda create(Tipomoneda oTipomoneda);

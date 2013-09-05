@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
+
 import org.ventura.model.Titularcuentahistorial;
 
-@Local
+@Remote
 public interface TitularcuentahistorialFacadeLocal {
 	
 	public Titularcuentahistorial create(Titularcuentahistorial oTitularcuentahistorial);

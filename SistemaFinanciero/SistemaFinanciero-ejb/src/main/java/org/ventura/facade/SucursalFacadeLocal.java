@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
+
 import org.ventura.model.Sucursal;
 
-@Local
+@Remote
 public interface SucursalFacadeLocal {
 	
 	public Sucursal create(Sucursal oSucursal);

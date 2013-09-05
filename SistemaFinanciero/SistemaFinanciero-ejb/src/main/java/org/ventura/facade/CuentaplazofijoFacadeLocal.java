@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
+
 import org.ventura.model.Cuentaplazofijo;
 
-@Local
+@Remote
 public interface CuentaplazofijoFacadeLocal {
 	
 	public Cuentaplazofijo create(Cuentaplazofijo oCuentaplazofijo);

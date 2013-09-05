@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
+
 import org.ventura.model.Estadotarjeta;
 
-@Local
+@Remote
 public interface EstadotarjetaFacadeLocal {
 	
 	public Estadotarjeta create(Estadotarjeta oEstadotarjeta);
