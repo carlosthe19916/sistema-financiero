@@ -13,7 +13,6 @@ import org.ventura.facade.SexoFacadeLocal;
 import org.ventura.model.Sexo;
 
 @Stateless
-@Local(SexoFacadeLocal.class)
 public class SexoFacadeLocalImpl implements SexoFacadeLocal {
 
 	@EJB

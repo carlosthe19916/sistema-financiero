@@ -1,5 +1,5 @@
 table{
-	width: 100%;
+	
 }
 .sf-content-cabecera {
 	
@@ -62,16 +62,18 @@ table{
 	margin-right: 0px;
 	margin-top: 0px;
 	margin-bottom: 0px;
+	padding: 5px;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #c0dfc3;
 }
 
 .sf-agrupador-content-table table{
-	margin-left: 15px;
-	margin-right: 50px;
-	margin-top: 0px;
-	margin-bottom: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	/*margin-top: 0px;
+	*/
 }
 
 .sf-label-bold {

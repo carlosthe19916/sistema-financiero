@@ -225,5 +225,10 @@ public class Personanatural implements Serializable {
 
 		return personajuridica;
 	}
+	
+	@Override
+	public String toString(){
+		return getApellidopaterno() + " " + getApellidomaterno() + "," + getNombres(); 
+	}
 
 }
