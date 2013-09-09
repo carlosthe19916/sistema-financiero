@@ -40,14 +40,82 @@ public class PersonaNaturalMB implements Serializable {
 	// constructor
 	public PersonaNaturalMB() {
 		this.oPersonaNatural = new Personanatural();
+		setoSexoSeleccionado(new Sexo());
+		setoEstadoCivilSeleccionado(new Estadocivil());
 	}
+	
+	
+	public void metodoPrueba(){
+		System.out.println("Holaaaaaaaaaaaaaaa");
+		System.out.println(oPersonaNatural.getDni());
+		System.out.println(oPersonaNatural.getApellidopaterno());
+		System.out.println(oPersonaNatural.getApellidomaterno());
+		System.out.println(oPersonaNatural.getNombres());
+		System.out.println(oPersonaNatural.getFechanacimiento());
+		System.out.println(oPersonaNatural.getIdsexo());
+		
+		personaNauralFacadeLocal.create(oPersonaNatural);
+		
+	}
+	
+	
+	public void initListSexo(){
+		setListaSexos((List<Sexo>) sexoFacadeLocal.findAll());
+	}
+	
+	public void initListaEstadoCivil(){
+		setListaEstadoCivil((List<Estadocivil>) estadoCivilFacadeLoal.findAll());
+	}
+	
 
 	public Personanatural getPersonanatural() {
 		return oPersonaNatural;
 	}
 
+	public Sexo getoSexoSeleccionado() {
+		return oSexoSeleccionado;
+	}
+
+
+	public void setoSexoSeleccionado(Sexo oSexoSeleccionado) {
+		this.oSexoSeleccionado = oSexoSeleccionado;
+	}
+
+
 	public void setPersonanatural(Personanatural personanatural) {
 		this.oPersonaNatural = personanatural;
+	}
+
+
+	public Estadocivil getoEstadoCivilSeleccionado() {
+		return oEstadoCivilSeleccionado;
+	}
+
+
+	public void setoEstadoCivilSeleccionado(Estadocivil oEstadoCivilSeleccionado) {
+		this.oEstadoCivilSeleccionado = oEstadoCivilSeleccionado;
+	}
+
+
+	public List<Sexo> getListaSexos() {
+		initListSexo();
+		return listaSexos;
+	}
+
+
+	public void setListaSexos(List<Sexo> listaSexos) {
+		this.listaSexos = listaSexos;
+	}
+
+
+	public List<Estadocivil> getListaEstadoCivil() {
+		initListaEstadoCivil();
+		return listaEstadoCivil;
+	}
+
+
+	public void setListaEstadoCivil(List<Estadocivil> listaEstadoCivil) {
+		this.listaEstadoCivil = listaEstadoCivil;
 	}
 
 }
