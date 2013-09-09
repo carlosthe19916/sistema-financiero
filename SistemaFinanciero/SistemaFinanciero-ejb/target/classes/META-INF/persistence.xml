@@ -21,25 +21,27 @@
 		<class>org.ventura.model.Personanaturalcliente</class>
 		<class>org.ventura.model.Beneficiariocuenta</class>
 		<class>org.ventura.model.ChequePK</class>
+		<class>org.ventura.model.Chequeestado</class>
+		<class>org.ventura.model.Chequera</class>
 		<class>org.ventura.model.ChequeraPK</class>
+		<class>org.ventura.model.Chequeraestado</class>
 		<class>org.ventura.model.Cuentaahorro</class>
 		<class>org.ventura.model.Cuentaahorrohistorial</class>
+		<class>org.ventura.model.Cuentacorriente</class>
 		<class>org.ventura.model.Cuentacorrientehistorial</class>
 		<class>org.ventura.model.Cuentaplazofijo</class>
+		<class>org.ventura.model.Estadocuenta</class>
+		<class>org.ventura.model.Estadotarjeta</class>
+		<class>org.ventura.model.Frecuenciacapitalizacion</class>
+		<class>org.ventura.model.Retirointere</class>
 		<class>org.ventura.model.Tarjetadebito</class>
 		<class>org.ventura.model.Tarjetadebitoasignadocuentaahorro</class>
 		<class>org.ventura.model.TarjetadebitoasignadocuentaahorroPK</class>
 		<class>org.ventura.model.Tarjetadebitoasignadocuentacorriente</class>
 		<class>org.ventura.model.TarjetadebitoasignadocuentacorrientePK</class>
+		<class>org.ventura.model.Tipotarjetadebito</class>
 		<class>org.ventura.model.Titularcuenta</class>
 		<class>org.ventura.model.Titularcuentahistorial</class>
-		<class>org.ventura.model.Chequeestado</class>
-		<class>org.ventura.model.Chequeraestado</class>
-		<class>org.ventura.model.Estadocuenta</class>
-		<class>org.ventura.model.Estadotarjeta</class>
-		<class>org.ventura.model.Frecuenciacapitalizacion</class>
-		<class>org.ventura.model.Retirointere</class>
-		<class>org.ventura.model.Tipotarjetadebito</class>
 		<class>org.ventura.model.Estadocivil</class>
 		<class>org.ventura.model.Sexo</class>
 		<class>org.ventura.model.Tipomoneda</class>
@@ -50,9 +52,7 @@
 		<class>org.ventura.model.Personanatural</class>
 		<class>org.ventura.model.Tipoempresa</class>
 		<class>org.ventura.model.Sucursal</class>
-		<class>org.ventura.model.Cheque</class>
-		<class>org.ventura.model.Chequera</class>
-		<class>org.ventura.model.Cuentacorriente</class>			
+		<class>org.ventura.model.Cheque</class>			
 		
 		<properties>			
 			<!-- Properties for Hibernate -->

@@ -23,7 +23,7 @@
 									<p:outputLabel>DNI:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtDniPN" value="#{aperturarCuentaAhorrosMB.personaNaturalManagedBean.dni}" />
+									<p:inputText id="txtDniPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.dni}" />
 								</td>
 							</tr>
 							<tr>
@@ -31,13 +31,13 @@
 									<p:outputLabel>Apellido Paterno:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtApellidoPaternoPN" value="#{personaNaturalManagedBean.apellidoPaterno}" />
+									<p:inputText id="txtApellidoPaternoPN" />
 								</td>
 								<td>
 									<p:outputLabel>Apellido Materno:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtApellidoMaternoPN" value="#{personaNaturalManagedBean.apellidoMaterno}" />
+									<p:inputText id="txtApellidoMaternoPN"  />
 								</td>
 							</tr>
 							<tr>
@@ -45,14 +45,14 @@
 									<p:outputLabel>Nombres:</p:outputLabel>
 								</td>
 								<td colspan="3">
-									<p:inputText id="txtNombresPN" value="#{personaNaturalManagedBean.nombres}" size="71" /></td>
+									<p:inputText id="txtNombresPN"  size="71" /></td>
 							</tr>
 							<tr>
 								<td>
 									<p:outputLabel>Fecha Nacimiento:</p:outputLabel>
 								</td>
 								<td>
-									<p:calendar id="txtFechaNacimientoPN" value="#{personaNaturalManagedBean.fechaNacimiento}" /> 
+									<p:calendar id="txtFechaNacimientoPN"  /> 
 									<p:watermark for="txtFechaNacimientoPN" value="dd/mm/yyyy" />
 								</td>
 								<td>
@@ -82,7 +82,7 @@
 									<p:outputLabel>Ocupación:</p:outputLabel>
 								</td>
 								<td colspan="3">
-									<p:inputText id="txtOcupacionPN" value="#{personaNaturalManagedBean.ocupacion}" />
+									<p:inputText id="txtOcupacionPN"  />
 								</td>
 							</tr>
 							<tr>
@@ -90,7 +90,7 @@
 									<p:outputLabel>Dirección:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText id="txtDireccionPN" value="#{personaNaturalManagedBean.direccion}" size="71">
+									<p:inputText id="txtDireccionPN"  size="71">
 								</p:inputText></td>
 							</tr>
 							<tr>
@@ -98,7 +98,7 @@
 									<p:outputLabel>Referencia:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText id="txtReferenciaPN" value="#{personaNaturalManagedBean.referencia}" size="71" />
+									<p:inputText id="txtReferenciaPN"  size="71" />
 								</td>
 							</tr>
 		
@@ -107,13 +107,13 @@
 									<p:outputLabel>Telefono:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtTelefonoPN" value="#{personaNaturalManagedBean.telefono}" />
+									<p:inputText id="txtTelefonoPN"  />
 								</td>
 								<td>
 									<p:outputLabel>Celular:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtCelularPN" value="#{personaNaturalManagedBean.celular}" />
+									<p:inputText id="txtCelularPN"  />
 								</td>
 							</tr>
 							<tr>
@@ -121,7 +121,7 @@
 									<p:outputLabel>Email:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText id="txtEmailPN" value="#{personaNaturalManagedBean.email}" size="73" />
+									<p:inputText id="txtEmailPN" size="73" />
 								</td>
 							</tr>
 						</table>

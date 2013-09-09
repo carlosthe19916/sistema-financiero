@@ -2,6 +2,7 @@ package org.ventura.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -15,7 +16,6 @@ public class Chequeestado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(unique=true, nullable=false)
 	private Integer idchequeestado;
 
@@ -27,6 +27,10 @@ public class Chequeestado implements Serializable {
 
 	@Column(nullable=false)
 	private Boolean estado;
+
+	//bi-directional many-to-one association to Cheque
+	@OneToMany(mappedBy="chequeestado")
+	private List<Cheque> cheques;
 
 	public Chequeestado() {
 	}
@@ -61,6 +65,28 @@ public class Chequeestado implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+
+	public List<Cheque> getCheques() {
+		return this.cheques;
+	}
+
+	public void setCheques(List<Cheque> cheques) {
+		this.cheques = cheques;
+	}
+
+	public Cheque addCheque(Cheque cheque) {
+		getCheques().add(cheque);
+		cheque.setChequeestado(this);
+
+		return cheque;
+	}
+
+	public Cheque removeCheque(Cheque cheque) {
+		getCheques().remove(cheque);
+		cheque.setChequeestado(null);
+
+		return cheque;
 	}
 
 }

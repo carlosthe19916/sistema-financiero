@@ -1,28 +1,31 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.inject.Inject;
+import javax.faces.bean.NoneScoped;
 
-import org.ventura.facade.SexoFacadeLocal;
-import org.ventura.model.Sexo;
+import org.ventura.model.Personanatural;
 
 @ManagedBean
-@SessionScoped
+@NoneScoped
 public class PersonaNaturalMB implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	@EJB
-	SexoFacadeLocal sexoFacadeLocal;
-	
+	private Personanatural personanatural;
 
+	// constructor
+	public PersonaNaturalMB() {
+		this.personanatural = new Personanatural();
+	}
+
+	public Personanatural getPersonanatural() {
+		return personanatural;
+	}
+
+	public void setPersonanatural(Personanatural personanatural) {
+		this.personanatural = personanatural;
+	}
 
 }

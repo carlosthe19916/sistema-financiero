@@ -3,6 +3,7 @@ package org.ventura.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -25,9 +26,6 @@ public class Chequera implements Serializable {
 	private Date fechaentrega;
 
 	@Column(nullable=false)
-	private Integer idchequeraestado;
-
-	@Column(nullable=false)
 	private Integer idsucursal;
 
 	@Column(nullable=false)
@@ -35,6 +33,18 @@ public class Chequera implements Serializable {
 
 	@Column(nullable=false)
 	private Integer numeroinicio;
+
+
+
+	//bi-directional many-to-one association to Chequeraestado
+	@ManyToOne
+	@JoinColumn(name="idchequeraestado", nullable=false)
+	private Chequeraestado chequeraestado;
+
+	//bi-directional many-to-one association to Cuentacorriente
+	@ManyToOne
+	@JoinColumn(name="numerocuentacorriente", nullable=false, insertable=false, updatable=false)
+	private Cuentacorriente cuentacorriente;
 
 	public Chequera() {
 	}
@@ -63,14 +73,6 @@ public class Chequera implements Serializable {
 		this.fechaentrega = fechaentrega;
 	}
 
-	public Integer getIdchequeraestado() {
-		return this.idchequeraestado;
-	}
-
-	public void setIdchequeraestado(Integer idchequeraestado) {
-		this.idchequeraestado = idchequeraestado;
-	}
-
 	public Integer getIdsucursal() {
 		return this.idsucursal;
 	}
@@ -93,6 +95,23 @@ public class Chequera implements Serializable {
 
 	public void setNumeroinicio(Integer numeroinicio) {
 		this.numeroinicio = numeroinicio;
+	}
+
+
+	public Chequeraestado getChequeraestado() {
+		return this.chequeraestado;
+	}
+
+	public void setChequeraestado(Chequeraestado chequeraestado) {
+		this.chequeraestado = chequeraestado;
+	}
+
+	public Cuentacorriente getCuentacorriente() {
+		return this.cuentacorriente;
+	}
+
+	public void setCuentacorriente(Cuentacorriente cuentacorriente) {
+		this.cuentacorriente = cuentacorriente;
 	}
 
 }

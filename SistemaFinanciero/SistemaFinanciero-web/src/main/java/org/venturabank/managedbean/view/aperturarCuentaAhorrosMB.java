@@ -1,16 +1,19 @@
 package org.venturabank.managedbean.view;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
-import org.venturabank.managedbean.PersonaNaturalManagedBean;
+import org.ventura.facade.CuentaahorroFacadeLocal;
+import org.ventura.model.Cuentaahorro;
+import org.venturabank.managedbean.BeneficiariosMB;
+import org.venturabank.managedbean.PersonaJuridicaMB;
+import org.venturabank.managedbean.PersonaNaturalMB;
+import org.venturabank.managedbean.TitularesMB;
 
 @ManagedBean
 @ViewScoped
@@ -18,81 +21,90 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Map<Integer, String> tipoPersonas;
-	private Integer tipoPersonaSelected;
-
-	@ManagedProperty(name="personaNaturalManagedBean", value = "#{personaNaturalManagedBean}")
-    private PersonaNaturalManagedBean personaNaturalManagedBean;
+	@EJB
+	CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
 	
-	private List<PersonaNaturalManagedBean> titulares;
+	private Cuentaahorro cuentaahorro;
+	
+	@ManagedProperty(value = "#{personaNaturalMB}")
+	private PersonaNaturalMB personaNaturalMB;
 
-	public aperturarCuentaAhorrosMB() {
-		// tipoPersonaSeleccionada = "0";
-		// tipoPersona = 0;
-		this.tipoPersonas = new HashMap<Integer, String>();
+	@ManagedProperty(value = "#{personaJuridicaMB}")
+	private PersonaJuridicaMB personaJuridicaMB;
+	
+	@ManagedProperty(value = "#{titularesMB}")
+	private TitularesMB titularesMB;
 
-		this.initTipoPersonas();
-		this.initTipoPersonaSelected();
-		this.initTitulares();
-	}
+	@ManagedProperty(value = "#{beneficiariosMB}")
+	private BeneficiariosMB beneficiariosMB;
 
-	private void initTipoPersonas() {
-		tipoPersonas.put(1, "P. Natural");
-		tipoPersonas.put(2, "P. Jurídica");
-	}
-
-	private void initTipoPersonaSelected() {
-		this.tipoPersonaSelected = new Integer(1);
-	}
-
-	private void initTitulares(){
-		this.titulares = new ArrayList<PersonaNaturalManagedBean>();
+	//Constructor
+	public aperturarCuentaAhorrosMB(){
+		this.cuentaahorro =  new Cuentaahorro();
 	}
 	
-	public String isPersonaNatural() {
-		if (getTipoPersonaSelected() == 1)
-			return "true";
-		else
-			return "false";
+	@PostConstruct
+	private void initValues(){
+		this.cuentaahorro.setPersonanatural(personaNaturalMB.getPersonanatural());
+		this.cuentaahorro.setPersonajuridica(personaJuridicaMB.getoPersonajuridica());
+		this.cuentaahorro.setTitularcuentas(titularesMB.getListTitularcuenta());
+		this.cuentaahorro.setBeneficiariocuentas(beneficiariosMB.getoListBeneficiariocuenta());
+	}
+	
+	//crear cuenta Ahorro
+	public void createCuentaahorro() {
+		cuentaahorroFacadeLocal.create(cuentaahorro);
 	}
 
-	public String isPersonaJuridica() {
-		if (getTipoPersonaSelected() == 2)
-			return "true";
-		else
-			return "false";
+	public CuentaahorroFacadeLocal getCuentaahorroFacadeLocal() {
+		return cuentaahorroFacadeLocal;
 	}
 
-	public Map<Integer, String> getTipoPersonas() {
-		return tipoPersonas;
+	public void setCuentaahorroFacadeLocal(
+			CuentaahorroFacadeLocal cuentaahorroFacadeLocal) {
+		this.cuentaahorroFacadeLocal = cuentaahorroFacadeLocal;
 	}
 
-	public void setTipoPersonas(Map<Integer, String> tipoPersonas) {
-		this.tipoPersonas = tipoPersonas;
+	public Cuentaahorro getCuentaahorro() {
+		return cuentaahorro;
 	}
 
-	public Integer getTipoPersonaSelected() {
-		return tipoPersonaSelected;
+	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
+		this.cuentaahorro = cuentaahorro;
 	}
 
-	public void setTipoPersonaSelected(Integer tipoPersonaSelected) {
-		this.tipoPersonaSelected = tipoPersonaSelected;
+	public PersonaNaturalMB getPersonaNaturalMB() {
+		return personaNaturalMB;
 	}
 
-	public List<PersonaNaturalManagedBean> getTitulares() {
-		return titulares;
+	public void setPersonaNaturalMB(PersonaNaturalMB personaNaturalMB) {
+		this.personaNaturalMB = personaNaturalMB;
 	}
 
-	public void setTitulares(List<PersonaNaturalManagedBean> titulares) {
-		this.titulares = titulares;
+	public PersonaJuridicaMB getPersonaJuridicaMB() {
+		return personaJuridicaMB;
 	}
 
-	public PersonaNaturalManagedBean getPersonaNaturalManagedBean() {
-		return personaNaturalManagedBean;
+	public void setPersonaJuridicaMB(PersonaJuridicaMB personaJuridicaMB) {
+		this.personaJuridicaMB = personaJuridicaMB;
 	}
 
-	public void setPersonaNaturalManagedBean(
-			PersonaNaturalManagedBean personaNaturalManagedBean) {
-		this.personaNaturalManagedBean = personaNaturalManagedBean;
+	public TitularesMB getTitularesMB() {
+		return titularesMB;
 	}
+
+	public void setTitularesMB(TitularesMB titularesMB) {
+		this.titularesMB = titularesMB;
+	}
+
+	public BeneficiariosMB getBeneficiariosMB() {
+		return beneficiariosMB;
+	}
+
+	public void setBeneficiariosMB(BeneficiariosMB beneficiariosMB) {
+		this.beneficiariosMB = beneficiariosMB;
+	}
+	
+
+
 }

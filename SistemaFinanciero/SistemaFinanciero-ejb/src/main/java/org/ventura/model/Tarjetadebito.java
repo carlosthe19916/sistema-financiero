@@ -19,11 +19,15 @@ public class Tarjetadebito implements Serializable {
 	@Column(unique=true, nullable=false, length=16)
 	private String numerotargeta;
 
-	@Column(nullable=false)
-	private Integer idestadotargeta;
+	//bi-directional many-to-one association to Estadotarjeta
+	@ManyToOne
+	@JoinColumn(name="idestadotargeta", nullable=false)
+	private Estadotarjeta estadotarjeta;
 
-	@Column(nullable=false)
-	private Integer idtargetadebitotipo;
+	//bi-directional many-to-one association to Tipotarjetadebito
+	@ManyToOne
+	@JoinColumn(name="idtargetadebitotipo", nullable=false)
+	private Tipotarjetadebito tipotarjetadebito;
 
 	//bi-directional many-to-one association to Tarjetadebitoasignadocuentaahorro
 	@OneToMany(mappedBy="tarjetadebito")
@@ -44,20 +48,20 @@ public class Tarjetadebito implements Serializable {
 		this.numerotargeta = numerotargeta;
 	}
 
-	public Integer getIdestadotargeta() {
-		return this.idestadotargeta;
+	public Estadotarjeta getEstadotarjeta() {
+		return this.estadotarjeta;
 	}
 
-	public void setIdestadotargeta(Integer idestadotargeta) {
-		this.idestadotargeta = idestadotargeta;
+	public void setEstadotarjeta(Estadotarjeta estadotarjeta) {
+		this.estadotarjeta = estadotarjeta;
 	}
 
-	public Integer getIdtargetadebitotipo() {
-		return this.idtargetadebitotipo;
+	public Tipotarjetadebito getTipotarjetadebito() {
+		return this.tipotarjetadebito;
 	}
 
-	public void setIdtargetadebitotipo(Integer idtargetadebitotipo) {
-		this.idtargetadebitotipo = idtargetadebitotipo;
+	public void setTipotarjetadebito(Tipotarjetadebito tipotarjetadebito) {
+		this.tipotarjetadebito = tipotarjetadebito;
 	}
 
 	public List<Tarjetadebitoasignadocuentaahorro> getTarjetadebitoasignadocuentaahorros() {

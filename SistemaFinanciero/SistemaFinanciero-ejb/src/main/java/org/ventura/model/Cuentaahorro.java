@@ -5,54 +5,64 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the cuentaahorro database table.
  * 
  */
 @Entity
-@Table(name="cuentaahorro",schema="cuentapersonal")
-@NamedQuery(name="Cuentaahorro.findAll", query="SELECT c FROM Cuentaahorro c")
+@Table(name = "cuentaahorro", schema = "cuentapersonal")
+@NamedQuery(name = "Cuentaahorro.findAll", query = "SELECT c FROM Cuentaahorro c")
 public class Cuentaahorro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false, length=14)
+	@Column(unique = true, nullable = false, length = 14)
 	private String numerocuentaahorro;
 
-	@Column(length=8)
+	@Column(length = 8)
 	private String dni;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Date fechaapertura;
 
-	@Column(nullable=false)
-	private Integer idestadocuenta;
-
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer idtipomoneda;
 
-	@Column(length=11)
+	@Column(length = 11)
 	private String ruc;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private double saldo;
 
-	//bi-directional many-to-one association to Beneficiariocuenta
-	@OneToMany(mappedBy="cuentaahorro")
+	@ManyToOne
+	@JoinColumn(name = "dni", insertable=false, updatable=false)
+	private Personanatural personanatural;
+
+	@ManyToOne
+	@JoinColumn(name = "ruc", insertable=false, updatable=false)
+	private Personajuridica personajuridica;
+
+	// bi-directional many-to-one association to Beneficiariocuenta
+	@OneToMany(mappedBy = "cuentaahorro")
 	private List<Beneficiariocuenta> beneficiariocuentas;
 
-	//bi-directional many-to-one association to Cuentaahorrohistorial
-	@OneToMany(mappedBy="cuentaahorro")
+	// bi-directional many-to-one association to Estadocuenta
+	@ManyToOne
+	@JoinColumn(name = "idestadocuenta", nullable = false)
+	private Estadocuenta estadocuenta;
+
+	// bi-directional many-to-one association to Cuentaahorrohistorial
+	@OneToMany(mappedBy = "cuentaahorro")
 	private List<Cuentaahorrohistorial> cuentaahorrohistorials;
 
-	//bi-directional many-to-one association to Tarjetadebitoasignadocuentaahorro
-	@OneToMany(mappedBy="cuentaahorro")
+	// bi-directional many-to-one association to
+	// Tarjetadebitoasignadocuentaahorro
+	@OneToMany(mappedBy = "cuentaahorro")
 	private List<Tarjetadebitoasignadocuentaahorro> tarjetadebitoasignadocuentaahorros;
 
-	//bi-directional many-to-one association to Titularcuenta
-	@OneToMany(mappedBy="cuentaahorro")
+	// bi-directional many-to-one association to Titularcuenta
+	@OneToMany(mappedBy = "cuentaahorro")
 	private List<Titularcuenta> titularcuentas;
 
 	public Cuentaahorro() {
@@ -80,14 +90,6 @@ public class Cuentaahorro implements Serializable {
 
 	public void setFechaapertura(Date fechaapertura) {
 		this.fechaapertura = fechaapertura;
-	}
-
-	public Integer getIdestadocuenta() {
-		return this.idestadocuenta;
-	}
-
-	public void setIdestadocuenta(Integer idestadocuenta) {
-		this.idestadocuenta = idestadocuenta;
 	}
 
 	public Integer getIdtipomoneda() {
@@ -118,40 +120,54 @@ public class Cuentaahorro implements Serializable {
 		return this.beneficiariocuentas;
 	}
 
-	public void setBeneficiariocuentas(List<Beneficiariocuenta> beneficiariocuentas) {
+	public void setBeneficiariocuentas(
+			List<Beneficiariocuenta> beneficiariocuentas) {
 		this.beneficiariocuentas = beneficiariocuentas;
 	}
 
-	public Beneficiariocuenta addBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta addBeneficiariocuenta(
+			Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().add(beneficiariocuenta);
 		beneficiariocuenta.setCuentaahorro(this);
 
 		return beneficiariocuenta;
 	}
 
-	public Beneficiariocuenta removeBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta removeBeneficiariocuenta(
+			Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().remove(beneficiariocuenta);
 		beneficiariocuenta.setCuentaahorro(null);
 
 		return beneficiariocuenta;
 	}
 
+	public Estadocuenta getEstadocuenta() {
+		return this.estadocuenta;
+	}
+
+	public void setEstadocuenta(Estadocuenta estadocuenta) {
+		this.estadocuenta = estadocuenta;
+	}
+
 	public List<Cuentaahorrohistorial> getCuentaahorrohistorials() {
 		return this.cuentaahorrohistorials;
 	}
 
-	public void setCuentaahorrohistorials(List<Cuentaahorrohistorial> cuentaahorrohistorials) {
+	public void setCuentaahorrohistorials(
+			List<Cuentaahorrohistorial> cuentaahorrohistorials) {
 		this.cuentaahorrohistorials = cuentaahorrohistorials;
 	}
 
-	public Cuentaahorrohistorial addCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
+	public Cuentaahorrohistorial addCuentaahorrohistorial(
+			Cuentaahorrohistorial cuentaahorrohistorial) {
 		getCuentaahorrohistorials().add(cuentaahorrohistorial);
 		cuentaahorrohistorial.setCuentaahorro(this);
 
 		return cuentaahorrohistorial;
 	}
 
-	public Cuentaahorrohistorial removeCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
+	public Cuentaahorrohistorial removeCuentaahorrohistorial(
+			Cuentaahorrohistorial cuentaahorrohistorial) {
 		getCuentaahorrohistorials().remove(cuentaahorrohistorial);
 		cuentaahorrohistorial.setCuentaahorro(null);
 
@@ -162,19 +178,24 @@ public class Cuentaahorro implements Serializable {
 		return this.tarjetadebitoasignadocuentaahorros;
 	}
 
-	public void setTarjetadebitoasignadocuentaahorros(List<Tarjetadebitoasignadocuentaahorro> tarjetadebitoasignadocuentaahorros) {
+	public void setTarjetadebitoasignadocuentaahorros(
+			List<Tarjetadebitoasignadocuentaahorro> tarjetadebitoasignadocuentaahorros) {
 		this.tarjetadebitoasignadocuentaahorros = tarjetadebitoasignadocuentaahorros;
 	}
 
-	public Tarjetadebitoasignadocuentaahorro addTarjetadebitoasignadocuentaahorro(Tarjetadebitoasignadocuentaahorro tarjetadebitoasignadocuentaahorro) {
-		getTarjetadebitoasignadocuentaahorros().add(tarjetadebitoasignadocuentaahorro);
+	public Tarjetadebitoasignadocuentaahorro addTarjetadebitoasignadocuentaahorro(
+			Tarjetadebitoasignadocuentaahorro tarjetadebitoasignadocuentaahorro) {
+		getTarjetadebitoasignadocuentaahorros().add(
+				tarjetadebitoasignadocuentaahorro);
 		tarjetadebitoasignadocuentaahorro.setCuentaahorro(this);
 
 		return tarjetadebitoasignadocuentaahorro;
 	}
 
-	public Tarjetadebitoasignadocuentaahorro removeTarjetadebitoasignadocuentaahorro(Tarjetadebitoasignadocuentaahorro tarjetadebitoasignadocuentaahorro) {
-		getTarjetadebitoasignadocuentaahorros().remove(tarjetadebitoasignadocuentaahorro);
+	public Tarjetadebitoasignadocuentaahorro removeTarjetadebitoasignadocuentaahorro(
+			Tarjetadebitoasignadocuentaahorro tarjetadebitoasignadocuentaahorro) {
+		getTarjetadebitoasignadocuentaahorros().remove(
+				tarjetadebitoasignadocuentaahorro);
 		tarjetadebitoasignadocuentaahorro.setCuentaahorro(null);
 
 		return tarjetadebitoasignadocuentaahorro;
@@ -200,6 +221,22 @@ public class Cuentaahorro implements Serializable {
 		titularcuenta.setCuentaahorro(null);
 
 		return titularcuenta;
+	}
+
+	public Personanatural getPersonanatural() {
+		return personanatural;
+	}
+
+	public void setPersonanatural(Personanatural personanatural) {
+		this.personanatural = personanatural;
+	}
+
+	public Personajuridica getPersonajuridica() {
+		return personajuridica;
+	}
+
+	public void setPersonajuridica(Personajuridica personajuridica) {
+		this.personajuridica = personajuridica;
 	}
 
 }

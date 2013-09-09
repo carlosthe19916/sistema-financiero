@@ -1,19 +1,26 @@
 package org.venturabank.managedbean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.NoneScoped;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 
 import org.ventura.model.Personanatural;
 import org.ventura.model.Titularcuenta;
 
+
 @ManagedBean
-@SessionScoped
-public class TitularesMB {
+@NoneScoped
+public class TitularesMB implements Serializable{
+
+	
+	private List<Titularcuenta> listTitularcuenta;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Integer cantidadRetirantes;
 
@@ -21,6 +28,8 @@ public class TitularesMB {
 	private Personanatural titularSeleccionado;
 
 	public TitularesMB() {
+		this.listTitularcuenta = new ArrayList<Titularcuenta>();
+		
 		this.titulares = new ArrayList<Personanatural>();
 		this.titularSeleccionado = new Personanatural();
 	}
@@ -52,5 +61,13 @@ public class TitularesMB {
 
 	public void setCantidadRetirantes(Integer cantidadRetirantes) {
 		this.cantidadRetirantes = cantidadRetirantes;
+	}
+
+	public List<Titularcuenta> getListTitularcuenta() {
+		return listTitularcuenta;
+	}
+
+	public void setListTitularcuenta(List<Titularcuenta> listTitularcuenta) {
+		this.listTitularcuenta = listTitularcuenta;
 	}
 }

@@ -2,6 +2,7 @@ package org.ventura.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -15,7 +16,6 @@ public class Tipoempresa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(unique=true, nullable=false)
 	private Integer idtipoempresa;
 
@@ -23,6 +23,10 @@ public class Tipoempresa implements Serializable {
 	private String denominacion;
 
 	private Boolean estado;
+
+	//bi-directional many-to-one association to Personajuridica
+	@OneToMany(mappedBy="tipoempresa")
+	private List<Personajuridica> personajuridicas;
 
 	public Tipoempresa() {
 	}
@@ -49,6 +53,28 @@ public class Tipoempresa implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+
+	public List<Personajuridica> getPersonajuridicas() {
+		return this.personajuridicas;
+	}
+
+	public void setPersonajuridicas(List<Personajuridica> personajuridicas) {
+		this.personajuridicas = personajuridicas;
+	}
+
+	public Personajuridica addPersonajuridica(Personajuridica personajuridica) {
+		getPersonajuridicas().add(personajuridica);
+		personajuridica.setTipoempresa(this);
+
+		return personajuridica;
+	}
+
+	public Personajuridica removePersonajuridica(Personajuridica personajuridica) {
+		getPersonajuridicas().remove(personajuridica);
+		personajuridica.setTipoempresa(null);
+
+		return personajuridica;
 	}
 
 }

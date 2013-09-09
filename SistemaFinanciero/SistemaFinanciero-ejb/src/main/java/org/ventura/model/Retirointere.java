@@ -2,6 +2,7 @@ package org.ventura.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -15,7 +16,6 @@ public class Retirointere implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(unique=true, nullable=false)
 	private Integer idretirointeres;
 
@@ -27,6 +27,10 @@ public class Retirointere implements Serializable {
 
 	@Column(nullable=false)
 	private Boolean estado;
+
+	//bi-directional many-to-one association to Cuentaplazofijo
+	@OneToMany(mappedBy="retirointere")
+	private List<Cuentaplazofijo> cuentaplazofijos;
 
 	public Retirointere() {
 	}
@@ -61,6 +65,28 @@ public class Retirointere implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+
+	public List<Cuentaplazofijo> getCuentaplazofijos() {
+		return this.cuentaplazofijos;
+	}
+
+	public void setCuentaplazofijos(List<Cuentaplazofijo> cuentaplazofijos) {
+		this.cuentaplazofijos = cuentaplazofijos;
+	}
+
+	public Cuentaplazofijo addCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) {
+		getCuentaplazofijos().add(cuentaplazofijo);
+		cuentaplazofijo.setRetirointere(this);
+
+		return cuentaplazofijo;
+	}
+
+	public Cuentaplazofijo removeCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) {
+		getCuentaplazofijos().remove(cuentaplazofijo);
+		cuentaplazofijo.setRetirointere(null);
+
+		return cuentaplazofijo;
 	}
 
 }
