@@ -31,11 +31,21 @@ public class PersonaNaturalMB implements Serializable {
 	// constructor
 	public PersonaNaturalMB() {
 		this.personaNatural = new Personanatural();
+
+		// Inicializar combos
+		this.comboSexo = new Combo<Sexo>();
+		this.comboEstadocivil = new Combo<Estadocivil>();
 	}
 
 	@PostConstruct
 	private void initValues() {
-		//Inicializar combos
+		// inicializar los combos
+		comboSexo.initValues("SELECT s FROM Sexo s");
+		comboEstadocivil.initValues("SELECT s FROM Estadocivil s");
+
+		// poner los valores de los combos a la persona natural
+		this.personaNatural.setSexo(comboSexo.getSelectedItem());
+		this.personaNatural.setEstadocivil(comboEstadocivil.getSelectedItem());
 	}
 
 	public Personanatural getPersonaNatural() {
