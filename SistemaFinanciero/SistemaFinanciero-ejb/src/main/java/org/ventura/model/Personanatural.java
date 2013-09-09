@@ -2,6 +2,7 @@ package org.ventura.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -67,6 +68,14 @@ public class Personanatural implements Serializable {
 	@OneToMany(mappedBy="personanatural")
 	private List<Personajuridica> personajuridicas;
 
+	@ManyToOne
+	@JoinColumn(name = "idsexo", insertable=false, updatable=false)
+	private Sexo sexo;
+	
+	@ManyToOne
+	@JoinColumn(name = "idestadocivil", insertable=false, updatable=false)
+	private Estadocivil estadocivil;
+	
 	public Personanatural() {
 	}
 
@@ -224,6 +233,22 @@ public class Personanatural implements Serializable {
 		personajuridica.setPersonanatural(null);
 
 		return personajuridica;
+	}
+
+	public Sexo getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
+
+	public Estadocivil getEstadocivil() {
+		return estadocivil;
+	}
+
+	public void setEstadocivil(Estadocivil estadocivil) {
+		this.estadocivil = estadocivil;
 	}
 
 }

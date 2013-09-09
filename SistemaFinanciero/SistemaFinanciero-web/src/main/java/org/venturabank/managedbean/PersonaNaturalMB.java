@@ -1,121 +1,65 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
-import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.NoneScoped;
 
-import org.ventura.facade.EstadocivilFacadeLocal;
 import org.ventura.facade.PersonanaturalFacadeLocal;
-import org.ventura.facade.SexoFacadeLocal;
 import org.ventura.model.Estadocivil;
 import org.ventura.model.Personanatural;
 import org.ventura.model.Sexo;
+import org.venturabank.util.Combo;
 
 @ManagedBean
 @NoneScoped
 public class PersonaNaturalMB implements Serializable {
 
-	@EJB
-	SexoFacadeLocal sexoFacadeLocal;
-	@EJB
-	private EstadocivilFacadeLocal estadoCivilFacadeLoal;
-	@EJB
-	PersonanaturalFacadeLocal personaNauralFacadeLocal;
-
-	
 	private static final long serialVersionUID = 1L;
 
-	private Personanatural oPersonaNatural;
-		
-	private Sexo oSexoSeleccionado;
-	private List<Sexo> listaSexos;
-	
-	private Estadocivil oEstadoCivilSeleccionado;
-	private List<Estadocivil> listaEstadoCivil;
+	@EJB
+	PersonanaturalFacadeLocal personaNaturalFacadeLocal;
 
+	private Personanatural personaNatural;
+
+	// combos
+	private Combo<Sexo> comboSexo;
+	private Combo<Estadocivil> comboEstadocivil;
 
 	// constructor
 	public PersonaNaturalMB() {
-		this.oPersonaNatural = new Personanatural();
-		setoSexoSeleccionado(new Sexo());
-		setoEstadoCivilSeleccionado(new Estadocivil());
-	}
-	
-	
-	public void metodoPrueba(){
-		System.out.println("Holaaaaaaaaaaaaaaa");
-		System.out.println(oPersonaNatural.getDni());
-		System.out.println(oPersonaNatural.getApellidopaterno());
-		System.out.println(oPersonaNatural.getApellidomaterno());
-		System.out.println(oPersonaNatural.getNombres());
-		System.out.println(oPersonaNatural.getFechanacimiento());
-		System.out.println(oPersonaNatural.getIdsexo());
-		
-		personaNauralFacadeLocal.create(oPersonaNatural);
-		
-	}
-	
-	
-	public void initListSexo(){
-		setListaSexos((List<Sexo>) sexoFacadeLocal.findAll());
-	}
-	
-	public void initListaEstadoCivil(){
-		setListaEstadoCivil((List<Estadocivil>) estadoCivilFacadeLoal.findAll());
-	}
-	
-
-	public Personanatural getPersonanatural() {
-		return oPersonaNatural;
+		this.personaNatural = new Personanatural();
 	}
 
-	public Sexo getoSexoSeleccionado() {
-		return oSexoSeleccionado;
+	@PostConstruct
+	private void initValues() {
+		//Inicializar combos
 	}
 
-
-	public void setoSexoSeleccionado(Sexo oSexoSeleccionado) {
-		this.oSexoSeleccionado = oSexoSeleccionado;
+	public Personanatural getPersonaNatural() {
+		return personaNatural;
 	}
 
-
-	public void setPersonanatural(Personanatural personanatural) {
-		this.oPersonaNatural = personanatural;
+	public void setPersonaNatural(Personanatural personaNatural) {
+		this.personaNatural = personaNatural;
 	}
 
-
-	public Estadocivil getoEstadoCivilSeleccionado() {
-		return oEstadoCivilSeleccionado;
+	public Combo<Sexo> getComboSexo() {
+		return comboSexo;
 	}
 
-
-	public void setoEstadoCivilSeleccionado(Estadocivil oEstadoCivilSeleccionado) {
-		this.oEstadoCivilSeleccionado = oEstadoCivilSeleccionado;
+	public void setComboSexo(Combo<Sexo> comboSexo) {
+		this.comboSexo = comboSexo;
 	}
 
-
-	public List<Sexo> getListaSexos() {
-		initListSexo();
-		return listaSexos;
+	public Combo<Estadocivil> getComboEstadocivil() {
+		return comboEstadocivil;
 	}
 
-
-	public void setListaSexos(List<Sexo> listaSexos) {
-		this.listaSexos = listaSexos;
-	}
-
-
-	public List<Estadocivil> getListaEstadoCivil() {
-		initListaEstadoCivil();
-		return listaEstadoCivil;
-	}
-
-
-	public void setListaEstadoCivil(List<Estadocivil> listaEstadoCivil) {
-		this.listaEstadoCivil = listaEstadoCivil;
+	public void setComboEstadocivil(Combo<Estadocivil> comboEstadocivil) {
+		this.comboEstadocivil = comboEstadocivil;
 	}
 
 }
