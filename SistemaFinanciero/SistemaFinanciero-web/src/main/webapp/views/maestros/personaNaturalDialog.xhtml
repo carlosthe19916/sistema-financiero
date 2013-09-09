@@ -23,7 +23,7 @@
 									<p:outputLabel>DNI:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtDniPN" value="#{personaNaturalMB.oPersonaNatural.dni}" />
+									<p:inputText id="txtDniPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.dni}" />
 								</td>
 							</tr>
 							<tr>
@@ -31,13 +31,13 @@
 									<p:outputLabel>Apellido Paterno:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtApellidoPaternoPN" value="#{personaNaturalMB.oPersonaNatural.apellidopaterno}" />
+									<p:inputText id="txtApellidoPaternoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.apellidopaterno}" />
 								</td>
 								<td>
 									<p:outputLabel>Apellido Materno:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtApellidoMaternoPN" value="#{personaNaturalMB.oPersonaNatural.apellidomaterno}" />
+									<p:inputText id="txtApellidoMaternoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.apellidomaterno}" />
 								</td>
 							</tr>
 							<tr>
@@ -45,23 +45,23 @@
 									<p:outputLabel>Nombres:</p:outputLabel>
 								</td>
 								<td colspan="3">
-									<p:inputText id="txtNombresPN" value="#{personaNaturalMB.oPersonaNatural.nombres}" size="71"/></td>
+									<p:inputText id="txtNombresPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.nombres}" size="71"/></td>
 							</tr>
 							<tr>
 								<td>
 									<p:outputLabel>Fecha Nacimiento:</p:outputLabel>
 								</td>
 								<td>
-									<p:calendar id="txtFechaNacimientoPN" value="#{personaNaturalMB.oPersonaNatural.fechanacimiento}" /> 
+									<p:calendar id="txtFechaNacimientoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.fechanacimiento}" /> 
 									<p:watermark for="txtFechaNacimientoPN" value="dd/mm/yyyy" />
 								</td>
 								<td>
 									<p:outputLabel>Sexo:</p:outputLabel>
 								</td>
 								<td>
-									<p:selectOneMenu value="#{personaNaturalMB.oSexoSeleccionado}">
+									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.oSexoSeleccionado}">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems value="#{personaNaturalMB.listaSexos}" var="val" itemLabel="#{val.denominacion}"/>
+										<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.listaSexos}" var="val" itemLabel="#{val.denominacion}"/>
 									</p:selectOneMenu>
 								</td>
 							</tr>

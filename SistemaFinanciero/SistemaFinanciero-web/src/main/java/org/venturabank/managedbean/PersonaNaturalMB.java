@@ -3,6 +3,7 @@ package org.venturabank.managedbean;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.NoneScoped;
@@ -41,8 +42,9 @@ public class PersonaNaturalMB implements Serializable {
 	public PersonaNaturalMB() {
 		this.oPersonaNatural = new Personanatural();
 		setoSexoSeleccionado(new Sexo());
-		setoEstadoCivilSeleccionado(new Estadocivil());
+		setoEstadoCivilSeleccionado(new Estadocivil());	
 	}
+	
 	
 	
 	public void metodoPrueba(){
@@ -58,6 +60,11 @@ public class PersonaNaturalMB implements Serializable {
 		
 	}
 	
+	@PostConstruct
+	private void initValues(){
+		initListSexo();
+		initListaEstadoCivil();
+	}
 	
 	public void initListSexo(){
 		setListaSexos((List<Sexo>) sexoFacadeLocal.findAll());
@@ -67,7 +74,6 @@ public class PersonaNaturalMB implements Serializable {
 		setListaEstadoCivil((List<Estadocivil>) estadoCivilFacadeLoal.findAll());
 	}
 	
-
 	public Personanatural getPersonanatural() {
 		return oPersonaNatural;
 	}
@@ -98,7 +104,6 @@ public class PersonaNaturalMB implements Serializable {
 
 
 	public List<Sexo> getListaSexos() {
-		initListSexo();
 		return listaSexos;
 	}
 
@@ -109,7 +114,6 @@ public class PersonaNaturalMB implements Serializable {
 
 
 	public List<Estadocivil> getListaEstadoCivil() {
-		initListaEstadoCivil();
 		return listaEstadoCivil;
 	}
 
