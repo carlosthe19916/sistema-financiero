@@ -15,6 +15,8 @@ public interface EstadocivilFacadeLocal {
 	public Estadocivil create(Estadocivil oEstadocivil);
 
 	public Estadocivil find(Integer id);
+	
+	public Collection<Estadocivil> findAll();
 
 	public void delete(Estadocivil oEstadocivil);
 

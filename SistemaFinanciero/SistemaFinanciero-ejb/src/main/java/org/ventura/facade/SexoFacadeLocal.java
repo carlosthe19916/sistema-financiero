@@ -15,6 +15,8 @@ public interface SexoFacadeLocal {
 	public Sexo create(Sexo oSexo);
 
 	public Sexo find(Integer id);
+	
+	public Collection<Sexo> findAll();
 
 	public void delete(Sexo oSexo);
 

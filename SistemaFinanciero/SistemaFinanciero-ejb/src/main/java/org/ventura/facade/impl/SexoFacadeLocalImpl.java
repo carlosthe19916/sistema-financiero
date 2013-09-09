@@ -59,4 +59,10 @@ public class SexoFacadeLocalImpl implements SexoFacadeLocal {
 		return oSexoDAO.findByNamedQuery(namedQueryName, parameters);
 	}
 
+	@Override
+	public Collection<Sexo> findAll() {
+		// TODO Auto-generated method stub
+		return oSexoDAO.findAll();
+	}
+
 }

@@ -58,4 +58,10 @@ public class EstadocivilFacadeLocalImpl implements EstadocivilFacadeLocal {
 		return oEstadocivilDAO.findByNamedQuery(namedQueryName, parameters);
 	}
 
+	@Override
+	public Collection<Estadocivil> findAll() {
+		// TODO Auto-generated method stub
+		return oEstadocivilDAO.findAll();
+	}
+
 }
