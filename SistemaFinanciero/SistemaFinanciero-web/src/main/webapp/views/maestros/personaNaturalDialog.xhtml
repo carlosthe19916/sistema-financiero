@@ -9,7 +9,7 @@
 
 <ui:composition>
 <h:form>
-	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="450">		
+	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="480">		
 		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -23,7 +23,7 @@
 									<p:outputLabel>DNI:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtDniPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.dni}" />
+									<p:inputText id="txtDniPN" value="#{personaNaturalMB.oPersonaNatural.dni}" />
 								</td>
 							</tr>
 							<tr>
@@ -31,13 +31,13 @@
 									<p:outputLabel>Apellido Paterno:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtApellidoPaternoPN" />
+									<p:inputText id="txtApellidoPaternoPN" value="#{personaNaturalMB.oPersonaNatural.apellidopaterno}" />
 								</td>
 								<td>
 									<p:outputLabel>Apellido Materno:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtApellidoMaternoPN"  />
+									<p:inputText id="txtApellidoMaternoPN" value="#{personaNaturalMB.oPersonaNatural.apellidomaterno}" />
 								</td>
 							</tr>
 							<tr>
@@ -45,24 +45,23 @@
 									<p:outputLabel>Nombres:</p:outputLabel>
 								</td>
 								<td colspan="3">
-									<p:inputText id="txtNombresPN"  size="71" /></td>
+									<p:inputText id="txtNombresPN" value="#{personaNaturalMB.oPersonaNatural.nombres}" size="71"/></td>
 							</tr>
 							<tr>
 								<td>
 									<p:outputLabel>Fecha Nacimiento:</p:outputLabel>
 								</td>
 								<td>
-									<p:calendar id="txtFechaNacimientoPN"  /> 
+									<p:calendar id="txtFechaNacimientoPN" value="#{personaNaturalMB.oPersonaNatural.fechanacimiento}" /> 
 									<p:watermark for="txtFechaNacimientoPN" value="dd/mm/yyyy" />
 								</td>
 								<td>
 									<p:outputLabel>Sexo:</p:outputLabel>
 								</td>
 								<td>
-									<p:selectOneMenu>
+									<p:selectOneMenu value="#{personaNaturalMB.oSexoSeleccionado}">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItem itemLabel="Masculino" itemValue="1" />
-										<f:selectItem itemLabel="Femenino" itemValue="2" />
+										<f:selectItems value="#{personaNaturalMB.listaSexos}" var="val" itemLabel="#{val.denominacion}"/>
 									</p:selectOneMenu>
 								</td>
 							</tr>
@@ -77,17 +76,30 @@
 					</div>
 					<div class="sf-agrupador-content-table">
 						<table>
+							
 							<tr>
 								<td>
-									<p:outputLabel>Ocupación:</p:outputLabel>
+									<p:outputLabel>Estado Civil:</p:outputLabel>
+								</td>
+								<td>
+									<p:selectOneMenu value="#{personaNaturalMB.oEstadoCivilSeleccionado}">
+										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										<f:selectItems value="#{personaNaturalMB.listaEstadoCivil}" var="val1" itemLabel="#{val1.denominacion}"/>
+									</p:selectOneMenu>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<p:outputLabel>OcupaciÃ³n:</p:outputLabel>
 								</td>
 								<td colspan="3">
-									<p:inputText id="txtOcupacionPN"  />
+									<p:inputText id="txtOcupacionPN"  size="71"/>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p:outputLabel>Dirección:</p:outputLabel>
+									<p:outputLabel>DirecciÃ³n:</p:outputLabel>
 								</td>
 								<td colspan="5">
 									<p:inputText id="txtDireccionPN"  size="71">
@@ -113,7 +125,7 @@
 									<p:outputLabel>Celular:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtCelularPN"  />
+									<p:inputText id="txtCelularPN" />
 								</td>
 							</tr>
 							<tr>
@@ -121,7 +133,7 @@
 									<p:outputLabel>Email:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText id="txtEmailPN" size="73" />
+									<p:inputText id="txtEmailPN"  size="73" />
 								</td>
 							</tr>
 						</table>
@@ -129,7 +141,8 @@
 				</div>
 			</div>
 		
-			<div class="sf-buttons">							
+			<div class="sf-buttons">
+				<p:commandButton update=":#{componentToUpdated}" onclick="#{componentName}.hide()" value="Prueba" actionListener="#{personaNaturalMB.metodoPrueba()}" styleClass="action green" />							
 				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>
