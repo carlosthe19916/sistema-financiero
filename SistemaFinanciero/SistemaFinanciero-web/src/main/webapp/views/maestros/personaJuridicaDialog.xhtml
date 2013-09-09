@@ -6,126 +6,142 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <ui:composition>
 	<h:form>
-		<p:dialog id="#{componentName}" header="Persona Jurídica" widgetVar="#{componentName}" modal="true" height="400">
+		<p:dialog id="#{componentName}" header="Persona Jurídica"
+			widgetVar="#{componentName}" modal="true" height="630">
+
+
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
 					<div class="sf-agrupador-content-cabecera">
 						<h3>DATOS DE LA EMPRESA</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
-						<table>				
+						<table>
 							<tr>
-								<td>
-									<p:outputLabel>RUC(*):</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{personaJuridicaManagedBean.ruc}"/>
+								<td><p:outputLabel>RUC:</p:outputLabel></td>
+								<td><p:inputText id="txtRucPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.ruc}" /></td>
+							</tr>
+							<tr>
+								<td><p:outputLabel>Razon Social:</p:outputLabel></td>
+								<td><p:inputText id="txtRazonsocialPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.razonsocial}" /></td>
+							</tr>
+							<tr>
+								<td><p:outputLabel>Nombre Comercial:</p:outputLabel></td>
+								<td><p:inputText id="txtNombreComercialPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.nombrecomercial}" />
 								</td>
 							</tr>
 							<tr>
-								<td>
-									<p:outputLabel>Razon Social(*):</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{personaJuridicaManagedBean.razonSocial}"/>
+								<td><p:outputLabel>Actividad Principal:</p:outputLabel></td>
+								<td><p:inputText id="txtActividadPrincipalPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.actividadprincipal}" />
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<p:outputLabel>Nombre Comercial:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{personaJuridicaManagedBean.nombreComercial}"/>
-								</td>
-							</tr>							
-							<tr>
-								<td>
-									<p:outputLabel>Actividad Principal(*):</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{personaJuridicaManagedBean.actividadPrincipal}"/>
-								</td>
-							</tr>																						
 						</table>
 					</div>
 				</div>
 			</div>
+
+			<div class="sf-agrupador">
+				<div class="sf-agrupador-content">
+					<div class="sf-agrupador-content-cabecera">
+						<h3>DATOS COMERCIALES DE LA EMPRESA</h3>
+					</div>
+					<div class="sf-agrupador-content-table">
+						<table>
+							<tr>
+								<td><p:outputLabel>Tipo de empresa:</p:outputLabel></td>
+							</tr>
+
+							<tr>
+								<td><p:selectOneRadio
+										value="#{personaJuridicaMB.tipoempresaSeleccionada}">
+										<f:selectItems value="#{personaJuridicaMB.listaTipoempresas}"
+											var="variable" itemLabel="#{variable.denominacion}" />
+									</p:selectOneRadio></td>
+
+							</tr>
+
+							<tr>
+								<td><p:outputLabel>Fin social:</p:outputLabel></td>
+							</tr>
+							<tr>
+								<td><p:selectOneRadio id="opFinSocialPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.razonsocial}">
+										<f:selectItem itemLabel="SIN FINES DE LUCRO" itemValue="1" />
+										<f:selectItem itemLabel="CON FINES DE LUCRO" itemValue="2" />
+									</p:selectOneRadio></td>
+							</tr>
+
+
+						</table>
+					</div>
+				</div>
+			</div>
+
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
 					<div class="sf-agrupador-content-cabecera">
 						<h3>DATOS ADICIONALES</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
-						<table>				
+						<table>
 							<tr>
-								<td>
-									<p:outputLabel>Direccion:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{personaJuridicaManagedBean.direccion}"/>
-								</td>
+								<td colspan="1"><p:outputLabel>Direccion:</p:outputLabel></td>
+								<td><p:inputText id="txtDireccionPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.direccion}"
+										size="50" /></td>
 							</tr>
-							
+
 							<tr>
-								<td>
-									<p:outputLabel>Referencia:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{personaJuridicaManagedBean.referencia}"/>
-								</td>
+								<td colspan="1"><p:outputLabel>Referencia:</p:outputLabel></td>
+								<td><p:inputText id="txtReferenciaPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.referencia}"
+										size="50" /></td>
 							</tr>
 							<tr>
-								<td>
-									<p:outputLabel>Telefono:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{personaJuridicaManagedBean.telefono}"/>
-								</td>
+								<td colspan="1"><p:outputLabel>Email:</p:outputLabel></td>
+								<td><p:inputText id="TxtEmailPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.email}" size="50" /></td>
 							</tr>
-							
+
 							<tr>
-								<td>
-									<p:outputLabel>Celular:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{personaJuridicaManagedBean.celular}"/>
-								</td>
+								<td><p:outputLabel>Telefono:</p:outputLabel></td>
+								<td><p:inputText id="txtTelefonoPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.telefono}" size="" /></td>
+								<td><p:outputLabel>Celular:</p:outputLabel></td>
+								<td><p:inputText id="txtCelularPJ"
+										value="#{personaJuridicaMB.oPersonajuridica.celular}" size="" /></td>
 							</tr>
-							
+
 							<tr>
-								<td>
-									<p:outputLabel>Email:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{personaJuridicaManagedBean.email}"/>
-								</td>
+
 							</tr>
-							
-							<tr>
-								<td colspan="6"><p:outputLabel>REPRESENTANTE LEGAL</p:outputLabel>
-								</td>
-							</tr>
-							
-							<tr>
-								<td colspan="6"><p:outputLabel>ACCIONISTAS</p:outputLabel>
-								</td>
-							</tr>																						
+
+
 						</table>
 					</div>
 				</div>
 			</div>
 
-			<div class="sf-buttons">			
-					<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
-					<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
-			</div>					
-							
+			<div class="sf-buttons">
+				<p:commandButton value="prueba" update=":#{componentToUpdated}" oncomplete="#{componentName}.hide()"
+					actionListener="#{personaJuridicaMB.insertarPersonaJuridica()}" />
+				<p:commandButton update=":#{componentToUpdated}" value="Aceptar"
+					oncomplete="#{componentName}.hide()" styleClass="action green"
+					onclick="#{componentName}.hide()" />
+				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()"
+					styleClass="action" />
+			</div>
+
 		</p:dialog>
 	</h:form>
-	
+
 </ui:composition>
 </html>
 						
