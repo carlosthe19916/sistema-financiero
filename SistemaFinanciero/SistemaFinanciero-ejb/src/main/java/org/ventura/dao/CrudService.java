@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -35,6 +37,7 @@ import javax.persistence.Query;
  * 
  * @author adam-bien.com
  */
+
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class CrudService {

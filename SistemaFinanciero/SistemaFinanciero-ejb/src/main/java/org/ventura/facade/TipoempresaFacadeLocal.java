@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
-
 import org.ventura.model.Tipoempresa;
 
-@Remote
+@Local
 public interface TipoempresaFacadeLocal {
 	
 	public Tipoempresa create(Tipoempresa oTipoempresa);
 
 	public Tipoempresa find(Integer id);
+	
+	public Collection<Tipoempresa> findAll(); 
 
 	public void delete(Tipoempresa oTipoempresa);
 

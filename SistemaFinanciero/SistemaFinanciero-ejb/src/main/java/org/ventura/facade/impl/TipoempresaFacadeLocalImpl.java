@@ -58,4 +58,10 @@ public class TipoempresaFacadeLocalImpl implements TipoempresaFacadeLocal {
 		return oTipoempresaDAO.findByNamedQuery(namedQueryName, parameters);
 	}
 
+	@Override
+	public Collection<Tipoempresa> findAll() {
+			return oTipoempresaDAO.findAll();
+	
+	}
+
 }

@@ -7,9 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.NoneScoped;
 
+import org.ventura.facade.BeneficiariocuentaFacadeLocal;
 import org.ventura.model.Beneficiariocuenta;
 import org.ventura.model.Personanatural;
 
@@ -19,19 +21,41 @@ public class BeneficiariosMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<Beneficiariocuenta> oListBeneficiariocuenta;
+	@EJB
+	private BeneficiariocuentaFacadeLocal beneficiariocuentaFacadeLocal;
+	private Beneficiariocuenta beneficiariocuenta;
+	private List<Beneficiariocuenta> listBeneficiariocuenta;
 
+	// CONTRUCTOR
 	public BeneficiariosMB() {
-		// TODO Auto-generated constructor stub
-		oListBeneficiariocuenta = new ArrayList<Beneficiariocuenta>();
+		this.beneficiariocuenta = new Beneficiariocuenta();
+		this.listBeneficiariocuenta = new ArrayList<Beneficiariocuenta>();
 	}
 
-	public List<Beneficiariocuenta> getoListBeneficiariocuenta() {
-		return oListBeneficiariocuenta;
+	public BeneficiariocuentaFacadeLocal getBeneficiariocuentaFacadeLocal() {
+		return beneficiariocuentaFacadeLocal;
 	}
 
-	public void setoListBeneficiariocuenta(
-			List<Beneficiariocuenta> oListBeneficiariocuenta) {
-		this.oListBeneficiariocuenta = oListBeneficiariocuenta;
+	public void setBeneficiariocuentaFacadeLocal(
+			BeneficiariocuentaFacadeLocal beneficiariocuentaFacadeLocal) {
+		this.beneficiariocuentaFacadeLocal = beneficiariocuentaFacadeLocal;
 	}
+
+	public Beneficiariocuenta getBeneficiariocuenta() {
+		return beneficiariocuenta;
+	}
+
+	public void setBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
+		this.beneficiariocuenta = beneficiariocuenta;
+	}
+
+	public List<Beneficiariocuenta> getListBeneficiariocuenta() {
+		return listBeneficiariocuenta;
+	}
+
+	public void setListBeneficiariocuenta(
+			List<Beneficiariocuenta> listBeneficiariocuenta) {
+		this.listBeneficiariocuenta = listBeneficiariocuenta;
+	}
+
 }
