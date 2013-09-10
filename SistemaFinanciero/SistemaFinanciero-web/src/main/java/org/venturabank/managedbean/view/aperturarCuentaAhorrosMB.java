@@ -27,16 +27,16 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	private Cuentaahorro cuentaahorro;
 	
 	@ManagedProperty(value = "#{personaNaturalMB}")
-	private PersonaNaturalMB personaNaturalMB;
+	private PersonaNaturalMB personaNatural;
 
 	@ManagedProperty(value = "#{personaJuridicaMB}")
-	private PersonaJuridicaMB personaJuridicaMB;
+	private PersonaJuridicaMB personaJuridica;
 	
 	@ManagedProperty(value = "#{titularesMB}")
-	private TitularesMB titularesMB;
+	private TitularesMB titulares;
 
 	@ManagedProperty(value = "#{beneficiariosMB}")
-	private BeneficiariosMB beneficiariosMB;
+	private BeneficiariosMB beneficiarios;
 
 	//Constructor
 	public aperturarCuentaAhorrosMB(){
@@ -45,10 +45,10 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	
 	@PostConstruct
 	private void initValues(){
-		this.cuentaahorro.setPersonanatural(personaNaturalMB.getPersonanatural());
-		this.cuentaahorro.setPersonajuridica(personaJuridicaMB.getoPersonajuridica());
-		this.cuentaahorro.setTitularcuentas(titularesMB.getListTitularcuenta());
-		this.cuentaahorro.setBeneficiariocuentas(beneficiariosMB.getoListBeneficiariocuenta());
+		this.cuentaahorro.setPersonanatural(personaNatural.getPersonaNatural());
+		this.cuentaahorro.setPersonajuridica(personaJuridica.getoPersonajuridica());
+		this.cuentaahorro.setTitularcuentas(titulares.getListTitularcuenta());
+		this.cuentaahorro.setBeneficiariocuentas(beneficiarios.getListBeneficiariocuenta());
 	}
 	
 	//crear cuenta Ahorro
@@ -56,6 +56,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		cuentaahorroFacadeLocal.create(cuentaahorro);
 	}
 
+	//GETTERS AND SETTERS
 	public CuentaahorroFacadeLocal getCuentaahorroFacadeLocal() {
 		return cuentaahorroFacadeLocal;
 	}
@@ -74,35 +75,35 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	}
 
 	public PersonaNaturalMB getPersonaNaturalMB() {
-		return personaNaturalMB;
+		return personaNatural;
 	}
 
 	public void setPersonaNaturalMB(PersonaNaturalMB personaNaturalMB) {
-		this.personaNaturalMB = personaNaturalMB;
+		this.personaNatural = personaNaturalMB;
 	}
 
 	public PersonaJuridicaMB getPersonaJuridicaMB() {
-		return personaJuridicaMB;
+		return personaJuridica;
 	}
 
 	public void setPersonaJuridicaMB(PersonaJuridicaMB personaJuridicaMB) {
-		this.personaJuridicaMB = personaJuridicaMB;
+		this.personaJuridica = personaJuridicaMB;
 	}
 
 	public TitularesMB getTitularesMB() {
-		return titularesMB;
+		return titulares;
 	}
 
 	public void setTitularesMB(TitularesMB titularesMB) {
-		this.titularesMB = titularesMB;
+		this.titulares = titularesMB;
 	}
 
 	public BeneficiariosMB getBeneficiariosMB() {
-		return beneficiariosMB;
+		return beneficiarios;
 	}
 
 	public void setBeneficiariosMB(BeneficiariosMB beneficiariosMB) {
-		this.beneficiariosMB = beneficiariosMB;
+		this.beneficiarios = beneficiariosMB;
 	}
 	
 

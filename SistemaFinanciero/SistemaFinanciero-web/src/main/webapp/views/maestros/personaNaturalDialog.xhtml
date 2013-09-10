@@ -23,7 +23,7 @@
 									<p:outputLabel>DNI:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtDniPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.dni}" />
+									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" />
 								</td>
 							</tr>
 							<tr>
@@ -31,13 +31,13 @@
 									<p:outputLabel>Apellido Paterno:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtApellidoPaternoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.apellidopaterno}" />
+									<p:inputText alue="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidopaterno}" />
 								</td>
 								<td>
 									<p:outputLabel>Apellido Materno:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtApellidoMaternoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.apellidomaterno}" />
+									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidomaterno}" />
 								</td>
 							</tr>
 							<tr>
@@ -45,23 +45,23 @@
 									<p:outputLabel>Nombres:</p:outputLabel>
 								</td>
 								<td colspan="3">
-									<p:inputText id="txtNombresPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.nombres}" size="71"/></td>
+									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.nombres}" size="71"/></td>
 							</tr>
 							<tr>
 								<td>
 									<p:outputLabel>Fecha Nacimiento:</p:outputLabel>
 								</td>
 								<td>
-									<p:calendar id="txtFechaNacimientoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personanatural.fechanacimiento}" /> 
+									<p:calendar id="txtFechaNacimientoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" /> 
 									<p:watermark for="txtFechaNacimientoPN" value="dd/mm/yyyy" />
 								</td>
 								<td>
 									<p:outputLabel>Sexo:</p:outputLabel>
 								</td>
 								<td>
-									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.oSexoSeleccionado}">
+									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.selectedItem}">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.listaSexos}" var="val" itemLabel="#{val.denominacion}"/>
+										<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.items}" var="val" itemLabel="#{val.denominacion}"/>
 									</p:selectOneMenu>
 								</td>
 							</tr>
@@ -82,27 +82,27 @@
 									<p:outputLabel>Estado Civil:</p:outputLabel>
 								</td>
 								<td>
-									<p:selectOneMenu value="#{personaNaturalMB.oEstadoCivilSeleccionado}">
+									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadocivil.selectedItem}">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems value="#{personaNaturalMB.listaEstadoCivil}" var="val1" itemLabel="#{val1.denominacion}"/>
+										<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadocivil.items}" var="val" itemLabel="#{val.denominacion}"/>
 									</p:selectOneMenu>
 								</td>
 							</tr>
 							
 							<tr>
 								<td>
-									<p:outputLabel>OcupaciÃ³n:</p:outputLabel>
+									<p:outputLabel>Ocupacion:</p:outputLabel>
 								</td>
 								<td colspan="3">
-									<p:inputText id="txtOcupacionPN"  size="71"/>
+									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.ocupacion}"  size="71"/>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p:outputLabel>DirecciÃ³n:</p:outputLabel>
+									<p:outputLabel>Direccion:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText id="txtDireccionPN"  size="71">
+									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.direccion}" size="71">
 								</p:inputText></td>
 							</tr>
 							<tr>
@@ -110,7 +110,7 @@
 									<p:outputLabel>Referencia:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText id="txtReferenciaPN"  size="71" />
+									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.referencia}"  size="71" />
 								</td>
 							</tr>
 		
@@ -119,13 +119,13 @@
 									<p:outputLabel>Telefono:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtTelefonoPN"  />
+									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.telefono}" />
 								</td>
 								<td>
 									<p:outputLabel>Celular:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtCelularPN" />
+									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.celular}" />
 								</td>
 							</tr>
 							<tr>
@@ -133,7 +133,7 @@
 									<p:outputLabel>Email:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText id="txtEmailPN"  size="73" />
+									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.email}"  size="73" />
 								</td>
 							</tr>
 						</table>
@@ -141,8 +141,7 @@
 				</div>
 			</div>
 		
-			<div class="sf-buttons">
-				<p:commandButton update=":#{componentToUpdated}" onclick="#{componentName}.hide()" value="Prueba" actionListener="#{personaNaturalMB.metodoPrueba()}" styleClass="action green" />							
+			<div class="sf-buttons">											
 				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>
