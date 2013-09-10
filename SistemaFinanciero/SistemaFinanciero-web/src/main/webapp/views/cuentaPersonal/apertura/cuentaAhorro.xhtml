@@ -41,18 +41,26 @@
 		</div>
 
 		<!-- PersonaNatural -->
-		<h:panelGrid id="panelPersonaNatural">
-			<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
-				<ui:param name="componentName" value="personaNatural" />
-				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
-			</ui:include>
-			<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
-				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated" value="personaNatural" />
-			</ui:include>
-		</h:panelGrid>
+		<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
+			<ui:param name="componentName" value="personaNatural" />
+			<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+		</ui:include>
+		<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
+			<ui:param name="componentName" value="dlgPersonaNatural" />
+			<ui:param name="componentToUpdated" value="personaNatural" />
+		</ui:include>
 		<!-- end PersonaNatural -->
 
+		<!-- Titulares -->
+		<ui:include src="/views/maestros/titularesResumen.xhtml">
+			<ui:param name="componentName" value="titulares" />
+			<ui:param name="editarOutputDialog" value="dlgTitulares" />
+		</ui:include>
+		<ui:include src="/views/maestros/titularesDialog.xhtml">
+			<ui:param name="componentName" value="dlgTitulares" />
+			<ui:param name="componentToUpdated" value="titulares" />
+		</ui:include>
+		<!-- end PersonaNatural -->
 
 
 	</ui:define>

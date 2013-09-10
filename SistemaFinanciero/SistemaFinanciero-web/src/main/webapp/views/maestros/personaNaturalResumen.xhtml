@@ -42,7 +42,9 @@
 									<p:outputLabel value="Fecha Nacimiento:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" styleClass="sf-label-bold" />
+									<h:outputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" styleClass="sf-label-bold">
+										<f:convertDateTime pattern="dd/MM/YYYY"/>
+									</h:outputText>									
 								</td>
 								<td>
 									<p:outputLabel value="Sexo:" />
@@ -53,10 +55,13 @@
 							</tr>	
 							<tr>
 								<td>
+									<p:outputLabel value="Estado Civil:" />
+								</td>
+								<td><p:outputLabel value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>
+								<td>
 									<p:outputLabel value="Ocupación:" />
 								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.ocupacion}" styleClass="sf-label-bold" /></td>
+								<td><p:outputLabel value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.ocupacion}" styleClass="sf-label-bold" /></td>
 							</tr>						
 							<tr>
 								<td>

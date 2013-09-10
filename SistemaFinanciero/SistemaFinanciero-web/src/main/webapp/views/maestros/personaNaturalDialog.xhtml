@@ -9,7 +9,7 @@
 
 <ui:composition>
 <h:form>
-	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="480">		
+	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="500">		
 		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -85,7 +85,7 @@
 									<p:outputLabel>Estado Civil:</p:outputLabel>
 								</td>
 								<td>
-									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadoCivil.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeSexo}">
+									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadoCivil.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeEstadoCivil}">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadoCivil.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
 										<p:ajax></p:ajax>

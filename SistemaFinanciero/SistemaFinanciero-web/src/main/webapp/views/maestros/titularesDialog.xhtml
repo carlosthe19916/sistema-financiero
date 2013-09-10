@@ -9,7 +9,7 @@
 
 <ui:composition>
 	<h:form>
-		<p:dialog id="titularesDialog" header="Titulares" widgetVar="titularesDialog" modal="true" height="400">
+		<p:dialog id="#{componentName}" header="Titulares" widgetVar="#{componentName}" modal="true" height="400">
 
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -20,7 +20,7 @@
 						<table>
 							<tr>
 								<td><p:outputLabel>Cantidad de Retirantes:</p:outputLabel></td>
-								<td><p:inputText /></td>
+								<td><p:inputText value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}"/></td>
 							</tr>
 							<tr>
 								<td colspan="2">
@@ -47,8 +47,7 @@
 										</div>
 									</div>
 									<div>
-										<p:dataTable id="tablaTitulares" var="titular" value="#{titularesMB.titulares}" selection="#{titularesMB.titularSeleccionado}"
-											rowKey="#{titular.dni}" editable="true">
+										<p:dataTable id="tablaTitulares" var="titular" value="#{aperturarCuentaAhorrosMB.titularesMB.listTitularcuenta}">
 											
 											<p:column headerText="DNI(*)" width="50">
 												<p:cellEditor>
@@ -63,10 +62,10 @@
 											<p:column headerText="Apellido Paterno" width="60">
 												<p:cellEditor>
 													<f:facet name="output">
-														<h:outputText value="#{titular.apellidopaterno}" />
+														<h:outputText value="#{titular.personanatural.apellidopaterno}" />
 													</f:facet>
 													<f:facet name="input">
-														<p:inputText value="#{titular.apellidopaterno}"
+														<p:inputText value="#{titular.personanatural.apellidopaterno}"
 															style="width:100%" />
 													</f:facet>
 												</p:cellEditor>
@@ -74,21 +73,20 @@
 											<p:column headerText="Apellido Materno" width="60">
 												<p:cellEditor>
 													<f:facet name="output">
-														<h:outputText value="#{titular.apellidomaterno}" />
+														<h:outputText value="#{titular.personanatural.apellidomaterno}" />
 													</f:facet>
 													<f:facet name="input">
-														<p:inputText value="#{titular.apellidomaterno}"
-															style="width:100%" />
+														<p:inputText value="#{titular.personanatural.apellidomaterno}"/>
 													</f:facet>
 												</p:cellEditor>
 											</p:column>
 											<p:column headerText="Nombres" width="100">
 												<p:cellEditor>
 													<f:facet name="output">
-														<h:outputText value="#{titular.nombres}" />
+														<h:outputText value="#{titular.personanatural.nombres}" />
 													</f:facet>
 													<f:facet name="input">
-														<p:inputText value="#{titular.nombres}" style="width:100%" />
+														<p:inputText value="#{titular.personanatural.nombres}" />
 													</f:facet>
 												</p:cellEditor>
 											</p:column>
@@ -102,8 +100,8 @@
 						</table>
 					</div>
 					<div class="sf-buttons">
-						<p:commandButton value="Aceptar" update=":titularesResumen" oncomplete="titularesDialog.hide()" styleClass="action green" />
-						<p:commandButton value="Cancelar" onclick="titularesDialog.hide()" styleClass="action" />				
+						<p:commandButton value="Aceptar" update=":#{componentToUpdated}" oncomplete="#{componentName}.hide()" styleClass="action green" />
+						<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 					</div>
 				</div>
 			</div>

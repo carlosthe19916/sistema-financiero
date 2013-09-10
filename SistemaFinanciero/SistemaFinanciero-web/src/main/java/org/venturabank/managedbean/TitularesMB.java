@@ -20,17 +20,27 @@ public class TitularesMB implements Serializable {
 
 	@EJB
 	TitularcuentaFacadeLocal facadeLocal;
-	Titularcuenta titularcuenta;
-	List<Titularcuenta> listTitularcuenta;
+	
+	private Integer cantidadRetirantes;
+	private Titularcuenta titularcuenta;
+	private List<Titularcuenta> listTitularcuenta;
 
 	public TitularesMB() {
+		this.cantidadRetirantes = new Integer(0);
 		this.titularcuenta = new Titularcuenta();
 		this.listTitularcuenta = new ArrayList<Titularcuenta>();
 	}
+	
+	public void addTitular(){
+		this.listTitularcuenta.add(new Titularcuenta());
+	}
 
-	public void addTitular() {
-		Titularcuenta titularcuenta = new Titularcuenta();
-		listTitularcuenta.add(titularcuenta);
+	public Integer getCantidadRetirantes() {
+		return cantidadRetirantes;
+	}
+
+	public void setCantidadRetirantes(Integer cantidadRetirantes) {
+		this.cantidadRetirantes = cantidadRetirantes;
 	}
 
 	public Titularcuenta getTitularcuenta() {
@@ -48,5 +58,6 @@ public class TitularesMB implements Serializable {
 	public void setListTitularcuenta(List<Titularcuenta> listTitularcuenta) {
 		this.listTitularcuenta = listTitularcuenta;
 	}
+
 
 }

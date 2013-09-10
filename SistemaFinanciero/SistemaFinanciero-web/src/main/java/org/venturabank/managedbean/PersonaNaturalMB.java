@@ -47,6 +47,11 @@ public class PersonaNaturalMB implements Serializable {
 		Integer key = (Integer) event.getNewValue();
 		this.personaNatural.setSexo(comboSexo.getObjectItemSelected(key));
 	}
+	
+	public void changeEstadoCivil(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		this.personaNatural.setEstadocivil(comboEstadoCivil.getObjectItemSelected(key));
+	}
 
 	public Personanatural getPersonaNatural() {
 		return personaNatural;

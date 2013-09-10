@@ -8,10 +8,10 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
-	<p:panel id="titularesResumen">
-		<div class="sf-agrupador" >
+	<h:panelGroup id="#{componentName}">
+		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<h:outputLink onclick="titularesDialog.show();return false;">Editar</h:outputLink>
+				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -21,13 +21,13 @@
 					<table>
 						<tr>
 							<td><p:outputLabel value="Cantidad de Retirantes:" /></td>
-							<td><p:outputLabel /></td>
+							<td><p:outputLabel value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}"/></td>
 						</tr>
 						<tr>
 							<td><p:outputLabel value="Titulares:" /></td>
-							<td>							
-								<p:dataList var="titulares" type="ordered" itemType="1">  
-								    <p:outputLabel value="#{titulares}"/> 
+							<td>
+								<p:dataList var="titulares" type="ordered" itemType="1">
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.titularesMB.listTitularcuenta}" />
 								</p:dataList>
 							</td>
 						</tr>
@@ -35,6 +35,6 @@
 				</div>
 			</div>
 		</div>
-	</p:panel>
+	</h:panelGroup>
 </ui:composition>
 </html>
