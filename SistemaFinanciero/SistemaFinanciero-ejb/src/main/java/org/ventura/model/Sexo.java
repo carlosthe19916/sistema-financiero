@@ -10,13 +10,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sexo", schema = "maestro")
 @NamedQuery(name = "Sexo.findAll", query = "SELECT s FROM Sexo s")
-@NamedQueries({
-		@NamedQuery(name = "Sexo.findAllActive", query = "SELECT e FROM Student e where e.estado=true"),
-		@NamedQuery(name = "Sexo.findAllInactive", query = "SELECT e FROM Student e where e.estado=false") })
 public class Sexo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	public static final String findAll = "org.ventura.model.sexo.findAll";
+	
 	@Id
 	@Column(unique = true, nullable = false)
 	private Integer idsexo;

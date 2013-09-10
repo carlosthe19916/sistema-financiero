@@ -40,7 +40,7 @@ public class PersonaNaturalMB implements Serializable {
 	@PostConstruct
 	private void initValues() {
 		// inicializar los combos
-		comboSexo.initValues("SELECT s FROM Sexo s");
+		comboSexo.initValues(Sexo.findAll);
 		comboEstadocivil.initValues("SELECT s FROM Estadocivil s");
 
 		// poner los valores de los combos a la persona natural
