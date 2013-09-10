@@ -6,76 +6,75 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the personanatural database table.
  * 
  */
 @Entity
-@Table(name="personanatural",schema="persona")
-@NamedQuery(name="Personanatural.findAll", query="SELECT p FROM Personanatural p")
+@Table(name = "personanatural", schema = "persona")
+@NamedQuery(name = "Personanatural.findAll", query = "SELECT p FROM Personanatural p")
 public class Personanatural implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false, length=8)
+	@Column(unique = true, nullable = false, length = 8)
 	private String dni;
 
-	@Column(nullable=false, length=40)
+	@Column(nullable = false, length = 40)
 	private String apellidomaterno;
 
-	@Column(nullable=false, length=40)
+	@Column(nullable = false, length = 40)
 	private String apellidopaterno;
 
-	@Column(length=30)
+	@Column(length = 30)
 	private String celular;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String direccion;
 
-	@Column(length=50)
+	@Column(length = 50)
 	private String email;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Date fechanacimiento;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String firma;
 
 	private Integer idestadocivil;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer idsexo;
 
-	@Column(nullable=false, length=50)
+	@Column(nullable = false, length = 50)
 	private String nombres;
 
-	@Column(length=50)
+	@Column(length = 50)
 	private String ocupacion;
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String referencia;
 
-	@Column(length=30)
+	@Column(length = 30)
 	private String telefono;
 
-	//bi-directional many-to-one association to Accionista
-	@OneToMany(mappedBy="personanatural")
+	// bi-directional many-to-one association to Accionista
+	@OneToMany(mappedBy = "personanatural")
 	private List<Accionista> accionistas;
 
-	//bi-directional many-to-one association to Personajuridica
-	@OneToMany(mappedBy="personanatural")
+	// bi-directional many-to-one association to Personajuridica
+	@OneToMany(mappedBy = "personanatural")
 	private List<Personajuridica> personajuridicas;
 
 	@ManyToOne
-	@JoinColumn(name = "idsexo", insertable=false, updatable=false)
+	@JoinColumn(name = "idsexo", insertable = false, updatable = false)
 	private Sexo sexo;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "idestadocivil", insertable=false, updatable=false)
+	@JoinColumn(name = "idestadocivil", insertable = false, updatable = false)
 	private Estadocivil estadocivil;
-	
+
 	public Personanatural() {
 	}
 
@@ -249,6 +248,10 @@ public class Personanatural implements Serializable {
 
 	public void setEstadocivil(Estadocivil estadocivil) {
 		this.estadocivil = estadocivil;
+	}
+
+	public String getNombreCompleto() {
+		return getApellidopaterno() + " " + getApellidomaterno() + "," + getNombres();
 	}
 
 }
