@@ -59,10 +59,13 @@
 									<p:outputLabel>Sexo:</p:outputLabel>
 								</td>
 								<td>
-									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.selectedItem}">
-										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.items}" var="val" itemLabel="#{val.denominacion}"/>
-									</p:selectOneMenu>
+									<h:form>
+										<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeSexo}">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
+											<p:ajax></p:ajax>
+										</p:selectOneMenu>							
+									</h:form>																								
 								</td>
 							</tr>
 						</table>
@@ -82,9 +85,10 @@
 									<p:outputLabel>Estado Civil:</p:outputLabel>
 								</td>
 								<td>
-									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadocivil.selectedItem}">
+									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadoCivil.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeSexo}">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadocivil.items}" var="val" itemLabel="#{val.denominacion}"/>
+										<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadoCivil.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
+										<p:ajax></p:ajax>
 									</p:selectOneMenu>
 								</td>
 							</tr>

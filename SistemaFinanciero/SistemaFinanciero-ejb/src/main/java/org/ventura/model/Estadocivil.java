@@ -1,27 +1,34 @@
 package org.ventura.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.*;
 
 /**
  * The persistent class for the estadocivil database table.
  * 
  */
 @Entity
-@Table(name="estadocivil", schema="maestro")
-@NamedQuery(name="Estadocivil.findAll", query="SELECT e FROM Estadocivil e")
+@Table(name = "estadocivil", schema = "maestro")
+@NamedQuery(name = "Estadocivil.findAll", query = "SELECT e FROM Estadocivil e")
+@NamedQueries({
+		@NamedQuery(name = Estadocivil.ALL, query = "Select b From Estadocivil b"),
+		@NamedQuery(name = Estadocivil.ALL_ACTIVE, query = "Select s From Estadocivil s WHERE s.estado=true") })
 public class Estadocivil implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
+	public final static String ALL = "org.ventura.model.Estadocivil.ALL";
+	public final static String ALL_ACTIVE = "org.ventura.model.Estadocivil.ALL_ACTIVE";
+	
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idestadocivil;
 
-	@Column(length=1)
+	@Column(length = 1)
 	private String abreviatura;
 
-	@Column(length=15)
+	@Column(length = 15)
 	private String denominacion;
 
 	private Boolean estado;

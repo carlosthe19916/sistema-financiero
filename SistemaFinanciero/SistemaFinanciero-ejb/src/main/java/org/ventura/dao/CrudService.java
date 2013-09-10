@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.opensource.org/licenses/gpl-2.
  */
 package org.ventura.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -39,10 +40,10 @@ import javax.persistence.Query;
  */
 
 @Stateless
-@TransactionAttribute(TransactionAttributeType.MANDATORY)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class CrudService {
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "SistemaFinancieroPU")
 	EntityManager em;
 
 	public <T> T create(T t) {
@@ -69,7 +70,7 @@ public class CrudService {
 	public List findWithNamedQuery(String namedQueryName) {
 		return this.em.createNamedQuery(namedQueryName).getResultList();
 	}
-
+	
 	public List findWithNamedQuery(String namedQueryName,
 			Map<String, Object> parameters) {
 		return findWithNamedQuery(namedQueryName, parameters, 0);

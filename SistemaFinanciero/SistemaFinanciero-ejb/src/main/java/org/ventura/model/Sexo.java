@@ -10,12 +10,18 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sexo", schema = "maestro")
 @NamedQuery(name = "Sexo.findAll", query = "SELECT s FROM Sexo s")
+@NamedQueries({
+		@NamedQuery(name = Sexo.ALL, query = "Select b From Sexo b"),
+		@NamedQuery(name = Sexo.ALL_ACTIVE, query = "Select s From Sexo s WHERE s.estado=true")})
+
 public class Sexo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String findAll = "org.ventura.model.sexo.findAll";
-	
+	public final static String ALL = "org.ventura.model.Sexo.ALL";
+	public final static String ALL_ACTIVE = "org.ventura.model.Sexo.ALL_ACTIVE";
+
 	@Id
 	@Column(unique = true, nullable = false)
 	private Integer idsexo;
@@ -61,6 +67,12 @@ public class Sexo implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+
+	}
+
+	@Override
+	public int hashCode() {
+		return idsexo;
 	}
 
 }

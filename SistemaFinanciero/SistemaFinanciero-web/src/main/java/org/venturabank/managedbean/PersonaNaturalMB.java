@@ -5,13 +5,15 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
+import javax.faces.event.ValueChangeEvent;
 
 import org.ventura.facade.PersonanaturalFacadeLocal;
 import org.ventura.model.Estadocivil;
 import org.ventura.model.Personanatural;
 import org.ventura.model.Sexo;
-import org.venturabank.util.Combo;
+import org.venturabank.util.ComboMB;
 
 @ManagedBean
 @NoneScoped
@@ -24,28 +26,26 @@ public class PersonaNaturalMB implements Serializable {
 
 	private Personanatural personaNatural;
 
-	// combos
-	private Combo<Sexo> comboSexo;
-	private Combo<Estadocivil> comboEstadocivil;
-
+	@ManagedProperty(value = "#{comboMB}")
+	private ComboMB<Sexo> comboSexo;
+	
+	@ManagedProperty(value = "#{comboMB}")
+	private ComboMB<Estadocivil> comboEstadoCivil;
+	
 	// constructor
 	public PersonaNaturalMB() {
-		this.personaNatural = new Personanatural();
-
-		// Inicializar combos
-		this.comboSexo = new Combo<Sexo>();
-		this.comboEstadocivil = new Combo<Estadocivil>();
+		this.personaNatural = new Personanatural();		
 	}
 
 	@PostConstruct
 	private void initValues() {
-		// inicializar los combos
-		comboSexo.initValues(Sexo.findAll);
-		comboEstadocivil.initValues("SELECT s FROM Estadocivil s");
+		comboSexo.initValuesFromNamedQueryName(Sexo.ALL);
+		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
+	}
 
-		// poner los valores de los combos a la persona natural
-		this.personaNatural.setSexo(comboSexo.getSelectedItem());
-		this.personaNatural.setEstadocivil(comboEstadocivil.getSelectedItem());
+	public void changeSexo(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		this.personaNatural.setSexo(comboSexo.getObjectItemSelected(key));
 	}
 
 	public Personanatural getPersonaNatural() {
@@ -56,20 +56,21 @@ public class PersonaNaturalMB implements Serializable {
 		this.personaNatural = personaNatural;
 	}
 
-	public Combo<Sexo> getComboSexo() {
+	public ComboMB<Sexo> getComboSexo() {
 		return comboSexo;
 	}
 
-	public void setComboSexo(Combo<Sexo> comboSexo) {
+	public void setComboSexo(ComboMB<Sexo> comboSexo) {
 		this.comboSexo = comboSexo;
 	}
 
-	public Combo<Estadocivil> getComboEstadocivil() {
-		return comboEstadocivil;
+	public ComboMB<Estadocivil> getComboEstadoCivil() {
+		return comboEstadoCivil;
 	}
 
-	public void setComboEstadocivil(Combo<Estadocivil> comboEstadocivil) {
-		this.comboEstadocivil = comboEstadocivil;
+	public void setComboEstadoCivil(ComboMB<Estadocivil> comboEstadoCivil) {
+		this.comboEstadoCivil = comboEstadoCivil;
 	}
+
 
 }
