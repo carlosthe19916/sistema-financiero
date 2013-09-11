@@ -9,7 +9,8 @@
 
 <ui:composition>
 	<h:form>
-		<p:dialog id="#{componentName}" header="Titulares" widgetVar="#{componentName}" modal="true" height="400">
+		<p:dialog id="#{componentName}" header="Titulares"
+			widgetVar="#{componentName}" modal="true" height="400">
 
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -20,7 +21,8 @@
 						<table>
 							<tr>
 								<td><p:outputLabel>Cantidad de Retirantes:</p:outputLabel></td>
-								<td><p:inputText value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}"/></td>
+								<td><p:inputText
+										value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}" /></td>
 							</tr>
 							<tr>
 								<td colspan="2">
@@ -28,7 +30,6 @@
 										<div class="tiptip">
 											<p:commandLink update="tablaTitulares"
 												actionListener="#{aperturarCuentaAhorrosMB.titularesMB.addTitular()}"
-												
 												styleClass="button left" title="Nuevo">
 												<span class="icon icon3"></span>
 												<span class="label">Nuevo</span>
@@ -47,8 +48,13 @@
 										</div>
 									</div>
 									<div>
-										<p:dataTable id="tablaTitulares" var="titular" value="#{aperturarCuentaAhorrosMB.titularesMB.listTitularcuenta}">
-											
+
+										<p:dataTable id="tablaTitulares"
+											value="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.rows}"
+											var="titular" rowKey="#{titular.dni}"
+											selection="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.selectedRow}"
+											selectionMode="single" scrollable="true" scrollHeight="150">
+
 											<p:column headerText="DNI(*)" width="50">
 												<p:cellEditor>
 													<f:facet name="output">
@@ -62,10 +68,12 @@
 											<p:column headerText="Apellido Paterno" width="60">
 												<p:cellEditor>
 													<f:facet name="output">
-														<h:outputText value="#{titular.personanatural.apellidopaterno}" />
+														<h:outputText
+															value="#{titular.personanatural.apellidopaterno}" />
 													</f:facet>
 													<f:facet name="input">
-														<p:inputText value="#{titular.personanatural.apellidopaterno}"
+														<p:inputText
+															value="#{titular.personanatural.apellidopaterno}"
 															style="width:100%" />
 													</f:facet>
 												</p:cellEditor>
@@ -73,10 +81,12 @@
 											<p:column headerText="Apellido Materno" width="60">
 												<p:cellEditor>
 													<f:facet name="output">
-														<h:outputText value="#{titular.personanatural.apellidomaterno}" />
+														<h:outputText
+															value="#{titular.personanatural.apellidomaterno}" />
 													</f:facet>
 													<f:facet name="input">
-														<p:inputText value="#{titular.personanatural.apellidomaterno}"/>
+														<p:inputText
+															value="#{titular.personanatural.apellidomaterno}" />
 													</f:facet>
 												</p:cellEditor>
 											</p:column>
@@ -100,8 +110,10 @@
 						</table>
 					</div>
 					<div class="sf-buttons">
-						<p:commandButton value="Aceptar" update=":#{componentToUpdated}" oncomplete="#{componentName}.hide()" styleClass="action green" />
-						<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
+						<p:commandButton value="Aceptar" update=":#{componentToUpdated}"
+							oncomplete="#{componentName}.hide()" styleClass="action green" />
+						<p:commandButton value="Cancelar"
+							onclick="#{componentName}.hide()" styleClass="action" />
 					</div>
 				</div>
 			</div>
