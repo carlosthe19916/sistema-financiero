@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<h:panelGroup id="#{componentName}">
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Beneficiarios</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<div>
+						<table>
+							<tr>
+								<td><p:outputLabel value="Beneficiarios:" /></td>
+								<td>
+									<p:dataList value="#{aperturarCuentaAhorrosMB.beneficiariosMB.tablaBeneficiarios.rows}" var="beneficiarios" type="ordered" itemType="1">
+										<p:outputLabel value="#{beneficiarios.personanatural.nombreCompleto}, DNI: #{beneficiarios.personanatural.dni} % #{beneficiarios.porcentajebeneficio}"></p:outputLabel>
+									</p:dataList>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</h:panelGroup>
+</ui:composition>
+</html>

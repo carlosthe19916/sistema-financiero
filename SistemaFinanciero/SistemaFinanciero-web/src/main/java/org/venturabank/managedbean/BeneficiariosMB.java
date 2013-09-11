@@ -9,11 +9,15 @@ import java.util.ListIterator;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
+import javax.swing.text.DefaultEditorKit.BeepAction;
 
 import org.ventura.facade.BeneficiariocuentaFacadeLocal;
 import org.ventura.model.Beneficiariocuenta;
 import org.ventura.model.Personanatural;
+import org.ventura.model.Titularcuenta;
+import org.venturabank.util.TablaMB;
 
 @ManagedBean
 @NoneScoped
@@ -24,21 +28,35 @@ public class BeneficiariosMB implements Serializable {
 	@EJB
 	private BeneficiariocuentaFacadeLocal beneficiariocuentaFacadeLocal;
 	private Beneficiariocuenta beneficiariocuenta;
-	private List<Beneficiariocuenta> listBeneficiariocuenta;
+	
+	@ManagedProperty(value = "#{tablaMB}")
+	private TablaMB<Beneficiariocuenta> tablaBeneficiarios;
 
 	// CONTRUCTOR
 	public BeneficiariosMB() {
 		this.beneficiariocuenta = new Beneficiariocuenta();
-		this.listBeneficiariocuenta = new ArrayList<Beneficiariocuenta>();
 	}
 
-	public BeneficiariocuentaFacadeLocal getBeneficiariocuentaFacadeLocal() {
-		return beneficiariocuentaFacadeLocal;
+	public void addBeneficiario() {
+		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();
+		beneficiariocuenta.setDni("00000000");
+		
+		Personanatural personanatural = new Personanatural();
+		personanatural.setApellidopaterno("Apellido Paterno");
+		personanatural.setApellidomaterno("Apellido Materno");
+		personanatural.setNombres("Nombres");
+		
+		beneficiariocuenta.setPersonanatural(personanatural);
+		
+		this.tablaBeneficiarios.addRow(beneficiariocuenta);
 	}
 
-	public void setBeneficiariocuentaFacadeLocal(
-			BeneficiariocuentaFacadeLocal beneficiariocuentaFacadeLocal) {
-		this.beneficiariocuentaFacadeLocal = beneficiariocuentaFacadeLocal;
+	public void removeBeneficiario() {
+		this.tablaBeneficiarios.removeSelectedRow();
+	}
+	
+	public void editBeneficiario() {
+		
 	}
 
 	public Beneficiariocuenta getBeneficiariocuenta() {
@@ -49,13 +67,12 @@ public class BeneficiariosMB implements Serializable {
 		this.beneficiariocuenta = beneficiariocuenta;
 	}
 
-	public List<Beneficiariocuenta> getListBeneficiariocuenta() {
-		return listBeneficiariocuenta;
+	public TablaMB<Beneficiariocuenta> getTablaBeneficiarios() {
+		return tablaBeneficiarios;
 	}
 
-	public void setListBeneficiariocuenta(
-			List<Beneficiariocuenta> listBeneficiariocuenta) {
-		this.listBeneficiariocuenta = listBeneficiariocuenta;
+	public void setTablaBeneficiarios(TablaMB<Beneficiariocuenta> tablaBeneficiarios) {
+		this.tablaBeneficiarios = tablaBeneficiarios;
 	}
 
 }

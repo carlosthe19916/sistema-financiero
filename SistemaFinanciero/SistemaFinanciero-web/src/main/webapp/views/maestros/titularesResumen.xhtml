@@ -26,8 +26,8 @@
 						<tr>
 							<td><p:outputLabel value="Titulares:" /></td>
 							<td>
-								<p:dataList var="titulares" type="ordered" itemType="1">
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.titularesMB.listTitularcuenta}" />
+								<p:dataList value="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.rows}" var="titulares" type="ordered" itemType="1">
+									<p:outputLabel value="#{titulares.personanatural.nombreCompleto}, DNI: #{titulares.personanatural.dni}"></p:outputLabel>
 								</p:dataList>
 							</td>
 						</tr>

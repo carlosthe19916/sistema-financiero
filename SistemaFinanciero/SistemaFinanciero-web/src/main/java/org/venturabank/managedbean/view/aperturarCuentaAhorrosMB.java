@@ -47,8 +47,8 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	private void initValues(){
 		this.cuentaahorro.setPersonanatural(personaNaturalMB.getPersonaNatural());
 		this.cuentaahorro.setPersonajuridica(personaJuridicaMB.getoPersonajuridica());
-		this.cuentaahorro.setTitularcuentas(titularesMB.getListTitularcuenta());
-		this.cuentaahorro.setBeneficiariocuentas(beneficiariosMB.getListBeneficiariocuenta());
+		this.cuentaahorro.setTitularcuentas(titularesMB.getTablaTitulares().getRows());
+		this.cuentaahorro.setBeneficiariocuentas(beneficiariosMB.getTablaBeneficiarios().getRows());
 	}
 	
 	//crear cuenta Ahorro

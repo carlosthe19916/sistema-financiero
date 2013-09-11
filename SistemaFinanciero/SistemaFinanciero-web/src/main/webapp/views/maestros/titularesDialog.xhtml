@@ -34,34 +34,31 @@
 												<span class="icon icon3"></span>
 												<span class="label">Nuevo</span>
 											</p:commandLink>
-											<h:commandLink update="tablaTitulares" process="@this"
-												action="#{titularesMB.addTitular()}"
+											<p:commandLink onclick="editar"
 												styleClass="button middle" title="Nuevo">
 												<span class="icon icon145"></span>
 												<span class="label">Editar</span>
-											</h:commandLink>
-											<h:commandLink action="#" styleClass="button right"
+											</p:commandLink>
+											<p:commandLink update="tablaTitulares"
+												actionListener="#{aperturarCuentaAhorrosMB.titularesMB.removeTitular()}" styleClass="button right"
 												title="Eliminar Trabajador">
 												<span class="icon icon186"></span>
 												<span class="label">Eliminar</span>
-											</h:commandLink>
+											</p:commandLink>
 										</div>
 									</div>
 									<div>
-
 										<p:dataTable id="tablaTitulares"
 											value="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.rows}"
-											var="titular" rowKey="#{titular.dni}"
-											selection="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.selectedRow}"
-											selectionMode="single" scrollable="true" scrollHeight="150">
-
+											var="titular" editable="true" selectionMode="single"
+											selection="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.selectedRow}" rowKey="#{titular}">
 											<p:column headerText="DNI(*)" width="50">
 												<p:cellEditor>
 													<f:facet name="output">
-														<h:outputText value="#{titular.dni}" />
+														<h:outputText value="#{titular.personanatural.dni}" />
 													</f:facet>
 													<f:facet name="input">
-														<p:inputText value="#{titular.dni}" />
+														<p:inputText value="#{titular.personanatural.dni}" />
 													</f:facet>
 												</p:cellEditor>
 											</p:column>
@@ -73,8 +70,7 @@
 													</f:facet>
 													<f:facet name="input">
 														<p:inputText
-															value="#{titular.personanatural.apellidopaterno}"
-															style="width:100%" />
+															value="#{titular.personanatural.apellidopaterno}" />
 													</f:facet>
 												</p:cellEditor>
 											</p:column>
@@ -101,7 +97,7 @@
 												</p:cellEditor>
 											</p:column>
 											<p:column width="10">
-												<p:rowEditor />
+												<p:rowEditor/>
 											</p:column>
 										</p:dataTable>
 									</div>
