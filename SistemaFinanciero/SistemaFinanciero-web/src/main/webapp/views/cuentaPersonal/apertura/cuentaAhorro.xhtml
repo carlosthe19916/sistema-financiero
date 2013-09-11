@@ -31,47 +31,73 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td><h:form>
-							<p:selectOneMenu>
-								<f:selectItem itemLabel="PN" />
+					<td>
+						<h:form>
+							<p:selectOneMenu
+								value="#{aperturarCuentaAhorrosMB.comboTipoPersona.itemSelected}">
+								<f:selectItems
+									value="#{aperturarCuentaAhorrosMB.comboTipoPersona.items.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+								<p:ajax update=":panelDatos"></p:ajax>
 							</p:selectOneMenu>
-						</h:form></td>
+						</h:form>
+					</td>
 				</tr>
 			</table>
 		</div>
 
-		<!-- PersonaNatural -->
-		<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
-			<ui:param name="componentName" value="personaNatural" />
-			<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
-		</ui:include>
-		<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
-			<ui:param name="componentName" value="dlgPersonaNatural" />
-			<ui:param name="componentToUpdated" value="personaNatural" />
-		</ui:include>
-		<!-- end PersonaNatural -->
 
-		<!-- Titulares -->
-		<ui:include src="/views/maestros/titularesResumen.xhtml">
-			<ui:param name="componentName" value="titulares" />
-			<ui:param name="editarOutputDialog" value="dlgTitulares" />
-		</ui:include>
-		<ui:include src="/views/maestros/titularesDialog.xhtml">
-			<ui:param name="componentName" value="dlgTitulares" />
-			<ui:param name="componentToUpdated" value="titulares" />
-		</ui:include>
-		<!-- end PersonaNatural -->
+		<h:panelGroup id="panelDatos">
+			<!-- PersonaNatural -->
+			<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
+				<ui:param name="componentName" value="personaNatural" />
+				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+			</ui:include>
+			<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
+				<ui:param name="componentName" value="dlgPersonaNatural" />
+				<ui:param name="componentToUpdated" value="personaNatural" />
+			</ui:include>
+			<!-- end PersonaNatural -->
 
-		<!-- Beneficiarios -->
-		<ui:include src="/views/maestros/beneficiariosResumen.xhtml">
-			<ui:param name="componentName" value="beneficiarios" />
-			<ui:param name="editarOutputDialog" value="dlgBeneficiarios" />
-		</ui:include>
-		<ui:include src="/views/maestros/beneficiariosDialog.xhtml">
-			<ui:param name="componentName" value="dlgBeneficiarios" />
-			<ui:param name="componentToUpdated" value="beneficiarios" />
-		</ui:include>
-		<!-- end Beneficiarios -->
+
+			<!-- Persona Juridica -->
+			<ui:include src="/views/maestros/personaJuridicaResumen.xhtml">
+				<ui:param name="componentName" value="personaJuridica" />
+				<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
+			</ui:include>
+			<ui:include src="/views/maestros/personaJuridicaDialog.xhtml">
+				<ui:param name="componentName" value="dlgPersonaJuridica" />
+				<ui:param name="componentToUpdated" value="personaJuridica" />
+			</ui:include>
+			<!-- end Persona Juridica -->
+
+			<!-- Titulares -->
+			<ui:include src="/views/maestros/titularesResumen.xhtml">
+				<ui:param name="componentName" value="titulares" />
+				<ui:param name="editarOutputDialog" value="dlgTitulares" />
+			</ui:include>
+			<ui:include src="/views/maestros/titularesDialog.xhtml">
+				<ui:param name="componentName" value="dlgTitulares" />
+				<ui:param name="componentToUpdated" value="titulares" />
+			</ui:include>
+			<!-- end PersonaNatural -->
+
+			<!-- Beneficiarios -->
+			<ui:include src="/views/maestros/beneficiariosResumen.xhtml">
+				<ui:param name="componentName" value="beneficiarios" />
+				<ui:param name="editarOutputDialog" value="dlgBeneficiarios" />
+			</ui:include>
+			<ui:include src="/views/maestros/beneficiariosDialog.xhtml">
+				<ui:param name="componentName" value="dlgBeneficiarios" />
+				<ui:param name="componentToUpdated" value="beneficiarios" />
+			</ui:include>
+			<!-- end Beneficiarios -->
+		</h:panelGroup>
+		
+		<div class="sf-buttons">
+			<p:commandButton value="Guardar" action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}" styleClass="action green" />
+			<p:commandButton value="Cancelar" styleClass="action" />
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

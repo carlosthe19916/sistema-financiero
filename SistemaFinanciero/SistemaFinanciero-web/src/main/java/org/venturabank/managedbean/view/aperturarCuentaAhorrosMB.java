@@ -14,6 +14,7 @@ import org.venturabank.managedbean.BeneficiariosMB;
 import org.venturabank.managedbean.PersonaJuridicaMB;
 import org.venturabank.managedbean.PersonaNaturalMB;
 import org.venturabank.managedbean.TitularesMB;
+import org.venturabank.util.ComboMB;
 
 @ManagedBean
 @ViewScoped
@@ -23,37 +24,59 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	@EJB
 	CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
-	
+
 	private Cuentaahorro cuentaahorro;
-	
+
+	@ManagedProperty(value = "#{comboMB}")
+	private ComboMB<String> comboTipoPersona;
+
 	@ManagedProperty(value = "#{personaNaturalMB}")
 	private PersonaNaturalMB personaNaturalMB;
 
 	@ManagedProperty(value = "#{personaJuridicaMB}")
 	private PersonaJuridicaMB personaJuridicaMB;
-	
+
 	@ManagedProperty(value = "#{titularesMB}")
 	private TitularesMB titularesMB;
 
 	@ManagedProperty(value = "#{beneficiariosMB}")
 	private BeneficiariosMB beneficiariosMB;
 
-	//Constructor
-	public aperturarCuentaAhorrosMB(){
-		this.cuentaahorro =  new Cuentaahorro();
+	// Constructor
+	public aperturarCuentaAhorrosMB() {
+		this.cuentaahorro = new Cuentaahorro();
 	}
-	
+
 	@PostConstruct
-	private void initValues(){
+	private void initValues() {
+		comboTipoPersona.getItems().put(1, "Persona Natural");
+		comboTipoPersona.getItems().put(2, "Persona Juridica");
+		comboTipoPersona.setItemSelected(1);
+
 		this.cuentaahorro.setPersonanatural(personaNaturalMB.getPersonaNatural());
 		this.cuentaahorro.setPersonajuridica(personaJuridicaMB.getoPersonajuridica());
 		this.cuentaahorro.setTitularcuentas(titularesMB.getTablaTitulares().getRows());
 		this.cuentaahorro.setBeneficiariocuentas(beneficiariosMB.getTablaBeneficiarios().getRows());
 	}
-	
-	//crear cuenta Ahorro
+
+	// crear cuenta Ahorro
 	public void createCuentaahorro() {
+		cuentaahorro.setNumerocuentaahorro("12345678912345");
 		cuentaahorroFacadeLocal.create(cuentaahorro);
+	}
+
+	public boolean isPersonaNatural() {
+		if (comboTipoPersona.getItemSelected() == 1)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean isPersonaJuridica() {
+		if (comboTipoPersona.getItemSelected() == 2)
+			return true;
+		else
+			return false;
 	}
 
 	public Cuentaahorro getCuentaahorro() {
@@ -96,8 +119,12 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		this.beneficiariosMB = beneficiariosMB;
 	}
 
-	
-	
+	public ComboMB<String> getComboTipoPersona() {
+		return comboTipoPersona;
+	}
 
+	public void setComboTipoPersona(ComboMB<String> comboTipoPersona) {
+		this.comboTipoPersona = comboTipoPersona;
+	}
 
 }

@@ -9,7 +9,7 @@
 
 <ui:composition>
 
-	<h:panelGroup id="#{componentName}">
+	<h:panelGroup id="#{componentName}" rendered="#{aperturarCuentaAhorrosMB.personaNatural}">
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
 				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
