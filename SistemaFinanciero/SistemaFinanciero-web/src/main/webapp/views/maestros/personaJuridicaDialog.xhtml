@@ -23,23 +23,23 @@
 							<tr>
 								<td><p:outputLabel>RUC:</p:outputLabel></td>
 								<td><p:inputText id="txtRucPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.ruc}" /></td>
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.ruc}" /></td>
 							</tr>
 							<tr>
 								<td><p:outputLabel>Razon Social:</p:outputLabel></td>
-								<td><p:inputText id="txtRazonsocialPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.razonsocial}" /></td>
+								<td><p:inputText id="txtRazonsocialPJ" size="55"
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.razonsocial}" /></td>
 							</tr>
 							<tr>
 								<td><p:outputLabel>Nombre Comercial:</p:outputLabel></td>
-								<td><p:inputText id="txtNombreComercialPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.nombrecomercial}" />
+								<td><p:inputText id="txtNombreComercialPJ" size="55"
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.nombrecomercial}" />
 								</td>
 							</tr>
 							<tr>
 								<td><p:outputLabel>Actividad Principal:</p:outputLabel></td>
-								<td><p:inputText id="txtActividadPrincipalPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.actividadprincipal}" />
+								<td><p:inputText id="txtActividadPrincipalPJ" size="55"
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.actividadprincipal}" />
 								</td>
 							</tr>
 						</table>
@@ -53,33 +53,35 @@
 						<h3>DATOS COMERCIALES DE LA EMPRESA</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
+
 						<table>
 							<tr>
 								<td><p:outputLabel>Tipo de empresa:</p:outputLabel></td>
-							</tr>
-
-							<tr>
 								<td><p:selectOneRadio
-										value="#{personaJuridicaMB.tipoempresaSeleccionada}">
-										<f:selectItems value="#{personaJuridicaMB.listaTipoempresas}"
-											var="variable" itemLabel="#{variable.denominacion}" />
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboTipoempresa.itemSelected}"
+										valueChangeListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.changeTipoempresa()}">
+										<f:selectItems
+											value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboTipoempresa.items.entrySet()}"
+											var="val1" itemLabel="#{val1.value.denominacion}"
+											itemValue="#{val1.key}" />
 									</p:selectOneRadio></td>
-
 							</tr>
+
+
 
 							<tr>
 								<td><p:outputLabel>Fin social:</p:outputLabel></td>
-							</tr>
-							<tr>
-								<td><p:selectOneRadio id="opFinSocialPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.razonsocial}">
-										<f:selectItem itemLabel="SIN FINES DE LUCRO" itemValue="1" />
-										<f:selectItem itemLabel="CON FINES DE LUCRO" itemValue="2" />
+								<td><p:selectOneRadio id="comboFinsocial"
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.finsocial}">
+										<f:selectItem itemLabel="CON FINES DE LUCRO" itemValue="1" />
+										<f:selectItem itemLabel="SIN FINES DE LUCRO" itemValue="2" />
 									</p:selectOneRadio></td>
 							</tr>
 
-
 						</table>
+
+
+
 					</div>
 				</div>
 			</div>
@@ -94,29 +96,32 @@
 							<tr>
 								<td colspan="1"><p:outputLabel>Direccion:</p:outputLabel></td>
 								<td><p:inputText id="txtDireccionPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.direccion}"
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.direccion}"
 										size="50" /></td>
 							</tr>
 
 							<tr>
 								<td colspan="1"><p:outputLabel>Referencia:</p:outputLabel></td>
 								<td><p:inputText id="txtReferenciaPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.referencia}"
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.referencia}"
 										size="50" /></td>
 							</tr>
 							<tr>
 								<td colspan="1"><p:outputLabel>Email:</p:outputLabel></td>
 								<td><p:inputText id="TxtEmailPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.email}" size="50" /></td>
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.email}"
+										size="50" /></td>
 							</tr>
 
 							<tr>
 								<td><p:outputLabel>Telefono:</p:outputLabel></td>
 								<td><p:inputText id="txtTelefonoPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.telefono}" size="" /></td>
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.telefono}"
+										size="" /></td>
 								<td><p:outputLabel>Celular:</p:outputLabel></td>
 								<td><p:inputText id="txtCelularPJ"
-										value="#{personaJuridicaMB.oPersonajuridica.celular}" size="" /></td>
+										value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.celular}"
+										size="" /></td>
 							</tr>
 
 							<tr>
@@ -130,7 +135,8 @@
 			</div>
 
 			<div class="sf-buttons">
-				<p:commandButton value="prueba" update=":#{componentToUpdated}" oncomplete="#{componentName}.hide()"
+				<p:commandButton value="prueba" update=":#{componentToUpdated}"
+					oncomplete="#{componentName}.hide()"
 					actionListener="#{personaJuridicaMB.insertarPersonaJuridica()}" />
 				<p:commandButton update=":#{componentToUpdated}" value="Aceptar"
 					oncomplete="#{componentName}.hide()" styleClass="action green"
