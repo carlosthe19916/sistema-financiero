@@ -10,6 +10,8 @@ import javax.faces.bean.ViewScoped;
 
 import org.ventura.facade.CuentaahorroFacadeLocal;
 import org.ventura.model.Cuentaahorro;
+import org.ventura.model.Personajuridica;
+import org.ventura.model.Personajuridicacliente;
 import org.ventura.model.Personanatural;
 import org.ventura.model.Personanaturalcliente;
 import org.venturabank.managedbean.BeneficiariosMB;
@@ -57,13 +59,20 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		comboTipoPersona.setItemSelected(1);
 
 		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
+		Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
 		
+		Personajuridicacliente personajuridicacliente = new Personajuridicacliente();
 		Personanaturalcliente personanaturalcliente = new Personanaturalcliente();
+		
+		personajuridicacliente.setPersonajuridica(personajuridica);
 		personanaturalcliente.setPersonanatural(personanatural);
 		
 		this.cuentaahorro.setPersonanaturalcliente(personanaturalcliente);
-		//this.cuentaahorro.setPersonanatural(personaNaturalMB.getPersonaNatural());
-		//this.cuentaahorro.setPersonajuridica(personaJuridicaMB.getoPersonajuridica());
+		this.cuentaahorro.setPersonajuridicacliente(personajuridicacliente);
+		
+
+		
+		
 		this.cuentaahorro.setTitularcuentas(titularesMB.getTablaTitulares().getRows());
 		this.cuentaahorro.setBeneficiariocuentas(beneficiariosMB.getTablaBeneficiarios().getRows());
 	}

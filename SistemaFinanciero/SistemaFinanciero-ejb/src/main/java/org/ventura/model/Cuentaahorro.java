@@ -245,4 +245,13 @@ public class Cuentaahorro implements Serializable {
 		this.tipomoneda = tipomoneda;
 	}
 
+	public Personajuridicacliente getPersonajuridicacliente() {
+		return personajuridicacliente;
+	}
+
+	public void setPersonajuridicacliente(
+			Personajuridicacliente personajuridicacliente) {
+		this.personajuridicacliente = personajuridicacliente;
+	}
+
 }
