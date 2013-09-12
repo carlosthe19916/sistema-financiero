@@ -37,7 +37,7 @@ public class PersonaNaturalMB implements Serializable {
 		this.personaNatural = new Personanatural();
 	}
 
-	//Para despues de crear el objeto
+	//Para 
 	@PostConstruct
 	private void initValues() {
 		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
