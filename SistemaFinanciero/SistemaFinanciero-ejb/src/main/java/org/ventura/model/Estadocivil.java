@@ -1,6 +1,7 @@
 package org.ventura.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -12,26 +13,31 @@ import javax.persistence.*;
 @Table(name = "estadocivil", schema = "maestro")
 @NamedQuery(name = "Estadocivil.findAll", query = "SELECT e FROM Estadocivil e")
 @NamedQueries({
-		@NamedQuery(name = Estadocivil.ALL, query = "Select b From Estadocivil b"),
-		@NamedQuery(name = Estadocivil.ALL_ACTIVE, query = "Select s From Estadocivil s WHERE s.estado=true") })
+		@NamedQuery(name = Estadocivil.ALL, query = "Select e From Estadocivil e"),
+		@NamedQuery(name = Estadocivil.ALL_ACTIVE, query = "Select e From Estadocivil e WHERE e.estado=true") })
 public class Estadocivil implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public final static String ALL = "org.ventura.model.Estadocivil.ALL";
 	public final static String ALL_ACTIVE = "org.ventura.model.Estadocivil.ALL_ACTIVE";
-	
+
 	@Id
 	@Column(unique = true, nullable = false)
 	private Integer idestadocivil;
 
-	@Column(length = 1)
-	private String abreviatura;
-
-	@Column(length = 15)
+	@Column(nullable = false, length = 15)
 	private String denominacion;
 
+	@Column(length = 2)
+	private String abreviatura;
+
+	@Column(nullable = false)
 	private Boolean estado;
+
+	// bi-directional many-to-one association to Tarjetadebito
+	@OneToMany(mappedBy = "estadocivil")
+	private List<Personanatural> listPersonanatural;
 
 	public Estadocivil() {
 	}
@@ -66,6 +72,14 @@ public class Estadocivil implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+
+	public List<Personanatural> getListPersonanatural() {
+		return listPersonanatural;
+	}
+
+	public void setListPersonanatural(List<Personanatural> listPersonanatural) {
+		this.listPersonanatural = listPersonanatural;
 	}
 
 }

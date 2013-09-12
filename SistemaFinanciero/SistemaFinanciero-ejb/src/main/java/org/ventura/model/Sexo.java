@@ -1,6 +1,8 @@
 package org.ventura.model;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -11,14 +13,12 @@ import javax.persistence.*;
 @Table(name = "sexo", schema = "maestro")
 @NamedQuery(name = "Sexo.findAll", query = "SELECT s FROM Sexo s")
 @NamedQueries({
-		@NamedQuery(name = Sexo.ALL, query = "Select b From Sexo b"),
-		@NamedQuery(name = Sexo.ALL_ACTIVE, query = "Select s From Sexo s WHERE s.estado=true")})
-
+		@NamedQuery(name = Sexo.ALL, query = "Select s From Sexo s"),
+		@NamedQuery(name = Sexo.ALL_ACTIVE, query = "Select s From Sexo s WHERE s.estado=true") })
 public class Sexo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String findAll = "org.ventura.model.sexo.findAll";
 	public final static String ALL = "org.ventura.model.Sexo.ALL";
 	public final static String ALL_ACTIVE = "org.ventura.model.Sexo.ALL_ACTIVE";
 
@@ -26,13 +26,18 @@ public class Sexo implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer idsexo;
 
+	@Column(length = 15, nullable = false)
+	private String denominacion;
+
 	@Column(length = 1)
 	private String abreviatura;
 
-	@Column(length = 15)
-	private String denominacion;
-
+	@Column(nullable = false)
 	private Boolean estado;
+
+	// bi-directional many-to-one association to Tarjetadebito
+	@OneToMany(mappedBy = "sexo")
+	private List<Personanatural> listPersonanatural;
 
 	public Sexo() {
 	}
@@ -73,6 +78,14 @@ public class Sexo implements Serializable {
 	@Override
 	public int hashCode() {
 		return idsexo;
+	}
+
+	public List<Personanatural> getListPersonanatural() {
+		return listPersonanatural;
+	}
+
+	public void setListPersonanatural(List<Personanatural> listPersonanatural) {
+		this.listPersonanatural = listPersonanatural;
 	}
 
 }

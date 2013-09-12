@@ -26,18 +26,30 @@ public class Personanatural implements Serializable {
 	@Column(nullable = false, length = 40)
 	private String apellidopaterno;
 
+	@Column(nullable = false, length = 50)
+	private String nombres;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
+	private Date fechanacimiento;
+	
+	@Column(length = 30)
+	private String telefono;
+	
 	@Column(length = 30)
 	private String celular;
 
 	@Column(length = 200)
 	private String direccion;
 
+	@Column(length = 100)
+	private String referencia;
+	
+	@Column(length = 50)
+	private String ocupacion;
+	
 	@Column(length = 50)
 	private String email;
-
-	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	private Date fechanacimiento;
 
 	@Column(length = 200)
 	private String firma;
@@ -47,26 +59,6 @@ public class Personanatural implements Serializable {
 	@Column(nullable = false)
 	private Integer idsexo;
 
-	@Column(nullable = false, length = 50)
-	private String nombres;
-
-	@Column(length = 50)
-	private String ocupacion;
-
-	@Column(length = 100)
-	private String referencia;
-
-	@Column(length = 30)
-	private String telefono;
-
-	// bi-directional many-to-one association to Accionista
-	@OneToMany(mappedBy = "personanatural")
-	private List<Accionista> accionistas;
-
-	// bi-directional many-to-one association to Personajuridica
-	@OneToMany(mappedBy = "personanatural")
-	private List<Personajuridica> personajuridicas;
-
 	@ManyToOne
 	@JoinColumn(name = "idsexo", insertable = false, updatable = false)
 	private Sexo sexo;
@@ -74,6 +66,14 @@ public class Personanatural implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idestadocivil", insertable = false, updatable = false)
 	private Estadocivil estadocivil;
+	
+	// bi-directional many-to-one association to Accionista
+	@OneToMany(mappedBy = "personanatural")
+	private List<Accionista> accionistas;
+
+	// bi-directional many-to-one association to Personajuridica
+	@OneToMany(mappedBy = "personanatural")
+	private List<Personajuridica> personajuridicas;
 
 	public Personanatural() {
 	}
@@ -251,7 +251,8 @@ public class Personanatural implements Serializable {
 	}
 
 	public String getNombreCompleto() {
-		return getApellidopaterno() + " " + getApellidomaterno() + "," + getNombres();
+		return getApellidopaterno() + " " + getApellidomaterno() + ","
+				+ getNombres();
 	}
 
 }

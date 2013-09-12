@@ -35,11 +35,11 @@ public class Cuentaahorro implements Serializable {
 	@Column(nullable = false)
 	private double saldo;
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "dni", insertable=false, updatable=false)
 	private Personanatural personanatural;
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "ruc", insertable=false, updatable=false)
 	private Personajuridica personajuridica;
 
@@ -48,7 +48,7 @@ public class Cuentaahorro implements Serializable {
 	private List<Beneficiariocuenta> beneficiariocuentas;
 
 	// bi-directional many-to-one association to Estadocuenta
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "idestadocuenta", nullable = false)
 	private Estadocuenta estadocuenta;
 

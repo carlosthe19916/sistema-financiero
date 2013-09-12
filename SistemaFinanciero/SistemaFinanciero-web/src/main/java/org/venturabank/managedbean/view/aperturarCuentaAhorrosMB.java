@@ -1,6 +1,8 @@
 package org.venturabank.managedbean.view;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.ventura.facade.CuentaahorroFacadeLocal;
 import org.ventura.model.Cuentaahorro;
+import org.ventura.model.Estadocuenta;
 import org.venturabank.managedbean.BeneficiariosMB;
 import org.venturabank.managedbean.PersonaJuridicaMB;
 import org.venturabank.managedbean.PersonaNaturalMB;
@@ -54,7 +57,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		comboTipoPersona.setItemSelected(1);
 
 		this.cuentaahorro.setPersonanatural(personaNaturalMB.getPersonaNatural());
-		this.cuentaahorro.setPersonajuridica(personaJuridicaMB.getoPersonajuridica());
+		//this.cuentaahorro.setPersonajuridica(personaJuridicaMB.getoPersonajuridica());
 		this.cuentaahorro.setTitularcuentas(titularesMB.getTablaTitulares().getRows());
 		this.cuentaahorro.setBeneficiariocuentas(beneficiariosMB.getTablaBeneficiarios().getRows());
 	}
@@ -62,6 +65,14 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	// crear cuenta Ahorro
 	public void createCuentaahorro() {
 		cuentaahorro.setNumerocuentaahorro("12345678912345");
+		cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
+		cuentaahorro.setIdtipomoneda(1);
+		Estadocuenta estadocuenta = new Estadocuenta();
+		estadocuenta.setDenominacion("estadoPrueba");
+		estadocuenta.setEstado(true);
+		estadocuenta.setIdestadocuenta(1);
+		
+		cuentaahorro.setEstadocuenta(estadocuenta);
 		cuentaahorroFacadeLocal.create(cuentaahorro);
 	}
 
