@@ -35,22 +35,31 @@ public class Cuentaahorro implements Serializable {
 	@Column(nullable = false)
 	private double saldo;
 
-	@ManyToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name = "dni", insertable=false, updatable=false)
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanaturalcliente personanaturalcliente;
 
-	@ManyToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name = "ruc", insertable=false, updatable=false)
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "ruc", insertable = false, updatable = false)
 	private Personajuridicacliente personajuridicacliente;
+
+	// bi-directional many-to-one association to Estadocuenta
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
+	private Estadocuenta estadocuenta;
+
+	// bi-directional many-to-one association to Estadocuenta
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
+	private Tipomoneda tipomoneda;
 
 	// bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy = "cuentaahorro")
 	private List<Beneficiariocuenta> beneficiariocuentas;
 
-	// bi-directional many-to-one association to Estadocuenta
-	@ManyToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name = "idestadocuenta", nullable = false)
-	private Estadocuenta estadocuenta;
+	// bi-directional many-to-one association to Titularcuenta
+	@OneToMany(mappedBy = "cuentaahorro")
+	private List<Titularcuenta> titularcuentas;
 
 	// bi-directional many-to-one association to Cuentaahorrohistorial
 	@OneToMany(mappedBy = "cuentaahorro")
@@ -60,10 +69,6 @@ public class Cuentaahorro implements Serializable {
 	// Tarjetadebitoasignadocuentaahorro
 	@OneToMany(mappedBy = "cuentaahorro")
 	private List<Tarjetadebitoasignadocuentaahorro> tarjetadebitoasignadocuentaahorros;
-
-	// bi-directional many-to-one association to Titularcuenta
-	@OneToMany(mappedBy = "cuentaahorro")
-	private List<Titularcuenta> titularcuentas;
 
 	public Cuentaahorro() {
 	}
@@ -227,8 +232,17 @@ public class Cuentaahorro implements Serializable {
 		return personanaturalcliente;
 	}
 
-	public void setPersonanaturalcliente(Personanaturalcliente personanaturalcliente) {
+	public void setPersonanaturalcliente(
+			Personanaturalcliente personanaturalcliente) {
 		this.personanaturalcliente = personanaturalcliente;
+	}
+
+	public Tipomoneda getTipomoneda() {
+		return tipomoneda;
+	}
+
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
 	}
 
 }

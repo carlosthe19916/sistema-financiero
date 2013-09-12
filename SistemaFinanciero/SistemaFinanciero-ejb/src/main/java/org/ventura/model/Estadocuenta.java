@@ -25,6 +25,7 @@ public class Estadocuenta implements Serializable {
 	@Column(nullable=false, length=20)
 	private String denominacion;
 
+	@Column(nullable=false)
 	private Boolean estado;
 
 	//bi-directional many-to-one association to Cuentaahorro

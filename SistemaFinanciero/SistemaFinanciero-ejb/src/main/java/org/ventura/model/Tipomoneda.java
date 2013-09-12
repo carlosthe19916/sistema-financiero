@@ -3,27 +3,27 @@ package org.ventura.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the tipomoneda database table.
  * 
  */
 @Entity
-@Table(name="tipomoneda",schema="maestro")
-@NamedQuery(name="Tipomoneda.findAll", query="SELECT t FROM Tipomoneda t")
+@Table(name = "tipomoneda", schema = "maestro")
+@NamedQuery(name = "Tipomoneda.findAll", query = "SELECT t FROM Tipomoneda t")
 public class Tipomoneda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idtipomoneda;
 
-	@Column(length=3)
+	@Column(length = 3)
 	private String abreviatura;
 
-	@Column(length=35)
+	@Column(length = 35, nullable = false)
 	private String denominacion;
 
+	@Column(nullable = false)
 	private Boolean estado;
 
 	public Tipomoneda() {
