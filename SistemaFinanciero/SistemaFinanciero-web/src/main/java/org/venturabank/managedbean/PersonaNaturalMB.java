@@ -28,29 +28,32 @@ public class PersonaNaturalMB implements Serializable {
 
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Sexo> comboSexo;
-	
+
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadoCivil;
-	
+
 	// constructor
 	public PersonaNaturalMB() {
-		this.personaNatural = new Personanatural();		
+		this.personaNatural = new Personanatural();
 	}
 
+	//Para despues de crear el objeto
 	@PostConstruct
 	private void initValues() {
-		comboSexo.initValuesFromNamedQueryName(Sexo.ALL);
+		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
 	}
 
 	public void changeSexo(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		this.personaNatural.setSexo(comboSexo.getObjectItemSelected(key));
+		Sexo sexoSelected = comboSexo.getObjectItemSelected(key);
+		this.personaNatural.setSexo(sexoSelected);
 	}
-	
+
 	public void changeEstadoCivil(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		this.personaNatural.setEstadocivil(comboEstadoCivil.getObjectItemSelected(key));
+		Estadocivil estadocivilSelected = comboEstadoCivil.getObjectItemSelected(key);
+		this.personaNatural.setEstadocivil(estadocivilSelected);
 	}
 
 	public Personanatural getPersonaNatural() {
@@ -76,6 +79,5 @@ public class PersonaNaturalMB implements Serializable {
 	public void setComboEstadoCivil(ComboMB<Estadocivil> comboEstadoCivil) {
 		this.comboEstadoCivil = comboEstadoCivil;
 	}
-
 
 }
