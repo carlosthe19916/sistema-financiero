@@ -6,16 +6,20 @@ import javax.persistence.*;
 
 import java.util.List;
 
+import javax.persistence.*;
+
+import java.util.List;
+
 /**
  * The persistent class for the tipoempresa database table.
  * 
  */
 @Entity
-@Table(name = "tipoempresa", schema = "persona")
-@NamedQuery(name = "Tipoempresa.findAll", query = "SELECT t FROM Tipoempresa t")
+@Table(name="tipoempresa",schema="persona")
+@NamedQuery(name="Tipoempresa.findAll", query="SELECT t FROM Tipoempresa t")
 @NamedQueries({
-		@NamedQuery(name = Tipoempresa.ALL, query = "Select t From Sexo t"),
-		@NamedQuery(name = Tipoempresa.ALL_ACTIVE, query = "Select t From Tipoempresa t WHERE t.estado=true") })
+	@NamedQuery(name = Tipoempresa.ALL, query = "Select b From Tipoempresa b"),
+	@NamedQuery(name = Tipoempresa.ALL_ACTIVE, query = "Select t From Tipoempresa t WHERE t.estado=true")})
 public class Tipoempresa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
