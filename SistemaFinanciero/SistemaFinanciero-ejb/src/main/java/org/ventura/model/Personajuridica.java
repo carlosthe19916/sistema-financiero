@@ -5,64 +5,74 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the personajuridica database table.
  * 
  */
 @Entity
-@Table(name="personajuridica",schema="persona")
-@NamedQuery(name="Personajuridica.findAll", query="SELECT p FROM Personajuridica p")
+@Table(name = "personajuridica", schema = "persona")
+@NamedQuery(name = "Personajuridica.findAll", query = "SELECT p FROM Personajuridica p")
 public class Personajuridica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false, length=11)
+	@Column(unique = true, nullable = false, length = 11)
 	private String ruc;
 
-	@Column(length=50)
+	@Column(nullable = false, length = 50)
+	private String razonsocial;
+
+	@Column(length = 50)
+	private String nombrecomercial;
+
+	@Column(length = 50)
 	private String actividadprincipal;
-
-	@Column(length=30)
-	private String celular;
-
-	@Column(length=200)
-	private String direccion;
-
-	@Column(length=50)
-	private String email;
-
-	@Temporal(TemporalType.DATE)
-	@Column(nullable=false)
-	private Date fechaconstitucion;
 
 	private Boolean finsocial;
 
-	@Column(length=50)
-	private String nombrecomercial;
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
+	private Date fechaconstitucion;
 
-	@Column(nullable=false, length=50)
-	private String razonsocial;
+	@Column(length = 30)
+	private String celular;
 
-	@Column(length=100)
+	@Column(length = 200)
+	private String direccion;
+
+	@Column(length = 100)
 	private String referencia;
 
-	@Column(length=20)
+	@Column(length = 20)
 	private String telefono;
 
-	//bi-directional many-to-one association to Accionista
-	@OneToMany(mappedBy="personajuridica")
-	private List<Accionista> accionistas;
+	@Column(length = 50)
+	private String email;
 
-	//bi-directional many-to-one association to Personanatural
+	@Column(length = 8, nullable = false)
+	private String dnirepresentantelegal;
+
+	@Column(nullable = false)
+	private Integer idtipoempresa;
+
+	// bi-directional many-to-one association to Tipoempresa
 	@ManyToOne
-	@JoinColumn(name="dnirepresentantelegal", nullable=false)
+	@JoinColumn(name = "idtipoempresa", nullable = false, insertable = false, updatable = false)
+	private Tipoempresa tipoempresa;
+
+	// bi-directional many-to-one association to Personanatural
+	@ManyToOne
+	@JoinColumn(name = "dnirepresentantelegal", nullable = false, insertable = false, updatable = false)
 	private Personanatural personanatural;
 
-	//bi-directional many-to-one association to Tipoempresa
-	@ManyToOne
-	@JoinColumn(name="idtipoempresa", nullable=false)
-	private Tipoempresa tipoempresa;
+	// bi-directional many-to-one association to Accionista
+	@OneToMany(mappedBy = "personajuridica")
+	private List<Accionista> listAccionista;
+
+	// bi-directional many-to-one association to Accionista
+
+	@OneToMany(mappedBy = "personajuridica")
+	private List<Personajuridicacliente> listPersonajuridicacliente;
 
 	public Personajuridica() {
 	}
@@ -155,34 +165,18 @@ public class Personajuridica implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public List<Accionista> getAccionistas() {
-		return this.accionistas;
-	}
-
-	public void setAccionistas(List<Accionista> accionistas) {
-		this.accionistas = accionistas;
-	}
-
 	public Accionista addAccionista(Accionista accionista) {
-		getAccionistas().add(accionista);
+		getListAccionista().add(accionista);
 		accionista.setPersonajuridica(this);
 
 		return accionista;
 	}
 
 	public Accionista removeAccionista(Accionista accionista) {
-		getAccionistas().remove(accionista);
+		getListAccionista().remove(accionista);
 		accionista.setPersonajuridica(null);
 
 		return accionista;
-	}
-
-	public Personanatural getPersonanatural() {
-		return this.personanatural;
-	}
-
-	public void setPersonanatural(Personanatural personanatural) {
-		this.personanatural = personanatural;
 	}
 
 	public Tipoempresa getTipoempresa() {
@@ -191,6 +185,47 @@ public class Personajuridica implements Serializable {
 
 	public void setTipoempresa(Tipoempresa tipoempresa) {
 		this.tipoempresa = tipoempresa;
+	}
+
+	public String getDnirepresentantelegal() {
+		return dnirepresentantelegal;
+	}
+
+	public void setDnirepresentantelegal(String dnirepresentantelegal) {
+		this.dnirepresentantelegal = dnirepresentantelegal;
+	}
+
+	public Integer getIdtipoempresa() {
+		return idtipoempresa;
+	}
+
+	public void setIdtipoempresa(Integer idtipoempresa) {
+		this.idtipoempresa = idtipoempresa;
+	}
+
+	public List<Accionista> getListAccionista() {
+		return listAccionista;
+	}
+
+	public void setListAccionista(List<Accionista> listAccionista) {
+		this.listAccionista = listAccionista;
+	}
+
+	public Personanatural getPersonanatural() {
+		return personanatural;
+	}
+
+	public void setPersonanatural(Personanatural personanatural) {
+		this.personanatural = personanatural;
+	}
+
+	public List<Personajuridicacliente> getListPersonajuridicacliente() {
+		return listPersonajuridicacliente;
+	}
+
+	public void setListPersonajuridicacliente(
+			List<Personajuridicacliente> listPersonajuridicacliente) {
+		this.listPersonajuridicacliente = listPersonajuridicacliente;
 	}
 
 }

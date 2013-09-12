@@ -37,11 +37,11 @@ public class Cuentaahorro implements Serializable {
 
 	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "dni", insertable=false, updatable=false)
-	private Personanatural personanatural;
+	private Personanaturalcliente personanaturalcliente;
 
 	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "ruc", insertable=false, updatable=false)
-	private Personajuridica personajuridica;
+	private Personajuridicacliente personajuridicacliente;
 
 	// bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy = "cuentaahorro")
@@ -223,20 +223,12 @@ public class Cuentaahorro implements Serializable {
 		return titularcuenta;
 	}
 
-	public Personanatural getPersonanatural() {
-		return personanatural;
+	public Personanaturalcliente getPersonanaturalcliente() {
+		return personanaturalcliente;
 	}
 
-	public void setPersonanatural(Personanatural personanatural) {
-		this.personanatural = personanatural;
-	}
-
-	public Personajuridica getPersonajuridica() {
-		return personajuridica;
-	}
-
-	public void setPersonajuridica(Personajuridica personajuridica) {
-		this.personajuridica = personajuridica;
+	public void setPersonanaturalcliente(Personanaturalcliente personanaturalcliente) {
+		this.personanaturalcliente = personanaturalcliente;
 	}
 
 }

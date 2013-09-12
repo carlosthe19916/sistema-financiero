@@ -28,14 +28,14 @@ public class Personanatural implements Serializable {
 
 	@Column(nullable = false, length = 50)
 	private String nombres;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fechanacimiento;
-	
+
 	@Column(length = 30)
 	private String telefono;
-	
+
 	@Column(length = 30)
 	private String celular;
 
@@ -44,10 +44,10 @@ public class Personanatural implements Serializable {
 
 	@Column(length = 100)
 	private String referencia;
-	
+
 	@Column(length = 50)
 	private String ocupacion;
-	
+
 	@Column(length = 50)
 	private String email;
 
@@ -66,10 +66,22 @@ public class Personanatural implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idestadocivil", insertable = false, updatable = false)
 	private Estadocivil estadocivil;
-	
+
 	// bi-directional many-to-one association to Accionista
 	@OneToMany(mappedBy = "personanatural")
-	private List<Accionista> accionistas;
+	private List<Accionista> listAccionista;
+
+	// bi-directional many-to-one association to Accionista
+	@OneToMany(mappedBy = "personanatural")
+	private List<Titularcuenta> listTitularecuenta;
+
+	// bi-directional many-to-one association to Accionista
+	@OneToMany(mappedBy = "personanatural")
+	private List<Beneficiariocuenta> listBeneficiariocuenta;
+
+	// bi-directional many-to-one association to Accionista
+	@OneToMany(mappedBy = "personanatural")
+	private List<Personanaturalcliente> listPersonanaturalcliente;
 
 	// bi-directional many-to-one association to Personajuridica
 	@OneToMany(mappedBy = "personanatural")
@@ -190,34 +202,18 @@ public class Personanatural implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public List<Accionista> getAccionistas() {
-		return this.accionistas;
-	}
-
-	public void setAccionistas(List<Accionista> accionistas) {
-		this.accionistas = accionistas;
-	}
-
 	public Accionista addAccionista(Accionista accionista) {
-		getAccionistas().add(accionista);
+		getListAccionista().add(accionista);
 		accionista.setPersonanatural(this);
 
 		return accionista;
 	}
 
 	public Accionista removeAccionista(Accionista accionista) {
-		getAccionistas().remove(accionista);
+		getListAccionista().remove(accionista);
 		accionista.setPersonanatural(null);
 
 		return accionista;
-	}
-
-	public List<Personajuridica> getPersonajuridicas() {
-		return this.personajuridicas;
-	}
-
-	public void setPersonajuridicas(List<Personajuridica> personajuridicas) {
-		this.personajuridicas = personajuridicas;
 	}
 
 	public Personajuridica addPersonajuridica(Personajuridica personajuridica) {
@@ -254,5 +250,48 @@ public class Personanatural implements Serializable {
 		return getApellidopaterno() + " " + getApellidomaterno() + ","
 				+ getNombres();
 	}
+
+	public List<Accionista> getListAccionista() {
+		return listAccionista;
+	}
+
+	public void setListAccionista(List<Accionista> listAccionista) {
+		this.listAccionista = listAccionista;
+	}
+
+	public List<Titularcuenta> getListTitularecuenta() {
+		return listTitularecuenta;
+	}
+
+	public void setListTitularecuenta(List<Titularcuenta> listTitularecuenta) {
+		this.listTitularecuenta = listTitularecuenta;
+	}
+
+	public List<Beneficiariocuenta> getListBeneficiariocuenta() {
+		return listBeneficiariocuenta;
+	}
+
+	public void setListBeneficiariocuenta(
+			List<Beneficiariocuenta> listBeneficiariocuenta) {
+		this.listBeneficiariocuenta = listBeneficiariocuenta;
+	}
+
+	public List<Personanaturalcliente> getListPersonanaturalcliente() {
+		return listPersonanaturalcliente;
+	}
+
+	public void setListPersonanaturalcliente(
+			List<Personanaturalcliente> listPersonanaturalcliente) {
+		this.listPersonanaturalcliente = listPersonanaturalcliente;
+	}
+
+	public List<Personajuridica> getPersonajuridicas() {
+		return personajuridicas;
+	}
+
+	public void setPersonajuridicas(List<Personajuridica> personajuridicas) {
+		this.personajuridicas = personajuridicas;
+	}
+
 
 }
