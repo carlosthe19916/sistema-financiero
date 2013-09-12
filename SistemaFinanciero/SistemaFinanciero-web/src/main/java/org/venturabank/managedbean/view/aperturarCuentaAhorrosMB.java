@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.ventura.facade.CuentaahorroFacadeLocal;
 import org.ventura.model.Cuentaahorro;
+import org.venturabank.managedbean.AccionistasMB;
 import org.venturabank.managedbean.BeneficiariosMB;
 import org.venturabank.managedbean.PersonaJuridicaMB;
 import org.venturabank.managedbean.PersonaNaturalMB;
@@ -41,7 +42,9 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	@ManagedProperty(value = "#{beneficiariosMB}")
 	private BeneficiariosMB beneficiariosMB;
-
+	
+	@ManagedProperty(value = "#{accionistasMB}")
+	private AccionistasMB accionistasMB;
 	// Constructor
 	public aperturarCuentaAhorrosMB() {
 		this.cuentaahorro = new Cuentaahorro();
@@ -125,6 +128,14 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	public void setComboTipoPersona(ComboMB<String> comboTipoPersona) {
 		this.comboTipoPersona = comboTipoPersona;
+	}
+
+	public AccionistasMB getAccionistasMB() {
+		return accionistasMB;
+	}
+
+	public void setAccionistasMB(AccionistasMB accionistasMB) {
+		this.accionistasMB = accionistasMB;
 	}
 
 }

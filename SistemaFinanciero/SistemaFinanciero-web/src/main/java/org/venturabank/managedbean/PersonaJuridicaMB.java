@@ -32,7 +32,7 @@ public class PersonaJuridicaMB implements Serializable {
 
 	@PostConstruct
 	private void initValues() {
-		//getComboTipoempresa().initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
+		getComboTipoempresa().initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
 	}
 	
 	public void changeTipoempresa(ValueChangeEvent event) {
