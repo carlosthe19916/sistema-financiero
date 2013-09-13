@@ -31,8 +31,7 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td>
-						<h:form>
+					<td><h:form>
 							<p:selectOneMenu
 								value="#{aperturarCuentaAhorrosMB.comboTipoPersona.itemSelected}">
 								<f:selectItems
@@ -40,8 +39,7 @@
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
 								<p:ajax update=":panelDatos"></p:ajax>
 							</p:selectOneMenu>
-						</h:form>
-					</td>
+						</h:form></td>
 				</tr>
 			</table>
 		</div>
@@ -71,6 +69,18 @@
 			</ui:include>
 			<!-- end Persona Juridica -->
 
+
+			<!-- Titulares -->
+			<ui:include src="/views/cuentaPersonal/apertura/datosFinancierosCuentaAhorroResumen.xhtml">
+				<ui:param name="componentName" value="datosFinancieros" />
+				<ui:param name="editarOutputDialog" value="dlgDatosFinancieros" />
+			</ui:include>
+			<ui:include src="/views/cuentaPersonal/apertura/datosFinancierosCuentaAhorroDialog.xhtml">
+				<ui:param name="componentName" value="dlgDatosFinancieros" />
+				<ui:param name="componentToUpdated" value="datosFinancieros" />
+			</ui:include>
+			<!-- end PersonaNatural -->
+
 			<!-- Titulares -->
 			<ui:include src="/views/maestros/titularesResumen.xhtml">
 				<ui:param name="componentName" value="titulares" />
@@ -93,9 +103,11 @@
 			</ui:include>
 			<!-- end Beneficiarios -->
 		</h:panelGroup>
-		
+
 		<div class="sf-buttons">
-			<p:commandButton value="Guardar" action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}" styleClass="action green" />
+			<p:commandButton value="Guardar"
+				action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"
+				styleClass="action green" />
 			<p:commandButton value="Cancelar" styleClass="action" />
 		</div>
 	</ui:define>

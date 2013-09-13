@@ -24,86 +24,83 @@
 								<td><p:inputText
 										value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}" /></td>
 							</tr>
-							<tr>
-								<td colspan="2">
-									<div class="buttons">
-										<div class="tiptip">
-											<p:commandLink update="tablaTitulares"
-												actionListener="#{aperturarCuentaAhorrosMB.titularesMB.addTitular()}"
-												styleClass="button left" title="Nuevo">
-												<span class="icon icon3"></span>
-												<span class="label">Nuevo</span>
-											</p:commandLink>
-											<p:commandLink onclick="editar"
-												styleClass="button middle" title="Nuevo">
-												<span class="icon icon145"></span>
-												<span class="label">Editar</span>
-											</p:commandLink>
-											<p:commandLink update="tablaTitulares"
-												actionListener="#{aperturarCuentaAhorrosMB.titularesMB.removeTitular()}" styleClass="button right"
-												title="Eliminar Trabajador">
-												<span class="icon icon186"></span>
-												<span class="label">Eliminar</span>
-											</p:commandLink>
-										</div>
-									</div>
-									<div>
-										<p:dataTable id="tablaTitulares"
-											value="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.rows}"
-											var="titular" editable="true" selectionMode="single"
-											selection="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.selectedRow}" rowKey="#{titular}">
-											<p:column headerText="DNI(*)" width="50">
-												<p:cellEditor>
-													<f:facet name="output">
-														<h:outputText value="#{titular.personanatural.dni}" />
-													</f:facet>
-													<f:facet name="input">
-														<p:inputText value="#{titular.personanatural.dni}" />
-													</f:facet>
-												</p:cellEditor>
-											</p:column>
-											<p:column headerText="Apellido Paterno" width="60">
-												<p:cellEditor>
-													<f:facet name="output">
-														<h:outputText
-															value="#{titular.personanatural.apellidopaterno}" />
-													</f:facet>
-													<f:facet name="input">
-														<p:inputText
-															value="#{titular.personanatural.apellidopaterno}" />
-													</f:facet>
-												</p:cellEditor>
-											</p:column>
-											<p:column headerText="Apellido Materno" width="60">
-												<p:cellEditor>
-													<f:facet name="output">
-														<h:outputText
-															value="#{titular.personanatural.apellidomaterno}" />
-													</f:facet>
-													<f:facet name="input">
-														<p:inputText
-															value="#{titular.personanatural.apellidomaterno}" />
-													</f:facet>
-												</p:cellEditor>
-											</p:column>
-											<p:column headerText="Nombres" width="100">
-												<p:cellEditor>
-													<f:facet name="output">
-														<h:outputText value="#{titular.personanatural.nombres}" />
-													</f:facet>
-													<f:facet name="input">
-														<p:inputText value="#{titular.personanatural.nombres}" />
-													</f:facet>
-												</p:cellEditor>
-											</p:column>
-											<p:column width="10">
-												<p:rowEditor/>
-											</p:column>
-										</p:dataTable>
-									</div>
-								</td>
-							</tr>
 						</table>
+						<div class="buttons">
+							<div class="tiptip">
+								<p:commandLink update="tablaTitulares"
+									actionListener="#{aperturarCuentaAhorrosMB.titularesMB.addTitular()}"
+									styleClass="button left" title="Nuevo">
+									<span class="icon icon3"></span>
+									<span class="label">Nuevo</span>
+								</p:commandLink>
+								<p:commandLink onclick="editar" styleClass="button middle"
+									title="Nuevo">
+									<span class="icon icon145"></span>
+									<span class="label">Editar</span>
+								</p:commandLink>
+								<p:commandLink update="tablaTitulares"
+									actionListener="#{aperturarCuentaAhorrosMB.titularesMB.removeTitular()}"
+									styleClass="button right" title="Eliminar Trabajador">
+									<span class="icon icon186"></span>
+									<span class="label">Eliminar</span>
+								</p:commandLink>
+							</div>
+						</div>
+						<div style="padding: 0px 5px;">
+							<p:dataTable id="tablaTitulares"
+								value="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.rows}"
+								var="titular" editable="true" selectionMode="single"
+								selection="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.selectedRow}"
+								rowKey="#{titular}">
+								<p:column headerText="DNI(*)" width="50">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{titular.personanatural.dni}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{titular.personanatural.dni}" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column headerText="Apellido Paterno" width="60">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText
+												value="#{titular.personanatural.apellidopaterno}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText
+												value="#{titular.personanatural.apellidopaterno}" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column headerText="Apellido Materno" width="60">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText
+												value="#{titular.personanatural.apellidomaterno}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText
+												value="#{titular.personanatural.apellidomaterno}" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column headerText="Nombres" width="100">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{titular.personanatural.nombres}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{titular.personanatural.nombres}" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column width="10">
+									<p:rowEditor />
+								</p:column>
+							</p:dataTable>
+						</div>
 					</div>
 					<div class="sf-buttons">
 						<p:commandButton value="Aceptar" update=":#{componentToUpdated}"
