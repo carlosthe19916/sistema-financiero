@@ -32,18 +32,15 @@ public class PersonaJuridicaMB implements Serializable {
 	private ComboMB<Tipoempresa> comboTipoempresa;
 	
 	@ManagedProperty(value = "#{tablaMB}")
-	private TablaMB<Accionista> tablaAccionistas;
+	private TablaMB<Personanatural> tablaAccionistas;
 	
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Sexo> comboSexo;
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadocivil;
 	
-	private Accionista accionista;
-	
 	public PersonaJuridicaMB() {
 		oPersonajuridica = new Personajuridica();
-		accionista=new Accionista();
 
 	}
 
@@ -56,14 +53,14 @@ public class PersonaJuridicaMB implements Serializable {
 	
 	public void addAccionista() {
 		Accionista accionista=new Accionista();
-		accionista.getId().setDni("00000000");
+		accionista.getPersonanatural().setDni("00000000");
 		Personanatural personanatural = new Personanatural();
 		
 		personanatural.setApellidopaterno("Apellido Paterno");
 		personanatural.setApellidomaterno("Apellido Materno");
 		personanatural.setNombres("Nombres");
 		accionista.setPersonanatural(personanatural);
-		this.getTablaAccionistas().addRow(accionista);
+		this.getTablaAccionistas().addRow(personanatural);
 	}
 
 	public void removeAccionista() {
@@ -124,20 +121,12 @@ public class PersonaJuridicaMB implements Serializable {
 		this.comboEstadocivil = comboEstadocivil;
 	}
 
-	public TablaMB<Accionista> getTablaAccionistas() {
+	public TablaMB<Personanatural> getTablaAccionistas() {
 		return tablaAccionistas;
 	}
 
-	public void setTablaAccionistas(TablaMB<Accionista> tablaAccionistas) {
+	public void setTablaAccionistas(TablaMB<Personanatural> tablaAccionistas) {
 		this.tablaAccionistas = tablaAccionistas;
-	}
-
-	public Accionista getoAccionista() {
-		return accionista;
-	}
-
-	public void setoAccionista(Accionista oAccionista) {
-		this.accionista = oAccionista;
 	}
 
 }
