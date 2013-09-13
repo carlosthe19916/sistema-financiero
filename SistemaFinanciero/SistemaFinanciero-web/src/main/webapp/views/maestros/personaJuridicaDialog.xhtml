@@ -143,8 +143,8 @@
 							onclick="#{componentName}.hide()" styleClass="action" />
 					</div>
 				</p:tab>
-				
-				
+
+
 				<p:tab id="tab3" title="Representante Legal">
 					<div id="panelRepresentanteLegal">
 						<div class="sf-agrupador">
@@ -269,131 +269,124 @@
 							<p:commandButton value="Cancelar"
 								onclick="#{componentName}.hide()" styleClass="action" />
 						</div>
-					</div>	
+					</div>
 				</p:tab>
 
 				<p:tab id="tab2" title="Accionistas">
 					<div class="sf-agrupador">
-						<div class="sf-agrupador-menu">
-							<h:outputLink
-								onclick="#{editarOutputDialog}.show();return false;"></h:outputLink>
-						</div>
 						<div class="sf-agrupador-content">
 							<div class="sf-agrupador-content-cabecera">
-								<h3>Datos de Accionistas</h3>
+								<h3>Datos de los Accionistas</h3>
 							</div>
 							<div class="sf-agrupador-content-table">
-								<div>
-									<table>
-										<tr>
-											<td colspan="2">
-												<div class="buttons">
-													<div class="tiptip">
-														<p:commandLink update="tablaAccionistas"
-															actionListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.cantidadAccionistas}"
-															styleClass="button left" title="Nuevo">
-															<span class="icon icon3"></span>
-															<span class="label">Nuevo</span>
-														</p:commandLink>
-														<p:commandLink onclick="editar" styleClass="button middle"
-															title="Nuevo">
-															<span class="icon icon145"></span>
-															<span class="label">Editar</span>
-														</p:commandLink>
-														<p:commandLink update="tablaAccionistas"
-															actionListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.removeAccionista()}"
-															styleClass="button right" title="Eliminar Trabajador">
-															<span class="icon icon186"></span>
-															<span class="label">Eliminar</span>
-														</p:commandLink>
-													</div>
+								<table>
+
+									<tr>
+										<td colspan="2">
+											<div class="buttons">
+												<div class="tiptip">
+													<p:commandLink update="tablaAccionistas"
+														actionListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.addAccionista()}"
+														styleClass="button left" title="Nuevo">
+														<span class="icon icon3"></span>
+														<span class="label">Nuevo</span>
+													</p:commandLink>
+													<p:commandLink onclick="editar" styleClass="button middle"
+														title="Nuevo">
+														<span class="icon icon145"></span>
+														<span class="label">Editar</span>
+													</p:commandLink>
+													<p:commandLink update="tablaAccionistas"
+														actionListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.removeAccionista()}"
+														styleClass="button right" title="Eliminar Trabajador">
+														<span class="icon icon186"></span>
+														<span class="label">Eliminar</span>
+													</p:commandLink>
 												</div>
-												<div>
-													<p:dataTable id="tablaAccionistas"
-														value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.tablaAccionistas.rows}"
-														var="accionista" editable="true" selectionMode="single"
-														selection="#{aperturarCuentaAhorrosMB.personaJuridicaMB.tablaAccionistas.selectedRow}"
-														rowKey="#{accionista}">
-														<p:column headerText="DNI(*)" width="50">
-															<p:cellEditor>
-																<f:facet name="output">
-																	<h:outputText
-																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.dni}" />
-																</f:facet>
-																<f:facet name="input">
-																	<p:inputText value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.dni}" />
-																</f:facet>
-															</p:cellEditor>
-														</p:column>
-														<p:column headerText="Apellido Paterno" width="60">
-															<p:cellEditor>
-																<f:facet name="output">
-																	<h:outputText
-																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidopaterno}" />
-																</f:facet>
-																<f:facet name="input">
-																	<p:inputText
-																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidopaterno}" />
-																</f:facet>
-															</p:cellEditor>
-														</p:column>
-														<p:column headerText="Apellido Materno" width="60">
-															<p:cellEditor>
-																<f:facet name="output">
-																	<h:outputText
-																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidomaterno}" />
-																</f:facet>
-																<f:facet name="input">
-																	<p:inputText
-																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidomaterno}" />
-																</f:facet>
-															</p:cellEditor>
-														</p:column>
-														<p:column headerText="Nombres" width="100">
-															<p:cellEditor>
-																<f:facet name="output">
-																	<h:outputText
-																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.nombres}" />
-																</f:facet>
-																<f:facet name="input">
-																	<p:inputText
-																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.nombres}" />
-																</f:facet>
-															</p:cellEditor>
-														</p:column>
-														<p:column headerText="Porcentaje" width="100">
-															<p:cellEditor>
-																<f:facet name="output">
-																	<h:outputText
-																		value="#{accionista.porcentajeparticipacion}" />
-																</f:facet>
-																<f:facet name="input">
-																	<p:inputText
-																		value="#{accionista.porcentajeparticipacion}" />
-																</f:facet>
-															</p:cellEditor>
-														</p:column>
-														<p:column width="10">
-															<p:rowEditor />
-														</p:column>
-													</p:dataTable>
-												</div>
-											</td>
-										</tr>
-									</table>
-								</div>
-								<div class="sf-buttons">
-									<p:commandButton value="Aceptar"
-										update=":#{componentToUpdated}"
-										oncomplete="#{componentName}.hide()" styleClass="action green" />
-									<p:commandButton value="Cancelar"
-										onclick="#{componentName}.hide()" styleClass="action" />
-								</div>
+											</div>
+											<div>
+												<p:dataTable id="tablaAccionistas"
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.tablaAccionistas.rows}"
+													var="accionista" editable="true" selectionMode="single"
+													selection="#{aperturarCuentaAhorrosMB.personaJuridicaMB.tablaAccionistas.selectedRow}"
+													rowKey="#{accionista}">
+													<p:column headerText="DNI(*)" width="50">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText value="#{accionista.id.dni}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText value="#{accionista.id.dni}" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column headerText="Apellido Paterno" width="60">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText
+																	value="#{accionista.personanatural.apellidopaterno}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText
+																	value="#{accionista.personanatural.apellidomaterno}" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column headerText="Apellido Materno" width="60">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText
+																	value="#{accionista.personanatural.apellidomaterno}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText
+																	value="#{accionista.personanatural.apellidomaterno}" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column headerText="Nombres" width="100">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText
+																	value="#{accionista.personanatural.nombres}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText
+																	value="#{accionista.personanatural.nombres}" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column headerText="Porcentaje" width="100">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText
+																	value="#{accionista.porcentajeparticipacion}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText
+																	value="#{accionista.porcentajeparticipacion}" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column width="10">
+														<p:rowEditor />
+													</p:column>
+												</p:dataTable>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div class="sf-buttons">
+								<p:commandButton value="Aceptar" update=":#{componentToUpdated}"
+									oncomplete="#{componentName}.hide()" styleClass="action green" />
+								<p:commandButton value="Cancelar"
+									onclick="#{componentName}.hide()" styleClass="action" />
 							</div>
 						</div>
 					</div>
 				</p:tab>
-				
+
 			</p:tabView>
 		</p:dialog>
 	</h:form>
