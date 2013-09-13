@@ -157,39 +157,39 @@
 										<tr>
 											<td><p:outputLabel>DNI:</p:outputLabel></td>
 											<td><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" />
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.dni}" />
 											</td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Apellido Paterno:</p:outputLabel></td>
 											<td><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidopaterno}" />
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidopaterno}" />
 											</td>
 											<td><p:outputLabel>Apellido Materno:</p:outputLabel></td>
 											<td><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidomaterno}" />
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidomaterno}" />
 											</td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Nombres:</p:outputLabel></td>
 											<td colspan="3"><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.nombres}"
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.nombres}"
 													size="71" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Fecha Nacimiento:</p:outputLabel></td>
 											<td><p:calendar id="txtFechaNacimientoPN"
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" />
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.fechanacimiento}" />
 												<p:watermark for="txtFechaNacimientoPN" value="dd/mm/yyyy" />
 											</td>
 											<td><p:outputLabel>Sexo:</p:outputLabel></td>
 											<td><h:form>
 													<p:selectOneMenu
-														value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.itemSelected}"
-														valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeSexo}">
+														value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboSexo.itemSelected}"
+														valueChangeListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.changeSexo}">
 														<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 														<f:selectItems
-															value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.items.entrySet()}"
+															value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboSexo.items.entrySet()}"
 															var="val" itemLabel="#{val.value.denominacion}"
 															itemValue="#{val.key}" />
 														<p:ajax></p:ajax>
@@ -211,11 +211,11 @@
 										<tr>
 											<td><p:outputLabel>Estado Civil:</p:outputLabel></td>
 											<td><p:selectOneMenu
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadoCivil.itemSelected}"
-													valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeEstadoCivil}">
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboEstadocivil.itemSelected}"
+													valueChangeListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.changeEstadoCivil}">
 													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 													<f:selectItems
-														value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadoCivil.items.entrySet()}"
+														value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboEstadocivil.items.entrySet()}"
 														var="val" itemLabel="#{val.value.denominacion}"
 														itemValue="#{val.key}" />
 													<p:ajax></p:ajax>
@@ -225,37 +225,37 @@
 										<tr>
 											<td><p:outputLabel>Ocupacion:</p:outputLabel></td>
 											<td colspan="3"><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.ocupacion}"
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.ocupacion}"
 													size="71" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Direccion:</p:outputLabel></td>
 											<td colspan="5"><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.direccion}"
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.direccion}"
 													size="71">
 												</p:inputText></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Referencia:</p:outputLabel></td>
 											<td colspan="5"><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.referencia}"
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.referencia}"
 													size="71" /></td>
 										</tr>
 
 										<tr>
 											<td><p:outputLabel>Telefono:</p:outputLabel></td>
 											<td><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.telefono}" />
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.telefono}" />
 											</td>
 											<td><p:outputLabel>Celular:</p:outputLabel></td>
 											<td><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.celular}" />
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.celular}" />
 											</td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Email:</p:outputLabel></td>
 											<td colspan="5"><p:inputText
-													value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.email}"
+													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.email}"
 													size="73" /></td>
 										</tr>
 									</table>
@@ -290,7 +290,7 @@
 												<div class="buttons">
 													<div class="tiptip">
 														<p:commandLink update="tablaAccionistas"
-															actionListener="#{aperturarCuentaAhorrosMB.accionistasMB.cantidadAccionistas}"
+															actionListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.cantidadAccionistas}"
 															styleClass="button left" title="Nuevo">
 															<span class="icon icon3"></span>
 															<span class="label">Nuevo</span>
@@ -301,7 +301,7 @@
 															<span class="label">Editar</span>
 														</p:commandLink>
 														<p:commandLink update="tablaAccionistas"
-															actionListener="#{aperturarCuentaAhorrosMB.accionistasMB.removeAccionista()}"
+															actionListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.removeAccionista()}"
 															styleClass="button right" title="Eliminar Trabajador">
 															<span class="icon icon186"></span>
 															<span class="label">Eliminar</span>
@@ -310,18 +310,18 @@
 												</div>
 												<div>
 													<p:dataTable id="tablaAccionistas"
-														value="#{aperturarCuentaAhorrosMB.accionistasMB.tablaAccionistas.rows}"
+														value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.tablaAccionistas.rows}"
 														var="accionista" editable="true" selectionMode="single"
-														selection="#{aperturarCuentaAhorrosMB.accionistasMB.tablaAccionistas.selectedRow}"
-														rowKey="#{titular}">
+														selection="#{aperturarCuentaAhorrosMB.personaJuridicaMB.tablaAccionistas.selectedRow}"
+														rowKey="#{accionista}">
 														<p:column headerText="DNI(*)" width="50">
 															<p:cellEditor>
 																<f:facet name="output">
 																	<h:outputText
-																		value="#{accionista.personanatural.dni}" />
+																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.dni}" />
 																</f:facet>
 																<f:facet name="input">
-																	<p:inputText value="#{accionista.personanatural.dni}" />
+																	<p:inputText value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.dni}" />
 																</f:facet>
 															</p:cellEditor>
 														</p:column>
@@ -329,11 +329,11 @@
 															<p:cellEditor>
 																<f:facet name="output">
 																	<h:outputText
-																		value="#{accionista.personanatural.apellidopaterno}" />
+																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidopaterno}" />
 																</f:facet>
 																<f:facet name="input">
 																	<p:inputText
-																		value="#{accionista.personanatural.apellidopaterno}" />
+																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidopaterno}" />
 																</f:facet>
 															</p:cellEditor>
 														</p:column>
@@ -341,11 +341,11 @@
 															<p:cellEditor>
 																<f:facet name="output">
 																	<h:outputText
-																		value="#{accionista.personanatural.apellidomaterno}" />
+																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidomaterno}" />
 																</f:facet>
 																<f:facet name="input">
 																	<p:inputText
-																		value="#{accionista.personanatural.apellidomaterno}" />
+																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.apellidomaterno}" />
 																</f:facet>
 															</p:cellEditor>
 														</p:column>
@@ -353,11 +353,11 @@
 															<p:cellEditor>
 																<f:facet name="output">
 																	<h:outputText
-																		value="#{accionista.personanatural.nombres}" />
+																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.nombres}" />
 																</f:facet>
 																<f:facet name="input">
 																	<p:inputText
-																		value="#{accionista.personanatural.nombres}" />
+																		value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.personanatural.nombres}" />
 																</f:facet>
 															</p:cellEditor>
 														</p:column>
