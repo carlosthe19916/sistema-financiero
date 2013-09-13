@@ -1,5 +1,7 @@
 package org.venturabank.managedbean;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -14,12 +16,15 @@ import org.ventura.model.Tipoempresa;
 import org.ventura.model.Tipomoneda;
 import org.venturabank.util.ComboMB;
 
-
-@NoneScoped
 @ManagedBean
-
-public class DatosFinancierosCuentaAhorroMB {
+@NoneScoped
+public class DatosFinancierosCuentaAhorroMB implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Tipomoneda> comboTipomoneda;
 	
@@ -61,6 +66,14 @@ public class DatosFinancierosCuentaAhorroMB {
 
 	public void setoCuentaahorrohistorial(Cuentaahorrohistorial oCuentaahorrohistorial) {
 		this.oCuentaahorrohistorial = oCuentaahorrohistorial;
+	}
+
+	public Cuentaahorro getOcuentaahorro() {
+		return ocuentaahorro;
+	}
+
+	public void setOcuentaahorro(Cuentaahorro ocuentaahorro) {
+		this.ocuentaahorro = ocuentaahorro;
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.venturabank.managedbean.view;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -9,12 +10,16 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.ventura.facade.CuentaahorroFacadeLocal;
+import org.ventura.model.Beneficiariocuenta;
 import org.ventura.model.Cuentaahorro;
+import org.ventura.model.Cuentaahorrohistorial;
 import org.ventura.model.Personajuridica;
 import org.ventura.model.Personajuridicacliente;
 import org.ventura.model.Personanatural;
 import org.ventura.model.Personanaturalcliente;
+import org.ventura.model.Titularcuenta;
 import org.venturabank.managedbean.BeneficiariosMB;
+import org.venturabank.managedbean.DatosFinancierosCuentaAhorroMB;
 import org.venturabank.managedbean.PersonaJuridicaMB;
 import org.venturabank.managedbean.PersonaNaturalMB;
 import org.venturabank.managedbean.TitularesMB;
@@ -27,7 +32,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
+	private CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
 
 	private Cuentaahorro cuentaahorro;
 
@@ -40,6 +45,9 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	@ManagedProperty(value = "#{personaJuridicaMB}")
 	private PersonaJuridicaMB personaJuridicaMB;
 
+	@ManagedProperty(value = "#{datosFinancierosCuentaAhorroMB}")
+	private DatosFinancierosCuentaAhorroMB datosFinancierosCuentaAhorroMB;
+	
 	@ManagedProperty(value = "#{titularesMB}")
 	private TitularesMB titularesMB;
 
@@ -48,33 +56,38 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	// Constructor
 	public aperturarCuentaAhorrosMB() {
+		// Inicializar Cuenta Ahorro
 		this.cuentaahorro = new Cuentaahorro();
 	}
 
 	@PostConstruct
 	private void initValues() {
-		//Inicializar
+		// Inicializar Combos
 		comboTipoPersona.getItems().put(1, "Persona Natural");
 		comboTipoPersona.getItems().put(2, "Persona Juridica");
 		comboTipoPersona.setItemSelected(1);
 
+		// se recuperan los datos de los Managed Bean invocados
+		Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getOcuentaahorro();
 		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
 		Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
-		
+		List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
+		List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
+
+		// se crean las clases a relacionar con la Cuenta de Ahorros
 		Personajuridicacliente personajuridicacliente = new Personajuridicacliente();
 		Personanaturalcliente personanaturalcliente = new Personanaturalcliente();
-		
+
 		personajuridicacliente.setPersonajuridica(personajuridica);
 		personanaturalcliente.setPersonanatural(personanatural);
-		
+
+		// Se relaciona la Cuenta de Ahorros con los objetos recuperados
+		this.cuentaahorro = cuentaahorro;
 		this.cuentaahorro.setPersonanaturalcliente(personanaturalcliente);
 		this.cuentaahorro.setPersonajuridicacliente(personajuridicacliente);
-		
+		this.cuentaahorro.setTitularcuentas(listTitularcuenta);
+		this.cuentaahorro.setBeneficiariocuentas(listBeneficiariocuenta);
 
-		
-		
-		this.cuentaahorro.setTitularcuentas(titularesMB.getTablaTitulares().getRows());
-		this.cuentaahorro.setBeneficiariocuentas(beneficiariosMB.getTablaBeneficiarios().getRows());
 	}
 
 	// crear cuenta Ahorro
@@ -143,6 +156,15 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	public void setComboTipoPersona(ComboMB<String> comboTipoPersona) {
 		this.comboTipoPersona = comboTipoPersona;
+	}
+
+	public DatosFinancierosCuentaAhorroMB getDatosFinancierosCuentaAhorroMB() {
+		return datosFinancierosCuentaAhorroMB;
+	}
+
+	public void setDatosFinancierosCuentaAhorroMB(
+			DatosFinancierosCuentaAhorroMB datosFinancierosCuentaAhorroMB) {
+		this.datosFinancierosCuentaAhorroMB = datosFinancierosCuentaAhorroMB;
 	}
 
 }
