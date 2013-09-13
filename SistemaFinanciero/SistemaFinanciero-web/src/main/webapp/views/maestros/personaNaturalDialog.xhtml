@@ -20,54 +20,80 @@
 						<table>
 							<tr>
 								<td>
-									<p:outputLabel>DNI:</p:outputLabel>
+									<p:outputLabel>DNI(*):</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="dni" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8">
+									<p:inputText id="dni" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8"> 
+										<f:validateLength minimum="8"></f:validateLength>
+										<p:ajax update="msgDni" event="keyup"/>
 									</p:inputText>
 								</td>
-							</tr>
-							<tr>
 								<td>
-									<p:outputLabel>Apellido Paterno:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidopaterno}" />
-								</td>
-								<td>
-									<p:outputLabel>Apellido Materno:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidomaterno}" />
+									<p:message for="dni" id="msgDni" display="icon"/>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p:outputLabel>Nombres:</p:outputLabel>
+									<p:outputLabel>Apellido Paterno(*):</p:outputLabel>
+								</td>
+								<td>
+									<p:inputText id="apellidoPaterno" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidopaterno}" required="true" maxlength="50">
+									<p:ajax update="msgApellidoPaterno" event="keyup"/>
+									</p:inputText>
+								</td>
+								<td>
+									<p:message for="apellidoPaterno" id="msgApellidoPaterno" display="icon"/>
+								</td>
+								<td>
+									<p:outputLabel>Apellido Materno(*):</p:outputLabel>
+								</td>
+								<td>
+									<p:inputText id="apellidoMaterno" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidomaterno}" required="true" maxlength="50">
+										
+									</p:inputText>
+								</td>
+								
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel>Nombres(*):</p:outputLabel>
 								</td>
 								<td colspan="3">
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.nombres}" size="71"/></td>
+									<p:inputText id="nombres" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.nombres}" size="71" required="true" maxlength="60">
+										<p:ajax update="msgNombres" event="keyup"/>
+									</p:inputText>
+								</td>
+								<td>
+									<p:message for="nombres" id="msgNombres" display="icon"/>
+								</td>
 							</tr>
 							<tr>
 								<td>
 									<p:outputLabel>Fecha Nacimiento:</p:outputLabel>
 								</td>
 								<td>
-									<p:calendar id="txtFechaNacimientoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" /> 
+									<p:calendar id="txtFechaNacimientoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" > 
+									
+									</p:calendar>
 									<p:watermark for="txtFechaNacimientoPN" value="dd/mm/yyyy" />
+									
 								</td>
+								
 								<td>
 									<p:outputLabel>Sexo:</p:outputLabel>
 								</td>
 								<td>
 									<h:form>
-										<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeSexo}">
+										<p:selectOneMenu id="sexo" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeSexo}">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
 											<p:ajax></p:ajax>
-										</p:selectOneMenu>							
+											
+										</p:selectOneMenu>	
+																
 									</h:form>																								
 								</td>
+								
 							</tr>
 						</table>
 					</div>
@@ -89,7 +115,6 @@
 									<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadoCivil.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeEstadoCivil}">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboEstadoCivil.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
-										<p:ajax></p:ajax>
 									</p:selectOneMenu>
 								</td>
 							</tr>
@@ -155,3 +180,4 @@
 </h:form>
 </ui:composition>
 </html>
+
