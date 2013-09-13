@@ -1,6 +1,7 @@
 package org.ventura.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -10,8 +11,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tipomoneda", schema = "maestro")
 @NamedQuery(name = "Tipomoneda.findAll", query = "SELECT t FROM Tipomoneda t")
+@NamedQueries({
+		@NamedQuery(name = Tipomoneda.ALL, query = "Select t From Tipomoneda t"),
+		@NamedQuery(name = Tipomoneda.ALL_ACTIVE, query = "Select t From Tipomoneda t WHERE t.estado=true") })
 public class Tipomoneda implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	public final static String ALL = "org.ventura.model.Tipomoneda.ALL";
+	public final static String ALL_ACTIVE = "org.ventura.model.Tipomoneda.ALL_ACTIVE";
 
 	@Id
 	@Column(unique = true, nullable = false)

@@ -26,7 +26,7 @@
 									<p:outputLabel value="Moneda:" />
 								</td>
 								<td>
-									<p:outputLabel/>
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.tipomoneda.denominacion}"/>
 								</td>
 							</tr>	
 							<tr>
@@ -34,7 +34,7 @@
 									<p:outputLabel value="Fecha Apertura:" />
 								</td>
 								<td>
-									<p:outputLabel />
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.fechaapertura}"/>
 								</td>
 							</tr>
 							<tr>
@@ -42,9 +42,25 @@
 									<p:outputLabel value="Tasa de Interés:" />
 								</td>
 								<td>
-									<p:outputLabel />
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorrohistorial.tasainteres}"/>
 								</td>
-							</tr>						
+							</tr>	
+							<tr>
+								<td>
+									<p:outputLabel value="Estado Cuenta:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.estadocuenta.denominacion}"/>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Tasa de Interés:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.saldo}"/>
+								</td>
+							</tr>					
 						</tbody>
 					</table>
 				</div>

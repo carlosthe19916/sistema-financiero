@@ -9,12 +9,12 @@
 
 <ui:composition>
 <h:form>
-	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="300">		
+	<p:dialog id="#{componentName}" header="Datos Financieros" widgetVar="#{componentName}" modal="true" height="300">		
 		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
 					<div class="sf-agrupador-content-cabecera">
-						<h3>DATOS PERSONALES</h3>
+						<h3>Datos Financieros</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
 						<table>
@@ -23,11 +23,13 @@
 									<p:outputLabel>Moneda:</p:outputLabel>
 								</td>
 								<td>
-									<p:selectOneMenu value="">
-										<f:selectItem itemLabel="Soles"/>
-										<f:selectItem itemLabel="Dolares"/>
-										<f:selectItem itemLabel="Euros"/>
-									</p:selectOneMenu>
+									<h:form>
+										<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.changeTipomoneda}">
+											<f:selectItem itemLabel="--Seleccione--"/>
+											<f:selectItems value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.items.entrySet()}" var="tipomoneda" itemLabel="#{tipomoneda.value.denominacion}" itemValue="#{tipomoneda.key}"/>
+											<p:ajax></p:ajax>
+										</p:selectOneMenu>
+									</h:form>
 								</td>
 							</tr>
 							<tr>
@@ -35,20 +37,36 @@
 									<p:outputLabel>Fecha Apertura:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText />
+									<p:calendar  id="txtFechaapertura" value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.fechaapertura}" /> 
+									<p:watermark for="txtFechaapertura" value="dd/mm/yyyy" />
 								</td>
 								<td>
 									<p:outputLabel>Tasa de Interes:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText />
+									<p:outputLabel value="5"/>
+									<p:outputLabel value="%"/>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel>Estado cuenta:</p:outputLabel>
+								</td>
+								<td>
+									<p:outputLabel value="Activo"/> 									
+								</td>
+								<td>
+									<p:outputLabel>Saldo:</p:outputLabel>
+								</td>
+								<td>																		
+									<p:outputLabel value=" 0.00"></p:outputLabel>
 								</td>
 							</tr>							
 						</table>
 					</div>
 				</div>
 			</div>
-		
+
 			<div class="sf-buttons">							
 				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				

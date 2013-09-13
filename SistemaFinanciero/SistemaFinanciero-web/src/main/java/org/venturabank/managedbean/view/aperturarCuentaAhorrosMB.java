@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 
 import org.ventura.facade.CuentaahorroFacadeLocal;
 import org.ventura.model.Beneficiariocuenta;
@@ -31,6 +32,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	
 	@EJB
 	private CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
 
@@ -47,16 +49,20 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	@ManagedProperty(value = "#{datosFinancierosCuentaAhorroMB}")
 	private DatosFinancierosCuentaAhorroMB datosFinancierosCuentaAhorroMB;
-	
+
 	@ManagedProperty(value = "#{titularesMB}")
 	private TitularesMB titularesMB;
 
 	@ManagedProperty(value = "#{beneficiariosMB}")
 	private BeneficiariosMB beneficiariosMB;
 
-	// Constructor
+	/**
+	 * 
+	 * CONTRUCT POSTCONTRUC PREDESTROY
+	 * 
+	 **/
+
 	public aperturarCuentaAhorrosMB() {
-		// Inicializar Cuenta Ahorro
 		this.cuentaahorro = new Cuentaahorro();
 	}
 
@@ -68,7 +74,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		comboTipoPersona.setItemSelected(1);
 
 		// se recuperan los datos de los Managed Bean invocados
-		Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getOcuentaahorro();
+		Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
 		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
 		Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
 		List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
@@ -90,10 +96,31 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	}
 
-	// crear cuenta Ahorro
+	/**
+	 * 
+	 * BUSSINES LOGIC
+	 * 
+	 * **/
+
 	public void createCuentaahorro() {
-		cuentaahorro.setNumerocuentaahorro("12345678912345");
-		cuentaahorroFacadeLocal.create(cuentaahorro);
+		validarDatosCuentaahorro();
+		generarDatosCuentaahorro();
+		this.cuentaahorroFacadeLocal.create(cuentaahorro);
+	}
+
+	private boolean validarDatosCuentaahorro() {
+		if (isPersonaNatural()) {
+			this.cuentaahorro.setPersonajuridicacliente(null);
+		}
+		if (isPersonaJuridica()) {
+			this.cuentaahorro.setPersonanaturalcliente(null);
+			this.cuentaahorro.setBeneficiariocuentas(null);
+		}
+		return true;
+	}
+
+	private void generarDatosCuentaahorro() {
+		this.cuentaahorro.setNumerocuentaahorro("12345678912345");
 	}
 
 	public boolean isPersonaNatural() {
@@ -109,6 +136,12 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		else
 			return false;
 	}
+
+	/**
+	 * 
+	 * GETTER AND SETTER
+	 * 
+	 * **/
 
 	public Cuentaahorro getCuentaahorro() {
 		return cuentaahorro;

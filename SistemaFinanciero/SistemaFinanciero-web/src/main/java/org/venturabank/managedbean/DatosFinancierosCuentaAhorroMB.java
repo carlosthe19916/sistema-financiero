@@ -1,6 +1,8 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -9,47 +11,63 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 import javax.faces.event.ValueChangeEvent;
 
-import org.ventura.facade.CuentaahorrohistorialFacadeLocal;
+import org.ventura.facade.CuentaahorroFacadeLocal;
 import org.ventura.model.Cuentaahorro;
 import org.ventura.model.Cuentaahorrohistorial;
-import org.ventura.model.Tipoempresa;
 import org.ventura.model.Tipomoneda;
 import org.venturabank.util.ComboMB;
 
 @ManagedBean
 @NoneScoped
-public class DatosFinancierosCuentaAhorroMB implements Serializable{
-	
-	/**
-	 * 
-	 */
+public class DatosFinancierosCuentaAhorroMB implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	@EJB
+	CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
+
+	private Cuentaahorro cuentaahorro;
+	private Cuentaahorrohistorial cuentaahorrohistorial;
 
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Tipomoneda> comboTipomoneda;
-	
-	private Cuentaahorrohistorial oCuentaahorrohistorial;
-	private Cuentaahorro ocuentaahorro;
-	@EJB
-	CuentaahorrohistorialFacadeLocal cuentaaahorrohistorialFacadeLocal;
-	
-	
+
+	/*
+	 * Constructor
+	 */
 	public DatosFinancierosCuentaAhorroMB() {
-		oCuentaahorrohistorial=new Cuentaahorrohistorial();
+		this.cuentaahorro = new Cuentaahorro();
+		this.cuentaahorrohistorial = new Cuentaahorrohistorial();
 	}
-	
+
 	@PostConstruct
 	private void initValues() {
-		//comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
+		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
+		
+		List<Cuentaahorrohistorial> listCuentaahorrohistorial = new ArrayList<Cuentaahorrohistorial>();
+		this.cuentaahorro.setCuentaahorrohistorials(listCuentaahorrohistorial);
+		this.cuentaahorro.addCuentaahorrohistorial(cuentaahorrohistorial);
 	}
-	
+
+	/*
+	 * Bussiness Logic
+	 */
 	public void changeTipomoneda(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		
+		Tipomoneda tipomonedaSelected = comboTipomoneda
+				.getObjectItemSelected(key);
+		this.cuentaahorro.setTipomoneda(tipomonedaSelected);
 	}
-	
-	public void insertarPersonaJuridica(){
-		
+
+	/*
+	 * Getters and Setters
+	 */
+	public Cuentaahorro getCuentaahorro() {
+		return cuentaahorro;
+	}
+
+	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
+		this.cuentaahorro = cuentaahorro;
 	}
 
 	public ComboMB<Tipomoneda> getComboTipomoneda() {
@@ -60,20 +78,13 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable{
 		this.comboTipomoneda = comboTipomoneda;
 	}
 
-	public Cuentaahorrohistorial getoCuentaahorrohistorial() {
-		return oCuentaahorrohistorial;
+	public Cuentaahorrohistorial getCuentaahorrohistorial() {
+		return cuentaahorrohistorial;
 	}
 
-	public void setoCuentaahorrohistorial(Cuentaahorrohistorial oCuentaahorrohistorial) {
-		this.oCuentaahorrohistorial = oCuentaahorrohistorial;
-	}
-
-	public Cuentaahorro getOcuentaahorro() {
-		return ocuentaahorro;
-	}
-
-	public void setOcuentaahorro(Cuentaahorro ocuentaahorro) {
-		this.ocuentaahorro = ocuentaahorro;
+	public void setCuentaahorrohistorial(
+			Cuentaahorrohistorial cuentaahorrohistorial) {
+		this.cuentaahorrohistorial = cuentaahorrohistorial;
 	}
 
 }
