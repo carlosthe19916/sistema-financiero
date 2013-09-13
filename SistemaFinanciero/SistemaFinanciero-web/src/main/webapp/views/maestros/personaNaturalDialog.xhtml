@@ -23,7 +23,8 @@
 									<p:outputLabel>DNI:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" />
+									<p:inputText id="dni" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8">
+									</p:inputText>
 								</td>
 							</tr>
 							<tr>
