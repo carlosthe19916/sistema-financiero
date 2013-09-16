@@ -10,7 +10,7 @@ import javax.ejb.Remote;
 import org.ventura.model.Accionista;
 
 @Remote
-public interface AccionistaFacadeLocal {
+public interface AccionistaServiceLocal {
 	
 	public Accionista create(Accionista oAccionista);
 

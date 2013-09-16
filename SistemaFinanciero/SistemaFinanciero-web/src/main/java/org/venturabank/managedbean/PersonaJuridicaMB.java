@@ -11,7 +11,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 import javax.faces.event.ValueChangeEvent;
 
-import org.ventura.facade.AccionistaFacadeLocal;
+import org.ventura.facade.AccionistaServiceLocal;
 import org.ventura.facade.PersonajuridicaFacadeLocal;
 import org.ventura.model.Accionista;
 import org.ventura.model.Estadocivil;
@@ -40,7 +40,7 @@ public class PersonaJuridicaMB implements Serializable {
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadocivil;
 	@EJB
-	AccionistaFacadeLocal accionistaFacadeLocal;
+	AccionistaServiceLocal accionistaFacadeLocal;
 	@ManagedProperty(value = "#{tablaMB}")
 	private TablaMB<Accionista> tablaAccionistas;
 	

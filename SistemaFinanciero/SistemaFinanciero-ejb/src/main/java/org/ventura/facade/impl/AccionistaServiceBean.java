@@ -5,14 +5,22 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import org.ventura.dao.impl.AccionistaDAO;
-import org.ventura.facade.AccionistaFacadeLocal;
+import org.ventura.facade.AccionistaServiceLocal;
+import org.ventura.facade.remote.AccionistaServiceRemote;
 import org.ventura.model.Accionista;
 
 @Stateless
-public class AccionistaFacadeLocalImpl implements AccionistaFacadeLocal {
+@Local(AccionistaServiceLocal.class)
+@Remote(AccionistaServiceRemote.class)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+public class AccionistaServiceBean implements AccionistaServiceLocal {
 
 	@EJB
 	private AccionistaDAO oAccionistaDAO;
