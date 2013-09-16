@@ -93,3 +93,7 @@ table{
 	padding: 11px;
 	float: right;
 }
+
+.sf-label-required{
+	color: red;
+}
