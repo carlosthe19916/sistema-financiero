@@ -52,7 +52,8 @@
 		<class>org.ventura.model.Personanatural</class>
 		<class>org.ventura.model.Tipoempresa</class>
 		<class>org.ventura.model.Sucursal</class>
-		<class>org.ventura.model.Cheque</class>			
+		<class>org.ventura.model.Cheque</class>
+		<class>org.ventura.model.Usuario</class>			
 		
 		<properties>			
 			<!-- Properties for Hibernate -->

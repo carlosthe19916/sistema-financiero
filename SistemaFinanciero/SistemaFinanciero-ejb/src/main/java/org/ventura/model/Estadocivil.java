@@ -35,10 +35,6 @@ public class Estadocivil implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	// bi-directional many-to-one association to Tarjetadebito
-	@OneToMany(mappedBy = "estadocivil")
-	private List<Personanatural> listPersonanatural;
-
 	public Estadocivil() {
 	}
 
@@ -72,14 +68,6 @@ public class Estadocivil implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public List<Personanatural> getListPersonanatural() {
-		return listPersonanatural;
-	}
-
-	public void setListPersonanatural(List<Personanatural> listPersonanatural) {
-		this.listPersonanatural = listPersonanatural;
 	}
 
 }

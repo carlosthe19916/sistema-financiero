@@ -35,10 +35,6 @@ public class Sexo implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	// bi-directional many-to-one association to Tarjetadebito
-	@OneToMany(mappedBy = "sexo")
-	private List<Personanatural> listPersonanatural;
-
 	public Sexo() {
 	}
 
@@ -73,19 +69,6 @@ public class Sexo implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 
-	}
-
-	@Override
-	public int hashCode() {
-		return idsexo;
-	}
-
-	public List<Personanatural> getListPersonanatural() {
-		return listPersonanatural;
-	}
-
-	public void setListPersonanatural(List<Personanatural> listPersonanatural) {
-		this.listPersonanatural = listPersonanatural;
 	}
 
 }

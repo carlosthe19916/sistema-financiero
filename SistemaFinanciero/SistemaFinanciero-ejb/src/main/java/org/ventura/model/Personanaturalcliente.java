@@ -19,13 +19,13 @@ public class Personanaturalcliente implements Serializable {
 	@Column(unique = true, nullable = false, length = 8)
 	private String dni;
 
-	@ManyToOne
-	@JoinColumn(name = "dni", nullable = false, insertable = false, updatable = false)
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanatural personanatural;
-
+	
 	@OneToMany(mappedBy = "personanaturalcliente")
 	private List<Cuentaahorro> cuentaahorros;
-	
+
 	public Personanaturalcliente() {
 	}
 
@@ -43,7 +43,7 @@ public class Personanaturalcliente implements Serializable {
 
 	public void setPersonanatural(Personanatural personanatural) {
 		this.personanatural = personanatural;
+		this.dni = personanatural.getDni();
 	}
-
 
 }

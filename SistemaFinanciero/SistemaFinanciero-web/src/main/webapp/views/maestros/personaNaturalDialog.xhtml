@@ -10,6 +10,8 @@
 <ui:composition>
 <h:form>
 	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="500" rendered="#{aperturarCuentaAhorrosMB.personaNatural}">		
+		
+	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />  
 		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -20,16 +22,13 @@
 						<table>
 							<tr>
 								<td>
-									<p:outputLabel>DNI(*):</p:outputLabel>
+									<h:outputLabel value="DNI:" />
 								</td>
 								<td>
 									<p:inputText id="dni" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8"> 
-										<f:validateLength minimum="8"></f:validateLength>
-										<p:ajax update="msgDni" event="keyup"/>
-									</p:inputText>
-								</td>
-								<td>
-									<p:message for="dni" id="msgDni" display="icon"/>
+										<f:validateLength minimum="8"></f:validateLength>								
+									</p:inputText>  																		 
+									<p:outputLabel for="dni"/>      
 								</td>
 							</tr>
 							<tr>
@@ -45,12 +44,10 @@
 									<p:message for="apellidoPaterno" id="msgApellidoPaterno" display="icon"/>
 								</td>
 								<td>
-									<p:outputLabel>Apellido Materno(*):</p:outputLabel>
+									<h:outputLabel for="apellidoMaterno" value="Apellido Materno(*):"/>
 								</td>
-								<td>
-									<p:inputText id="apellidoMaterno" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidomaterno}" required="true" maxlength="50">
-										
-									</p:inputText>
+								<td> 
+									<p:inputText id="apellidoMaterno" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidomaterno}" required="true" maxlength="50" />
 								</td>
 								
 							</tr>

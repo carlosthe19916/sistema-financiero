@@ -8,16 +8,17 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 
 import org.ventura.facade.CuentaahorroFacadeLocal;
+import org.ventura.facade.PersonanaturalFacadeLocal;
+import org.ventura.facade.PersonanaturalclienteFacadeLocal;
 import org.ventura.model.Beneficiariocuenta;
 import org.ventura.model.Cuentaahorro;
-import org.ventura.model.Cuentaahorrohistorial;
 import org.ventura.model.Personajuridica;
 import org.ventura.model.Personajuridicacliente;
 import org.ventura.model.Personanatural;
 import org.ventura.model.Personanaturalcliente;
+import org.ventura.model.Sexo;
 import org.ventura.model.Titularcuenta;
 import org.venturabank.managedbean.BeneficiariosMB;
 import org.venturabank.managedbean.DatosFinancierosCuentaAhorroMB;
@@ -104,8 +105,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	public void createCuentaahorro() {
 		validarDatosCuentaahorro();
-		generarDatosCuentaahorro();
-		this.cuentaahorroFacadeLocal.create(cuentaahorro);
+		this.cuentaahorroFacadeLocal.create(cuentaahorro);				
 	}
 
 	private boolean validarDatosCuentaahorro() {
@@ -117,10 +117,6 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 			this.cuentaahorro.setBeneficiariocuentas(null);
 		}
 		return true;
-	}
-
-	private void generarDatosCuentaahorro() {
-		this.cuentaahorro.setNumerocuentaahorro("12345678912345");
 	}
 
 	public boolean isPersonaNatural() {
