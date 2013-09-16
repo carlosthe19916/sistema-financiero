@@ -1,6 +1,8 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -9,6 +11,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 import javax.faces.event.ValueChangeEvent;
 
+import org.ventura.facade.AccionistaFacadeLocal;
 import org.ventura.facade.PersonajuridicaFacadeLocal;
 import org.ventura.model.Accionista;
 import org.ventura.model.Estadocivil;
@@ -25,45 +28,46 @@ public class PersonaJuridicaMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Personajuridica oPersonajuridica;
+	private Personajuridica oPersonajuridica;	
 	@EJB
 	PersonajuridicaFacadeLocal personaJuridicaFacadeLocal;
+	
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Tipoempresa> comboTipoempresa;
-	
-	@ManagedProperty(value = "#{tablaMB}")
-	private TablaMB<Accionista> tablaAccionistas;
 	
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Sexo> comboSexo;
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadocivil;
+	@EJB
+	AccionistaFacadeLocal accionistaFacadeLocal;
+	@ManagedProperty(value = "#{tablaMB}")
+	private TablaMB<Accionista> tablaAccionistas;
 	
-	private Accionista accionista;
 	
 	public PersonaJuridicaMB() {
-		oPersonajuridica = new Personajuridica();
-		accionista=new Accionista();
-
+		oPersonajuridica = new Personajuridica();		
 	}
 
 	@PostConstruct
 	private void initValues() {
 		getComboTipoempresa().initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
 		getComboSexo().initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);	
-		getComboEstadocivil().initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
+		getComboEstadocivil().initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);		
+		oPersonajuridica.setListAccionista(new ArrayList<Accionista>());
+		oPersonajuridica.setPersonanatural(new Personanatural());
 	}
 	
 	public void addAccionista() {
-		Accionista accionista=new Accionista();
-		accionista.getId().setDni("00000000");
-		Personanatural personanatural = new Personanatural();
+		Accionista accionista = new Accionista();
 		
-		personanatural.setApellidopaterno("Apellido Paterno");
-		personanatural.setApellidomaterno("Apellido Materno");
-		personanatural.setNombres("Nombres");
-		accionista.setPersonanatural(personanatural);
-		this.getTablaAccionistas().addRow(accionista);
+		accionista.setPersonanatural(new Personanatural());
+		accionista.getPersonanatural().setDni("00000000");
+		accionista.getPersonanatural().setApellidopaterno("aaa");
+		accionista.getPersonanatural().setApellidomaterno("aaa");
+		accionista.getPersonanatural().setNombres("aaa");		
+		oPersonajuridica.getListAccionista().add(accionista);
+		tablaAccionistas.addRow(accionista);			
 	}
 
 	public void removeAccionista() {
@@ -130,14 +134,6 @@ public class PersonaJuridicaMB implements Serializable {
 
 	public void setTablaAccionistas(TablaMB<Accionista> tablaAccionistas) {
 		this.tablaAccionistas = tablaAccionistas;
-	}
-
-	public Accionista getoAccionista() {
-		return accionista;
-	}
-
-	public void setoAccionista(Accionista oAccionista) {
-		this.accionista = oAccionista;
-	}
+	}		
 
 }

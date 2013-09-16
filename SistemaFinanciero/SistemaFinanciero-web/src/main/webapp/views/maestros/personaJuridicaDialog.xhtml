@@ -60,7 +60,7 @@
 										<td><p:outputLabel>Tipo de empresa:</p:outputLabel></td>
 										<td><p:selectOneRadio
 												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboTipoempresa.itemSelected}"
-												valueChangeListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.changeTipoempresa()}">
+												valueChangeListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.changeTipoempresa}">
 												<f:selectItems
 													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboTipoempresa.items.entrySet()}"
 													var="val1" itemLabel="#{val1.value.denominacion}"
@@ -77,8 +77,6 @@
 									</tr>
 
 								</table>
-
-
 
 							</div>
 						</div>
@@ -313,10 +311,10 @@
 													<p:column headerText="DNI(*)" width="50">
 														<p:cellEditor>
 															<f:facet name="output">
-																<h:outputText value="#{accionista.id.dni}" />
+																<h:outputText value="#{accionista.personanatural.dni}" />
 															</f:facet>
 															<f:facet name="input">
-																<p:inputText value="#{accionista.id.dni}" />
+																<p:inputText value="#{accionista.personanatural.dni}" />
 															</f:facet>
 														</p:cellEditor>
 													</p:column>
