@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import org.ventura.model.Usuario;
+import org.ventura.entity.Usuario;
 
 @ManagedBean(name="usuarioMB")
 @SessionScoped

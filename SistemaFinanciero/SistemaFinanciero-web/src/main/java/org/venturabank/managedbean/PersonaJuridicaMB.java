@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -11,14 +12,14 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 import javax.faces.event.ValueChangeEvent;
 
-import org.ventura.facade.AccionistaServiceLocal;
-import org.ventura.facade.PersonajuridicaFacadeLocal;
-import org.ventura.model.Accionista;
-import org.ventura.model.Estadocivil;
-import org.ventura.model.Personajuridica;
-import org.ventura.model.Personanatural;
-import org.ventura.model.Sexo;
-import org.ventura.model.Tipoempresa;
+import org.ventura.boundary.local.AccionistaServiceLocal;
+import org.ventura.boundary.local.PersonajuridicaServiceLocal;
+import org.ventura.entity.Accionista;
+import org.ventura.entity.Estadocivil;
+import org.ventura.entity.Personajuridica;
+import org.ventura.entity.Personanatural;
+import org.ventura.entity.Sexo;
+import org.ventura.entity.Tipoempresa;
 import org.venturabank.util.ComboMB;
 import org.venturabank.util.TablaMB;
 
@@ -30,7 +31,7 @@ public class PersonaJuridicaMB implements Serializable {
 
 	private Personajuridica oPersonajuridica;	
 	@EJB
-	PersonajuridicaFacadeLocal personaJuridicaFacadeLocal;
+	PersonajuridicaServiceLocal personaJuridicaFacadeLocal;
 	
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Tipoempresa> comboTipoempresa;

@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.model.Ubigeo;
+import org.ventura.entity.Ubigeo;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

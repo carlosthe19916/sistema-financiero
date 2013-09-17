@@ -13,10 +13,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 import javax.swing.text.DefaultEditorKit.BeepAction;
 
-import org.ventura.facade.BeneficiariocuentaFacadeLocal;
-import org.ventura.model.Beneficiariocuenta;
-import org.ventura.model.Personanatural;
-import org.ventura.model.Titularcuenta;
+import org.ventura.boundary.local.BeneficiariocuentaServiceLocal;
+import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.Personanatural;
+import org.ventura.entity.Titularcuenta;
 import org.venturabank.util.TablaMB;
 
 @ManagedBean
@@ -26,7 +26,7 @@ public class BeneficiariosMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private BeneficiariocuentaFacadeLocal beneficiariocuentaFacadeLocal;
+	private BeneficiariocuentaServiceLocal beneficiariocuentaFacadeLocal;
 	private Beneficiariocuenta beneficiariocuenta;
 	
 	@ManagedProperty(value = "#{tablaMB}")

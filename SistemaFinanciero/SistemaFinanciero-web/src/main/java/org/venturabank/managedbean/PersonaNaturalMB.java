@@ -9,10 +9,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 import javax.faces.event.ValueChangeEvent;
 
-import org.ventura.facade.PersonanaturalFacadeLocal;
-import org.ventura.model.Estadocivil;
-import org.ventura.model.Personanatural;
-import org.ventura.model.Sexo;
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.entity.Estadocivil;
+import org.ventura.entity.Personanatural;
+import org.ventura.entity.Sexo;
 import org.venturabank.util.ComboMB;
 
 @ManagedBean
@@ -22,7 +22,7 @@ public class PersonaNaturalMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	PersonanaturalFacadeLocal personaNaturalFacadeLocal;
+	PersonanaturalServiceLocal personaNaturalFacadeLocal;
 
 	private Personanatural personaNatural;
 

@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.model.Retirointere;
+import org.ventura.entity.Retirointere;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

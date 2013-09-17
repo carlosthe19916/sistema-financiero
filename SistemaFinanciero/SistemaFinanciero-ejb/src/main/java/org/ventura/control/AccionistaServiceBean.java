@@ -11,14 +11,15 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
+import org.ventura.boundary.local.AccionistaServiceLocal;
+import org.ventura.boundary.remote.AccionistaServiceRemote;
 import org.ventura.dao.impl.AccionistaDAO;
-import org.ventura.facade.AccionistaServiceLocal;
-import org.ventura.facade.remote.AccionistaServiceRemote;
-import org.ventura.model.Accionista;
+import org.ventura.entity.Accionista;
 
 @Stateless
 @Local(AccionistaServiceLocal.class)
-@TransactionAttribute(TransactionAttributeType.MANDATORY)
+@Remote(AccionistaServiceRemote.class)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class AccionistaServiceBean implements AccionistaServiceLocal {
 
 	@EJB

@@ -9,10 +9,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 
-import org.ventura.facade.TitularcuentaFacadeLocal;
-import org.ventura.model.Personanatural;
-import org.ventura.model.Sexo;
-import org.ventura.model.Titularcuenta;
+import org.ventura.boundary.local.TitularcuentaServiceLocal;
+import org.ventura.entity.Personanatural;
+import org.ventura.entity.Sexo;
+import org.ventura.entity.Titularcuenta;
 import org.venturabank.util.ComboMB;
 import org.venturabank.util.TablaMB;
 
@@ -23,7 +23,7 @@ public class TitularesMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	TitularcuentaFacadeLocal facadeLocal;
+	TitularcuentaServiceLocal facadeLocal;
 
 	private Integer cantidadRetirantes;
 	
