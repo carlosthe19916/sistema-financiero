@@ -13,10 +13,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 import javax.faces.event.ValueChangeEvent;
 
-import org.ventura.facade.CuentaahorroFacadeLocal;
-import org.ventura.model.Cuentaahorro;
-import org.ventura.model.Cuentaahorrohistorial;
-import org.ventura.model.Tipomoneda;
+import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.entity.Cuentaahorro;
+import org.ventura.entity.Cuentaahorrohistorial;
+import org.ventura.entity.Tipomoneda;
 import org.venturabank.util.ComboMB;
 
 @ManagedBean
@@ -26,7 +26,7 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
+	CuentaahorroServiceLocal cuentaahorroFacadeLocal;
 
 	private Cuentaahorro cuentaahorro;
 	private Cuentaahorrohistorial cuentaahorrohistorial;
