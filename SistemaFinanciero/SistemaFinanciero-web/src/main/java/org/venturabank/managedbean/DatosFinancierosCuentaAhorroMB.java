@@ -1,9 +1,7 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,10 +11,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 import javax.faces.event.ValueChangeEvent;
 
-import org.ventura.facade.CuentaahorroFacadeLocal;
-import org.ventura.model.Cuentaahorro;
-import org.ventura.model.Cuentaahorrohistorial;
-import org.ventura.model.Tipomoneda;
+import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.entity.Cuentaahorro;
+import org.ventura.entity.Cuentaahorrohistorial;
+import org.ventura.entity.Tipomoneda;
 import org.venturabank.util.ComboMB;
 
 @ManagedBean
@@ -26,7 +24,7 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
+	CuentaahorroServiceLocal cuentaahorroFacadeLocal;
 
 	private Cuentaahorro cuentaahorro;
 	private Cuentaahorrohistorial cuentaahorrohistorial;
@@ -87,13 +85,6 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	public void setCuentaahorrohistorial(
 			Cuentaahorrohistorial cuentaahorrohistorial) {
 		this.cuentaahorrohistorial = cuentaahorrohistorial;
-	}
-	
-	public String fechaActual(){
-		java.util.Date date = new Date();
-		System.out.println (date);
-		SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-		return formateador.format(date);
 	}
 
 }
