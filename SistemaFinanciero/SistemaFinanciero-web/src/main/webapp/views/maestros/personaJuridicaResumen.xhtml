@@ -58,13 +58,13 @@
 									<p:outputLabel value="Tipo de Empresa:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.tipoempresa}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.tipoempresa.denominacion}" styleClass="sf-label-bold" />
 								</td>
 								<td>
 									<p:outputLabel value="Fin Social:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.finsocial}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.razonSocial(aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.finsocial)}" styleClass="sf-label-bold" />
 								</td>
 							</tr>	
 							<tr>
