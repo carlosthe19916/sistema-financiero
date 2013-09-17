@@ -13,8 +13,9 @@
 		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
+				<p:growl id="growl" sticky="true" />
 					<div class="sf-agrupador-content-cabecera">
-						<h3>Datos Financieros</h3>
+						<h3>Datos de Apertura</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
 						<table>
@@ -29,6 +30,7 @@
 											<f:selectItems value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.items.entrySet()}" var="tipomoneda" itemLabel="#{tipomoneda.value.denominacion}" itemValue="#{tipomoneda.key}"/>
 											<p:ajax></p:ajax>
 										</p:selectOneMenu>
+										<p:outputLabel> *</p:outputLabel>
 									</h:form>
 								</td>
 							</tr>
@@ -58,7 +60,7 @@
 									<p:outputLabel>Estado cuenta:</p:outputLabel>
 								</td>
 								<td>
-									<p:outputLabel value="Activo"/> 									
+									<p:outputLabel value="Activo" styleClass="sf-label-bold"/> 									
 								</td>
 							
 							</tr>	
@@ -68,10 +70,7 @@
 									<p:outputLabel>Saldo:</p:outputLabel>
 								</td>
 								<td>																		
-									<p:inputText size="10" value="0.00">
-									
-									</p:inputText>
-									
+									<p:outputLabel value="0.00" styleClass="sf-label-bold"/>
 								</td>
 							</tr>						
 						</table>
@@ -80,7 +79,7 @@
 			</div>
 
 			<div class="sf-buttons">							
-				<p:commandButton value="Date" update=":#{componentToUpdated}" oncomplete="#{componentName}.hide()" actionListener="#{datosFinancierosCuentaAhorroMB.fechaActual()}" styleClass="action green" />
+				
 				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>
