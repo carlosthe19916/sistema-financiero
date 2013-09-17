@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.model.Cuentaahorrohistorial;
+import org.ventura.entity.Cuentaahorrohistorial;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

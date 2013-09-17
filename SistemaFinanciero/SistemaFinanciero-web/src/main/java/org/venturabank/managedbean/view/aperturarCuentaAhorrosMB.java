@@ -8,17 +8,17 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 
-import org.ventura.facade.CuentaahorroFacadeLocal;
-import org.ventura.model.Beneficiariocuenta;
-import org.ventura.model.Cuentaahorro;
-import org.ventura.model.Cuentaahorrohistorial;
-import org.ventura.model.Personajuridica;
-import org.ventura.model.Personajuridicacliente;
-import org.ventura.model.Personanatural;
-import org.ventura.model.Personanaturalcliente;
-import org.ventura.model.Titularcuenta;
+import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.Cuentaahorro;
+import org.ventura.entity.Personajuridica;
+import org.ventura.entity.Personajuridicacliente;
+import org.ventura.entity.Personanatural;
+import org.ventura.entity.Personanaturalcliente;
+import org.ventura.entity.Sexo;
+import org.ventura.entity.Titularcuenta;
 import org.venturabank.managedbean.BeneficiariosMB;
 import org.venturabank.managedbean.DatosFinancierosCuentaAhorroMB;
 import org.venturabank.managedbean.PersonaJuridicaMB;
@@ -34,7 +34,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	
 	@EJB
-	private CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
+	private CuentaahorroServiceLocal cuentaahorroFacadeLocal;
 
 	private Cuentaahorro cuentaahorro;
 
@@ -104,8 +104,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	public void createCuentaahorro() {
 		validarDatosCuentaahorro();
-		generarDatosCuentaahorro();
-		this.cuentaahorroFacadeLocal.create(cuentaahorro);
+		this.cuentaahorroFacadeLocal.create(cuentaahorro);				
 	}
 
 	private boolean validarDatosCuentaahorro() {
@@ -117,10 +116,6 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 			this.cuentaahorro.setBeneficiariocuentas(null);
 		}
 		return true;
-	}
-
-	private void generarDatosCuentaahorro() {
-		this.cuentaahorro.setNumerocuentaahorro("12345678912345");
 	}
 
 	public boolean isPersonaNatural() {

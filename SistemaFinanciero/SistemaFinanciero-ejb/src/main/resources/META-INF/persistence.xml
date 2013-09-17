@@ -14,51 +14,54 @@
 	xsi:schemaLocation="
         http://java.sun.com/xml/ns/persistence
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	<persistence-unit name="SistemaFinancieroPU" transaction-type="JTA">
+	<persistence-unit name="SistemaFinancieroPU"
+		transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasource/SistemaFinancieroDS</jta-data-source>
-		<class>org.ventura.model.Personajuridicacliente</class>
-		<class>org.ventura.model.Personanaturalcliente</class>
-		<class>org.ventura.model.Beneficiariocuenta</class>
-		<class>org.ventura.model.ChequePK</class>
-		<class>org.ventura.model.Chequeestado</class>
-		<class>org.ventura.model.Chequera</class>
-		<class>org.ventura.model.ChequeraPK</class>
-		<class>org.ventura.model.Chequeraestado</class>
-		<class>org.ventura.model.Cuentaahorro</class>
-		<class>org.ventura.model.Cuentaahorrohistorial</class>
-		<class>org.ventura.model.Cuentacorriente</class>
-		<class>org.ventura.model.Cuentacorrientehistorial</class>
-		<class>org.ventura.model.Cuentaplazofijo</class>
-		<class>org.ventura.model.Estadocuenta</class>
-		<class>org.ventura.model.Estadotarjeta</class>
-		<class>org.ventura.model.Frecuenciacapitalizacion</class>
-		<class>org.ventura.model.Retirointere</class>
-		<class>org.ventura.model.Tarjetadebito</class>
-		<class>org.ventura.model.Tarjetadebitoasignadocuentaahorro</class>
-		<class>org.ventura.model.TarjetadebitoasignadocuentaahorroPK</class>
-		<class>org.ventura.model.Tarjetadebitoasignadocuentacorriente</class>
-		<class>org.ventura.model.TarjetadebitoasignadocuentacorrientePK</class>
-		<class>org.ventura.model.Tipotarjetadebito</class>
-		<class>org.ventura.model.Titularcuenta</class>
-		<class>org.ventura.model.Titularcuentahistorial</class>
-		<class>org.ventura.model.Estadocivil</class>
-		<class>org.ventura.model.Sexo</class>
-		<class>org.ventura.model.Tipomoneda</class>
-		<class>org.ventura.model.Ubigeo</class>
-		<class>org.ventura.model.Accionista</class>
-		<class>org.ventura.model.AccionistaPK</class>
-		<class>org.ventura.model.Personajuridica</class>
-		<class>org.ventura.model.Personanatural</class>
-		<class>org.ventura.model.Tipoempresa</class>
-		<class>org.ventura.model.Sucursal</class>
-		<class>org.ventura.model.Cheque</class>			
-		
-		<properties>			
+
+		<class>org.ventura.entity.Personajuridicacliente</class>
+		<class>org.ventura.entity.Personanaturalcliente</class>
+		<class>org.ventura.entity.Beneficiariocuenta</class>
+		<class>org.ventura.entity.ChequePK</class>
+		<class>org.ventura.entity.Chequeestado</class>
+		<class>org.ventura.entity.Chequera</class>
+		<class>org.ventura.entity.ChequeraPK</class>
+		<class>org.ventura.entity.Chequeraestado</class>
+		<class>org.ventura.entity.Cuentaahorro</class>
+		<class>org.ventura.entity.Cuentaahorrohistorial</class>
+		<class>org.ventura.entity.Cuentacorriente</class>
+		<class>org.ventura.entity.Cuentacorrientehistorial</class>
+		<class>org.ventura.entity.Cuentaplazofijo</class>
+		<class>org.ventura.entity.Estadocuenta</class>
+		<class>org.ventura.entity.Estadotarjeta</class>
+		<class>org.ventura.entity.Frecuenciacapitalizacion</class>
+		<class>org.ventura.entity.Retirointere</class>
+		<class>org.ventura.entity.Tarjetadebito</class>
+		<class>org.ventura.entity.Tarjetadebitoasignadocuentaahorro</class>
+		<class>org.ventura.entity.TarjetadebitoasignadocuentaahorroPK</class>
+		<class>org.ventura.entity.Tarjetadebitoasignadocuentacorriente</class>
+		<class>org.ventura.entity.TarjetadebitoasignadocuentacorrientePK</class>
+		<class>org.ventura.entity.Tipotarjetadebito</class>
+		<class>org.ventura.entity.Titularcuenta</class>
+		<class>org.ventura.entity.Titularcuentahistorial</class>
+		<class>org.ventura.entity.Estadocivil</class>
+		<class>org.ventura.entity.Sexo</class>
+		<class>org.ventura.entity.Tipomoneda</class>
+		<class>org.ventura.entity.Ubigeo</class>
+		<class>org.ventura.entity.Accionista</class>
+		<class>org.ventura.entity.AccionistaPK</class>
+		<class>org.ventura.entity.Personajuridica</class>
+		<class>org.ventura.entity.Personanatural</class>
+		<class>org.ventura.entity.Tipoempresa</class>
+		<class>org.ventura.entity.Sucursal</class>
+		<class>org.ventura.entity.Cheque</class>
+		<class>org.ventura.entity.Usuario</class>
+
+		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="validate" />
-			<property name="hibernate.show_sql" value="false" />			
+			<property name="hibernate.show_sql" value="false" />
 		</properties>
 	</persistence-unit>
-	
+
 </persistence>

@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.model.Estadotarjeta;
+import org.ventura.entity.Estadotarjeta;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

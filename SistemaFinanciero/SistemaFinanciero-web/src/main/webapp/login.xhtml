@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+
+</h:head>
+<h:body>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<center>
+		<h:form>
+			<p:panelGrid columns="2">
+				<f:facet name="header">
+        ACCESO AL SISTEMA
+    </f:facet>
+
+				<h:outputLabel value="Usuario:" />
+				<h:inputText value="#{usuarioMB.usuario.nombreusuario}" />
+
+				<h:outputLabel value="Password:" />
+				<h:inputSecret value="#{usuarioMB.usuario.password}" />
+
+				<f:facet name="footer">
+					<h:commandButton value="login" />
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</center>
+
+	<form action="j_security_check" method="post">
+		<input type="hidden" name="A" value="1" />
+		 <input type="hidden"
+			name="B" value="2" />
+	</form>
+
+</h:body>
+</html>

@@ -9,10 +9,11 @@
 
 <ui:composition>
 <h:form>
-	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="500" rendered="#{aperturarCuentaAhorrosMB.personaNatural}">		
+	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="500" rendered="#{aperturarCuentaAhorrosMB.personaNatural}">		  
 		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
+				<p:growl id="growl" sticky="true" />
 					<div class="sf-agrupador-content-cabecera">
 						<h3>DATOS PERSONALES</h3>
 					</div>
@@ -20,81 +21,78 @@
 						<table>
 							<tr>
 								<td>
-									<p:outputLabel>DNI(*):</p:outputLabel>
+									<p:outputLabel>DNI:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="dni" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8"> 
+									<p:inputText id="txtDNIPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8" requiredMessage="Ingrese número de DNI" validatorMessage="El numero de DNI tiene 8 digitos"> 
 										<f:validateLength minimum="8"></f:validateLength>
-										<p:ajax update="msgDni" event="keyup"/>
+										<p:ajax update="growl" event="keyup"/>
 									</p:inputText>
-								</td>
-								<td>
-									<p:message for="dni" id="msgDni" display="icon"/>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p:outputLabel>Apellido Paterno(*):</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText id="apellidoPaterno" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidopaterno}" required="true" maxlength="50">
-									<p:ajax update="msgApellidoPaterno" event="keyup"/>
-									</p:inputText>
-								</td>
-								<td>
-									<p:message for="apellidoPaterno" id="msgApellidoPaterno" display="icon"/>
-								</td>
-								<td>
-									<p:outputLabel>Apellido Materno(*):</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText id="apellidoMaterno" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidomaterno}" required="true" maxlength="50">
-										
-									</p:inputText>
+									<p:watermark for="txtDNIPN" value="DNI"/>
+									<p:outputLabel styleClass="">  *</p:outputLabel>
 								</td>
 								
 							</tr>
 							<tr>
 								<td>
-									<p:outputLabel>Nombres(*):</p:outputLabel>
-								</td>
-								<td colspan="3">
-									<p:inputText id="nombres" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.nombres}" size="71" required="true" maxlength="60">
-										<p:ajax update="msgNombres" event="keyup"/>
-									</p:inputText>
+									<p:outputLabel>Apellido Paterno:</p:outputLabel>
 								</td>
 								<td>
-									<p:message for="nombres" id="msgNombres" display="icon"/>
+									<p:inputText id="txtApPaternoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidopaterno}" required="true" maxlength="50" requiredMessage="Ingrese Apellido Paterno">
+									<p:ajax update="growl" event="keyup"/>
+									</p:inputText>
+									<p:watermark for="txtApPaternoPN" value="Apellido Paterno"/>
+									<p:outputLabel styleClass="">  *</p:outputLabel>
+								</td>
+								<td>
+									<p:outputLabel>Apellido Materno:</p:outputLabel>
+								</td>
+								<td>
+									<p:inputText id="txtApMaternoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.apellidomaterno}" required="true" maxlength="50" requiredMessage="Ingrese Apellido Materno">
+										<p:ajax update="growl" event="keyup"/>
+									</p:inputText>
+									<p:watermark for="txtApMaternoPN" value="Apellido Materno"/>
+									<p:outputLabel styleClass="">  *</p:outputLabel>
 								</td>
 							</tr>
+							<tr>
+								<td>
+									<p:outputLabel>Nombres:</p:outputLabel>
+									
+								</td>
+								<td colspan="3">
+									<p:inputText id="txtNombresPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.nombres}" size="71" required="true" maxlength="60" requiredMessage="Ingrese Nombres">
+										<p:ajax update="growl" event="keyup"/>
+									</p:inputText>
+									<p:watermark for="txtNombresPN" value="Nombres" />
+									<p:outputLabel styleClass="">  *</p:outputLabel>
+								</td>
+							</tr>
+							
 							<tr>
 								<td>
 									<p:outputLabel>Fecha Nacimiento:</p:outputLabel>
 								</td>
 								<td>
-									<p:calendar id="txtFechaNacimientoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" > 
-									
-									</p:calendar>
-									<p:watermark for="txtFechaNacimientoPN" value="dd/mm/yyyy" />
-									
+									<p:calendar id="txtFecNacPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" pattern="dd/mm/yyyy" required="true" requiredMessage="Ingrese Fecha de Nacimiento" validatorMessage="123">
+										<p:ajax update="growl" event="keyup"/>
+									</p:calendar> 
+									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy"/>
+									<p:outputLabel styleClass="">  *</p:outputLabel>
 								</td>
-								
 								<td>
 									<p:outputLabel>Sexo:</p:outputLabel>
 								</td>
 								<td>
-									<h:form>
-										<p:selectOneMenu id="sexo" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeSexo}">
-											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										<p:selectOneMenu  id="txtSexo" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeSexo}" required="true" requiredMessage="Seleccione una OpciÃ³n">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="null"/>
 											<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
-											<p:ajax></p:ajax>
-											
-										</p:selectOneMenu>	
-																
-									</h:form>																								
+											<p:ajax  update="growl" event="keyup"/>	
+										</p:selectOneMenu>
+										<p:outputLabel styleClass="">  *</p:outputLabel>																						
 								</td>
-								
 							</tr>
+							
 						</table>
 					</div>
 				</div>
