@@ -97,6 +97,14 @@ public class PersonaJuridicaMB implements Serializable {
 		personaJuridicaFacadeLocal.create(oPersonajuridica);
 	}
 	
+	public String razonSocial(boolean finsocial){
+		if(finsocial)
+			return "Con fines de lucro";
+			else 
+				return "Sin fines de lucro";
+			
+	}
+	
 	public Personajuridica getoPersonajuridica() {
 		return oPersonajuridica;
 	}

@@ -16,8 +16,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.ventura.model.Titularcuenta;
-import org.ventura.model.Usuario;
 import org.venturabank.managedbean.UsuarioMB;
 
 //@WebFilter("/*")
@@ -42,7 +40,7 @@ public class Login implements Filter {
 				.getSession().getAttribute("usuarioMB");
 
 		
-
+/*
 		if (usuario == null) {
 			RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher("/faces/login.xhtml");
 			dispatcher.forward(request, response);
@@ -68,7 +66,7 @@ public class Login implements Filter {
 				dispatcher.forward(request, response);
 			}
 		}
-
+*/
 	}
 
 	@Override

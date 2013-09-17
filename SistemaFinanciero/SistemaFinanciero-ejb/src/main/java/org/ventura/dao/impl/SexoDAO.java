@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.model.Sexo;
+import org.ventura.entity.Sexo;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

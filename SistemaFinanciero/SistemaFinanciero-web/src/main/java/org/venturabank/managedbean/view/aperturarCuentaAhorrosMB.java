@@ -9,17 +9,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
-import org.ventura.facade.CuentaahorroFacadeLocal;
-import org.ventura.facade.PersonanaturalFacadeLocal;
-import org.ventura.facade.PersonanaturalclienteFacadeLocal;
-import org.ventura.model.Beneficiariocuenta;
-import org.ventura.model.Cuentaahorro;
-import org.ventura.model.Personajuridica;
-import org.ventura.model.Personajuridicacliente;
-import org.ventura.model.Personanatural;
-import org.ventura.model.Personanaturalcliente;
-import org.ventura.model.Sexo;
-import org.ventura.model.Titularcuenta;
+import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.Cuentaahorro;
+import org.ventura.entity.Personajuridica;
+import org.ventura.entity.Personajuridicacliente;
+import org.ventura.entity.Personanatural;
+import org.ventura.entity.Personanaturalcliente;
+import org.ventura.entity.Sexo;
+import org.ventura.entity.Titularcuenta;
 import org.venturabank.managedbean.BeneficiariosMB;
 import org.venturabank.managedbean.DatosFinancierosCuentaAhorroMB;
 import org.venturabank.managedbean.PersonaJuridicaMB;
@@ -35,7 +34,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	
 	@EJB
-	private CuentaahorroFacadeLocal cuentaahorroFacadeLocal;
+	private CuentaahorroServiceLocal cuentaahorroFacadeLocal;
 
 	private Cuentaahorro cuentaahorro;
 

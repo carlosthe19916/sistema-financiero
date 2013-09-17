@@ -10,12 +10,13 @@
 <ui:composition>
 	<h:form>
 		<p:dialog id="#{componentName}" header="Persona Jurídica"
-			widgetVar="#{componentName}" modal="true" height="630">
+			widgetVar="#{componentName}" modal="true" height="630" rendered="#{aperturarCuentaAhorrosMB.personaJuridica}">
 
 			<p:tabView id="tabView">
 				<p:tab id="tab1" title="Datos Importantes">
 					<div class="sf-agrupador">
 						<div class="sf-agrupador-content">
+							<p:growl id="growl" sticky="true" />
 							<div class="sf-agrupador-content-cabecera">
 								<h3>DATOS DE LA EMPRESA</h3>
 							</div>
@@ -23,25 +24,38 @@
 								<table>
 									<tr>
 										<td><p:outputLabel>RUC:</p:outputLabel></td>
-										<td><p:inputText id="txtRucPJ"
-												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.ruc}" /></td>
+										<td><p:inputText id="txtRucPJ" required="true" value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.ruc}" maxlength="11" requiredMessage="Ingrese Numero de RUC" validatorMessage="El RUC tiene 11 digitos"  >
+										<f:validateLength minimum="11"></f:validateLength>
+										<p:ajax update="growl" event="keyup"/>
+										</p:inputText>
+										<p:watermark for="txtRucPJ" value="RUC"/>
+										<p:outputLabel styleClass="">  *</p:outputLabel></td>
+										
 									</tr>
 									<tr>
 										<td><p:outputLabel>Razon Social:</p:outputLabel></td>
-										<td><p:inputText id="txtRazonsocialPJ" size="55"
-												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.razonsocial}" /></td>
+										<td><p:inputText id="txtRazonsocialPJ" required="true" requiredMessage="Ingrese Razon Social"   size="55"
+												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.razonsocial}" >
+												<p:ajax update="growl" event="keyup"/>
+												</p:inputText>
+												<p:watermark for="txtRazonsocialPJ" value="Razon Social"/>
+												<p:outputLabel styleClass="">  *</p:outputLabel></td>
+												
 									</tr>
 									<tr>
 										<td><p:outputLabel>Nombre Comercial:</p:outputLabel></td>
-										<td><p:inputText id="txtNombreComercialPJ" size="55"
-												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.nombrecomercial}" />
-										</td>
+										<td><p:inputText id="txtNombreComercialPJ"  size="55"
+												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.nombrecomercial}" >
+												<p:ajax update="growl" event="keyup"/>
+												</p:inputText></td>										
 									</tr>
 									<tr>
 										<td><p:outputLabel>Actividad Principal:</p:outputLabel></td>
-										<td><p:inputText id="txtActividadPrincipalPJ" size="55"
-												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.actividadprincipal}" />
-										</td>
+										<td><p:inputText id="txtActividadPrincipalPJ" size="55" 
+												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.actividadprincipal}" >
+												<p:ajax update="growl" event="keyup"/>
+												</p:inputText></td>
+										
 									</tr>
 								</table>
 							</div>
@@ -58,21 +72,21 @@
 								<table>
 									<tr>
 										<td><p:outputLabel>Tipo de empresa:</p:outputLabel></td>
-										<td><p:selectOneRadio
-												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboTipoempresa.itemSelected}"
-												valueChangeListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.changeTipoempresa}">
+										<td><p:selectOneRadio id="radioTipoempresaPJ"
+												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboTipoempresa.itemSelected}" 
+												valueChangeListener="#{aperturarCuentaAhorrosMB.personaJuridicaMB.changeTipoempresa}" >
 												<f:selectItems
 													value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.comboTipoempresa.items.entrySet()}"
 													var="val1" itemLabel="#{val1.value.denominacion}"
-													itemValue="#{val1.key}" />
-											</p:selectOneRadio></td>
+													itemValue="#{val1.key}" />												
+											</p:selectOneRadio></td>												
 									</tr>
 									<tr>
 										<td><p:outputLabel>Fin social:</p:outputLabel></td>
-										<td><p:selectOneRadio id="comboFinsocial"
-												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.finsocial}">
-												<f:selectItem itemLabel="CON FINES DE LUCRO" itemValue="1" />
-												<f:selectItem itemLabel="SIN FINES DE LUCRO" itemValue="2" />
+										<td><p:selectOneRadio id="radioFinsocial" 
+												value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.finsocial}" >
+												<f:selectItem itemLabel="CON FINES DE LUCRO" itemValue="true" />
+												<f:selectItem itemLabel="SIN FINES DE LUCRO" itemValue="false" />												
 											</p:selectOneRadio></td>
 									</tr>
 
@@ -131,9 +145,6 @@
 					</div>
 
 					<div class="sf-buttons">
-						<p:commandButton value="prueba" update=":#{componentToUpdated}"
-							oncomplete="#{componentName}.hide()"
-							actionListener="#{personaJuridicaMB.insertarPersonaJuridica()}" />
 						<p:commandButton update=":#{componentToUpdated}" value="Aceptar"
 							oncomplete="#{componentName}.hide()" styleClass="action green"
 							onclick="#{componentName}.hide()" />
