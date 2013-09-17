@@ -9,7 +9,7 @@
 
 <ui:composition>
 <h:form>
-	<p:dialog id="#{componentName}" header="Datos Financieros" widgetVar="#{componentName}" modal="true" height="300">		
+	<p:dialog id="#{componentName}" header="Datos Financieros" widgetVar="#{componentName}" modal="true" height="250" width="350">		
 		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -37,9 +37,14 @@
 									<p:outputLabel>Fecha Apertura:</p:outputLabel>
 								</td>
 								<td>
-									<p:calendar  id="txtFechaapertura" value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.fechaapertura}" /> 
-									<p:watermark for="txtFechaapertura" value="dd/mm/yyyy" />
+									<p:outputLabel id="a" value="#{datosFinancierosCuentaAhorroMB.fechaActual()}" styleClass="sf-label-bold">
+										<f:convertDateTime for="a" pattern="d/M/yyyy"/>
+									</p:outputLabel>
+									
 								</td>
+								
+							</tr>
+							<tr>
 								<td>
 									<p:outputLabel>Tasa de Interes:</p:outputLabel>
 								</td>
@@ -55,19 +60,27 @@
 								<td>
 									<p:outputLabel value="Activo"/> 									
 								</td>
+							
+							</tr>	
+							<tr>
+								
 								<td>
 									<p:outputLabel>Saldo:</p:outputLabel>
 								</td>
 								<td>																		
-									<p:outputLabel value=" 0.00"></p:outputLabel>
+									<p:inputText size="10" value="0.00">
+									
+									</p:inputText>
+									
 								</td>
-							</tr>							
+							</tr>						
 						</table>
 					</div>
 				</div>
 			</div>
 
 			<div class="sf-buttons">							
+				<p:commandButton value="Date" update=":#{componentToUpdated}" oncomplete="#{componentName}.hide()" actionListener="#{datosFinancierosCuentaAhorroMB.fechaActual()}" styleClass="action green" />
 				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>

@@ -1,7 +1,9 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -85,6 +87,13 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	public void setCuentaahorrohistorial(
 			Cuentaahorrohistorial cuentaahorrohistorial) {
 		this.cuentaahorrohistorial = cuentaahorrohistorial;
+	}
+	
+	public String fechaActual(){
+		java.util.Date date = new Date();
+		System.out.println (date);
+		SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+		return formateador.format(date);
 	}
 
 }
