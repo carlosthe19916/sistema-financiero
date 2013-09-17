@@ -41,12 +41,9 @@ public class BeneficiariosMB implements Serializable {
 		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();
 		beneficiariocuenta.setDni("00000000");
 		
-		Personanatural personanatural = new Personanatural();
-		personanatural.setApellidopaterno("Apellido Paterno");
-		personanatural.setApellidomaterno("Apellido Materno");
-		personanatural.setNombres("Nombres");
-		
-		beneficiariocuenta.setPersonanatural(personanatural);
+		beneficiariocuenta.setApellidopaterno("Apellido Paterno");
+		beneficiariocuenta.setApellidomaterno("Apellido Materno");
+		beneficiariocuenta.setNombres("Nombres");
 		
 		this.tablaBeneficiarios.addRow(beneficiariocuenta);
 	}

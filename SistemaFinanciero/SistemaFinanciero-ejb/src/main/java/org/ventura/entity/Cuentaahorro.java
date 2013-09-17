@@ -18,7 +18,10 @@ public class Cuentaahorro implements Serializable {
 	@Id
 	@Column(unique = true, nullable = false, length = 14)
 	private String numerocuentaahorro;
-
+	
+	@Transient
+	private Class tipoPersonaCliente;
+	
 	@Column(length = 8)
 	private String dni;
 
@@ -29,6 +32,9 @@ public class Cuentaahorro implements Serializable {
 	@Column(nullable = false)
 	private Integer idtipomoneda;
 
+	@Column(nullable = false)
+	private Integer idestadocuenta;
+	
 	@Column(length = 11)
 	private String ruc;
 
@@ -44,12 +50,12 @@ public class Cuentaahorro implements Serializable {
 	private Personajuridicacliente personajuridicacliente;
 
 	// bi-directional many-to-one association to Estadocuenta
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
 
 	// bi-directional many-to-one association to Estadocuenta
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
 	private Tipomoneda tipomoneda;
 
@@ -152,6 +158,7 @@ public class Cuentaahorro implements Serializable {
 
 	public void setEstadocuenta(Estadocuenta estadocuenta) {
 		this.estadocuenta = estadocuenta;
+		this.idestadocuenta = estadocuenta.getIdestadocuenta();
 	}
 
 	public List<Cuentaahorrohistorial> getCuentaahorrohistorials() {
@@ -243,6 +250,7 @@ public class Cuentaahorro implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
+		this.idtipomoneda = tipomoneda.getIdtipomoneda();
 	}
 
 	public Personajuridicacliente getPersonajuridicacliente() {
@@ -252,6 +260,22 @@ public class Cuentaahorro implements Serializable {
 	public void setPersonajuridicacliente(
 			Personajuridicacliente personajuridicacliente) {
 		this.personajuridicacliente = personajuridicacliente;
+	}
+
+	public Class getTipoPersonaCliente() {
+		return tipoPersonaCliente;
+	}
+
+	public void setTipoPersonaCliente(Class tipoPersonaCliente) {
+		this.tipoPersonaCliente = tipoPersonaCliente;
+	}
+
+	public Integer getIdestadocuenta() {
+		return idestadocuenta;
+	}
+
+	public void setIdestadocuenta(Integer idestadocuenta) {
+		this.idestadocuenta = idestadocuenta;
 	}
 
 }

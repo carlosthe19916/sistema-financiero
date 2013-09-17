@@ -10,14 +10,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
-import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Personanaturalcliente;
-import org.ventura.entity.Sexo;
 import org.ventura.entity.Titularcuenta;
 import org.venturabank.managedbean.BeneficiariosMB;
 import org.venturabank.managedbean.DatosFinancierosCuentaAhorroMB;
@@ -32,7 +30,6 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	
 	@EJB
 	private CuentaahorroServiceLocal cuentaahorroFacadeLocal;
 
@@ -109,9 +106,11 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	private boolean validarDatosCuentaahorro() {
 		if (isPersonaNatural()) {
+			cuentaahorro.setTipoPersonaCliente(Personanatural.class);
 			this.cuentaahorro.setPersonajuridicacliente(null);
 		}
 		if (isPersonaJuridica()) {
+			cuentaahorro.setTipoPersonaCliente(Personajuridica.class);
 			this.cuentaahorro.setPersonanaturalcliente(null);
 			this.cuentaahorro.setBeneficiariocuentas(null);
 		}

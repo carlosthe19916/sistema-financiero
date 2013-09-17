@@ -56,8 +56,7 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	 */
 	public void changeTipomoneda(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Tipomoneda tipomonedaSelected = comboTipomoneda
-				.getObjectItemSelected(key);
+		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);
 		this.cuentaahorro.setTipomoneda(tipomonedaSelected);
 	}
 

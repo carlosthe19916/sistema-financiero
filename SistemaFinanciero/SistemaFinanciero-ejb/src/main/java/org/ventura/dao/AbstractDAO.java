@@ -34,7 +34,7 @@ public abstract class AbstractDAO<T> {
 		try {
 			getEntityManager().persist(entity);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -44,7 +44,7 @@ public abstract class AbstractDAO<T> {
 		try {
 			getEntityManager().remove(getEntityManager().merge(entity));
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -55,7 +55,7 @@ public abstract class AbstractDAO<T> {
 		try {
 			t = getEntityManager().find(entityClass, id);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -68,7 +68,7 @@ public abstract class AbstractDAO<T> {
 		try {
 			t = getEntityManager().merge(entity);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -85,7 +85,7 @@ public abstract class AbstractDAO<T> {
 			list = getEntityManager().createQuery(cq).getResultList();
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -106,7 +106,7 @@ public abstract class AbstractDAO<T> {
 			list = q.getResultList();
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -122,7 +122,7 @@ public abstract class AbstractDAO<T> {
 					.getResultList();
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -138,7 +138,7 @@ public abstract class AbstractDAO<T> {
 			list = findByNamedQuery(namedQueryName, parameters, 0);
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -154,7 +154,7 @@ public abstract class AbstractDAO<T> {
 					.setMaxResults(resultLimit).getResultList();
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -181,7 +181,7 @@ public abstract class AbstractDAO<T> {
 			list = query.getResultList();
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -202,7 +202,7 @@ public abstract class AbstractDAO<T> {
 			count = ((Long) q.getSingleResult()).intValue();
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR:" + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}

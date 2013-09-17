@@ -21,8 +21,20 @@ public class Beneficiariocuenta implements Serializable {
 	@Column(nullable = false, length = 8)
 	private String dni;
 
+	@Column(nullable = false, length = 50)
+	private String apellidopaterno;
+	
+	@Column(nullable = false, length = 50)
+	private String apellidomaterno;
+	
+	@Column(nullable = false, length = 60)
+	private String nombres;
+	
 	@Column(nullable = false)
 	private double porcentajebeneficio;
+	
+	@Column(nullable = false)
+	private Boolean estado;
 
 	// bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
@@ -38,11 +50,6 @@ public class Beneficiariocuenta implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "numerocuentaplazofijo")
 	private Cuentaplazofijo cuentaplazofijo;
-
-	// bi-directional many-to-one association to Cuentaplazofijo
-	@ManyToOne
-	@JoinColumn(name = "dni", insertable = false, updatable = false)
-	private Personanatural personanatural;
 
 	public Beneficiariocuenta() {
 	}
@@ -95,12 +102,36 @@ public class Beneficiariocuenta implements Serializable {
 		this.cuentaplazofijo = cuentaplazofijo;
 	}
 
-	public Personanatural getPersonanatural() {
-		return personanatural;
+	public String getApellidopaterno() {
+		return apellidopaterno;
 	}
 
-	public void setPersonanatural(Personanatural personanatural) {
-		this.personanatural = personanatural;
+	public void setApellidopaterno(String apellidopaterno) {
+		this.apellidopaterno = apellidopaterno;
+	}
+
+	public String getApellidomaterno() {
+		return apellidomaterno;
+	}
+
+	public void setApellidomaterno(String apellidomaterno) {
+		this.apellidomaterno = apellidomaterno;
+	}
+
+	public String getNombres() {
+		return nombres;
+	}
+
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
 }
