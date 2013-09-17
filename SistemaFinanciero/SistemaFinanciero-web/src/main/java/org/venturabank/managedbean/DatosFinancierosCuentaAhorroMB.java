@@ -91,7 +91,6 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	
 	public String fechaActual(){
 		java.util.Date date = new Date();
-		System.out.println (date);
 		SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
 		return formateador.format(date);
 	}

@@ -15,14 +15,14 @@
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
 					<div class="sf-agrupador-content-cabecera">
-						<h3>Datos de Titulares</h3>
+						<h3>Datos de los Titulares</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
 						<table>
 							<tr>
 								<td><p:outputLabel>Cantidad de Retirantes:</p:outputLabel></td>
 								<td><p:inputText
-										value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}" /></td>
+										value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}" size="1"/></td>
 							</tr>
 						</table>
 						<div class="buttons">
@@ -62,7 +62,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Paterno" width="60">
+								<p:column headerText="Apellido Paterno(*)" width="60">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText
@@ -74,7 +74,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Materno" width="60">
+								<p:column headerText="Apellido Materno(*)" width="60">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText
@@ -86,7 +86,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Nombres" width="100">
+								<p:column headerText="Nombres(*)" width="100">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{titular.personanatural.nombres}" />
