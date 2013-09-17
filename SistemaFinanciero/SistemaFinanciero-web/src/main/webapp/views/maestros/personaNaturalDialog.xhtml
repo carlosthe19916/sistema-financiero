@@ -24,8 +24,9 @@
 									<p:outputLabel>DNI:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText id="txtDNIPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8" requiredMessage="Ingrese número de DNI" validatorMessage="El numero de DNI tiene 8 digitos"> 
-										<f:validateLength minimum="8"></f:validateLength>
+									<p:inputText id="txtDNIPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8" requiredMessage="Ingrese Número de DNI" validatorMessage="Número de DNI Invalido"> 
+										
+										<f:validateRegex pattern="(^[0-9]{8}$)" />
 										<p:ajax update="growl" event="keyup"/>
 									</p:inputText>
 									<p:watermark for="txtDNIPN" value="DNI"/>
@@ -74,9 +75,11 @@
 									<p:outputLabel>Fecha Nacimiento:</p:outputLabel>
 								</td>
 								<td>
-									<p:calendar id="txtFecNacPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" pattern="dd/mm/yyyy" required="true" requiredMessage="Ingrese Fecha de Nacimiento" validatorMessage="123">
+									<p:calendar id="txtFecNacPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.fechanacimiento}" navigator="true" pattern="dd/MM/yy" required="true" requiredMessage="Ingrese Fecha de Nacimiento" validatorMessage="123">
 										<p:ajax update="growl" event="keyup"/>
+										<f:convertDateTime pattern="dd/MM/yy"/>
 									</p:calendar> 
+									
 									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy"/>
 									<p:outputLabel styleClass="">  *</p:outputLabel>
 								</td>
@@ -85,14 +88,14 @@
 								</td>
 								<td>
 										<p:selectOneMenu  id="txtSexo" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.personaNaturalMB.changeSexo}" required="true" requiredMessage="Seleccione una OpciÃ³n">
-											<f:selectItem itemLabel="--Seleccione--" itemValue="null"/>
+											<f:selectItem id="e" itemLabel="--Seleccione--" itemValue=""/>
+											
 											<f:selectItems value="#{aperturarCuentaAhorrosMB.personaNaturalMB.comboSexo.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
 											<p:ajax  update="growl" event="keyup"/>	
 										</p:selectOneMenu>
 										<p:outputLabel styleClass="">  *</p:outputLabel>																						
 								</td>
 							</tr>
-							
 						</table>
 					</div>
 				</div>
@@ -122,7 +125,8 @@
 									<p:outputLabel>Ocupacion:</p:outputLabel>
 								</td>
 								<td colspan="3">
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.ocupacion}"  size="71"/>
+									<p:inputText id="txtOcupacionPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.ocupacion}"  size="71"/>
+									<p:watermark for="txtOcupacionPN" value="Ocupación" />
 								</td>
 							</tr>
 							<tr>
@@ -130,15 +134,17 @@
 									<p:outputLabel>Direccion:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.direccion}" size="71">
-								</p:inputText></td>
+									<p:inputText id="txtDireccionPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.direccion}" size="71"/>
+									<p:watermark for="txtDireccionPN" value="Dirección" />
+								</td>
 							</tr>
 							<tr>
 								<td>
 									<p:outputLabel>Referencia:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.referencia}"  size="71" />
+									<p:inputText id="txtReferenciaPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.referencia}"  size="71" />
+									<p:watermark for="txtReferenciaPN" value="Referencia" />
 								</td>
 							</tr>
 		
@@ -147,13 +153,15 @@
 									<p:outputLabel>Telefono:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.telefono}" />
+									<p:inputText id="txtTelefonoPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.telefono}" />
+									<p:watermark for="txtTelefonoPN" value="Telefono1/telefono2" />
 								</td>
 								<td>
 									<p:outputLabel>Celular:</p:outputLabel>
 								</td>
 								<td>
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.celular}" />
+									<p:inputText id="txtCelularPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.celular}" />
+									<p:watermark for="txtCelularPN" value="celular1/celular2/RPM" />
 								</td>
 							</tr>
 							<tr>
@@ -161,7 +169,8 @@
 									<p:outputLabel>Email:</p:outputLabel>
 								</td>
 								<td colspan="5">
-									<p:inputText value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.email}"  size="73" />
+									<p:inputText id="txtEmailPN" value="#{aperturarCuentaAhorrosMB.personaNaturalMB.personaNatural.email}"  size="73" />
+									<p:watermark for="txtEmailPN" value="email@hotmail.com" />
 								</td>
 							</tr>
 						</table>
