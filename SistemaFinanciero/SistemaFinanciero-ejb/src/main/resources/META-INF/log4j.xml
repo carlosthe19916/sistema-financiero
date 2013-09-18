@@ -6,7 +6,7 @@
 		<param name="MaxFileSize" value="100KB" />
 		<param name="MaxBackupIndex" value="5" />
 		<param name="Threshold" value="INFO" />
-		<param name="File" value="log/salida.log" />
+		<param name="File" value="C:\PostLoader.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d %-5p [%c{1}] %m %n" />
 		</layout>

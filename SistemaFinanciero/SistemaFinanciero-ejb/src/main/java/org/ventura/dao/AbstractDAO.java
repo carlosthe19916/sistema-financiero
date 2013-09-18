@@ -14,7 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import sun.rmi.runtime.Log;
+import org.ventural.util.logger.Log;
 
 /**
  * 
@@ -30,11 +30,13 @@ public abstract class AbstractDAO<T> {
 
 	protected abstract EntityManager getEntityManager();
 
+	protected abstract Log getLogger();
+
 	public void create(T entity) {
 		try {
 			getEntityManager().persist(entity);
 		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error("VENTURA BANK " + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -45,6 +47,7 @@ public abstract class AbstractDAO<T> {
 			getEntityManager().remove(getEntityManager().merge(entity));
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error("VENTURA BANK " + e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -56,6 +59,7 @@ public abstract class AbstractDAO<T> {
 			t = getEntityManager().find(entityClass, id);
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -69,6 +73,7 @@ public abstract class AbstractDAO<T> {
 			t = getEntityManager().merge(entity);
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -86,6 +91,7 @@ public abstract class AbstractDAO<T> {
 
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -107,6 +113,7 @@ public abstract class AbstractDAO<T> {
 
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -123,6 +130,7 @@ public abstract class AbstractDAO<T> {
 
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -139,6 +147,7 @@ public abstract class AbstractDAO<T> {
 
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -155,6 +164,7 @@ public abstract class AbstractDAO<T> {
 
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -182,6 +192,7 @@ public abstract class AbstractDAO<T> {
 
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
@@ -203,6 +214,7 @@ public abstract class AbstractDAO<T> {
 
 		} catch (Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}

@@ -20,19 +20,19 @@ public class DelegatingLogger implements Log {
 		this.logger.trace(message, params);
 	}
 
-	void debug(String message, Object[] params) {
+	public void debug(String message, Object[] params) {
 		this.logger.debug(message, params);
 	}
 
-	void info(String message, Object[] params) {
+	public void info(String message, Object[] params) {
 		this.logger.info(message, params);
 	}
 
-	void warn(String message, Object[] params) {
+	public void warn(String message, Object[] params) {
 		this.logger.warn(message, params);
 	}
 
-	void error(String message, Object[] params) {
+	public void error(String message, Object[] params) {
 		this.logger.error(message, params);
 	}
 
@@ -42,7 +42,28 @@ public class DelegatingLogger implements Log {
 	}
 
 	@Override
+	public void trace(String msg) {
+		this.trace(msg, new Object[] {});
+	}
+
+	@Override
+	public void debug(String msg) {
+		this.debug(msg, new Object[] {});
+	}
+
+	@Override
+	public void warn(String msg) {
+		this.warn(msg, new Object[] {});
+	}
+
+	@Override
+	public void error(String msg) {
+		this.error(msg, new Object[] {});
+	}
+
+	@Override
 	public Logger getLogger() {
 		return logger;
 	}
+
 }
