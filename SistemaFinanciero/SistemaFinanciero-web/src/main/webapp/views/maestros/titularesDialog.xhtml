@@ -8,9 +8,8 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
-	<h:form>
-		<p:dialog id="#{componentName}" header="Titulares"
-			widgetVar="#{componentName}" modal="true" height="400">
+	<h:form id="form">
+		<p:dialog id="#{componentName}" header="Titulares" widgetVar="#{componentName}" modal="true" height="400" width="700">
 
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -21,8 +20,7 @@
 						<table>
 							<tr>
 								<td><p:outputLabel>Cantidad de Retirantes:</p:outputLabel></td>
-								<td><p:inputText
-										value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}" size="1"/></td>
+								<td><p:inputText value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}" size="1"/></td>
 							</tr>
 						</table>
 						<div class="buttons">
@@ -47,57 +45,69 @@
 							</div>
 						</div>
 						<div style="padding: 0px 5px;">
-							<p:dataTable id="tablaTitulares"
-								value="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.rows}"
-								var="titular" editable="true" selectionMode="single"
-								selection="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.selectedRow}"
-								rowKey="#{titular}">
-								<p:column headerText="DNI(*)" width="50">
-									<p:cellEditor>
-										<f:facet name="output">
+						
+							<p:growl id="growl" sticky="true" />  
+						
+							<p:dataTable id="tablaTitulares" value="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.rows}"
+								var="titular" editable="true" selectionMode="single" selection="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.selectedRow}"
+								rowKey="#{titular}"  scrollable="true" scrollHeight="150" scrollRows="5" rowIndexVar="row" rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }">
+								
+								<p:ajax event="rowEdit" update=":form:growl,tablaTitulares" />
+								<p:ajax event="rowEditCancel" update=":form:growl,tablaTitulares" />
+								
+								<p:column headerText="Nro" width="10%" style="text-align:center;">							
+									<h:outputText value="#{row + 1}"/>  
+								</p:column>
+								
+								<p:column headerText="DNI(*)" width="15%">							
+									<p:cellEditor >
+										<f:facet name="output" >
 											<h:outputText value="#{titular.personanatural.dni}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{titular.personanatural.dni}" />
+											<p:inputText id="dni" value="#{titular.personanatural.dni}" required="true" maxlength="8">
+												<f:validateRegex pattern="(^[0-9]{8}$)" />											
+											</p:inputText>
+											<p:watermark for="dni" value="DNI"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Paterno(*)" width="60">
+								<p:column headerText="Apellido Paterno(*)" width="25%">
 									<p:cellEditor>
 										<f:facet name="output">
-											<h:outputText
-												value="#{titular.personanatural.apellidopaterno}" />
+											<h:outputText value="#{titular.personanatural.apellidopaterno}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText
-												value="#{titular.personanatural.apellidopaterno}" />
+											<p:inputText id="apellidoPaterno" value="#{titular.personanatural.apellidopaterno}" required="true" maxlength="50" requiredMessage="Apellido Paterno (Obligatorio)"/>												
+											<p:watermark for="apellidoPaterno" value="Apellido Paterno"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Materno(*)" width="60">
+								<p:column headerText="Apellido Materno(*)" width="25%">
 									<p:cellEditor>
 										<f:facet name="output">
-											<h:outputText
-												value="#{titular.personanatural.apellidomaterno}" />
+											<h:outputText value="#{titular.personanatural.apellidomaterno}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText
-												value="#{titular.personanatural.apellidomaterno}" />
+											<p:inputText id="apellidoMaterno" value="#{titular.personanatural.apellidomaterno}" required="true" maxlength="50"/>
+											<p:watermark for="apellidoMaterno" value="Apellido Materno"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Nombres(*)" width="100">
+								<p:column headerText="Nombres(*)" width="25%">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{titular.personanatural.nombres}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{titular.personanatural.nombres}" />
+											<p:inputText id="nombres" value="#{titular.personanatural.nombres}" required="true" maxlength="50"/>
+											<p:watermark for="nombres" value="Nombres"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column width="10">
-									<p:rowEditor />
+								<p:column width="10%">
+									<p:rowEditor>										
+									</p:rowEditor>
 								</p:column>
 							</p:dataTable>
 						</div>

@@ -1,8 +1,6 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -11,9 +9,7 @@ import javax.faces.bean.NoneScoped;
 
 import org.ventura.boundary.local.TitularcuentaServiceLocal;
 import org.ventura.entity.Personanatural;
-import org.ventura.entity.Sexo;
 import org.ventura.entity.Titularcuenta;
-import org.venturabank.util.ComboMB;
 import org.venturabank.util.TablaMB;
 
 @ManagedBean
@@ -35,14 +31,8 @@ public class TitularesMB implements Serializable {
 	}
 
 	public void addTitular() {
-		Titularcuenta titularcuenta = new Titularcuenta();
-		titularcuenta.setDni("00000000");
-		
-		Personanatural personanatural = new Personanatural();
-		personanatural.setApellidopaterno("Apellido Paterno");
-		personanatural.setApellidomaterno("Apellido Materno");
-		personanatural.setNombres("Nombres");
-		
+		Titularcuenta titularcuenta = new Titularcuenta();	
+		Personanatural personanatural = new Personanatural();	
 		titularcuenta.setPersonanatural(personanatural);
 		
 		this.tablaTitulares.addRow(titularcuenta);
