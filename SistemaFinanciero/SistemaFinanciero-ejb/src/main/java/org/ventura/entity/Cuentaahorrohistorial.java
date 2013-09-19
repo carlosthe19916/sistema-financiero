@@ -32,7 +32,7 @@ public class Cuentaahorrohistorial implements Serializable {
 
 	// bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
-	@JoinColumn(name = "numerocuentaahorro", nullable = false)
+	@JoinColumn(name = "numerocuentaahorro", nullable = false, insertable = false, updatable = false)
 	private Cuentaahorro cuentaahorro;
 
 	public Cuentaahorrohistorial() {
