@@ -179,7 +179,7 @@
 			</div>
 		
 			<div class="sf-buttons">											
-				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
+				<p:commandButton update=":#{componentToUpdated},growl" value="Aceptar" oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>
 		</div>
