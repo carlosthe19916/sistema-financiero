@@ -18,10 +18,10 @@ public class Cuentaahorro implements Serializable {
 	@Id
 	@Column(unique = true, nullable = false, length = 14)
 	private String numerocuentaahorro;
-	
+
 	@Transient
 	private Class tipoPersonaCliente;
-	
+
 	@Column(length = 8)
 	private String dni;
 
@@ -34,7 +34,7 @@ public class Cuentaahorro implements Serializable {
 
 	@Column(nullable = false)
 	private Integer idestadocuenta;
-	
+
 	@Column(length = 11)
 	private String ruc;
 
@@ -60,15 +60,15 @@ public class Cuentaahorro implements Serializable {
 	private Tipomoneda tipomoneda;
 
 	// bi-directional many-to-one association to Beneficiariocuenta
-	@OneToMany(mappedBy = "cuentaahorro")
+	@OneToMany(mappedBy = "cuentaahorro", cascade = CascadeType.ALL)
 	private List<Beneficiariocuenta> beneficiariocuentas;
 
 	// bi-directional many-to-one association to Titularcuenta
-	@OneToMany(mappedBy = "cuentaahorro")
+	@OneToMany(mappedBy = "cuentaahorro", cascade = CascadeType.ALL)
 	private List<Titularcuenta> titularcuentas;
 
 	// bi-directional many-to-one association to Cuentaahorrohistorial
-	@OneToMany(mappedBy = "cuentaahorro")
+	@OneToMany(mappedBy = "cuentaahorro", cascade = CascadeType.ALL)
 	private List<Cuentaahorrohistorial> cuentaahorrohistorials;
 
 	// bi-directional many-to-one association to

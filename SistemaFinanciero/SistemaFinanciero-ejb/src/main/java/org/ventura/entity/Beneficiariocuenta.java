@@ -15,6 +15,7 @@ public class Beneficiariocuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idbeneficiariocuenta;
 
@@ -23,32 +24,41 @@ public class Beneficiariocuenta implements Serializable {
 
 	@Column(nullable = false, length = 50)
 	private String apellidopaterno;
-	
+
 	@Column(nullable = false, length = 50)
 	private String apellidomaterno;
-	
+
 	@Column(nullable = false, length = 60)
 	private String nombres;
-	
+
 	@Column(nullable = false)
 	private double porcentajebeneficio;
-	
+
 	@Column(nullable = false)
 	private Boolean estado;
 
+	@Column(length = 14)
+	private String numerocuentaahorro;
+
+	@Column(length = 14)
+	private String numerocuentacorriente;
+
+	@Column(length = 14)
+	private String numerocuentaplazofijo;
+
 	// bi-directional many-to-one association to Cuentaahorro
-	@ManyToOne
-	@JoinColumn(name = "numerocuentaahorro", nullable = false)
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "numerocuentaahorro", insertable = false, updatable = false)
 	private Cuentaahorro cuentaahorro;
 
 	// bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name = "numerocuentacorriente")
+	@JoinColumn(name = "numerocuentacorriente", insertable = false, updatable = false)
 	private Cuentacorriente cuentacorriente;
 
 	// bi-directional many-to-one association to Cuentaplazofijo
 	@ManyToOne
-	@JoinColumn(name = "numerocuentaplazofijo")
+	@JoinColumn(name = "numerocuentaplazofijo", insertable = false, updatable = false)
 	private Cuentaplazofijo cuentaplazofijo;
 
 	public Beneficiariocuenta() {
@@ -84,6 +94,7 @@ public class Beneficiariocuenta implements Serializable {
 
 	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
 		this.cuentaahorro = cuentaahorro;
+		this.numerocuentaahorro = cuentaahorro.getNumerocuentaahorro();
 	}
 
 	public Cuentacorriente getCuentacorriente() {
@@ -92,6 +103,7 @@ public class Beneficiariocuenta implements Serializable {
 
 	public void setCuentacorriente(Cuentacorriente cuentacorriente) {
 		this.cuentacorriente = cuentacorriente;
+		this.numerocuentacorriente = cuentacorriente.getNumerocuentacorriente();
 	}
 
 	public Cuentaplazofijo getCuentaplazofijo() {
@@ -100,6 +112,7 @@ public class Beneficiariocuenta implements Serializable {
 
 	public void setCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) {
 		this.cuentaplazofijo = cuentaplazofijo;
+		this.numerocuentaplazofijo = cuentaplazofijo.getNumerocuentaplazofijo();
 	}
 
 	public String getApellidopaterno() {
@@ -132,6 +145,30 @@ public class Beneficiariocuenta implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+
+	public String getNumerocuentaahorro() {
+		return numerocuentaahorro;
+	}
+
+	public void setNumerocuentaahorro(String numerocuentaahorro) {
+		this.numerocuentaahorro = numerocuentaahorro;
+	}
+
+	public String getNumerocuentacorriente() {
+		return numerocuentacorriente;
+	}
+
+	public void setNumerocuentacorriente(String numerocuentacorriente) {
+		this.numerocuentacorriente = numerocuentacorriente;
+	}
+
+	public String getNumerocuentaplazofijo() {
+		return numerocuentaplazofijo;
+	}
+
+	public void setNumerocuentaplazofijo(String numerocuentaplazofijo) {
+		this.numerocuentaplazofijo = numerocuentaplazofijo;
 	}
 
 }

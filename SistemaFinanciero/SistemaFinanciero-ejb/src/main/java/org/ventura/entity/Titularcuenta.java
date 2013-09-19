@@ -1,7 +1,9 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 /**
@@ -15,25 +17,35 @@ public class Titularcuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idtitularcuenta;
 
 	@Column(nullable = false, length = 8)
 	private String dni;
 
+	@Column(length = 14)
+	private String numerocuentaahorro;
+
+	@Column(length = 14)
+	private String numerocuentacorriente;
+
+	@Column(length = 14)
+	private String numerocuentaplazofijo;
+
 	// bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
-	@JoinColumn(name = "numerocuentaahorro")
+	@JoinColumn(name = "numerocuentaahorro", insertable = false, updatable = false)
 	private Cuentaahorro cuentaahorro;
 
 	// bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name = "numerocuentacorriente")
+	@JoinColumn(name = "numerocuentacorriente", insertable = false, updatable = false)
 	private Cuentacorriente cuentacorriente;
 
 	// bi-directional many-to-one association to Cuentaplazofijo
 	@ManyToOne
-	@JoinColumn(name = "numerocuentaplazofijo")
+	@JoinColumn(name = "numerocuentaplazofijo", insertable = false, updatable = false)
 	private Cuentaplazofijo cuentaplazofijo;
 
 	// bi-directional many-to-one association to Titularcuentahistorial
@@ -41,7 +53,7 @@ public class Titularcuenta implements Serializable {
 	private List<Titularcuentahistorial> titularcuentahistorials;
 
 	// bi-directional many-to-one association to Cuentaplazofijo
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanatural personanatural;
 
@@ -119,6 +131,30 @@ public class Titularcuenta implements Serializable {
 
 	public void setPersonanatural(Personanatural personanatural) {
 		this.personanatural = personanatural;
+	}
+
+	public String getNumerocuentaahorro() {
+		return numerocuentaahorro;
+	}
+
+	public void setNumerocuentaahorro(String numerocuentaahorro) {
+		this.numerocuentaahorro = numerocuentaahorro;
+	}
+
+	public String getNumerocuentacorriente() {
+		return numerocuentacorriente;
+	}
+
+	public void setNumerocuentacorriente(String numerocuentacorriente) {
+		this.numerocuentacorriente = numerocuentacorriente;
+	}
+
+	public String getNumerocuentaplazofijo() {
+		return numerocuentaplazofijo;
+	}
+
+	public void setNumerocuentaplazofijo(String numerocuentaplazofijo) {
+		this.numerocuentaplazofijo = numerocuentaplazofijo;
 	}
 
 }
