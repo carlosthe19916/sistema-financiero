@@ -131,23 +131,18 @@ public class Cuentaahorro implements Serializable {
 		return this.beneficiariocuentas;
 	}
 
-	public void setBeneficiariocuentas(
-			List<Beneficiariocuenta> beneficiariocuentas) {
+	public void setBeneficiariocuentas(List<Beneficiariocuenta> beneficiariocuentas) {
 		this.beneficiariocuentas = beneficiariocuentas;
 	}
 
-	public Beneficiariocuenta addBeneficiariocuenta(
-			Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta addBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().add(beneficiariocuenta);
-		beneficiariocuenta.setCuentaahorro(this);
 
 		return beneficiariocuenta;
 	}
 
-	public Beneficiariocuenta removeBeneficiariocuenta(
-			Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta removeBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().remove(beneficiariocuenta);
-		beneficiariocuenta.setCuentaahorro(null);
 
 		return beneficiariocuenta;
 	}
@@ -165,24 +160,19 @@ public class Cuentaahorro implements Serializable {
 		return this.cuentaahorrohistorials;
 	}
 
-	public void setCuentaahorrohistorials(
-			List<Cuentaahorrohistorial> cuentaahorrohistorials) {
+	public void setCuentaahorrohistorials(List<Cuentaahorrohistorial> cuentaahorrohistorials) {
 		this.cuentaahorrohistorials = cuentaahorrohistorials;
 	}
 
-	public Cuentaahorrohistorial addCuentaahorrohistorial(
-			Cuentaahorrohistorial cuentaahorrohistorial) {
+	public Cuentaahorrohistorial addCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
 		getCuentaahorrohistorials().add(cuentaahorrohistorial);
-		cuentaahorrohistorial.setCuentaahorro(this);
 
 		return cuentaahorrohistorial;
 	}
 
-	public Cuentaahorrohistorial removeCuentaahorrohistorial(
-			Cuentaahorrohistorial cuentaahorrohistorial) {
+	public Cuentaahorrohistorial removeCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
 		getCuentaahorrohistorials().remove(cuentaahorrohistorial);
-		cuentaahorrohistorial.setCuentaahorro(null);
-
+	
 		return cuentaahorrohistorial;
 	}
 
@@ -190,26 +180,19 @@ public class Cuentaahorro implements Serializable {
 		return this.tarjetadebitoasignadocuentaahorros;
 	}
 
-	public void setTarjetadebitoasignadocuentaahorros(
-			List<Tarjetadebitoasignadocuentaahorro> tarjetadebitoasignadocuentaahorros) {
+	public void setTarjetadebitoasignadocuentaahorros(List<Tarjetadebitoasignadocuentaahorro> tarjetadebitoasignadocuentaahorros) {
 		this.tarjetadebitoasignadocuentaahorros = tarjetadebitoasignadocuentaahorros;
 	}
 
-	public Tarjetadebitoasignadocuentaahorro addTarjetadebitoasignadocuentaahorro(
-			Tarjetadebitoasignadocuentaahorro tarjetadebitoasignadocuentaahorro) {
-		getTarjetadebitoasignadocuentaahorros().add(
-				tarjetadebitoasignadocuentaahorro);
-		tarjetadebitoasignadocuentaahorro.setCuentaahorro(this);
-
+	public Tarjetadebitoasignadocuentaahorro addTarjetadebitoasignadocuentaahorro(Tarjetadebitoasignadocuentaahorro tarjetadebitoasignadocuentaahorro) {
+		getTarjetadebitoasignadocuentaahorros().add(tarjetadebitoasignadocuentaahorro);
+		
 		return tarjetadebitoasignadocuentaahorro;
 	}
 
-	public Tarjetadebitoasignadocuentaahorro removeTarjetadebitoasignadocuentaahorro(
-			Tarjetadebitoasignadocuentaahorro tarjetadebitoasignadocuentaahorro) {
-		getTarjetadebitoasignadocuentaahorros().remove(
-				tarjetadebitoasignadocuentaahorro);
-		tarjetadebitoasignadocuentaahorro.setCuentaahorro(null);
-
+	public Tarjetadebitoasignadocuentaahorro removeTarjetadebitoasignadocuentaahorro(Tarjetadebitoasignadocuentaahorro tarjetadebitoasignadocuentaahorro) {
+		getTarjetadebitoasignadocuentaahorros().remove(tarjetadebitoasignadocuentaahorro);
+		
 		return tarjetadebitoasignadocuentaahorro;
 	}
 
@@ -223,15 +206,13 @@ public class Cuentaahorro implements Serializable {
 
 	public Titularcuenta addTitularcuenta(Titularcuenta titularcuenta) {
 		getTitularcuentas().add(titularcuenta);
-		titularcuenta.setCuentaahorro(this);
-
+		
 		return titularcuenta;
 	}
 
 	public Titularcuenta removeTitularcuenta(Titularcuenta titularcuenta) {
 		getTitularcuentas().remove(titularcuenta);
-		titularcuenta.setCuentaahorro(null);
-
+		
 		return titularcuenta;
 	}
 
@@ -239,8 +220,7 @@ public class Cuentaahorro implements Serializable {
 		return personanaturalcliente;
 	}
 
-	public void setPersonanaturalcliente(
-			Personanaturalcliente personanaturalcliente) {
+	public void setPersonanaturalcliente(Personanaturalcliente personanaturalcliente) {
 		this.personanaturalcliente = personanaturalcliente;
 	}
 
@@ -257,8 +237,7 @@ public class Cuentaahorro implements Serializable {
 		return personajuridicacliente;
 	}
 
-	public void setPersonajuridicacliente(
-			Personajuridicacliente personajuridicacliente) {
+	public void setPersonajuridicacliente(Personajuridicacliente personajuridicacliente) {
 		this.personajuridicacliente = personajuridicacliente;
 	}
 

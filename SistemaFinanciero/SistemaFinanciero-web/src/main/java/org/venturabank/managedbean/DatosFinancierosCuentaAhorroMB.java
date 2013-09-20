@@ -26,9 +26,10 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	CuentaahorroServiceLocal cuentaahorroFacadeLocal;
+	CuentaahorroServiceLocal cuentaahorroServiceLocal;
 
 	private Cuentaahorro cuentaahorro;
+	
 	private Cuentaahorrohistorial cuentaahorrohistorial;
 
 	@ManagedProperty(value = "#{comboMB}")
@@ -40,20 +41,29 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	public DatosFinancierosCuentaAhorroMB() {
 		this.cuentaahorro = new Cuentaahorro();
 		this.cuentaahorrohistorial = new Cuentaahorrohistorial();
+		this.cuentaahorrohistorial.setTasainteres(5);
+		this.cuentaahorrohistorial.setEstado(true);
+		this.cuentaahorrohistorial.setCuentaahorro(cuentaahorro);
 	}
 
 	@PostConstruct
 	private void initValues() {
-		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
+		
+		cargarCombos();
 		
 		List<Cuentaahorrohistorial> listCuentaahorrohistorial = new ArrayList<Cuentaahorrohistorial>();
 		this.cuentaahorro.setCuentaahorrohistorials(listCuentaahorrohistorial);
+		
 		this.cuentaahorro.addCuentaahorrohistorial(cuentaahorrohistorial);
 	}
 
 	/*
 	 * Bussiness Logic
 	 */
+	private void cargarCombos(){
+		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
+	}
+	
 	public void changeTipomoneda(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);

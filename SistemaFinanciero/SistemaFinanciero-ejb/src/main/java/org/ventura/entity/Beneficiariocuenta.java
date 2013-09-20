@@ -4,12 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.listener.BeneficiariocuentaListener;
+
 /**
  * The persistent class for the beneficiariocuenta database table.
  * 
  */
 @Entity
 @Table(name = "beneficiariocuenta", schema = "cuentapersonal")
+@EntityListeners( { BeneficiariocuentaListener.class})
 @NamedQuery(name = "Beneficiariocuenta.findAll", query = "SELECT b FROM Beneficiariocuenta b")
 public class Beneficiariocuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,7 +22,7 @@ public class Beneficiariocuenta implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer idbeneficiariocuenta;
 
-	@Column(nullable = false, length = 8)
+	@Column(length = 8)
 	private String dni;
 
 	@Column(nullable = false, length = 50)
@@ -47,7 +50,7 @@ public class Beneficiariocuenta implements Serializable {
 	private String numerocuentaplazofijo;
 
 	// bi-directional many-to-one association to Cuentaahorro
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "numerocuentaahorro", insertable = false, updatable = false)
 	private Cuentaahorro cuentaahorro;
 

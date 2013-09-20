@@ -1,7 +1,10 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.ventura.entity.listener.CuentaahorrohistorialListener;
 
 /**
  * The persistent class for the cuentaahorrohistorial database table.
@@ -9,6 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "cuentaahorrohistorial", schema = "cuentapersonal")
+@EntityListeners( { CuentaahorrohistorialListener.class })
 @NamedQuery(name = "Cuentaahorrohistorial.findAll", query = "SELECT c FROM Cuentaahorrohistorial c")
 public class Cuentaahorrohistorial implements Serializable {
 	private static final long serialVersionUID = 1L;

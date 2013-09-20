@@ -24,8 +24,7 @@ public class BeneficiariosMB implements Serializable {
 	private TablaMB<Beneficiariocuenta> tablaBeneficiarios;
 
 	public void addBeneficiario() {
-		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();
-		
+		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();		
 		this.tablaBeneficiarios.addRow(beneficiariocuenta);
 	}
 

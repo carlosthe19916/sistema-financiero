@@ -49,7 +49,7 @@ public class Titularcuenta implements Serializable {
 	private Cuentaplazofijo cuentaplazofijo;
 
 	// bi-directional many-to-one association to Titularcuentahistorial
-	@OneToMany(mappedBy = "titularcuenta")
+	@OneToMany(mappedBy = "titularcuenta", cascade = { CascadeType.ALL })
 	private List<Titularcuentahistorial> titularcuentahistorials;
 
 	// bi-directional many-to-one association to Cuentaplazofijo

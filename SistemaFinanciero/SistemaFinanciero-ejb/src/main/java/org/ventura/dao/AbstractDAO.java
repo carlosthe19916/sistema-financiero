@@ -36,7 +36,7 @@ public abstract class AbstractDAO<T> {
 		try {
 			getEntityManager().persist(entity);
 		} catch (Exception e) {
-			getLogger().error("VENTURA BANK " + e.getMessage());
+			getLogger().error(e.getMessage());
 		} finally {
 			// getEntityManager().close();
 		}
