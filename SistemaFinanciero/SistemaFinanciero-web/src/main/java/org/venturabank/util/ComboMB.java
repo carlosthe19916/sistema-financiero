@@ -25,6 +25,7 @@ public class ComboMB<E> {
 		// TODO Auto-generated constructor stub
 		this.items = (Map<Integer, E>) new HashMap<Integer, Object>();
 		this.itemSelected = new Integer(-1);
+		
 	}
 	
 	public ComboMB(Map<Integer, E> items, Integer itemSelected) {
@@ -62,5 +63,5 @@ public class ComboMB<E> {
 	public void setItemSelected(Integer itemSelected) {
 		this.itemSelected = itemSelected;
 	}
-
+	
 }
