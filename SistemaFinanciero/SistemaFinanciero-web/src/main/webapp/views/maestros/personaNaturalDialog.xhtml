@@ -179,7 +179,7 @@
 			</div>
 		
 			<div class="sf-buttons">											
-				<p:commandButton update=":#{componentToUpdated},growl" value="Prueba" oncomplete="#{personaNaturalMB.metodoPrueba()}" styleClass="action green" />
+				
 				<p:commandButton update=":#{componentToUpdated},growl" value="Aceptar" oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" actionListener="#{personaNaturalMB.EsValido()}" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>
