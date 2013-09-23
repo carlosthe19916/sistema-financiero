@@ -32,7 +32,7 @@ public class PersonaNaturalMB implements Serializable {
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadoCivil;
 	
-	public static int a=0;
+	
 	
 	// constructor
 	public PersonaNaturalMB() {
@@ -84,17 +84,5 @@ public class PersonaNaturalMB implements Serializable {
 	public void setComboEstadoCivil(ComboMB<Estadocivil> comboEstadoCivil) {
 		this.comboEstadoCivil = comboEstadoCivil;
 	}
-	
-	public boolean EsValido(){
-		int a1= a+1;
-		System.out.println(a1);
-		return true;
-	}
-	
-	public void metodoPrueba(){
-		
-		System.out.println("LLego al boton prueba");
-		
-	}
-	
+
 }
