@@ -15,7 +15,7 @@
 				<div class="sf-agrupador-content">
 				<p:growl id="growl" sticky="true" />
 					<div class="sf-agrupador-content-cabecera">
-						<h3>Datos de Apertura</h3>
+						<h3>Datos de Apertura Cuenta Ahorro</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
 						<table>
@@ -25,7 +25,7 @@
 								</td>
 								<td>
 									<h:form>
-										<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.changeTipomoneda}">
+										<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.changeTipomoneda}" required="true" requiredMessage="Seleccione un tipo de moneda">
 											<f:selectItem itemLabel="--Seleccione--"/>
 											<f:selectItems value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.items.entrySet()}" var="tipomoneda" itemLabel="#{tipomoneda.value.denominacion}" itemValue="#{tipomoneda.key}"/>
 											<p:ajax></p:ajax>
@@ -60,7 +60,7 @@
 									<p:outputLabel>Estado cuenta:</p:outputLabel>
 								</td>
 								<td>
-									<p:outputLabel value="Activo" styleClass="sf-label-bold"/> 									
+									<p:outputLabel value="Acti" styleClass="sf-label-bold"/> 									
 								</td>
 							
 							</tr>	
@@ -80,7 +80,7 @@
 
 			<div class="sf-buttons">							
 				
-				<p:commandButton update=":#{componentToUpdated}" value="Aceptar" oncomplete="#{componentName}.hide()" styleClass="action green" />
+				<p:commandButton update=":#{componentToUpdated}, growl" value="Aceptar" oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>
 		</div>
