@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * The persistent class for the personanatural database table.
@@ -55,6 +54,7 @@ public class Personanatural implements Serializable {
 	@Column(length = 200)
 	private String firma;
 
+	@Column
 	private Integer idestadocivil;
 
 	@Column(nullable = false)
@@ -67,8 +67,6 @@ public class Personanatural implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idestadocivil", insertable = false, updatable = false)
 	private Estadocivil estadocivil;
-
-	
 
 	public Personanatural() {
 	}

@@ -94,6 +94,19 @@
 			<scope>test</scope>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>openejb-core</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>3.4.0.GA</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -152,7 +165,7 @@
 					<artifactId>slf4j-log4j12</artifactId>
 					<version>1.7.5</version>
 				</dependency>
-				
+
 			</dependencies>
 
 		</profile>

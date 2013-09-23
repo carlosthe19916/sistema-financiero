@@ -3,11 +3,19 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="org.ventura.facade.impl.PersonanaturalFacadeLocalImplTest">
+      <class name="org.ventura.control.CuentaahorroServiceBeanTest">
         <methods>
-          <include name="create"/>
+          <include name="beforeTest"/>
+          <include name="afterSuite"/>
+          <include name="afterMethod"/>
+          <include name="beforeMethod"/>
+          <include name="beforeSuite"/>
+          <include name="beforeClass"/>
+          <include name="afterTest"/>
+          <include name="afterClass"/>
+          <include name="update"/>
         </methods>
-      </class> <!-- org.ventura.facade.impl.PersonanaturalFacadeLocalImplTest -->
+      </class> <!-- org.ventura.control.CuentaahorroServiceBeanTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
