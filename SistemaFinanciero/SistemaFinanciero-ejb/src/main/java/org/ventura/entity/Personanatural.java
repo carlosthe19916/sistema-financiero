@@ -189,7 +189,11 @@ public class Personanatural implements Serializable {
 
 	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
-		this.idsexo = sexo.getIdsexo();
+		if (estadocivil != null) {
+			this.idsexo = sexo.getIdsexo();
+		} else {
+			this.idsexo = null;
+		}
 	}
 
 	public Estadocivil getEstadocivil() {
@@ -198,12 +202,29 @@ public class Personanatural implements Serializable {
 
 	public void setEstadocivil(Estadocivil estadocivil) {
 		this.estadocivil = estadocivil;
-		this.idestadocivil = estadocivil.getIdestadocivil();
+		if (estadocivil != null) {
+			this.idestadocivil = estadocivil.getIdestadocivil();
+		} else {
+			this.idestadocivil = null;
+		}
 	}
 
 	public String getNombreCompleto() {
-		return getApellidopaterno() + " " + getApellidomaterno() + ","
-				+ getNombres();
-	}	
+		String apellidoPaterno = getApellidopaterno();
+		String apellidoMaterno = getApellidomaterno();
+		String nombres = getNombres();
+
+		if (this.getApellidopaterno() == null) {
+			apellidoPaterno = "";
+		}
+		if (this.getApellidomaterno() == null) {
+			apellidoMaterno = "";
+		}
+		if (this.getNombres() == null) {
+			nombres = "";
+		}
+
+		return apellidoPaterno + " " + apellidoMaterno + " " + nombres;
+	}
 
 }

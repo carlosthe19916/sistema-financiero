@@ -174,4 +174,21 @@ public class Beneficiariocuenta implements Serializable {
 		this.numerocuentaplazofijo = numerocuentaplazofijo;
 	}
 
+	public String getNombreCompleto() {
+		String apellidoPaterno = getApellidopaterno();
+		String apellidoMaterno = getApellidomaterno();
+		String nombres = getNombres();
+
+		if (this.getApellidopaterno() == null) {
+			apellidoPaterno = "";
+		}
+		if (this.getApellidomaterno() == null) {
+			apellidoMaterno = "";
+		}
+		if (this.getNombres() == null) {
+			nombres = "";
+		}
+
+		return apellidoPaterno + " " + apellidoMaterno + " " + nombres;
+	}
 }

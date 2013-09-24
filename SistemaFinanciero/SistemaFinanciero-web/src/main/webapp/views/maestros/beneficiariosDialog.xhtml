@@ -12,7 +12,7 @@
 	<h:form id="form1">
 		<p:dialog id="#{componentName}" header="Beneficiarios"
 			widgetVar="#{componentName}" modal="true" height="400" width="700"
-			rendered="#{aperturarCuentaAhorrosMB.personaNatural}">
+			rendered="#{managedBean.personaNatural}">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-menu">
 					<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
@@ -26,7 +26,7 @@
 						<div class="buttons">
 							<div class="tiptip">
 								<p:commandLink update="tablaBeneficiarios"
-									actionListener="#{aperturarCuentaAhorrosMB.beneficiariosMB.addBeneficiario()}"
+									actionListener="#{managedBean.beneficiariosMB.addBeneficiario()}"
 									styleClass="button left" title="Nuevo">
 									<span class="icon icon3"></span>
 									<span class="label">Nuevo</span>
@@ -37,7 +37,7 @@
 									<span class="label">Editar</span>
 								</p:commandLink>
 								<p:commandLink update="tablaBeneficiarios"
-									actionListener="#{aperturarCuentaAhorrosMB.beneficiariosMB.removeBeneficiario()}"
+									actionListener="#{managedBean.beneficiariosMB.removeBeneficiario()}"
 									styleClass="button right" title="Eliminar Trabajador">
 									<span class="icon icon186"></span>
 									<span class="label">Eliminar</span>
@@ -50,9 +50,9 @@
 							<p:growl id="growl" sticky="true" />
 
 							<p:dataTable id="tablaBeneficiarios"
-								value="#{aperturarCuentaAhorrosMB.beneficiariosMB.tablaBeneficiarios.rows}"
+								value="#{managedBean.beneficiariosMB.tablaBeneficiarios.rows}"
 								var="beneficiario" editable="true" selectionMode="single"
-								selection="#{aperturarCuentaAhorrosMB.beneficiariosMB.tablaBeneficiarios.selectedRow}"
+								selection="#{managedBean.beneficiariosMB.tablaBeneficiarios.selectedRow}"
 								rowKey="#{beneficiario}" scrollable="true" scrollHeight="150"
 								scrollRows="5" rowIndexVar="row"
 								rowStyleClass="#{beneficiario.apellidopaterno == null ? 'sf-table-row-invalid' : null }">

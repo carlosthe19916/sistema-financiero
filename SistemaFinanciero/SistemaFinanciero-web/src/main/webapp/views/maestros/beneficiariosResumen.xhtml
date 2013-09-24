@@ -9,7 +9,7 @@
 
 <ui:composition>
 
-	<h:panelGroup id="#{componentName}" rendered="#{aperturarCuentaAhorrosMB.personaNatural}">
+	<h:panelGroup id="#{componentName}" rendered="#{managedBean.personaNatural}">
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
 				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
@@ -24,8 +24,8 @@
 							<tr>
 								<td><p:outputLabel value="Beneficiarios:" /></td>
 								<td>
-									<p:dataList value="#{aperturarCuentaAhorrosMB.beneficiariosMB.tablaBeneficiarios.rows}" var="beneficiarios" type="ordered" itemType="1">
-										<p:outputLabel value="#{beneficiarios.personanatural.nombreCompleto}, DNI: #{beneficiarios.personanatural.dni} % #{beneficiarios.porcentajebeneficio}"></p:outputLabel>
+									<p:dataList value="#{managedBean.beneficiariosMB.tablaBeneficiarios.rows}" var="beneficiarios" type="ordered" itemType="1">
+										<p:outputLabel value="#{beneficiarios.nombreCompleto}, DNI: #{beneficiarios.dni} % #{beneficiarios.porcentajebeneficio}"></p:outputLabel>
 									</p:dataList>
 								</td>
 							</tr>

@@ -10,7 +10,7 @@
 <ui:composition>
 	<h:form id="form">
 		<p:dialog id="#{componentName}" header="Titulares"
-			widgetVar="#{componentName}" modal="true" height="400" width="700">
+			widgetVar="#{componentName}" modal="true" height="400" width="700" >
 
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -22,14 +22,14 @@
 							<tr>
 								<td><p:outputLabel>Cantidad de Retirantes:</p:outputLabel></td>
 								<td><p:inputText
-										value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}"
+										value="#{managedBean.titularesMB.cantidadRetirantes}"
 										size="1" /></td>
 							</tr>
 						</table>
 						<div class="buttons">
 							<div class="tiptip">
 								<p:commandLink update="tablaTitulares"
-									actionListener="#{aperturarCuentaAhorrosMB.titularesMB.addTitular()}"
+									actionListener="#{managedBean.titularesMB.addTitular()}"
 									styleClass="button left" title="Nuevo">
 									<span class="icon icon3"></span>
 									<span class="label">Nuevo</span>
@@ -40,7 +40,7 @@
 									<span class="label">Editar</span>
 								</p:commandLink>
 								<p:commandLink update="tablaTitulares"
-									actionListener="#{aperturarCuentaAhorrosMB.titularesMB.removeTitular()}"
+									actionListener="#{managedBean.titularesMB.removeTitular()}"
 									styleClass="button right" title="Eliminar Trabajador">
 									<span class="icon icon186"></span>
 									<span class="label">Eliminar</span>
@@ -52,9 +52,9 @@
 							<p:growl id="growl" sticky="true" />
 
 							<p:dataTable id="tablaTitulares"
-								value="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.rows}"
+								value="#{managedBean.titularesMB.tablaTitulares.rows}"
 								var="titular" editable="true" selectionMode="single"
-								selection="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.selectedRow}"
+								selection="#{managedBean.titularesMB.tablaTitulares.selectedRow}"
 								rowKey="#{titular}" scrollable="true" scrollHeight="150"
 								scrollRows="5" rowIndexVar="row"
 								rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }">
