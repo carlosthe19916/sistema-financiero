@@ -23,38 +23,49 @@
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
 
-			<div class="sf-content-cabecera">
-				<h2>Aperturar Cuenta Corriente</h2>
-			</div>
+		<div class="sf-content-cabecera">
+			<h2>Aperturar Cuenta Corriente</h2>
+		</div>
 
-			<div>
-				<table>
-					<tr>
-						<td>Tipo Persona:</td>
-						<td><h:form>
-								<p:selectOneMenu
-									value="#{aperturarCuentaCorrienteMB.comboTipoPersona.itemSelected}">
-									<f:selectItems
-										value="#{aperturarCuentaCorrienteMB.comboTipoPersona.items.entrySet()}"
-										var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-									<p:ajax update=":panelDatos"></p:ajax>
-								</p:selectOneMenu>
-							</h:form></td>
-					</tr>
-				</table>
-			</div>
+		<div>
+			<table>
+				<tr>
+					<td>Tipo Persona:</td>
+					<td><h:form>
+							<p:selectOneMenu
+								value="#{aperturarCuentaCorrienteMB.comboTipoPersona.itemSelected}">
+								<f:selectItems
+									value="#{aperturarCuentaCorrienteMB.comboTipoPersona.items.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+								<p:ajax update=":panelDatos"></p:ajax>
+							</p:selectOneMenu>
+						</h:form></td>
+				</tr>
+			</table>
+		</div>
 
-			<h:panelGroup id="panelDatos">
+		<h:panelGroup id="panelDatos">
+			<!-- PersonaNatural -->
+			<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaCorrienteMB}" />
+				<ui:param name="componentName" value="personaNatural" />
+				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+			</ui:include>
+			<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaCorrienteMB}" />
+				<ui:param name="componentName" value="dlgPersonaNatural" />
+				<ui:param name="componentToUpdated" value=":panelDatos" />
+			</ui:include>
+			<!-- end PersonaNatural -->
 
-				
-				
-			</h:panelGroup>
 
-			<div class="sf-buttons">
-				<p:commandButton value="Guardar"
-					action="#{aperturarCuentaCorrienteMB.createCuentaCorriente()}" />
-				<p:commandButton value="Cancelar" />
-			</div>
+		</h:panelGroup>
+
+		<div class="sf-buttons">
+			<p:commandButton value="Guardar"
+				action="#{aperturarCuentaCorrienteMB.createCuentaCorriente()}" />
+			<p:commandButton value="Cancelar" />
+		</div>
 
 
 	</ui:define>

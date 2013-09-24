@@ -23,45 +23,56 @@
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
 
-			<div class="sf-content-cabecera">
-				<h2>Aperturar Cuenta a Plazo Fijo</h2>
-			</div>
+		<div class="sf-content-cabecera">
+			<h2>Aperturar Cuenta a Plazo Fijo</h2>
+		</div>
 
-			<div>
-				<table>
-					<tr>
-						<td>Tipo Persona:</td>
-						<td><h:form>
-								<p:selectOneMenu
-									value="#{aperturarCuentaPlazoFijoMB.comboTipoPersona.itemSelected}">
-									<f:selectItems
-										value="#{aperturarCuentaPlazoFijoMB.comboTipoPersona.items.entrySet()}"
-										var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-									<p:ajax update=":panelDatos"></p:ajax>
-								</p:selectOneMenu>
-							</h:form></td>
-					</tr>
-				</table>
-			</div>
+		<div>
+			<table>
+				<tr>
+					<td>Tipo Persona:</td>
+					<td><h:form>
+							<p:selectOneMenu
+								value="#{aperturarCuentaPlazoFijoMB.comboTipoPersona.itemSelected}">
+								<f:selectItems
+									value="#{aperturarCuentaPlazoFijoMB.comboTipoPersona.items.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+								<p:ajax update=":panelDatos"></p:ajax>
+							</p:selectOneMenu>
+						</h:form></td>
+				</tr>
+			</table>
+		</div>
 
-			<h:panelGroup id="panelDatos">
+		<h:panelGroup id="panelDatos">
 
-				
-				
-			</h:panelGroup>
+			<!-- PersonaNatural -->
+			<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaPlazoFijoMB}" />
+				<ui:param name="componentName" value="personaNatural" />
+				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+			</ui:include>
+			<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaPlazoFijoMB}" />
+				<ui:param name="componentName" value="dlgPersonaNatural" />
+				<ui:param name="componentToUpdated" value=":panelDatos" />
+			</ui:include>
 
-<h:outputLink onclick="dialog.show();return false;">car</h:outputLink>
 
-<p:dialog widgetVar="dialog">
-<p:outputLabel>carlos feria</p:outputLabel>
-</p:dialog>
+		</h:panelGroup>
+
+		<h:outputLink onclick="dialog.show();return false;">car</h:outputLink>
+
+		<p:dialog widgetVar="dialog">
+			<p:outputLabel>carlos feria</p:outputLabel>
+		</p:dialog>
 
 
-			<div class="sf-buttons">
-				<p:commandButton value="Guardar"
-					action="#{aperturarCuentaPlazoFijoMB.createCuentaPlazoFijo()}" />
-				<p:commandButton value="Cancelar" />
-			</div>
+		<div class="sf-buttons">
+			<p:commandButton value="Guardar"
+				action="#{aperturarCuentaPlazoFijoMB.createCuentaPlazoFijo()}" />
+			<p:commandButton value="Cancelar" />
+		</div>
 
 	</ui:define>
 </ui:composition>
