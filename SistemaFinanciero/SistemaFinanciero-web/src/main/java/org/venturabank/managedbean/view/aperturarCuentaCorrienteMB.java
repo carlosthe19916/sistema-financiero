@@ -11,12 +11,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
-import org.ventura.boundary.local.CuentacorrienteServiceLocal;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaahorrohistorial;
-import org.ventura.entity.Cuentacorriente;
 import org.ventura.entity.Personajuridica;
+import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
@@ -34,15 +33,21 @@ public class aperturarCuentaCorrienteMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private CuentacorrienteServiceLocal cuentacorrienteServiceLocal;
+	private CuentaahorroServiceLocal cuentaahorroServiceLocal;
 
-	private Cuentacorriente cuentacorriente;
+	private Cuentaahorro cuentaahorro;
 
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<String> comboTipoPersona;
 
 	@ManagedProperty(value = "#{personaNaturalMB}")
 	private PersonaNaturalMB personaNaturalMB;
+
+	@ManagedProperty(value = "#{titularesMB}")
+	private TitularesMB titularesMB;
+
+	@ManagedProperty(value = "#{beneficiariosMB}")
+	private BeneficiariosMB beneficiariosMB;
 
 	/**
 	 * 
@@ -51,7 +56,7 @@ public class aperturarCuentaCorrienteMB implements Serializable {
 	 **/
 
 	public aperturarCuentaCorrienteMB() {
-		this.cuentacorriente = new Cuentacorriente();
+		this.cuentaahorro = new Cuentaahorro();
 	}
 
 	@PostConstruct
@@ -73,8 +78,9 @@ public class aperturarCuentaCorrienteMB implements Serializable {
 		comboTipoPersona.setItemSelected(1);
 	}
 
-	public void createCuentaCorriente() {
-		this.cuentacorrienteServiceLocal.create(cuentacorriente);
+	public void createCuentacorriente() {
+
+		this.cuentaahorroServiceLocal.create(cuentaahorro);
 	}
 
 	public boolean isPersonaNatural() {
@@ -97,12 +103,12 @@ public class aperturarCuentaCorrienteMB implements Serializable {
 	 * 
 	 * **/
 
-	public ComboMB<String> getComboTipoPersona() {
-		return comboTipoPersona;
+	public Cuentaahorro getCuentaahorro() {
+		return cuentaahorro;
 	}
 
-	public void setComboTipoPersona(ComboMB<String> comboTipoPersona) {
-		this.comboTipoPersona = comboTipoPersona;
+	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
+		this.cuentaahorro = cuentaahorro;
 	}
 
 	public PersonaNaturalMB getPersonaNaturalMB() {
@@ -111,6 +117,30 @@ public class aperturarCuentaCorrienteMB implements Serializable {
 
 	public void setPersonaNaturalMB(PersonaNaturalMB personaNaturalMB) {
 		this.personaNaturalMB = personaNaturalMB;
+	}
+
+	public ComboMB<String> getComboTipoPersona() {
+		return comboTipoPersona;
+	}
+
+	public void setComboTipoPersona(ComboMB<String> comboTipoPersona) {
+		this.comboTipoPersona = comboTipoPersona;
+	}
+
+	public TitularesMB getTitularesMB() {
+		return titularesMB;
+	}
+
+	public void setTitularesMB(TitularesMB titularesMB) {
+		this.titularesMB = titularesMB;
+	}
+
+	public BeneficiariosMB getBeneficiariosMB() {
+		return beneficiariosMB;
+	}
+
+	public void setBeneficiariosMB(BeneficiariosMB beneficiariosMB) {
+		this.beneficiariosMB = beneficiariosMB;
 	}
 
 }

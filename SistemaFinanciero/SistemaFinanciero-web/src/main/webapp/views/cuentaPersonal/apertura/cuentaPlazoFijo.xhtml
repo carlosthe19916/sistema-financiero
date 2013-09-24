@@ -11,7 +11,7 @@
 
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
-		<h:outputText value="Apertura Cta - Plazo Fijo" />
+		<h:outputText value="Apertura Cta. Plazo Fijo" />
 	</ui:define>
 
 	<!-- content -->
@@ -33,9 +33,9 @@
 					<td>Tipo Persona:</td>
 					<td><h:form>
 							<p:selectOneMenu
-								value="#{aperturarCuentaPlazoFijoMB.comboTipoPersona.itemSelected}">
+								value="#{aperturarCuentaCorrienteMB.comboTipoPersona.itemSelected}">
 								<f:selectItems
-									value="#{aperturarCuentaPlazoFijoMB.comboTipoPersona.items.entrySet()}"
+									value="#{aperturarCuentaCorrienteMB.comboTipoPersona.items.entrySet()}"
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
 								<p:ajax update=":panelDatos"></p:ajax>
 							</p:selectOneMenu>
@@ -48,32 +48,53 @@
 
 			<!-- PersonaNatural -->
 			<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaPlazoFijoMB}" />
+				<ui:param name="managedBean" value="#{aperturarCuentaCorrienteMB}" />
 				<ui:param name="componentName" value="personaNatural" />
 				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
 			</ui:include>
 			<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaPlazoFijoMB}" />
+				<ui:param name="managedBean" value="#{aperturarCuentaCorrienteMB}" />
 				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated" value=":panelDatos" />
+				<ui:param name="componentToUpdated" value=":personaNatural" />
 			</ui:include>
+			<!-- end PersonaNatural -->
 
+			<!-- Titulares -->
+			<ui:include src="/views/maestros/titularesResumen.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaPlazoFijoMB}" />
+				<ui:param name="componentName" value="titulares" />
+				<ui:param name="editarOutputDialog" value="dlgTitulares" />
+			</ui:include>
+			<ui:include src="/views/maestros/titularesDialog.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaPlazoFijoMB}" />
+				<ui:param name="componentName" value="dlgTitulares" />
+				<ui:param name="componentToUpdated" value="titulares" />
+			</ui:include>
+			<!-- end Titulares -->
 
+			<!-- Beneficiarios -->
+			<ui:include src="/views/maestros/beneficiariosResumen.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaPlazoFijoMB}" />
+				<ui:param name="componentName" value="beneficiarios" />
+				<ui:param name="editarOutputDialog" value="dlgBeneficiarios" />
+			</ui:include>
+			<ui:include src="/views/maestros/beneficiariosDialog.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaPlazoFijoMB}" />
+				<ui:param name="componentName" value="dlgBeneficiarios" />
+				<ui:param name="componentToUpdated" value="beneficiarios" />
+			</ui:include>
+			<!-- end Beneficiarios -->
 		</h:panelGroup>
 
-		<h:outputLink onclick="dialog.show();return false;">car</h:outputLink>
-
-		<p:dialog widgetVar="dialog">
-			<p:outputLabel>carlos feria</p:outputLabel>
-		</p:dialog>
-
-
 		<div class="sf-buttons">
+
 			<p:commandButton value="Guardar"
-				action="#{aperturarCuentaPlazoFijoMB.createCuentaPlazoFijo()}" />
-			<p:commandButton value="Cancelar" />
+				action="#{aperturarCuentaPlazoFijoMB.createCuentaplazofijo()}"
+				styleClass="action green" />
+			<p:commandButton value="Cancelar" styleClass="action" />
 		</div>
 
 	</ui:define>
+
 </ui:composition>
 </html>

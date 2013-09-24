@@ -21,12 +21,12 @@
 					<table>
 						<tr>
 							<td><p:outputLabel value="Cantidad de Retirantes:" /></td>
-							<td><p:outputLabel value="#{aperturarCuentaAhorrosMB.titularesMB.cantidadRetirantes}"/></td>
+							<td><p:outputLabel value="#{managedBean.titularesMB.cantidadRetirantes}"/></td>
 						</tr>
 						<tr>
 							<td><p:outputLabel value="Titulares:" /></td>
 							<td>
-								<p:dataList value="#{aperturarCuentaAhorrosMB.titularesMB.tablaTitulares.rows}" var="titulares" type="ordered" itemType="1">
+								<p:dataList value="#{managedBean.titularesMB.tablaTitulares.rows}" var="titulares" type="ordered" itemType="1">
 									<p:outputLabel value="#{titulares.personanatural.nombreCompleto}, DNI: #{titulares.personanatural.dni}"></p:outputLabel>
 								</p:dataList>
 							</td>

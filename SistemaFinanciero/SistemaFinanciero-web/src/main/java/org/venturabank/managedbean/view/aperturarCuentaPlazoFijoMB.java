@@ -45,6 +45,12 @@ public class aperturarCuentaPlazoFijoMB implements Serializable {
 	@ManagedProperty(value = "#{personaNaturalMB}")
 	private PersonaNaturalMB personaNaturalMB;
 
+	@ManagedProperty(value = "#{titularesMB}")
+	private TitularesMB titularesMB;
+
+	@ManagedProperty(value = "#{beneficiariosMB}")
+	private BeneficiariosMB beneficiariosMB;
+
 	/**
 	 * 
 	 * CONTRUCT POSTCONTRUC PREDESTROY
@@ -67,15 +73,15 @@ public class aperturarCuentaPlazoFijoMB implements Serializable {
 	 * 
 	 * **/
 
-	public void cargarCombos(){
+	public void cargarCombos() {
 		comboTipoPersona.getItems().put(1, "Persona Natural");
 		comboTipoPersona.getItems().put(2, "Persona Juridica");
 		comboTipoPersona.setItemSelected(1);
 	}
-	
-	public void createCuentaPlazoFijo() {
-	
-		this.cuentaaplazofijoServiceLocal.create(cuentaplazofijo);				
+
+	public void createCuentaplazofijo() {
+
+		this.cuentaaplazofijoServiceLocal.create(cuentaplazofijo);
 	}
 
 	public boolean isPersonaNatural() {
@@ -114,5 +120,20 @@ public class aperturarCuentaPlazoFijoMB implements Serializable {
 		this.personaNaturalMB = personaNaturalMB;
 	}
 
+	public TitularesMB getTitularesMB() {
+		return titularesMB;
+	}
+
+	public void setTitularesMB(TitularesMB titularesMB) {
+		this.titularesMB = titularesMB;
+	}
+
+	public BeneficiariosMB getBeneficiariosMB() {
+		return beneficiariosMB;
+	}
+
+	public void setBeneficiariosMB(BeneficiariosMB beneficiariosMB) {
+		this.beneficiariosMB = beneficiariosMB;
+	}
 
 }
