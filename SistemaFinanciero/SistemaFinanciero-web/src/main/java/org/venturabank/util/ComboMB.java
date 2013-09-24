@@ -63,5 +63,4 @@ public class ComboMB<E> {
 	public void setItemSelected(Integer itemSelected) {
 		this.itemSelected = itemSelected;
 	}
-	
 }
