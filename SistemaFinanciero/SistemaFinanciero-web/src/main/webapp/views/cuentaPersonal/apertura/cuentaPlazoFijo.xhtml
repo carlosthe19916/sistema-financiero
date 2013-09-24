@@ -11,7 +11,7 @@
 
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
-		<h:outputText value="Trabajador" />
+		<h:outputText value="Apertura Cta - Plazo Fijo" />
 	</ui:define>
 
 	<!-- content -->
@@ -22,84 +22,47 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-		
-		<div class="sf-content-cabecera">
-			<h2>Aperturar Cuenta a Plazo Fijo</h2>
-		</div>
-		
-		<div>
-			<table>
-				<tr>
-					<td>Tipo Persona:</td>
-					<td>
-						<h:form>
-							<p:selectOneMenu id="combo" value="#{aperturarCuentaPlazoFijoMB.tipoPersonaSelected}">
-								<f:selectItems value="#{aperturarCuentaPlazoFijoMB.tipoPersonas.entrySet()}" var ="map" itemValue="#{map.key}" itemLabel="#{map.value}"/>
-								<f:ajax render=":panelPersona"/>
-							</p:selectOneMenu>
-						</h:form>						
-					</td>
-				</tr>
-			</table>
-		</div>	
- 
- 		<h:panelGroup id = "panelPersona">
-			<!-- PersonaNatural -->
-			<h:panelGrid id="panelPersonaNatural" rendered="#{aperturarCuentaPlazoFijoMB.isPersonaNatural()}">
-				<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
-					<ui:param name="componentName" value="personaNatural" />
-					<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
-				</ui:include>		
-				<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
-					<ui:param name="componentName" value="dlgPersonaNatural" />
-					<ui:param name="componentToUpdated" value="personaNatural" />
-				</ui:include>
-			</h:panelGrid>
-			<!-- end PersonaNatural -->
-			
-			<!-- PersonaJuridica -->
-			<h:panelGrid id = "panelPersonaJuridica" rendered="#{aperturarCuentaPlazoFijoMB.isPersonaJuridica()}">
-				<ui:include src="/views/maestros/personaJuridicaResumen.xhtml">
-					<ui:param name="componentName" value="personaJuridica" />
-					<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
-				</ui:include>		
-				<ui:include src="/views/maestros/personaJuridicaDialog.xhtml">
-					<ui:param name="componentName" value="dlgPersonaJuridica" />
-					<ui:param name="componentToUpdated" value="personaJuridica" />
-				</ui:include>
-			</h:panelGrid>
-			<!-- end PersonaJuridica -->
-			
-			
-			<h:panelGrid rendered="#{aperturarCuentaPlazoFijoMB.isPersonaJuridica()}">			
-				<ui:include src="/views/maestros/representanteLegal.xhtml">				
-				</ui:include>
-			</h:panelGrid>
-			
-			<h:panelGrid rendered="#{aperturarCuentaPlazoFijoMB.isPersonaJuridica()}">			
-				<ui:include src="/views/maestros/accionista.xhtml">				
-				</ui:include>
-			</h:panelGrid>
-			
-			<h:panelGrid>			
-				<ui:include src="datosFinancierosCuentaPlazoFijoResumen.xhtml">
-					<ui:param name="componentName" value="datosFinancierosCuentaPlazoFijo" />
-					<ui:param name="editarOutputDialog" value="dlgDatosFinancierosCuentaPlazoFijo" />
-				</ui:include>		
-				<ui:include src="datosFinancierosCuentaPlazoFijoDialog.xhtml">
-					<ui:param name="componentName" value="dlgDatosFinancierosCuentaPlazoFijo" />
-					<ui:param name="componentToUpdated" value="datosFinancierosCuentaPlazoFijo" />
-				</ui:include>
-			</h:panelGrid>
-			
-			<h:panelGrid>			
-				<ui:include src="/views/maestros/titulares.xhtml">				
-				</ui:include>
-			</h:panelGrid>
-			
-			
-		</h:panelGroup>	
-			
+
+			<div class="sf-content-cabecera">
+				<h2>Aperturar Cuenta a Plazo Fijo</h2>
+			</div>
+
+			<div>
+				<table>
+					<tr>
+						<td>Tipo Persona:</td>
+						<td><h:form>
+								<p:selectOneMenu
+									value="#{aperturarCuentaPlazoFijoMB.comboTipoPersona.itemSelected}">
+									<f:selectItems
+										value="#{aperturarCuentaPlazoFijoMB.comboTipoPersona.items.entrySet()}"
+										var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+									<p:ajax update=":panelDatos"></p:ajax>
+								</p:selectOneMenu>
+							</h:form></td>
+					</tr>
+				</table>
+			</div>
+
+			<h:panelGroup id="panelDatos">
+
+				
+				
+			</h:panelGroup>
+
+<h:outputLink onclick="dialog.show();return false;">car</h:outputLink>
+
+<p:dialog widgetVar="dialog">
+<p:outputLabel>carlos feria</p:outputLabel>
+</p:dialog>
+
+
+			<div class="sf-buttons">
+				<p:commandButton value="Guardar"
+					action="#{aperturarCuentaPlazoFijoMB.createCuentaPlazoFijo()}" />
+				<p:commandButton value="Cancelar" />
+			</div>
+
 	</ui:define>
 </ui:composition>
 </html>
