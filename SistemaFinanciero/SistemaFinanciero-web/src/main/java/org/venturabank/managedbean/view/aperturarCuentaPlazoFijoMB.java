@@ -45,6 +45,9 @@ public class aperturarCuentaPlazoFijoMB implements Serializable {
 	@ManagedProperty(value = "#{personaNaturalMB}")
 	private PersonaNaturalMB personaNaturalMB;
 
+	@ManagedProperty(value = "#{personaJuridicaMB}")
+	private PersonaJuridicaMB personaJuridicaMB;
+
 	@ManagedProperty(value = "#{titularesMB}")
 	private TitularesMB titularesMB;
 
@@ -134,6 +137,14 @@ public class aperturarCuentaPlazoFijoMB implements Serializable {
 
 	public void setBeneficiariosMB(BeneficiariosMB beneficiariosMB) {
 		this.beneficiariosMB = beneficiariosMB;
+	}
+
+	public PersonaJuridicaMB getPersonaJuridicaMB() {
+		return personaJuridicaMB;
+	}
+
+	public void setPersonaJuridicaMB(PersonaJuridicaMB personaJuridicaMB) {
+		this.personaJuridicaMB = personaJuridicaMB;
 	}
 
 }

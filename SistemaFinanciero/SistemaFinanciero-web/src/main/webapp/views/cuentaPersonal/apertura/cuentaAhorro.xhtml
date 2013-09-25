@@ -62,10 +62,12 @@
 
 			<!-- Persona Juridica -->
 			<ui:include src="/views/maestros/personaJuridicaResumen.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="personaJuridica" />
 				<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
 			</ui:include>
 			<ui:include src="/views/maestros/personaJuridicaDialog.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgPersonaJuridica" />
 				<ui:param name="componentToUpdated" value="personaJuridica" />
 			</ui:include>

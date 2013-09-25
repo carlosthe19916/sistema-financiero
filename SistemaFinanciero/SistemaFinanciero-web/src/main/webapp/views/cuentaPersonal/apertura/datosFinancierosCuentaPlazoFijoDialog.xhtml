@@ -7,74 +7,78 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-
 <ui:composition>
-	<h:outputStylesheet library="css" name="css3-buttons.css" />
 	<h:form>
+		<p:dialog id="#{componentName}" header="Datos Financieros"
+			widgetVar="#{componentName}" modal="true" height="250" width="350">
+			<div id="panelPersonaNatural">
+				<div class="sf-agrupador">
+					<div class="sf-agrupador-content">
+						<div class="sf-agrupador-content-cabecera">
+							<h3>REGISTRAR DATOS FINANCIEROS</h3>
+						</div>
+						<div class="sf-agrupador-content-table">
+							<table>
+								<tr>
+									<td><p:outputLabel value="Monto:" /></td>
+									<td><p:outputLabel /></td>
+								</tr>
+
+								<tr>
+									<td><p:outputLabel>Moneda:</p:outputLabel></td>
+									<td><p:selectOneMenu value="">
+											<f:selectItem itemLabel="Soles" />
+											<f:selectItem itemLabel="Dolares" />
+											<f:selectItem itemLabel="Euros" />
+										</p:selectOneMenu></td>
+								</tr>
+								<tr>
+									<td><p:outputLabel value="Tributo:" /></td>
+									<td><p:outputLabel /></td>
+								</tr>
+								<tr>
+									<td><p:outputLabel value="Plazo:" /></td>
+									<td><p:outputLabel /></td>
+								</tr>
+								<tr>
+									<td align="right"><p:outputLabel>Fecha Apertura:</p:outputLabel></td>
+									<td><p:calendar id="txtFechaApertura" size="20" /> <p:watermark
+											for="txtFechaApertura" value="dd/mm/yyyy" /></td>
+								</tr>
+
+								<tr>
+									<td align="right"><p:outputLabel>Tasa de Interes:</p:outputLabel></td>
+									<td><p:spinner id="spnTasaInteres" value=""
+											stepFactor="0.01" size="17" /></td>
+								</tr>
+								<tr>
+									<td>
+										<div>
+											<h:panelGrid columns="2" style="margin-bottom:10px"
+												cellpadding="5">
+												<h:outputText value="Confirmacion de saldos: " />
+												<p:selectOneRadio id="slConfirmacionSaldos" value="">
+													<f:selectItem itemLabel="Si" itemValue="1" />
+													<f:selectItem itemLabel="No" itemValue="2" />
+												</p:selectOneRadio>
+											</h:panelGrid>
+										</div>
+									</td>
+								</tr>
+
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="sf-buttons">
+					<p:commandButton update="#{componentToUpdated}" value="Aceptar"
+						oncomplete="#{componentName}.hide()" styleClass="action green" />
+					<p:commandButton value="Cancelar" onclick="#{componentName}.hide()"
+						styleClass="action" />
+				</div>
+			</div>
+		</p:dialog>
 	</h:form>
-
-	<div class="sf-agrupador">
-		<div class="sf-agrupador-content">
-			<div class="sf-agrupador-content-cabecera">
-				<h3>REGISTRAR DATOS FINANCIEROS</h3>
-			</div>
-			<div class="sf-agrupador-content-table">
-				<table>
-					<tr>
-						<td><p:outputLabel value="Monto:" /></td>
-						<td><p:outputLabel /></td>
-					</tr>
-
-					<tr>
-						<td><p:outputLabel>Moneda:</p:outputLabel></td>
-						<td><p:selectOneMenu value="">
-								<f:selectItem itemLabel="Soles" />
-								<f:selectItem itemLabel="Dolares" />
-								<f:selectItem itemLabel="Euros" />
-							</p:selectOneMenu></td>
-					</tr>
-					<tr>
-						<td><p:outputLabel value="Tributo:" /></td>
-						<td><p:outputLabel /></td>
-					</tr>
-					<tr>
-						<td><p:outputLabel value="Plazo:" /></td>
-						<td><p:outputLabel /></td>
-					</tr>
-					<tr>
-						<td align="right"><p:outputLabel>Fecha Apertura:</p:outputLabel></td>
-						<td><p:calendar id="txtFechaApertura" size="20" /> <p:watermark
-								for="txtFechaApertura" value="dd/mm/yyyy" /></td>
-					</tr>
-
-					<tr>
-						<td align="right"><p:outputLabel>Tasa de Interes:</p:outputLabel></td>
-						<td><p:spinner id="spnTasaInteres" value="" stepFactor="0.01"
-								size="17" /></td>
-					</tr>
-					<tr>
-						<h:panelGrid columns="2" style="margin-bottom:10px"
-							cellpadding="5">
-							<h:outputText value="Confirmacion de saldos: " />
-							<p:selectOneRadio id="slConfirmacionSaldos" value="">
-								<f:selectItem itemLabel="Si" itemValue="1" />
-								<f:selectItem itemLabel="No" itemValue="2" />
-							</p:selectOneRadio>
-						</h:panelGrid>
-					</tr>
-										
-				</table>
-			</div>
-		</div>
-	</div>
-
-	<div class="sf-buttons">
-		<p:commandButton update=":#{componentToUpdated}" value="Aceptar"
-			oncomplete="#{componentName}.hide()" styleClass="action green" />
-		<p:commandButton value="Cancelar" onclick="#{componentName}.hide()"
-			styleClass="action" />
-	</div>
-
-
 </ui:composition>
 </html>

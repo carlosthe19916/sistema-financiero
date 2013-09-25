@@ -81,8 +81,8 @@ table {
 	padding: 0px 10px;
 }
 
-.sf-agrupador-content-table table td {
-	min-width: 105px;
+.sf-agrupador-content-table table tr td {
+	/*min-width: 105px;*/
 }
 
 .sf-label-bold {
