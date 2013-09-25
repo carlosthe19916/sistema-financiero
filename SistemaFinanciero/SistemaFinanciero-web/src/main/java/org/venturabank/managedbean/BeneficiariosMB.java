@@ -23,6 +23,10 @@ public class BeneficiariosMB implements Serializable {
 	@ManagedProperty(value = "#{tablaMB}")
 	private TablaMB<Beneficiariocuenta> tablaBeneficiarios;
 
+	public boolean isValid(){
+		return true;
+	}
+	
 	public void addBeneficiario() {
 		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();		
 		this.tablaBeneficiarios.addRow(beneficiariocuenta);

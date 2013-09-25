@@ -58,7 +58,7 @@
 				<ui:param name="componentToUpdated" value=":personaNatural" />
 			</ui:include>
 			<!-- end PersonaNatural -->
-			
+
 			<!-- Persona Juridica -->
 			<ui:include src="/views/maestros/personaJuridicaResumen.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaCorrienteMB}" />
@@ -71,9 +71,9 @@
 				<ui:param name="componentToUpdated" value="personaJuridica" />
 			</ui:include>
 			<!-- end Persona Juridica -->
-			
-			
-			
+
+
+
 			<!-- Titulares -->
 			<ui:include src="/views/maestros/titularesResumen.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaCorrienteMB}" />
@@ -103,12 +103,18 @@
 		</h:panelGroup>
 
 		<div class="sf-buttons">
-
 			<p:commandButton value="Guardar"
 				action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"
 				styleClass="action green" />
 			<p:commandButton value="Cancelar" styleClass="action" />
 		</div>
+
+		<h:form>
+			<p:growl id="messages" showDetail="true" /> 
+			<p:commandButton value="Destroy the World" actionListener="#{aperturarCuentaCorrienteMB.createCuentacorriente()}" update="messages">
+			</p:commandButton>
+
+		</h:form>
 
 	</ui:define>
 

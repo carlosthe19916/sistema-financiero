@@ -16,6 +16,7 @@ import javax.faces.event.ValueChangeEvent;
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaahorrohistorial;
+import org.ventura.entity.Estadocuenta;
 import org.ventura.entity.Tipomoneda;
 import org.venturabank.util.ComboMB;
 
@@ -40,10 +41,16 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	 */
 	public DatosFinancierosCuentaAhorroMB() {
 		this.cuentaahorro = new Cuentaahorro();
-		this.cuentaahorrohistorial = new Cuentaahorrohistorial();
+		this.cuentaahorrohistorial = new Cuentaahorrohistorial();	
 		this.cuentaahorrohistorial.setTasainteres(5);
 		this.cuentaahorrohistorial.setEstado(true);
 		this.cuentaahorrohistorial.setCuentaahorro(cuentaahorro);
+		
+		Estadocuenta estadocuenta = new Estadocuenta();
+		estadocuenta.setDenominacion("Activo");
+		estadocuenta.setIdestadocuenta(1);
+		
+		this.cuentaahorro.setEstadocuenta(estadocuenta);
 	}
 
 	@PostConstruct

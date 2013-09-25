@@ -36,8 +36,7 @@ public class PersonaNaturalMB implements Serializable {
 	
 	// constructor
 	public PersonaNaturalMB() {
-		this.personaNatural = new Personanatural();
-		
+		this.personaNatural = new Personanatural();		
 	}
 
 	//Para despues de crear el objeto
@@ -48,6 +47,10 @@ public class PersonaNaturalMB implements Serializable {
 		
 	}
 
+	public boolean isValid(){		
+		return personaNatural.isValid() ? true : false;
+	}
+	
 	public void changeSexo(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Sexo sexoSelected = comboSexo.getObjectItemSelected(key);

@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.entity.Beneficiariocuenta;
@@ -71,23 +73,28 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		this.cargarCombos();
 
 		// se recuperan los datos de los Managed Bean invocados
-		Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
+		Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB
+				.getCuentaahorro();
 		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-		//Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
-		List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
-		List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
+		// Personajuridica personajuridica =
+		// personaJuridicaMB.getoPersonajuridica();
+		List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares()
+				.getRows();
+		List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB
+				.getTablaBeneficiarios().getRows();
 
 		// se crean las clases a relacionar con la Cuenta de Ahorros
-		//Personajuridicacliente personajuridicacliente = new Personajuridicacliente();
+		// Personajuridicacliente personajuridicacliente = new
+		// Personajuridicacliente();
 		Personanaturalcliente personanaturalcliente = new Personanaturalcliente();
 
-		//personajuridicacliente.setPersonajuridica(personajuridica);
+		// personajuridicacliente.setPersonajuridica(personajuridica);
 		personanaturalcliente.setPersonanatural(personanatural);
 
 		// Se relaciona la Cuenta de Ahorros con los objetos recuperados
 		this.cuentaahorro = cuentaahorro;
 		this.cuentaahorro.setPersonanaturalcliente(personanaturalcliente);
-		//this.cuentaahorro.setPersonajuridicacliente(personajuridicacliente);
+		// this.cuentaahorro.setPersonajuridicacliente(personajuridicacliente);
 		this.cuentaahorro.setTitularcuentas(listTitularcuenta);
 		this.cuentaahorro.setBeneficiariocuentas(listBeneficiariocuenta);
 
@@ -99,53 +106,89 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	 * 
 	 * **/
 
-	public void cargarCombos(){
+	public void cargarCombos() {
 		comboTipoPersona.getItems().put(1, "Persona Natural");
 		comboTipoPersona.getItems().put(2, "Persona Juridica");
 		comboTipoPersona.setItemSelected(1);
 	}
-	
-	public void createCuentaahorro() {
-		
-		List<Cuentaahorrohistorial> historiales = cuentaahorro.getCuentaahorrohistorials();
-		Cuentaahorrohistorial cuentaahorrohistorial = historiales.get(0);		
-		
-		Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
-		cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
-		
-		List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro.getBeneficiariocuentas();
-		
-		for (Iterator iterator = beneficiariocuentas.iterator(); iterator.hasNext();) {
-			Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
-			var.setCuentaahorro(cuentaahorro);
-		}
-		
-		List<Titularcuenta> titularcuentas = cuentaahorro.getTitularcuentas();
-		
-		for (Iterator iterator = titularcuentas.iterator(); iterator.hasNext();) {
-			Titularcuenta var = (Titularcuenta) iterator.next();
-			String dni = var.getPersonanatural().getDni();
-			var.setDni(dni);
-			var.setCuentaahorro(cuentaahorro);
-		}
-		
-		String dniCliente = cuentaahorro.getPersonanaturalcliente().getPersonanatural().getDni();
-		cuentaahorro.getPersonanaturalcliente().setDni(dniCliente);
-		
-		this.cuentaahorroServiceLocal.create(cuentaahorro);				
-	}
 
-	private boolean validarDatosCuentaahorro() {
+	public void createCuentaahorro() {
+
+		String mensaje = "";
+		boolean result = validarCuentaAhorro(mensaje);
+		
+		if (result) {
+
+			List<Cuentaahorrohistorial> historiales = cuentaahorro
+					.getCuentaahorrohistorials();
+			Cuentaahorrohistorial cuentaahorrohistorial = historiales.get(0);
+
+			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
+			cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
+
+			List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro
+					.getBeneficiariocuentas();
+
+			for (Iterator iterator = beneficiariocuentas.iterator(); iterator
+					.hasNext();) {
+				Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
+				var.setCuentaahorro(cuentaahorro);
+			}
+
+			List<Titularcuenta> titularcuentas = cuentaahorro
+					.getTitularcuentas();
+
+			for (Iterator iterator = titularcuentas.iterator(); iterator
+					.hasNext();) {
+				Titularcuenta var = (Titularcuenta) iterator.next();
+				String dni = var.getPersonanatural().getDni();
+				var.setDni(dni);
+				var.setCuentaahorro(cuentaahorro);
+			}
+
+			String dniCliente = cuentaahorro.getPersonanaturalcliente()
+					.getPersonanatural().getDni();
+			cuentaahorro.getPersonanaturalcliente().setDni(dniCliente);
+
+			this.cuentaahorroServiceLocal.create(cuentaahorro);
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"System Error", "ERROR DE LOS DATOS INGRESADOS");
+
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+
+	}
+	
+	public boolean validarCuentaAhorro(String mensaje){
+		
+		boolean result = true;
+		
 		if (isPersonaNatural()) {
-			cuentaahorro.setTipoPersonaCliente(Personanatural.class);
-			this.cuentaahorro.setPersonajuridicacliente(null);
+			if (!personaNaturalMB.isValid()) {
+				result = false;
+				mensaje = mensaje + "Persona Natural Invalido \n";
+			}
+			if (!beneficiariosMB.isValid()) {
+				result = false;
+				mensaje = mensaje + "Beneficiario \n";
+			}
 		}
+		
 		if (isPersonaJuridica()) {
-			cuentaahorro.setTipoPersonaCliente(Personajuridica.class);
-			this.cuentaahorro.setPersonanaturalcliente(null);
-			this.cuentaahorro.setBeneficiariocuentas(null);
+			if (!personaJuridicaMB.isValid()) {
+				result = false;
+				mensaje = mensaje + "PersonaJuridica \n";
+			}
 		}
-		return true;
+		
+		if (!titularesMB.isValid()) {
+			result = false;
+			mensaje = mensaje + "Titulares \n";
+		}
+		
+		//falta validar datos financieros
+		
+		return result;
 	}
 
 	public boolean isPersonaNatural() {

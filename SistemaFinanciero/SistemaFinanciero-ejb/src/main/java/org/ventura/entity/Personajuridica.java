@@ -228,4 +228,23 @@ public class Personajuridica implements Serializable {
 		this.listPersonajuridicacliente = listPersonajuridicacliente;
 	}
 
+	public boolean isValid() {
+		boolean result = true;
+
+		if (ruc == null || ruc.isEmpty() || ruc.trim().isEmpty()
+				|| ruc.length() != 11) {
+			result = false;
+		}
+		if (razonsocial == null || razonsocial.isEmpty()
+				|| razonsocial.trim().isEmpty()) {
+			result = false;
+		}
+		if (dnirepresentantelegal == null || dnirepresentantelegal.isEmpty()
+				|| dnirepresentantelegal.trim().isEmpty()
+				|| dnirepresentantelegal.length() != 8) {
+			result = false;
+		}
+		return result;
+	}
+
 }

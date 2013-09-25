@@ -13,7 +13,9 @@
 		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
-				<p:growl id="growl" sticky="true" />
+				
+				 <p:growl id="growl" sticky="true"/>  
+				 
 					<div class="sf-agrupador-content-cabecera">
 						<h3>DATOS PERSONALES</h3>
 					</div>
@@ -21,18 +23,16 @@
 						<table>
 							<tr>
 								<td>
-									<p:outputLabel>DNI:</p:outputLabel>
+									<p:outputLabel value="DNI:"/>
 								</td>
 								<td>
-									<p:inputText id="txtDNIPN" value="#{managedBean.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8" requiredMessage="Ingrese Número de DNI" validatorMessage="Número de DNI Invalido"> 
-										
+									<p:inputText id="txtDNIPN" value="#{managedBean.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8" requiredMessage="Ingrese Número de DNI" validatorMessage="Número de DNI Invalido"> 										
 										<f:validateRegex pattern="(^[0-9]{8}$)" />
-										<p:ajax update="growl" event="keyup"/>
+										<p:ajax update="growl,txtDNIPN" event="blur"/>
 									</p:inputText>
 									<p:watermark for="txtDNIPN" value="DNI"/>
-									<p:outputLabel styleClass="">  *</p:outputLabel>
-								</td>
-								
+									<p:outputLabel for="txtDNIPN"/>
+								</td>												
 							</tr>
 							<tr>
 								<td>
@@ -40,20 +40,20 @@
 								</td>
 								<td>
 									<p:inputText id="txtApPaternoPN" value="#{managedBean.personaNaturalMB.personaNatural.apellidopaterno}" required="true" maxlength="50" requiredMessage="Ingrese Apellido Paterno">
-									<p:ajax update="growl" event="keyup"/>
+										<p:ajax update="growl,txtApPaternoPN" event="blur"/>
 									</p:inputText>
 									<p:watermark for="txtApPaternoPN" value="Apellido Paterno"/>
-									<p:outputLabel styleClass="">  *</p:outputLabel>
+									<p:outputLabel for="txtApPaternoPN"/>
 								</td>
 								<td>
 									<p:outputLabel>Apellido Materno:</p:outputLabel>
 								</td>
 								<td>
 									<p:inputText id="txtApMaternoPN" value="#{managedBean.personaNaturalMB.personaNatural.apellidomaterno}" required="true" maxlength="50" requiredMessage="Ingrese Apellido Materno">
-										<p:ajax update="growl" event="keyup"/>
+										<p:ajax update="growl,txtApMaternoPN" event="blur"/>
 									</p:inputText>
 									<p:watermark for="txtApMaternoPN" value="Apellido Materno"/>
-									<p:outputLabel styleClass="">  *</p:outputLabel>
+									<p:outputLabel for="txtApMaternoPN"/>
 								</td>
 							</tr>
 							<tr>
@@ -63,10 +63,10 @@
 								</td>
 								<td colspan="3">
 									<p:inputText id="txtNombresPN" value="#{managedBean.personaNaturalMB.personaNatural.nombres}" size="71" required="true" maxlength="60" requiredMessage="Ingrese Nombres">
-										<p:ajax update="growl" event="keyup"/>
+										<p:ajax update="growl,txtNombresPN" event="blur"/>
 									</p:inputText>
 									<p:watermark for="txtNombresPN" value="Nombres" />
-									<p:outputLabel styleClass="">  *</p:outputLabel>
+									<p:outputLabel for="txtNombresPN"/>
 								</td>
 							</tr>
 							
@@ -76,12 +76,12 @@
 								</td>
 								<td>
 									<p:calendar id="txtFecNacPN" value="#{managedBean.personaNaturalMB.personaNatural.fechanacimiento}" navigator="true" pattern="dd/MM/yy" required="true" requiredMessage="Ingrese Fecha de Nacimiento" converterMessage="El formato de la fecha de nacimiento no es correcto">
-										<p:ajax update="growl" event="keyup"/>
+										<p:ajax update="growl,txtFecNacPN" event="blur"/>
 										<f:convertDateTime pattern="dd/MM/yy"/>
 									</p:calendar> 
 									
 									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy"/>
-									<p:outputLabel styleClass="">  *</p:outputLabel>
+									<p:outputLabel for="txtFecNacPN"/>
 								</td>
 								<td>
 									<p:outputLabel>Sexo:</p:outputLabel>
@@ -90,9 +90,9 @@
 										<p:selectOneMenu  id="txtSexo" value="#{managedBean.personaNaturalMB.comboSexo.itemSelected}" valueChangeListener="#{managedBean.personaNaturalMB.changeSexo}" required="true" requiredMessage="Seleccione un sexo valido">
 											<f:selectItem id="e" itemLabel="--Seleccione--" itemValue=""/>
 											<f:selectItems value="#{managedBean.personaNaturalMB.comboSexo.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
-											<p:ajax  update="growl" event="keyup"/>	
+											<p:ajax update="growl,txtSexo"/>	
 										</p:selectOneMenu>
-										<p:outputLabel styleClass="">  *</p:outputLabel>																						
+										<p:outputLabel for="txtSexo"/>																						
 								</td>
 							</tr>
 						</table>

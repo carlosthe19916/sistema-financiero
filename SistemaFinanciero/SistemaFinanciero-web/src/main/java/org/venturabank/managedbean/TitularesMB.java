@@ -30,6 +30,13 @@ public class TitularesMB implements Serializable {
 		this.cantidadRetirantes = new Integer(0);
 	}
 
+	public boolean isValid(){
+		if (cantidadRetirantes > tablaTitulares.getRows().size())
+			return false;
+		else
+			return true;
+	}
+	
 	public void addTitular() {
 		Titularcuenta titularcuenta = new Titularcuenta();	
 		Personanatural personanatural = new Personanatural();	

@@ -59,6 +59,10 @@ public class PersonaJuridicaMB implements Serializable {
 		oPersonajuridica.setPersonanatural(new Personanatural());
 	}
 	
+	public boolean isValid(){
+		return oPersonajuridica.isValid() ? true : false;
+	}
+	
 	public void addAccionista() {
 		Accionista accionista = new Accionista();
 		
