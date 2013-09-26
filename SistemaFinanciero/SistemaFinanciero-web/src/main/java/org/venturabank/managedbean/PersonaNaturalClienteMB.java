@@ -32,6 +32,7 @@ public class PersonaNaturalClienteMB implements Serializable{
 	@EJB
 	static PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
 	
+	
 	@ManagedProperty(value = "#{tablaMB}")
 	private TablaMB<Personanaturalcliente> tablaClientes;
 	
