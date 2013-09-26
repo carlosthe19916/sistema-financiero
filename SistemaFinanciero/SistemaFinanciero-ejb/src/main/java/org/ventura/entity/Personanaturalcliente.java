@@ -14,11 +14,13 @@ import javax.persistence.*;
 @Table(name = "personanaturalcliente", schema = "cliente")
 @NamedQuery(name = "Personanaturalcliente.findAll", query = "SELECT p FROM Personanaturalcliente p")
 
-@NamedQueries({@NamedQuery(name = Personanaturalcliente.ALL, query = "Select s From Personanaturalcliente s")})
+@NamedQueries({@NamedQuery(name = Personanaturalcliente.ALL, query = "Select s From Personanaturalcliente s"),
+			   @NamedQuery(name = Personanaturalcliente.OLL, query = "Select c From Personanaturalcliente c where c.dni like :valor or c.personanatural.apellidopaterno like :valor or c.personanatural.apellidomaterno like :valor or c.personanatural.nombres like :valor")})
 public class Personanaturalcliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	public final static String ALL = "org.ventura.model.Personanaturalcliente.ALL"; 
+	public final static String ALL = "org.ventura.model.Personanaturalcliente.ALL";
+	public final static String OLL = "org.ventura.model.Personanaturalcliente.OLL";
 	
 	@Id
 	@Column(unique = true, nullable = false, length = 8)

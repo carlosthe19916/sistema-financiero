@@ -16,10 +16,7 @@ import javax.persistence.criteria.Root;
 
 import org.ventural.util.logger.Log;
 
-/**
- * 
- * @author Carlos-PC
- */
+
 public abstract class AbstractDAO<T> {
 
 	private Class<T> entityClass;

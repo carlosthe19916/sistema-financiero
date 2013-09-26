@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NamedQuery(name = "Sexo.findAll", query = "SELECT s FROM Sexo s")
 @NamedQueries({
 		@NamedQuery(name = Sexo.ALL, query = "Select s From Sexo s"),
-		@NamedQuery(name = Sexo.ALL_ACTIVE, query = "Select s From Sexo s WHERE s.estado=true") })
+		@NamedQuery(name = Sexo.ALL_ACTIVE, query = "Select s From Sexo s WHERE s.estado=true")})
 public class Sexo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
