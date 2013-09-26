@@ -11,15 +11,19 @@
 <h:form>
 	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="500" rendered="#{managedBean.personaNatural}">		  
 		<div id="panelPersonaNatural">
+		
+		<p:panel id="prueba">	
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
 				
 				 <p:growl id="growl" sticky="true"/>  
 				 
+				 
 					<div class="sf-agrupador-content-cabecera">
 						<h3>DATOS PERSONALES</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
+					
 						<table>
 							<tr>
 								<td>
@@ -28,7 +32,7 @@
 								<td>
 									<p:inputText id="txtDNIPN" value="#{managedBean.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8" requiredMessage="Ingrese Número de DNI" validatorMessage="Número de DNI Invalido"> 										
 										<f:validateRegex pattern="(^[0-9]{8}$)" />
-										<p:ajax update="growl,txtDNIPN" event="blur"/>
+										<p:ajax update="growl,txtDNIPN,prueba" event="blur" listener="#{managedBean.personaNaturalMB.buscarPersona()}" />
 									</p:inputText>
 									<p:watermark for="txtDNIPN" value="DNI"/>
 									<p:outputLabel for="txtDNIPN"/>
@@ -177,6 +181,8 @@
 					</div>
 				</div>
 			</div>
+	
+		</p:panel>
 		
 			<div class="sf-buttons" >															
 				<p:commandButton update="#{componentToUpdated},growl" value="Aceptar" oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" styleClass="action green"/>

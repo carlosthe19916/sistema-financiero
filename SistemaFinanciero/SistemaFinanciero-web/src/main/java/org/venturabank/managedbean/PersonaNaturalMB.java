@@ -1,6 +1,8 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,7 +24,7 @@ public class PersonaNaturalMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	PersonanaturalServiceLocal personaNaturalFacadeLocal;
+	PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	private Personanatural personaNatural;
 
@@ -43,10 +45,16 @@ public class PersonaNaturalMB implements Serializable {
 	@PostConstruct
 	private void initValues() {
 		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
-		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
-		
+		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);		
 	}
 
+	public void buscarPersona(){
+		Personanatural personanatural = personanaturalServiceLocal.find(personaNatural.getDni());
+		if (personanatural != null) {
+			this.personaNatural = personanatural;
+		}
+	}
+	
 	public boolean isValid(){		
 		return personaNatural.isValid() ? true : false;
 	}
