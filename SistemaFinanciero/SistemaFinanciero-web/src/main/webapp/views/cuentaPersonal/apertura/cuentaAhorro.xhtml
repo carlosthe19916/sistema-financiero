@@ -44,8 +44,8 @@
 			</table>
 		</div>
 
-		<h:panelGroup id="panelDatos">
-		
+		<h:panelGroup id="panelDatos" binding="#{aperturarCuentaAhorrosMB.panelDatos}">
+
 			<!-- PersonaNatural -->
 			<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
@@ -55,17 +55,19 @@
 			<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated" value=":personaNatural" />
+				<ui:param name="componentToUpdated" value=":panelDatos" />
 			</ui:include>
 			<!-- end PersonaNatural -->
-			
+
 
 			<!-- Persona Juridica -->
 			<ui:include src="/views/maestros/personaJuridicaResumen.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="personaJuridica" />
 				<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
 			</ui:include>
 			<ui:include src="/views/maestros/personaJuridicaDialog.xhtml">
+				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgPersonaJuridica" />
 				<ui:param name="componentToUpdated" value="personaJuridica" />
 			</ui:include>
@@ -73,11 +75,13 @@
 
 
 			<!-- Datos financieros cuenta ahorros -->
-			<ui:include src="/views/cuentaPersonal/apertura/datosFinancierosCuentaAhorroResumen.xhtml">
+			<ui:include
+				src="/views/cuentaPersonal/apertura/datosFinancierosCuentaAhorroResumen.xhtml">
 				<ui:param name="componentName" value="datosFinancieros" />
 				<ui:param name="editarOutputDialog" value="dlgDatosFinancieros" />
 			</ui:include>
-			<ui:include src="/views/cuentaPersonal/apertura/datosFinancierosCuentaAhorroDialog.xhtml">
+			<ui:include
+				src="/views/cuentaPersonal/apertura/datosFinancierosCuentaAhorroDialog.xhtml">
 				<ui:param name="componentName" value="dlgDatosFinancieros" />
 				<ui:param name="componentToUpdated" value="datosFinancieros" />
 			</ui:include>
@@ -108,15 +112,20 @@
 				<ui:param name="componentToUpdated" value="beneficiarios" />
 			</ui:include>
 			<!-- end Beneficiarios -->
-			
+
 		</h:panelGroup>
-	
+
+
 		<div class="sf-buttons">
-			
-			<p:commandButton value="Guardar"  action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}" styleClass="action green" />
-			<p:commandButton value="Cancelar" styleClass="action" />
+			<h:form>
+				<p:growl id="messages" showDetail="true" />
+				<p:commandButton value="Guardar" action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"  update="messages,:panelDatos" styleClass="action green">
+				</p:commandButton>
+
+				<p:commandButton value="Cancelar" styleClass="action" />
+			</h:form>
 		</div>
-	
+
 	</ui:define>
 
 </ui:composition>

@@ -25,30 +25,26 @@
 
 		<div class="sf-content-cabecera">
 			<h2>Aperturar Cuenta de Ahorros</h2>
-			
 		</div>
 
-		<h:form id="form1">
-		<p:panel id="panel" header="Busqueda de Clientes">  
-		<p:focus context="panel"/>
-			
+
+		<h:form>
+		
 			<p:dataTable id="table" var="cliente"
-				value="#{personaNaturalClienteMB.tablaClientes.rows}" rowKey="#{cliente}" selection="#{personaNaturalClienteMB.tablaClientes.selectedRow}" selectionMode="single"
-				paginator="true" paginatorPosition="bottom" rows="5" sortBy="#{cliente.personanatural.apellidopaterno}"
+				value="#{personaNaturalClienteMB.tablaClientes.rows}"
+				paginator="true" rows="5" sortBy="#{cliente.personanatural.apellidopaterno}"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,20" widgetVar="tablaCliente" emptyMessage="No hay coincidencia en la busqueda" filteredValue="">
 				
 				<f:facet name="header">
-				<p:growl id="growl" sticky="true" />
+				
 					<p:outputPanel>  
-                		<h:outputText value="Ingrese persona: " />  
-                		<p:inputText id="txtBuscar" value="#{personaNaturalClienteMB.valorBusqueda}" style="width:250px" required="true" requiredMessage="Ingrese un valor a buscar">
-                			<p:ajax update="growl" event="keyup"/>
+                		<h:outputText value="Busqueda por todos los campos:" />  
+                		<p:inputText id="globalFilter" value="#{personaNaturalClienteMB.valorBusqueda}" style="width:200px">
                 		</p:inputText>
-                		<p:watermark for="txtBuscar" value="DNI / Ap. Paterno / Ap. Materno / Nombres"/>
             		</p:outputPanel>
 				</f:facet>
-	
+				
 				<p:column sortBy="#{cliente.dni}" headerText="DNI">
 					<h:outputText value="#{cliente.dni}" />
 				</p:column>
@@ -64,34 +60,14 @@
 				<p:column sortBy="#{cliente.personanatural.nombres}" headerText="Nombres">
 					<h:outputText value="#{cliente.personanatural.nombres}" />
 				</p:column>
-				
 			</p:dataTable>
-			
-				
-		</p:panel>
-		<p:commandButton id="viewB" value="Cargar" update="table" actionListener="#{personaNaturalClienteMB.cargar()}"/>
-	</h:form>
-				
-	
-
-		<p:dialog id="dialogDetallePN" header="Car Detail" widgetVar="DialogDetallePN"
-			resizable="false" width="200" showEffect="clip" hideEffect="fold" >
-			
-			
-			<h:panelGrid id="display" columns="2" cellpadding="4" >
-				<h:outputText value="DNI:" />
-				<h:outputText value="#{personaNaturalClienteMB.tablaClientes.selectedRow}"/>
-				<h:outputText value="Apellido y Nombres:" />
-				<h:outputText />
-				<h:outputText value="Manufacturer:" />
-				<h:outputText />
-				<h:outputText value="Color:" />
-				<h:outputText />
-			</h:panelGrid>
-			
-			
-		</p:dialog>
 		
+		<div class="sf-buttons">
+			<p:commandButton value="Buscar" actionListener="#{personaNaturalClienteMB.cargar()}" styleClass="action green" update="table"/>
+			<p:commandButton value="Cancelar" styleClass="action" />
+		</div>
+</h:form>
+
 	</ui:define>
 </ui:composition>
 </html>

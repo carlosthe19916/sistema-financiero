@@ -23,15 +23,14 @@
 								<td>
 									<p:outputLabel>Moneda:</p:outputLabel>
 								</td>
-								<td>
-									<h:form>
-										<p:selectOneMenu value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.changeTipomoneda}" required="true" requiredMessage="Seleccione un tipo de moneda">
+								<td>							
+										<p:selectOneMenu id="tipoMoneda" value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.changeTipomoneda}" required="true" requiredMessage="Seleccione un tipo de moneda">
 											<f:selectItem itemLabel="--Seleccione--"/>
 											<f:selectItems value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.items.entrySet()}" var="tipomoneda" itemLabel="#{tipomoneda.value.denominacion}" itemValue="#{tipomoneda.key}"/>
-											<p:ajax></p:ajax>
+											<p:ajax update="growl,tipoMoneda"/>
 										</p:selectOneMenu>
-										<p:outputLabel> *</p:outputLabel>
-									</h:form>
+										<p:outputLabel for="tipoMoneda"/>
+									
 								</td>
 							</tr>
 							<tr>
@@ -51,7 +50,7 @@
 									<p:outputLabel>Tasa de Interes:</p:outputLabel>
 								</td>
 								<td>
-									<p:outputLabel value="5"/>
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorrohistorial.tasainteres}"/>
 									<p:outputLabel value="%"/>
 								</td>
 							</tr>
@@ -60,17 +59,16 @@
 									<p:outputLabel>Estado cuenta:</p:outputLabel>
 								</td>
 								<td>
-									<p:outputLabel value="Acti" styleClass="sf-label-bold"/> 									
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.estadocuenta.denominacion}" styleClass="sf-label-bold"/> 									
 								</td>
 							
 							</tr>	
-							<tr>
-								
+							<tr>								
 								<td>
 									<p:outputLabel>Saldo:</p:outputLabel>
 								</td>
 								<td>																		
-									<p:outputLabel value="0.00" styleClass="sf-label-bold"/>
+									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.saldo}" styleClass="sf-label-bold"/>
 								</td>
 							</tr>						
 						</table>
@@ -78,8 +76,7 @@
 				</div>
 			</div>
 
-			<div class="sf-buttons">							
-				
+			<div class="sf-buttons">										
 				<p:commandButton update=":#{componentToUpdated}, growl" value="Aceptar" oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" styleClass="action green" />
 				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
 			</div>

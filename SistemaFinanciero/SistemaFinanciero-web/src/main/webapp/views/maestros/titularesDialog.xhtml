@@ -75,7 +75,7 @@
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText id="dni" value="#{titular.personanatural.dni}"
-												required="true" maxlength="8">
+												required="true" maxlength="8" requiredMessage="DNI (Obligatorio)" validatorMessage="DNI no tiene digitos validos">
 												<f:validateRegex pattern="(^[0-9]{8}$)" />
 											</p:inputText>
 											<p:watermark for="dni" value="DNI" />
@@ -106,7 +106,8 @@
 										<f:facet name="input">
 											<p:inputText id="apellidoMaterno"
 												value="#{titular.personanatural.apellidomaterno}"
-												required="true" maxlength="50" />
+												required="true" maxlength="50"
+												requiredMessage="Apellido Materno (Obligatorio)" />
 											<p:watermark for="apellidoMaterno" value="Apellido Materno" />
 										</f:facet>
 									</p:cellEditor>
@@ -119,7 +120,8 @@
 										<f:facet name="input">
 											<p:inputText id="nombres"
 												value="#{titular.personanatural.nombres}" required="true"
-												maxlength="50" />
+												maxlength="50"
+												requiredMessage="Nombres (Obligatorio)"/>
 											<p:watermark for="nombres" value="Nombres" />
 										</f:facet>
 									</p:cellEditor>
@@ -132,10 +134,10 @@
 						</div>
 					</div>
 					<div class="sf-buttons">
-						<p:commandButton value="Aceptar" update=":#{componentToUpdated}"
-							oncomplete="#{componentName}.hide()" styleClass="action green" />
+						<p:commandButton value="Aceptar" update=":#{componentToUpdated},#{componentName}"
+							oncomplete="#{componentName}.hide()" actionListener="#{managedBean.titularesMB.validarTitulares()}" styleClass="action green" />
 						<p:commandButton value="Cancelar"
-							onclick="#{componentName}.hide()" styleClass="action" />
+							onclick="#{componentName}.hide()" actionListener="#{managedBean.titularesMB.validarTitulares()}" update="#{componentName}" styleClass="action" />
 					</div>
 				</div>
 			</div>

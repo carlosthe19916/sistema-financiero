@@ -11,7 +11,7 @@
 
 	<h:form id="form1">
 		<p:dialog id="#{componentName}" header="Beneficiarios"
-			widgetVar="#{componentName}" modal="true" height="400" width="700"
+			widgetVar="#{componentName}" modal="true" height="400" width="750"
 			rendered="#{managedBean.personaNatural}">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-menu">
@@ -57,21 +57,27 @@
 								scrollRows="5" rowIndexVar="row"
 								rowStyleClass="#{beneficiario.apellidopaterno == null ? 'sf-table-row-invalid' : null }">
 								
+								<p:ajax event="rowEdit" update=":form:growl,tablaBeneficiarios" />
+								<p:ajax event="rowEditCancel"
+									update=":form:growl,tablaBeneficiarios" />
+									
 								<p:column headerText="Nro" width="10%"
 									style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
-								<p:column headerText="DNI(*)" width="50">
+								<p:column headerText="DNI(*)" width="15%">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.dni}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{beneficiario.dni}" />
+											<p:inputText value="#{beneficiario.dni}" maxlength="8" validatorMessage="DNI no tiene digitos validos">
+												
+											</p:inputText>										
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Paterno" width="60">
+								<p:column headerText="Apellido Paterno" width="20%">								
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText
@@ -79,11 +85,13 @@
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText
-												value="#{beneficiario.apellidopaterno}" />
+												value="#{beneficiario.apellidopaterno}" required="true"
+												maxlength="50"
+												requiredMessage="Apellido Paterno (Obligatorio)"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Materno" width="60">
+								<p:column headerText="Apellido Materno" width="20%">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText
@@ -91,21 +99,25 @@
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText
-												value="#{beneficiario.apellidomaterno}" />
+												value="#{beneficiario.apellidomaterno}" required="true"
+												maxlength="50"
+												requiredMessage="Apellido Materno (Obligatorio)"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Nombres" width="100">
+								<p:column headerText="Nombres" width="20%">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.nombres}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{beneficiario.nombres}" />
+											<p:inputText value="#{beneficiario.nombres}" required="true"
+												maxlength="50"
+												requiredMessage="Nombres (Obligatorio)"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Porcentaje" width="100">
+								<p:column headerText="Porcentaje" width="15%">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.porcentajebeneficio}" />
@@ -115,17 +127,17 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column width="10">
+								<p:column width="10%">
 									<p:rowEditor />
 								</p:column>
 							</p:dataTable>
 
 						</div>
 						<div class="sf-buttons">
-							<p:commandButton value="Aceptar" update=":#{componentToUpdated}"
-								oncomplete="#{componentName}.hide()" styleClass="action green" />
+							<p:commandButton value="Aceptar" update=":#{componentToUpdated},#{componentName}"
+								oncomplete="#{componentName}.hide()" styleClass="action green" actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}"/>
 							<p:commandButton value="Cancelar"
-								onclick="#{componentName}.hide()" styleClass="action" />
+								onclick="#{componentName}.hide()" actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}" update="#{componentName}" styleClass="action" />
 						</div>
 					</div>
 				</div>

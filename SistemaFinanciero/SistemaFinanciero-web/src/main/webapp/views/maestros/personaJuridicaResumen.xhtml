@@ -9,7 +9,7 @@
 
 <ui:composition>
 
-	<h:panelGroup id="#{componentName}" rendered="#{aperturarCuentaAhorrosMB.personaJuridica}">
+	<h:panelGroup id="#{componentName}" rendered="#{managedBean.personaJuridica}">
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
 				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
@@ -26,7 +26,7 @@
 									<p:outputLabel value="RUC:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.ruc}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.ruc}" styleClass="sf-label-bold" />
 								</td>
 							</tr>	
 							<tr>
@@ -34,7 +34,7 @@
 									<p:outputLabel value="Razon Social:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.razonsocial}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.razonsocial}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
 							<tr>
@@ -42,7 +42,7 @@
 									<p:outputLabel value="Nombre Comercial:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.nombrecomercial}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.nombrecomercial}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
 							<tr>
@@ -50,7 +50,7 @@
 									<p:outputLabel value="Actividad Principal:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.actividadprincipal}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.actividadprincipal}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
 							<tr>
@@ -58,13 +58,13 @@
 									<p:outputLabel value="Tipo de Empresa:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.tipoempresa.denominacion}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.tipoempresa.denominacion}" styleClass="sf-label-bold" />
 								</td>
 								<td>
 									<p:outputLabel value="Fin Social:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.razonSocial(aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.finsocial)}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.razonSocial(managedBean.personaJuridicaMB.oPersonajuridica.finsocial)}" styleClass="sf-label-bold" />
 								</td>
 							</tr>	
 							<tr>
@@ -72,13 +72,13 @@
 									<p:outputLabel value="Dirección:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.direccion}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.direccion}" styleClass="sf-label-bold" />
 								</td>
 								<td>
 									<p:outputLabel value="Referencia:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.referencia}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.referencia}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
 							
@@ -87,13 +87,13 @@
 									<p:outputLabel value="Telefono:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.telefono}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.telefono}" styleClass="sf-label-bold" />
 								</td>
 								<td>
 									<p:outputLabel value="Celular:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.celular}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.celular}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
 							<tr>
@@ -101,7 +101,7 @@
 									<p:outputLabel value="Email:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.personaJuridicaMB.oPersonajuridica.email}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.email}" styleClass="sf-label-bold" />
 								</td>
 							</tr>				
 						</tbody>

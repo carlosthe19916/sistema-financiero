@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.entity.Beneficiariocuenta;
@@ -42,6 +44,9 @@ public class aperturarCuentaCorrienteMB implements Serializable {
 
 	@ManagedProperty(value = "#{personaNaturalMB}")
 	private PersonaNaturalMB personaNaturalMB;
+
+	@ManagedProperty(value = "#{personaJuridicaMB}")
+	private PersonaJuridicaMB personaJuridicaMB;
 
 	@ManagedProperty(value = "#{titularesMB}")
 	private TitularesMB titularesMB;
@@ -80,7 +85,19 @@ public class aperturarCuentaCorrienteMB implements Serializable {
 
 	public void createCuentacorriente() {
 
-		this.cuentaahorroServiceLocal.create(cuentaahorro);
+		boolean valida = false;
+		if (valida == true) {
+			System.out.println("entro");
+			//this.cuentaahorroServiceLocal.create(cuentaahorro);
+
+		} else {
+			System.out.println("eneeetro");
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"System Error", "Please try again later.");
+
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+
 	}
 
 	public boolean isPersonaNatural() {
@@ -141,6 +158,14 @@ public class aperturarCuentaCorrienteMB implements Serializable {
 
 	public void setBeneficiariosMB(BeneficiariosMB beneficiariosMB) {
 		this.beneficiariosMB = beneficiariosMB;
+	}
+
+	public PersonaJuridicaMB getPersonaJuridicaMB() {
+		return personaJuridicaMB;
+	}
+
+	public void setPersonaJuridicaMB(PersonaJuridicaMB personaJuridicaMB) {
+		this.personaJuridicaMB = personaJuridicaMB;
 	}
 
 }
