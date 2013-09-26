@@ -67,6 +67,11 @@ public class DatosFinancierosCuentaAhorroMB implements Serializable {
 	/*
 	 * Bussiness Logic
 	 */
+	
+	public boolean isValid(){
+		return cuentaahorro.getIdtipomoneda() != null ? true : false;
+	}
+	
 	private void cargarCombos(){
 		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 	}

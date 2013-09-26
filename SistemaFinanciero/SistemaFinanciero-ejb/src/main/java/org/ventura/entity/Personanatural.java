@@ -189,7 +189,7 @@ public class Personanatural implements Serializable {
 
 	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
-		if (estadocivil != null) {
+		if (sexo != null) {
 			this.idsexo = sexo.getIdsexo();
 		} else {
 			this.idsexo = null;

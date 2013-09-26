@@ -1,7 +1,6 @@
 package org.venturabank.managedbean.view;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,16 +9,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
-import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
-import org.ventura.entity.Cuentaahorrohistorial;
-import org.ventura.entity.Personajuridica;
-import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanatural;
-import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
 import org.venturabank.managedbean.BeneficiariosMB;
 import org.venturabank.managedbean.DatosFinancierosCuentaAhorroMB;
@@ -33,6 +28,8 @@ import org.venturabank.util.ComboMB;
 public class aperturarCuentaAhorrosMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	private String mensaje;
 
 	@EJB
 	private CuentaahorroServiceLocal cuentaahorroServiceLocal;
@@ -69,35 +66,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 	@PostConstruct
 	private void initValues() {
-
 		this.cargarCombos();
-
-		// se recuperan los datos de los Managed Bean invocados
-		Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB
-				.getCuentaahorro();
-		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-		// Personajuridica personajuridica =
-		// personaJuridicaMB.getoPersonajuridica();
-		List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares()
-				.getRows();
-		List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB
-				.getTablaBeneficiarios().getRows();
-
-		// se crean las clases a relacionar con la Cuenta de Ahorros
-		// Personajuridicacliente personajuridicacliente = new
-		// Personajuridicacliente();
-		Personanaturalcliente personanaturalcliente = new Personanaturalcliente();
-
-		// personajuridicacliente.setPersonajuridica(personajuridica);
-		personanaturalcliente.setPersonanatural(personanatural);
-
-		// Se relaciona la Cuenta de Ahorros con los objetos recuperados
-		this.cuentaahorro = cuentaahorro;
-		this.cuentaahorro.setPersonanaturalcliente(personanaturalcliente);
-		// this.cuentaahorro.setPersonajuridicacliente(personajuridicacliente);
-		this.cuentaahorro.setTitularcuentas(listTitularcuenta);
-		this.cuentaahorro.setBeneficiariocuentas(listBeneficiariocuenta);
-
 	}
 
 	/**
@@ -112,82 +81,56 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		comboTipoPersona.setItemSelected(1);
 	}
 
-	public void createCuentaahorro() {
+	public String createCuentaahorro() {
 
-		String mensaje = "";
-		boolean result = validarCuentaAhorro(mensaje);
-		
-		if (result) {
-
-			List<Cuentaahorrohistorial> historiales = cuentaahorro
-					.getCuentaahorrohistorials();
-			Cuentaahorrohistorial cuentaahorrohistorial = historiales.get(0);
-
-			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
-			cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
-
-			List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro
-					.getBeneficiariocuentas();
-
-			for (Iterator iterator = beneficiariocuentas.iterator(); iterator
-					.hasNext();) {
-				Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
-				var.setCuentaahorro(cuentaahorro);
-			}
-
-			List<Titularcuenta> titularcuentas = cuentaahorro
-					.getTitularcuentas();
-
-			for (Iterator iterator = titularcuentas.iterator(); iterator
-					.hasNext();) {
-				Titularcuenta var = (Titularcuenta) iterator.next();
-				String dni = var.getPersonanatural().getDni();
-				var.setDni(dni);
-				var.setCuentaahorro(cuentaahorro);
-			}
-
-			String dniCliente = cuentaahorro.getPersonanaturalcliente()
-					.getPersonanatural().getDni();
-			cuentaahorro.getPersonanaturalcliente().setDni(dniCliente);
-
-			this.cuentaahorroServiceLocal.create(cuentaahorro);
+		if (validarCuentaAhorro()) {
+			this.cuentaahorroServiceLocal.create(cuentaahorro);	
+			return "cuentaAhorroImprimirDatos";
 		} else {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"System Error", "ERROR DE LOS DATOS INGRESADOS");
-
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"System Error", mensaje);
 			FacesContext.getCurrentInstance().addMessage(null, message);
+			
+			return null;
 		}
 
 	}
 	
-	public boolean validarCuentaAhorro(String mensaje){
-		
+	public boolean validarCuentaAhorro() {
+
 		boolean result = true;
-		
+
+		this.mensaje = "ERROR:\n";
+
 		if (isPersonaNatural()) {
 			if (!personaNaturalMB.isValid()) {
 				result = false;
-				mensaje = mensaje + "Persona Natural Invalido \n";
+				this.mensaje = mensaje + "Datos de Persona Natural Invalidos \n";
 			}
 			if (!beneficiariosMB.isValid()) {
 				result = false;
-				mensaje = mensaje + "Beneficiario \n";
+				this.mensaje = mensaje + "Datos de Beneficiarios \n";
 			}
 		}
-		
+
 		if (isPersonaJuridica()) {
 			if (!personaJuridicaMB.isValid()) {
 				result = false;
-				mensaje = mensaje + "PersonaJuridica \n";
+				this.mensaje = mensaje + "Datos de Persona Juridica invalidos \n";
 			}
+		}
+
+		if(!datosFinancierosCuentaAhorroMB.isValid()){
+			result = false;
+			this.mensaje = mensaje + "Datos Financieros invalidos \n";
 		}
 		
 		if (!titularesMB.isValid()) {
 			result = false;
-			mensaje = mensaje + "Titulares \n";
+			this.mensaje = mensaje + "Datos de Titulares \n";
 		}
-		
-		//falta validar datos financieros
-		
+
+		// falta validar datos financieros
+
 		return result;
 	}
 
@@ -205,6 +148,9 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 			return false;
 	}
 
+	
+	private HtmlPanelGroup panelDatos;
+	
 	/**
 	 * 
 	 * GETTER AND SETTER
@@ -266,6 +212,27 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	public void setDatosFinancierosCuentaAhorroMB(
 			DatosFinancierosCuentaAhorroMB datosFinancierosCuentaAhorroMB) {
 		this.datosFinancierosCuentaAhorroMB = datosFinancierosCuentaAhorroMB;
+	}
+
+	public HtmlPanelGroup getPanelDatos() {
+		return panelDatos;
+	}
+
+	public void setPanelDatos(HtmlPanelGroup panelDatos) {
+		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
+		
+		Titularcuenta titularcuenta = new Titularcuenta();
+		titularcuenta.setPersonanatural(personanatural);
+		
+		List<Titularcuenta> titularcuentas =titularesMB.getTablaTitulares().getRows();
+		
+		if(titularcuentas.size()==0){
+			titularcuentas.add(titularcuenta);
+		}else{
+			titularcuentas.set(0, titularcuenta);
+		}
+		
+		this.panelDatos = panelDatos;
 	}
 
 }

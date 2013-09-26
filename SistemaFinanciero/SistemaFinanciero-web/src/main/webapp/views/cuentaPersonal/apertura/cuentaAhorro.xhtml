@@ -44,7 +44,7 @@
 			</table>
 		</div>
 
-		<h:panelGroup id="panelDatos">
+		<h:panelGroup id="panelDatos" binding="#{aperturarCuentaAhorrosMB.panelDatos}">
 
 			<!-- PersonaNatural -->
 			<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
@@ -55,7 +55,7 @@
 			<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated" value=":personaNatural" />
+				<ui:param name="componentToUpdated" value=":panelDatos" />
 			</ui:include>
 			<!-- end PersonaNatural -->
 
@@ -119,7 +119,7 @@
 		<div class="sf-buttons">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
-				<p:commandButton value="Guardar" actionListener="#{aperturarCuentaAhorrosMB.createCuentaahorro()}" update="messages" styleClass="action green">
+				<p:commandButton value="Guardar" action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"  update="messages,:panelDatos" styleClass="action green">
 				</p:commandButton>
 
 				<p:commandButton value="Cancelar" styleClass="action" />

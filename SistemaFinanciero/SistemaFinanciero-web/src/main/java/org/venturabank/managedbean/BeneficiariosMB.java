@@ -1,6 +1,8 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -30,6 +32,35 @@ public class BeneficiariosMB implements Serializable {
 	public void addBeneficiario() {
 		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();		
 		this.tablaBeneficiarios.addRow(beneficiariocuenta);
+	}
+	
+	public void validarBeneficiarios(){
+	
+		List<Beneficiariocuenta> beneficiarios = tablaBeneficiarios.getRows();
+
+		for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+			Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
+			
+			boolean appellidoPaterno = true;
+			boolean appellidoMaterno = true;
+			boolean nombres= true;
+			
+			if(beneficiariocuenta.getApellidopaterno()==null||beneficiariocuenta.getApellidopaterno().isEmpty()||beneficiariocuenta.getApellidopaterno().trim().isEmpty()){
+				appellidoPaterno= false;
+			}
+			if(beneficiariocuenta.getApellidomaterno()==null||beneficiariocuenta.getApellidomaterno().isEmpty()||beneficiariocuenta.getApellidomaterno().trim().isEmpty()){
+				appellidoMaterno= false;
+			}
+			if(beneficiariocuenta.getNombres()==null||beneficiariocuenta.getNombres().isEmpty()||beneficiariocuenta.getNombres().trim().isEmpty()){
+				nombres= false;
+			}
+					
+			if(!(appellidoPaterno&&appellidoMaterno&&nombres)){
+				iterator.remove();
+			}
+			
+		}
+		
 	}
 
 	public void removeBeneficiario() {
