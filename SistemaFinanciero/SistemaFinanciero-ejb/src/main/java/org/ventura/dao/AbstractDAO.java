@@ -9,8 +9,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TransactionRequiredException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -32,10 +34,16 @@ public abstract class AbstractDAO<T> {
 	public void create(T entity) {
 		try {
 			getEntityManager().persist(entity);
+		} catch (EntityExistsException e) {
+			getLogger().error(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			getLogger().error(e.getMessage());
+		} catch (TransactionRequiredException e) {
+			getLogger().error(e.getMessage());
 		} catch (Exception e) {
 			getLogger().error(e.getMessage());
 		} finally {
-			// getEntityManager().close();
+			getLogger().info("Entity " + entityClass + " successfull persist");
 		}
 	}
 

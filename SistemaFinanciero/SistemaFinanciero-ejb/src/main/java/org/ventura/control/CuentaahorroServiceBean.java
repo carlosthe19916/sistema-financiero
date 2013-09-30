@@ -17,14 +17,18 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.dao.impl.CuentaahorroDAO;
+import org.ventura.dao.impl.PersonanaturalDAO;
+import org.ventura.dao.impl.PersonanaturalclienteDAO;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaahorrohistorial;
 import org.ventura.entity.Estadocuenta;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
+import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
 import org.ventura.entity.Titularcuentahistorial;
 import org.ventural.util.logger.Log;
@@ -38,7 +42,13 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 	@EJB
 	private CuentaahorroDAO cuentaahorroDAO;
+	
+	@EJB
+	private PersonanaturalDAO personanaturalDAO;
 
+	@EJB
+	private PersonanaturalclienteDAO personanaturalclienteDAO;
+	
 	@Inject
 	Cuentaahorro cuentaahorro;
 
@@ -53,6 +63,8 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosDeRegistro();
 			generarNumeroCuenta();
 
+			System.out.println(cuentaahorro.getCuentaahorrohistorials().get(0).getCantidadretirantes());
+			
 			cuentaahorroDAO.create(cuentaahorro);			
 
 		} catch (Exception e) {
@@ -64,6 +76,49 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		return oCuentaahorro;
 	}
 
+	public Cuentaahorro create(Cuentaahorro oCuentaahorro, Personanaturalcliente personanaturalcliente) {
+		
+		try {
+			
+			this.cuentaahorro = oCuentaahorro;
+			
+			generarDatosDeRegistro();
+			generarNumeroCuenta();
+
+			createPersonanaturalcliente(personanaturalcliente);
+			cuentaahorroDAO.create(cuentaahorro);			
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		} finally{
+			log.info("Service Close");
+		}
+
+		return oCuentaahorro;
+	}
+	
+	public Cuentaahorro create(Cuentaahorro oCuentaahorro, Personanaturalcliente personanaturalcliente, Personanatural personanatural) {
+		
+		try {
+			
+			this.cuentaahorro = oCuentaahorro;
+			
+			generarDatosDeRegistro();
+			generarNumeroCuenta();
+
+			createPersonanatural(personanatural);
+			createPersonanaturalcliente(personanaturalcliente);
+			cuentaahorroDAO.create(cuentaahorro);			
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		} finally{
+			log.info("Service Close");
+		}
+
+		return oCuentaahorro;
+	}
+	
 	private void generarDatosDeRegistro() {
 		cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
 		cuentaahorro.setSaldo(0);
@@ -86,7 +141,33 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		cuentaahorro.setNumerocuentaahorro(digits.toString());
 
 	}
+	
+	private void createPersonanatural(Personanatural personanatural){
+		try {
+			
+			personanaturalDAO.create(personanatural);
 
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		} finally {
+			log.info("Service Close");
+		}
+
+	}
+
+	private void createPersonanaturalcliente(Personanaturalcliente personanaturalcliente){
+		try {
+			
+			personanaturalclienteDAO.create(personanaturalcliente);
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		} finally {
+			log.info("Service Close");
+		}
+
+	}
+	
 	@Override
 	public Cuentaahorro find(Integer id) {
 		return cuentaahorroDAO.find(id);

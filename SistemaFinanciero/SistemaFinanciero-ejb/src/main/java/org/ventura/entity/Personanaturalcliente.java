@@ -26,7 +26,7 @@ public class Personanaturalcliente implements Serializable {
 	@Column(unique = true, nullable = false, length = 8)
 	private String dni;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanatural personanatural;
 	

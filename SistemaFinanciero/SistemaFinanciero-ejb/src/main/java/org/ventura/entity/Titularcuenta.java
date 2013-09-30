@@ -53,7 +53,7 @@ public class Titularcuenta implements Serializable {
 	private List<Titularcuentahistorial> titularcuentahistorials;
 
 	// bi-directional many-to-one association to Cuentaplazofijo
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanatural personanatural;
 

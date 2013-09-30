@@ -19,9 +19,6 @@ public class Cuentaahorro implements Serializable {
 	@Column(unique = true, nullable = false, length = 14)
 	private String numerocuentaahorro;
 
-	@Transient
-	private Class tipoPersonaCliente;
-
 	@Column(length = 8)
 	private String dni;
 
@@ -41,11 +38,11 @@ public class Cuentaahorro implements Serializable {
 	@Column(nullable = false)
 	private double saldo;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanaturalcliente personanaturalcliente;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "ruc", insertable = false, updatable = false)
 	private Personajuridicacliente personajuridicacliente;
 
@@ -239,14 +236,6 @@ public class Cuentaahorro implements Serializable {
 
 	public void setPersonajuridicacliente(Personajuridicacliente personajuridicacliente) {
 		this.personajuridicacliente = personajuridicacliente;
-	}
-
-	public Class getTipoPersonaCliente() {
-		return tipoPersonaCliente;
-	}
-
-	public void setTipoPersonaCliente(Class tipoPersonaCliente) {
-		this.tipoPersonaCliente = tipoPersonaCliente;
 	}
 
 	public Integer getIdestadocuenta() {

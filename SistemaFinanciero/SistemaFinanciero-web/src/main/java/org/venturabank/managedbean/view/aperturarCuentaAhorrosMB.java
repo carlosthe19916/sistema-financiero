@@ -1,6 +1,7 @@
 package org.venturabank.managedbean.view;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,8 +13,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
+import org.ventura.entity.Cuentaahorrohistorial;
 import org.ventura.entity.Personanatural;
+import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
 import org.venturabank.managedbean.BeneficiariosMB;
 import org.venturabank.managedbean.DatosFinancierosCuentaAhorroMB;
@@ -83,6 +87,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	public String createCuentaahorro() {
 
 		if (validarCuentaAhorro()) {
+			this.establecerParametrosCuentaahorro();
 			this.cuentaahorroServiceLocal.create(cuentaahorro);	
 			return "cuentaAhorroImprimirDatos";
 		} else {
@@ -92,6 +97,63 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 			return null;
 		}
 
+	}
+	
+	public void establecerParametrosCuentaahorro(){
+		// se recuperan los datos de los Managed Bean invocados
+		Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
+		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
+		// Personajuridica personajuridica =
+		// personaJuridicaMB.getoPersonajuridica();
+		List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
+		List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
+
+		// se crean las clases a relacionar con la Cuenta de Ahorros
+		// Personajuridicacliente personajuridicacliente = new
+		// Personajuridicacliente();
+		Personanaturalcliente personanaturalcliente = new Personanaturalcliente();
+
+		// personajuridicacliente.setPersonajuridica(personajuridica);
+		personanaturalcliente.setPersonanatural(personanatural);
+
+		// Se relaciona la Cuenta de Ahorros con los objetos recuperados
+		this.cuentaahorro = cuentaahorro;
+		this.cuentaahorro.setPersonanaturalcliente(personanaturalcliente);
+		// this.cuentaahorro.setPersonajuridicacliente(personajuridicacliente);
+		this.cuentaahorro.setTitularcuentas(listTitularcuenta);
+		this.cuentaahorro.setBeneficiariocuentas(listBeneficiariocuenta);
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////
+		List<Cuentaahorrohistorial> historiales = cuentaahorro.getCuentaahorrohistorials();
+		Cuentaahorrohistorial cuentaahorrohistorial = historiales.get(0);
+
+		Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
+		cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
+
+		List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro.getBeneficiariocuentas();
+
+		for (Iterator iterator = beneficiariocuentas.iterator(); iterator.hasNext();) {
+			Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
+			var.setCuentaahorro(cuentaahorro);
+		}
+
+		List<Titularcuenta> titularcuentas = cuentaahorro
+				.getTitularcuentas();
+
+		for (Iterator iterator = titularcuentas.iterator(); iterator.hasNext();) {
+			Titularcuenta var = (Titularcuenta) iterator.next();
+			String dni = var.getPersonanatural().getDni();
+			var.setDni(dni);
+			var.setCuentaahorro(cuentaahorro);
+		}
+
+		
+		///////////////
+		String dniCliente = cuentaahorro.getPersonanaturalcliente().getPersonanatural().getDni();
+		cuentaahorro.getPersonanaturalcliente().setDni(dniCliente);
+
+		cuentaahorro.setDni(dniCliente);
 	}
 	
 	public boolean validarCuentaAhorro() {
