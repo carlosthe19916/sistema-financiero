@@ -76,4 +76,5 @@ public class PersonaNaturalClienteMB implements Serializable{
 		List<Personanaturalcliente> list = personaNaturalClienteServicesLocal.findByNamedQuery(Personanaturalcliente.OLL,pa);
 		tablaClientes.setRows(list);
 	}
+	
 }

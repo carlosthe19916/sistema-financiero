@@ -23,6 +23,17 @@
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
 
+		<h:form>
+			<p:commandLink value="Nueva" oncomplete="personaNaturalDialogGenerico.show();return false;">
+			</p:commandLink>
+			<p:commandLink value="Existente" 
+				action="#{personaNaturalGenericoMB.openDialog('personaNaturalDialogGenerico')}"  
+				oncomplete="personaNaturalDialogGenerico.show();return false;">
+			</p:commandLink>
+		</h:form>
+			
+		
+		
 		<div class="sf-content-cabecera">
 			<h2>Aperturar Cuenta de Ahorros</h2>
 		</div>
@@ -31,7 +42,8 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td><h:form>
+					<td>
+						<h:form>
 							<p:selectOneMenu
 								value="#{aperturarCuentaAhorrosMB.comboTipoPersona.itemSelected}">
 								<f:selectItems
@@ -39,12 +51,15 @@
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
 								<p:ajax update=":panelDatos"></p:ajax>
 							</p:selectOneMenu>
-						</h:form></td>
+						</h:form>
+					</td>
 				</tr>
 			</table>
 		</div>
 
-		<h:panelGroup id="panelDatos" binding="#{aperturarCuentaAhorrosMB.panelDatos}">
+
+			
+		<h:panelGroup id="panelDatos">
 
 			<!-- PersonaNatural -->
 			<ui:include src="/views/maestros/personaNaturalResumen.xhtml">
@@ -55,8 +70,9 @@
 			<ui:include src="/views/maestros/personaNaturalDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated" value=":panelDatos" />
+				<ui:param name="componentToUpdated" value=":personaNatural,:titulares" />
 			</ui:include>
+			
 			<!-- end PersonaNatural -->
 
 
@@ -119,7 +135,9 @@
 		<div class="sf-buttons">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
-				<p:commandButton value="Guardar" action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"  update="messages,:panelDatos" styleClass="action green">
+				<p:commandButton value="Guardar" 
+					action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"  
+					update="messages,:panelDatos" styleClass="action green">
 				</p:commandButton>
 
 				<p:commandButton value="Cancelar" styleClass="action" />

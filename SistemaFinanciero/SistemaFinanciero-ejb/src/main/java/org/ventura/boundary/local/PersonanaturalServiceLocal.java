@@ -15,7 +15,7 @@ public interface PersonanaturalServiceLocal extends PersonanaturalServiceRemote{
 	
 	public Personanatural create(Personanatural oPersonanatural);
 
-	public Personanatural find(Integer id);
+	public Personanatural find(Object id);
 
 	public void delete(Personanatural oPersonanatural);
 

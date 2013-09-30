@@ -22,7 +22,7 @@ public class PersonaNaturalMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	PersonanaturalServiceLocal personaNaturalFacadeLocal;
+	PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	private Personanatural personaNatural;
 
@@ -32,20 +32,35 @@ public class PersonaNaturalMB implements Serializable {
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadoCivil;
 	
+	private boolean isEditing;
 	
 	// constructor
 	public PersonaNaturalMB() {
 		this.personaNatural = new Personanatural();		
+		isEditing = false;
 	}
 
 	//Para despues de crear el objeto
 	@PostConstruct
 	private void initValues() {
 		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
-		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
-		
+		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);		
 	}
 
+	public void buscarPersona(){
+		Personanatural personanatural = personanaturalServiceLocal.find(personaNatural.getDni());
+
+		if (personanatural != null) {
+			this.personaNatural = personanatural;
+		} else {
+			personanatural = new Personanatural();
+			personanatural.setDni(getPersonaNatural().getDni());
+			this.personaNatural = personanatural;
+			this.changeEditingState();
+		}
+
+	}
+	
 	public boolean isValid(){		
 		return personaNatural.isValid() ? true : false;
 	}
@@ -85,6 +100,18 @@ public class PersonaNaturalMB implements Serializable {
 
 	public void setComboEstadoCivil(ComboMB<Estadocivil> comboEstadoCivil) {
 		this.comboEstadoCivil = comboEstadoCivil;
+	}
+
+	public void changeEditingState() {
+		this.isEditing = !isEditing;
+	}
+	
+	public boolean isEditing() {
+		return isEditing;
+	}
+
+	public void setEditing(boolean isEditing) {
+		this.isEditing = isEditing;
 	}
 
 }

@@ -9,14 +9,11 @@
 
 <ui:composition>
 
-	<h:panelGroup id="#{componentName}" rendered="#{managedBean.personaNatural}" >
+	<h:panelGroup id="#{componentName}"  >
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
 				
-				<h:form>
-					<p:commandLink value="Editar" oncomplete="#{editarOutputDialog}.show();return false;"></p:commandLink>
-				</h:form>
-		
+				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -38,7 +35,7 @@
 									<p:outputLabel value="Apellidos y Nombres:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.nombreCompleto}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.nombreCompleto}"/>
 								</td>
 							</tr>
 							<tr>
@@ -46,7 +43,7 @@
 									<p:outputLabel value="Fecha Nacimiento:" />
 								</td>
 								<td>
-									<h:outputText value="#{managedBean.personaNaturalMB.personaNatural.fechanacimiento}" styleClass="sf-label-bold" >
+									<h:outputText value="#{managedBean.personaNaturalMB.personaNatural.fechanacimiento}">
 										<f:convertDateTime pattern="dd/MM/yyyy"/>
 									</h:outputText>									
 								</td>
@@ -54,54 +51,33 @@
 									<p:outputLabel value="Sexo:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.sexo.denominacion}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.sexo.denominacion}"/>
 								</td>
 							</tr>	
 							<tr>
 								<td>
 									<p:outputLabel value="Estado Civil:" />
 								</td>
-								<td><p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>
+								<td><p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.estadocivil.denominacion}"/></td>
 								<td>
 									<p:outputLabel value="Ocupación:" />
 								</td>
-								<td><p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.ocupacion}" styleClass="sf-label-bold" /></td>
+								<td><p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.ocupacion}"/></td>
 							</tr>						
 							<tr>
 								<td>
 									<p:outputLabel value="Dirección:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.direccion}" styleClass="sf-label-bold" /></td>
+									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.direccion}"/></td>
 								<td>
 									<p:outputLabel value="Referencia:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.referencia}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.referencia}"/>
 								</td>
 							</tr>							
-							<tr>
-								<td>
-									<p:outputLabel value="Teléfono:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.telefono}" styleClass="sf-label-bold" />
-								</td>
-								<td>
-									<p:outputLabel value="Celular:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.celular}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p:outputLabel value="Email:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.email}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
+							
 						</tbody>
 					</table>
 				</div>

@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Local;
 import javax.ejb.Remote;
 
 import org.ventura.entity.Personanatural;
@@ -14,7 +13,7 @@ public interface PersonanaturalServiceRemote {
 	
 	public Personanatural create(Personanatural oPersonanatural);
 
-	public Personanatural find(Integer id);
+	public Personanatural find(Object id);
 
 	public void delete(Personanatural oPersonanatural);
 

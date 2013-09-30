@@ -10,7 +10,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 
 import org.ventura.boundary.local.TitularcuentaServiceLocal;
-import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Titularcuenta;
 import org.venturabank.util.TablaMB;

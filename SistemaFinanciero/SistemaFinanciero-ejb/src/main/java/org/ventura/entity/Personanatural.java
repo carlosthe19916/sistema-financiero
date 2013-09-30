@@ -13,8 +13,11 @@ import java.util.Date;
 @Entity
 @Table(name = "personanatural", schema = "persona")
 @NamedQuery(name = "Personanatural.findAll", query = "SELECT p FROM Personanatural p")
+@NamedQueries({ @NamedQuery(name = Personanatural.findById, query = "Select p From Personanatural p Where p.dni=:dni") })
 public class Personanatural implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	public final static String findById = "org.ventura.model.Personanatural.findById";
 
 	@Id
 	@Column(unique = true, nullable = false, length = 8)

@@ -32,7 +32,7 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	}
 
 	@Override
-	public Personanatural find(Integer id) {		
+	public Personanatural find(Object id) {		
 		return oPersonanaturalDAO.find(id);
 	}
 

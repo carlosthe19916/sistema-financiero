@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Apertura Cta. Ahorros" />
+	</ui:define>
+
+	<!-- content -->
+	<ui:define name="menu-left">
+		<ui:include src="/WEB-INF/menus/cuentasMenu.xhtml" />
+	</ui:define>
+
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+
+		<div class="sf-content-cabecera">
+			<h2>Actualizar Persona Natural</h2>
+		</div>
+
+		<h:panelGroup id="panelDatos">
+			<!-- PersonaNatural -->
+			<ui:include src="/views/maestros/pruebita.xhtml">
+				<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+				<ui:param name="componentName" value="personaNatural" />
+				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+			</ui:include>
+			
+			<!-- end PersonaNatural -->
+		</h:panelGroup>
+
+		<div class="sf-buttons">
+			<h:form>
+				<p:commandButton update=":panelDatos" value="Aceptar" styleClass="action green"/>
+				<p:commandButton value="Probar" action="#{mostrarDatosClienteMB.imprimirDatos()}" styleClass="action" />
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
