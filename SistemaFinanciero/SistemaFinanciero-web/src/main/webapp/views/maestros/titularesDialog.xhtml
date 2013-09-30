@@ -57,7 +57,7 @@
 								selection="#{managedBean.titularesMB.tablaTitulares.selectedRow}"
 								rowKey="#{titular}" scrollable="true" scrollHeight="150"
 								scrollRows="5" rowIndexVar="row"
-								rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }">
+								rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }" style="table-layout: none;">
 
 								<p:ajax event="rowEdit" update=":form:growl,tablaTitulares" />
 								<p:ajax event="rowEditCancel"

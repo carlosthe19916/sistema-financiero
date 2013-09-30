@@ -8,95 +8,117 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
-<h:form>
-	<p:dialog id="#{componentName}" header="Persona Natural" widgetVar="#{componentName}" modal="true" height="500" rendered="#{managedBean.personaNatural}">		  
-		<div id="panelPersonaNatural">
-		
-		<p:panel id="prueba">	
+
+	<p:dialog widgetVar="#{componentName}" modal="true" header="Persona Natural">
+
+		<p:growl id="growl" sticky="true" />
+
+		<h:form id="form-busquedaPersonanatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
-				
-				 <p:growl id="growl" sticky="true"/>  
-				 
-				 
+					<div class="sf-agrupador-content-cabecera">
+						<h3>Buscar Persona</h3>
+					</div>
+					<div class="sf-agrupador-content-table">
+						<table>
+							<tr>
+								<td>
+									<p:outputLabel value="DNI:" />
+								</td>
+								<td>
+									<p:inputText id="txtDNIPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.dni}"
+										disabled="#{managedBean.personaNaturalMB.editing}"
+										required="true" maxlength="8"
+										requiredMessage="Ingrese Número de DNI"
+										validatorMessage="Número de DNI Invalido">
+										<f:validateRegex pattern="(^[0-9]{8}$)" />
+									</p:inputText> 
+									<p:watermark for="txtDNIPN" value="DNI" /> 
+									<p:outputLabel for="txtDNIPN" />
+								</td>
+								<td colspan="2">
+									<p:commandButton value="Buscar" 
+										action="#{managedBean.personaNaturalMB.buscarPersona()}" 
+										update="@form,:form-datosPersonanatural,:form-buttons" 
+										rendered="#{!managedBean.personaNaturalMB.editing}"/> 									
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</h:form>
+
+		<h:form id="form-datosPersonanatural">
+			<div class="sf-agrupador">
+				<div class="sf-agrupador-content">
 					<div class="sf-agrupador-content-cabecera">
 						<h3>DATOS PERSONALES</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
-					
 						<table>
 							<tr>
-								<td>
-									<p:outputLabel value="DNI:"/>
-								</td>
-								<td>
-									<p:inputText id="txtDNIPN" value="#{managedBean.personaNaturalMB.personaNatural.dni}" required="true" maxlength="8" requiredMessage="Ingrese Número de DNI" validatorMessage="Número de DNI Invalido"> 										
-										<f:validateRegex pattern="(^[0-9]{8}$)" />
-										<p:ajax update="growl,txtDNIPN,prueba" event="blur" listener="#{managedBean.personaNaturalMB.buscarPersona()}" />
-									</p:inputText>
-									<p:watermark for="txtDNIPN" value="DNI"/>
-									<p:outputLabel for="txtDNIPN"/>
-								</td>												
+								<td><p:outputLabel value="Apellido Paterno:" /></td>
+								<td><p:inputText id="txtApPaternoPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.apellidopaterno}"
+										disabled="#{!managedBean.personaNaturalMB.editing}"
+										required="true" maxlength="50"
+										requiredMessage="Ingrese Apellido Paterno">
+										<p:ajax update=":growl,txtApPaternoPN" event="blur" />
+									</p:inputText> <p:watermark for="txtApPaternoPN" value="Apellido Paterno" />
+									<p:outputLabel for="txtApPaternoPN" /></td>
+								<td><p:outputLabel value="Apellido Materno:" /></td>
+								<td><p:inputText id="txtApMaternoPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.apellidomaterno}"
+										required="true" maxlength="50"
+										requiredMessage="Ingrese Apellido Materno"
+										disabled="#{!managedBean.personaNaturalMB.editing}">
+										<p:ajax update=":growl,txtApMaternoPN" event="blur" />
+									</p:inputText> <p:watermark for="txtApMaternoPN" value="Apellido Materno" />
+									<p:outputLabel for="txtApMaternoPN" /></td>
 							</tr>
 							<tr>
-								<td>
-									<p:outputLabel>Apellido Paterno:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText id="txtApPaternoPN" value="#{managedBean.personaNaturalMB.personaNatural.apellidopaterno}" required="true" maxlength="50" requiredMessage="Ingrese Apellido Paterno">
-										<p:ajax update="growl,txtApPaternoPN" event="blur"/>
-									</p:inputText>
-									<p:watermark for="txtApPaternoPN" value="Apellido Paterno"/>
-									<p:outputLabel for="txtApPaternoPN"/>
-								</td>
-								<td>
-									<p:outputLabel>Apellido Materno:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText id="txtApMaternoPN" value="#{managedBean.personaNaturalMB.personaNatural.apellidomaterno}" required="true" maxlength="50" requiredMessage="Ingrese Apellido Materno">
-										<p:ajax update="growl,txtApMaternoPN" event="blur"/>
-									</p:inputText>
-									<p:watermark for="txtApMaternoPN" value="Apellido Materno"/>
-									<p:outputLabel for="txtApMaternoPN"/>
-								</td>
+								<td><p:outputLabel>Nombres:</p:outputLabel></td>
+								<td colspan="3"><p:inputText id="txtNombresPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.nombres}"
+										size="71" required="true" maxlength="60"
+										requiredMessage="Ingrese Nombres"
+										disabled="#{!managedBean.personaNaturalMB.editing}">
+										<p:ajax update=":growl,txtNombresPN" event="blur" />
+									</p:inputText> <p:watermark for="txtNombresPN" value="Nombres" /> <p:outputLabel
+										for="txtNombresPN" /></td>
 							</tr>
+
 							<tr>
+								<td><p:outputLabel>Fecha Nacimiento:</p:outputLabel></td>
 								<td>
-									<p:outputLabel>Nombres:</p:outputLabel>
-									
-								</td>
-								<td colspan="3">
-									<p:inputText id="txtNombresPN" value="#{managedBean.personaNaturalMB.personaNatural.nombres}" size="71" required="true" maxlength="60" requiredMessage="Ingrese Nombres">
-										<p:ajax update="growl,txtNombresPN" event="blur"/>
-									</p:inputText>
-									<p:watermark for="txtNombresPN" value="Nombres" />
-									<p:outputLabel for="txtNombresPN"/>
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<p:outputLabel>Fecha Nacimiento:</p:outputLabel>
-								</td>
-								<td>
-									<p:calendar id="txtFecNacPN" value="#{managedBean.personaNaturalMB.personaNatural.fechanacimiento}" navigator="true" pattern="dd/MM/yy" required="true" requiredMessage="Ingrese Fecha de Nacimiento" converterMessage="El formato de la fecha de nacimiento no es correcto">
-										<p:ajax update="growl,txtFecNacPN" event="blur"/>
-										<f:convertDateTime pattern="dd/MM/yy"/>
+									<p:calendar id="txtFecNacPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.fechanacimiento}"
+										navigator="true" pattern="dd/MM/yy" required="true"
+										requiredMessage="Ingrese Fecha de Nacimiento"
+										converterMessage="El formato de la fecha de nacimiento no es correcto"
+										disabled="#{!managedBean.personaNaturalMB.editing}">
+										<p:ajax update=":growl,txtFecNacPN"/>
+										<f:convertDateTime pattern="dd/MM/yy" />
 									</p:calendar> 
-									
-									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy"/>
-									<p:outputLabel for="txtFecNacPN"/>
-								</td>
+									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy" /> 
+									<p:outputLabel for="txtFecNacPN" /></td>
+								<td><p:outputLabel>Sexo:</p:outputLabel></td>
 								<td>
-									<p:outputLabel>Sexo:</p:outputLabel>
-								</td>
-								<td>
-										<p:selectOneMenu  id="txtSexo" value="#{managedBean.personaNaturalMB.comboSexo.itemSelected}" valueChangeListener="#{managedBean.personaNaturalMB.changeSexo}" required="true" requiredMessage="Seleccione un sexo valido">
-											<f:selectItem id="e" itemLabel="--Seleccione--" itemValue=""/>
-											<f:selectItems value="#{managedBean.personaNaturalMB.comboSexo.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
-											<p:ajax update="growl,txtSexo"/>	
-										</p:selectOneMenu>
-										<p:outputLabel for="txtSexo"/>																						
+									<p:selectOneMenu id="txtSexo"
+										value="#{managedBean.personaNaturalMB.comboSexo.itemSelected}"
+										valueChangeListener="#{managedBean.personaNaturalMB.changeSexo}"
+										required="true" requiredMessage="Seleccione un sexo valido"
+										disabled="#{!managedBean.personaNaturalMB.editing}">
+										<f:selectItem id="e" itemLabel="--Seleccione--" itemValue="" />
+										<f:selectItems
+											value="#{managedBean.personaNaturalMB.comboSexo.items.entrySet()}"
+											var="val" itemLabel="#{val.value.denominacion}"
+											itemValue="#{val.key}" />
+										<p:ajax update=":growl,txtSexo" />
+									</p:selectOneMenu> 
+									<p:outputLabel for="txtSexo" />
 								</td>
 							</tr>
 						</table>
@@ -109,88 +131,99 @@
 						<h3>DATOS ADICIONALES</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
-						<table>
-							
+
+						<table>			
 							<tr>
+								<td><p:outputLabel>Estado Civil:</p:outputLabel></td>
 								<td>
-									<p:outputLabel>Estado Civil:</p:outputLabel>
-								</td>
-								<td>
-									<p:selectOneMenu value="#{managedBean.personaNaturalMB.comboEstadoCivil.itemSelected}" valueChangeListener="#{managedBean.personaNaturalMB.changeEstadoCivil}">
+									<p:selectOneMenu
+										value="#{managedBean.personaNaturalMB.comboEstadoCivil.itemSelected}"
+										valueChangeListener="#{managedBean.personaNaturalMB.changeEstadoCivil}"
+										disabled="#{!managedBean.personaNaturalMB.editing}">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems value="#{managedBean.personaNaturalMB.comboEstadoCivil.items.entrySet()}" var="val" itemLabel="#{val.value.denominacion}" itemValue="#{val.key}"/>
+										<f:selectItems
+											value="#{managedBean.personaNaturalMB.comboEstadoCivil.items.entrySet()}"
+											var="val" itemLabel="#{val.value.denominacion}"
+											itemValue="#{val.key}" />
 									</p:selectOneMenu>
 									
 								</td>
 							</tr>
-							
 							<tr>
-								<td>
-									<p:outputLabel>Ocupacion:</p:outputLabel>
-								</td>
-								<td colspan="3">
-									<p:inputText id="txtOcupacionPN" value="#{managedBean.personaNaturalMB.personaNatural.ocupacion}" maxlength="70" size="71"/>
-									<p:watermark for="txtOcupacionPN" value="Ocupación" />
-								</td>
+								<td><p:outputLabel>Ocupacion:</p:outputLabel></td>
+								<td colspan="3"><p:inputText id="txtOcupacionPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.ocupacion}"
+										maxlength="70" size="71"
+										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
+										for="txtOcupacionPN" value="Ocupación" /></td>
 							</tr>
 							<tr>
-								<td>
-									<p:outputLabel>Direccion:</p:outputLabel>
-								</td>
-								<td colspan="5">
-									<p:inputText id="txtDireccionPN" value="#{managedBean.personaNaturalMB.personaNatural.direccion}" maxlength="200" size="71"/>
-									<p:watermark for="txtDireccionPN" value="Dirección" />
-								</td>
+								<td><p:outputLabel>Direccion:</p:outputLabel></td>
+								<td colspan="5"><p:inputText id="txtDireccionPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.direccion}"
+										maxlength="200" size="71"
+										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
+										for="txtDireccionPN" value="Dirección" /></td>
 							</tr>
 							<tr>
-								<td>
-									<p:outputLabel>Referencia:</p:outputLabel>
-								</td>
-								<td colspan="5">
-									<p:inputText id="txtReferenciaPN" value="#{managedBean.personaNaturalMB.personaNatural.referencia}" maxlength="100" size="71" />
-									<p:watermark for="txtReferenciaPN" value="Referencia" />
-								</td>
+								<td><p:outputLabel>Referencia:</p:outputLabel></td>
+								<td colspan="5"><p:inputText id="txtReferenciaPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.referencia}"
+										maxlength="100" size="71"
+										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
+										for="txtReferenciaPN" value="Referencia" /></td>
 							</tr>
-		
+
 							<tr>
-								<td>
-									<p:outputLabel>Telefono:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText id="txtTelefonoPN" value="#{managedBean.personaNaturalMB.personaNatural.telefono}" maxlength="30"/>
-									<p:watermark for="txtTelefonoPN" value="Telefono1/telefono2" />
-								</td>
-								<td>
-									<p:outputLabel>Celular:</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText id="txtCelularPN" value="#{managedBean.personaNaturalMB.personaNatural.celular}" maxlength="30"/>
-									<p:watermark for="txtCelularPN" value="celular1/celular2/RPM" />
-								</td>
+								<td><p:outputLabel>Telefono:</p:outputLabel></td>
+								<td><p:inputText id="txtTelefonoPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.telefono}"
+										maxlength="30"
+										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
+										for="txtTelefonoPN" value="Telefono1/telefono2" /></td>
+								<td><p:outputLabel>Celular:</p:outputLabel></td>
+								<td><p:inputText id="txtCelularPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.celular}"
+										maxlength="30"
+										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
+										for="txtCelularPN" value="celular1/celular2/RPM" /></td>
 							</tr>
 							<tr>
-								<td>
-									<p:outputLabel>Email:</p:outputLabel>
-								</td>
-								<td colspan="5">
-									<p:inputText id="txtEmailPN" value="#{managedBean.personaNaturalMB.personaNatural.email}" maxlength="50" size="73" />
-									<p:watermark for="txtEmailPN" value="email@hotmail.com" />
-								</td>
+								<td><p:outputLabel>Email:</p:outputLabel></td>
+								<td colspan="5"><p:inputText id="txtEmailPN"
+										value="#{managedBean.personaNaturalMB.personaNatural.email}"
+										maxlength="50" size="73"
+										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
+										for="txtEmailPN" value="email@hotmail.com" /></td>
 							</tr>
 						</table>
 					</div>
 				</div>
-			</div>
-	
-		</p:panel>
+			</div>		
+			<div class="sf-buttons">
+				<p:commandButton value="Aceptar" 
+					update=":growl,@form,#{componentToUpdated}" 
+					oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" 
+					rendered="#{managedBean.personaNaturalMB.editing}"
+					actionListener="#{managedBean.establecerTitularDefecto()}"/>
+				<p:commandButton value="Cancelar" 
+					onclick="#{componentName}.hide()" 
+					rendered="#{managedBean.personaNaturalMB.editing}"/>
+			</div>			
+		</h:form>
 		
-			<div class="sf-buttons" >															
-				<p:commandButton update="#{componentToUpdated},growl" value="Aceptar" oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" styleClass="action green"/>
-				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
+		<h:form id="form-buttons">
+			<div class="sf-buttons">
+				<p:commandButton value="Aceptar" 
+					update="#{componentToUpdated}" 
+					rendered="#{!managedBean.personaNaturalMB.editing}" 
+					onclick="#{componentName}.hide()"
+					actionListener="#{managedBean.establecerTitularDefecto()}"/>
+				<p:commandButton value="Cancelar" update="#{componentToUpdated}" rendered="#{!managedBean.personaNaturalMB.editing}" onclick="#{componentName}.hide()"/>
 			</div>
-		</div>
+		</h:form>	
+		
 	</p:dialog>
-</h:form>
 
 </ui:composition>
 </html>

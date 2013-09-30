@@ -1,8 +1,6 @@
 package org.venturabank.managedbean;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -34,11 +32,12 @@ public class PersonaNaturalMB implements Serializable {
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadoCivil;
 	
-	
+	private boolean isEditing;
 	
 	// constructor
 	public PersonaNaturalMB() {
 		this.personaNatural = new Personanatural();		
+		isEditing = false;
 	}
 
 	//Para despues de crear el objeto
@@ -50,9 +49,16 @@ public class PersonaNaturalMB implements Serializable {
 
 	public void buscarPersona(){
 		Personanatural personanatural = personanaturalServiceLocal.find(personaNatural.getDni());
+
 		if (personanatural != null) {
 			this.personaNatural = personanatural;
+		} else {
+			personanatural = new Personanatural();
+			personanatural.setDni(getPersonaNatural().getDni());
+			this.personaNatural = personanatural;
+			this.changeEditingState();
 		}
+
 	}
 	
 	public boolean isValid(){		
@@ -94,6 +100,18 @@ public class PersonaNaturalMB implements Serializable {
 
 	public void setComboEstadoCivil(ComboMB<Estadocivil> comboEstadoCivil) {
 		this.comboEstadoCivil = comboEstadoCivil;
+	}
+
+	public void changeEditingState() {
+		this.isEditing = !isEditing;
+	}
+	
+	public boolean isEditing() {
+		return isEditing;
+	}
+
+	public void setEditing(boolean isEditing) {
+		this.isEditing = isEditing;
 	}
 
 }

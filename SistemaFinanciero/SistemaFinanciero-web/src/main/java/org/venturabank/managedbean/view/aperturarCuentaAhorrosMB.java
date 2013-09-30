@@ -9,7 +9,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
@@ -147,9 +146,21 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		else
 			return false;
 	}
-
 	
-	private HtmlPanelGroup panelDatos;
+	public void establecerTitularDefecto(){
+		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
+		
+		Titularcuenta titularcuenta = new Titularcuenta();
+		titularcuenta.setPersonanatural(personanatural);
+		
+		List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares().getRows();
+		
+		if (titularcuentas.size() == 0) {
+			titularcuentas.add(titularcuenta);
+		} else {
+			titularcuentas.set(0, titularcuenta);
+		}
+	}
 	
 	/**
 	 * 
@@ -212,27 +223,6 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	public void setDatosFinancierosCuentaAhorroMB(
 			DatosFinancierosCuentaAhorroMB datosFinancierosCuentaAhorroMB) {
 		this.datosFinancierosCuentaAhorroMB = datosFinancierosCuentaAhorroMB;
-	}
-
-	public HtmlPanelGroup getPanelDatos() {
-		return panelDatos;
-	}
-
-	public void setPanelDatos(HtmlPanelGroup panelDatos) {
-		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-		
-		Titularcuenta titularcuenta = new Titularcuenta();
-		titularcuenta.setPersonanatural(personanatural);
-		
-		List<Titularcuenta> titularcuentas =titularesMB.getTablaTitulares().getRows();
-		
-		if(titularcuentas.size()==0){
-			titularcuentas.add(titularcuenta);
-		}else{
-			titularcuentas.set(0, titularcuenta);
-		}
-		
-		this.panelDatos = panelDatos;
 	}
 
 }
