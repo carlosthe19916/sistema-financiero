@@ -33,7 +33,6 @@ public class PersonaNaturalMB implements Serializable {
 	private ComboMB<Estadocivil> comboEstadoCivil;
 	
 	
-	
 	// constructor
 	public PersonaNaturalMB() {
 		this.personaNatural = new Personanatural();		
