@@ -25,73 +25,113 @@
 
 		<div class="sf-content-cabecera">
 			<h2>Aperturar Cuenta de Ahorros</h2>
-			
+
 		</div>
 
-		<h:form id="form1">
-		<p:panel id="panel" header="Busqueda de Clientes">  
-		<p:focus context="panel"/>
-			
-			<p:dataTable id="table" var="cliente"
-				value="#{personaNaturalClienteMB.tablaClientes.rows}" rowKey="#{cliente}" selection="#{personaNaturalClienteMB.tablaClientes.selectedRow}" selectionMode="single"
-				paginator="true" paginatorPosition="bottom" rows="5" sortBy="#{cliente.personanatural.apellidopaterno}"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,20" widgetVar="tablaCliente" emptyMessage="No hay coincidencia en la busqueda" filteredValue="">
-				
-				<f:facet name="header">
-				<p:growl id="growl" sticky="true" />
-					<p:outputPanel>  
-                		<h:outputText value="Ingrese persona: " />  
-                		<p:inputText id="txtBuscar" value="#{personaNaturalClienteMB.valorBusqueda}" style="width:250px" required="true" requiredMessage="Ingrese un valor a buscar">
-                			<p:ajax update="growl" event="keyup"/>
-                		</p:inputText>
-                		<p:watermark for="txtBuscar" value="DNI / Ap. Paterno / Ap. Materno / Nombres"/>
-            		</p:outputPanel>
-				</f:facet>
-	
-				<p:column sortBy="#{cliente.dni}" headerText="DNI">
-					<h:outputText value="#{cliente.dni}" />
-				</p:column>
 
-				<p:column sortBy="#{cliente.personanatural.apellidopaterno}" headerText="Apellido Paterno">
-					<h:outputText value="#{cliente.personanatural.apellidopaterno}" />
-				</p:column>
+		<p:panel id="panel" header="Busqueda de Clientes">
+			<p:focus context="panel" />
+			<h:form id="form1">
+				<div>
 
-				<p:column sortBy="#{cliente.personanatural.apellidomaterno}" headerText="APellido Materno">
-					<h:outputText value="#{cliente.personanatural.apellidomaterno}" />
-				</p:column>
+					<div>
+						<div class="buttons">
+							<div class="tiptip">
+								<p:commandLink update="table"
+									actionListener="#{managedBean.titularesMB.addTitular()}"
+									styleClass="button left" title="Nuevo">
+									<span class="icon icon3"></span>
+									<span class="label">Nuevo</span>
+								</p:commandLink>
+								<p:commandLink onclick="editar" styleClass="button middle"
+									title="Nuevo">
+									<span class="icon icon145"></span>
+									<span class="label">Editar</span>
+								</p:commandLink>
+								<p:commandLink update="table"
+									actionListener="#{managedBean.titularesMB.removeTitular()}"
+									styleClass="button right" title="Eliminar Trabajador">
+									<span class="icon icon186"></span>
+									<span class="label">Eliminar</span>
+								</p:commandLink>
+							</div>
+						</div>
 
-				<p:column sortBy="#{cliente.personanatural.nombres}" headerText="Nombres">
-					<h:outputText value="#{cliente.personanatural.nombres}" />
-				</p:column>
+					</div>
+
+					<div>
+						<p:dataTable id="table" var="cliente"
+							value="#{personaNaturalClienteMB.tablaClientes.rows}"
+							rowKey="#{cliente}"
+							selection="#{personaNaturalClienteMB.selectedPersonaNaturalCliente}"
+							selectionMode="single" paginator="true"
+							paginatorPosition="bottom" rows="5"
+							sortBy="#{cliente.personanatural.apellidopaterno}"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,10,20" widgetVar="tablaCliente"
+							emptyMessage="No hay coincidencia en la busqueda"
+							filteredValue="">
+
+							<f:facet name="header">
+								<p:growl id="growl" sticky="true" />
+								<p:outputPanel>
+
+									<h:outputText value="Ingrese persona: " />
+									<p:inputText id="txtBuscar"
+										value="#{personaNaturalClienteMB.valorBusqueda}"
+										style="width:250px" required="true"
+										requiredMessage="Ingrese un valor a buscar">
+										<p:ajax update="growl" event="keyup" />
+									</p:inputText>
+									<p:watermark for="txtBuscar"
+										value="DNI / Ap. Paterno / Ap. Materno / Nombres" />
+
+								</p:outputPanel>
+							</f:facet>
+
+							<p:column sortBy="#{cliente.dni}" headerText="DNI">
+								<h:outputText value="#{cliente.dni}" />
+							</p:column>
+
+							<p:column sortBy="#{cliente.personanatural.apellidopaterno}"
+								headerText="Apellido Paterno">
+								<h:outputText value="#{cliente.personanatural.apellidopaterno}" />
+							</p:column>
+
+							<p:column sortBy="#{cliente.personanatural.apellidomaterno}"
+								headerText="APellido Materno">
+								<h:outputText value="#{cliente.personanatural.apellidomaterno}" />
+							</p:column>
+
+							<p:column sortBy="#{cliente.personanatural.nombres}"
+								headerText="Nombres">
+								<h:outputText value="#{cliente.personanatural.nombres}" />
+							</p:column>
+						</p:dataTable>
+
+					</div>
+
+					<div>
+						<p:commandLink update="table"
+									actionListener="#{personaNaturalClienteMB.buscarCliente()}"
+									styleClass="button left" title="Nuevo">
+									<span class="icon icon3"></span>
+									<span class="label">Buscar</span>
+						</p:commandLink>
+						<h:commandLink update="display"
+									actionListener="#{mostrarDatosClienteMB.imprimirDatos()}"
+									action="mostrarDatosCliente.xhtml"
+									target="_blank"
+									styleClass="button left" title="Nuevo">
+									<span class="icon icon3"></span>
+									<span class="label">Abrir</span>
+						</h:commandLink>
+						
+					</div>
+				</div>
 				
-			</p:dataTable>
-			
-				
+			</h:form>
 		</p:panel>
-		<p:commandButton id="viewB" value="Cargar" update="table" actionListener="#{personaNaturalClienteMB.cargar()}"/>
-	</h:form>
-				
-	
-
-		<p:dialog id="dialogDetallePN" header="Car Detail" widgetVar="DialogDetallePN"
-			resizable="false" width="200" showEffect="clip" hideEffect="fold" >
-			
-			
-			<h:panelGrid id="display" columns="2" cellpadding="4" >
-				<h:outputText value="DNI:" />
-				<h:outputText value="#{personaNaturalClienteMB.tablaClientes.selectedRow}"/>
-				<h:outputText value="Apellido y Nombres:" />
-				<h:outputText />
-				<h:outputText value="Manufacturer:" />
-				<h:outputText />
-				<h:outputText value="Color:" />
-				<h:outputText />
-			</h:panelGrid>
-			
-			
-		</p:dialog>
-		
 	</ui:define>
 </ui:composition>
 </html>

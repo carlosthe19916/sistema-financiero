@@ -5,17 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.NoneScoped;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.metamodel.StaticMetamodel;
 
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
-import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanaturalcliente;
 import org.venturabank.util.TablaMB;
 
@@ -71,10 +70,11 @@ public class PersonaNaturalClienteMB implements Serializable{
 		this.selectedPersonaNaturalCliente = selectedPersonaNaturalCliente;
 	}
 	
-	public void cargar(){
+	public void buscarCliente(){
 		Map<String, Object> pa = new HashMap<String, Object>();
 		pa.put("valor","%"+valorBusqueda.toUpperCase()+"%");
 		List<Personanaturalcliente> list = personaNaturalClienteServicesLocal.findByNamedQuery(Personanaturalcliente.OLL,pa);
 		tablaClientes.setRows(list);
 	}
+	
 }
