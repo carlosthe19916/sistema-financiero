@@ -89,5 +89,20 @@ public class Tipoempresa implements Serializable {
 
 		return personajuridica;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Tipoempresa)) {
+            return false;
+        }
+        // a room can be uniquely identified by it's number and the building it belongs to
+        final Tipoempresa other = (Tipoempresa) obj;
+        return other.getIdtipoempresa() == idtipoempresa ? true:false;
+	}
+	
+	@Override
+    public int hashCode() {
+        return idtipoempresa;
+    }
 
 }

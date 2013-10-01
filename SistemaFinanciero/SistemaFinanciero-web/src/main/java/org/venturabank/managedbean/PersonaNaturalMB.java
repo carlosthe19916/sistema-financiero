@@ -31,20 +31,20 @@ public class PersonaNaturalMB implements Serializable {
 
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadoCivil;
-	
+
 	private boolean isEditing;
-	
+
 	// constructor
 	public PersonaNaturalMB() {
-		this.personaNatural = new Personanatural();		
+		this.personaNatural = new Personanatural();
 		isEditing = false;
 	}
 
-	//Para despues de crear el objeto
+	// Para despues de crear el objeto
 	@PostConstruct
 	private void initValues() {
 		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
-		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);		
+		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
 	}
 
 	public void buscarPersona(){
@@ -52,19 +52,25 @@ public class PersonaNaturalMB implements Serializable {
 
 		if (personanatural != null) {
 			this.personaNatural = personanatural;
+			this.comboSexo.setItemSelected(personanatural.getSexo());
+			this.comboEstadoCivil.setItemSelected(personanatural.getEstadocivil());
 		} else {
 			personanatural = new Personanatural();
 			personanatural.setDni(getPersonaNatural().getDni());
+			
 			this.personaNatural = personanatural;
+			this.comboSexo.setItemSelected(-1);
+			this.comboEstadoCivil.setItemSelected(-1);
+			
 			this.changeEditingState();
 		}
 
 	}
-	
-	public boolean isValid(){		
+
+	public boolean isValid() {
 		return personaNatural.isValid() ? true : false;
 	}
-	
+
 	public void changeSexo(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Sexo sexoSelected = comboSexo.getObjectItemSelected(key);
@@ -73,9 +79,10 @@ public class PersonaNaturalMB implements Serializable {
 
 	public void changeEstadoCivil(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Estadocivil estadocivilSelected = comboEstadoCivil.getObjectItemSelected(key);
+		Estadocivil estadocivilSelected = comboEstadoCivil
+				.getObjectItemSelected(key);
 		this.personaNatural.setEstadocivil(estadocivilSelected);
-		
+
 	}
 
 	public Personanatural getPersonaNatural() {
@@ -105,7 +112,7 @@ public class PersonaNaturalMB implements Serializable {
 	public void changeEditingState() {
 		this.isEditing = !isEditing;
 	}
-	
+
 	public boolean isEditing() {
 		return isEditing;
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 
 
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -14,6 +15,7 @@ import javax.faces.event.ValueChangeEvent;
 
 import org.ventura.boundary.local.AccionistaServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.entity.Accionista;
 import org.ventura.entity.Estadocivil;
 import org.ventura.entity.Personajuridica;
@@ -29,22 +31,31 @@ public class PersonaJuridicaMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Personajuridica oPersonajuridica;	
+	private Personajuridica oPersonajuridica;
+	
 	@EJB
 	PersonajuridicaServiceLocal personaJuridicaFacadeLocal;
+	
+	@EJB
+	PersonanaturalServiceLocal personanaturalServiceLocal;
 	
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Tipoempresa> comboTipoempresa;
 	
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Sexo> comboSexo;
+	
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadocivil;
+	
 	@EJB
 	AccionistaServiceLocal accionistaFacadeLocal;
+	
 	@ManagedProperty(value = "#{tablaMB}")
 	private TablaMB<Accionista> tablaAccionistas;
 	
+	private boolean isEditing;
+	private boolean isEditingPersonanatural;
 	
 	public PersonaJuridicaMB() {
 		oPersonajuridica = new Personajuridica();		
@@ -57,6 +68,47 @@ public class PersonaJuridicaMB implements Serializable {
 		getComboEstadocivil().initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);		
 		oPersonajuridica.setListAccionista(new ArrayList<Accionista>());
 		oPersonajuridica.setPersonanatural(new Personanatural());
+	}
+	
+	public void buscarPersonaJuririca(){
+		Personajuridica personajuridica = personaJuridicaFacadeLocal.find(oPersonajuridica.getRuc());
+
+		if (personajuridica != null) {
+			this.oPersonajuridica = personajuridica;
+			this.comboTipoempresa.setItemSelected(personajuridica.getTipoempresa());
+			//this.tablaAccionistas.setRows(oPersonajuridica.getListAccionista());
+		} else {
+			personajuridica = new Personajuridica();
+			personajuridica.setRuc(getoPersonajuridica().getRuc());
+			personajuridica.setPersonanatural(new Personanatural());
+			
+			this.oPersonajuridica = personajuridica;
+			this.comboTipoempresa.setItemSelected(-1);
+			
+			this.changeEditingState();
+		}
+	}
+	
+	public void buscarPersonanatural(){
+	
+		Personanatural personanatural = personanaturalServiceLocal.find(oPersonajuridica.getDnirepresentantelegal());
+
+		if (personanatural != null) {
+			this.oPersonajuridica.setPersonanatural(personanatural);
+			this.comboSexo.setItemSelected(personanatural.getSexo());
+			this.comboEstadocivil.setItemSelected(personanatural.getEstadocivil());
+			
+		} else {
+			personanatural = new Personanatural();
+			personanatural.setDni(oPersonajuridica.getPersonanatural().getDni());
+			
+			this.oPersonajuridica.setPersonanatural(personanatural);
+			this.comboSexo.setItemSelected(-1);
+			this.comboEstadocivil.setItemSelected(-1);
+			
+			this.changeEditingPersonanaturalState();
+		}
+
 	}
 	
 	public boolean isValid(){
@@ -147,6 +199,30 @@ public class PersonaJuridicaMB implements Serializable {
 
 	public void setTablaAccionistas(TablaMB<Accionista> tablaAccionistas) {
 		this.tablaAccionistas = tablaAccionistas;
+	}
+
+	public void changeEditingState() {
+		this.isEditing = !isEditing;
+	}
+	
+	public void changeEditingPersonanaturalState() {
+		this.isEditingPersonanatural = !isEditingPersonanatural;
+	}
+	
+	public boolean isEditing() {
+		return isEditing;
+	}
+
+	public void setEditing(boolean isEditing) {
+		this.isEditing = isEditing;
+	}
+
+	public boolean isEditingPersonanatural() {
+		return isEditingPersonanatural;
+	}
+
+	public void setEditingPersonanatural(boolean isEditingPersonanatural) {
+		this.isEditingPersonanatural = isEditingPersonanatural;
 	}		
 
 }

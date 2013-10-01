@@ -12,7 +12,11 @@
 	<h:panelGroup id="#{componentName}" rendered="#{managedBean.personaJuridica}">
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
+			
+				<h:form>
+					<p:commandLink value="Editar" oncomplete="#{editarOutputDialog}.show();return false;"></p:commandLink>
+				</h:form>
+
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">

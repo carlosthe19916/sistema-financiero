@@ -1,6 +1,7 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -67,5 +68,20 @@ public class Estadocivil implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Estadocivil)) {
+            return false;
+        }
+        // a room can be uniquely identified by it's number and the building it belongs to
+        final Estadocivil other = (Estadocivil) obj;
+        return other.getIdestadocivil() == idestadocivil ? true:false;
+	}
+	
+	@Override
+    public int hashCode() {
+        return idestadocivil;
+    }
 
 }

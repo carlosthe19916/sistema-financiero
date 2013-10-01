@@ -14,7 +14,7 @@ public interface PersonajuridicaServiceRemote {
 	
 	public Personajuridica create(Personajuridica oPersonajuridica);
 
-	public Personajuridica find(Integer id);
+	public Personajuridica find(Object id);
 
 	public void delete(Personajuridica oPersonajuridica);
 

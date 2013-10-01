@@ -9,224 +9,257 @@
 
 <ui:composition>
 
-	<h:form>
-		<p:dialog id="#{componentName}" header="Persona Jurídica"
-			widgetVar="#{componentName}" modal="true" height="630"
-			rendered="#{managedBean.personaJuridica}">
-			<p:growl id="growl" sticky="true" />
-			<p:wizard>
-
-				<p:tab title="Datos generales">
-					<div class="sf-agrupador">
-						<div class="sf-agrupador-content">
-
-							<div class="sf-agrupador-content-cabecera">
-								<h3>DATOS DE LA EMPRESA</h3>
-							</div>
-							<div class="sf-agrupador-content-table">
-								<table>
-									<tr>
-										<td><p:outputLabel value="RUC:"></p:outputLabel></td>
-										<td><p:inputText id="txtRucPJ" required="true"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.ruc}"
-												maxlength="11" requiredMessage="Ingrese Numero de RUC"
-												validatorMessage="El RUC tiene 11 digitos">
-												<f:validateLength minimum="11"></f:validateLength>
-												<p:ajax update="growl" event="keyup" />
-											</p:inputText> <p:watermark for="txtRucPJ" value="RUC" /> <p:outputLabel
-												styleClass="">  *</p:outputLabel></td>
-
-										<td><p:outputLabel>Razon Social:</p:outputLabel></td>
-										<td><p:inputText id="txtRazonsocialPJ" required="true"
-												requiredMessage="Ingrese Razon Social"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.razonsocial}">
-												<p:ajax update="growl" event="keyup" />
-											</p:inputText> <p:watermark for="txtRazonsocialPJ" value="Razon Social" />
-											<p:outputLabel styleClass="">  *</p:outputLabel></td>
-
-									</tr>
-									<tr>
-										<td><p:outputLabel>Nombre Comercial:</p:outputLabel></td>
-										<td><p:inputText id="txtNombreComercialPJ"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.nombrecomercial}">
-												<p:ajax update="growl" event="keyup" />
-											</p:inputText> <p:watermark for="txtNombreComercialPJ"
-												value="Nombre Comercial" /></td>
-
-										<td><p:outputLabel>Actividad Principal:</p:outputLabel></td>
-										<td><p:inputText id="txtActividadPrincipalPJ"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.actividadprincipal}">
-												<p:ajax update="growl" event="keyup" />
-											</p:inputText> <p:watermark for="txtActividadPrincipalPJ"
-												value="Actividad Principal" /></td>
-
-									</tr>
-								</table>
-							</div>
-						</div>
-					</div>
-
-					<div class="sf-agrupador">
-						<div class="sf-agrupador-content">
-							<div class="sf-agrupador-content-cabecera">
-								<h3>DATOS COMERCIALES DE LA EMPRESA</h3>
-							</div>
-							<div class="sf-agrupador-content-table">
-
-								<table>
-									<tr>
-										<td><p:outputLabel>Tipo de empresa:</p:outputLabel></td>
-										<td><p:selectOneRadio id="radioTipoempresaPJ"
-												value="#{managedBean.personaJuridicaMB.comboTipoempresa.itemSelected}"
-												valueChangeListener="#{managedBean.personaJuridicaMB.changeTipoempresa}">
-												<f:selectItems
-													value="#{managedBean.personaJuridicaMB.comboTipoempresa.items.entrySet()}"
-													var="val1" itemLabel="#{val1.value.denominacion}"
-													itemValue="#{val1.key}" />
-											</p:selectOneRadio></td>
-									</tr>
-									<tr>
-										<td><p:outputLabel>Fin social:</p:outputLabel></td>
-										<td><p:selectOneRadio id="radioFinsocial"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.finsocial}">
-												<f:selectItem itemLabel="CON FINES DE LUCRO"
-													itemValue="true" />
-												<f:selectItem itemLabel="SIN FINES DE LUCRO"
-													itemValue="false" />
-											</p:selectOneRadio></td>
-									</tr>
-
-								</table>
-
-							</div>
-						</div>
-					</div>
-
-					<div class="sf-agrupador">
-						<div class="sf-agrupador-content">
-							<div class="sf-agrupador-content-cabecera">
-								<h3>DATOS ADICIONALES</h3>
-							</div>
-							<div class="sf-agrupador-content-table">
-								<table>
-									<tr>
-										<td><p:outputLabel>Direccion:</p:outputLabel></td>
-										<td colspan="3"><p:inputText id="txtDireccionPJ"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.direccion}"
-												size="75" /> <p:watermark for="txtDireccionPJ"
-												value="Direccion" /></td>
-									</tr>
-									<tr>
-										<td><p:outputLabel>Referencia:</p:outputLabel></td>
-										<td colspan="3"><p:inputText id="txtReferenciaPJ"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.referencia}"
-												size="75" /> <p:watermark for="txtReferenciaPJ"
-												value="referencia" /></td>
-									</tr>
-									<tr>
-										<td><p:outputLabel>Telefono:</p:outputLabel></td>
-										<td><p:inputText id="txtTelefonoPJ"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.telefono}"
-												size="" /> <p:watermark for="txtTelefonoPJ"
-												value="Telefono1/Telefono2" /></td>
-										<td><p:outputLabel>Celular:</p:outputLabel></td>
-										<td><p:inputText id="txtCelularPJ"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.celular}"
-												size="" /> <p:watermark for="txtCelularPJ"
-												value="Celular1/Celular2/RPM" /></td>
-									</tr>
-
-									<tr>
-										<td><p:outputLabel>Email:</p:outputLabel></td>
-										<td colspan="3"><p:inputText id="TxtEmailPJ"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.email}"
-												size="75" /> <p:watermark for="TxtEmailPJ"
-												value="email@dominio.com" /></td>
-									</tr>
-
-
-								</table>
-							</div>
-						</div>
-					</div>
-				</p:tab>
-				<p:tab title="Representante Legal">
-					<div id="panelPersonaNatural">
+		<p:dialog header="Persona Jurídica" widgetVar="#{componentName}" modal="true" height="630" rendered="#{managedBean.personaJuridica}">
+				
+			<h:form>
+			
+				<p:growl id="growl" sticky="true" />
+				
+				<p:wizard>
+					<p:tab title="Datos generales">
 						<div class="sf-agrupador">
 							<div class="sf-agrupador-content">
-
+	
+								<div class="sf-agrupador-content-cabecera">
+									<h3>DATOS DE LA EMPRESA</h3>
+								</div>
+								<div class="sf-agrupador-content-table">
+									<table>
+										<tr>
+											<td><p:outputLabel value="RUC:"/></td>
+											<td>
+												<p:inputText id="txtRucPJ" 
+													required="true"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.ruc}"
+													disabled="#{managedBean.personaJuridicaMB.editing}"
+													maxlength="11" 
+													requiredMessage="Ingrese Numero de RUC"
+													validatorMessage="El RUC tiene 11 digitos">
+													<f:validateLength minimum="11"/>
+													<p:ajax update="growl,@form" event="blur" 
+													listener="#{managedBean.personaJuridicaMB.buscarPersonaJuririca()}" />
+												</p:inputText> 
+												<p:watermark for="txtRucPJ" value="RUC" /> 
+												<p:outputLabel for="txtRucPJ"/>									
+											</td>	
+											<td><p:outputLabel>Razon Social:</p:outputLabel></td>
+											<td>
+												<p:inputText id="txtRazonsocialPJ" 
+													required="true"
+													requiredMessage="Ingrese Razon Social"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.razonsocial}"
+													disabled="#{!managedBean.personaJuridicaMB.editing}">
+													<p:ajax update="growl,txtRazonsocialPJ" event="blur" />
+												</p:inputText> 
+												<p:watermark for="txtRazonsocialPJ" value="Razon Social" />
+												<p:outputLabel for="txtRazonsocialPJ"/>
+											</td>
+	
+										</tr>
+										<tr>
+											<td><p:outputLabel>Nombre Comercial:</p:outputLabel></td>
+											<td>
+												<p:inputText id="txtNombreComercialPJ"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.nombrecomercial}"
+													disabled="#{!managedBean.personaJuridicaMB.editing}">
+													<p:ajax update="growl,txtNombreComercialPJ" event="blur" />
+												</p:inputText> 
+												<p:watermark for="txtNombreComercialPJ" value="Nombre Comercial" />
+											</td>
+	
+											<td><p:outputLabel>Actividad Principal:</p:outputLabel></td>
+											<td>
+												<p:inputText id="txtActividadPrincipalPJ"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.actividadprincipal}"
+													disabled="#{!managedBean.personaJuridicaMB.editing}">
+													<p:ajax update="growl,txtActividadPrincipalPJ" event="blur" />
+												</p:inputText> 
+												<p:watermark for="txtActividadPrincipalPJ" value="Actividad Principal" />
+											</td>
+	
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+	
+						<div class="sf-agrupador">
+							<div class="sf-agrupador-content">
+								<div class="sf-agrupador-content-cabecera">
+									<h3>DATOS COMERCIALES DE LA EMPRESA</h3>
+								</div>
+								<div class="sf-agrupador-content-table">
+	
+									<table>
+										<tr>
+											<td><p:outputLabel>Tipo de empresa:</p:outputLabel></td>
+											<td>
+												<p:selectOneRadio id="radioTipoempresaPJ"
+													disabled="#{!managedBean.personaJuridicaMB.editing}"
+													value="#{managedBean.personaJuridicaMB.comboTipoempresa.itemSelected}"
+													valueChangeListener="#{managedBean.personaJuridicaMB.changeTipoempresa}"
+													required="true" requiredMessage="Ingrese Tipo Empresa">
+													<f:selectItems
+														value="#{managedBean.personaJuridicaMB.comboTipoempresa.items.entrySet()}"
+														var="val1" itemLabel="#{val1.value.denominacion}"
+														itemValue="#{val1.key}" />
+												</p:selectOneRadio>
+											</td>
+										</tr>
+										<tr>
+											<td><p:outputLabel>Fin social:</p:outputLabel></td>
+											<td><p:selectOneRadio id="radioFinsocial"
+													disabled="#{!managedBean.personaJuridicaMB.editing}"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.finsocial}"
+													required="true" requiredMessage="Ingrese Fin Social">
+													<f:selectItem itemLabel="CON FINES DE LUCRO"
+														itemValue="true" />
+													<f:selectItem itemLabel="SIN FINES DE LUCRO"
+														itemValue="false" />
+												</p:selectOneRadio></td>
+										</tr>
+	
+									</table>
+	
+								</div>
+							</div>
+						</div>
+	
+						<div class="sf-agrupador">
+							<div class="sf-agrupador-content">
+								<div class="sf-agrupador-content-cabecera">
+									<h3>DATOS ADICIONALES</h3>
+								</div>
+								<div class="sf-agrupador-content-table">
+									<table>
+										<tr>
+											<td><p:outputLabel>Direccion:</p:outputLabel></td>
+											<td colspan="3"><p:inputText id="txtDireccionPJ"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.direccion}"
+													disabled="#{!managedBean.personaJuridicaMB.editing}"
+													size="75" /> <p:watermark for="txtDireccionPJ"
+													value="Direccion" /></td>
+										</tr>
+										<tr>
+											<td><p:outputLabel>Referencia:</p:outputLabel></td>
+											<td colspan="3"><p:inputText id="txtReferenciaPJ"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.referencia}"
+													disabled="#{!managedBean.personaJuridicaMB.editing}"
+													size="75" /> <p:watermark for="txtReferenciaPJ"
+													value="referencia" /></td>
+										</tr>
+										<tr>
+											<td><p:outputLabel>Telefono:</p:outputLabel></td>
+											<td><p:inputText id="txtTelefonoPJ"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.telefono}"
+													disabled="#{!managedBean.personaJuridicaMB.editing}"/> 
+													<p:watermark for="txtTelefonoPJ"
+													value="Telefono1/Telefono2" /></td>
+											<td><p:outputLabel>Celular:</p:outputLabel></td>
+											<td><p:inputText id="txtCelularPJ"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.celular}"
+													disabled="#{!managedBean.personaJuridicaMB.editing}"/> 
+													<p:watermark for="txtCelularPJ"
+													value="Celular1/Celular2/RPM" /></td>
+										</tr>
+	
+										<tr>
+											<td><p:outputLabel>Email:</p:outputLabel></td>
+											<td colspan="3"><p:inputText id="TxtEmailPJ"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.email}"
+													disabled="#{!managedBean.personaJuridicaMB.editing}"
+													size="75" /> <p:watermark for="TxtEmailPJ"
+													value="email@dominio.com" /></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</p:tab>
+				<p:tab title="Representante Legal">
+					<div>
+						<div class="sf-agrupador">
+							<div class="sf-agrupador-content">
 								<div class="sf-agrupador-content-cabecera">
 									<h3>DATOS PERSONALES</h3>
 								</div>
 								<div class="sf-agrupador-content-table">
 									<table>
 										<tr>
-											<td><p:outputLabel>DNI:</p:outputLabel></td>
+											<td><p:outputLabel value="DNI:" /></td>
 											<td><p:inputText id="txtDNIPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.dni}"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.dnirepresentantelegal}"
+													disabled="#{!managedBean.personaJuridicaMB.editing or managedBean.personaJuridicaMB.editingPersonanatural}"
 													required="true" maxlength="8"
 													requiredMessage="Ingrese Número de DNI"
 													validatorMessage="Número de DNI Invalido">
-
 													<f:validateRegex pattern="(^[0-9]{8}$)" />
-													<p:ajax update="growl" event="keyup" />
-												</p:inputText> <p:watermark for="txtDNIPN" value="DNI" /> <p:outputLabel
-													styleClass="">  *</p:outputLabel></td>
 
+													<p:ajax update="growl,@form"
+														event="blur"
+														listener="#{managedBean.personaJuridicaMB.buscarPersonanatural()}" />
+												</p:inputText>
+												 <p:watermark for="txtDNIPN" value="DNI" /> 
+												 <p:outputLabel for="txtDNIPN" /></td>
 										</tr>
 										<tr>
-											<td><p:outputLabel>Apellido Paterno:</p:outputLabel></td>
+											<td><p:outputLabel value="Apellido Paterno:" /></td>
 											<td><p:inputText id="txtApPaternoPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.apellidopaterno}"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.apellidopaterno}"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}"
 													required="true" maxlength="50"
 													requiredMessage="Ingrese Apellido Paterno">
-													<p:ajax update="growl" event="keyup" />
+													<p:ajax update="growl,txtApPaternoPN" event="blur" />
 												</p:inputText> <p:watermark for="txtApPaternoPN" value="Apellido Paterno" />
-												<p:outputLabel styleClass="">  *</p:outputLabel></td>
-											<td><p:outputLabel>Apellido Materno:</p:outputLabel></td>
+												<p:outputLabel for="txtApPaternoPN" /></td>
+											<td><p:outputLabel value="Apellido Materno:" /></td>
 											<td><p:inputText id="txtApMaternoPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.apellidomaterno}"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.apellidomaterno}"
 													required="true" maxlength="50"
-													requiredMessage="Ingrese Apellido Materno">
-													<p:ajax update="growl" event="keyup" />
+													requiredMessage="Ingrese Apellido Materno"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
+													<p:ajax update="growl,txtApMaternoPN" event="blur" />
 												</p:inputText> <p:watermark for="txtApMaternoPN" value="Apellido Materno" />
-												<p:outputLabel styleClass="">  *</p:outputLabel></td>
+												<p:outputLabel for="txtApMaternoPN" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Nombres:</p:outputLabel></td>
 											<td colspan="3"><p:inputText id="txtNombresPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.nombres}"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.nombres}"
 													size="71" required="true" maxlength="60"
-													requiredMessage="Ingrese Nombres">
-													<p:ajax update="growl" event="keyup" />
+													requiredMessage="Ingrese Nombres"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
+													<p:ajax update="growl,txtNombresPN" event="blur" />
 												</p:inputText> <p:watermark for="txtNombresPN" value="Nombres" /> <p:outputLabel
-													styleClass="">  *</p:outputLabel></td>
+													for="txtNombresPN" /></td>
 										</tr>
 
 										<tr>
 											<td><p:outputLabel>Fecha Nacimiento:</p:outputLabel></td>
 											<td><p:calendar id="txtFecNacPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.fechanacimiento}"
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.fechanacimiento}"
 													navigator="true" pattern="dd/MM/yy" required="true"
 													requiredMessage="Ingrese Fecha de Nacimiento"
-													converterMessage="El formato de la fecha de nacimiento no es correcto">
-													<p:ajax update="growl" event="keyup" />
+													converterMessage="El formato de la fecha de nacimiento no es correcto"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
+													<p:ajax update="growl,txtFecNacPN" />
 													<f:convertDateTime pattern="dd/MM/yy" />
 												</p:calendar> <p:watermark for="txtFecNacPN" value="dd/mm/yyyy" /> <p:outputLabel
-													styleClass="">  *</p:outputLabel></td>
+													for="txtFecNacPN" /></td>
 											<td><p:outputLabel>Sexo:</p:outputLabel></td>
 											<td><p:selectOneMenu id="txtSexo"
 													value="#{managedBean.personaNaturalMB.comboSexo.itemSelected}"
 													valueChangeListener="#{managedBean.personaNaturalMB.changeSexo}"
-													required="true" requiredMessage="Seleccione un sexo valido">
+													required="true" requiredMessage="Seleccione un sexo valido"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
 													<f:selectItem id="e" itemLabel="--Seleccione--"
 														itemValue="" />
 													<f:selectItems
 														value="#{managedBean.personaNaturalMB.comboSexo.items.entrySet()}"
 														var="val" itemLabel="#{val.value.denominacion}"
 														itemValue="#{val.key}" />
-													<p:ajax update="growl" event="keyup" />
-												</p:selectOneMenu> <p:outputLabel styleClass="">  *</p:outputLabel></td>
+													<p:ajax update="growl,txtSexo" />
+												</p:selectOneMenu> <p:outputLabel for="txtSexo" /></td>
 										</tr>
 									</table>
 								</div>
@@ -238,13 +271,14 @@
 									<h3>DATOS ADICIONALES</h3>
 								</div>
 								<div class="sf-agrupador-content-table">
-									<table>
 
+									<table>
 										<tr>
 											<td><p:outputLabel>Estado Civil:</p:outputLabel></td>
 											<td><p:selectOneMenu
 													value="#{managedBean.personaNaturalMB.comboEstadoCivil.itemSelected}"
-													valueChangeListener="#{managedBean.personaNaturalMB.changeEstadoCivil}">
+													valueChangeListener="#{managedBean.personaNaturalMB.changeEstadoCivil}"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
 													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 													<f:selectItems
 														value="#{managedBean.personaNaturalMB.comboEstadoCivil.items.entrySet()}"
@@ -252,47 +286,52 @@
 														itemValue="#{val.key}" />
 												</p:selectOneMenu></td>
 										</tr>
-
 										<tr>
 											<td><p:outputLabel>Ocupacion:</p:outputLabel></td>
 											<td colspan="3"><p:inputText id="txtOcupacionPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.ocupacion}"
-													maxlength="70" size="71" /> <p:watermark
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.ocupacion}"
+													maxlength="70" size="71"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
 													for="txtOcupacionPN" value="Ocupación" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Direccion:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtDireccionPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.direccion}"
-													maxlength="200" size="71" /> <p:watermark
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.direccion}"
+													maxlength="200" size="71"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
 													for="txtDireccionPN" value="Dirección" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Referencia:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtReferenciaPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.referencia}"
-													maxlength="100" size="71" /> <p:watermark
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.referencia}"
+													maxlength="100" size="71"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
 													for="txtReferenciaPN" value="Referencia" /></td>
 										</tr>
 
 										<tr>
 											<td><p:outputLabel>Telefono:</p:outputLabel></td>
 											<td><p:inputText id="txtTelefonoPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.telefono}"
-													maxlength="30" /> <p:watermark for="txtTelefonoPN"
-													value="Telefono1/telefono2" /></td>
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.telefono}"
+													maxlength="30"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
+													for="txtTelefonoPN" value="Telefono1/telefono2" /></td>
 											<td><p:outputLabel>Celular:</p:outputLabel></td>
 											<td><p:inputText id="txtCelularPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.celular}"
-													maxlength="30" /> <p:watermark for="txtCelularPN"
-													value="celular1/celular2/RPM" /></td>
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.celular}"
+													maxlength="30"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
+													for="txtCelularPN" value="celular1/celular2/RPM" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Email:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtEmailPN"
-													value="#{managedBean.personaNaturalMB.personaNatural.email}"
-													maxlength="50" size="73" /> <p:watermark for="txtEmailPN"
-													value="email@hotmail.com" /></td>
+													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.email}"
+													maxlength="50" size="73"
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
+													for="txtEmailPN" value="email@hotmail.com" /></td>
 										</tr>
 									</table>
 								</div>
@@ -301,123 +340,123 @@
 					</div>
 				</p:tab>
 				<p:tab title="Accionistas">
-					<div class="sf-agrupador">
-						<div class="sf-agrupador-content">
-							<div class="sf-agrupador-content-cabecera">
-								<h3>Datos de los Accionistas</h3>
-							</div>
-							<div class="sf-agrupador-content-table">
-								<table>
-
-									<tr>
-										<td colspan="2">
-											<div class="buttons">
-												<div class="tiptip">
-													<p:commandLink update="tablaAccionistas"
-														actionListener="#{managedBean.personaJuridicaMB.addAccionista()}"
-														styleClass="button left" title="Nuevo">
-														<span class="icon icon3"></span>
-														<span class="label">Nuevo</span>
-													</p:commandLink>
-													<p:commandLink onclick="editar" styleClass="button middle"
-														title="Nuevo">
-														<span class="icon icon145"></span>
-														<span class="label">Editar</span>
-													</p:commandLink>
-													<p:commandLink update="tablaAccionistas"
-														actionListener="#{managedBean.personaJuridicaMB.removeAccionista()}"
-														styleClass="button right" title="Eliminar Trabajador">
-														<span class="icon icon186"></span>
-														<span class="label">Eliminar</span>
-													</p:commandLink>
+						<div class="sf-agrupador">
+							<div class="sf-agrupador-content">
+								<div class="sf-agrupador-content-cabecera">
+									<h3>Datos de los Accionistas</h3>
+								</div>
+								<div class="sf-agrupador-content-table">
+									<table>
+	
+										<tr>
+											<td colspan="2">
+												<div class="buttons">
+													<div class="tiptip">
+														<p:commandLink update="tablaAccionistas"
+															actionListener="#{managedBean.personaJuridicaMB.addAccionista()}"
+															styleClass="button left" title="Nuevo">
+															<span class="icon icon3"></span>
+															<span class="label">Nuevo</span>
+														</p:commandLink>
+														<p:commandLink onclick="editar" styleClass="button middle"
+															title="Nuevo">
+															<span class="icon icon145"></span>
+															<span class="label">Editar</span>
+														</p:commandLink>
+														<p:commandLink update="tablaAccionistas"
+															actionListener="#{managedBean.personaJuridicaMB.removeAccionista()}"
+															styleClass="button right" title="Eliminar Trabajador">
+															<span class="icon icon186"></span>
+															<span class="label">Eliminar</span>
+														</p:commandLink>
+													</div>
 												</div>
-											</div>
-											<div>
-												<p:dataTable id="tablaAccionistas"
-													value="#{managedBean.personaJuridicaMB.tablaAccionistas.rows}"
-													var="accionista" editable="true" selectionMode="single"
-													selection="#{managedBean.personaJuridicaMB.tablaAccionistas.selectedRow}"
-													rowKey="#{accionista}">
-													<p:column headerText="DNI(*)" width="50">
-														<p:cellEditor>
-															<f:facet name="output">
-																<h:outputText value="#{accionista.personanatural.dni}" />
-															</f:facet>
-															<f:facet name="input">
-																<p:inputText value="#{accionista.personanatural.dni}" />
-															</f:facet>
-														</p:cellEditor>
-													</p:column>
-													<p:column headerText="Apellido Paterno" width="60">
-														<p:cellEditor>
-															<f:facet name="output">
-																<h:outputText
-																	value="#{accionista.personanatural.apellidopaterno}" />
-															</f:facet>
-															<f:facet name="input">
-																<p:inputText
-																	value="#{accionista.personanatural.apellidomaterno}" />
-															</f:facet>
-														</p:cellEditor>
-													</p:column>
-													<p:column headerText="Apellido Materno" width="60">
-														<p:cellEditor>
-															<f:facet name="output">
-																<h:outputText
-																	value="#{accionista.personanatural.apellidomaterno}" />
-															</f:facet>
-															<f:facet name="input">
-																<p:inputText
-																	value="#{accionista.personanatural.apellidomaterno}" />
-															</f:facet>
-														</p:cellEditor>
-													</p:column>
-													<p:column headerText="Nombres" width="100">
-														<p:cellEditor>
-															<f:facet name="output">
-																<h:outputText
-																	value="#{accionista.personanatural.nombres}" />
-															</f:facet>
-															<f:facet name="input">
-																<p:inputText
-																	value="#{accionista.personanatural.nombres}" />
-															</f:facet>
-														</p:cellEditor>
-													</p:column>
-													<p:column headerText="Porcentaje" width="100">
-														<p:cellEditor>
-															<f:facet name="output">
-																<h:outputText
-																	value="#{accionista.porcentajeparticipacion}" />
-															</f:facet>
-															<f:facet name="input">
-																<p:inputText
-																	value="#{accionista.porcentajeparticipacion}" />
-															</f:facet>
-														</p:cellEditor>
-													</p:column>
-													<p:column width="10">
-														<p:rowEditor />
-													</p:column>
-												</p:dataTable>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-							<div class="sf-buttons">
-								<p:commandButton value="Aceptar" update=":#{componentToUpdated}"
-									oncomplete="#{componentName}.hide()" styleClass="action green" />
-								<p:commandButton value="Cancelar"
-									onclick="#{componentName}.hide()" styleClass="action" />
+												<div>
+													<p:dataTable id="tablaAccionistas"
+														value="#{managedBean.personaJuridicaMB.tablaAccionistas.rows}"
+														var="accionista" editable="true" selectionMode="single"
+														selection="#{managedBean.personaJuridicaMB.tablaAccionistas.selectedRow}"
+														rowKey="#{accionista}">
+														<p:column headerText="DNI(*)" width="50">
+															<p:cellEditor>
+																<f:facet name="output">
+																	<h:outputText value="#{accionista.personanatural.dni}" />
+																</f:facet>
+																<f:facet name="input">
+																	<p:inputText value="#{accionista.personanatural.dni}" />
+																</f:facet>
+															</p:cellEditor>
+														</p:column>
+														<p:column headerText="Apellido Paterno" width="60">
+															<p:cellEditor>
+																<f:facet name="output">
+																	<h:outputText
+																		value="#{accionista.personanatural.apellidopaterno}" />
+																</f:facet>
+																<f:facet name="input">
+																	<p:inputText
+																		value="#{accionista.personanatural.apellidomaterno}" />
+																</f:facet>
+															</p:cellEditor>
+														</p:column>
+														<p:column headerText="Apellido Materno" width="60">
+															<p:cellEditor>
+																<f:facet name="output">
+																	<h:outputText
+																		value="#{accionista.personanatural.apellidomaterno}" />
+																</f:facet>
+																<f:facet name="input">
+																	<p:inputText
+																		value="#{accionista.personanatural.apellidomaterno}" />
+																</f:facet>
+															</p:cellEditor>
+														</p:column>
+														<p:column headerText="Nombres" width="100">
+															<p:cellEditor>
+																<f:facet name="output">
+																	<h:outputText
+																		value="#{accionista.personanatural.nombres}" />
+																</f:facet>
+																<f:facet name="input">
+																	<p:inputText
+																		value="#{accionista.personanatural.nombres}" />
+																</f:facet>
+															</p:cellEditor>
+														</p:column>
+														<p:column headerText="Porcentaje" width="100">
+															<p:cellEditor>
+																<f:facet name="output">
+																	<h:outputText
+																		value="#{accionista.porcentajeparticipacion}" />
+																</f:facet>
+																<f:facet name="input">
+																	<p:inputText
+																		value="#{accionista.porcentajeparticipacion}" />
+																</f:facet>
+															</p:cellEditor>
+														</p:column>
+														<p:column width="10">
+															<p:rowEditor />
+														</p:column>
+													</p:dataTable>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="sf-buttons">
+									<p:commandButton value="Aceptar" update=":#{componentToUpdated}"
+										oncomplete="#{componentName}.hide()" styleClass="action green" />
+									<p:commandButton value="Cancelar"
+										onclick="#{componentName}.hide()" styleClass="action" />
+								</div>
 							</div>
 						</div>
-					</div>
-				</p:tab>
-			</p:wizard>
+					</p:tab>
+				</p:wizard>
+			</h:form>
 		</p:dialog>
-	</h:form>
-
+	
 </ui:composition>
 </html>
 

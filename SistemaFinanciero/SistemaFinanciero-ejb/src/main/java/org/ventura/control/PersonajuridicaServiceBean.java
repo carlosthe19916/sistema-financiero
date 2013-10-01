@@ -32,7 +32,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	}
 
 	@Override
-	public Personajuridica find(Integer id) {		
+	public Personajuridica find(Object id) {		
 		return oPersonajuridicaDAO.find(id);
 	}
 

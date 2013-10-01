@@ -255,5 +255,9 @@ public class Personanatural implements Serializable {
 			result = false;
 		}
 		return result;
+		
 	}
+	
+	
+	
 }

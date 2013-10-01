@@ -63,4 +63,12 @@ public class ComboMB<E> {
 	public void setItemSelected(Integer itemSelected) {
 		this.itemSelected = itemSelected;
 	}
+	
+	public void setItemSelected(E e) {
+		if (e != null) {
+			this.itemSelected = e.hashCode();
+		} else{
+			this.itemSelected = new Integer(-1);
+		}
+	}
 }
