@@ -1,8 +1,8 @@
 package org.venturabank.managedbean.view;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.List;
+
+
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,16 +13,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
-import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
-import org.ventura.entity.Cuentaahorrohistorial;
-import org.ventura.entity.Personajuridica;
-import org.ventura.entity.Personajuridicacliente;
-import org.ventura.entity.Personanatural;
-import org.ventura.entity.Personanaturalcliente;
-import org.ventura.entity.Titularcuenta;
 import org.venturabank.managedbean.BeneficiariosMB;
-import org.venturabank.managedbean.DatosFinancierosCuentaAhorroMB;
 import org.venturabank.managedbean.PersonaJuridicaMB;
 import org.venturabank.managedbean.PersonaNaturalMB;
 import org.venturabank.managedbean.TitularesMB;

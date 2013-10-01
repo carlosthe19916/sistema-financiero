@@ -21,9 +21,9 @@
 						<table>
 							<tr>
 								<td><p:outputLabel>Cantidad de Retirantes:</p:outputLabel></td>
-								<td><p:inputText
-										value="#{managedBean.titularesMB.cantidadRetirantes}"
-										size="1" /></td>
+								<td>
+									<p:inputText value="#{managedBean.titularesMB.cantidadRetirantes}" size="1" />
+								</td>
 							</tr>
 						</table>
 						<div class="buttons">
@@ -77,6 +77,7 @@
 											<p:inputText id="dni" value="#{titular.personanatural.dni}"
 												required="true" maxlength="8" requiredMessage="DNI (Obligatorio)" validatorMessage="DNI no tiene digitos validos">
 												<f:validateRegex pattern="(^[0-9]{8}$)" />
+												<p:ajax update="tablaTitulares" event="blur" listener="#{managedBean.titularesMB.buscarPersonanatural()}"></p:ajax>
 											</p:inputText>
 											<p:watermark for="dni" value="DNI" />
 										</f:facet>

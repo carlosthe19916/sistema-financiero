@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TitularcuentaServiceLocal;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Titularcuenta;
@@ -21,8 +22,10 @@ public class TitularesMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	TitularcuentaServiceLocal facadeLocal;
-
+	TitularcuentaServiceLocal titularcuentaServiceLocal;
+	
+	@EJB
+	PersonanaturalServiceLocal personanaturalServiceLocal;
 	
 	private Integer cantidadRetirantes;
 	
@@ -33,6 +36,30 @@ public class TitularesMB implements Serializable {
 		this.cantidadRetirantes = new Integer(1);
 	}
 
+	public void buscarPersonanatural(){
+		
+		System.out.println(tablaTitulares.getSelectedRow());
+		
+		//Personanatural personanatural = personanaturalServiceLocal.find(tablaTitulares.getSelectedRow().getDni());
+
+		/*if (personanatural != null) {
+			Titularcuenta titularcuenta = new Titularcuenta();
+			titularcuenta.setPersonanatural(personanatural);
+			
+			this.tablaTitulares.setSelectedRow(titularcuenta);
+			
+		} else {
+			Titularcuenta titularcuenta = new Titularcuenta();
+			
+			personanatural = new Personanatural();			
+			personanatural.setDni(tablaTitulares.getSelectedRow().getDni());
+			titularcuenta.setPersonanatural(personanatural);
+			
+			//this.changeEditingPersonanaturalState();
+		}*/
+
+	}
+	
 	public boolean isValid(){
 		if (cantidadRetirantes > tablaTitulares.getRows().size())
 			return false;
