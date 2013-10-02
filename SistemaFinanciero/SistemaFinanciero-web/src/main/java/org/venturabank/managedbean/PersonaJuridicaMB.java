@@ -79,7 +79,7 @@ public class PersonaJuridicaMB implements Serializable {
 			
 			this.comboSexo.setItemSelected(personajuridica.getPersonanatural().getSexo());
 			this.comboEstadocivil.setItemSelected(personajuridica.getPersonanatural().getEstadocivil());
-			//this.tablaAccionistas.setRows(oPersonajuridica.getListAccionista());
+			this.tablaAccionistas.setRows(oPersonajuridica.getListAccionista());
 		} else {
 			personajuridica = new Personajuridica();
 			personajuridica.setRuc(getoPersonajuridica().getRuc());

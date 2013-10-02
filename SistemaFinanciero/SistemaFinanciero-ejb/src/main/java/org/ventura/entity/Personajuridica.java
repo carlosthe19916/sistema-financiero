@@ -66,7 +66,7 @@ public class Personajuridica implements Serializable {
 	private Personanatural personanatural;
 
 	// bi-directional many-to-one association to Accionista
-	@OneToMany(mappedBy = "personajuridica")
+	@OneToMany(mappedBy = "personajuridica", fetch = FetchType.EAGER)
 	private List<Accionista> listAccionista;
 
 	// bi-directional many-to-one association to Accionista

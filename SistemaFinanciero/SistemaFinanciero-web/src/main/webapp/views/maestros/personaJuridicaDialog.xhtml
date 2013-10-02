@@ -9,7 +9,7 @@
 
 <ui:composition>
 
-		<p:dialog header="Persona Jurídica" widgetVar="#{componentName}" modal="true" height="630" rendered="#{managedBean.personaJuridica}">
+		<p:dialog header="Persona Jurídica" widgetVar="#{componentName}" modal="true" height="520" width="600" rendered="#{managedBean.personaJuridica}">
 				
 			<h:form>
 			
@@ -446,9 +446,9 @@
 								</div>
 								<div class="sf-buttons">
 									<p:commandButton value="Aceptar" update=":#{componentToUpdated}"
-										oncomplete="#{componentName}.hide()" styleClass="action green" />
+										oncomplete="#{componentName}.hide()"/>
 									<p:commandButton value="Cancelar"
-										onclick="#{componentName}.hide()" styleClass="action" />
+										onclick="#{componentName}.hide()" />
 								</div>
 							</div>
 						</div>
