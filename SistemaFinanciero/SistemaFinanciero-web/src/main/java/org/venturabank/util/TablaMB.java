@@ -15,46 +15,74 @@ public class TablaMB<E> {
 
 	@EJB
 	private CrudService crudService;
-	
+
 	private List<E> rows;
 	private E selectedRow;
+	private E editingRow;
 	private List<E> selectedRows;
 
 	@SuppressWarnings("unchecked")
 	public TablaMB() {
 		this.rows = (List<E>) new ArrayList<Object>();
 		this.selectedRow = (E) new Object();
+		this.editingRow = null;
 		this.selectedRows = (List<E>) new ArrayList<Object>();
 	}
-	
-	public TablaMB(List<E> rows, E selectedRow, List<E> selectedRows) {
+
+	public TablaMB(List<E> rows, E selectedRow, E editingRow,
+			List<E> selectedRows) {
 		this.rows = rows;
 		this.selectedRow = selectedRow;
+		this.editingRow = editingRow;
 		this.selectedRows = selectedRows;
 	}
-	
-	public void initValuesFromNamedQueryName(String namedQueryName) {					
+
+	public void initValuesFromNamedQueryName(String namedQueryName) {
 		List<E> list = crudService.findWithNamedQuery(namedQueryName);
 		this.rows = list;
 	}
 
-	public void addRow(E row){
+	public void editRow() {
+		this.editingRow = this.selectedRow;
+	}
+	
+	public void rowEditCancel() {
+		this.clearEditinRow();
+	}
+
+	public void finishEditRow(){
+		this.clearEditinRow();
+	}
+
+	public void rowSelect() {
+		System.out.println("rowSelect");
+	}
+
+	public void rowUnselect() {
+
+	}
+	
+	public void clearEditinRow(){
+		this.editingRow = null;
+	}
+
+	public void addRow(E row) {
 		this.rows.add(row);
 	}
-	
-	public void removeRow(E row){
+
+	public void removeRow(E row) {
 		this.rows.remove(row);
 	}
-	
-	public void removeRow(int index){
+
+	public void removeRow(int index) {
 		this.rows.remove(index);
 	}
-	
-	public void removeSelectedRow(){
+
+	public void removeSelectedRow() {
 		this.rows.remove(selectedRow);
 	}
-	
-	public void removeSelectedRows(){
+
+	public void removeSelectedRows() {
 		this.rows.remove(selectedRows);
 	}
 
@@ -80,6 +108,14 @@ public class TablaMB<E> {
 
 	public void setSelectedRows(List<E> selectedRows) {
 		this.selectedRows = selectedRows;
+	}
+
+	public E getEditingRow() {
+		return editingRow;
+	}
+
+	public void setEditingRow(E editingRow) {
+		this.editingRow = editingRow;
 	}
 
 }

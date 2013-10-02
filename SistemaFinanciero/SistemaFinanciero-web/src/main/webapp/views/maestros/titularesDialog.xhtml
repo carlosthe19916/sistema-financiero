@@ -8,27 +8,46 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
-	<h:form id="form">
-		<p:dialog id="#{componentName}" header="Titulares"
-			widgetVar="#{componentName}" modal="true" height="400" width="700" >
 
-			<div class="sf-agrupador">
-				<div class="sf-agrupador-content">
-					<div class="sf-agrupador-content-cabecera">
-						<h3>Datos de los Titulares</h3>
+	<p:dialog header="Titulares" widgetVar="#{componentName}" modal="true" height="400" width="700">
+		
+		<p:growl id="growlTitulares" sticky="true" />
+			
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Datos de los Titulares</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					
+					<div>
+						<h:form>
+							<table>
+								<tr>
+									<td><p:outputLabel>Cantidad de Retirantes:</p:outputLabel></td>
+									<td>
+										<p:inputText id="cantidadRetirantes" 
+											value="#{managedBean.titularesMB.cantidadRetirantes}" 
+											size="1" 
+											required="true"
+											maxlength="2"
+											requiredMessage="Ingrese Cantidad de Retirantes"
+											validatorMessage="Cantidad de Retirantes Inválido" 
+											converterMessage="Cantidad de Retirantes Inválido">											
+											<p:ajax update="@form,:growlTitulares" event="blur"/>
+										</p:inputText>										
+										<p:watermark for="cantidadRetirantes" value="01" /> 
+										<p:outputLabel for="cantidadRetirantes" />								
+									</td>
+								</tr>
+							</table>
+						</h:form>
 					</div>
-					<div class="sf-agrupador-content-table">
-						<table>
-							<tr>
-								<td><p:outputLabel>Cantidad de Retirantes:</p:outputLabel></td>
-								<td>
-									<p:inputText value="#{managedBean.titularesMB.cantidadRetirantes}" size="1" />
-								</td>
-							</tr>
-						</table>
-						<div class="buttons">
-							<div class="tiptip">
-								<p:commandLink update="tablaTitulares"
+
+					<div class="buttons">
+						<div class="tiptip">
+							<h:form>
+								<p:commandLink update=":form-titulares"
 									actionListener="#{managedBean.titularesMB.addTitular()}"
 									styleClass="button left" title="Nuevo">
 									<span class="icon icon3"></span>
@@ -39,29 +58,35 @@
 									<span class="icon icon145"></span>
 									<span class="label">Editar</span>
 								</p:commandLink>
-								<p:commandLink update="tablaTitulares"
+								<p:commandLink update=":form-titulares"
 									actionListener="#{managedBean.titularesMB.removeTitular()}"
 									styleClass="button right" title="Eliminar Trabajador">
 									<span class="icon icon186"></span>
 									<span class="label">Eliminar</span>
 								</p:commandLink>
-							</div>
+							</h:form>
 						</div>
-						<div style="padding: 0px 5px;">
+					</div>
 
-							<p:growl id="growl" sticky="true" />
-
+					<div style="padding: 0px 5px;">
+						
+						<h:form id="form-titulares">
+						
 							<p:dataTable id="tablaTitulares"
 								value="#{managedBean.titularesMB.tablaTitulares.rows}"
 								var="titular" editable="true" selectionMode="single"
 								selection="#{managedBean.titularesMB.tablaTitulares.selectedRow}"
 								rowKey="#{titular}" scrollable="true" scrollHeight="150"
 								scrollRows="5" rowIndexVar="row"
-								rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }" style="table-layout: none;">
+								rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }"
+								style="table-layout: none;">
 
-								<p:ajax event="rowEdit" update=":form:growl,tablaTitulares" />
-								<p:ajax event="rowEditCancel"
-									update=":form:growl,tablaTitulares" />
+								<p:ajax event="rowEditInit" listener="#{managedBean.titularesMB.tablaTitulares.editRow()}" />
+								<p:ajax event="rowEdit" update=":growl,tablaTitulares" listener="#{managedBean.titularesMB.tablaTitulares.finishEditRow()}"/>
+								<p:ajax event="rowEditCancel" update=":growl,tablaTitulares" listener="#{managedBean.titularesMB.tablaTitulares.rowEditCancel()}"/>
+								
+								<p:ajax event="rowSelect" />  
+								<p:ajax event="rowUnselect" listener="#{managedBean.titularesMB.tablaTitulares.rowUnselect()}"/>  
 
 								<p:column headerText="Nro" width="10%"
 									style="text-align:center;">
@@ -75,9 +100,11 @@
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText id="dni" value="#{titular.personanatural.dni}"
-												required="true" maxlength="8" requiredMessage="DNI (Obligatorio)" validatorMessage="DNI no tiene digitos validos">
+												required="true" maxlength="8"
+												requiredMessage="DNI (Obligatorio)"
+												validatorMessage="DNI no tiene digitos validos">
 												<f:validateRegex pattern="(^[0-9]{8}$)" />
-												<p:ajax update="tablaTitulares" event="blur" listener="#{managedBean.titularesMB.buscarPersonanatural()}"></p:ajax>
+												<p:ajax update="apellidoPaterno,apellidoMaterno,nombres" event="blur" listener="#{managedBean.titularesMB.buscarPersonanatural()}"/>
 											</p:inputText>
 											<p:watermark for="dni" value="DNI" />
 										</f:facet>
@@ -121,29 +148,34 @@
 										<f:facet name="input">
 											<p:inputText id="nombres"
 												value="#{titular.personanatural.nombres}" required="true"
-												maxlength="50"
-												requiredMessage="Nombres (Obligatorio)"/>
+												maxlength="50" requiredMessage="Nombres (Obligatorio)" />
 											<p:watermark for="nombres" value="Nombres" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
 								<p:column width="10%">
-									<p:rowEditor>
+									<p:rowEditor>										
 									</p:rowEditor>
 								</p:column>
 							</p:dataTable>
-						</div>
-					</div>
-					<div class="sf-buttons">
-						<p:commandButton value="Aceptar" update=":#{componentToUpdated},#{componentName}"
-							oncomplete="#{componentName}.hide()" actionListener="#{managedBean.titularesMB.validarTitulares()}" styleClass="action green" />
-						<p:commandButton value="Cancelar"
-							onclick="#{componentName}.hide()" actionListener="#{managedBean.titularesMB.validarTitulares()}" update="#{componentName}" styleClass="action" />
+						</h:form>
 					</div>
 				</div>
+				<div class="sf-buttons">
+					<h:form>
+						<p:commandButton value="Aceptar"
+							update="#{componentToUpdated},:form-titulares"
+							oncomplete="#{componentName}.hide()"
+							actionListener="#{managedBean.titularesMB.validarTitulares()}" />
+						<p:commandButton value="Cancelar"
+							onclick="#{componentName}.hide()"
+							actionListener="#{managedBean.titularesMB.validarTitulares()}"
+							update=":form-titulares" />
+					</h:form>
+				</div>
 			</div>
-		</p:dialog>
-	</h:form>
+		</div>
+	</p:dialog>
 
 </ui:composition>
 </html>

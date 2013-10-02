@@ -35,28 +35,26 @@ public class TitularesMB implements Serializable {
 	public TitularesMB() {
 		this.cantidadRetirantes = new Integer(1);
 	}
-
+	
 	public void buscarPersonanatural(){
+				
+		Titularcuenta titularcuenta = tablaTitulares.getEditingRow();
+		Personanatural personanatural = titularcuenta.getPersonanatural();
 		
-		System.out.println(tablaTitulares.getSelectedRow());
+		System.out.println(personanatural);
 		
-		//Personanatural personanatural = personanaturalServiceLocal.find(tablaTitulares.getSelectedRow().getDni());
-
-		/*if (personanatural != null) {
-			Titularcuenta titularcuenta = new Titularcuenta();
+		personanatural = personanaturalServiceLocal.find(personanatural.getDni());
+		
+		if (personanatural != null) {
 			titularcuenta.setPersonanatural(personanatural);
 			
-			this.tablaTitulares.setSelectedRow(titularcuenta);
-			
+			this.tablaTitulares.setEditingRow(titularcuenta);					
 		} else {
-			Titularcuenta titularcuenta = new Titularcuenta();
-			
+
 			personanatural = new Personanatural();			
 			personanatural.setDni(tablaTitulares.getSelectedRow().getDni());
-			titularcuenta.setPersonanatural(personanatural);
-			
-			//this.changeEditingPersonanaturalState();
-		}*/
+			titularcuenta.setPersonanatural(personanatural);		
+		}
 
 	}
 	

@@ -248,14 +248,14 @@
 													for="txtFecNacPN" /></td>
 											<td><p:outputLabel>Sexo:</p:outputLabel></td>
 											<td><p:selectOneMenu id="txtSexo"
-													value="#{managedBean.personaNaturalMB.comboSexo.itemSelected}"
-													valueChangeListener="#{managedBean.personaNaturalMB.changeSexo}"
+													value="#{managedBean.personaJuridicaMB.comboSexo.itemSelected}"
+													valueChangeListener="#{managedBean.personaJuridicaMB.changeSexo}"
 													required="true" requiredMessage="Seleccione un sexo valido"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
 													<f:selectItem id="e" itemLabel="--Seleccione--"
 														itemValue="" />
 													<f:selectItems
-														value="#{managedBean.personaNaturalMB.comboSexo.items.entrySet()}"
+														value="#{managedBean.personaJuridicaMB.comboSexo.items.entrySet()}"
 														var="val" itemLabel="#{val.value.denominacion}"
 														itemValue="#{val.key}" />
 													<p:ajax update="growl,txtSexo" />
@@ -276,12 +276,12 @@
 										<tr>
 											<td><p:outputLabel>Estado Civil:</p:outputLabel></td>
 											<td><p:selectOneMenu
-													value="#{managedBean.personaNaturalMB.comboEstadoCivil.itemSelected}"
-													valueChangeListener="#{managedBean.personaNaturalMB.changeEstadoCivil}"
+													value="#{managedBean.personaJuridicaMB.comboEstadocivil.itemSelected}"
+													valueChangeListener="#{managedBean.personaJuridicaMB.changeEstadoCivil}"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
 													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 													<f:selectItems
-														value="#{managedBean.personaNaturalMB.comboEstadoCivil.items.entrySet()}"
+														value="#{managedBean.personaJuridicaMB.comboEstadocivil.items.entrySet()}"
 														var="val" itemLabel="#{val.value.denominacion}"
 														itemValue="#{val.key}" />
 												</p:selectOneMenu></td>

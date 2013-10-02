@@ -11,9 +11,10 @@
 
 	<p:dialog widgetVar="#{componentName}" modal="true" header="Persona Natural" rendered="#{managedBean.personaNatural}">
 
-		<p:growl id="growl" sticky="true" />
-
 		<h:form id="form-datosPersonanatural">
+		
+			<p:growl id="growl" sticky="true" />
+		
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
 					<div class="sf-agrupador-content-cabecera">
@@ -34,7 +35,7 @@
 										validatorMessage="Número de DNI Invalido">
 										<f:validateRegex pattern="(^[0-9]{8}$)" />
 										
-										<p:ajax update=":growl,@form,:form-datosPersonanatural,:form-buttons" event="blur" listener="#{managedBean.personaNaturalMB.buscarPersona()}"/>
+										<p:ajax update="growl,@form,:form-datosPersonanatural,:form-buttons" event="blur" listener="#{managedBean.personaNaturalMB.buscarPersona()}"/>
 									</p:inputText> 
 									<p:watermark for="txtDNIPN" value="DNI" /> 
 									<p:outputLabel for="txtDNIPN" />
@@ -47,7 +48,7 @@
 										disabled="#{!managedBean.personaNaturalMB.editing}"
 										required="true" maxlength="50"
 										requiredMessage="Ingrese Apellido Paterno">
-										<p:ajax update=":growl,txtApPaternoPN" event="blur" />
+										<p:ajax update="growl,txtApPaternoPN" event="blur" />
 									</p:inputText> <p:watermark for="txtApPaternoPN" value="Apellido Paterno" />
 									<p:outputLabel for="txtApPaternoPN" /></td>
 								<td><p:outputLabel value="Apellido Materno:" /></td>
@@ -56,7 +57,7 @@
 										required="true" maxlength="50"
 										requiredMessage="Ingrese Apellido Materno"
 										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update=":growl,txtApMaternoPN" event="blur" />
+										<p:ajax update="growl,txtApMaternoPN" event="blur" />
 									</p:inputText> <p:watermark for="txtApMaternoPN" value="Apellido Materno" />
 									<p:outputLabel for="txtApMaternoPN" /></td>
 							</tr>
@@ -67,7 +68,7 @@
 										size="71" required="true" maxlength="60"
 										requiredMessage="Ingrese Nombres"
 										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update=":growl,txtNombresPN" event="blur" />
+										<p:ajax update="growl,txtNombresPN" event="blur" />
 									</p:inputText> <p:watermark for="txtNombresPN" value="Nombres" /> <p:outputLabel
 										for="txtNombresPN" /></td>
 							</tr>
@@ -81,7 +82,7 @@
 										requiredMessage="Ingrese Fecha de Nacimiento"
 										converterMessage="El formato de la fecha de nacimiento no es correcto"
 										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update=":growl,txtFecNacPN"/>
+										<p:ajax update="growl,txtFecNacPN"/>
 										<f:convertDateTime pattern="dd/MM/yy" />
 									</p:calendar> 
 									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy" /> 
@@ -98,7 +99,7 @@
 											value="#{managedBean.personaNaturalMB.comboSexo.items.entrySet()}"
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
-										<p:ajax update=":growl,txtSexo" />
+										<p:ajax update="growl,txtSexo" />
 									</p:selectOneMenu> 
 									<p:outputLabel for="txtSexo" />
 								</td>
@@ -184,7 +185,7 @@
 			</div>		
 			<div class="sf-buttons">
 				<p:commandButton value="Aceptar" 
-					update=":growl,@form,#{componentToUpdated}" 
+					update="growl,@form,#{componentToUpdated}" 
 					oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" 
 					rendered="#{managedBean.personaNaturalMB.editing}"
 					actionListener="#{managedBean.establecerTitularDefecto()}"/>

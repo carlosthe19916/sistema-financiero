@@ -9,23 +9,23 @@
 
 <ui:composition>
 
-	<h:form id="form1">
-		<p:dialog id="#{componentName}" header="Beneficiarios"
-			widgetVar="#{componentName}" modal="true" height="400" width="750"
-			rendered="#{managedBean.personaNatural}">
-			<div class="sf-agrupador">
-				<div class="sf-agrupador-menu">
-					<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
+	<p:dialog header="Beneficiarios" widgetVar="#{componentName}"
+		modal="true" height="400" width="750"
+		rendered="#{managedBean.personaNatural}">
+		
+		<p:growl id="growl" sticky="true" />
+		
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Datos de Beneficiarios</h3>
 				</div>
-				<div class="sf-agrupador-content">
-					<div class="sf-agrupador-content-cabecera">
-						<h3>Datos de Beneficiarios</h3>
-					</div>
-					<div class="sf-agrupador-content-table">
+				<div class="sf-agrupador-content-table">
 
-						<div class="buttons">
-							<div class="tiptip">
-								<p:commandLink update="tablaBeneficiarios"
+					<div class="buttons">
+						<div class="tiptip">
+							<h:form>
+								<p:commandLink update=":form-beneficiarios"
 									actionListener="#{managedBean.beneficiariosMB.addBeneficiario()}"
 									styleClass="button left" title="Nuevo">
 									<span class="icon icon3"></span>
@@ -36,19 +36,19 @@
 									<span class="icon icon145"></span>
 									<span class="label">Editar</span>
 								</p:commandLink>
-								<p:commandLink update="tablaBeneficiarios"
+								<p:commandLink update=":form-beneficiarios"
 									actionListener="#{managedBean.beneficiariosMB.removeBeneficiario()}"
 									styleClass="button right" title="Eliminar Trabajador">
 									<span class="icon icon186"></span>
 									<span class="label">Eliminar</span>
 								</p:commandLink>
-							</div>
+							</h:form>
 						</div>
+					</div>
 
-						<div style="padding: 0px 5px;">
+					<div style="padding: 0px 5px;">
 
-							<p:growl id="growl" sticky="true" />
-
+						<h:form id="form-beneficiarios">
 							<p:dataTable id="tablaBeneficiarios"
 								value="#{managedBean.beneficiariosMB.tablaBeneficiarios.rows}"
 								var="beneficiario" editable="true" selectionMode="single"
@@ -56,11 +56,11 @@
 								rowKey="#{beneficiario}" scrollable="true" scrollHeight="150"
 								scrollRows="5" rowIndexVar="row"
 								rowStyleClass="#{beneficiario.apellidopaterno == null ? 'sf-table-row-invalid' : null }">
-								
-								<p:ajax event="rowEdit" update=":form:growl,tablaBeneficiarios" />
+
+								<p:ajax event="rowEdit" update=":growl,tablaBeneficiarios" />
 								<p:ajax event="rowEditCancel"
-									update=":form:growl,tablaBeneficiarios" />
-									
+									update=":growl,tablaBeneficiarios" />
+
 								<p:column headerText="Nro" width="10%"
 									style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
@@ -71,37 +71,34 @@
 											<h:outputText value="#{beneficiario.dni}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{beneficiario.dni}" maxlength="8" validatorMessage="DNI no tiene digitos validos">
-												
-											</p:inputText>										
+											<p:inputText value="#{beneficiario.dni}" maxlength="8"
+												validatorMessage="DNI no tiene digitos validos">
+
+											</p:inputText>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Paterno" width="20%">								
+								<p:column headerText="Apellido Paterno" width="20%">
 									<p:cellEditor>
 										<f:facet name="output">
-											<h:outputText
-												value="#{beneficiario.apellidopaterno}" />
+											<h:outputText value="#{beneficiario.apellidopaterno}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText
-												value="#{beneficiario.apellidopaterno}" required="true"
-												maxlength="50"
-												requiredMessage="Apellido Paterno (Obligatorio)"/>
+											<p:inputText value="#{beneficiario.apellidopaterno}"
+												required="true" maxlength="50"
+												requiredMessage="Apellido Paterno (Obligatorio)" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
 								<p:column headerText="Apellido Materno" width="20%">
 									<p:cellEditor>
 										<f:facet name="output">
-											<h:outputText
-												value="#{beneficiario.apellidomaterno}" />
+											<h:outputText value="#{beneficiario.apellidomaterno}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText
-												value="#{beneficiario.apellidomaterno}" required="true"
-												maxlength="50"
-												requiredMessage="Apellido Materno (Obligatorio)"/>
+											<p:inputText value="#{beneficiario.apellidomaterno}"
+												required="true" maxlength="50"
+												requiredMessage="Apellido Materno (Obligatorio)" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
@@ -112,8 +109,7 @@
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.nombres}" required="true"
-												maxlength="50"
-												requiredMessage="Nombres (Obligatorio)"/>
+												maxlength="50" requiredMessage="Nombres (Obligatorio)" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
@@ -131,18 +127,25 @@
 									<p:rowEditor />
 								</p:column>
 							</p:dataTable>
+						</h:form>
 
-						</div>
-						<div class="sf-buttons">
-							<p:commandButton value="Aceptar" update=":#{componentToUpdated},#{componentName}"
-								oncomplete="#{componentName}.hide()" styleClass="action green" actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}"/>
-							<p:commandButton value="Cancelar"
-								onclick="#{componentName}.hide()" actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}" update="#{componentName}" styleClass="action" />
-						</div>
 					</div>
+
+					<div class="sf-buttons">
+						<p:commandButton value="Aceptar" 
+							update="#{componentToUpdated},form-beneficiarios"
+							oncomplete="#{componentName}.hide()"
+							actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}" />
+						<p:commandButton value="Cancelar"
+							update="form-beneficiarios"
+							onclick="#{componentName}.hide()"
+							actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}" />
+					</div>
+
 				</div>
 			</div>
-		</p:dialog>
-	</h:form>
+		</div>
+	
+	</p:dialog>
 </ui:composition>
 </html>

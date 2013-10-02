@@ -22,18 +22,7 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-
-		<h:form>
-			<p:commandLink value="Nueva" oncomplete="personaNaturalDialogGenerico.show();return false;">
-			</p:commandLink>
-			<p:commandLink value="Existente" 
-				action="#{personaNaturalGenericoMB.openDialog('personaNaturalDialogGenerico')}"  
-				oncomplete="personaNaturalDialogGenerico.show();return false;">
-			</p:commandLink>
-		</h:form>
-			
-		
-		
+				
 		<div class="sf-content-cabecera">
 			<h2>Aperturar Cuenta de Ahorros</h2>
 		</div>
@@ -71,8 +60,7 @@
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgPersonaNatural" />
 				<ui:param name="componentToUpdated" value=":personaNatural,:titulares" />
-			</ui:include>
-			
+			</ui:include>		
 			<!-- end PersonaNatural -->
 
 
@@ -85,7 +73,7 @@
 			<ui:include src="/views/maestros/personaJuridicaDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgPersonaJuridica" />
-				<ui:param name="componentToUpdated" value="personaJuridica" />
+				<ui:param name="componentToUpdated" value="personaJuridica,:titulares" />
 			</ui:include>
 			<!-- end Persona Juridica -->
 
@@ -112,10 +100,10 @@
 			<ui:include src="/views/maestros/titularesDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgTitulares" />
-				<ui:param name="componentToUpdated" value="titulares" />
+				<ui:param name="componentToUpdated" value=":titulares" />
 			</ui:include>
 			<!-- end Titulares -->
-
+			
 			<!-- Beneficiarios -->
 			<ui:include src="/views/maestros/beneficiariosResumen.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
