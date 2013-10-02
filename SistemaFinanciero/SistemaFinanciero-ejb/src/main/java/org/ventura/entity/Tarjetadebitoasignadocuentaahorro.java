@@ -21,8 +21,8 @@ public class Tarjetadebitoasignadocuentaahorro implements Serializable {
 	@Column(nullable=false)
 	private Boolean estado;
 
-	@Column(nullable=false)
-	private Integer fechaactiva;
+	@Temporal(TemporalType.DATE)
+	private Date fechaactiva;
 
 	@Temporal(TemporalType.DATE)
 	private Date fechainanctiva;
@@ -56,11 +56,11 @@ public class Tarjetadebitoasignadocuentaahorro implements Serializable {
 		this.estado = estado;
 	}
 
-	public Integer getFechaactiva() {
+	public Date getFechaactiva() {
 		return this.fechaactiva;
 	}
 
-	public void setFechaactiva(Integer fechaactiva) {
+	public void setFechaactiva(Date fechaactiva) {
 		this.fechaactiva = fechaactiva;
 	}
 
