@@ -83,7 +83,7 @@
 			<ui:include src="/views/maestros/titularesDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaCorrienteMB}" />
 				<ui:param name="componentName" value="dlgTitulares" />
-				<ui:param name="componentToUpdated" value="titulares" />
+				<ui:param name="componentToUpdated" value=":titulares" />
 			</ui:include>
 			<!-- end Titulares -->
 
@@ -108,13 +108,6 @@
 				styleClass="action green" />
 			<p:commandButton value="Cancelar" styleClass="action" />
 		</div>
-
-		<h:form>
-			<p:growl id="messages" showDetail="true" /> 
-			<p:commandButton value="Destroy the World" actionListener="#{aperturarCuentaCorrienteMB.createCuentacorriente()}" update="messages">
-			</p:commandButton>
-
-		</h:form>
 
 	</ui:define>
 
