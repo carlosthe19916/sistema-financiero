@@ -45,27 +45,31 @@ public class TablaMB<E> {
 	public void editRow() {
 		this.editingRow = this.selectedRow;
 	}
-	
+
 	public void rowEditCancel() {
 		this.clearEditinRow();
 	}
 
-	public void finishEditRow(){
+	public void finishEditRow() {
 		this.clearEditinRow();
 	}
-
+	
 	public void rowSelect() {
-		System.out.println("rowSelect");
+		this.editingRow = this.selectedRow;
 	}
 
 	public void rowUnselect() {
-
+		System.out.println("unselect");
 	}
-	
-	public void clearEditinRow(){
+
+	public void clearEditinRow() {
 		this.editingRow = null;
 	}
 
+	public void clearRows() {
+		this.rows = new ArrayList<E>();
+	}
+	
 	public void addRow(E row) {
 		this.rows.add(row);
 	}

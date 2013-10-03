@@ -187,8 +187,7 @@
 				<p:commandButton value="Aceptar" 
 					update="growl,@form,#{componentToUpdated}" 
 					oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" 
-					rendered="#{managedBean.personaNaturalMB.editing}"
-					actionListener="#{managedBean.establecerTitularDefecto()}"/>
+					rendered="#{managedBean.personaNaturalMB.editing}"/>
 				<p:commandButton value="Cancelar" 
 					onclick="#{componentName}.hide()" 
 					rendered="#{managedBean.personaNaturalMB.editing}"/>
@@ -200,8 +199,7 @@
 				<p:commandButton value="Aceptar" 
 					update="#{componentToUpdated}" 
 					rendered="#{!managedBean.personaNaturalMB.editing}" 
-					onclick="#{componentName}.hide()"
-					actionListener="#{managedBean.establecerTitularDefecto()}"/>
+					onclick="#{componentName}.hide()"/>
 				<p:commandButton value="Cancelar" update="#{componentToUpdated}" rendered="#{!managedBean.personaNaturalMB.editing}" onclick="#{componentName}.hide()"/>
 			</div>
 		</h:form>	

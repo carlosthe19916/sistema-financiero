@@ -9,7 +9,7 @@
 
 <ui:composition>
 
-	<p:dialog header="Titulares" widgetVar="#{componentName}" modal="true" height="400" width="700">
+	<p:dialog header="Titulares" widgetVar="#{componentName}" modal="true" height="400" width="750">
 		
 		<p:growl id="growlTitulares" sticky="true" />
 			
@@ -53,7 +53,9 @@
 									<span class="icon icon3"></span>
 									<span class="label">Nuevo</span>
 								</p:commandLink>
-								<p:commandLink onclick="editar" styleClass="button middle"
+								<p:commandLink update=":form-titulares" 
+									actionListener="#{managedBean.titularesMB.editTitular()}" 
+									styleClass="button middle"
 									title="Nuevo">
 									<span class="icon icon145"></span>
 									<span class="label">Editar</span>
@@ -78,22 +80,21 @@
 								selection="#{managedBean.titularesMB.tablaTitulares.selectedRow}"
 								rowKey="#{titular}" scrollable="true" scrollHeight="150"
 								scrollRows="5" rowIndexVar="row"
-								rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }"
-								style="table-layout: none;">
+								rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }">
 
 								<p:ajax event="rowEditInit" listener="#{managedBean.titularesMB.tablaTitulares.editRow()}" />
 								<p:ajax event="rowEdit" update=":growl,tablaTitulares" listener="#{managedBean.titularesMB.tablaTitulares.finishEditRow()}"/>
 								<p:ajax event="rowEditCancel" update=":growl,tablaTitulares" listener="#{managedBean.titularesMB.tablaTitulares.rowEditCancel()}"/>
 								
-								<p:ajax event="rowSelect" />  
+								<p:ajax event="rowSelect" listener="#{managedBean.titularesMB.tablaTitulares.rowSelect()}"/>  
 								<p:ajax event="rowUnselect" listener="#{managedBean.titularesMB.tablaTitulares.rowUnselect()}"/>  
 
-								<p:column headerText="Nro" width="10%"
+								<p:column headerText="Nro" width="5%"
 									style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
 
-								<p:column headerText="DNI(*)" width="15%">
+								<p:column headerText="DNI(*)" width="11%">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{titular.personanatural.dni}" />
@@ -104,13 +105,13 @@
 												requiredMessage="DNI (Obligatorio)"
 												validatorMessage="DNI no tiene digitos validos">
 												<f:validateRegex pattern="(^[0-9]{8}$)" />
-												<p:ajax update="apellidoPaterno,apellidoMaterno,nombres" event="blur" listener="#{managedBean.titularesMB.buscarPersonanatural()}"/>
+												<p:ajax update="apellidoPaterno,apellidoMaterno,nombres,txtSexo,txtFecNac" event="blur" listener="#{managedBean.titularesMB.buscarPersonanatural()}"/>
 											</p:inputText>
 											<p:watermark for="dni" value="DNI" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Paterno(*)" width="25%">
+								<p:column headerText="Ap. Paterno(*)" width="16%">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText
@@ -125,7 +126,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Materno(*)" width="25%">
+								<p:column headerText="Ap. Materno(*)" width="16%">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText
@@ -140,7 +141,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Nombres(*)" width="25%">
+								<p:column headerText="Nombres(*)" width="15%">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{titular.personanatural.nombres}" />
@@ -152,8 +153,45 @@
 											<p:watermark for="nombres" value="Nombres" />
 										</f:facet>
 									</p:cellEditor>
+								</p:column>							
+								<p:column headerText="F.Nacimiento(*)" width="15%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{titular.personanatural.fechanacimiento}">
+												<f:convertDateTime pattern="dd/MM/yy" />
+											</h:outputText>
+										</f:facet>
+										<f:facet name="input">
+											<p:calendar id="txtFecNac"
+												value="#{titular.personanatural.fechanacimiento}"
+												navigator="true" pattern="dd/MM/yy" required="true"
+												requiredMessage="Ingrese Fecha de Nacimiento"
+												converterMessage="El formato de la fecha de nacimiento no es correcto">
+											</p:calendar> 
+											<p:watermark for="txtFecNac" value="dd/mm/yyyy" /> 
+										</f:facet>
+									</p:cellEditor>
 								</p:column>
-								<p:column width="10%">
+								
+								<p:column headerText="Sexo(*)" width="15%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{titular.personanatural.sexo.denominacion}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:selectOneMenu id="txtSexo"
+												value="#{managedBean.titularesMB.comboSexo.itemSelected}"
+												valueChangeListener="#{managedBean.titularesMB.changeSexo}"
+												required="true" requiredMessage="Seleccione un sexo valido" style="width:100%">
+												<f:selectItem id="e" itemLabel="--Seleccione--" itemValue="" />
+												<f:selectItems value="#{managedBean.titularesMB.comboSexo.items.entrySet()}"
+													var="val" itemLabel="#{val.value.denominacion}"
+													itemValue="#{val.key}" />
+											</p:selectOneMenu>
+										</f:facet>
+									</p:cellEditor>
+								</p:column>																					
+								<p:column width="7%">
 									<p:rowEditor>										
 									</p:rowEditor>
 								</p:column>

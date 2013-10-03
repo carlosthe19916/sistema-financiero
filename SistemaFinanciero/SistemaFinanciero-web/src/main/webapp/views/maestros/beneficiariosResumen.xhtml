@@ -26,10 +26,12 @@
 					<div>
 						<table>
 							<tr>
-								<td><p:outputLabel value="Beneficiarios:" /></td>
+								<td style="width: 180px;"><p:outputLabel value="Beneficiarios:" /></td>
 								<td>
-									<p:dataList value="#{managedBean.beneficiariosMB.tablaBeneficiarios.rows}" var="beneficiarios" type="ordered" itemType="1">
-										<p:outputLabel value="#{beneficiarios.nombreCompleto}, DNI: #{beneficiarios.dni} % #{beneficiarios.porcentajebeneficio}"></p:outputLabel>
+									<p:dataList value="#{managedBean.beneficiariosMB.tablaBeneficiarios.rows}" var="beneficiarios" type="ordered" itemType="1" styleClass="sf-label-bold" >
+										<p:outputLabel value="DNI: #{beneficiarios.dni}" style="min-width:50px; padding-right: 12px;"/>
+										<p:outputLabel value=" #{beneficiarios.nombreCompleto}" style="min-width:150px; padding-right: 12px;"/>
+										<p:outputLabel value="% #{beneficiarios.porcentajebeneficio}" style="min-width:50px; padding-right: 12px;"/>
 									</p:dataList>
 								</td>
 							</tr>

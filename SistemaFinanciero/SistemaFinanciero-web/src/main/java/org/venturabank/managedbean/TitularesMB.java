@@ -4,15 +4,20 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
+import javax.faces.event.ValueChangeEvent;
 
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TitularcuentaServiceLocal;
+import org.ventura.entity.Estadocivil;
 import org.ventura.entity.Personanatural;
+import org.ventura.entity.Sexo;
 import org.ventura.entity.Titularcuenta;
+import org.venturabank.util.ComboMB;
 import org.venturabank.util.TablaMB;
 
 @ManagedBean
@@ -32,8 +37,16 @@ public class TitularesMB implements Serializable {
 	@ManagedProperty(value = "#{tablaMB}")
 	private TablaMB<Titularcuenta> tablaTitulares;
 	
+	@ManagedProperty(value = "#{comboMB}")
+	private ComboMB<Sexo> comboSexo;
+	
 	public TitularesMB() {
 		this.cantidadRetirantes = new Integer(1);
+	}
+	
+	@PostConstruct
+	private void initValues() {
+		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 	}
 	
 	public void buscarPersonanatural(){
@@ -41,12 +54,12 @@ public class TitularesMB implements Serializable {
 		Titularcuenta titularcuenta = tablaTitulares.getEditingRow();
 		Personanatural personanatural = titularcuenta.getPersonanatural();
 		
-		System.out.println(personanatural);
-		
 		personanatural = personanaturalServiceLocal.find(personanatural.getDni());
 		
 		if (personanatural != null) {
 			titularcuenta.setPersonanatural(personanatural);
+			
+			this.comboSexo.setItemSelected(personanatural.getSexo());
 			
 			this.tablaTitulares.setEditingRow(titularcuenta);					
 		} else {
@@ -80,9 +93,20 @@ public class TitularesMB implements Serializable {
 		this.tablaTitulares.addRow(titularcuenta);
 	}
 
+	public void editTitular() {
+		tablaTitulares.editRow();
+	}
+
 	public void removeTitular() {
 		this.tablaTitulares.removeSelectedRow();
 	}
+	
+	public void changeSexo(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		Sexo sexoSelected = comboSexo.getObjectItemSelected(key);
+		this.tablaTitulares.getEditingRow().getPersonanatural().setSexo(sexoSelected);
+	}
+	
 	
 	public void validarTitulares(){
 		
@@ -111,13 +135,9 @@ public class TitularesMB implements Serializable {
 					
 			if(!(appellidoPaterno&&appellidoMaterno&&nombres)){
 				iterator.remove();
-			}
+			}	
 			
 		}
-		
-	}
-	
-	public void editTitular() {
 		
 	}
 	
@@ -135,6 +155,14 @@ public class TitularesMB implements Serializable {
 
 	public void setTablaTitulares(TablaMB<Titularcuenta> tablaTitulares) {
 		this.tablaTitulares = tablaTitulares;
+	}
+
+	public ComboMB<Sexo> getComboSexo() {
+		return comboSexo;
+	}
+
+	public void setComboSexo(ComboMB<Sexo> comboSexo) {
+		this.comboSexo = comboSexo;
 	}
 
 }

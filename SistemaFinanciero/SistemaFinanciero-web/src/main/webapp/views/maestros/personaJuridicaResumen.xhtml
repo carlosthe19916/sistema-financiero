@@ -31,10 +31,10 @@
 					<table>
 						<tbody>
 							<tr>
-								<td>
+								<td style="min-width: 180px;">
 									<p:outputLabel value="RUC:" />
 								</td>
-								<td>
+								<td style="min-width: 250px;">
 									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.ruc}" styleClass="sf-label-bold" />
 								</td>
 							</tr>	
@@ -123,10 +123,10 @@
 					<table>
 						<tbody>
 							<tr>
-								<td>
+								<td style="min-width: 180px;">
 									<p:outputLabel value="DNI:" />
 								</td>
-								<td>
+								<td style="min-width: 250px;">
 									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.dni}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
@@ -208,11 +208,16 @@
 					
 					<table>
 						<tr>
-							<td style="vertical-align: top;"><p:outputLabel value="Accionistas:" /></td>
+							<td style="vertical-align: top; min-width: 180px;" ><p:outputLabel value="Accionistas:" /></td>
 							<td>
-								<p:dataList value="#{managedBean.personaJuridicaMB.tablaAccionistas.rows}" var="accionistas" type="ordered" itemType="1">
-									<p:outputLabel value="#{accionistas.personanatural.nombreCompleto}, DNI: #{accionistas.personanatural.dni}"></p:outputLabel>
-								</p:dataList>
+								<p:dataList value="#{managedBean.personaJuridicaMB.tablaAccionistas.rows}" var="accionistas" type="ordered" itemType="1" styleClass="sf-label-bold">
+									<p:outputLabel value="DNI:#{accionistas.personanatural.dni}" style="padding-right: 12px;"/>
+									<p:outputLabel value="#{accionistas.personanatural.nombreCompleto}" style="min-width:100px; padding-right: 12px;"/>
+									<h:outputLabel value="#{accionistas.personanatural.fechanacimiento}" style="min-width:50px; padding-right: 12px;">
+										<f:convertDateTime pattern="dd/MM/yy" />
+									</h:outputLabel>
+									<p:outputLabel value="#{accionistas.personanatural.sexo.denominacion}" style="min-width:100px; padding-right: 12px;"/>	
+								</p:dataList>																
 							</td>
 						</tr>
 					</table>

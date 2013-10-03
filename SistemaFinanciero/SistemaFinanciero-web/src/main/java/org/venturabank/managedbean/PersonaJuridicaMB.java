@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 
 
+
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -22,6 +24,7 @@ import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Sexo;
 import org.ventura.entity.Tipoempresa;
+import org.ventura.entity.Titularcuenta;
 import org.venturabank.util.ComboMB;
 import org.venturabank.util.TablaMB;
 
@@ -46,6 +49,9 @@ public class PersonaJuridicaMB implements Serializable {
 	private ComboMB<Sexo> comboSexo;
 	
 	@ManagedProperty(value = "#{comboMB}")
+	private ComboMB<Sexo> comboSexoAccionista;
+	
+	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadocivil;
 	
 	@EJB
@@ -64,7 +70,8 @@ public class PersonaJuridicaMB implements Serializable {
 	@PostConstruct
 	private void initValues() {
 		getComboTipoempresa().initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
-		getComboSexo().initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);	
+		getComboSexo().initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
+		comboSexoAccionista.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 		getComboEstadocivil().initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);		
 		oPersonajuridica.setListAccionista(new ArrayList<Accionista>());
 		oPersonajuridica.setPersonanatural(new Personanatural());
@@ -86,6 +93,8 @@ public class PersonaJuridicaMB implements Serializable {
 			personajuridica.setPersonanatural(new Personanatural());
 			
 			this.oPersonajuridica = personajuridica;
+			this.tablaAccionistas.clearRows();
+			
 			this.comboTipoempresa.setItemSelected(-1);
 			
 			this.changeEditingState();
@@ -114,19 +123,36 @@ public class PersonaJuridicaMB implements Serializable {
 
 	}
 	
+	public void buscarAccionista(){
+		
+		Accionista accionista = tablaAccionistas.getEditingRow();
+		Personanatural personanatural = accionista.getPersonanatural();
+		
+		personanatural = personanaturalServiceLocal.find(personanatural.getDni());
+		
+		if (personanatural != null) {
+			accionista.setPersonanatural(personanatural);
+			
+			this.comboSexoAccionista.setItemSelected(personanatural.getSexo());
+			
+			this.tablaAccionistas.setEditingRow(accionista);					
+		} else {
+			personanatural = new Personanatural();			
+			personanatural.setDni(tablaAccionistas.getSelectedRow().getPersonanatural().getDni());
+			accionista.setPersonanatural(personanatural);		
+		}
+
+	}
+	
+	
 	public boolean isValid(){
 		return oPersonajuridica.isValid() ? true : false;
 	}
 	
 	public void addAccionista() {
 		Accionista accionista = new Accionista();
-		
-		accionista.setPersonanatural(new Personanatural());
-		accionista.getPersonanatural().setDni("00000000");
-		accionista.getPersonanatural().setApellidopaterno("aaa");
-		accionista.getPersonanatural().setApellidomaterno("aaa");
-		accionista.getPersonanatural().setNombres("aaa");		
-		oPersonajuridica.getListAccionista().add(accionista);
+		Personanatural personanatural = new Personanatural();	
+		accionista.setPersonanatural(personanatural);	
 		tablaAccionistas.addRow(accionista);			
 	}
 
@@ -147,6 +173,13 @@ public class PersonaJuridicaMB implements Serializable {
 		Integer key = (Integer) event.getNewValue();
 		this.oPersonajuridica.getPersonanatural().setSexo(getComboSexo().getObjectItemSelected(key));
 	}
+	
+	public void changeSexoAccionista(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		Sexo sexoSelected = comboSexoAccionista.getObjectItemSelected(key);
+		this.tablaAccionistas.getEditingRow().getPersonanatural().setSexo(sexoSelected);		
+	}
+	
 	public void changeEstadoCivil(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		this.oPersonajuridica.getPersonanatural().setEstadocivil(getComboEstadocivil().getObjectItemSelected(key));
@@ -226,6 +259,14 @@ public class PersonaJuridicaMB implements Serializable {
 
 	public void setEditingPersonanatural(boolean isEditingPersonanatural) {
 		this.isEditingPersonanatural = isEditingPersonanatural;
+	}
+
+	public ComboMB<Sexo> getComboSexoAccionista() {
+		return comboSexoAccionista;
+	}
+
+	public void setComboSexoAccionista(ComboMB<Sexo> comboSexoAccionista) {
+		this.comboSexoAccionista = comboSexoAccionista;
 	}		
 
 }
