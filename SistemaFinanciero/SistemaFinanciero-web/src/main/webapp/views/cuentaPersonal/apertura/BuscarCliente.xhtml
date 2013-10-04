@@ -24,114 +24,131 @@
 	<ui:define name="content">
 
 		<div class="sf-content-cabecera">
-			<h2>Aperturar Cuenta de Ahorros</h2>
-
+			<h2>Buscar Cliente</h2>
 		</div>
 
-
-		<p:panel id="panel" header="Busqueda de Clientes">
-			<p:focus context="panel" />
-			<h:form id="form1">
-				<div>
-
-					<div>
-						<div class="buttons">
-							<div class="tiptip">
-								<p:commandLink update="table"
-									actionListener="#{managedBean.titularesMB.addTitular()}"
-									styleClass="button left" title="Nuevo">
-									<span class="icon icon3"></span>
-									<span class="label">Nuevo</span>
-								</p:commandLink>
-								<p:commandLink onclick="editar" styleClass="button middle"
-									title="Nuevo">
-									<span class="icon icon145"></span>
-									<span class="label">Editar</span>
-								</p:commandLink>
-								<p:commandLink update="table"
-									actionListener="#{managedBean.titularesMB.removeTitular()}"
-									styleClass="button right" title="Eliminar Trabajador">
-									<span class="icon icon186"></span>
-									<span class="label">Eliminar</span>
-								</p:commandLink>
-							</div>
-						</div>
-
-					</div>
-
-					<div>
-						<p:dataTable id="table" var="cliente"
-							value="#{personaNaturalClienteMB.tablaClientes.rows}"
-							rowKey="#{cliente}"
-							selection="#{personaNaturalClienteMB.selectedPersonaNaturalCliente}"
-							selectionMode="single" paginator="true"
-							paginatorPosition="bottom" rows="5"
-							sortBy="#{cliente.personanatural.apellidopaterno}"
-							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							rowsPerPageTemplate="5,10,20" widgetVar="tablaCliente"
-							emptyMessage="No hay coincidencia en la busqueda"
-							filteredValue="">
-
-							<f:facet name="header">
-								<p:growl id="growl" sticky="true" />
-								<p:outputPanel>
-
-									<h:outputText value="Ingrese persona: " />
-									<p:inputText id="txtBuscar"
-										value="#{personaNaturalClienteMB.valorBusqueda}"
-										style="width:250px" required="true"
-										requiredMessage="Ingrese un valor a buscar">
+		<h:form>		
+			<p:growl id="growl" sticky="true" />
+			
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-table">
+					<table>
+						<tbody>
+							<tr>
+								<td><h:outputLabel>Buscar:</h:outputLabel></td>
+								<td>
+									<p:inputText id="txtBuscar" 
+										value="#{personaNaturalClienteMB.valorBusqueda}" 
+										size="80" 
+										required="true" > 
 										<p:ajax update="growl" event="keyup" />
 									</p:inputText>
-									<p:watermark for="txtBuscar"
-										value="DNI / Ap. Paterno / Ap. Materno / Nombres" />
-
-								</p:outputPanel>
-							</f:facet>
-
-							<p:column sortBy="#{cliente.dni}" headerText="DNI">
-								<h:outputText value="#{cliente.dni}" />
-							</p:column>
-
-							<p:column sortBy="#{cliente.personanatural.apellidopaterno}"
-								headerText="Apellido Paterno">
-								<h:outputText value="#{cliente.personanatural.apellidopaterno}" />
-							</p:column>
-
-							<p:column sortBy="#{cliente.personanatural.apellidomaterno}"
-								headerText="APellido Materno">
-								<h:outputText value="#{cliente.personanatural.apellidomaterno}" />
-							</p:column>
-
-							<p:column sortBy="#{cliente.personanatural.nombres}"
-								headerText="Nombres">
-								<h:outputText value="#{cliente.personanatural.nombres}" />
-							</p:column>
-						</p:dataTable>
-
-					</div>
-
-					<div>
-						<p:commandLink update="table"
-									actionListener="#{personaNaturalClienteMB.buscarCliente()}"
-									styleClass="button left" title="Nuevo">
-									<span class="icon icon3"></span>
-									<span class="label">Buscar</span>
-						</p:commandLink>
-						<h:commandLink update="display"
-									actionListener="#{mostrarDatosClienteMB.imprimirDatos()}"
-									action="mostrarDatosCliente.xhtml"
-									target="_blank"
-									styleClass="button left" title="Nuevo">
-									<span class="icon icon3"></span>
-									<span class="label">Abrir</span>
-						</h:commandLink>
-						
-					</div>
+									<p:watermark value="search for" for="txtBuscar" />
+								</td>
+								<td>
+									<p:commandButton value="buscar"  
+										actionListener="#{personaNaturalClienteMB.buscarCliente()}" 
+										update=":form-resultadoBusqueda"/>
+								</td>
+								<td>
+									<p:selectOneMenu>
+										<f:selectItem itemLabel="Persona natural"/>
+									</p:selectOneMenu>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-				
+			</div>			
+		</h:form>
+						
+		<div class="buttons">
+			<h:form>
+				<div class="tiptip">
+					<h:commandLink styleClass="button left" title="Nuevo Trabajador"
+						onclick="dlgCrearTrabajador.show();return false;">
+						<span class="icon icon3"></span>
+						<span class="label">Nuevo</span>
+					</h:commandLink>
+					
+					<h:link styleClass="button middle" title="Editar Trabajador" outcome="pruebita" target="_blank" >
+				    	<span class="icon icon145"></span>
+						<span class="label">Editar</span>	
+				    	<f:param name="prueba" value="#{personaNaturalClienteMB.personaEdit}" />
+					</h:link>
+
+					<h:commandLink action="#" styleClass="button right"
+						title="Eliminar Trabajador">
+						<span class="icon icon186"></span>
+						<span class="label">Eliminar</span>
+					</h:commandLink>
+				</div>
+				<div class="dropdown">
+					<h:outputLink styleClass="button">
+						<span class="icon icon96">&nbsp;</span>
+						<span class="label">Otros</span>
+						<span class="toggle">&nbsp;</span>
+					</h:outputLink>
+					<div class="dropdown-slider">
+						<h:commandLink action="#" styleClass="ddm">
+							<span class="icon icon96">&nbsp;</span>
+							<span class="label">Vacaciones</span>
+						</h:commandLink>
+						<h:commandLink action="#" styleClass="ddm">
+							<span class="icon icon96">&nbsp;</span>
+							<span class="label">Mas</span>
+						</h:commandLink>
+						<h:commandLink action="#" styleClass="ddm">
+							<span class="icon icon96">&nbsp;</span>
+							<span class="label">Mas</span>
+						</h:commandLink>
+					</div>
+					<!-- /.dropdown-slider -->
+				</div>
+				<!-- /.dropdown -->
 			</h:form>
-		</p:panel>
+		</div>
+
+		<div style="padding: 0px 5px;">
+			<h:form id="form-resultadoBusqueda">
+				<div>
+					<p:dataTable id="table" var="cliente"
+						value="#{personaNaturalClienteMB.tablaClientes.rows}"
+						rowKey="#{cliente}"
+						selection="#{personaNaturalClienteMB.tablaClientes.selectedRow}"
+						selectionMode="single" paginator="true" paginatorPosition="bottom"
+						rows="5" sortBy="#{cliente.personanatural.apellidopaterno}"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,20" widgetVar="tablaCliente"
+						 filteredValue="">
+														
+						<p:ajax event="rowSelect" listener="#{personaNaturalClienteMB.tablaClientes.rowSelect()}"/>   
+						
+						
+						<p:column sortBy="#{cliente.dni}" headerText="DNI">
+							<h:outputText value="#{cliente.dni}" />
+						</p:column>
+
+						<p:column sortBy="#{cliente.personanatural.apellidopaterno}"
+							headerText="Apellido Paterno">
+							<h:outputText value="#{cliente.personanatural.apellidopaterno}" />
+						</p:column>
+
+						<p:column sortBy="#{cliente.personanatural.apellidomaterno}"
+							headerText="APellido Materno">
+							<h:outputText value="#{cliente.personanatural.apellidomaterno}" />
+						</p:column>
+
+						<p:column sortBy="#{cliente.personanatural.nombres}"
+							headerText="Nombres">
+							<h:outputText value="#{cliente.personanatural.nombres}" />
+						</p:column>
+					</p:dataTable>
+
+				</div>
+			</h:form>
+		</div>
+
 	</ui:define>
 </ui:composition>
 </html>

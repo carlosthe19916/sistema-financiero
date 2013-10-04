@@ -6,12 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.NoneScoped;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
@@ -26,18 +22,18 @@ public class PersonaNaturalClienteMB implements Serializable{
 	/**
 	 * 
 	 */
-	private final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 1L;
+
 	@EJB
 	static PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
-	
 	
 	@ManagedProperty(value = "#{tablaMB}")
 	private TablaMB<Personanaturalcliente> tablaClientes;
 	
 	private String valorBusqueda;
-	private Personanaturalcliente selectedPersonaNaturalCliente;
-
+	
+	
+	private Personanaturalcliente personaEdit;
 
 	public PersonaNaturalClienteMB() {
 		setTablaClientes(new TablaMB<Personanaturalcliente>());
@@ -61,20 +57,28 @@ public class PersonaNaturalClienteMB implements Serializable{
 		this.tablaClientes = tablaClientes;
 	}
 	
-	public Personanaturalcliente getSelectedPersonaNaturalCliente() {
-		return selectedPersonaNaturalCliente;
-	}
-
-	public void setSelectedPersonaNaturalCliente(
-			Personanaturalcliente selectedPersonaNaturalCliente) {
-		this.selectedPersonaNaturalCliente = selectedPersonaNaturalCliente;
-	}
-	
 	public void buscarCliente(){
 		Map<String, Object> pa = new HashMap<String, Object>();
 		pa.put("valor","%"+valorBusqueda.toUpperCase()+"%");
 		List<Personanaturalcliente> list = personaNaturalClienteServicesLocal.findByNamedQuery(Personanaturalcliente.OLL,pa);
 		tablaClientes.setRows(list);
+	}
+	
+	public void verCliente(){
+		Personanaturalcliente personanaturalcliente = tablaClientes.getSelectedRow() ;
+		
+		this.personaEdit = personanaturalcliente;
+
+	}
+
+
+	public Personanaturalcliente getPersonaEdit() {
+		return personaEdit;
+	}
+
+
+	public void setPersonaEdit(Personanaturalcliente personaEdit) {
+		this.personaEdit = personaEdit;
 	}
 	
 }

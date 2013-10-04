@@ -14,16 +14,23 @@
 			<div class="sf-header">
 
 				<h1>
-					<a> Sistema Financiero</a>
+					<a href="../../../enterprise/apps/business/" style="color: #63666a;">
+						<img alt="Google" src="//www.google.com/images/logos/google_logo_41.png"/> 
+						Sistema Financiero
+					</a>
 				</h1>
 			</div>
 			<!-- end sf-header -->
 
 			<div class="sf-menu">
 				<ul class="sf-menu-ul">
-					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Pagina
-							Principal</a></li>
-					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Cuenta</a></li>
+					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Pagina Principal</a></li>
+					<li class="sf-menu-ul-li">
+						<h:outputLink value="#{request.contextPath}/faces/views/cuentaPersonal/index.xhtml" styleClass="sf-menu-ul-li-a">Cuentas Personales</h:outputLink>
+					</li>
+					<li class="sf-menu-ul-li">
+						<h:outputLink value="#{request.contextPath}/faces/views/clientes/index.xhtml" styleClass="sf-menu-ul-li-a">Clientes</h:outputLink>
+					</li>
 					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Giros</a></li>
 					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Reportes</a></li>
 				</ul>

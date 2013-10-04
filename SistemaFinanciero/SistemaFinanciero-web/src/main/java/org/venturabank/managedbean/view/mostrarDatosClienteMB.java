@@ -2,20 +2,16 @@ package org.venturabank.managedbean.view;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.inject.Inject;
+import javax.faces.bean.ViewScoped;
 
-import org.ventura.entity.Estadocivil;
-import org.ventura.entity.Sexo;
+import org.ventura.entity.Personanaturalcliente;
 import org.venturabank.managedbean.PersonaNaturalClienteMB;
 import org.venturabank.managedbean.PersonaNaturalMB;
 
 @ManagedBean
-@ConversationScoped
+@ViewScoped
 public class mostrarDatosClienteMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,8 +22,9 @@ public class mostrarDatosClienteMB implements Serializable {
 	@ManagedProperty(value = "#{personaNaturalClienteMB}")
 	private PersonaNaturalClienteMB personaNaturalClienteMB;
 	
-	@Inject
-    private Conversation conversation;
+	private Personanaturalcliente personaEdit;
+	
+	private String prueba;
 	
 	public mostrarDatosClienteMB() {
 		
@@ -50,29 +47,34 @@ public class mostrarDatosClienteMB implements Serializable {
 			PersonaNaturalClienteMB personaNaturalClienteMB) {
 		this.personaNaturalClienteMB = personaNaturalClienteMB;
 	}
-
-	public void beginConversation()
-	   {
-	      if (conversation.isTransient())
-	      {
-	          conversation.begin();
-	      }
-	   }
-	 
-	   public void endConversation()
-	   {
-	      if (!conversation.isTransient())
-	      {
-	          conversation.end();
-	      }
-	   }
 	
 	public void imprimirDatos(){
-		this.personaNaturalMB.setPersonaNatural(this.personaNaturalClienteMB.getSelectedPersonaNaturalCliente().getPersonanatural());
+		System.out.println(prueba);
+		/*this.personaNaturalMB.setPersonaNatural(this.personaNaturalClienteMB.getSelectedPersonaNaturalCliente().getPersonanatural());
 		System.out.println("Llego  recuperar datos");
 		System.out.println(personaNaturalClienteMB.getSelectedPersonaNaturalCliente().getDni());
 		System.out.println(personaNaturalMB.getPersonaNatural().getDni());
-		System.out.println(personaNaturalMB.getPersonaNatural().getNombreCompleto());
+		System.out.println(personaNaturalMB.getPersonaNatural().getNombreCompleto());*/
+	}
+
+
+	public Personanaturalcliente getPersonaEdit() {
+		return personaEdit;
+	}
+
+
+	public void setPersonaEdit(Personanaturalcliente personaEdit) {
+		this.personaEdit = personaEdit;
+	}
+
+
+	public String getPrueba() {
+		return prueba;
+	}
+
+
+	public void setPrueba(String prueba) {
+		this.prueba = prueba;
 	}
 
 }
