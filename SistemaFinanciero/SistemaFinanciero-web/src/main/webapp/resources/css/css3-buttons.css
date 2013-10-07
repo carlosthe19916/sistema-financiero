@@ -317,7 +317,7 @@ button.blue:active .label,button.green:active .label,button.red:active .label,.b
 	$BUTTON ICON
 \*------------------------------------*/
 .ddm span.icon,button span.icon,.button span.icon {
-	background-image: url(images/google+-ui-sprite-gray.png);
+	background-image: url("#{resource['images/google+-ui-sprite-gray.png']}");
 	display: inline-block;
 	margin: 0 7px;
 	float: left;
@@ -335,7 +335,7 @@ button.blue:active .label,button.green:active .label,button.red:active .label,.b
 }
 
 .ddm:hover span.icon,button:hover span.icon,.button:hover span.icon {
-	background-image: url(images/google+-ui-sprite-colour.png);
+	background-image: url("#{resource['images/google+-ui-sprite-colour.png']}");
 }
 
 /*------------------------------------*\
@@ -1168,7 +1168,7 @@ div.dropdown span.toggle {
 	margin-right: 2px;
 	padding-left: 8px;
 	float: right;
-	background: url(images/toggle.png) top right no-repeat;
+	background: url("#{resource['images/toggle.png']}") top right no-repeat;
 	border-left: 1px solid #D9D9D9;
 	-webkit-transition: border-color .20s;
 	-moz-transition: border .20s;
@@ -1177,7 +1177,7 @@ div.dropdown span.toggle {
 }
 
 div.dropdown span.toggle.active {
-	background: url(images/toggle.png) bottom right no-repeat;
+	background: url("#{resource['images/toggle.png']}") bottom right no-repeat;
 }
 
 div.dropdown 
