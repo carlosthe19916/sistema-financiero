@@ -10,7 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="menu")
+@Table(name="menu",schema="seguridad")
 @NamedQuery(name="Menu.findAll", query="SELECT m FROM Menu m")
 public class Menu implements Serializable {
 	private static final long serialVersionUID = 1L;

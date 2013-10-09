@@ -1,38 +1,51 @@
 package org.venturabank.managedbean.session;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.entity.Menu;
 import org.ventura.entity.Usuario;
 
 @Named
 @SessionScoped
 @ManagedBean
-public class UsuarioMB implements Serializable{
+public class UsuarioMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	private Usuario usuario;
-		
-	public void login(){
-		//request.login(username, password);
 
-	    //return "index.jsf?faces-redirect=true";
+	@Inject
+	private Usuario usuario;
+
+	@PostConstruct
+	private void init() {
+		Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+		if (principal != null) {
+			usuario.setUsername(principal.getName());
+		} else {
+			logout();
+		}
 	}
-	
-	public String logout() {
-	    FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-	    return "login?faces-redirect=true";
+
+	public void logout() {
+
+		try {
+			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+			externalContext.invalidateSession();
+			externalContext.redirect(externalContext.getRequestContextPath()
+					+ "/login.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public Usuario getUsuario() {

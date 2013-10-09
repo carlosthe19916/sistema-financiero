@@ -10,7 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="usuario")
+@Table(name="usuario", schema="seguridad")
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -18,6 +18,9 @@ public class Usuario implements Serializable {
 	@Id
 	@Column(unique=true, nullable=false)
 	private Integer idusuario;
+
+	@Column(length=8)
+	private String dnitrabajador;
 
 	@Column(nullable=false)
 	private Boolean estado;
@@ -52,6 +55,14 @@ public class Usuario implements Serializable {
 
 	public void setIdusuario(Integer idusuario) {
 		this.idusuario = idusuario;
+	}
+
+	public String getDnitrabajador() {
+		return this.dnitrabajador;
+	}
+
+	public void setDnitrabajador(String dnitrabajador) {
+		this.dnitrabajador = dnitrabajador;
 	}
 
 	public Boolean getEstado() {

@@ -10,7 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="modulo")
+@Table(name="modulo",schema="seguridad")
 @NamedQuery(name="Modulo.findAll", query="SELECT m FROM Modulo m")
 public class Modulo implements Serializable {
 	private static final long serialVersionUID = 1L;

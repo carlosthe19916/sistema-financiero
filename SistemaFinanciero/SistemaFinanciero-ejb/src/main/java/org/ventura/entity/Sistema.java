@@ -9,7 +9,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="sistema")
+@Table(name="sistema",schema="seguridad")
 @NamedQuery(name="Sistema.findAll", query="SELECT s FROM Sistema s")
 public class Sistema implements Serializable {
 	private static final long serialVersionUID = 1L;
