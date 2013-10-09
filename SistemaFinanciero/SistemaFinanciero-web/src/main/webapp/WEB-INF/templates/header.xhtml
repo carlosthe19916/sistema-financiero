@@ -13,24 +13,46 @@
 		<div>
 			<div class="sf-header">
 
-				<h1>
-					<a href="../../../enterprise/apps/business/" style="color: #63666a;">
-						<img alt="Google" src="//www.google.com/images/logos/google_logo_41.png"/> 
-						Sistema Financiero
-					</a>
-				</h1>
+				<table width="100%">
+					<tbody>
+						<tr>
+							<td class="sf-header-td">
+									<a href="../../../enterprise/apps/business/"
+										style="color: #63666a;"> 
+										<img alt="Google" src="//www.google.com/images/logos/google_logo_41.png" />
+									</a>
+							</td>
+							<td class="sf-header-td">
+								<div class="sf-header-td-right">
+									<ul>
+										<li>
+											<h:outputLabel value="#{usuarioMB.usuario.username}" />
+										</li>
+										<li>
+											<h:form>
+												<h:commandLink value="Cerrar sesión" action="#{usuarioMB.logout()}" />
+											</h:form>
+										</li>
+									</ul>								
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
 			</div>
 			<!-- end sf-header -->
 
 			<div class="sf-menu">
 				<ul class="sf-menu-ul">
-					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Pagina Principal</a></li>
-					<li class="sf-menu-ul-li">
-						<h:outputLink value="#{request.contextPath}/views/cuentaPersonal/index.xhtml" styleClass="sf-menu-ul-li-a">Cuentas Personales</h:outputLink>
-					</li>
-					<li class="sf-menu-ul-li">
-						<h:outputLink value="#{request.contextPath}/views/clientes/index.xhtml" styleClass="sf-menu-ul-li-a">Clientes</h:outputLink>
-					</li>
+					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Pagina
+							Principal</a></li>
+					<li class="sf-menu-ul-li"><h:outputLink
+							value="#{request.contextPath}/views/cuentaPersonal/index.xhtml"
+							styleClass="sf-menu-ul-li-a">Cuentas Personales</h:outputLink></li>
+					<li class="sf-menu-ul-li"><h:outputLink
+							value="#{request.contextPath}/views/clientes/index.xhtml"
+							styleClass="sf-menu-ul-li-a">Clientes</h:outputLink></li>
 					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Giros</a></li>
 					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Reportes</a></li>
 				</ul>
