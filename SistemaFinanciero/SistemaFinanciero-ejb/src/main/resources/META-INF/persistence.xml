@@ -56,6 +56,12 @@
 		<class>org.ventura.entity.Sucursal</class>
 		<class>org.ventura.entity.Cheque</class>
 		<class>org.ventura.entity.Usuario</class>
+		<class>org.ventura.entity.Grupo</class>
+		<class>org.ventura.entity.Menu</class>
+		<class>org.ventura.entity.Modulo</class>
+		<class>org.ventura.entity.Pagina</class>
+		<class>org.ventura.entity.Rol</class>
+		<class>org.ventura.entity.Sistema</class>
 
 		<properties>
 			<!-- Properties for Hibernate -->

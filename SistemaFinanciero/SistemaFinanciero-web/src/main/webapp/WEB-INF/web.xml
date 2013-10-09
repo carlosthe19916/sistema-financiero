@@ -3,7 +3,9 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
-	<display-name>prueba</display-name>
+	<display-name>Sistema Financiero</display-name>
+	
+	
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
@@ -35,16 +37,36 @@
 			<http-method>DELETE</http-method>
 		</web-resource-collection>
 		<auth-constraint>
-			<description>administrator</description>
+			<description>Tiene acceso</description>
 			<role-name>administrator</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<display-name>constraint protected</display-name>
+		<web-resource-collection>
+			<web-resource-name>ventanilla</web-resource-name>
+			<description />
+			<url-pattern>/resources/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>PUT</http-method>
+			<http-method>POST</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Tiene acceso</description>
+			<role-name>ventanilla</role-name>
 		</auth-constraint>
 	</security-constraint>
 	
 	<security-role>
-		<description>administrator</description>
-		<role-name>administrator</role-name>
+		<description>Acesso a todo el Sistema</description>
+		<role-name>administrator</role-name>	
 	</security-role>
-
+	<security-role>
+		<description>Atencion al usuario</description>
+		<role-name>ventanilla</role-name>
+	</security-role>
+	
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>file</realm-name>
@@ -53,4 +75,5 @@
 			<form-error-page>/error.xhtml</form-error-page>
 		</form-login-config>
 	</login-config>
+	
 </web-app>
