@@ -51,8 +51,7 @@ public class UsuarioMB implements Serializable {
 		try {
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			externalContext.invalidateSession();
-			externalContext.redirect(externalContext.getRequestContextPath()
-					+ "/login.xhtml");
+			externalContext.redirect(externalContext.getRequestContextPath()+ "/login.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
