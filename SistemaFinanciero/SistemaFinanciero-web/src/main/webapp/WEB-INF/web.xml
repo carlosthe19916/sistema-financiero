@@ -30,7 +30,7 @@
 		<web-resource-collection>
 			<web-resource-name>administrator</web-resource-name>
 			<description />
-			<url-pattern>/views/*</url-pattern>
+			<url-pattern>/modules/*</url-pattern>
 			<http-method>GET</http-method>
 			<http-method>PUT</http-method>
 			<http-method>POST</http-method>

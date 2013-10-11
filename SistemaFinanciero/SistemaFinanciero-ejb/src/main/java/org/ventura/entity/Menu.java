@@ -1,58 +1,60 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
 
+import javax.persistence.*;
+
+import java.util.List;
 
 /**
  * The persistent class for the menu database table.
  * 
  */
 @Entity
-@Table(name="menu",schema="seguridad")
-@NamedQuery(name="Menu.findAll", query="SELECT m FROM Menu m")
+@Table(name = "menu", schema = "seguridad")
+@NamedQuery(name = "Menu.findAll", query = "SELECT m FROM Menu m")
+@NamedQueries({
+		@NamedQuery(name = Menu.ALL, query = "SELECT m FROM Menu m"),
+		@NamedQuery(name = Menu.ALL_ACTIVE, query = "Select m From Menu m WHERE m.estado=true"),
+		@NamedQuery(name = Menu.ALL_FOR_USER, query = "Select me From Menu me INNER JOIN me.modulo mo INNER JOIN mo.rols r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE me.estado = true AND u.username = :username" ) })
 public class Menu implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
+	public final static String ALL = "org.ventura.model.Menu.ALL";
+	public final static String ALL_ACTIVE = "org.ventura.model.Menu.ALL_ACTIVE";
+	public final static String ALL_FOR_USER = "org.ventura.model.Menu.ALL_FOR_USER";
+
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idmenu;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable=false, length=50)
+	@Column(nullable = false, length = 50)
 	private String nombre;
 
-	@Column(length=500)
+	@Column(length = 500)
 	private String url;
 
-	//bi-directional many-to-one association to Menu
+	// bi-directional many-to-one association to Menu
 	@ManyToOne
-	@JoinColumn(name="idpadre")
+	@JoinColumn(name = "idpadre")
 	private Menu menu;
 
-	//bi-directional many-to-one association to Menu
-	@OneToMany(mappedBy="menu")
+	// bi-directional many-to-one association to Menu
+	@OneToMany(mappedBy = "menu")
 	private List<Menu> menus;
 
-	//bi-directional many-to-one association to Modulo
+	// bi-directional many-to-one association to Modulo
 	@ManyToOne
-	@JoinColumn(name="idmodulo", nullable=false)
+	@JoinColumn(name = "idmodulo", nullable = false)
 	private Modulo modulo;
 
-	//bi-directional many-to-many association to Pagina
+	// bi-directional many-to-many association to Pagina
 	@ManyToMany
-	@JoinTable(
-		name="menu_pagina"
-		, joinColumns={
-			@JoinColumn(name="idmenu", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="idpagina", nullable=false)
-			}
-		)
+	@JoinTable(name = "menu_pagina", schema = "seguridad", joinColumns = { @JoinColumn(name = "idmenu", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idpagina", nullable = false) })
 	private List<Pagina> paginas;
 
 	public Menu() {
@@ -135,5 +137,20 @@ public class Menu implements Serializable {
 	public void setPaginas(List<Pagina> paginas) {
 		this.paginas = paginas;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Menu)) {
+            return false;
+        }
+        // a room can be uniquely identified by it's number and the building it belongs to
+        final Menu other = (Menu) obj;
+        return other.getIdmenu() == idmenu ? true:false;
+	}
+	
+	@Override
+    public int hashCode() {
+        return idmenu;
+    }
 
 }

@@ -16,24 +16,22 @@
 				<table width="100%">
 					<tbody>
 						<tr>
-							<td class="sf-header-td">
-									<a href="../../../enterprise/apps/business/"
-										style="color: #63666a;"> 
-										<img alt="Google" src="//www.google.com/images/logos/google_logo_41.png" />
-									</a>
-							</td>
+							<td class="sf-header-td"><a
+								href="../../../enterprise/apps/business/"
+								style="color: #63666a;"> <img alt="Google"
+									src="//www.google.com/images/logos/google_logo_41.png" />
+							</a></td>
 							<td class="sf-header-td">
 								<div class="sf-header-td-right">
 									<ul>
-										<li>
-											<h:outputLabel value="#{usuarioMB.usuario.username}" />
+										<li><h:outputLabel value="#{usuarioMB.usuario.username}" />
 										</li>
 										<li>
 											<h:form>
 												<h:commandLink value="Cerrar sesión" actionListener="#{usuarioMB.logout()}" />
 											</h:form>
 										</li>
-									</ul>								
+									</ul>
 								</div>
 							</td>
 						</tr>
@@ -44,23 +42,37 @@
 			<!-- end sf-header -->
 
 			<div class="sf-menu">
+
+				<!-- Menu General -->
 				<ul class="sf-menu-ul">
-					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Pagina
-							Principal</a></li>
-					<li class="sf-menu-ul-li"><h:outputLink
-							value="#{request.contextPath}/views/cuentaPersonal/index.xhtml"
-							styleClass="sf-menu-ul-li-a">Cuentas Personales</h:outputLink></li>
-					<li class="sf-menu-ul-li"><h:outputLink
-							value="#{request.contextPath}/views/clientes/index.xhtml"
-							styleClass="sf-menu-ul-li-a">Clientes</h:outputLink></li>
-					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Giros</a></li>
-					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Reportes</a></li>
+					<li class="sf-menu-ul-li">
+						<h:outputLink
+							value="#{request.contextPath}" 
+							styleClass="sf-menu-ul-li-a">Pagina Principal</h:outputLink>
+					</li>
 				</ul>
+
+				<!-- Menu Usuario -->
+				<ul class="sf-menu-ul">
+					<ui:repeat value="#{moduloMB.modulosUsuario}" var="modulo">
+						<li class="sf-menu-ul-li">
+							<h:form>
+								<h:outputLink value="#{request.contextPath}/modules/#{modulo.shortModuleName}/index.xhtml" styleClass="sf-menu-ul-li-a">
+									#{modulo.nombre}
+									<f:param name="module" value="#{modulo.idmodulo}"></f:param>
+								</h:outputLink>
+							</h:form>
+						</li>
+					</ui:repeat>
+				</ul>
+				
+				<!-- Menu Ayuda -->
 				<ul class="sf-menu-ul sf-menu-ul-left">
 					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Ayuda</a></li>
 				</ul>
 			</div>
 			<!-- end sf-menu -->
+
 		</div>
 	</div>
 	<!-- end header -->

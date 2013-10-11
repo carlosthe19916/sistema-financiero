@@ -1,38 +1,39 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
 
+import javax.persistence.*;
+
+import java.util.List;
 
 /**
  * The persistent class for the pagina database table.
  * 
  */
 @Entity
-@Table(name="pagina",schema="seguridad")
-@NamedQuery(name="Pagina.findAll", query="SELECT p FROM Pagina p")
+@Table(name = "pagina", schema = "seguridad")
+@NamedQuery(name = "Pagina.findAll", query = "SELECT p FROM Pagina p")
 public class Pagina implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idpagina;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String descripcion;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String nombre;
 
-	@Column(length=500)
+	@Column(length = 500)
 	private String url;
 
-	//bi-directional many-to-many association to Menu
-	@ManyToMany(mappedBy="paginas")
+	// bi-directional many-to-many association to Menu
+	@ManyToMany(mappedBy = "paginas")
 	private List<Menu> menus;
 
 	public Pagina() {
@@ -86,4 +87,19 @@ public class Pagina implements Serializable {
 		this.menus = menus;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Pagina)) {
+            return false;
+        }
+        // a room can be uniquely identified by it's number and the building it belongs to
+        final Pagina other = (Pagina) obj;
+        return other.getIdpagina() == idpagina ? true:false;
+	}
+	
+	@Override
+    public int hashCode() {
+        return idpagina;
+    }
+	
 }

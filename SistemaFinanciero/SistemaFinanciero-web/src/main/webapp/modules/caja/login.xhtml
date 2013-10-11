@@ -7,14 +7,18 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<ui:composition>
-	<div class="sf-menu-left">
-		<div class="sf-submenu-left">
-			
-			
-		</div>
-	</div>
+
+<h:head>
 
 
-</ui:composition>
+</h:head>
+<h:body>
+
+	<f:metadata>
+		<f:viewParam name="module" value="#{menuMB.prueba}" />
+	</f:metadata>
+
+	<p:commandButton actionListener="#{menuMB.imprimir()}"></p:commandButton>
+
+</h:body>
 </html>

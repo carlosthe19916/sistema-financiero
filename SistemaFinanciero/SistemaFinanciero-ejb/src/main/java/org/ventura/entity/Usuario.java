@@ -4,46 +4,37 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the usuario database table.
  * 
  */
 @Entity
-@Table(name="usuario", schema="seguridad")
-@NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
+@Table(name = "usuario", schema = "seguridad")
+@NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idusuario;
 
-	@Column(length=8)
+	@Column(length = 8)
 	private String dnitrabajador;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
 	private Integer idsucursal;
 
-	@Column(nullable=false, length=500)
+	@Column(nullable = false, length = 500)
 	private String password;
 
-	@Column(nullable=false, length=100)
+	@Column(nullable = false, length = 100)
 	private String username;
 
-	//bi-directional many-to-many association to Grupo
+	// bi-directional many-to-many association to Grupo
 	@ManyToMany
-	@JoinTable(
-		name="usuario_grupo"
-		, joinColumns={
-			@JoinColumn(name="idusuario", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="idgrupo", nullable=false)
-			}
-		)
+	@JoinTable(name = "usuario_grupo", joinColumns = { @JoinColumn(name = "idusuario", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idgrupo", nullable = false) })
 	private List<Grupo> grupos;
 
 	public Usuario() {

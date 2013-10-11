@@ -1,57 +1,58 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
 
+import javax.persistence.*;
+
+import java.util.List;
 
 /**
  * The persistent class for the modulo database table.
  * 
  */
 @Entity
-@Table(name="modulo",schema="seguridad")
-@NamedQuery(name="Modulo.findAll", query="SELECT m FROM Modulo m")
+@Table(name = "modulo", schema = "seguridad")
+@NamedQuery(name = "Modulo.findAll", query = "SELECT m FROM Modulo m")
+@NamedQueries({
+		@NamedQuery(name = Modulo.ALL, query = "Select m From Modulo m"),
+		@NamedQuery(name = Modulo.ALL_ACTIVE, query = "Select m From Modulo m WHERE m.estado=true"),
+		@NamedQuery(name = Modulo.ALL_FOR_USER, query = "Select m From Modulo m INNER JOIN m.rols r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE m.estado = true AND m.modulo = null AND u.username = :username") })
 public class Modulo implements Serializable {
+
+	public final static String ALL = "org.ventura.model.Modulo.ALL";
+	public final static String ALL_ACTIVE = "org.ventura.model.Modulo.ALL_ACTIVE";
+	public final static String ALL_FOR_USER = "org.ventura.model.Modulo.ALL_FOR_USER";
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idmodulo;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String descripcion;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable=false, length=50)
+	@Column(nullable = false, length = 50)
 	private String nombre;
 
-	//bi-directional many-to-one association to Menu
-	@OneToMany(mappedBy="modulo")
+	// bi-directional many-to-one association to Menu
+	@OneToMany(mappedBy = "modulo")
 	private List<Menu> menus;
 
-	//bi-directional many-to-one association to Modulo
+	// bi-directional many-to-one association to Modulo
 	@ManyToOne
-	@JoinColumn(name="idpadre")
+	@JoinColumn(name = "idpadre")
 	private Modulo modulo;
 
-	//bi-directional many-to-one association to Modulo
-	@OneToMany(mappedBy="modulo")
+	// bi-directional many-to-one association to Modulo
+	@OneToMany(mappedBy = "modulo")
 	private List<Modulo> modulos;
 
-	//bi-directional many-to-many association to Rol
+	// bi-directional many-to-many association to Rol
 	@ManyToMany
-	@JoinTable(
-		name="modulo_rol"
-		, joinColumns={
-			@JoinColumn(name="idmodulo", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="idrol", nullable=false)
-			}
-		)
+	@JoinTable(name = "modulo_rol", schema = "seguridad", joinColumns = { @JoinColumn(name = "idmodulo", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idrol", nullable = false) })
 	private List<Rol> rols;
 
 	public Modulo() {
@@ -148,5 +149,36 @@ public class Modulo implements Serializable {
 	public void setRols(List<Rol> rols) {
 		this.rols = rols;
 	}
+
+	public String getShortModuleName() {
+		String shortModuleName = this.nombre;
+
+		final StringBuilder result = new StringBuilder(shortModuleName.length());
+		String[] words = shortModuleName.split("\\s");
+		for (int i = 0, l = words.length; i < l; ++i) {
+			if (i > 0)
+				result.append(" ");
+			result.append(Character.toUpperCase(words[i].charAt(0))).append(words[i].substring(1));
+		}
+		
+		shortModuleName = shortModuleName.replaceAll("\\s","");
+		shortModuleName= shortModuleName.substring(0, 1).toLowerCase() + shortModuleName.substring(1);
+		return shortModuleName;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Modulo)) {
+            return false;
+        }
+        // a room can be uniquely identified by it's number and the building it belongs to
+        final Modulo other = (Modulo) obj;
+        return other.getIdmodulo() == idmodulo ? true:false;
+	}
+	
+	@Override
+    public int hashCode() {
+        return idmodulo;
+    }
 
 }

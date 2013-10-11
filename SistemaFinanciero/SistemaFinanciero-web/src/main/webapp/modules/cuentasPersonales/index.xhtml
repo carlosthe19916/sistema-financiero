@@ -14,16 +14,20 @@
 		<h:outputText value="Apertura Cta. Ahorros" />
 	</ui:define>
 
-	<!-- content -->
-	<ui:define name="menu-left">
-		<ui:include src="/WEB-INF/menus/cuentasMenu.xhtml" />
-	</ui:define>
-
-
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-		
+
+
+		<f:metadata>
+			<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
+			<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+		</f:metadata>
+
+		<p:commandButton actionListener="#{menuMB.imprimir()}"></p:commandButton>
+
 	</ui:define>
+
+
 
 </ui:composition>
 </html>

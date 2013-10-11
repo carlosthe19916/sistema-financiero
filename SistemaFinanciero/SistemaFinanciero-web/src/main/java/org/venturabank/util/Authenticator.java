@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebFilter("/views*")
+@WebFilter("/modules/*")
 public class Authenticator implements Filter{
 
     @Override

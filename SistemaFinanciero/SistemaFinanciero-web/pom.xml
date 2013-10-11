@@ -123,13 +123,7 @@
 			<version>1.0.9</version>
 		</dependency>
 
-		<!-- JSF repositorie -->
-		<dependency>
-			<groupId>javax.faces</groupId>
-			<artifactId>jsf-api</artifactId>
-			<version>2.0</version>
-			<scope>provided</scope>
-		</dependency>
+	
 
 		<dependency>
 			<groupId>javax</groupId>
