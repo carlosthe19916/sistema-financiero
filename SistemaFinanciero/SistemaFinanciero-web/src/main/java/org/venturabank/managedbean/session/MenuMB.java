@@ -76,13 +76,6 @@ public class MenuMB {
 			menuFinalMap.get(menu.getMenu()).add(menu);
 		}
 		
-		/*List<Menu> MenuFinalList = new ArrayList<Menu>();
-		
-		for (Map.Entry<Menu, List<Menu>> entry : menuFinalMap.entrySet()) {
-			MenuFinalList.add(entry.getKey());
-			MenuFinalList
-		}
-		*/
 		return menuFinalMap;
 		
 	}

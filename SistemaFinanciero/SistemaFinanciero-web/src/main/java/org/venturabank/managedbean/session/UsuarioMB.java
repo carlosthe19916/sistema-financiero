@@ -24,6 +24,7 @@ public class UsuarioMB implements Serializable {
 	@Inject
 	private Usuario usuario;
 	
+	
 	@PostConstruct
 	private void init() {
 		Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
@@ -39,8 +40,7 @@ public class UsuarioMB implements Serializable {
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			externalContext.invalidateSession();
 			externalContext.redirect(externalContext.getRequestContextPath() + "/login.xhtml");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException e) {			
 			e.printStackTrace();
 		}
 	}

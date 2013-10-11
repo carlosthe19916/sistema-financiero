@@ -10,10 +10,10 @@
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
 	<f:metadata>
-			<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
-			<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
-		</f:metadata>
-		
+		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
+		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+	</f:metadata>
+
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
 		<h:outputText value="Apertura Cta. Ahorros" />
@@ -21,7 +21,7 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-		
+
 		<div class="sf-content-cabecera">
 			<h2>Aperturar Cuenta de Ahorros</h2>
 		</div>
@@ -30,8 +30,7 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td>
-						<h:form>
+					<td><h:form>
 							<p:selectOneMenu
 								value="#{aperturarCuentaAhorrosMB.comboTipoPersona.itemSelected}">
 								<f:selectItems
@@ -39,14 +38,13 @@
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
 								<p:ajax update=":panelDatos"></p:ajax>
 							</p:selectOneMenu>
-						</h:form>
-					</td>
+						</h:form></td>
 				</tr>
 			</table>
 		</div>
 
 
-			
+
 		<h:panelGroup id="panelDatos">
 
 			<!-- PersonaNatural -->
@@ -58,8 +56,9 @@
 			<ui:include src="/modules/maestros/personaNaturalDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated" value=":personaNatural,:titulares" />
-			</ui:include>		
+				<ui:param name="componentToUpdated"
+					value=":personaNatural,:titulares" />
+			</ui:include>
 			<!-- end PersonaNatural -->
 
 
@@ -72,7 +71,8 @@
 			<ui:include src="/modules/maestros/personaJuridicaDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
 				<ui:param name="componentName" value="dlgPersonaJuridica" />
-				<ui:param name="componentToUpdated" value="personaJuridica,:titulares" />
+				<ui:param name="componentToUpdated"
+					value="personaJuridica,:titulares" />
 			</ui:include>
 			<!-- end Persona Juridica -->
 
@@ -102,7 +102,7 @@
 				<ui:param name="componentToUpdated" value=":titulares" />
 			</ui:include>
 			<!-- end Titulares -->
-			
+
 			<!-- Beneficiarios -->
 			<ui:include src="/modules/maestros/beneficiariosResumen.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
@@ -122,8 +122,8 @@
 		<div class="sf-buttons">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
-				<p:commandButton value="Guardar" 
-					action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"  
+				<p:commandButton value="Guardar"
+					action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"
 					update="messages,:panelDatos" styleClass="action green">
 				</p:commandButton>
 
