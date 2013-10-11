@@ -19,6 +19,9 @@
 		<ui:include src="/WEB-INF/menus/cuentasMenu.xhtml" />
 	</ui:define>
 
+	<f:metadata>
+		<f:viewParam name="prueba" value="#{mostrarDatosClienteMB.personaEdit.dni}" />
+	</f:metadata>
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
@@ -41,7 +44,6 @@
 		<div class="sf-buttons">
 			<h:form>
 				<p:commandButton update=":panelDatos" value="Aceptar" styleClass="action green"/>
-				<p:commandButton value="Probar" action="#{mostrarDatosClienteMB.imprimirDatos()}" styleClass="action" />
 			</h:form>
 		</div>
 	</ui:define>

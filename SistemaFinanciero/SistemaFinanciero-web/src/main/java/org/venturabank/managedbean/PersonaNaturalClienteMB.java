@@ -32,14 +32,12 @@ public class PersonaNaturalClienteMB implements Serializable{
 	
 	private String valorBusqueda;
 	
-	
 	private Personanaturalcliente personaEdit;
 
 	public PersonaNaturalClienteMB() {
 		setTablaClientes(new TablaMB<Personanaturalcliente>());
 		valorBusqueda = new String();
 	}
-	
 	
 	public String getValorBusqueda() {
 		return valorBusqueda;
@@ -66,19 +64,14 @@ public class PersonaNaturalClienteMB implements Serializable{
 	
 	public void verCliente(){
 		Personanaturalcliente personanaturalcliente = tablaClientes.getSelectedRow() ;
-		
 		this.personaEdit = personanaturalcliente;
-
 	}
-
 
 	public Personanaturalcliente getPersonaEdit() {
 		return personaEdit;
 	}
 
-
 	public void setPersonaEdit(Personanaturalcliente personaEdit) {
 		this.personaEdit = personaEdit;
 	}
-	
 }
