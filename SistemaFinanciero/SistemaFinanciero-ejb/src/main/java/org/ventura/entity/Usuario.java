@@ -1,7 +1,9 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 /**
@@ -24,17 +26,19 @@ public class Usuario implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	private Integer idsucursal;
-
 	@Column(nullable = false, length = 500)
 	private String password;
 
 	@Column(nullable = false, length = 100)
 	private String username;
 
+	@ManyToOne
+	@JoinColumn(name = "dnitrabajador", insertable = false, updatable = false)
+	private Trabajador trabajador;
+	
 	// bi-directional many-to-many association to Grupo
 	@ManyToMany
-	@JoinTable(name = "usuario_grupo", joinColumns = { @JoinColumn(name = "idusuario", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idgrupo", nullable = false) })
+	@JoinTable(name = "usuario_grupo",schema="seguridad" , joinColumns = { @JoinColumn(name = "idusuario", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idgrupo", nullable = false) })
 	private List<Grupo> grupos;
 
 	public Usuario() {
@@ -62,14 +66,6 @@ public class Usuario implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public Integer getIdsucursal() {
-		return this.idsucursal;
-	}
-
-	public void setIdsucursal(Integer idsucursal) {
-		this.idsucursal = idsucursal;
 	}
 
 	public String getPassword() {
