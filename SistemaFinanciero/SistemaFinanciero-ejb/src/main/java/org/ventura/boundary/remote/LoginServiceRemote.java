@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.ejb.Remote;
 
+import org.ventura.entity.Cuentaplazofijo;
 import org.ventura.entity.Menu;
 import org.ventura.entity.Modulo;
 import org.ventura.entity.Rol;
@@ -20,5 +21,5 @@ public interface LoginServiceRemote {
 	
 	public Collection<Menu> getMenu(Usuario usuario);
 	
-
+	public Usuario findUserByNamedQuery(Usuario usuario);
 }

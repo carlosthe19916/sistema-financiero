@@ -2,6 +2,8 @@ package org.ventura.control;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
@@ -15,6 +17,7 @@ import org.ventura.boundary.local.LoginServiceLocal;
 import org.ventura.boundary.remote.LoginServiceRemote;
 import org.ventura.dao.impl.MenuDAO;
 import org.ventura.dao.impl.ModuloDAO;
+import org.ventura.dao.impl.UsuarioDAO;
 import org.ventura.entity.Menu;
 import org.ventura.entity.Modulo;
 import org.ventura.entity.Rol;
@@ -31,6 +34,9 @@ public class LoginServiceBean implements LoginServiceLocal {
 
 	@EJB
 	private MenuDAO menuDAO;
+	
+	@EJB
+	private UsuarioDAO usuarioDAO;
 	
 	@Override
 	public Usuario login(Usuario usuario) {
@@ -71,6 +77,23 @@ public class LoginServiceBean implements LoginServiceLocal {
 	public Collection<Menu> findMenuByNamedQuery(String queryName) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Usuario findUserByNamedQuery(Usuario usuario) {
+		
+		Usuario user = null;
+		
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("username", usuario.getUsername());
+
+		List<Usuario> list = usuarioDAO.findByNamedQuery(Usuario.FIND_USER,parameters);
+		
+		for (Iterator<Usuario> iterator = list.iterator(); iterator.hasNext();) {
+			user = iterator.next();			
+		}
+		
+		return user;
 	}
 
 }

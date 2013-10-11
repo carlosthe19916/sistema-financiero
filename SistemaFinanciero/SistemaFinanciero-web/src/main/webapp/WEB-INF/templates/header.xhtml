@@ -23,9 +23,18 @@
 							</a></td>
 							<td class="sf-header-td">
 								<div class="sf-header-td-right">
-									<ul>										
+									<ul>	
 										<li>
-											<h:outputLabel value="#{usuarioMB.usuario.username}" />										
+											<h:outputLabel value="Usuario:" />											
+											<h:outputLabel value="#{usuarioMB.usuario.username}" styleClass="sf-label-bold"/>										
+										</li>									
+										<li>
+											<h:outputLabel value="Trabajador:" />											
+											<h:outputLabel value="#{usuarioMB.usuario.trabajador.personanatural.nombreCompleto}" styleClass="sf-label-bold"/>										
+										</li>
+										<li>			
+											<h:outputLabel value="Sucursal:" />										
+											<h:outputLabel value="#{usuarioMB.usuario.trabajador.sucursal.denominacion}" styleClass="sf-label-bold"/>										
 										</li>
 										<li>
 											<h:form>

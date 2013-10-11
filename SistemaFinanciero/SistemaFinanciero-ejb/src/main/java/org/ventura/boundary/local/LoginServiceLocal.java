@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import org.ventura.boundary.remote.LoginServiceRemote;
 import org.ventura.entity.Menu;
 import org.ventura.entity.Rol;
+import org.ventura.entity.Usuario;
 
 @Local
 public interface LoginServiceLocal extends LoginServiceRemote {
@@ -15,4 +16,5 @@ public interface LoginServiceLocal extends LoginServiceRemote {
 
 	public Collection<Menu> findMenuByNamedQuery(String queryName);
 
+	public Usuario findUserByNamedQuery(Usuario usuario);
 }
