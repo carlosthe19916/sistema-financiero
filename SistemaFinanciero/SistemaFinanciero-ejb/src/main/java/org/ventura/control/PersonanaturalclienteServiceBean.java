@@ -32,7 +32,7 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 	}
 
 	@Override
-	public Personanaturalcliente find(Integer id) {		
+	public Personanaturalcliente find(Object id) {		
 		return oPersonanaturalclienteDAO.find(id);
 	}
 

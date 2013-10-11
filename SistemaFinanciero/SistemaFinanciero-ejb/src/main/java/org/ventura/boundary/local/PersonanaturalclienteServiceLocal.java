@@ -15,7 +15,7 @@ public interface PersonanaturalclienteServiceLocal extends Personanaturalcliente
 	
 	public Personanaturalcliente create(Personanaturalcliente oPersonanaturalcliente);
 
-	public Personanaturalcliente find(Integer id);
+	public Personanaturalcliente find(Object id);
 
 	public void delete(Personanaturalcliente oPersonanaturalcliente);
 

@@ -8,25 +8,32 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
-<h:head>
-
-	
-
-</h:head>
-
 <h:body>
 
-	<f:metadata>
-		<f:viewParam name="prueba" value="#{mostrarDatosClienteMB.personaEdit}" />
-	</f:metadata>
-	
+	<table width="100%">
+		<tbody>
+			<tr>
+				<td><p:outputLabel value="DNI:" /></td>
+				<td><p:outputLabel
+						value="#{mostrarDatosClienteMB.personaEdit.dni}"
+						styleClass="sf-label-bold" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel value="Apellidos y Nombres:" /></td>
+				<td><p:outputLabel
+						value="#{mostrarDatosClienteMB.personaEdit.personanatural.nombreCompleto}" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
 	<h:form>
-
 		<p:commandButton value="actualizar"
-			actionListener="#{mostrarDatosClienteMB.imprimirDatos()}"
+			actionListener="#"
 			update="apellido"></p:commandButton>
-
-		<h:outputLabel id="apellido" value="#{mostrarDatosClienteMB.personaEdit}" />
+		<h:outputLabel id="apellido" value="#{mostrarDatosClienteMB.personaEdit.dni}" />
 	</h:form>
 
 </h:body>
