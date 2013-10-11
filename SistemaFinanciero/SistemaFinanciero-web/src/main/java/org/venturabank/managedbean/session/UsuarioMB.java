@@ -18,39 +18,42 @@ import org.ventura.entity.Usuario;
 
 @Named
 @SessionScoped
-@ManagedBean(name="usuarioMB")
+@ManagedBean(name = "usuarioMB")
 public class UsuarioMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private LoginServiceLocal loginServiceLocal;
-	
+
 	@Inject
 	private Usuario usuario;
-	
-	
+
 	@PostConstruct
 	private void init() {
 		Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
 		if (principal != null) {
-			usuario.setUsername(principal.getName());	
-			usuario = loginServiceLocal.findUserByNamedQuery(usuario);
+
+			Usuario user = null;
+
+			usuario.setUsername(principal.getName());
+			user = loginServiceLocal.findUserByNamedQuery(usuario);
 			
-			if(usuario == null){
-				System.out.println("ffff");
+			if (user != null) {
+				usuario = user;
 			}
 		} else {
 			logout();
 		}
 	}
-	
+
 	public void logout() {
 		try {
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			externalContext.invalidateSession();
-			externalContext.redirect(externalContext.getRequestContextPath() + "/login.xhtml");
-		} catch (IOException e) {			
+			externalContext.redirect(externalContext.getRequestContextPath()
+					+ "/login.xhtml");
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
