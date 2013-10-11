@@ -62,6 +62,7 @@
 		<class>org.ventura.entity.Pagina</class>
 		<class>org.ventura.entity.Rol</class>
 		<class>org.ventura.entity.Sistema</class>
+		<class>org.ventura.entity.Trabajador</class>
 
 		<properties>
 			<!-- Properties for Hibernate -->
