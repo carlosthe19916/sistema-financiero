@@ -21,7 +21,7 @@ public class mostrarDatosClienteMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	static PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
+	private PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
 	
 	@ManagedProperty(value = "#{personaNaturalMB}")
 	private PersonaNaturalMB personaNaturalMB;
@@ -30,8 +30,6 @@ public class mostrarDatosClienteMB implements Serializable {
 	private PersonaNaturalClienteMB personaNaturalClienteMB;
 	
 	private Personanaturalcliente personaEditar;
-	
-	private String prueba;
 	
 	public mostrarDatosClienteMB() {
 		personaEditar = new Personanaturalcliente();
@@ -54,23 +52,20 @@ public class mostrarDatosClienteMB implements Serializable {
 		this.personaNaturalClienteMB = personaNaturalClienteMB;
 	}
 
-	public Personanaturalcliente getPersonaEdit() {
+	public Personanaturalcliente getPersonaEditar() {
 		return personaEditar;
 	}
 
-	public void setPersonaEdit(Personanaturalcliente personaEdit) {
-		this.personaEditar = personaEdit;
-	}
-
-	public String getPrueba() {
-		return prueba;
-	}
-
-	public void setPrueba(String prueba) {
-		this.prueba = prueba;
+	public void setPersonaEditar(Personanaturalcliente personaEditar) {
+		this.personaEditar = personaEditar;
 	}
 	
-	public void mostrarPersonaNaturalCliente(){
+	public void cargarDatosPersonaNaturalCliente(){
 		personaEditar = personaNaturalClienteServicesLocal.find(personaEditar.getDni());
+	}
+	
+	public void imprimir(){
+		System.out.println(personaEditar.getDni());
+		System.out.println(personaEditar.getPersonanatural().getNombreCompleto());
 	}
 }

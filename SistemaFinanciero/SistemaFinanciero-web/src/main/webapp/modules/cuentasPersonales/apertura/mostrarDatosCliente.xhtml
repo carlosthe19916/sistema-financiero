@@ -9,43 +9,85 @@
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
+	<f:metadata>
+		<f:viewParam name="dni" value="#{mostrarDatosClienteMB.personaEditar.dni}" />
+		<f:event listener="#{mostrarDatosClienteMB.cargarDatosPersonaNaturalCliente()}" type="preRenderView"></f:event>
+	</f:metadata>
+
+	<f:metadata>
+		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
+		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+	</f:metadata>
+
+
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
 		<h:outputText value="Apertura Cta. Ahorros" />
 	</ui:define>
 
-	<!-- content -->
-	<ui:define name="menu-left">
-		<ui:include src="/WEB-INF/menus/cuentasMenu.xhtml" />
-	</ui:define>
-
-	<f:metadata>
-		<f:viewParam name="prueba" value="#{mostrarDatosClienteMB.personaEdit.dni}" />
-	</f:metadata>
-
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
 
 		<div class="sf-content-cabecera">
-			<h2>Actualizar Persona Natural</h2>
+			<h2>Datos del Cliente</h2>
 		</div>
 
-		<h:panelGroup id="panelDatos">
-			<!-- PersonaNatural -->
-			<ui:include src="/views/maestros/pruebita.xhtml">
-				<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
-				<ui:param name="componentName" value="personaNatural" />
-				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
-			</ui:include>
-			
-			<!-- end PersonaNatural -->
+		<h:panelGroup id="panelDatosCliente">
+			<h:panelGrid columns="2">
+				<p:outputPanel>
+					<!-- Datos Personales Cliente-->
+					<ui:include
+						src="/modules/cuentasPersonales/apertura/pruebita.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						<ui:param name="componentName" value="personaNaturalCliente" />
+						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+					</ui:include>
+					<ui:include src="/modules/maestros/personaNaturalDialog.xhtml">
+						<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
+						<ui:param name="componentName" value="dlgPersonaNatural" />
+						<ui:param name="componentToUpdated" value=":personaNaturalCliente" />
+					</ui:include>
+					<!-- End Datos Personales Cliente-->
+				</p:outputPanel>
+				<p:outputPanel>
+					<!-- Cuenta de Aporte Cliente-->
+					<ui:include
+						src="/modules/cuentasPersonales/apertura/pruebita.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						<ui:param name="componentName" value="aporte1" />
+						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+					</ui:include>
+					<!-- End Cuenta de Aporte Cliente-->
+				</p:outputPanel>
+				<p:outputPanel>
+					<!-- Otras Cuentas Cliente-->
+					<ui:include
+						src="/modules/cuentasPersonales/apertura/pruebita.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						<ui:param name="componentName" value="aporte2" />
+						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+					</ui:include>
+					<!-- End Otras Cuentas Cliente-->
+				</p:outputPanel>
+				<p:outputPanel>
+					<!-- Cuenta Creditos Cliente-->
+					<ui:include
+						src="/modules/cuentasPersonales/apertura/pruebita.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						<ui:param name="componentName" value="aporte3" />
+						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+					</ui:include>
+					<!-- End Creditos Cliente-->
+				</p:outputPanel>
+			</h:panelGrid>
 		</h:panelGroup>
 
 		<div class="sf-buttons">
 			<h:form>
-				<p:commandButton update=":panelDatos" value="Aceptar" styleClass="action green"/>
+				<p:commandButton value="Aceptar" actionListener="#{mostrarDatosClienteMB.imprimir()}" styleClass="action green" />
 			</h:form>
 		</div>
+
 	</ui:define>
 </ui:composition>
 </html>

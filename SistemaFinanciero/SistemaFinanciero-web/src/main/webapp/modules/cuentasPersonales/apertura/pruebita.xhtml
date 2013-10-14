@@ -7,34 +7,107 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
+<ui:composition>
 
-<h:body>
-
-	<table width="100%">
-		<tbody>
-			<tr>
-				<td><p:outputLabel value="DNI:" /></td>
-				<td><p:outputLabel
-						value="#{mostrarDatosClienteMB.personaEdit.dni}"
-						styleClass="sf-label-bold" /></td>
-			</tr>
-			<tr>
-				<td><p:outputLabel value="Apellidos y Nombres:" /></td>
-				<td><p:outputLabel
-						value="#{mostrarDatosClienteMB.personaEdit.personanatural.nombreCompleto}" />
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
-
-
-	<h:form>
-		<p:commandButton value="actualizar"
-			actionListener="#"
-			update="apellido"></p:commandButton>
-		<h:outputLabel id="apellido" value="#{mostrarDatosClienteMB.personaEdit.dni}" />
-	</h:form>
-
-</h:body>
+	<h:panelGroup id="#{componentName}">
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				
+				<h:form>
+					<p:commandLink value="Editar" oncomplete="#{editarOutputDialog}.show();return false;"></p:commandLink>
+				</h:form>
+		
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Datos Personales</h3>
+				</div>		
+				<div class="sf-agrupador-content-table">
+					<table>
+						<tbody>
+							<tr>
+								<td style="min-width: 180px;">
+									<p:outputLabel value="DNI:" />
+								</td>
+								<td style="min-width: 180px;">
+									<p:outputLabel value="#{managedBean.personaEditar.dni}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Apellidos y Nombres:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.personaEditar.personanatural.nombreCompleto}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Fecha Nacimiento:" />
+								</td>
+								<td>
+									<h:outputText value="#{managedBean.personaEditar.personanatural.fechanacimiento}" styleClass="sf-label-bold" >
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText>									
+								</td>
+								<td>
+									<p:outputLabel value="Sexo:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.personaEditar.personanatural.sexo.denominacion}" styleClass="sf-label-bold" />
+								</td>
+							</tr>	
+							<tr>
+								<td>
+									<p:outputLabel value="Estado Civil:" />
+								</td>
+								<td><p:outputLabel value="#{managedBean.personaEditar.personanatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>
+								<td>
+									<p:outputLabel value="Ocupación:" />
+								</td>
+								<td><p:outputLabel value="#{managedBean.personaEditar.personanatural.ocupacion}" styleClass="sf-label-bold" /></td>
+							</tr>						
+							<tr>
+								<td>
+									<p:outputLabel value="Dirección:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.personaEditar.personanatural.direccion}" styleClass="sf-label-bold" /></td>
+								<td>
+									<p:outputLabel value="Referencia:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.personaEditar.personanatural.referencia}" styleClass="sf-label-bold" />
+								</td>
+							</tr>							
+							<tr>
+								<td>
+									<p:outputLabel value="Teléfono:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.personaEditar.personanatural.telefono}" styleClass="sf-label-bold" />
+								</td>
+								<td>
+									<p:outputLabel value="Celular:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.personaEditar.personanatural.celular}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Email:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.personaEditar.personanatural.email}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</h:panelGroup>
+	
+</ui:composition>
 </html>
