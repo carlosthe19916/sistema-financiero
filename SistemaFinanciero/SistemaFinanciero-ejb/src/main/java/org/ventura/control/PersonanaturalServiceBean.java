@@ -10,11 +10,17 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.PersonanaturalServiceRemote;
 import org.ventura.dao.impl.PersonanaturalDAO;
 import org.ventura.entity.Personanatural;
+import org.ventura.util.exception.IllegalEntityException;
+import org.ventura.util.exception.NonexistentEntityException;
+import org.ventura.util.exception.PreexistingEntityException;
+import org.ventura.util.exception.RollbackFailureException;
+import org.ventura.util.logger.Log;
 
 @Stateless
 @Local(PersonanaturalServiceLocal.class)
@@ -22,48 +28,130 @@ import org.ventura.entity.Personanatural;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 
+	@Inject
+	private Log log;
+
 	@EJB
 	private PersonanaturalDAO oPersonanaturalDAO;
 
 	@Override
 	public Personanatural create(Personanatural oPersonanatural) {
-		oPersonanaturalDAO.create(oPersonanatural);
+		try {
+			oPersonanaturalDAO.create(oPersonanatural);
+		} catch (PreexistingEntityException e) {
+			log.error("ERROR:" + e.getMessage());
+			log.error("Caused by:" + e.getCause());
+		} catch (IllegalEntityException e) {
+			log.error("ERROR:" + e.getMessage());
+			log.error("Caused by:" + e.getCause());
+		} catch (RollbackFailureException e) {
+			log.error("ERROR:" + e.getMessage());
+			log.error("Caused by:" + e.getCause());
+		} catch (Exception e) {
+			log.error("ERROR:" + e.getMessage());
+			log.error("Caused by:" + e.getCause());
+		}
 		return oPersonanatural;
 	}
 
 	@Override
-	public Personanatural find(Object id) {		
-		return oPersonanaturalDAO.find(id);
+	public Personanatural find(Object id) {
+		Personanatural Personanatural = null;
+		try {
+			Personanatural = oPersonanaturalDAO.find(id);
+		} catch (NonexistentEntityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Personanatural;
 	}
 
 	@Override
 	public void delete(Personanatural oPersonanatural) {
-		oPersonanaturalDAO.delete(oPersonanatural);
+		try {
+			oPersonanaturalDAO.delete(oPersonanatural);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public Personanatural update(Personanatural oPersonanatural) {		
-		return oPersonanaturalDAO.update(oPersonanatural);
+	public Personanatural update(Personanatural oPersonanatural) {
+		Personanatural Personanatural = null;
+		try {
+			Personanatural = oPersonanaturalDAO.update(oPersonanatural);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Personanatural;
 	}
 
 	@Override
-	public Collection<Personanatural> findByNamedQuery(String queryName) {		
-		return oPersonanaturalDAO.findByNamedQuery(queryName);
+	public Collection<Personanatural> findByNamedQuery(String queryName) {
+		Collection<Personanatural> collection = null;
+		try {
+			collection = oPersonanaturalDAO.findByNamedQuery(queryName);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return collection;
 	}
 
 	@Override
 	public Collection<Personanatural> findByNamedQuery(String queryName, int resultLimit) {
-		return oPersonanaturalDAO.findByNamedQuery(queryName, resultLimit);
+		Collection<Personanatural> collection = null;
+		try {
+			collection = oPersonanaturalDAO.findByNamedQuery(queryName, resultLimit);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return collection;
 	}
 
 	@Override
-	public List<Personanatural> findByNamedQuery(String Personanatural, Map<String, Object> parameters) {
-		return oPersonanaturalDAO.findByNamedQuery(Personanatural, parameters);
+	public List<Personanatural> findByNamedQuery(String Personanatural,
+			Map<String, Object> parameters) {
+		List<Personanatural> list = null;
+		try {
+			list = oPersonanaturalDAO.findByNamedQuery(Personanatural, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	@Override
-	public List<Personanatural> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) {
-		return oPersonanaturalDAO.findByNamedQuery(namedQueryName, parameters);
+	public List<Personanatural> findByNamedQuery(String namedQueryName,
+			Map<String, Object> parameters, int resultLimit) {
+		List<Personanatural> list = null;
+		try {
+			list = oPersonanaturalDAO.findByNamedQuery(namedQueryName, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 
 }

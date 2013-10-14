@@ -13,6 +13,6 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
 
 	<alternatives>
-		<class>org.ventural.util.logger.DelegatingLogger</class>
+		<class>org.ventura.util.logger.DelegatingLogger</class>
 	</alternatives>
 </beans>

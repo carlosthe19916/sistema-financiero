@@ -22,6 +22,7 @@ import org.ventura.entity.Menu;
 import org.ventura.entity.Modulo;
 import org.ventura.entity.Rol;
 import org.ventura.entity.Usuario;
+import org.ventura.util.exception.RollbackFailureException;
 
 @Stateless
 @Local(LoginServiceLocal.class)
@@ -55,7 +56,15 @@ public class LoginServiceBean implements LoginServiceLocal {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("username", usuario.getUsername());
 
-		return moduloDAO.findByNamedQuery(Modulo.ALL_FOR_USER, parameters);
+		List<Modulo> result = null;
+		try {
+			result = moduloDAO.findByNamedQuery(Modulo.ALL_FOR_USER, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -63,7 +72,16 @@ public class LoginServiceBean implements LoginServiceLocal {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("username", usuario.getUsername());
 
-		return menuDAO.findByNamedQuery(Menu.ALL_FOR_USER, parameters);
+		List<Menu> result = null;
+		
+		try {
+			result = menuDAO.findByNamedQuery(Menu.ALL_FOR_USER, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 		
 	}
 
@@ -87,7 +105,13 @@ public class LoginServiceBean implements LoginServiceLocal {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("username", usuario.getUsername());
 
-		List<Usuario> list = usuarioDAO.findByNamedQuery(Usuario.FIND_USER,parameters);
+		List<Usuario> list = null;
+		try {
+			list = usuarioDAO.findByNamedQuery(Usuario.FIND_USER,parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		for (Iterator<Usuario> iterator = list.iterator(); iterator.hasNext();) {
 			user = iterator.next();			

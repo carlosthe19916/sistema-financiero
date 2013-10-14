@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.ventura.dao;
 
 import java.util.List;
@@ -16,8 +12,11 @@ import javax.persistence.TransactionRequiredException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.ventura.util.exception.IllegalEntityException;
+import org.ventura.util.exception.NonexistentEntityException;
+import org.ventura.util.exception.PreexistingEntityException;
+import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
-
 
 public abstract class AbstractDAO<T> {
 
@@ -31,155 +30,126 @@ public abstract class AbstractDAO<T> {
 
 	protected abstract Log getLogger();
 
-	public void create(T entity) {
+	public void create(T entity) throws PreexistingEntityException, IllegalEntityException, RollbackFailureException, Exception {
 		try {
 			getEntityManager().persist(entity);
-		} catch (EntityExistsException e) {
-			getLogger().error(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			getLogger().error(e.getMessage());
-		} catch (TransactionRequiredException e) {
-			getLogger().error(e.getMessage());
-		} catch (Exception e) {
-			getLogger().error(e.getMessage());
-		} finally {
-			getLogger().info("Entity " + entityClass + " successfull persist");
+		} catch (EntityExistsException exception) {
+			throw new PreexistingEntityException("Entity: " + entity + " already exists", exception);
+		} catch (IllegalArgumentException  exception) {
+			throw new IllegalEntityException("Entity: " + entity + " illegal entity", exception);
+		} catch (TransactionRequiredException  exception) {
+			throw exception;
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + entity + " was Rolled Back: create exception", exception);
 		}
 	}
 
-	public void delete(T entity) {
+	public void delete(T entity) throws IllegalEntityException, TransactionRequiredException, RollbackFailureException, Exception{
 		try {
 			getEntityManager().remove(getEntityManager().merge(entity));
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error("VENTURA BANK " + e.getMessage());
-		} finally {
-			// getEntityManager().close();
+		} catch (IllegalArgumentException  exception) {
+			throw new IllegalEntityException("Entity: " + entity + " illegal entity", exception);
+		} catch (TransactionRequiredException  exception) {
+			throw exception;
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + entity + " was Rolled Back: delete exception", exception);
 		}
 	}
 
-	public T find(Object id) {
+	public T find(Object id) throws IllegalEntityException, NonexistentEntityException, Exception {
 		T t = null;
 		try {
 			t = getEntityManager().find(entityClass, id);
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error(e.getMessage());
-		} finally {
-			// getEntityManager().close();
+		} catch (IllegalArgumentException  exception) {
+			throw new IllegalEntityException("Entity with Id: " + id + " is not a valid Key", exception);
+		}  catch (Exception exception) {
+			throw new NonexistentEntityException("Entity with Id: " + id + " was not found", exception);
 		}
-
 		return t;
 	}
 
-	public T update(T entity) {
+	public T update(T entity) throws RollbackFailureException, Exception {
 		T t = null;
 		try {
 			t = getEntityManager().merge(entity);
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error(e.getMessage());
-		} finally {
-			// getEntityManager().close();
+		} catch (IllegalArgumentException  exception) {
+			throw new IllegalEntityException("Entity: " + entity + " illegal entity", exception);
+		} catch (TransactionRequiredException  exception) {
+			throw exception;
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + entity + " was Rolled Back: update exception", exception);
 		}
-
 		return t;
 	}
 
-	public List<T> findAll() {
+	public List<T> findAll() throws RollbackFailureException, Exception {
 		List<T> list = null;
 		try {
-			CriteriaQuery cq = getEntityManager().getCriteriaBuilder()
-					.createQuery();
+			CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 			cq.select(cq.from(entityClass));
 			list = getEntityManager().createQuery(cq).getResultList();
-
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error(e.getMessage());
-		} finally {
-			// getEntityManager().close();
+		} catch (IllegalArgumentException  exception) {
+			throw new IllegalEntityException("Entity with class: " + getClass() + " is not a valid class", exception);
+		}  catch (Exception exception) {
+			throw new NonexistentEntityException("Entity with class: " + getClass() + " was not found", exception);
 		}
 
 		return list;
 
 	}
 
-	public List<T> findRange(int[] range) {
+	public List<T> findRange(int[] range) throws RollbackFailureException, Exception {
 		List<T> list = null;
 		try {
-			javax.persistence.criteria.CriteriaQuery cq = getEntityManager()
-					.getCriteriaBuilder().createQuery();
+			javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 			cq.select(cq.from(entityClass));
 			javax.persistence.Query q = getEntityManager().createQuery(cq);
 			q.setMaxResults(range[1] - range[0]);
 			q.setFirstResult(range[0]);
 			list = q.getResultList();
-
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error(e.getMessage());
-		} finally {
-			// getEntityManager().close();
+		} catch (IllegalArgumentException  exception) {
+			throw new IllegalEntityException("Entity with class: " + getClass() + " is not a valid class", exception);
+		}  catch (Exception exception) {
+			throw new NonexistentEntityException("Entity with class: " + getClass() + " was not found", exception);
 		}
 
 		return list;
 
 	}
 
-	public List<T> findByNamedQuery(String namedQueryName) {
+	public List<T> findByNamedQuery(String namedQueryName) throws RollbackFailureException, Exception {
 		List<T> list = null;
 		try {
-			list = getEntityManager().createNamedQuery(namedQueryName)
-					.getResultList();
-
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error(e.getMessage());
-		} finally {
-			// getEntityManager().close();
+			list = getEntityManager().createNamedQuery(namedQueryName).getResultList();
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
-
 		return list;
-
 	}
 
 	public List<T> findByNamedQuery(String namedQueryName,
-			Map<String, Object> parameters) {
+			Map<String, Object> parameters) throws RollbackFailureException {
 		List<T> list = null;
 		try {
 			list = findByNamedQuery(namedQueryName, parameters, 0);
-
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error(e.getMessage());
-		} finally {
-			// getEntityManager().close();
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
-
 		return list;
 
 	}
 
-	public List<T> findByNamedQuery(String queryName, int resultLimit) {
+	public List<T> findByNamedQuery(String queryName, int resultLimit) throws RollbackFailureException, Exception {
 		List<T> list = null;
 		try {
-			list = getEntityManager().createNamedQuery(queryName)
-					.setMaxResults(resultLimit).getResultList();
-
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error(e.getMessage());
-		} finally {
-			// getEntityManager().close();
+			list = getEntityManager().createNamedQuery(queryName).setMaxResults(resultLimit).getResultList();
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
-
 		return list;
-
 	}
 
-	public List<T> findByNamedQuery(String namedQueryName,
-			Map<String, Object> parameters, int resultLimit) {
+	public List<T> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws RollbackFailureException, Exception {
 
 		List<T> list = null;
 		try {
@@ -195,33 +165,26 @@ public abstract class AbstractDAO<T> {
 
 			list = query.getResultList();
 
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error(e.getMessage());
-		} finally {
-			// getEntityManager().close();
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
 
 		return list;
 
 	}
 
-	public int count() {
+	public int count() throws RollbackFailureException {
 		int count = 0;
 		try {
 
-			CriteriaQuery cq = getEntityManager().getCriteriaBuilder()
-					.createQuery();
+			CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 			Root<T> rt = cq.from(entityClass);
 			cq.select(getEntityManager().getCriteriaBuilder().count(rt));
 			javax.persistence.Query q = getEntityManager().createQuery(cq);
 			count = ((Long) q.getSingleResult()).intValue();
 
-		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
-			getLogger().error(e.getMessage());
-		} finally {
-			// getEntityManager().close();
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
 
 		return count;

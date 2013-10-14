@@ -10,11 +10,17 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 
 import org.ventura.boundary.local.PersonajuridicaclienteServiceLocal;
 import org.ventura.boundary.remote.PersonajuridicaclienteServiceRemote;
 import org.ventura.dao.impl.PersonajuridicaclienteDAO;
 import org.ventura.entity.Personajuridicacliente;
+import org.ventura.util.exception.IllegalEntityException;
+import org.ventura.util.exception.NonexistentEntityException;
+import org.ventura.util.exception.PreexistingEntityException;
+import org.ventura.util.exception.RollbackFailureException;
+import org.ventura.util.logger.Log;
 
 @Stateless
 @Local(PersonajuridicaclienteServiceLocal.class)
@@ -22,48 +28,130 @@ import org.ventura.entity.Personajuridicacliente;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class PersonajuridicaclienteServiceBean implements PersonajuridicaclienteServiceLocal {
 
+	@Inject
+	private Log log;
+
 	@EJB
 	private PersonajuridicaclienteDAO oPersonajuridicaclienteDAO;
 
 	@Override
 	public Personajuridicacliente create(Personajuridicacliente oPersonajuridicacliente) {
-		oPersonajuridicaclienteDAO.create(oPersonajuridicacliente);
+		try {
+			oPersonajuridicaclienteDAO.create(oPersonajuridicacliente);
+		} catch (PreexistingEntityException e) {
+			log.error("ERROR:" + e.getMessage());
+			log.error("Caused by:" + e.getCause());
+		} catch (IllegalEntityException e) {
+			log.error("ERROR:" + e.getMessage());
+			log.error("Caused by:" + e.getCause());
+		} catch (RollbackFailureException e) {
+			log.error("ERROR:" + e.getMessage());
+			log.error("Caused by:" + e.getCause());
+		} catch (Exception e) {
+			log.error("ERROR:" + e.getMessage());
+			log.error("Caused by:" + e.getCause());
+		}
 		return oPersonajuridicacliente;
 	}
 
 	@Override
-	public Personajuridicacliente find(Integer id) {		
-		return oPersonajuridicaclienteDAO.find(id);
+	public Personajuridicacliente find(Integer id) {
+		Personajuridicacliente Personajuridicacliente = null;
+		try {
+			Personajuridicacliente = oPersonajuridicaclienteDAO.find(id);
+		} catch (NonexistentEntityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Personajuridicacliente;
 	}
 
 	@Override
 	public void delete(Personajuridicacliente oPersonajuridicacliente) {
-		oPersonajuridicaclienteDAO.delete(oPersonajuridicacliente);
+		try {
+			oPersonajuridicaclienteDAO.delete(oPersonajuridicacliente);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public Personajuridicacliente update(Personajuridicacliente oPersonajuridicacliente) {		
-		return oPersonajuridicaclienteDAO.update(oPersonajuridicacliente);
+	public Personajuridicacliente update(Personajuridicacliente oPersonajuridicacliente) {
+		Personajuridicacliente Personajuridicacliente = null;
+		try {
+			Personajuridicacliente = oPersonajuridicaclienteDAO.update(oPersonajuridicacliente);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Personajuridicacliente;
 	}
 
 	@Override
-	public Collection<Personajuridicacliente> findByNamedQuery(String queryName) {		
-		return oPersonajuridicaclienteDAO.findByNamedQuery(queryName);
+	public Collection<Personajuridicacliente> findByNamedQuery(String queryName) {
+		Collection<Personajuridicacliente> collection = null;
+		try {
+			collection = oPersonajuridicaclienteDAO.findByNamedQuery(queryName);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return collection;
 	}
 
 	@Override
 	public Collection<Personajuridicacliente> findByNamedQuery(String queryName, int resultLimit) {
-		return oPersonajuridicaclienteDAO.findByNamedQuery(queryName, resultLimit);
+		Collection<Personajuridicacliente> collection = null;
+		try {
+			collection = oPersonajuridicaclienteDAO.findByNamedQuery(queryName, resultLimit);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return collection;
 	}
 
 	@Override
-	public List<Personajuridicacliente> findByNamedQuery(String Personajuridicacliente, Map<String, Object> parameters) {
-		return oPersonajuridicaclienteDAO.findByNamedQuery(Personajuridicacliente, parameters);
+	public List<Personajuridicacliente> findByNamedQuery(String Personajuridicacliente,
+			Map<String, Object> parameters) {
+		List<Personajuridicacliente> list = null;
+		try {
+			list = oPersonajuridicaclienteDAO.findByNamedQuery(Personajuridicacliente, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	@Override
-	public List<Personajuridicacliente> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) {
-		return oPersonajuridicaclienteDAO.findByNamedQuery(namedQueryName, parameters);
+	public List<Personajuridicacliente> findByNamedQuery(String namedQueryName,
+			Map<String, Object> parameters, int resultLimit) {
+		List<Personajuridicacliente> list = null;
+		try {
+			list = oPersonajuridicaclienteDAO.findByNamedQuery(namedQueryName, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 
 }
