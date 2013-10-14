@@ -1,4 +1,4 @@
-package org.ventural.util.logger;
+package org.ventura.util.logger;
 
 import org.slf4j.Logger;
 

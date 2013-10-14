@@ -1,4 +1,4 @@
-package org.ventural.util.logger;
+package org.ventura.util.logger;
 
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;

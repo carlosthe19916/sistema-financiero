@@ -1,4 +1,4 @@
-package org.ventural.util.exception;
+package org.ventura.util.exception;
 
 import java.util.ArrayList;
 import java.util.List;

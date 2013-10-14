@@ -1,4 +1,4 @@
-package org.ventural.util.exception;
+package org.ventura.util.exception;
 
 public class PreexistingEntityException extends Exception {
 

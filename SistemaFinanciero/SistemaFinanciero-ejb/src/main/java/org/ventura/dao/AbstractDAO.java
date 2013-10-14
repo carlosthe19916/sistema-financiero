@@ -16,7 +16,7 @@ import javax.persistence.TransactionRequiredException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.ventural.util.logger.Log;
+import org.ventura.util.logger.Log;
 
 
 public abstract class AbstractDAO<T> {

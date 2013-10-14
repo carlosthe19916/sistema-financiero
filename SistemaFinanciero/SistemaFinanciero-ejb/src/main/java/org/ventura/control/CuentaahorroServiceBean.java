@@ -34,7 +34,7 @@ import org.ventura.entity.Personanatural;
 import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
 import org.ventura.entity.Titularcuentahistorial;
-import org.ventural.util.logger.Log;
+import org.ventura.util.logger.Log;
 
 @Named
 @Stateless

@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
 import org.ventura.entity.Titularcuentahistorial;
-import org.ventural.util.logger.Log;
+import org.ventura.util.logger.Log;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
