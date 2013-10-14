@@ -3,6 +3,8 @@ package org.ventura.control;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -18,6 +20,7 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.dao.impl.CuentaahorroDAO;
 import org.ventura.dao.impl.PersonanaturalDAO;
@@ -41,6 +44,9 @@ import org.ventural.util.logger.Log;
 public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 	@EJB
+	private PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
+	
+	@EJB
 	private CuentaahorroDAO cuentaahorroDAO;
 	
 	@EJB
@@ -59,12 +65,77 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	public Cuentaahorro create(Cuentaahorro oCuentaahorro) {
 		try {
 
+			
 			this.cuentaahorro = oCuentaahorro;
+			Personanatural personanatural =cuentaahorro.getPersonanaturalcliente().getPersonanatural();
+			Personanaturalcliente personanaturalcliente=cuentaahorro.getPersonanaturalcliente();
+			if(verificarExistenciaPersonaNatural(personanatural)==true && verificarExistenciaPersonaNaturalCliente(personanaturalcliente)==true){
+				generarDatosDeRegistro();
+				generarDatosTitularHistorial();		
+				generarNumeroCuenta();			
+				cuentaahorroDAO.create(cuentaahorro);	
+			}
+			
+			if(verificarExistenciaPersonaNatural(personanatural)==true && verificarExistenciaPersonaNaturalCliente(personanaturalcliente)==false){
+				create(cuentaahorro,personanatural);	
+			}			
+			
+			if(verificarExistenciaPersonaNatural(personanatural)==false && verificarExistenciaPersonaNaturalCliente(personanaturalcliente)==true){
+				create(cuentaahorro,personanaturalcliente);	
+			}
+			if(verificarExistenciaPersonaNatural(personanatural)==false && verificarExistenciaPersonaNaturalCliente(personanaturalcliente)==false){
+				create(cuentaahorro,personanaturalcliente,personanatural);	
+			}
+
+			
+			
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		} finally{
+			log.info("Service Close");
+		}
+
+		return oCuentaahorro;
+	}
+	
+	private boolean verificarExistenciaPersonaNaturalCliente(Personanaturalcliente personanaturalcliente){
+		if(personanaturalclienteDAO.find(personanaturalcliente)==null)
+			return false;
+		return true;
+	}
+	
+	private boolean verificarExistenciaPersonaNatural(Personanatural personanatural){
+		if(personanaturalDAO.find(personanatural)==null)
+			return false;
+		return true;		
+	}
+	
+	private void generarDatosTitularHistorial() {
+		List<Titularcuenta> list = cuentaahorro.getTitularcuentas();
+		
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {		
+		Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
+		List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
+		Titularcuentahistorial historiales =new Titularcuentahistorial();
+		historiales.setEstado(true);
+		historiales.setFechaactiva(Calendar.getInstance().getTime());
+		lista.add(historiales);
+		titularcuenta.setTitularcuentahistorials(lista);
+		historiales.setTitularcuenta(titularcuenta);		
+		}		
+	}
+	
+public Cuentaahorro create(Cuentaahorro oCuentaahorro,Personanatural personanatural) {
+		
+		try {
+			
+			this.cuentaahorro = oCuentaahorro;
+			
 			generarDatosDeRegistro();
+			generarDatosTitularHistorial();
 			generarNumeroCuenta();
 
-			System.out.println(cuentaahorro.getCuentaahorrohistorials().get(0).getCantidadretirantes());
-			
+			createPersonanatural(personanatural);
 			cuentaahorroDAO.create(cuentaahorro);			
 
 		} catch (Exception e) {
@@ -75,7 +146,8 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 		return oCuentaahorro;
 	}
-
+	
+	
 	public Cuentaahorro create(Cuentaahorro oCuentaahorro, Personanaturalcliente personanaturalcliente) {
 		
 		try {
@@ -83,6 +155,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			this.cuentaahorro = oCuentaahorro;
 			
 			generarDatosDeRegistro();
+			generarDatosTitularHistorial();
 			generarNumeroCuenta();
 
 			createPersonanaturalcliente(personanaturalcliente);
@@ -104,6 +177,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			this.cuentaahorro = oCuentaahorro;
 			
 			generarDatosDeRegistro();
+			generarDatosTitularHistorial();
 			generarNumeroCuenta();
 
 			createPersonanatural(personanatural);
