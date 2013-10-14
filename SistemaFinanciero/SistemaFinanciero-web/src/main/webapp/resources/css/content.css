@@ -82,7 +82,7 @@ table {
 }
 
 .sf-agrupador-content-table>table>tbody>tr>td {
-	min-width: 105px;
+	min-width: 0px;
 	/*max-width: 350px;*/
 	vertical-align: middle;
 }

@@ -7,6 +7,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
+<f:metadata>
+	<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
+	<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+</f:metadata>
+
+
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
 	<!-- Definiendo la cabecera de la pagina -->
@@ -63,7 +69,7 @@
 		</h:form>
 						
 		<div class="buttons">
-			<h:form>
+			<h:form id="form-buttons">
 				<div class="tiptip">
 					<h:commandLink styleClass="button left" title="Nuevo Trabajador"
 						onclick="dlgCrearTrabajador.show();return false;">
@@ -71,10 +77,10 @@
 						<span class="label">Nuevo</span>
 					</h:commandLink>
 					
-					<h:link styleClass="button middle" title="Editar Trabajador" outcome="pruebita" target="_blank" >
+					<h:link styleClass="button middle" title="Editar Trabajador" outcome="mostrarDatosCliente.xhtml" target="_blank" >
 				    	<span class="icon icon145"></span>
 						<span class="label">Editar</span>	
-				    	<f:param name="prueba" value="123" />
+				    	<f:param name="dni" value="#{personaNaturalClienteMB.dniTemporal}" />
 					</h:link>
 
 					<h:commandLink action="#" styleClass="button right"
@@ -122,7 +128,7 @@
 						rowsPerPageTemplate="5,10,20" widgetVar="tablaCliente"
 						 filteredValue="">
 														
-						<p:ajax event="rowSelect" listener="#{personaNaturalClienteMB.tablaClientes.rowSelect()}"/>   
+						<p:ajax event="rowSelect" listener="#{personaNaturalClienteMB.obtenerDNISeleccionado()}" update=":form-buttons"/>   
 						
 						
 						<p:column sortBy="#{cliente.dni}" headerText="DNI">

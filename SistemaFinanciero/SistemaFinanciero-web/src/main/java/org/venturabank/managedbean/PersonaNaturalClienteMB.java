@@ -25,14 +25,13 @@ public class PersonaNaturalClienteMB implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	static PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
+	private PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
 	
 	@ManagedProperty(value = "#{tablaMB}")
 	private TablaMB<Personanaturalcliente> tablaClientes;
 	
 	private String valorBusqueda;
-	
-	private Personanaturalcliente personaEdit;
+	private String dniTemporal;
 
 	public PersonaNaturalClienteMB() {
 		setTablaClientes(new TablaMB<Personanaturalcliente>());
@@ -54,6 +53,14 @@ public class PersonaNaturalClienteMB implements Serializable{
 	public void setTablaClientes(TablaMB<Personanaturalcliente> tablaClientes) {
 		this.tablaClientes = tablaClientes;
 	}
+
+	public String getDniTemporal() {
+		return dniTemporal;
+	}
+
+	public void setDniTemporal(String dniTemporal) {
+		this.dniTemporal = dniTemporal;
+	}
 	
 	public void buscarCliente(){
 		Map<String, Object> pa = new HashMap<String, Object>();
@@ -62,16 +69,8 @@ public class PersonaNaturalClienteMB implements Serializable{
 		tablaClientes.setRows(list);
 	}
 	
-	public void verCliente(){
-		Personanaturalcliente personanaturalcliente = tablaClientes.getSelectedRow() ;
-		this.personaEdit = personanaturalcliente;
-	}
-
-	public Personanaturalcliente getPersonaEdit() {
-		return personaEdit;
-	}
-
-	public void setPersonaEdit(Personanaturalcliente personaEdit) {
-		this.personaEdit = personaEdit;
+	public void obtenerDNISeleccionado(){
+		Personanaturalcliente personaNaturalCliente = tablaClientes.getSelectedRow() ;
+		dniTemporal = personaNaturalCliente.getDni();
 	}
 }
