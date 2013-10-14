@@ -17,6 +17,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
@@ -34,6 +35,9 @@ import org.ventura.entity.Personanatural;
 import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
 import org.ventura.entity.Titularcuentahistorial;
+import org.ventura.util.exception.IllegalEntityException;
+import org.ventura.util.exception.NonexistentEntityException;
+import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
 @Named
@@ -65,30 +69,13 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	public Cuentaahorro create(Cuentaahorro oCuentaahorro) {
 		try {
 
-			
 			this.cuentaahorro = oCuentaahorro;
-			Personanatural personanatural =cuentaahorro.getPersonanaturalcliente().getPersonanatural();
-			Personanaturalcliente personanaturalcliente=cuentaahorro.getPersonanaturalcliente();
-			if(verificarExistenciaPersonaNatural(personanatural)==true && verificarExistenciaPersonaNaturalCliente(personanaturalcliente)==true){
-				generarDatosDeRegistro();
-				generarDatosTitularHistorial();		
-				generarNumeroCuenta();			
-				cuentaahorroDAO.create(cuentaahorro);	
-			}
-			
-			if(verificarExistenciaPersonaNatural(personanatural)==true && verificarExistenciaPersonaNaturalCliente(personanaturalcliente)==false){
-				create(cuentaahorro,personanatural);	
-			}			
-			
-			if(verificarExistenciaPersonaNatural(personanatural)==false && verificarExistenciaPersonaNaturalCliente(personanaturalcliente)==true){
-				create(cuentaahorro,personanaturalcliente);	
-			}
-			if(verificarExistenciaPersonaNatural(personanatural)==false && verificarExistenciaPersonaNaturalCliente(personanaturalcliente)==false){
-				create(cuentaahorro,personanaturalcliente,personanatural);	
-			}
-
-			
-			
+			generarDatosDeRegistro();
+			generarDatosTitularHistorial();		
+			generarNumeroCuenta();	
+			validarPersonaNatural(cuentaahorro.getPersonanaturalcliente().getPersonanatural(), cuentaahorro.getPersonanaturalcliente());
+			cuentaahorroDAO.create(cuentaahorro);	
+						
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		} finally{
@@ -98,18 +85,31 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		return oCuentaahorro;
 	}
 	
-	private boolean verificarExistenciaPersonaNaturalCliente(Personanaturalcliente personanaturalcliente){
-		if(personanaturalclienteDAO.find(personanaturalcliente)==null)
-			return false;
-		return true;
+	protected boolean buscarPersonaNatural(Personanatural personanatural) throws IllegalEntityException, NonexistentEntityException, Exception{
+		if(personanaturalDAO.find(personanatural.getDni())!=null)
+			return true;
+		return false;
 	}
 	
-	private boolean verificarExistenciaPersonaNatural(Personanatural personanatural){
-		if(personanaturalDAO.find(personanatural)==null)
-			return false;
-		return true;		
+	protected boolean buscarPersonaNaturalCliente(Personanaturalcliente personanaturalcliente) throws IllegalEntityException, NonexistentEntityException, Exception{
+		if(personanaturalclienteDAO.find(personanaturalcliente.getDni())!=null)
+			return true;
+		return false;
 	}
 	
+	protected void validarPersonaNatural(Personanatural personanatural,Personanaturalcliente personanaturalcliente) throws IllegalEntityException, NonexistentEntityException, Exception{
+		if(buscarPersonaNatural(personanatural)==true && buscarPersonaNaturalCliente(personanaturalcliente)==true){
+			//createPersonanatural(personanatural);
+		}
+		if(buscarPersonaNatural(personanatural)==true && buscarPersonaNaturalCliente(personanaturalcliente)==false){
+			createPersonanaturalcliente(personanaturalcliente);
+		}
+		if(buscarPersonaNatural(personanatural)==false && buscarPersonaNaturalCliente(personanaturalcliente)==false){
+			createPersonanatural(personanatural);
+			createPersonanaturalcliente(personanaturalcliente);
+		}
+	}
+		
 	private void generarDatosTitularHistorial() {
 		List<Titularcuenta> list = cuentaahorro.getTitularcuentas();
 		
@@ -244,40 +244,105 @@ public Cuentaahorro create(Cuentaahorro oCuentaahorro,Personanatural personanatu
 	
 	@Override
 	public Cuentaahorro find(Integer id) {
-		return cuentaahorroDAO.find(id);
+		try {
+			return cuentaahorroDAO.find(id);
+		} catch (IllegalEntityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NonexistentEntityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cuentaahorro;
 	}
 
 	@Override
 	public void delete(Cuentaahorro oCuentaahorro) {
-		cuentaahorroDAO.delete(oCuentaahorro);
+		try {
+			cuentaahorroDAO.delete(oCuentaahorro);
+		} catch (TransactionRequiredException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalEntityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public Cuentaahorro update(Cuentaahorro oCuentaahorro) {
-		return cuentaahorroDAO.update(oCuentaahorro);
+		try {
+			return cuentaahorroDAO.update(oCuentaahorro);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return oCuentaahorro;
 	}
 
 	@Override
 	public Collection<Cuentaahorro> findByNamedQuery(String queryName) {
-		return cuentaahorroDAO.findByNamedQuery(queryName);
+		try {
+			return cuentaahorroDAO.findByNamedQuery(queryName);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public Collection<Cuentaahorro> findByNamedQuery(String queryName,
 			int resultLimit) {
-		return cuentaahorroDAO.findByNamedQuery(queryName, resultLimit);
+		try {
+			return cuentaahorroDAO.findByNamedQuery(queryName, resultLimit);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public List<Cuentaahorro> findByNamedQuery(String Cuentaahorro,
-			Map<String, Object> parameters) {
-		return cuentaahorroDAO.findByNamedQuery(Cuentaahorro, parameters);
+			Map<String, Object> parameters)  {
+		try {
+			return cuentaahorroDAO.findByNamedQuery(Cuentaahorro, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public List<Cuentaahorro> findByNamedQuery(String namedQueryName,
 			Map<String, Object> parameters, int resultLimit) {
-		return cuentaahorroDAO.findByNamedQuery(namedQueryName, parameters);
+		try {
+			return cuentaahorroDAO.findByNamedQuery(namedQueryName, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

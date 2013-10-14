@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.listener.TitularcuentaListener;
+
 import java.util.List;
 
 /**
@@ -12,6 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "titularcuenta", schema = "cuentapersonal")
+@EntityListeners( { TitularcuentaListener.class})
 @NamedQuery(name = "Titularcuenta.findAll", query = "SELECT t FROM Titularcuenta t")
 public class Titularcuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
