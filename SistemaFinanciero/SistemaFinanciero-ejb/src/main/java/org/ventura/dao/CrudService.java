@@ -19,13 +19,11 @@ along with this program.  If not, see <http://www.opensource.org/licenses/gpl-2.
  */
 package org.ventura.dao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
