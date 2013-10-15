@@ -13,20 +13,20 @@ import org.ventura.entity.Personanatural;
 @Local
 public interface PersonanaturalServiceLocal extends PersonanaturalServiceRemote{
 	
-	public Personanatural create(Personanatural oPersonanatural);
+	public void create(Personanatural oPersonanatural)throws Exception;
 
-	public Personanatural find(Object id);
+	public Personanatural find(Object id)throws Exception;
 
-	public void delete(Personanatural oPersonanatural);
+	public void delete(Personanatural oPersonanatural)throws Exception;
 
-	public Personanatural update(Personanatural oPersonanatural);
+	public void update(Personanatural oPersonanatural)throws Exception;
 
-	public Collection<Personanatural> findByNamedQuery(String queryName);
+	public Collection<Personanatural> findByNamedQuery(String queryName)throws Exception;
 
-	public Collection<Personanatural> findByNamedQuery(String queryName, int resultLimit);
+	public Collection<Personanatural> findByNamedQuery(String queryName, int resultLimit)throws Exception;
 
-	public List<Personanatural> findByNamedQuery(String Personanatural, Map<String, Object> parameters);
+	public List<Personanatural> findByNamedQuery(String Personanatural, Map<String, Object> parameters)throws Exception;
 
-	public List<Personanatural> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit);
+	public List<Personanatural> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit)throws Exception;
 
 }

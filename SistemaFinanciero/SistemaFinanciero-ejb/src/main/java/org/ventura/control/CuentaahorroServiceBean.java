@@ -63,7 +63,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	
 	@EJB
 	private TitularcuentaDAO titularcuentaDAO;
-
+	
 	@EJB
 	private PersonanaturalclienteDAO personanaturalclienteDAO;
 	

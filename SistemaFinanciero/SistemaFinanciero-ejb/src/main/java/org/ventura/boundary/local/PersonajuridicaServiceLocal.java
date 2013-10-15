@@ -13,23 +13,23 @@ import org.ventura.entity.Personajuridica;
 @Local
 public interface PersonajuridicaServiceLocal extends PersonajuridicaServiceRemote {
 
-	public Personajuridica create(Personajuridica oPersonajuridica);
+	public void create(Personajuridica oPersonajuridica)throws Exception;
 
-	public Personajuridica find(Object id);
+	public Personajuridica find(Object id)throws Exception;
 
-	public void delete(Personajuridica oPersonajuridica);
+	public void delete(Personajuridica oPersonajuridica)throws Exception;
 
-	public Personajuridica update(Personajuridica oPersonajuridica);
+	public void update(Personajuridica oPersonajuridica)throws Exception;
 
-	public Collection<Personajuridica> findByNamedQuery(String queryName);
+	public Collection<Personajuridica> findByNamedQuery(String queryName)throws Exception;
 
 	public Collection<Personajuridica> findByNamedQuery(String queryName,
-			int resultLimit);
+			int resultLimit)throws Exception;
 
 	public List<Personajuridica> findByNamedQuery(String Personajuridica,
-			Map<String, Object> parameters);
+			Map<String, Object> parameters)throws Exception;
 
 	public List<Personajuridica> findByNamedQuery(String namedQueryName,
-			Map<String, Object> parameters, int resultLimit);
+			Map<String, Object> parameters, int resultLimit)throws Exception;
 
 }
