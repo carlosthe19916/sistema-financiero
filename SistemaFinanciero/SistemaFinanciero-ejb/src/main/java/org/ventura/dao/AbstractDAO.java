@@ -62,7 +62,7 @@ public abstract class AbstractDAO<T> {
 			t = getEntityManager().find(entityClass, id);
 		} catch (IllegalArgumentException  exception) {
 			throw new IllegalEntityException("Entity with Id: " + id + " is not a valid Key", exception);
-		}  catch (Exception exception) {
+		} catch (Exception exception) {
 			throw new NonexistentEntityException("Entity with Id: " + id + " was not found", exception);
 		}
 		return t;

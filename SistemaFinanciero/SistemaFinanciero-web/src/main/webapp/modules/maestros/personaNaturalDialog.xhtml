@@ -34,7 +34,6 @@
 										requiredMessage="Ingrese Número de DNI"
 										validatorMessage="Número de DNI Invalido">
 										<f:validateRegex pattern="(^[0-9]{8}$)" />
-										
 										<p:ajax update="growl,@form,:form-datosPersonanatural,:form-buttons" event="blur" listener="#{managedBean.personaNaturalMB.buscarPersona()}"/>
 									</p:inputText> 
 									<p:watermark for="txtDNIPN" value="DNI" /> 

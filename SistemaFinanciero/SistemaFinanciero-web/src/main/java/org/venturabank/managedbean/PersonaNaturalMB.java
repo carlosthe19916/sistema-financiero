@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
@@ -34,22 +36,21 @@ public class PersonaNaturalMB implements Serializable {
 
 	private boolean isEditing;
 
-	// constructor
 	public PersonaNaturalMB() {
 		this.personaNatural = new Personanatural();
 		isEditing = false;
 	}
 
-	// Para despues de crear el objeto
 	@PostConstruct
 	private void initValues() {
 		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
 	}
 
-	public void buscarPersona(){
-		Personanatural personanatural;
+	public void buscarPersona() {
 		try {
+			Personanatural personanatural;
+			//personanatural = personanaturalServiceLocal.find(1235);
 			personanatural = personanaturalServiceLocal.find(personaNatural.getDni());
 			
 			if (personanatural != null) {
@@ -59,20 +60,18 @@ public class PersonaNaturalMB implements Serializable {
 			} else {
 				personanatural = new Personanatural();
 				personanatural.setDni(getPersonaNatural().getDni());
-				
+
 				this.personaNatural = personanatural;
 				this.comboSexo.setItemSelected(-1);
 				this.comboEstadoCivil.setItemSelected(-1);
-				
+
 				this.changeEditingState();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("error");
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "System Error", "Error al Buscar la Persona");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-
-		
-
 	}
 
 	public boolean isValid() {
@@ -87,8 +86,7 @@ public class PersonaNaturalMB implements Serializable {
 
 	public void changeEstadoCivil(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Estadocivil estadocivilSelected = comboEstadoCivil
-				.getObjectItemSelected(key);
+		Estadocivil estadocivilSelected = comboEstadoCivil.getObjectItemSelected(key);
 		this.personaNatural.setEstadocivil(estadocivilSelected);
 
 	}

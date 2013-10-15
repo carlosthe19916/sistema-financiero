@@ -30,15 +30,17 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td><h:form>
+					<td>
+						<h:form>
 							<p:selectOneMenu
 								value="#{aperturarCuentaAhorrosMB.comboTipoPersona.itemSelected}">
 								<f:selectItems
 									value="#{aperturarCuentaAhorrosMB.comboTipoPersona.items.entrySet()}"
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-								<p:ajax update=":panelDatos"></p:ajax>
+								<p:ajax update=":panelDatos"/>
 							</p:selectOneMenu>
-						</h:form></td>
+						</h:form>
+					</td>
 				</tr>
 			</table>
 		</div>

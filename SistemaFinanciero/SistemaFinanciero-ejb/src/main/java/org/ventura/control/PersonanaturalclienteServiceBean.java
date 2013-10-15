@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.PersonanaturalclienteServiceRemote;
 import org.ventura.dao.impl.PersonanaturalclienteDAO;
@@ -34,7 +36,7 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 	private PersonanaturalclienteDAO oPersonanaturalclienteDAO;
 	
 	@EJB
-	private PersonanaturalServiceBean personanaturalServiceLocal;
+	private PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	@Override
 	public void create(Personanaturalcliente oPersonanaturalcliente) throws RollbackFailureException {
@@ -55,16 +57,15 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 	}
 
 	@Override
-	public Personanaturalcliente find(Object id) {
+	public Personanaturalcliente find(Object id) throws Exception {
 		Personanaturalcliente Personanaturalcliente = null;
 		try {
 			Personanaturalcliente = oPersonanaturalclienteDAO.find(id);
-		} catch (NonexistentEntityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch(IOException e){
+			System.out.println("Errorrrrrrrrracasssssss");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new NonexistentEntityException("Error al buscar los datos");
 		}
 		return Personanaturalcliente;
 	}
