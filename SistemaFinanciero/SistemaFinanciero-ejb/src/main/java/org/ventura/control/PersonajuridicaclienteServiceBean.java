@@ -18,9 +18,7 @@ import org.ventura.boundary.remote.PersonajuridicaclienteServiceRemote;
 import org.ventura.dao.impl.PersonajuridicaclienteDAO;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personajuridicacliente;
-import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
-import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
@@ -59,44 +57,34 @@ public class PersonajuridicaclienteServiceBean implements Personajuridicacliente
 
 
 	@Override
-	public Personajuridicacliente find(Object id) {
+	public Personajuridicacliente find(Object id) throws NonexistentEntityException {
 		Personajuridicacliente Personajuridicacliente = null;
 		try {
 			Personajuridicacliente = oPersonajuridicaclienteDAO.find(id);
-		} catch (NonexistentEntityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new NonexistentEntityException("Error buscar entity");
 		}
 		return Personajuridicacliente;
 	}
 
 	@Override
-	public void delete(Personajuridicacliente oPersonajuridicacliente) {
+	public void delete(Personajuridicacliente oPersonajuridicacliente) throws NonexistentEntityException {
 		try {
 			oPersonajuridicaclienteDAO.delete(oPersonajuridicacliente);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}  catch (Exception e) {
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new NonexistentEntityException("Error eliminar entity");
 		}
 	}
 
 	@Override
-	public void update(Personajuridicacliente oPersonajuridicacliente) {
-		Personajuridicacliente Personajuridicacliente = null;
+	public void update(Personajuridicacliente oPersonajuridicacliente) throws RollbackFailureException{
 		try {
-			Personajuridicacliente = oPersonajuridicaclienteDAO.update(oPersonajuridicacliente);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			oPersonajuridicaclienteDAO.update(oPersonajuridicacliente);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new RollbackFailureException("Error eliminar entity");
 		}
 	}
 
