@@ -13,20 +13,20 @@ import org.ventura.entity.Cuentaplazofijo;
 @Local
 public interface CuentaplazofijoServiceLocal extends CuentaplazofijoServiceRemote{
 	
-	public Cuentaplazofijo create(Cuentaplazofijo oCuentaplazofijo);
+	public void create(Cuentaplazofijo oCuentaplazofijo)throws Exception;
 
-	public Cuentaplazofijo find(Integer id);
+	public Cuentaplazofijo find(Object id);
 
-	public void delete(Cuentaplazofijo oCuentaplazofijo);
+	public void delete(Cuentaplazofijo oCuentaplazofijo)throws Exception;
 
-	public Cuentaplazofijo update(Cuentaplazofijo oCuentaplazofijo);
+	public void update(Cuentaplazofijo oCuentaplazofijo)throws Exception;
 
-	public Collection<Cuentaplazofijo> findByNamedQuery(String queryName);
+	public Collection<Cuentaplazofijo> findByNamedQuery(String queryName)throws Exception;
 
-	public Collection<Cuentaplazofijo> findByNamedQuery(String queryName, int resultLimit);
+	public Collection<Cuentaplazofijo> findByNamedQuery(String queryName, int resultLimit)throws Exception;
 
-	public List<Cuentaplazofijo> findByNamedQuery(String Cuentaplazofijo, Map<String, Object> parameters);
+	public List<Cuentaplazofijo> findByNamedQuery(String Cuentaplazofijo, Map<String, Object> parameters)throws Exception;
 
-	public List<Cuentaplazofijo> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit);
+	public List<Cuentaplazofijo> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit)throws Exception;
 
 }

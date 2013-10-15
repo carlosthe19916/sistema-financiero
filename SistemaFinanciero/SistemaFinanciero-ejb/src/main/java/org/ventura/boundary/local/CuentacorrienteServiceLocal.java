@@ -13,20 +13,20 @@ import org.ventura.entity.Cuentacorriente;
 @Local
 public interface CuentacorrienteServiceLocal extends CuentacorrienteServiceRemote{
 	
-	public Cuentacorriente create(Cuentacorriente oCuentacorriente);
+	public void create(Cuentacorriente oCuentacorriente)throws Exception;
 
-	public Cuentacorriente find(Integer id);
+	public Cuentacorriente find(Object id)throws Exception;
 
-	public void delete(Cuentacorriente oCuentacorriente);
+	public void delete(Cuentacorriente oCuentacorriente)throws Exception;
 
-	public Cuentacorriente update(Cuentacorriente oCuentacorriente);
+	public void update(Cuentacorriente oCuentacorriente)throws Exception;
 
-	public Collection<Cuentacorriente> findByNamedQuery(String queryName);
+	public Collection<Cuentacorriente> findByNamedQuery(String queryName)throws Exception;
 
-	public Collection<Cuentacorriente> findByNamedQuery(String queryName, int resultLimit);
+	public Collection<Cuentacorriente> findByNamedQuery(String queryName, int resultLimit)throws Exception;
 
-	public List<Cuentacorriente> findByNamedQuery(String Cuentacorriente, Map<String, Object> parameters);
+	public List<Cuentacorriente> findByNamedQuery(String Cuentacorriente, Map<String, Object> parameters)throws Exception;
 
-	public List<Cuentacorriente> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit);
+	public List<Cuentacorriente> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit)throws Exception;
 
 }
