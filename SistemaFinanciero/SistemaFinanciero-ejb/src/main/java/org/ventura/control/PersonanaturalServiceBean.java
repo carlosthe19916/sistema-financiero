@@ -16,9 +16,7 @@ import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.PersonanaturalServiceRemote;
 import org.ventura.dao.impl.PersonanaturalDAO;
 import org.ventura.entity.Personanatural;
-import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
-import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
@@ -74,9 +72,8 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 
 	@Override
 	public void update(Personanatural oPersonanatural) {
-		Personanatural Personanatural = null;
 		try {
-			Personanatural = oPersonanaturalDAO.update(oPersonanatural);
+			oPersonanaturalDAO.update(oPersonanatural);
 		} catch (RollbackFailureException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
