@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
 
 import org.ventura.boundary.remote.CuentaplazofijoServiceRemote;
 import org.ventura.entity.Cuentaplazofijo;

@@ -40,18 +40,6 @@ public class LoginServiceBean implements LoginServiceLocal {
 	private UsuarioDAO usuarioDAO;
 	
 	@Override
-	public Usuario login(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection<Rol> getRoles(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Collection<Modulo> getModule(Usuario usuario) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("username", usuario.getUsername());
