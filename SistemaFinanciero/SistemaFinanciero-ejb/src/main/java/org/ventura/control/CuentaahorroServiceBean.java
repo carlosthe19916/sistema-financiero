@@ -20,6 +20,7 @@ import javax.inject.Named;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.boundary.local.PersonajuridicaclienteServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
@@ -32,6 +33,7 @@ import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaahorrohistorial;
 import org.ventura.entity.Estadocuenta;
 import org.ventura.entity.Personajuridica;
+import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
@@ -58,13 +60,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	private CuentaahorroDAO cuentaahorroDAO;
 	
 	@EJB
-	private PersonanaturalDAO personanaturalDAO;
-	
-	@EJB
-	private TitularcuentaDAO titularcuentaDAO;
-	
-	@EJB
-	private PersonanaturalclienteDAO personanaturalclienteDAO;
+	private PersonajuridicaclienteServiceLocal personajuridicaclienteServiceLocal;
 	
 	@Inject
 	Cuentaahorro cuentaahorro;
@@ -86,6 +82,18 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosTitularHistorial();
 			
 			
+			//bloque para persona juridica cliente
+			Personajuridicacliente personajuridicacliente = cuentaahorro.getPersonajuridicacliente();
+			if(personajuridicacliente != null){
+				Object key = personajuridicacliente.getRuc();
+				Object result = personajuridicaclienteServiceLocal.find(key);
+				if(result == null){
+					personajuridicaclienteServiceLocal.create(personajuridicacliente);
+				}
+			}
+			
+			
+
 			
 			cuentaahorroDAO.create(cuentaahorro);
 		} catch (Exception e) {
@@ -114,14 +122,14 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 
 	protected boolean buscarPersonaNatural(Personanatural personanatural) throws IllegalEntityException, NonexistentEntityException, Exception{
-		if(personanaturalDAO.find(personanatural.getDni())!=null)
-			return true;
+		/*if(personanaturalDAO.find(personanatural.getDni())!=null)
+			return true;*/
 		return false;
 	}
 	
 	protected boolean buscarPersonaNaturalCliente(Personanaturalcliente personanaturalcliente) throws IllegalEntityException, NonexistentEntityException, Exception{
-		if(personanaturalclienteDAO.find(personanaturalcliente.getDni())!=null)
-			return true;
+		/*if(personanaturalclienteDAO.find(personanaturalcliente.getDni())!=null)
+			return true;*/
 		return false;
 	}
 	

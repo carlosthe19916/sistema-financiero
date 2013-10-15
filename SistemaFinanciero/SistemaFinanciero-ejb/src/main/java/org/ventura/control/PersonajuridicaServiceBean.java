@@ -47,35 +47,41 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	@Override
-	public void create(Personajuridica oPersonajuridica) throws Exception {
-		Personanatural representantelegal = oPersonajuridica.getPersonanatural();
-		if (representantelegal != null) {
-			Object key = representantelegal.getDni();
-			Object result = personanaturalServiceLocal.find(key);
-			if (result == null) {
-				personanaturalServiceLocal.create(representantelegal);
-			}
-		}
-		
-		oPersonajuridicaDAO.create(oPersonajuridica);
-		
-		List<Accionista> accionistas = oPersonajuridica.getListAccionista();
-		if (accionistas != null) {
-			for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
-				Accionista accionista = (Accionista) iterator.next();
-				
-				Personanatural personanatural = accionista.getPersonanatural();
-				if(personanatural != null){
-					Object key = personanatural.getDni();
-					Object result = personanaturalServiceLocal.find(key);
-					if(result == null){
-						personanaturalServiceLocal.create(personanatural);
-					}
-					createAccionista(accionista);				
+	public void create(Personajuridica oPersonajuridica) throws RollbackFailureException  {
+		try{
+			Personanatural representantelegal = oPersonajuridica.getPersonanatural();
+			if (representantelegal != null) {
+				Object key = representantelegal.getDni();
+				Object result = personanaturalServiceLocal.find(key);
+				if (result == null) {
+					personanaturalServiceLocal.create(representantelegal);
 				}
-				
 			}
+			
+			oPersonajuridicaDAO.create(oPersonajuridica);
+			
+			List<Accionista> accionistas = oPersonajuridica.getListAccionista();
+			if (accionistas != null) {
+				for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
+					Accionista accionista = (Accionista) iterator.next();
+					
+					Personanatural personanatural = accionista.getPersonanatural();
+					if(personanatural != null){
+						Object key = personanatural.getDni();
+						Object result = personanaturalServiceLocal.find(key);
+						if(result == null){
+							personanaturalServiceLocal.create(personanatural);
+						}
+						createAccionista(accionista);				
+					}
+					
+				}
+			}
+		}catch(Exception e){
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new RollbackFailureException("Error al insertar los datos");
 		}
+				
 	}
 
 	protected void createAccionista(Accionista accionista) throws Exception{

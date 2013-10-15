@@ -40,16 +40,21 @@ public class PersonajuridicaclienteServiceBean implements Personajuridicacliente
 	private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 
 	@Override
-	public void create(Personajuridicacliente personajuridicacliente) throws Exception {
-		Personajuridica personajuridica = personajuridicacliente.getPersonajuridica();
-		if(personajuridica != null){
-			Object key = personajuridica.getRuc();
-			Object result = this.find(key);
-			if (result == null) {
-				personajuridicaServiceLocal.create(personajuridica);
+	public void create(Personajuridicacliente personajuridicacliente) throws RollbackFailureException {
+		try {
+			Personajuridica personajuridica = personajuridicacliente.getPersonajuridica();
+			if (personajuridica != null) {
+				Object key = personajuridica.getRuc();
+				Object result = this.find(key);
+				if (result == null) {
+					personajuridicaServiceLocal.create(personajuridica);
+				}
 			}
 			oPersonajuridicaclienteDAO.create(personajuridicacliente);
-		}	
+		} catch (Exception e) {
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new RollbackFailureException("Error al insertar los datos");
+		}
 	}
 
 

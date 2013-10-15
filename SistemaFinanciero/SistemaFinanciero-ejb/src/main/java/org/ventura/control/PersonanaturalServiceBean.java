@@ -35,23 +35,13 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	private PersonanaturalDAO oPersonanaturalDAO;
 
 	@Override
-	public void create(Personanatural oPersonanatural) {
+	public void create(Personanatural oPersonanatural) throws RollbackFailureException {
 		try {
 			oPersonanaturalDAO.create(oPersonanatural);
-		} catch (PreexistingEntityException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		} catch (IllegalEntityException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		} catch (RollbackFailureException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
 		} catch (Exception e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		}
-		
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new RollbackFailureException("Error al insertar los datos");
+		}	
 	}
 
 	@Override
