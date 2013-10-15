@@ -2,6 +2,7 @@ package org.ventura.control;
 
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaclienteServiceLocal;
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
@@ -28,6 +30,7 @@ import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanaturalcliente;
+import org.ventura.entity.Titularcuenta;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
@@ -46,6 +49,9 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 	@EJB
 	private PersonajuridicaclienteServiceLocal personajuridicaclienteServiceLocal;
+	
+	@EJB
+	private PersonanaturalServiceLocal personanaturalServiceLocal;
 	
 	@EJB
 	private BeneficiariocuentaDAO beneficiariocuentaDAO;
@@ -69,7 +75,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			//creando tablas relacionadas
 			crearPersonanaturalcliente(cuentaahorro.getPersonanaturalcliente());
 			crearBeneficiarios(cuentaahorro.getBeneficiariocuentas());
-			crearTitulares();
+			crearTitulares(cuentaahorro);
 			
 			cuentaahorroDAO.create(cuentaahorro);
 			
@@ -89,7 +95,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			//creando tablas relacionadas
 			crearPersonajuridicacliente(cuentaahorro.getPersonajuridicacliente());
 			crearBeneficiarios(cuentaahorro.getBeneficiariocuentas());
-			crearTitulares();
+			crearTitulares(cuentaahorro);
 			
 			cuentaahorroDAO.create(cuentaahorro);
 			
@@ -126,8 +132,25 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		}
 	}
 	
-	protected void crearTitulares() {
-		
+	protected void crearTitulares(Cuentaahorro cuentaahorro) throws IllegalEntityException, NonexistentEntityException, Exception {
+		for(int i=0;i<cuentaahorro.getTitularcuentas().size();i++){
+			if(buscarTitularCuenta(cuentaahorro.getTitularcuentas().get(i))==false&& personanaturalServiceLocal.find(cuentaahorro.getTitularcuentas().get(i).getPersonanatural().getDni())==null){
+				personanaturalServiceLocal.create(cuentaahorro.getTitularcuentas().get(i).getPersonanatural());
+				titularcuentaDAO.create(cuentaahorro.getTitularcuentas().get(i));
+			}
+			if(buscarTitularCuenta(cuentaahorro.getTitularcuentas().get(i))==false&& personanaturalServiceLocal.find(cuentaahorro.getTitularcuentas().get(i).getPersonanatural().getDni())!=null){
+				titularcuentaDAO.create(cuentaahorro.getTitularcuentas().get(i));
+			}
+		}
+	}
+	
+	protected boolean buscarTitularCuenta(Titularcuenta titularcuenta) throws IllegalEntityException, NonexistentEntityException, Exception{
+        Map<String, Object> pa = new HashMap<String, Object>();
+        pa.put("valor",titularcuenta.getDni());
+        List<Titularcuenta> list = titularcuentaDAO.findByNamedQuery(Titularcuenta.VA,pa);
+        if(list.size()!=0)
+                return true;
+        return false;
 	}
 
 	private void generarDatosDeRegistro() {
