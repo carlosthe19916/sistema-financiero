@@ -11,7 +11,7 @@ public class TitularcuentaListener {
 	@PreUpdate
 	@PrePersist
 	public void updateFeatureCode(Titularcuenta titularCuenta) {
-
+		
 		if (titularCuenta.getCuentaahorro() != null) {
 			String numeroCuentaahorro = titularCuenta.getCuentaahorro().getNumerocuentaahorro();
 			titularCuenta.setNumerocuentaahorro(numeroCuentaahorro);

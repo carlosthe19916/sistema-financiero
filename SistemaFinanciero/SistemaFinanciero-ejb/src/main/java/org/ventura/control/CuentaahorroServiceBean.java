@@ -76,14 +76,17 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	@Override
 	public Cuentaahorro create(Cuentaahorro oCuentaahorro) {
 		try {
-
+			
 			this.cuentaahorro = oCuentaahorro;
+			generarNumeroCuenta();
 			generarDatosDeRegistro();
+			
 			validarPersonaNatural(cuentaahorro.getPersonanaturalcliente().getPersonanatural(), cuentaahorro.getPersonanaturalcliente());
+			
 			validarTitularcuenta(cuentaahorro);
 			generarDatosTitularHistorial();
 			
-			generarNumeroCuenta();
+			
 			
 			cuentaahorroDAO.create(cuentaahorro);
 		} catch (Exception e) {
@@ -96,11 +99,18 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	
 	protected void validarTitularcuenta(Cuentaahorro cuentaahorro) throws IllegalEntityException, NonexistentEntityException, Exception {
 		for(int i=0;i<cuentaahorro.getTitularcuentas().size();i++){
+			
 			if(buscarTitularCuenta(cuentaahorro.getTitularcuentas().get(i))==false&& buscarPersonaNatural(cuentaahorro.getTitularcuentas().get(i).getPersonanatural())==true){
-				createTitularcuenta(cuentaahorro.getTitularcuentas().get(i));}
+				System.out.println(cuentaahorro.getNumerocuentaahorro()+cuentaahorro.getTitularcuentas().get(i).getNumerocuentaahorro()+"a");
+				createTitularcuenta(cuentaahorro,cuentaahorro.getTitularcuentas().get(i));
+				System.out.println(cuentaahorro.getNumerocuentaahorro()+cuentaahorro.getTitularcuentas().get(i).getNumerocuentaahorro());
+			}
 			if(buscarTitularCuenta(cuentaahorro.getTitularcuentas().get(i))==false&& buscarPersonaNatural(cuentaahorro.getTitularcuentas().get(i).getPersonanatural())==false){
+				System.out.println(cuentaahorro.getNumerocuentaahorro()+cuentaahorro.getTitularcuentas().get(i).getNumerocuentaahorro()+"b");
 				createPersonanatural(cuentaahorro.getTitularcuentas().get(i).getPersonanatural());
-				createTitularcuenta(cuentaahorro.getTitularcuentas().get(i));
+				System.out.println(cuentaahorro.getNumerocuentaahorro()+cuentaahorro.getTitularcuentas().get(i).getNumerocuentaahorro()+"c");
+				createTitularcuenta(cuentaahorro,cuentaahorro.getTitularcuentas().get(i));
+				System.out.println(cuentaahorro.getNumerocuentaahorro()+cuentaahorro.getTitularcuentas().get(i).getNumerocuentaahorro());
 			}
 		}		
 	}
@@ -139,19 +149,19 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	private void generarDatosTitularHistorial() {
 		List<Titularcuenta> list = cuentaahorro.getTitularcuentas();
 		
-		for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {		
+		for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
 		Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
 		List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
-		Titularcuentahistorial historiales =new Titularcuentahistorial();
-		historiales.setEstado(true);
-		historiales.setFechaactiva(Calendar.getInstance().getTime());
-		lista.add(historiales);
+		Titularcuentahistorial historial =new Titularcuentahistorial();
+		historial.setEstado(true);
+		historial.setFechaactiva(Calendar.getInstance().getTime());
+		lista.add(historial);
 		titularcuenta.setTitularcuentahistorials(lista);
-		historiales.setTitularcuenta(titularcuenta);		
-		}		
+		historial.setTitularcuenta(titularcuenta);
+		}
 	}
 	
-
+	
 	private void generarDatosDeRegistro() {
 		cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
 		cuentaahorro.setSaldo(0);
@@ -200,9 +210,14 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		}
 
 	}
-	private void createTitularcuenta(Titularcuenta titularcuenta){
-		try {
+	private void createTitularcuenta(Cuentaahorro cuentaahorro, Titularcuenta titularcuenta){
+		try {						
+		
 			
+			titularcuenta.setCuentaahorro(cuentaahorro);
+			
+			//System.out.println(cuentaahorro.getNumerocuentaahorro());
+			titularcuenta.setNumerocuentaahorro("11111111111111");
 			titularcuentaDAO.create(titularcuenta);
 
 		} catch (Exception e) {
@@ -210,7 +225,6 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		} finally {
 			log.info("Service Close");
 		}
-
 	}
 	
 	@Override
