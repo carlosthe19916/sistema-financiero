@@ -12,20 +12,20 @@ import org.ventura.entity.Accionista;
 @Local
 public interface AccionistaServiceLocal extends AccionistaServiceRemote {
 	
-	public Accionista create(Accionista oAccionista);
+	public void create(Accionista oAccionista) throws Exception;
 
-	public Accionista find(Integer id);
+	public Accionista find(Integer id) throws Exception;
 
-	public void delete(Accionista oAccionista);
+	public void delete(Accionista oAccionista) throws Exception;
 
-	public Accionista update(Accionista oAccionista);
+	public void update(Accionista oAccionista) throws Exception;
 
-	public Collection<Accionista> findByNamedQuery(String queryName);
+	public Collection<Accionista> findByNamedQuery(String queryName) throws Exception;
 
-	public Collection<Accionista> findByNamedQuery(String queryName, int resultLimit);
+	public Collection<Accionista> findByNamedQuery(String queryName, int resultLimit) throws Exception;
 
-	public List<Accionista> findByNamedQuery(String Accionista, Map<String, Object> parameters);
+	public List<Accionista> findByNamedQuery(String Accionista, Map<String, Object> parameters) throws Exception;
 
-	public List<Accionista> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit);
+	public List<Accionista> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
 
 }
