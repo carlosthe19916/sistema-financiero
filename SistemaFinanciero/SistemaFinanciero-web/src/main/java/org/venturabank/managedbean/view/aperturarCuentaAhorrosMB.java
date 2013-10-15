@@ -158,9 +158,7 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 			Personajuridicacliente personajuridicacliente = new Personajuridicacliente();
 			personajuridicacliente.setPersonajuridica(personajuridica);			
 			
-		}
-		
-		
+		}	
 	}
 	
 	public boolean validarCuentaAhorro() {

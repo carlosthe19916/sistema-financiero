@@ -55,7 +55,7 @@ public class TitularcuentaServiceBean implements TitularcuentaServiceLocal {
 	}
 
 	@Override
-	public Titularcuenta find(Integer id) {
+	public Titularcuenta find(Object id) {
 		Titularcuenta Titularcuenta = null;
 		try {
 			Titularcuenta = oTitularcuentaDAO.find(id);

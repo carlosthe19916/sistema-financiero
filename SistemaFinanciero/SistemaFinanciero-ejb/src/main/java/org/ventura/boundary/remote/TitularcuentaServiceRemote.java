@@ -14,7 +14,7 @@ public interface TitularcuentaServiceRemote {
 	
 	public Titularcuenta create(Titularcuenta oTitularcuenta);
 
-	public Titularcuenta find(Integer id);
+	public Titularcuenta find(Object id);
 
 	public void delete(Titularcuenta oTitularcuenta);
 

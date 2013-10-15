@@ -63,6 +63,7 @@ public class PersonaNaturalClienteMB implements Serializable{
 	}
 	
 	public void buscarCliente(){
+		
 		Map<String, Object> pa = new HashMap<String, Object>();
 		pa.put("valor","%"+valorBusqueda.toUpperCase()+"%");
 		List<Personanaturalcliente> list = personaNaturalClienteServicesLocal.findByNamedQuery(Personanaturalcliente.OLL,pa);

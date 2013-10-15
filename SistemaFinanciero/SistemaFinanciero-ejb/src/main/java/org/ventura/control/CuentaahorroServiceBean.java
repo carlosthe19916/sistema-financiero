@@ -22,10 +22,12 @@ import javax.persistence.TransactionRequiredException;
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
+import org.ventura.boundary.local.TitularcuentaServiceLocal;
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.dao.impl.CuentaahorroDAO;
 import org.ventura.dao.impl.PersonanaturalDAO;
 import org.ventura.dao.impl.PersonanaturalclienteDAO;
+import org.ventura.dao.impl.TitularcuentaDAO;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaahorrohistorial;
@@ -51,10 +53,16 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	private PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
 	
 	@EJB
+	private TitularcuentaServiceLocal titularCuentaServiceLocal;
+	
+	@EJB
 	private CuentaahorroDAO cuentaahorroDAO;
 	
 	@EJB
 	private PersonanaturalDAO personanaturalDAO;
+	
+	@EJB
+	private TitularcuentaDAO titularcuentaDAO;
 
 	@EJB
 	private PersonanaturalclienteDAO personanaturalclienteDAO;
@@ -71,20 +79,32 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 			this.cuentaahorro = oCuentaahorro;
 			generarDatosDeRegistro();
-			generarDatosTitularHistorial();		
-			generarNumeroCuenta();	
 			validarPersonaNatural(cuentaahorro.getPersonanaturalcliente().getPersonanatural(), cuentaahorro.getPersonanaturalcliente());
-			cuentaahorroDAO.create(cuentaahorro);	
-						
+			validarTitularcuenta(cuentaahorro);
+			generarDatosTitularHistorial();
+			
+			generarNumeroCuenta();
+			
+			cuentaahorroDAO.create(cuentaahorro);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		} finally{
 			log.info("Service Close");
 		}
-
 		return oCuentaahorro;
 	}
 	
+	protected void validarTitularcuenta(Cuentaahorro cuentaahorro) throws IllegalEntityException, NonexistentEntityException, Exception {
+		for(int i=0;i<cuentaahorro.getTitularcuentas().size();i++){
+			if(buscarTitularCuenta(cuentaahorro.getTitularcuentas().get(i))==false&& buscarPersonaNatural(cuentaahorro.getTitularcuentas().get(i).getPersonanatural())==true){
+				createTitularcuenta(cuentaahorro.getTitularcuentas().get(i));}
+			if(buscarTitularCuenta(cuentaahorro.getTitularcuentas().get(i))==false&& buscarPersonaNatural(cuentaahorro.getTitularcuentas().get(i).getPersonanatural())==false){
+				createPersonanatural(cuentaahorro.getTitularcuentas().get(i).getPersonanatural());
+				createTitularcuenta(cuentaahorro.getTitularcuentas().get(i));
+			}
+		}		
+	}
+
 	protected boolean buscarPersonaNatural(Personanatural personanatural) throws IllegalEntityException, NonexistentEntityException, Exception{
 		if(personanaturalDAO.find(personanatural.getDni())!=null)
 			return true;
@@ -98,9 +118,6 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 	
 	protected void validarPersonaNatural(Personanatural personanatural,Personanaturalcliente personanaturalcliente) throws IllegalEntityException, NonexistentEntityException, Exception{
-		if(buscarPersonaNatural(personanatural)==true && buscarPersonaNaturalCliente(personanaturalcliente)==true){
-			//createPersonanatural(personanatural);
-		}
 		if(buscarPersonaNatural(personanatural)==true && buscarPersonaNaturalCliente(personanaturalcliente)==false){
 			createPersonanaturalcliente(personanaturalcliente);
 		}
@@ -109,11 +126,20 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			createPersonanaturalcliente(personanaturalcliente);
 		}
 	}
-		
+	
+	protected boolean buscarTitularCuenta(Titularcuenta titularcuenta) throws IllegalEntityException, NonexistentEntityException, Exception{
+		Map<String, Object> pa = new HashMap<String, Object>();
+		pa.put("valor",titularcuenta.getDni());
+		List<Titularcuenta> list = titularCuentaServiceLocal.findByNamedQuery(Titularcuenta.VA,pa);
+		if(list.size()!=0)
+			return true;
+		return false;
+	}
+	
 	private void generarDatosTitularHistorial() {
 		List<Titularcuenta> list = cuentaahorro.getTitularcuentas();
 		
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {		
+		for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {		
 		Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
 		List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
 		Titularcuentahistorial historiales =new Titularcuentahistorial();
@@ -125,74 +151,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		}		
 	}
 	
-public Cuentaahorro create(Cuentaahorro oCuentaahorro,Personanatural personanatural) {
-		
-		try {
-			
-			this.cuentaahorro = oCuentaahorro;
-			
-			generarDatosDeRegistro();
-			generarDatosTitularHistorial();
-			generarNumeroCuenta();
 
-			createPersonanatural(personanatural);
-			cuentaahorroDAO.create(cuentaahorro);			
-
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		} finally{
-			log.info("Service Close");
-		}
-
-		return oCuentaahorro;
-	}
-	
-	
-	public Cuentaahorro create(Cuentaahorro oCuentaahorro, Personanaturalcliente personanaturalcliente) {
-		
-		try {
-			
-			this.cuentaahorro = oCuentaahorro;
-			
-			generarDatosDeRegistro();
-			generarDatosTitularHistorial();
-			generarNumeroCuenta();
-
-			createPersonanaturalcliente(personanaturalcliente);
-			cuentaahorroDAO.create(cuentaahorro);			
-
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		} finally{
-			log.info("Service Close");
-		}
-
-		return oCuentaahorro;
-	}
-	
-	public Cuentaahorro create(Cuentaahorro oCuentaahorro, Personanaturalcliente personanaturalcliente, Personanatural personanatural) {
-		
-		try {
-			
-			this.cuentaahorro = oCuentaahorro;
-			
-			generarDatosDeRegistro();
-			generarDatosTitularHistorial();
-			generarNumeroCuenta();
-
-			createPersonanatural(personanatural);
-			createPersonanaturalcliente(personanaturalcliente);
-			cuentaahorroDAO.create(cuentaahorro);			
-
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		} finally{
-			log.info("Service Close");
-		}
-
-		return oCuentaahorro;
-	}
-	
 	private void generarDatosDeRegistro() {
 		cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
 		cuentaahorro.setSaldo(0);
@@ -233,6 +192,18 @@ public Cuentaahorro create(Cuentaahorro oCuentaahorro,Personanatural personanatu
 		try {
 			
 			personanaturalclienteDAO.create(personanaturalcliente);
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		} finally {
+			log.info("Service Close");
+		}
+
+	}
+	private void createTitularcuenta(Titularcuenta titularcuenta){
+		try {
+			
+			titularcuentaDAO.create(titularcuenta);
 
 		} catch (Exception e) {
 			log.error(e.getMessage());

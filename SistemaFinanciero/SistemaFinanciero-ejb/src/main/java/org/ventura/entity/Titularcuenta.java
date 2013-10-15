@@ -16,8 +16,14 @@ import java.util.List;
 @Table(name = "titularcuenta", schema = "cuentapersonal")
 @EntityListeners( { TitularcuentaListener.class})
 @NamedQuery(name = "Titularcuenta.findAll", query = "SELECT t FROM Titularcuenta t")
+
+@NamedQueries({@NamedQuery(name = Titularcuenta.V, query = "Select s From Titularcuenta s"),
+	   @NamedQuery(name =  Titularcuenta.VA, query = "Select c From Titularcuenta c where c.dni=:valor")})
 public class Titularcuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public final static String V = "org.ventura.model.Titularcuenta.V";
+	public final static String VA = "org.ventura.model.Titularcuenta.VA";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
