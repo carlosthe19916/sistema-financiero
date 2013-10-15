@@ -22,7 +22,6 @@ import javax.persistence.TransactionRequiredException;
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
-import org.ventura.boundary.local.TitularcuentaServiceLocal;
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.dao.impl.CuentaahorroDAO;
 import org.ventura.dao.impl.PersonanaturalDAO;
@@ -51,10 +50,10 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 	@EJB
 	private PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
-	
+	/*
 	@EJB
 	private TitularcuentaServiceLocal titularCuentaServiceLocal;
-	
+	*/
 	@EJB
 	private CuentaahorroDAO cuentaahorroDAO;
 	
@@ -74,7 +73,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	Log log;
 
 	@Override
-	public Cuentaahorro create(Cuentaahorro oCuentaahorro) {
+	public void create(Cuentaahorro oCuentaahorro) {
 		try {
 			
 			this.cuentaahorro = oCuentaahorro;
@@ -94,7 +93,6 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		} finally{
 			log.info("Service Close");
 		}
-		return oCuentaahorro;
 	}
 	
 	protected void validarTitularcuenta(Cuentaahorro cuentaahorro) throws IllegalEntityException, NonexistentEntityException, Exception {
@@ -138,11 +136,11 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 	
 	protected boolean buscarTitularCuenta(Titularcuenta titularcuenta) throws IllegalEntityException, NonexistentEntityException, Exception{
-		Map<String, Object> pa = new HashMap<String, Object>();
+		/*Map<String, Object> pa = new HashMap<String, Object>();
 		pa.put("valor",titularcuenta.getDni());
 		List<Titularcuenta> list = titularCuentaServiceLocal.findByNamedQuery(Titularcuenta.VA,pa);
 		if(list.size()!=0)
-			return true;
+			return true;*/
 		return false;
 	}
 	
@@ -228,7 +226,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 	
 	@Override
-	public Cuentaahorro find(Integer id) {
+	public Cuentaahorro find(Object id) {
 		try {
 			return cuentaahorroDAO.find(id);
 		} catch (IllegalEntityException e) {
@@ -264,8 +262,8 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 
 	@Override
-	public Cuentaahorro update(Cuentaahorro oCuentaahorro) {
-		try {
+	public void update(Cuentaahorro oCuentaahorro) {
+		/*try {
 			return cuentaahorroDAO.update(oCuentaahorro);
 		} catch (RollbackFailureException e) {
 			// TODO Auto-generated catch block
@@ -273,8 +271,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		return oCuentaahorro;
+		}*/
 	}
 
 	@Override

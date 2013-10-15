@@ -1,6 +1,7 @@
 package org.ventura.control;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +14,14 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.PersonajuridicaServiceRemote;
+import org.ventura.boundary.remote.PersonanaturalServiceRemote;
+import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.dao.impl.PersonajuridicaDAO;
+import org.ventura.entity.Accionista;
 import org.ventura.entity.Personajuridica;
+import org.ventura.entity.Personanatural;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
@@ -33,25 +39,51 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 
 	@EJB
 	private PersonajuridicaDAO oPersonajuridicaDAO;
+	
+	@EJB
+	private AccionistaDAO accionistaDAO;
+	
+	@EJB
+	private PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	@Override
-	public Personajuridica create(Personajuridica oPersonajuridica) {
-		try {
-			oPersonajuridicaDAO.create(oPersonajuridica);
-		} catch (PreexistingEntityException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		} catch (IllegalEntityException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		} catch (RollbackFailureException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		} catch (Exception e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
+	public void create(Personajuridica oPersonajuridica) throws Exception {
+		Personanatural representantelegal = oPersonajuridica.getPersonanatural();
+		if (representantelegal != null) {
+			Object key = representantelegal.getDni();
+			Object result = personanaturalServiceLocal.find(key);
+			if (result == null) {
+				personanaturalServiceLocal.create(representantelegal);
+			}
 		}
-		return oPersonajuridica;
+		
+		oPersonajuridicaDAO.create(oPersonajuridica);
+		
+		List<Accionista> accionistas = oPersonajuridica.getListAccionista();
+		if (accionistas != null) {
+			for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
+				Accionista accionista = (Accionista) iterator.next();
+				
+				Personanatural personanatural = accionista.getPersonanatural();
+				if(personanatural != null){
+					Object key = personanatural.getDni();
+					Object result = personanaturalServiceLocal.find(key);
+					if(result == null){
+						personanaturalServiceLocal.create(personanatural);
+					}
+					createAccionista(accionista);				
+				}
+				
+			}
+		}
+	}
+
+	protected void createAccionista(Accionista accionista) throws Exception{
+		accionistaDAO.create(accionista);
+	}
+	
+	protected Accionista findAccionista(Object id) throws Exception{
+		return accionistaDAO.find(id);
 	}
 
 	@Override
@@ -83,7 +115,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	}
 
 	@Override
-	public Personajuridica update(Personajuridica oPersonajuridica) {
+	public void update(Personajuridica oPersonajuridica) {
 		Personajuridica Personajuridica = null;
 		try {
 			Personajuridica = oPersonajuridicaDAO.update(oPersonajuridica);
@@ -94,7 +126,6 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Personajuridica;
 	}
 
 	@Override

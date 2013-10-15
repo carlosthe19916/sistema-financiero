@@ -35,7 +35,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	private CuentaplazofijoDAO oCuentaplazofijoDAO;
 
 	@Override
-	public Cuentaplazofijo create(Cuentaplazofijo oCuentaplazofijo) {
+	public void create(Cuentaplazofijo oCuentaplazofijo) {
 		try {
 			oCuentaplazofijoDAO.create(oCuentaplazofijo);
 		} catch (PreexistingEntityException e) {
@@ -51,11 +51,10 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			log.error("ERROR:" + e.getMessage());
 			log.error("Caused by:" + e.getCause());
 		}
-		return oCuentaplazofijo;
 	}
 
 	@Override
-	public Cuentaplazofijo find(Integer id) {
+	public Cuentaplazofijo find(Object id) {
 		Cuentaplazofijo Cuentaplazofijo = null;
 		try {
 			Cuentaplazofijo = oCuentaplazofijoDAO.find(id);
@@ -83,7 +82,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	}
 
 	@Override
-	public Cuentaplazofijo update(Cuentaplazofijo oCuentaplazofijo) {
+	public void update(Cuentaplazofijo oCuentaplazofijo) {
 		Cuentaplazofijo Cuentaplazofijo = null;
 		try {
 			Cuentaplazofijo = oCuentaplazofijoDAO.update(oCuentaplazofijo);
@@ -94,7 +93,6 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Cuentaplazofijo;
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 	private PersonanaturalclienteDAO oPersonanaturalclienteDAO;
 
 	@Override
-	public Personanaturalcliente create(Personanaturalcliente oPersonanaturalcliente) {
+	public void create(Personanaturalcliente oPersonanaturalcliente) {
 		try {
 			oPersonanaturalclienteDAO.create(oPersonanaturalcliente);
 		} catch (PreexistingEntityException e) {
@@ -51,7 +51,6 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 			log.error("ERROR:" + e.getMessage());
 			log.error("Caused by:" + e.getCause());
 		}
-		return oPersonanaturalcliente;
 	}
 
 	@Override
@@ -83,7 +82,7 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 	}
 
 	@Override
-	public Personanaturalcliente update(Personanaturalcliente oPersonanaturalcliente) {
+	public void update(Personanaturalcliente oPersonanaturalcliente) {
 		Personanaturalcliente Personanaturalcliente = null;
 		try {
 			Personanaturalcliente = oPersonanaturalclienteDAO.update(oPersonanaturalcliente);
@@ -94,7 +93,6 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Personanaturalcliente;
 	}
 
 	@Override

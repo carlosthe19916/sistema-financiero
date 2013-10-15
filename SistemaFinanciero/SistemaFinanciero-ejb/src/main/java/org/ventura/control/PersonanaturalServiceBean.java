@@ -35,7 +35,7 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	private PersonanaturalDAO oPersonanaturalDAO;
 
 	@Override
-	public Personanatural create(Personanatural oPersonanatural) {
+	public void create(Personanatural oPersonanatural) {
 		try {
 			oPersonanaturalDAO.create(oPersonanatural);
 		} catch (PreexistingEntityException e) {
@@ -51,7 +51,7 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 			log.error("ERROR:" + e.getMessage());
 			log.error("Caused by:" + e.getCause());
 		}
-		return oPersonanatural;
+		
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	}
 
 	@Override
-	public Personanatural update(Personanatural oPersonanatural) {
+	public void update(Personanatural oPersonanatural) {
 		Personanatural Personanatural = null;
 		try {
 			Personanatural = oPersonanaturalDAO.update(oPersonanatural);
@@ -94,7 +94,6 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Personanatural;
 	}
 
 	@Override
