@@ -36,7 +36,7 @@ import org.venturabank.util.ComboMB;
 public class aperturarCuentaAhorrosMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private String mensaje;
 
 	@EJB
@@ -90,77 +90,98 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	}
 
 	public String createCuentaahorro() {
+		try {
+			if (validarCuentaAhorro()) {
+				this.establecerParametrosCuentaahorro();
 
-		if (validarCuentaAhorro()) {
-			this.establecerParametrosCuentaahorro();
-			this.cuentaahorroServiceLocal.create(cuentaahorro);	
-			return "cuentaAhorroImprimirDatos";
-		} else {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"System Error", mensaje);
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			
-			return null;
+				if (isPersonaNatural()) {
+					this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonanatural(cuentaahorro);
+				}
+				if (isPersonaJuridica()) {
+					this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonanatural(cuentaahorro);
+				}
+				
+				return "cuentaAhorroImprimirDatos";
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "System Error", mensaje);
+				FacesContext.getCurrentInstance().addMessage(null, message);
+
+				return null;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
+		return null;
 	}
-	
-	
-	
-	public void establecerParametrosCuentaahorro(){		
-		
-		if(comboTipoPersona.getItemSelected()==1){
+
+	public void establecerParametrosCuentaahorro() {
+
+		if (comboTipoPersona.getItemSelected() == 1) {
 			// se recuperan los datos de los Managed Bean invocados
-			Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();			
-			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-			
-			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
-			List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
-			
+			Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB
+					.getCuentaahorro();
+			Personanatural personanatural = personaNaturalMB
+					.getPersonaNatural();
+
+			List<Titularcuenta> listTitularcuenta = titularesMB
+					.getTablaTitulares().getRows();
+			List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB
+					.getTablaBeneficiarios().getRows();
+
 			// se crean las clases a relacionar con la Cuenta de Ahorros
-			
-			Personanaturalcliente personanaturalcliente = new Personanaturalcliente();			
+
+			Personanaturalcliente personanaturalcliente = new Personanaturalcliente();
 			personanaturalcliente.setPersonanatural(personanatural);
 
 			// Se relaciona la Cuenta de Ahorros con los objetos recuperados
 			this.cuentaahorro = cuentaahorro;
-			this.cuentaahorro.setPersonanaturalcliente(personanaturalcliente);		
+			this.cuentaahorro.setPersonanaturalcliente(personanaturalcliente);
 			this.cuentaahorro.setTitularcuentas(listTitularcuenta);
-			this.cuentaahorro.setBeneficiariocuentas(listBeneficiariocuenta);				
-			
-			//se relacionan los titulares y beneficiarios a la cuentacorriente
-			List<Cuentaahorrohistorial> historiales = cuentaahorro.getCuentaahorrohistorials();
+			this.cuentaahorro.setBeneficiariocuentas(listBeneficiariocuenta);
+
+			// se relacionan los titulares y beneficiarios a la cuentacorriente
+			List<Cuentaahorrohistorial> historiales = cuentaahorro
+					.getCuentaahorrohistorials();
 			Cuentaahorrohistorial cuentaahorrohistorial = historiales.get(0);
 
 			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
 			cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
 
-			List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro.getBeneficiariocuentas();
+			List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro
+					.getBeneficiariocuentas();
 
-			for (Iterator iterator = beneficiariocuentas.iterator(); iterator.hasNext();) {
+			for (Iterator iterator = beneficiariocuentas.iterator(); iterator
+					.hasNext();) {
 				Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
 				var.setCuentaahorro(cuentaahorro);
 			}
 
-			List<Titularcuenta> titularcuentas = cuentaahorro.getTitularcuentas();
-		
-			for (Iterator iterator = titularcuentas.iterator(); iterator.hasNext();) {
+			List<Titularcuenta> titularcuentas = cuentaahorro
+					.getTitularcuentas();
+
+			for (Iterator iterator = titularcuentas.iterator(); iterator
+					.hasNext();) {
 				Titularcuenta var = (Titularcuenta) iterator.next();
 				String dni = var.getPersonanatural().getDni();
-				var.setDni(dni);				
-				var.setCuentaahorro(cuentaahorro);		
-			}			
-			String dniCliente = cuentaahorro.getPersonanaturalcliente().getPersonanatural().getDni();
+				var.setDni(dni);
+				var.setCuentaahorro(cuentaahorro);
+			}
+			String dniCliente = cuentaahorro.getPersonanaturalcliente()
+					.getPersonanatural().getDni();
 			cuentaahorro.getPersonanaturalcliente().setDni(dniCliente);
 			cuentaahorro.setDni(dniCliente);
-			
-		}else{
-			Personajuridica personajuridica =personaJuridicaMB.getoPersonajuridica();
+
+		} else {
+			Personajuridica personajuridica = personaJuridicaMB
+					.getoPersonajuridica();
 			Personajuridicacliente personajuridicacliente = new Personajuridicacliente();
-			personajuridicacliente.setPersonajuridica(personajuridica);			
-			
-		}	
+			personajuridicacliente.setPersonajuridica(personajuridica);
+
+		}
 	}
-	
+
 	public boolean validarCuentaAhorro() {
 
 		boolean result = true;
@@ -170,7 +191,8 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		if (isPersonaNatural()) {
 			if (!personaNaturalMB.isValid()) {
 				result = false;
-				this.mensaje = mensaje + "Datos de Persona Natural Invalidos \n";
+				this.mensaje = mensaje
+						+ "Datos de Persona Natural Invalidos \n";
 			}
 			if (!beneficiariosMB.isValid()) {
 				result = false;
@@ -181,15 +203,16 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		if (isPersonaJuridica()) {
 			if (!personaJuridicaMB.isValid()) {
 				result = false;
-				this.mensaje = mensaje + "Datos de Persona Juridica invalidos \n";
+				this.mensaje = mensaje
+						+ "Datos de Persona Juridica invalidos \n";
 			}
 		}
 
-		if(!datosFinancierosCuentaAhorroMB.isValid()){
+		if (!datosFinancierosCuentaAhorroMB.isValid()) {
 			result = false;
 			this.mensaje = mensaje + "Datos Financieros invalidos \n";
 		}
-		
+
 		if (!titularesMB.isValid()) {
 			result = false;
 			this.mensaje = mensaje + "Datos de Titulares \n";
@@ -213,22 +236,23 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		else
 			return false;
 	}
-	
-	public void establecerTitularDefecto(){
+
+	public void establecerTitularDefecto() {
 		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-		
+
 		Titularcuenta titularcuenta = new Titularcuenta();
 		titularcuenta.setPersonanatural(personanatural);
-		
-		List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares().getRows();
-		
+
+		List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares()
+				.getRows();
+
 		if (titularcuentas.size() == 0) {
 			titularcuentas.add(titularcuenta);
 		} else {
 			titularcuentas.set(0, titularcuenta);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * GETTER AND SETTER

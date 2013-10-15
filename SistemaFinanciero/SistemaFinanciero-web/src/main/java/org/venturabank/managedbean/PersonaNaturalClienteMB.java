@@ -64,10 +64,20 @@ public class PersonaNaturalClienteMB implements Serializable{
 	
 	public void buscarCliente(){
 		
-		Map<String, Object> pa = new HashMap<String, Object>();
-		pa.put("valor","%"+valorBusqueda.toUpperCase()+"%");
-		List<Personanaturalcliente> list = personaNaturalClienteServicesLocal.findByNamedQuery(Personanaturalcliente.OLL,pa);
-		tablaClientes.setRows(list);
+		
+		try {
+			Map<String, Object> pa = new HashMap<String, Object>();
+			pa.put("valor","%"+valorBusqueda.toUpperCase()+"%");
+			List<Personanaturalcliente> list;
+			
+			list = personaNaturalClienteServicesLocal.findByNamedQuery(Personanaturalcliente.OLL,pa);
+			
+			tablaClientes.setRows(list);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void obtenerDNISeleccionado(){

@@ -84,7 +84,12 @@ public class aperturarCuentaPlazoFijoMB implements Serializable {
 
 	public void createCuentaplazofijo() {
 
-		this.cuentaaplazofijoServiceLocal.create(cuentaplazofijo);
+		try {
+			this.cuentaaplazofijoServiceLocal.create(cuentaplazofijo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public boolean isPersonaNatural() {

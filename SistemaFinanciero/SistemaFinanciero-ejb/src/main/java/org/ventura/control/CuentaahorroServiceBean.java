@@ -2,6 +2,7 @@ package org.ventura.control;
 
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -20,12 +21,16 @@ import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaclienteServiceLocal;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
+import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaahorroDAO;
+import org.ventura.dao.impl.TitularcuentaDAO;
+import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanaturalcliente;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
+import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
@@ -43,25 +48,27 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	private PersonajuridicaclienteServiceLocal personajuridicaclienteServiceLocal;
 	
 	@EJB
+	private BeneficiariocuentaDAO beneficiariocuentaDAO;
+	
+	@EJB
+	private TitularcuentaDAO titularcuentaDAO;
+	
+	@EJB
 	private CuentaahorroDAO cuentaahorroDAO;
-
-	@Inject
-	private Cuentaahorro cuentaahorro;
 	
 	@Inject
 	Log log;
 
 	@Override
-	public void createCuentaAhorroWithPersonanatural(Cuentaahorro oCuentaahorro) throws RollbackFailureException {
+	public void createCuentaAhorroWithPersonanatural(Cuentaahorro cuentaahorro) throws RollbackFailureException {
 		try {
 
-			this.cuentaahorro = oCuentaahorro;
 			generarNumeroCuenta();
 			generarDatosDeRegistro();
 
 			//creando tablas relacionadas
-			crearPersonanaturalcliente();
-			crearBeneficiarios();
+			crearPersonanaturalcliente(cuentaahorro.getPersonanaturalcliente());
+			crearBeneficiarios(cuentaahorro.getBeneficiariocuentas());
 			crearTitulares();
 			
 			cuentaahorroDAO.create(cuentaahorro);
@@ -73,16 +80,15 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 
 	@Override
-	public void createCuentaAhorroWithPersonajuridica(Cuentaahorro oCuentaahorro) throws RollbackFailureException {
+	public void createCuentaAhorroWithPersonajuridica(Cuentaahorro cuentaahorro) throws RollbackFailureException {
 		try {
 
-			this.cuentaahorro = oCuentaahorro;
 			generarNumeroCuenta();
 			generarDatosDeRegistro();
 
 			//creando tablas relacionadas
-			crearPersonajuridicacliente();
-			crearBeneficiarios();
+			crearPersonajuridicacliente(cuentaahorro.getPersonajuridicacliente());
+			crearBeneficiarios(cuentaahorro.getBeneficiariocuentas());
 			crearTitulares();
 			
 			cuentaahorroDAO.create(cuentaahorro);
@@ -93,8 +99,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		}
 	}
 	
-	protected void crearPersonanaturalcliente() throws Exception{
-		Personanaturalcliente personanaturalcliente = cuentaahorro.getPersonanaturalcliente();
+	protected void crearPersonanaturalcliente(Personanaturalcliente personanaturalcliente) throws Exception{
 		if(personanaturalcliente != null){
 			Object key = personanaturalcliente.getDni();
 			Object result = personaNaturalClienteServicesLocal.find(key);
@@ -104,20 +109,21 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		}
 	}
 
-	protected void crearPersonajuridicacliente() throws Exception {
-		Personajuridicacliente personajuridicacliente = cuentaahorro.getPersonajuridicacliente();
+	protected void crearPersonajuridicacliente(Personajuridicacliente personajuridicacliente) throws Exception {
 		if (personajuridicacliente != null) {
 			Object key = personajuridicacliente.getRuc();
 			Object result = personajuridicaclienteServiceLocal.find(key);
 			if (result == null) {
-				personajuridicaclienteServiceLocal
-						.create(personajuridicacliente);
+				personajuridicaclienteServiceLocal.create(personajuridicacliente);
 			}
 		}
 	}
 	
-	protected void crearBeneficiarios() {
-		
+	protected void crearBeneficiarios(List<Beneficiariocuenta> beneficiarios) throws Exception {
+		for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+			Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
+			beneficiariocuentaDAO.create(beneficiariocuenta);
+		}
 	}
 	
 	protected void crearTitulares() {
@@ -125,9 +131,9 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 
 	private void generarDatosDeRegistro() {
-		cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
-		cuentaahorro.setSaldo(0);
-		cuentaahorro.setIdestadocuenta(1);
+		//cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
+		//cuentaahorro.setSaldo(0);
+		//cuentaahorro.setIdestadocuenta(1);
 	}
 
 	private void generarNumeroCuenta() {
@@ -143,7 +149,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			digits[i] = (char) ('0' + random.nextInt(10));
 		}
 
-		cuentaahorro.setNumerocuentaahorro(digits.toString());
+		//cuentaahorro.setNumerocuentaahorro(digits.toString());
 
 	}
 
@@ -151,17 +157,9 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	public Cuentaahorro find(Object id) {
 		try {
 			return cuentaahorroDAO.find(id);
-		} catch (IllegalEntityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NonexistentEntityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		return cuentaahorro;
+		return null;
 	}
 
 	@Override

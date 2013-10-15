@@ -48,22 +48,30 @@ public class PersonaNaturalMB implements Serializable {
 	}
 
 	public void buscarPersona(){
-		Personanatural personanatural = personanaturalServiceLocal.find(personaNatural.getDni());
-
-		if (personanatural != null) {
-			this.personaNatural = personanatural;
-			this.comboSexo.setItemSelected(personanatural.getSexo());
-			this.comboEstadoCivil.setItemSelected(personanatural.getEstadocivil());
-		} else {
-			personanatural = new Personanatural();
-			personanatural.setDni(getPersonaNatural().getDni());
+		Personanatural personanatural;
+		try {
+			personanatural = personanaturalServiceLocal.find(personaNatural.getDni());
 			
-			this.personaNatural = personanatural;
-			this.comboSexo.setItemSelected(-1);
-			this.comboEstadoCivil.setItemSelected(-1);
-			
-			this.changeEditingState();
+			if (personanatural != null) {
+				this.personaNatural = personanatural;
+				this.comboSexo.setItemSelected(personanatural.getSexo());
+				this.comboEstadoCivil.setItemSelected(personanatural.getEstadocivil());
+			} else {
+				personanatural = new Personanatural();
+				personanatural.setDni(getPersonaNatural().getDni());
+				
+				this.personaNatural = personanatural;
+				this.comboSexo.setItemSelected(-1);
+				this.comboEstadoCivil.setItemSelected(-1);
+				
+				this.changeEditingState();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		
 
 	}
 

@@ -3,11 +3,6 @@ package org.venturabank.managedbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
-
-
-
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -15,7 +10,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.NoneScoped;
 import javax.faces.event.ValueChangeEvent;
 
-import org.ventura.boundary.local.AccionistaServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.entity.Accionista;
@@ -24,7 +18,6 @@ import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Sexo;
 import org.ventura.entity.Tipoempresa;
-import org.ventura.entity.Titularcuenta;
 import org.venturabank.util.ComboMB;
 import org.venturabank.util.TablaMB;
 
@@ -54,9 +47,6 @@ public class PersonaJuridicaMB implements Serializable {
 	@ManagedProperty(value = "#{comboMB}")
 	private ComboMB<Estadocivil> comboEstadocivil;
 	
-	@EJB
-	AccionistaServiceLocal accionistaFacadeLocal;
-	
 	@ManagedProperty(value = "#{tablaMB}")
 	private TablaMB<Accionista> tablaAccionistas;
 	
@@ -78,70 +68,80 @@ public class PersonaJuridicaMB implements Serializable {
 	}
 	
 	public void buscarPersonaJuririca(){
-		Personajuridica personajuridica = personaJuridicaFacadeLocal.find(oPersonajuridica.getRuc());
-
-		if (personajuridica != null) {
-			this.oPersonajuridica = personajuridica;
-			this.comboTipoempresa.setItemSelected(personajuridica.getTipoempresa());
+		Personajuridica personajuridica;
+		try {
+			personajuridica = personaJuridicaFacadeLocal.find(oPersonajuridica.getRuc());
 			
-			this.comboSexo.setItemSelected(personajuridica.getPersonanatural().getSexo());
-			this.comboEstadocivil.setItemSelected(personajuridica.getPersonanatural().getEstadocivil());
-			this.tablaAccionistas.setRows(oPersonajuridica.getListAccionista());
-		} else {
-			personajuridica = new Personajuridica();
-			personajuridica.setRuc(getoPersonajuridica().getRuc());
-			personajuridica.setPersonanatural(new Personanatural());
+			if (personajuridica != null) {
+				this.oPersonajuridica = personajuridica;
+				this.comboTipoempresa.setItemSelected(personajuridica.getTipoempresa());
+				
+				this.comboSexo.setItemSelected(personajuridica.getPersonanatural().getSexo());
+				this.comboEstadocivil.setItemSelected(personajuridica.getPersonanatural().getEstadocivil());
+				this.tablaAccionistas.setRows(oPersonajuridica.getListAccionista());
+			} else {
+				personajuridica = new Personajuridica();
+				personajuridica.setRuc(getoPersonajuridica().getRuc());
+				personajuridica.setPersonanatural(new Personanatural());
+				
+				this.oPersonajuridica = personajuridica;
+				this.tablaAccionistas.clearRows();
+				
+				this.comboTipoempresa.setItemSelected(-1);
+				
+				this.changeEditingState();
+			}
 			
-			this.oPersonajuridica = personajuridica;
-			this.tablaAccionistas.clearRows();
+		} catch (Exception e) {
 			
-			this.comboTipoempresa.setItemSelected(-1);
-			
-			this.changeEditingState();
-		}
+		}		
 	}
 	
 	public void buscarPersonanatural(){
-	
-		Personanatural personanatural = personanaturalServiceLocal.find(oPersonajuridica.getDnirepresentantelegal());
-
-		if (personanatural != null) {
-			this.oPersonajuridica.setPersonanatural(personanatural);
-			this.comboSexo.setItemSelected(personanatural.getSexo());
-			this.comboEstadocivil.setItemSelected(personanatural.getEstadocivil());
+		Personanatural personanatural;
+		try {
+			personanatural = personanaturalServiceLocal.find(oPersonajuridica.getDnirepresentantelegal());			
+			if (personanatural != null) {
+				this.oPersonajuridica.setPersonanatural(personanatural);
+				this.comboSexo.setItemSelected(personanatural.getSexo());
+				this.comboEstadocivil.setItemSelected(personanatural.getEstadocivil());				
+			} else {
+				personanatural = new Personanatural();
+				personanatural.setDni(oPersonajuridica.getPersonanatural().getDni());
+				
+				this.oPersonajuridica.setPersonanatural(personanatural);
+				this.comboSexo.setItemSelected(-1);
+				this.comboEstadocivil.setItemSelected(-1);
+				
+				this.changeEditingPersonanaturalState();
+			}
+		} catch (Exception e) {
 			
-		} else {
-			personanatural = new Personanatural();
-			personanatural.setDni(oPersonajuridica.getPersonanatural().getDni());
-			
-			this.oPersonajuridica.setPersonanatural(personanatural);
-			this.comboSexo.setItemSelected(-1);
-			this.comboEstadocivil.setItemSelected(-1);
-			
-			this.changeEditingPersonanaturalState();
-		}
-
+		}	
 	}
 	
-	public void buscarAccionista(){
-		
-		Accionista accionista = tablaAccionistas.getEditingRow();
-		Personanatural personanatural = accionista.getPersonanatural();
-		
-		personanatural = personanaturalServiceLocal.find(personanatural.getDni());
-		
-		if (personanatural != null) {
-			accionista.setPersonanatural(personanatural);
+	public void buscarAccionista(){	
+		try {
+			Accionista accionista = tablaAccionistas.getEditingRow();
+			Personanatural personanatural = accionista.getPersonanatural();
 			
-			this.comboSexoAccionista.setItemSelected(personanatural.getSexo());
+			personanatural = personanaturalServiceLocal.find(personanatural.getDni());
 			
-			this.tablaAccionistas.setEditingRow(accionista);					
-		} else {
-			personanatural = new Personanatural();			
-			personanatural.setDni(tablaAccionistas.getSelectedRow().getPersonanatural().getDni());
-			accionista.setPersonanatural(personanatural);		
-		}
-
+			if (personanatural != null) {
+				accionista.setPersonanatural(personanatural);
+				
+				this.comboSexoAccionista.setItemSelected(personanatural.getSexo());
+				
+				this.tablaAccionistas.setEditingRow(accionista);					
+			} else {
+				personanatural = new Personanatural();			
+				personanatural.setDni(tablaAccionistas.getSelectedRow().getPersonanatural().getDni());
+				accionista.setPersonanatural(personanatural);		
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 	
 	
@@ -185,16 +185,12 @@ public class PersonaJuridicaMB implements Serializable {
 		this.oPersonajuridica.getPersonanatural().setEstadocivil(getComboEstadocivil().getObjectItemSelected(key));
 	}
 	
-	public void insertarPersonaJuridica(){
-		personaJuridicaFacadeLocal.create(oPersonajuridica);
-	}
-	
-	public String razonSocial(boolean finsocial){
-		if(finsocial)
+	public String razonSocial(boolean finsocial) {
+		if (finsocial)
 			return "Con fines de lucro";
-			else 
-				return "Sin fines de lucro";
-			
+		else
+			return "Sin fines de lucro";
+
 	}
 	
 	public Personajuridica getoPersonajuridica() {

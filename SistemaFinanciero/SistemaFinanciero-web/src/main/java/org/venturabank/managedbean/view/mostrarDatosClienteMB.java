@@ -61,7 +61,12 @@ public class mostrarDatosClienteMB implements Serializable {
 	}
 	
 	public void cargarDatosPersonaNaturalCliente(){
-		personaEditar = personaNaturalClienteServicesLocal.find(personaEditar.getDni());
+		try {
+			personaEditar = personaNaturalClienteServicesLocal.find(personaEditar.getDni());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void imprimir(){
