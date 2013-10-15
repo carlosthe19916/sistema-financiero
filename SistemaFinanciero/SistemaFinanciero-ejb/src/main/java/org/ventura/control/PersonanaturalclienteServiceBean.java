@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.PersonanaturalclienteServiceRemote;
 import org.ventura.dao.impl.PersonanaturalclienteDAO;
+import org.ventura.entity.Personanatural;
 import org.ventura.entity.Personanaturalcliente;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
@@ -33,23 +34,25 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 
 	@EJB
 	private PersonanaturalclienteDAO oPersonanaturalclienteDAO;
+	
+	@EJB
+	private PersonanaturalServiceBean personanaturalServiceLocal;
 
 	@Override
-	public void create(Personanaturalcliente oPersonanaturalcliente) {
+	public void create(Personanaturalcliente oPersonanaturalcliente) throws RollbackFailureException {
 		try {
-			oPersonanaturalclienteDAO.create(oPersonanaturalcliente);
-		} catch (PreexistingEntityException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		} catch (IllegalEntityException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		} catch (RollbackFailureException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
+			Personanatural personanatural = oPersonanaturalcliente.getPersonanatural();
+			if (personanatural != null) {
+				Object key = personanatural.getDni();
+				Object result = personanaturalServiceLocal.find(key);
+				if (result == null) {
+					personanaturalServiceLocal.create(personanatural);
+				}
+			}
+			oPersonanaturalclienteDAO.create(oPersonanaturalcliente);		
 		} catch (Exception e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new RollbackFailureException("Error al insertar los datos");
 		}
 	}
 
