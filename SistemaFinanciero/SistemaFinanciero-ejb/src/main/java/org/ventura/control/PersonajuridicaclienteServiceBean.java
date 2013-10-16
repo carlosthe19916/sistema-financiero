@@ -38,7 +38,7 @@ public class PersonajuridicaclienteServiceBean implements Personajuridicacliente
 	private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 
 	@Override
-	public void create(Personajuridicacliente personajuridicacliente) throws Exception {
+	public Personajuridicacliente create(Personajuridicacliente personajuridicacliente) throws Exception {
 		try {
 			Personajuridica personajuridica = personajuridicacliente.getPersonajuridica();
 			if (personajuridica != null) {
@@ -55,6 +55,7 @@ public class PersonajuridicaclienteServiceBean implements Personajuridicacliente
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error interno, inténtelo nuevamente");
 		}
+		return personajuridicacliente;
 	}
 
 

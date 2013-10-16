@@ -12,7 +12,7 @@ import org.ventura.entity.Cuentacorriente;
 @Local
 public interface CuentacorrienteServiceLocal extends CuentacorrienteServiceRemote{
 	
-	public void create(Cuentacorriente oCuentacorriente)throws Exception;
+	public Cuentacorriente create(Cuentacorriente oCuentacorriente)throws Exception;
 
 	public Cuentacorriente find(Object id)throws Exception;
 

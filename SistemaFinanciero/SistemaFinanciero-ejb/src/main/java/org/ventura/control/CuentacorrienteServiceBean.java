@@ -35,9 +35,9 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 	private CuentacorrienteDAO oCuentacorrienteDAO;
 
 	@Override
-	public void create(Cuentacorriente oCuentacorriente) {
+	public Cuentacorriente create(Cuentacorriente cuentacorriente) {
 		try {
-			oCuentacorrienteDAO.create(oCuentacorriente);
+			oCuentacorrienteDAO.create(cuentacorriente);
 		} catch (PreexistingEntityException e) {
 			log.error("ERROR:" + e.getMessage());
 			log.error("Caused by:" + e.getCause());
@@ -51,7 +51,7 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 			log.error("ERROR:" + e.getMessage());
 			log.error("Caused by:" + e.getCause());
 		}
-	
+		return cuentacorriente;
 	}
 
 	@Override

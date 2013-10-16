@@ -48,6 +48,25 @@ table {
 	white-space: nowrap;
 }
 
+.sf-agrupador-content-cabecera-black {
+	background: #eaf3ea;
+	border-color: #ddd;
+	border-style: solid;
+	border-width: 1px 1px 1px;
+	font-weight: bold;
+	font-size: 11px;
+	margin: 0;
+	padding: 5px 5px;
+	background-color: #eee;
+	white-space: nowrap;
+}
+
+.sf-agrupador-content-cabecera-black h3 {
+	font-weight: bold;
+	font-size: 11px;
+	margin: 0px;
+}
+
 .sf-agrupador-content-cabecera h3 {
 	color: #4b6d4f !important;
 	font-weight: bold;

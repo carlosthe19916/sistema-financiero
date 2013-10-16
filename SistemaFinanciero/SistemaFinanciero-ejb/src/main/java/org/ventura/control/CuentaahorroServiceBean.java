@@ -96,8 +96,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			crearPersonanaturalForTitulares(cuentaahorro);
 			generarDatosTitularHistorial(cuentaahorro);
 			
-			cuentaahorroDAO.create(cuentaahorro);
-			
+			cuentaahorroDAO.create(cuentaahorro);			
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");

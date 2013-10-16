@@ -12,7 +12,7 @@ import org.ventura.entity.Cuentaplazofijo;
 @Local
 public interface CuentaplazofijoServiceLocal extends CuentaplazofijoServiceRemote{
 	
-	public void create(Cuentaplazofijo oCuentaplazofijo)throws Exception;
+	public Cuentaplazofijo create(Cuentaplazofijo oCuentaplazofijo)throws Exception;
 
 	public Cuentaplazofijo find(Object id);
 

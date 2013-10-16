@@ -35,7 +35,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	private CuentaplazofijoDAO oCuentaplazofijoDAO;
 
 	@Override
-	public void create(Cuentaplazofijo oCuentaplazofijo) {
+	public Cuentaplazofijo create(Cuentaplazofijo oCuentaplazofijo) {
 		try {
 			oCuentaplazofijoDAO.create(oCuentaplazofijo);
 		} catch (PreexistingEntityException e) {
@@ -51,6 +51,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			log.error("ERROR:" + e.getMessage());
 			log.error("Caused by:" + e.getCause());
 		}
+		return oCuentaplazofijo;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import org.ventura.entity.Personajuridica;
 @Local
 public interface PersonajuridicaServiceLocal extends PersonajuridicaServiceRemote {
 
-	public void create(Personajuridica oPersonajuridica)throws Exception;
+	public Personajuridica create(Personajuridica oPersonajuridica)throws Exception;
 
 	public Personajuridica find(Object id)throws Exception;
 

@@ -42,7 +42,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	@Override
-	public void create(Personajuridica oPersonajuridica) throws Exception  {
+	public Personajuridica create(Personajuridica oPersonajuridica) throws Exception  {
 		try{
 			Personanatural representantelegal = oPersonajuridica.getPersonanatural();
 			if (representantelegal != null) {
@@ -78,7 +78,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error interno, inténtelo nuevamente");
 		}
-				
+		return oPersonajuridica;		
 	}
 
 	protected void createAccionista(Accionista accionista) throws Exception{

@@ -36,7 +36,7 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	@Override
-	public void create(Personanaturalcliente oPersonanaturalcliente) throws Exception {
+	public Personanaturalcliente create(Personanaturalcliente oPersonanaturalcliente) throws Exception {
 		try {
 			Personanatural personanatural = oPersonanaturalcliente.getPersonanatural();
 			if (personanatural != null) {
@@ -53,6 +53,7 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error interno, inténtelo nuevamente");
 		}
+		return oPersonanaturalcliente;
 	}
 
 	@Override
