@@ -1,6 +1,5 @@
 package org.ventura.control;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +18,6 @@ import org.ventura.boundary.remote.PersonanaturalclienteServiceRemote;
 import org.ventura.dao.impl.PersonanaturalclienteDAO;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Personanaturalcliente;
-import org.ventura.util.exception.NonexistentEntityException;
-import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
 @Stateless
@@ -39,7 +36,7 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	@Override
-	public void create(Personanaturalcliente oPersonanaturalcliente) throws RollbackFailureException {
+	public void create(Personanaturalcliente oPersonanaturalcliente) throws Exception {
 		try {
 			Personanatural personanatural = oPersonanaturalcliente.getPersonanatural();
 			if (personanatural != null) {
@@ -51,8 +48,10 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 			}
 			oPersonanaturalclienteDAO.create(oPersonanaturalcliente);		
 		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new RollbackFailureException("Error al insertar los datos");
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 	}
 
@@ -61,93 +60,91 @@ public class PersonanaturalclienteServiceBean implements PersonanaturalclienteSe
 		Personanaturalcliente Personanaturalcliente = null;
 		try {
 			Personanaturalcliente = oPersonanaturalclienteDAO.find(id);
-		} catch(IOException e){
-			System.out.println("Errorrrrrrrrracasssssss");
 		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new NonexistentEntityException("Error al buscar los datos");
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return Personanaturalcliente;
 	}
 
 	@Override
-	public void delete(Personanaturalcliente oPersonanaturalcliente) {
+	public void delete(Personanaturalcliente oPersonanaturalcliente) throws Exception {
 		try {
 			oPersonanaturalclienteDAO.delete(oPersonanaturalcliente);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 	}
 
 	@Override
-	public void update(Personanaturalcliente oPersonanaturalcliente) {
+	public void update(Personanaturalcliente oPersonanaturalcliente) throws Exception {
 		try {
 			 oPersonanaturalclienteDAO.update(oPersonanaturalcliente);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 	}
 
 	@Override
-	public Collection<Personanaturalcliente> findByNamedQuery(String queryName) {
+	public Collection<Personanaturalcliente> findByNamedQuery(String queryName) throws Exception {
 		Collection<Personanaturalcliente> collection = null;
 		try {
 			collection = oPersonanaturalclienteDAO.findByNamedQuery(queryName);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return collection;
 	}
 
 	@Override
-	public Collection<Personanaturalcliente> findByNamedQuery(String queryName, int resultLimit) {
+	public Collection<Personanaturalcliente> findByNamedQuery(String queryName, int resultLimit) throws Exception {
 		Collection<Personanaturalcliente> collection = null;
 		try {
 			collection = oPersonanaturalclienteDAO.findByNamedQuery(queryName, resultLimit);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return collection;
 	}
 
 	@Override
-	public List<Personanaturalcliente> findByNamedQuery(String Personanaturalcliente,
-			Map<String, Object> parameters) {
+	public List<Personanaturalcliente> findByNamedQuery(String Personanaturalcliente,Map<String, Object> parameters) throws Exception {
 		List<Personanaturalcliente> list = null;
 		try {
 			list = oPersonanaturalclienteDAO.findByNamedQuery(Personanaturalcliente, parameters);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return list;
 	}
 
 	@Override
-	public List<Personanaturalcliente> findByNamedQuery(String namedQueryName,
-			Map<String, Object> parameters, int resultLimit) {
+	public List<Personanaturalcliente> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception {
 		List<Personanaturalcliente> list = null;
 		try {
 			list = oPersonanaturalclienteDAO.findByNamedQuery(namedQueryName, parameters);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 
 		return list;

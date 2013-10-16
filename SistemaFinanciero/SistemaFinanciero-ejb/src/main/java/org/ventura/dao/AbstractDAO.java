@@ -56,7 +56,7 @@ public abstract class AbstractDAO<T> {
 		}
 	}
 
-	public T find(Object id) throws IllegalEntityException, NonexistentEntityException, Exception {
+	public T find(Object id) throws IllegalEntityException, NonexistentEntityException, Exception  {
 		T t = null;
 		try {
 			t = getEntityManager().find(entityClass, id);

@@ -38,7 +38,7 @@ public class PersonajuridicaclienteServiceBean implements Personajuridicacliente
 	private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 
 	@Override
-	public void create(Personajuridicacliente personajuridicacliente) throws RollbackFailureException {
+	public void create(Personajuridicacliente personajuridicacliente) throws Exception {
 		try {
 			Personajuridica personajuridica = personajuridicacliente.getPersonajuridica();
 			if (personajuridica != null) {
@@ -50,96 +50,104 @@ public class PersonajuridicaclienteServiceBean implements Personajuridicacliente
 			}
 			oPersonajuridicaclienteDAO.create(personajuridicacliente);
 		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new RollbackFailureException("Error al insertar los datos");
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 	}
 
 
 	@Override
-	public Personajuridicacliente find(Object id) throws NonexistentEntityException {
+	public Personajuridicacliente find(Object id) throws Exception {
 		Personajuridicacliente Personajuridicacliente = null;
 		try {
 			Personajuridicacliente = oPersonajuridicaclienteDAO.find(id);
 		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new NonexistentEntityException("Error buscar entity");
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return Personajuridicacliente;
 	}
 
 	@Override
-	public void delete(Personajuridicacliente oPersonajuridicacliente) throws NonexistentEntityException {
+	public void delete(Personajuridicacliente oPersonajuridicacliente) throws Exception {
 		try {
 			oPersonajuridicaclienteDAO.delete(oPersonajuridicacliente);
 		}  catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new NonexistentEntityException("Error eliminar entity");
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 	}
 
 	@Override
-	public void update(Personajuridicacliente oPersonajuridicacliente) throws RollbackFailureException{
+	public void update(Personajuridicacliente oPersonajuridicacliente) throws Exception{
 		try {
 			oPersonajuridicaclienteDAO.update(oPersonajuridicacliente);
 		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new RollbackFailureException("Error eliminar entity");
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 	}
 
 	@Override
-	public Collection<Personajuridicacliente> findByNamedQuery(String queryName) {
+	public Collection<Personajuridicacliente> findByNamedQuery(String queryName) throws Exception {
 		Collection<Personajuridicacliente> collection = null;
 		try {
 			collection = oPersonajuridicaclienteDAO.findByNamedQuery(queryName);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return collection;
 	}
 
 	@Override
-	public Collection<Personajuridicacliente> findByNamedQuery(String queryName, int resultLimit) {
+	public Collection<Personajuridicacliente> findByNamedQuery(String queryName, int resultLimit) throws Exception {
 		Collection<Personajuridicacliente> collection = null;
 		try {
 			collection = oPersonajuridicaclienteDAO.findByNamedQuery(queryName, resultLimit);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return collection;
 	}
 
 	@Override
-	public List<Personajuridicacliente> findByNamedQuery(String Personajuridicacliente,
-			Map<String, Object> parameters) {
+	public List<Personajuridicacliente> findByNamedQuery(String Personajuridicacliente, Map<String, Object> parameters) throws Exception {
 		List<Personajuridicacliente> list = null;
 		try {
 			list = oPersonajuridicaclienteDAO.findByNamedQuery(Personajuridicacliente, parameters);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return list;
 	}
 
 	@Override
-	public List<Personajuridicacliente> findByNamedQuery(String namedQueryName,
-			Map<String, Object> parameters, int resultLimit) {
+	public List<Personajuridicacliente> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception {
 		List<Personajuridicacliente> list = null;
 		try {
 			list = oPersonajuridicaclienteDAO.findByNamedQuery(namedQueryName, parameters);
-		} catch (RollbackFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 
 		return list;

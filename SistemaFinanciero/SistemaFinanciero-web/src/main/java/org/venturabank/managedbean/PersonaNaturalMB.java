@@ -50,7 +50,6 @@ public class PersonaNaturalMB implements Serializable {
 	public void buscarPersona() {
 		try {
 			Personanatural personanatural;
-			//personanatural = personanaturalServiceLocal.find(1235);
 			personanatural = personanaturalServiceLocal.find(personaNatural.getDni());
 			
 			if (personanatural != null) {
@@ -68,8 +67,7 @@ public class PersonaNaturalMB implements Serializable {
 				this.changeEditingState();
 			}
 		} catch (Exception e) {
-			System.out.println("error");
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "System Error", "Error al Buscar la Persona");
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error", e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
