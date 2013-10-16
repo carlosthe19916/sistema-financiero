@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,9 +32,9 @@ import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
+import org.ventura.entity.Titularcuentahistorial;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
-import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
@@ -69,13 +70,14 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	public void createCuentaAhorroWithPersonanatural(Cuentaahorro cuentaahorro) throws RollbackFailureException {
 		try {
 
-			generarNumeroCuenta();
-			generarDatosDeRegistro();
+			generarNumeroCuenta(cuentaahorro);
+			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
 			crearPersonanaturalcliente(cuentaahorro.getPersonanaturalcliente());
 			crearBeneficiarios(cuentaahorro.getBeneficiariocuentas());
 			crearTitulares(cuentaahorro);
+			generarDatosTitularHistorial(cuentaahorro);
 			
 			cuentaahorroDAO.create(cuentaahorro);
 			
@@ -89,8 +91,8 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	public void createCuentaAhorroWithPersonajuridica(Cuentaahorro cuentaahorro) throws RollbackFailureException {
 		try {
 
-			generarNumeroCuenta();
-			generarDatosDeRegistro();
+			generarNumeroCuenta(cuentaahorro);
+			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
 			crearPersonajuridicacliente(cuentaahorro.getPersonajuridicacliente());
@@ -106,10 +108,15 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 	
 	protected void crearPersonanaturalcliente(Personanaturalcliente personanaturalcliente) throws Exception{
-		if(personanaturalcliente != null){
-			Object key = personanaturalcliente.getDni();
-			Object result = personaNaturalClienteServicesLocal.find(key);
-			if(result == null){
+		if(personanaturalcliente!=null&&personanaturalcliente.getPersonanatural() != null){
+			Object key = personanaturalcliente.getPersonanatural().getDni();
+			Object result = personanaturalServiceLocal.find(key);
+			Object result1= personaNaturalClienteServicesLocal.find(personanaturalcliente.getDni());
+			if(result == null&&result1==null){
+				personanaturalServiceLocal.create(personanaturalcliente.getPersonanatural());
+				personaNaturalClienteServicesLocal.create(personanaturalcliente);
+			}
+			if(result!=null&& result1==null){
 				personaNaturalClienteServicesLocal.create(personanaturalcliente);
 			}
 		}
@@ -152,14 +159,29 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
                 return true;
         return false;
 	}
+	
+	private void generarDatosTitularHistorial(Cuentaahorro cuentaahorro) {
+        List<Titularcuenta> list = cuentaahorro.getTitularcuentas();
+        
+        for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
+        Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
+        List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
+        Titularcuentahistorial historial =new Titularcuentahistorial();
+        historial.setEstado(true);
+        historial.setFechaactiva(Calendar.getInstance().getTime());
+        lista.add(historial);
+        titularcuenta.setTitularcuentahistorials(lista);
+        historial.setTitularcuenta(titularcuenta);
+        }
+}
 
-	private void generarDatosDeRegistro() {
-		//cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
-		//cuentaahorro.setSaldo(0);
-		//cuentaahorro.setIdestadocuenta(1);
+	private void generarDatosDeRegistro(Cuentaahorro cuentaahorro) {
+		cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
+		cuentaahorro.setSaldo(0);
+		cuentaahorro.setIdestadocuenta(1);
 	}
 
-	private void generarNumeroCuenta() {
+	private void generarNumeroCuenta(Cuentaahorro cuentaahorro) {
 
 		Random random = new Random();
 		int length = 14;
@@ -172,7 +194,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			digits[i] = (char) ('0' + random.nextInt(10));
 		}
 
-		//cuentaahorro.setNumerocuentaahorro(digits.toString());
+		cuentaahorro.setNumerocuentaahorro(digits.toString());
 
 	}
 
