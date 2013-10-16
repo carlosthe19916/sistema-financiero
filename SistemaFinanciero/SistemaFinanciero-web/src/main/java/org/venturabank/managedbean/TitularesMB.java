@@ -73,7 +73,7 @@ public class TitularesMB implements Serializable {
 	}
 
 	public boolean isValid() {
-		if (cantidadRetirantes > tablaTitulares.getRows().size())
+		if (cantidadRetirantes > tablaTitulares.getRows().size() + 1)
 			return false;
 		else
 			return true;
