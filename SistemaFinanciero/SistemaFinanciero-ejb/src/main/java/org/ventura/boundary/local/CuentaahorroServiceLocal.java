@@ -12,9 +12,9 @@ import org.ventura.entity.Cuentaahorro;
 @Local
 public interface CuentaahorroServiceLocal extends CuentaahorroServiceRemote{
 	
-	public void createCuentaAhorroWithPersonanatural(Cuentaahorro cuentaahorro) throws Exception;
+	public Cuentaahorro createCuentaAhorroWithPersonanatural(Cuentaahorro cuentaahorro) throws Exception;
 
-	public void createCuentaAhorroWithPersonajuridica(Cuentaahorro cuentaahorro) throws Exception;
+	public Cuentaahorro createCuentaAhorroWithPersonajuridica(Cuentaahorro cuentaahorro) throws Exception;
 
 	public Cuentaahorro find(Object id) throws Exception;
 
