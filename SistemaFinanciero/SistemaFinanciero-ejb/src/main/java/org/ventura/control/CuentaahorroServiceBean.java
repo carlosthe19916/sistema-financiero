@@ -67,7 +67,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	Log log;
 
 	@Override
-	public void createCuentaAhorroWithPersonanatural(Cuentaahorro cuentaahorro) throws RollbackFailureException {
+	public void createCuentaAhorroWithPersonanatural(Cuentaahorro cuentaahorro) throws Exception {
 		try {
 
 			generarNumeroCuenta(cuentaahorro);
@@ -83,12 +83,12 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new RollbackFailureException("Error al insertar los datos");
+			throw new Exception("Error al insertar los datos");
 		} 
 	}
 
 	@Override
-	public void createCuentaAhorroWithPersonajuridica(Cuentaahorro cuentaahorro) throws RollbackFailureException {
+	public void createCuentaAhorroWithPersonajuridica(Cuentaahorro cuentaahorro) throws Exception {
 		try {
 
 			generarNumeroCuenta(cuentaahorro);
@@ -96,14 +96,14 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 			//creando tablas relacionadas
 			crearPersonajuridicacliente(cuentaahorro.getPersonajuridicacliente());
-			crearBeneficiarios(cuentaahorro.getBeneficiariocuentas());
-			crearTitulares(cuentaahorro);
+			//crearBeneficiarios(cuentaahorro.getBeneficiariocuentas());
+			//crearTitulares(cuentaahorro);
 			
 			cuentaahorroDAO.create(cuentaahorro);
 			
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new RollbackFailureException("Error al insertar los datos");
+			throw new Exception("Error al insertar los datos");
 		}
 	}
 	

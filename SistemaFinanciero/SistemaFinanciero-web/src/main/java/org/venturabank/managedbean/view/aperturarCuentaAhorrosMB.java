@@ -93,45 +93,36 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 		try {
 			if (validarCuentaAhorro()) {
 				this.establecerParametrosCuentaahorro();
-
 				if (isPersonaNatural()) {
 					this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonanatural(cuentaahorro);
 				}
 				if (isPersonaJuridica()) {
-					this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonanatural(cuentaahorro);
-				}
-				
+					this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonajuridica(cuentaahorro);
+				}				
 				return "cuentaAhorroImprimirDatos";
 			} else {
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_INFO, "System Error", mensaje);
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
 				FacesContext.getCurrentInstance().addMessage(null, message);
-
 				return null;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error", e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		return null;
 	}
 
-	public void establecerParametrosCuentaahorro() {
+	public void establecerParametrosCuentaahorro() throws Exception {
 
 		if (comboTipoPersona.getItemSelected() == 1) {
 			// se recuperan los datos de los Managed Bean invocados
-			Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB
-					.getCuentaahorro();
-			Personanatural personanatural = personaNaturalMB
-					.getPersonaNatural();
+			Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
+			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
 
-			List<Titularcuenta> listTitularcuenta = titularesMB
-					.getTablaTitulares().getRows();
-			List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB
-					.getTablaBeneficiarios().getRows();
+			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
+			List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
 
 			// se crean las clases a relacionar con la Cuenta de Ahorros
-
 			Personanaturalcliente personanaturalcliente = new Personanaturalcliente();
 			personanaturalcliente.setPersonanatural(personanatural);
 
@@ -142,43 +133,38 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 			this.cuentaahorro.setBeneficiariocuentas(listBeneficiariocuenta);
 
 			// se relacionan los titulares y beneficiarios a la cuentacorriente
-			List<Cuentaahorrohistorial> historiales = cuentaahorro
-					.getCuentaahorrohistorials();
+			List<Cuentaahorrohistorial> historiales = cuentaahorro.getCuentaahorrohistorials();
 			Cuentaahorrohistorial cuentaahorrohistorial = historiales.get(0);
 
 			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
 			cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
 
-			List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro
-					.getBeneficiariocuentas();
+			List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro.getBeneficiariocuentas();
 
-			for (Iterator iterator = beneficiariocuentas.iterator(); iterator
-					.hasNext();) {
+			for (Iterator<Beneficiariocuenta> iterator = beneficiariocuentas.iterator(); iterator.hasNext();) {
 				Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
 				var.setCuentaahorro(cuentaahorro);
 			}
 
-			List<Titularcuenta> titularcuentas = cuentaahorro
-					.getTitularcuentas();
+			List<Titularcuenta> titularcuentas = cuentaahorro.getTitularcuentas();
 
-			for (Iterator iterator = titularcuentas.iterator(); iterator
-					.hasNext();) {
+			for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
 				Titularcuenta var = (Titularcuenta) iterator.next();
 				String dni = var.getPersonanatural().getDni();
 				var.setDni(dni);
 				var.setCuentaahorro(cuentaahorro);
 			}
-			String dniCliente = cuentaahorro.getPersonanaturalcliente()
-					.getPersonanatural().getDni();
+			String dniCliente = cuentaahorro.getPersonanaturalcliente().getPersonanatural().getDni();
 			cuentaahorro.getPersonanaturalcliente().setDni(dniCliente);
 			cuentaahorro.setDni(dniCliente);
 
-		} else {
-			Personajuridica personajuridica = personaJuridicaMB
-					.getoPersonajuridica();
+		} if (comboTipoPersona.getItemSelected() == 2) {
+			Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
 			Personajuridicacliente personajuridicacliente = new Personajuridicacliente();
 			personajuridicacliente.setPersonajuridica(personajuridica);
-
+		}
+		if (comboTipoPersona.getItemSelected() < 1 || comboTipoPersona.getItemSelected() > 2) {
+			throw new Exception("Error al establecer los parametros de la cuenta de ahorros");
 		}
 	}
 
