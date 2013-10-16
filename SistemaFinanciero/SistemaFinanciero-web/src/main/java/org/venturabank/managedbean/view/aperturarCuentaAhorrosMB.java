@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
+import org.ventura.entity.Accionista;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaahorrohistorial;
@@ -113,10 +114,10 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	}
 
 	public void establecerParametrosCuentaahorro() throws Exception {
-
+		Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
 		if (comboTipoPersona.getItemSelected() == 1) {
 			// se recuperan los datos de los Managed Bean invocados
-			Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
+			
 			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
 
 			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
@@ -138,33 +139,65 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 
 			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
 			cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
-
-			List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro.getBeneficiariocuentas();
-
-			for (Iterator<Beneficiariocuenta> iterator = beneficiariocuentas.iterator(); iterator.hasNext();) {
-				Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
-				var.setCuentaahorro(cuentaahorro);
-			}
-
-			List<Titularcuenta> titularcuentas = cuentaahorro.getTitularcuentas();
-
-			for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
-				Titularcuenta var = (Titularcuenta) iterator.next();
-				String dni = var.getPersonanatural().getDni();
-				var.setDni(dni);
-				var.setCuentaahorro(cuentaahorro);
-			}
+			listarBeneficiarioCuenta(cuentaahorro);		
+			
+			listartitularCuenta(cuentaahorro);
+			
 			String dniCliente = cuentaahorro.getPersonanaturalcliente().getPersonanatural().getDni();
 			cuentaahorro.getPersonanaturalcliente().setDni(dniCliente);
 			cuentaahorro.setDni(dniCliente);
 
-		} if (comboTipoPersona.getItemSelected() == 2) {
+		} if (comboTipoPersona.getItemSelected() == 2) {			
 			Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
 			Personajuridicacliente personajuridicacliente = new Personajuridicacliente();
 			personajuridicacliente.setPersonajuridica(personajuridica);
+			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
+			this.cuentaahorro = cuentaahorro;
+			this.cuentaahorro.setPersonajuridicacliente(personajuridicacliente);
+			this.cuentaahorro.setTitularcuentas(listTitularcuenta);
+			List<Cuentaahorrohistorial> historiales = cuentaahorro.getCuentaahorrohistorials();
+			Cuentaahorrohistorial cuentaahorrohistorial = historiales.get(0);
+			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
+			cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
+			listartitularCuenta(cuentaahorro);
+			listaraccionista(cuentaahorro);
+			
+			String rucCliente = cuentaahorro.getPersonajuridicacliente().getPersonajuridica().getRuc();
+			cuentaahorro.getPersonajuridicacliente().setRuc(rucCliente);
+			cuentaahorro.setRuc(rucCliente);
 		}
 		if (comboTipoPersona.getItemSelected() < 1 || comboTipoPersona.getItemSelected() > 2) {
 			throw new Exception("Error al establecer los parametros de la cuenta de ahorros");
+		}
+	}
+	
+	private void listarBeneficiarioCuenta(Cuentaahorro cuentaahorro){
+		List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro.getBeneficiariocuentas();
+
+		for (Iterator<Beneficiariocuenta> iterator = beneficiariocuentas.iterator(); iterator.hasNext();) {
+			Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
+			var.setCuentaahorro(cuentaahorro);
+		}
+	}
+	
+	private void listartitularCuenta(Cuentaahorro cuentaahorro){
+		List<Titularcuenta> titularcuentas = cuentaahorro.getTitularcuentas();
+
+		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
+			Titularcuenta var = (Titularcuenta) iterator.next();
+			String dni = var.getPersonanatural().getDni();
+			var.setDni(dni);
+			var.setCuentaahorro(cuentaahorro);
+		}
+	}
+	private void listaraccionista(Cuentaahorro cuentaahorro){
+		List<Accionista> accionistas = personaJuridicaMB.getoPersonajuridica().getListAccionista();
+
+		for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
+			Accionista var = (Accionista) iterator.next();
+			String dni = var.getPersonanatural().getDni();
+			var.getId().setDni(dni);
+			var.setPersonajuridica(personaJuridicaMB.getoPersonajuridica());
 		}
 	}
 
