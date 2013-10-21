@@ -1,7 +1,9 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -68,7 +70,7 @@ public class Personajuridica implements Serializable {
 	// bi-directional many-to-one association to Accionista
 	@OneToMany(mappedBy = "personajuridica", fetch = FetchType.EAGER)
 	private List<Accionista> listAccionista;
-
+	
 	// bi-directional many-to-one association to Accionista
 
 	@OneToMany(mappedBy = "personajuridica")
@@ -185,6 +187,11 @@ public class Personajuridica implements Serializable {
 
 	public void setTipoempresa(Tipoempresa tipoempresa) {
 		this.tipoempresa = tipoempresa;
+		if (tipoempresa != null) {
+			this.idtipoempresa = tipoempresa.getIdtipoempresa();
+		} else {
+			this.idtipoempresa = null;
+		}
 	}
 
 	public String getDnirepresentantelegal() {
@@ -217,6 +224,7 @@ public class Personajuridica implements Serializable {
 
 	public void setPersonanatural(Personanatural personanatural) {
 		this.personanatural = personanatural;
+		this.dnirepresentantelegal = personanatural.getDni();
 	}
 
 	public List<Personajuridicacliente> getListPersonajuridicacliente() {

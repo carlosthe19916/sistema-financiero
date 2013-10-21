@@ -7,12 +7,17 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.CuentacorrienteServiceRemote;
+import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentacorriente;
 
 @Local
 public interface CuentacorrienteServiceLocal extends CuentacorrienteServiceRemote{
 	
-	public Cuentacorriente create(Cuentacorriente oCuentacorriente)throws Exception;
+
+	public Cuentacorriente createCuentaCorrienteWithPersonanatural(Cuentacorriente cuentacorriente) throws Exception;
+
+	public Cuentacorriente createCuentaCorrienteWithPersonajuridica(Cuentacorriente cuentacorriente) throws Exception;
+
 
 	public Cuentacorriente find(Object id)throws Exception;
 
@@ -27,5 +32,7 @@ public interface CuentacorrienteServiceLocal extends CuentacorrienteServiceRemot
 	public List<Cuentacorriente> findByNamedQuery(String Cuentacorriente, Map<String, Object> parameters)throws Exception;
 
 	public List<Cuentacorriente> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit)throws Exception;
+
+	
 
 }

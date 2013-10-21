@@ -107,7 +107,7 @@ public class PersonaJuridicaMB implements Serializable {
 				this.comboEstadocivil.setItemSelected(personanatural.getEstadocivil());				
 			} else {
 				personanatural = new Personanatural();
-				personanatural.setDni(oPersonajuridica.getPersonanatural().getDni());
+				personanatural.setDni(oPersonajuridica.getDnirepresentantelegal());
 				
 				this.oPersonajuridica.setPersonanatural(personanatural);
 				this.comboSexo.setItemSelected(-1);
@@ -166,7 +166,7 @@ public class PersonaJuridicaMB implements Serializable {
 	
 	public void changeTipoempresa(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		this.oPersonajuridica.setTipoempresa(getComboTipoempresa().getObjectItemSelected(key));
+		this.oPersonajuridica.setTipoempresa(getComboTipoempresa().getObjectItemSelected(key));		
 	}
 	
 	public void changeSexo(ValueChangeEvent event) {

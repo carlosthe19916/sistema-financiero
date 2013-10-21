@@ -43,7 +43,7 @@ public class PersonajuridicaclienteServiceBean implements Personajuridicacliente
 			Personajuridica personajuridica = personajuridicacliente.getPersonajuridica();
 			if (personajuridica != null) {
 				Object key = personajuridica.getRuc();
-				Object result = this.find(key);
+				Object result = personajuridicaServiceLocal.find(key);
 				if (result == null) {
 					personajuridicaServiceLocal.create(personajuridica);
 				}
@@ -57,7 +57,6 @@ public class PersonajuridicaclienteServiceBean implements Personajuridicacliente
 		}
 		return personajuridicacliente;
 	}
-
 
 	@Override
 	public Personajuridicacliente find(Object id) throws Exception {
