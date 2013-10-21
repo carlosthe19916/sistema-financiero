@@ -24,9 +24,9 @@
 									<p:outputLabel>Moneda:</p:outputLabel>
 								</td>
 								<td>							
-										<p:selectOneMenu id="tipoMoneda" value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.itemSelected}" valueChangeListener="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.changeTipomoneda}" required="true" requiredMessage="Seleccione un tipo de moneda">
+										<p:selectOneMenu id="tipoMoneda" value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.comboTipomoneda.itemSelected}" valueChangeListener="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.changeTipomoneda}" required="true" requiredMessage="Seleccione un tipo de moneda">
 											<f:selectItem itemLabel="--Seleccione--"/>
-											<f:selectItems value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.comboTipomoneda.items.entrySet()}" var="tipomoneda" itemLabel="#{tipomoneda.value.denominacion}" itemValue="#{tipomoneda.key}"/>
+											<f:selectItems value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.comboTipomoneda.items.entrySet()}" var="tipomoneda" itemLabel="#{tipomoneda.value.denominacion}" itemValue="#{tipomoneda.key}"/>
 											<p:ajax update="growl,tipoMoneda"/>
 										</p:selectOneMenu>
 										<p:outputLabel for="tipoMoneda"/>
@@ -50,7 +50,7 @@
 									<p:outputLabel>Tasa de Interes:</p:outputLabel>
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorrohistorial.tasainteres}"/>
+									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorrohistorial.tasainteres}"/>
 									<p:outputLabel value="%"/>
 								</td>
 							</tr>
@@ -59,7 +59,7 @@
 									<p:outputLabel>Estado cuenta:</p:outputLabel>
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.estadocuenta.denominacion}" styleClass="sf-label-bold"/> 									
+									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorro.estadocuenta.denominacion}" styleClass="sf-label-bold"/> 									
 								</td>
 							
 							</tr>	
@@ -68,7 +68,7 @@
 									<p:outputLabel>Saldo:</p:outputLabel>
 								</td>
 								<td>																		
-									<p:outputLabel value="#{aperturarCuentaAhorrosMB.datosFinancierosCuentaAhorroMB.cuentaahorro.saldo}" styleClass="sf-label-bold"/>
+									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorro.saldo}" styleClass="sf-label-bold"/>
 								</td>
 							</tr>						
 						</table>

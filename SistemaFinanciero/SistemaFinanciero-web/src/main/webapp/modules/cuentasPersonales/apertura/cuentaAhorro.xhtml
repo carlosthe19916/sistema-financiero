@@ -1,10 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
@@ -27,114 +26,11 @@
 		</div>
 
 		<div>
-			<table>
-				<tr>
-					<td>Tipo Persona:</td>
-					<td>
-						<h:form>
-							<p:selectOneMenu
-								value="#{aperturarCuentaAhorrosMB.comboTipoPersona.itemSelected}">
-								<f:selectItems
-									value="#{aperturarCuentaAhorrosMB.comboTipoPersona.items.entrySet()}"
-									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-								<p:ajax update=":panelDatos"/>
-							</p:selectOneMenu>
-						</h:form>
-					</td>
-				</tr>
-			</table>
-		</div>
-
-
-
-		<h:panelGroup id="panelDatos">
-
-			<!-- PersonaNatural -->
-			<ui:include src="/modules/maestros/personaNaturalResumen.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
-				<ui:param name="componentName" value="personaNatural" />
-				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
-			</ui:include>
-			<ui:include src="/modules/maestros/personaNaturalDialog.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
-				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated"
-					value=":personaNatural,:titulares" />
-			</ui:include>
-			<!-- end PersonaNatural -->
-
-
-			<!-- Persona Juridica -->
-			<ui:include src="/modules/maestros/personaJuridicaResumen.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
-				<ui:param name="componentName" value="personaJuridica" />
-				<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
-			</ui:include>
-			<ui:include src="/modules/maestros/personaJuridicaDialog.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
-				<ui:param name="componentName" value="dlgPersonaJuridica" />
-				<ui:param name="componentToUpdated"
-					value="personaJuridica,:titulares" />
-			</ui:include>
-			<!-- end Persona Juridica -->
-
-
-			<!-- Datos financieros cuenta ahorros -->
-			<ui:include
-				src="/modules/cuentasPersonales/apertura/datosFinancierosCuentaAhorroResumen.xhtml">
-				<ui:param name="componentName" value="datosFinancieros" />
-				<ui:param name="editarOutputDialog" value="dlgDatosFinancieros" />
-			</ui:include>
-			<ui:include
-				src="/modules/cuentasPersonales/apertura/datosFinancierosCuentaAhorroDialog.xhtml">
-				<ui:param name="componentName" value="dlgDatosFinancieros" />
-				<ui:param name="componentToUpdated" value="datosFinancieros" />
-			</ui:include>
-			<!-- end Datos financieros cuenta ahorros -->
-
-			<!-- Titulares -->
-			<ui:include src="/modules/maestros/titularesResumen.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
-				<ui:param name="componentName" value="titulares" />
-				<ui:param name="editarOutputDialog" value="dlgTitulares" />
-			</ui:include>
-			<ui:include src="/modules/maestros/titularesDialog.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
-				<ui:param name="componentName" value="dlgTitulares" />
-				<ui:param name="componentToUpdated" value=":titulares" />
-			</ui:include>
-			<!-- end Titulares -->
-
-			<!-- Beneficiarios -->
-			<ui:include src="/modules/maestros/beneficiariosResumen.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
-				<ui:param name="componentName" value="beneficiarios" />
-				<ui:param name="editarOutputDialog" value="dlgBeneficiarios" />
-			</ui:include>
-			<ui:include src="/modules/maestros/beneficiariosDialog.xhtml">
-				<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
-				<ui:param name="componentName" value="dlgBeneficiarios" />
-				<ui:param name="componentToUpdated" value="beneficiarios" />
-			</ui:include>
-			<!-- end Beneficiarios -->
-
-		</h:panelGroup>
-
-
-		<div class="sf-buttons">
 			<h:form>
-				<p:growl id="messages" showDetail="true" />
-				<p:commandButton value="Guardar"
-					actionListener="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"
-					action="aperturarCuentaahorro-flow"
-					update="messages,:panelDatos" styleClass="action green">
-				</p:commandButton>
-
-				<p:commandButton value="Cancelar" styleClass="action" />
+				<h:commandButton value="entrar" action="aperturarCuentaahorro-flow"></h:commandButton>
 			</h:form>
 		</div>
-		
-		
+
 	</ui:define>
 
 </ui:composition>
