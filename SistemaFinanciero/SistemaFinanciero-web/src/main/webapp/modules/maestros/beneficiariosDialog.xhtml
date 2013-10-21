@@ -2,8 +2,8 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
@@ -47,7 +47,6 @@
 					</div>
 
 					<div style="padding: 0px 5px;">
-
 						<h:form id="form-beneficiarios">
 							<p:dataTable id="tablaBeneficiarios"
 								value="#{managedBean.beneficiariosMB.tablaBeneficiarios.rows}"
@@ -128,18 +127,23 @@
 								</p:column>
 							</p:dataTable>
 						</h:form>
-
 					</div>
 
 					<div class="sf-buttons">
-						<p:commandButton value="Aceptar" 
-							update="#{componentToUpdated},form-beneficiarios"
-							oncomplete="#{componentName}.hide()"
-							actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}" />
-						<p:commandButton value="Cancelar"
-							update="form-beneficiarios"
-							onclick="#{componentName}.hide()"
-							actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}" />
+						<h:form>
+							<p:commandButton 
+								value="Aceptar" 
+								update=":#{componentToUpdated},:form-beneficiarios"
+								oncomplete="#{componentName}.hide()"
+								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
+							</p:commandButton>
+							<p:commandButton 
+								value="Cancelar"
+								update=":form-beneficiarios"
+								onclick="#{componentName}.hide()"
+								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
+							</p:commandButton>
+						</h:form>
 					</div>
 
 				</div>

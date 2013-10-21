@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	id="WebApp_ID" version="3.0">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
 	<display-name>Sistema Financiero</display-name>
-	
-	
+
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
@@ -19,11 +18,17 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	<context-param>
 		<param-name>primefaces.THEME</param-name>
 		<param-value>bootstrap</param-value>
 	</context-param>
-
-
+	<context-param>
+		<param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
+		<param-value>url</param-value>
+	</context-param>
 
 	<security-constraint>
 		<display-name>constraint protected</display-name>
@@ -57,16 +62,16 @@
 			<role-name>ventanilla</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
+
 	<security-role>
 		<description>Acesso a todo el Sistema</description>
-		<role-name>administrator</role-name>	
+		<role-name>administrator</role-name>
 	</security-role>
 	<security-role>
 		<description>Atencion al usuario</description>
 		<role-name>ventanilla</role-name>
 	</security-role>
-	
+
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>file</realm-name>
@@ -75,5 +80,5 @@
 			<form-error-page>/error.xhtml</form-error-page>
 		</form-login-config>
 	</login-config>
-	
+
 </web-app>

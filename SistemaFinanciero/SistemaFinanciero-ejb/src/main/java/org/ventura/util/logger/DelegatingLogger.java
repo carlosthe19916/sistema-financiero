@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 /**
  * @author blog.adam-bien.com
  */
-@Alternative
 public class DelegatingLogger implements Log {
 
 	private Logger logger;
