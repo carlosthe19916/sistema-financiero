@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
+		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+	</f:metadata>
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Apertura Cta. Ahorros" />
+	</ui:define>
+
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+			
+		<h:form>
+			<div class="sf-separator">
+				<h:commandButton value="Print" type="button" icon="ui-icon-print">  
+			        <p:printer target=":panelDatos" />  
+			    </h:commandButton>
+			</div>
+		</h:form>
+		<h:panelGroup id="panelDatos">
+			<div>
+				<div class="sf-separator">
+					<table>
+						<tbody>
+							<tr>
+								<td class="sf-header-td">
+									<p:graphicImage library="images" name="logo.jpg" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="sf-separator">
+					<table>
+						<tr>
+							<td><p:outputLabel value="Tipo cuenta:" /></td>
+							<td><p:outputLabel value="CUENTA AHORRO" styleClass="sf-label-bold"/></td>
+						</tr>
+						<tr>
+							<td><p:outputLabel value="Nro. cuenta:" /></td>
+							<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.numerocuentaahorro}" styleClass="sf-label-bold"/></td>
+							<td style="width: 50px;"></td>
+							<td><p:outputLabel value="Moneda:" /></td>
+							<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.tipomoneda.denominacion}" styleClass="sf-label-bold"/></td>
+						</tr>
+						<tr>
+							<td><p:outputLabel value="Fecha apertura:"/></td>
+							<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.fechaapertura}" styleClass="sf-label-bold"/></td>
+							<td></td>
+							<td><p:outputLabel value="Tasa de interes:" /></td>
+							<td><p:outputLabel value="no disponible" styleClass="sf-label-bold"/></td>
+						</tr>
+					</table>
+				</div>
+				<div class="sf-separator">
+					<div style="margin-bottom: 10px;">
+						<div class="sf-agrupador-content-cabecera-black">
+							<h3>CLIENTE</h3>
+						</div>
+						<div style="margin-left: 5px;">
+							<table>
+								<tbody>
+									<tr>
+										<td style="min-width: 180px;">
+											<p:outputLabel value="DNI:" />
+										</td>
+										<td style="min-width: 180px;">
+											<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personanaturalcliente.personanatural.dni}" styleClass="sf-label-bold" />
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p:outputLabel value="Apellidos y Nombres:" />
+										</td>
+										<td>
+											<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.nombreCompleto}" styleClass="sf-label-bold" />
+										</td>
+										<td>
+											<p:outputLabel value="Sexo:" />
+										</td>
+										<td>
+											<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.sexo.denominacion}" styleClass="sf-label-bold" />
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p:outputLabel value="Fecha Nacimiento:" />
+										</td>
+										<td>
+											<h:outputText value="#{managedBean.personaNaturalMB.personaNatural.fechanacimiento}" styleClass="sf-label-bold" >
+												<f:convertDateTime pattern="dd/MM/yyyy"/>
+											</h:outputText>									
+										</td>
+										<td>
+											<p:outputLabel value="Estado Civil:" />
+										</td>
+										<td><p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>								
+									</tr>						
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div style="margin-bottom: 10px;">
+						<div class="sf-agrupador-content-cabecera-black">
+							<h3>TITULARES</h3>
+						</div>
+						<div style="margin-left: 5px;">
+							<table>
+								<tr>
+									<td style="width: 180px;"><p:outputLabel value="Cantidad de Retirantes:" /></td>
+									<td><p:outputLabel value="#{managedBean.titularesMB.cantidadRetirantes}" styleClass="sf-label-bold"/></td>
+								</tr>
+								<tr>
+									<td style="vertical-align: top;"><p:outputLabel value="Titulares:" /></td>
+									<td>
+										<p:dataList value="#{managedBean.titularesMB.tablaTitulares.rows}" var="titulares" type="ordered" itemType="1" styleClass="sf-label-bold" >					            
+											<p:outputLabel value="DNI:#{titulares.personanatural.dni}" style="padding-right: 12px;"/>
+											<p:outputLabel value="#{titulares.personanatural.nombreCompleto}" style="min-width:100px; padding-right: 12px;"/>		
+											<h:outputLabel value="#{titulares.personanatural.fechanacimiento}" style="min-width:50px; padding-right: 12px;">
+												<f:convertDateTime pattern="dd/MM/yy" />
+											</h:outputLabel>
+											<p:outputLabel value="#{titulares.personanatural.sexo.denominacion}" style="min-width:100px; padding-right: 12px;"/>							
+										</p:dataList>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>	
+					<div style="margin-bottom: 10px;">
+						<div class="sf-agrupador-content-cabecera-black">
+							<h3>BENEFICIARIOS</h3>
+						</div>
+						<div style="margin-left: 5px;">
+							<table>
+								<tr>
+									<td style="width: 180px;"><p:outputLabel value="Cantidad de Retirantes:" /></td>
+									<td><p:outputLabel value="#{managedBean.titularesMB.cantidadRetirantes}" styleClass="sf-label-bold"/></td>
+								</tr>
+								<tr>
+									<td style="vertical-align: top;"><p:outputLabel value="Titulares:" /></td>
+									<td>
+										<p:dataList value="#{managedBean.titularesMB.tablaTitulares.rows}" var="titulares" type="ordered" itemType="1" styleClass="sf-label-bold" >					            
+											<p:outputLabel value="DNI:#{titulares.personanatural.dni}" style="padding-right: 12px;"/>
+											<p:outputLabel value="#{titulares.personanatural.nombreCompleto}" style="min-width:100px; padding-right: 12px;"/>		
+											<h:outputLabel value="#{titulares.personanatural.fechanacimiento}" style="min-width:50px; padding-right: 12px;">
+												<f:convertDateTime pattern="dd/MM/yy" />
+											</h:outputLabel>
+											<p:outputLabel value="#{titulares.personanatural.sexo.denominacion}" style="min-width:100px; padding-right: 12px;"/>							
+										</p:dataList>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>			
+				</div>
+				<div style="margin-top: 50px;">
+					<center>
+						<table>
+							<tbody>
+								<tr>
+									<td style="text-align: center;">
+										<div style="border: 1px solid #ddd; padding: 80px 80px;">
+										</div>
+										<h3>Huella Digital</h3>
+									</td>
+									<td style="width: 100px;"></td>
+									<td style="vertical-align: bottom;">
+										<div style="text-align: center;">
+											<h3 style="border-top: 1px solid #ddd; padding: 10px 80px;">Firma Cliente</h3>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</center>
+				</div>
+			</div>
+		</h:panelGroup>
+	</ui:define>
+
+</ui:composition>
+</html>

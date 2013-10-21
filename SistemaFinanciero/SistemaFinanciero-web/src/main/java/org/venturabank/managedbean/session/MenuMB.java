@@ -1,5 +1,6 @@
 package org.venturabank.managedbean.session;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,7 +19,7 @@ import org.ventura.entity.Modulo;
 
 @ManagedBean
 @ViewScoped
-public class MenuMB {
+public class MenuMB implements Serializable{
 	
 	@EJB
 	private LoginServiceLocal loginServiceLocal;
