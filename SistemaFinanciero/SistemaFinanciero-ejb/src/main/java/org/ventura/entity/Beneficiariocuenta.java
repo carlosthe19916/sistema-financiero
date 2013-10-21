@@ -53,6 +53,11 @@ public class Beneficiariocuenta implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "numerocuentaahorro", insertable = false, updatable = false)
 	private Cuentaahorro cuentaahorro;
+	
+	// bi-directional many-to-one association to Cuentaaporte
+	@ManyToOne
+	@JoinColumn(name = "numerocuentaaporte", insertable = false, updatable = false)
+	private Cuentaaporte cuentaaporte;
 
 	// bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
@@ -190,5 +195,13 @@ public class Beneficiariocuenta implements Serializable {
 		}
 
 		return apellidoPaterno + " " + apellidoMaterno + " " + nombres;
+	}
+
+	public Cuentaaporte getCuentaaporte() {
+		return cuentaaporte;
+	}
+
+	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
+		this.cuentaaporte = cuentaaporte;
 	}
 }
