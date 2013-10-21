@@ -1,7 +1,9 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -29,10 +31,25 @@ public class Cuentacorriente implements Serializable {
 
 	@Column(nullable=false)
 	private Integer idtipomoneda;
+	
+	@Column(nullable = false)
+	private double saldo;
 
 	@Column(length=11)
 	private String ruc;
 
+	@ManyToOne
+	@JoinColumn(name = "dni", insertable = false, updatable = false)
+	private Personanaturalcliente personanaturalcliente;
+
+	@ManyToOne
+	@JoinColumn(name = "ruc", insertable = false, updatable = false)
+	private Personajuridicacliente personajuridicacliente;
+	
+	@ManyToOne
+	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
+	private Tipomoneda tipomoneda;
+	
 	//bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy="cuentacorriente")
 	private List<Beneficiariocuenta> beneficiariocuentas;
@@ -217,6 +234,38 @@ public class Cuentacorriente implements Serializable {
 		titularcuenta.setCuentacorriente(null);
 
 		return titularcuenta;
+	}
+
+	public Personanaturalcliente getPersonanaturalcliente() {
+		return personanaturalcliente;
+	}
+
+	public void setPersonanaturalcliente(Personanaturalcliente personanaturalcliente) {
+		this.personanaturalcliente = personanaturalcliente;
+	}
+
+	public Personajuridicacliente getPersonajuridicacliente() {
+		return personajuridicacliente;
+	}
+
+	public void setPersonajuridicacliente(Personajuridicacliente personajuridicacliente) {
+		this.personajuridicacliente = personajuridicacliente;
+	}
+
+	public double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
+
+	public Tipomoneda getTipomoneda() {
+		return tipomoneda;
+	}
+
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
 	}
 
 }

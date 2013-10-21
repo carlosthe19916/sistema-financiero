@@ -1,7 +1,9 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +57,18 @@ public class Cuentaplazofijo implements Serializable {
 
 	@Column(nullable=false)
 	private double trea;
+	
+	@ManyToOne
+	@JoinColumn(name = "dni", insertable = false, updatable = false)
+	private Personanaturalcliente personanaturalcliente;
+
+	@ManyToOne
+	@JoinColumn(name = "ruc", insertable = false, updatable = false)
+	private Personajuridicacliente personajuridicacliente;
+	
+	@ManyToOne
+	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
+	private Tipomoneda tipomoneda;
 
 	//bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy="cuentaplazofijo")
@@ -252,6 +266,30 @@ public class Cuentaplazofijo implements Serializable {
 		titularcuenta.setCuentaplazofijo(null);
 
 		return titularcuenta;
+	}
+
+	public Tipomoneda getTipomoneda() {
+		return tipomoneda;
+	}
+
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
+	}
+
+	public Personanaturalcliente getPersonanaturalcliente() {
+		return personanaturalcliente;
+	}
+
+	public void setPersonanaturalcliente(Personanaturalcliente personanaturalcliente) {
+		this.personanaturalcliente = personanaturalcliente;
+	}
+
+	public Personajuridicacliente getPersonajuridicacliente() {
+		return personajuridicacliente;
+	}
+
+	public void setPersonajuridicacliente(Personajuridicacliente personajuridicacliente) {
+		this.personajuridicacliente = personajuridicacliente;
 	}
 
 }
