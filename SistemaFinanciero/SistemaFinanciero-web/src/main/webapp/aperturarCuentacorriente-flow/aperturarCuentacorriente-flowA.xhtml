@@ -2,9 +2,9 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
@@ -22,7 +22,7 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-
+			
 		<h:form>
 			<div class="sf-separator">
 				<h:commandButton value="Print" type="button" icon="ui-icon-print">  
@@ -47,21 +47,21 @@
 					<table>
 						<tr>
 							<td><p:outputLabel value="Tipo cuenta:" /></td>
-							<td><p:outputLabel value="CUENTA DE AHORROS" styleClass="sf-label-bold"/></td>
+							<td><p:outputLabel value="CUENTA AHORRO" styleClass="sf-label-bold"/></td>
 						</tr>
 						<tr>
 							<td><p:outputLabel value="Nro. cuenta:" /></td>
-							<td><p:outputLabel value="254125412541254" styleClass="sf-label-bold"/></td>
+							<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.numerocuentaahorro}" styleClass="sf-label-bold"/></td>
 							<td style="width: 50px;"></td>
 							<td><p:outputLabel value="Moneda:" /></td>
-							<td><p:outputLabel value=" S/. SOLES" styleClass="sf-label-bold"/></td>
+							<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.tipomoneda.denominacion}" styleClass="sf-label-bold"/></td>
 						</tr>
 						<tr>
 							<td><p:outputLabel value="Fecha apertura:"/></td>
-							<td><p:outputLabel value="12/12/2013" styleClass="sf-label-bold"/></td>
+							<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.fechaapertura}" styleClass="sf-label-bold"/></td>
 							<td></td>
 							<td><p:outputLabel value="Tasa de interes:" /></td>
-							<td><p:outputLabel value="0.00%" styleClass="sf-label-bold"/></td>
+							<td><p:outputLabel value="no disponible" styleClass="sf-label-bold"/></td>
 						</tr>
 					</table>
 				</div>
@@ -78,7 +78,7 @@
 											<p:outputLabel value="DNI:" />
 										</td>
 										<td style="min-width: 180px;">
-											<p:outputLabel value="#{managedBean.personaNaturalMB.personaNatural.dni}" styleClass="sf-label-bold" />
+											<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personanaturalcliente.personanatural.dni}" styleClass="sf-label-bold" />
 										</td>
 									</tr>
 									<tr>
@@ -189,7 +189,6 @@
 				</div>
 			</div>
 		</h:panelGroup>
-		
 	</ui:define>
 
 </ui:composition>

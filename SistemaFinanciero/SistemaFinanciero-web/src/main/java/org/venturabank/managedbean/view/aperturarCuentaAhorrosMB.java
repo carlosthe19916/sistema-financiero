@@ -1,6 +1,7 @@
 package org.venturabank.managedbean.view;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -269,19 +270,33 @@ public class aperturarCuentaAhorrosMB implements Serializable {
 	}
 
 	public void establecerTitularDefecto() {
-		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
+		if (isPersonaNatural()) {
+			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
+			Titularcuenta titularcuenta = new Titularcuenta();
+			titularcuenta.setPersonanatural(personanatural);
 
-		Titularcuenta titularcuenta = new Titularcuenta();
-		titularcuenta.setPersonanatural(personanatural);
-
-		List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares()
-				.getRows();
-
-		if (titularcuentas.size() == 0) {
-			titularcuentas.add(titularcuenta);
-		} else {
-			titularcuentas.set(0, titularcuenta);
+			List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares().getRows();
+			if(titularcuentas == null){
+				titularcuentas = new ArrayList<Titularcuenta>();
+			}
+			if(!titularcuentas.contains(titularcuenta)){
+				titularcuentas.add(titularcuenta);
+			}
 		}
+		if (isPersonaJuridica()) {
+			Personanatural personanatural = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
+			Titularcuenta titularcuenta = new Titularcuenta();
+			titularcuenta.setPersonanatural(personanatural);
+
+			List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares().getRows();
+			if(titularcuentas == null){
+				titularcuentas = new ArrayList<Titularcuenta>();
+			}
+			if(!titularcuentas.contains(titularcuenta)){
+				titularcuentas.add(titularcuenta);
+			}
+		}
+		
 	}
 
 	/**

@@ -28,14 +28,30 @@
 						<tr>
 							<td style="vertical-align: top;"><p:outputLabel value="Titulares:" /></td>
 							<td>
-								<p:dataList value="#{managedBean.titularesMB.tablaTitulares.rows}" var="titulares" type="ordered" itemType="1" styleClass="sf-label-bold" >					            
-									<p:outputLabel value="DNI:#{titulares.personanatural.dni}" style="padding-right: 12px;"/>
-									<p:outputLabel value="#{titulares.personanatural.nombreCompleto}" style="min-width:100px; padding-right: 12px;"/>		
-									<h:outputLabel value="#{titulares.personanatural.fechanacimiento}" style="min-width:50px; padding-right: 12px;">
-										<f:convertDateTime pattern="dd/MM/yy" />
-									</h:outputLabel>
-									<p:outputLabel value="#{titulares.personanatural.sexo.denominacion}" style="min-width:100px; padding-right: 12px;"/>							
-								</p:dataList>
+								<h:form>  
+									    <p:dataTable var="titulares" value="#{managedBean.titularesMB.tablaTitulares.rows}" style="w">  
+									        <p:column headerText="DNI">  
+									            <h:outputText value="DNI:#{titulares.personanatural.dni}" />  
+									        </p:column>  							    	
+									        <p:column headerText="Apellido Paterno">  
+									            <h:outputText value="#{titulares.personanatural.apellidopaterno}" />  
+									        </p:column>  
+									        <p:column headerText="Apellidos Materno">  
+									            <h:outputText value="#{titulares.personanatural.apellidomaterno}" />  
+									        </p:column>  
+									        <p:column headerText="Nombres">  
+									            <h:outputText value="#{titulares.personanatural.nombres}" />  
+									        </p:column>  							  
+									        <p:column headerText="Fecha nacimiento">  
+									            <h:outputText value="#{titulares.personanatural.fechanacimiento}" >
+									            	<f:convertDateTime pattern="dd/MM/yy" />
+									            </h:outputText>  
+									        </p:column> 
+									        <p:column headerText="Sexo">  
+									            <h:outputText value="#{titulares.personanatural.sexo.denominacion}" />  
+									        </p:column> 
+									    </p:dataTable>  
+								</h:form>
 							</td>
 						</tr>
 					</table>

@@ -196,6 +196,7 @@
 		<h:form id="form-buttons">
 			<div class="sf-buttons">
 				<p:commandButton value="Aceptar" 
+					actionListener="#{managedBean.establecerTitularDefecto()}"
 					update="#{componentToUpdated}" 
 					rendered="#{!managedBean.personaNaturalMB.editing}" 
 					onclick="#{componentName}.hide()"/>

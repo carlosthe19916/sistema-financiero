@@ -28,11 +28,25 @@
 							<tr>
 								<td style="width: 180px;"><p:outputLabel value="Beneficiarios:" /></td>
 								<td>
-									<p:dataList value="#{managedBean.beneficiariosMB.tablaBeneficiarios.rows}" var="beneficiarios" type="ordered" itemType="1" styleClass="sf-label-bold" >
-										<p:outputLabel value="DNI: #{beneficiarios.dni}" style="min-width:50px; padding-right: 12px;"/>
-										<p:outputLabel value=" #{beneficiarios.nombreCompleto}" style="min-width:150px; padding-right: 12px;"/>
-										<p:outputLabel value="% #{beneficiarios.porcentajebeneficio}" style="min-width:50px; padding-right: 12px;"/>
-									</p:dataList>
+									<h:form>  
+									    <p:dataTable var="beneficiarios" value="#{managedBean.beneficiariosMB.tablaBeneficiarios.rows}">  
+									        <p:column headerText="DNI">  
+									            <h:outputText value="#{beneficiarios.dni}" />  
+									        </p:column>  									  
+									        <p:column headerText="Apellido Paterno">  
+									            <h:outputText value="#{beneficiarios.apellidopaterno}" />  
+									        </p:column>  	
+									        <p:column headerText="Apellido materno">  
+									            <h:outputText value="#{beneficiarios.apellidomaterno}" />  
+									        </p:column> 		
+									        <p:column headerText="Nombres">  
+									            <h:outputText value="#{beneficiarios.nombres}" />  
+									        </p:column> 					  
+									        <p:column headerText="Porcentaje">  
+									            <h:outputText value="#{beneficiarios.porcentajebeneficio}" />  
+									        </p:column>  
+									    </p:dataTable>  
+									</h:form>
 								</td>
 							</tr>
 						</table>

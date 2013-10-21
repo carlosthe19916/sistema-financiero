@@ -1,7 +1,6 @@
 package org.ventura.flow;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,18 +12,17 @@ import javax.faces.flow.FlowScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.boundary.local.CuentaplazofijoServiceLocal;
 import org.ventura.dependent.BeneficiariosBean;
 import org.ventura.dependent.ComboBean;
-import org.ventura.dependent.DatosFinancierosCuentaAhorroBean;
+import org.ventura.dependent.DatosFinancierosCuentaPlazoFijoBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
 import org.ventura.dependent.TitularesBean;
 import org.ventura.entity.Accionista;
 import org.ventura.entity.AccionistaPK;
 import org.ventura.entity.Beneficiariocuenta;
-import org.ventura.entity.Cuentaahorro;
-import org.ventura.entity.Cuentaahorrohistorial;
+import org.ventura.entity.Cuentaplazofijo;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanatural;
@@ -32,18 +30,21 @@ import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
 
 @Named
-@FlowScoped("aperturarCuentaahorro-flow")
-public class AperturaCuentaahorroBean implements Serializable {
+@FlowScoped("aperturarCuentaplazofijo-flow")
+public class AperturarCuentaPlazofijoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String mensaje;
-
+	
 	@EJB
-	private CuentaahorroServiceLocal cuentaahorroServiceLocal;
+	private CuentaplazofijoServiceLocal cuentaplazofijoServiceLocal;
 
-	private Cuentaahorro cuentaahorro;
+	private Cuentaplazofijo cuentaplazofijo;
 
+	@Inject
+	private DatosFinancierosCuentaPlazoFijoBean datosFinancierosCuentaPlazoFijoMB;
+	
 	@Inject
 	private ComboBean<String> comboTipoPersona;
 
@@ -52,9 +53,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	@Inject
 	private PersonaJuridicaBean personaJuridicaMB;
-
-	@Inject
-	private DatosFinancierosCuentaAhorroBean datosFinancierosCuentaAhorroMB;
 
 	@Inject
 	private TitularesBean titularesMB;
@@ -68,26 +66,10 @@ public class AperturaCuentaahorroBean implements Serializable {
 	 * 
 	 **/
 
-	public AperturaCuentaahorroBean() {
-		this.cuentaahorro = new Cuentaahorro();
+	public AperturarCuentaPlazofijoBean() {
+		this.cuentaplazofijo = new Cuentaplazofijo();
 	}
 
-	public String getReturnValue() {
-		return "/index?module=2";
-	}
-	
-	public Integer getCantidadRetirantes(){
-		Integer result  =0;
-		List<Cuentaahorrohistorial> cuentaahorrohistorials = this.cuentaahorro.getCuentaahorrohistorials();
-		for (Iterator<Cuentaahorrohistorial> iterator = cuentaahorrohistorials.iterator(); iterator.hasNext();) {
-			Cuentaahorrohistorial cuentaahorrohistorial = (Cuentaahorrohistorial) iterator.next();
-			if(cuentaahorrohistorial.getEstado()==true){
-				result = cuentaahorrohistorial.getCantidadretirantes();
-			}
-		}
-		return result;
-	}
-	
 	@PostConstruct
 	private void initValues() {
 		this.cargarCombos();
@@ -110,12 +92,12 @@ public class AperturaCuentaahorroBean implements Serializable {
 			if (validarCuentaAhorro()) {
 				this.establecerParametrosCuentaahorro();
 				if (isPersonaNatural()) {
-					this.cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonanatural(cuentaahorro);
+					this.cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonanatural(cuentaplazofijo);
 				}
 				if (isPersonaJuridica()) {
-					this.cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonajuridica(cuentaahorro);
+					this.cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonajuridica(cuentaplazofijo);
 				}				
-				return "aperturarCuentaahorro-flowA";
+				return "cuentaAhorroImprimirDatos";
 			} else {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -129,7 +111,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 	}
 
 	public void establecerParametrosCuentaahorro() throws Exception {
-		Cuentaahorro cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
+		Cuentaplazofijo cuentaplazofijo  = datosFinancierosCuentaPlazoFijoMB.getCuentaplazofijo();
 		if (comboTipoPersona.getItemSelected() == 1) {
 			// se recuperan los datos de los Managed Bean invocados
 			
@@ -143,24 +125,18 @@ public class AperturaCuentaahorroBean implements Serializable {
 			personanaturalcliente.setPersonanatural(personanatural);
 
 			// Se relaciona la Cuenta de Ahorros con los objetos recuperados
-			this.cuentaahorro = cuentaahorro;
-			this.cuentaahorro.setPersonanaturalcliente(personanaturalcliente);
-			this.cuentaahorro.setTitularcuentas(listTitularcuenta);
-			this.cuentaahorro.setBeneficiariocuentas(listBeneficiariocuenta);
+			this.cuentaplazofijo = cuentaplazofijo;
+			this.cuentaplazofijo.setPersonanaturalcliente(personanaturalcliente);
+			this.cuentaplazofijo.setTitularcuentas(listTitularcuenta);
+			this.cuentaplazofijo.setBeneficiariocuentas(listBeneficiariocuenta);
 
-			// se relacionan los titulares y beneficiarios a la cuentacorriente
-			List<Cuentaahorrohistorial> historiales = cuentaahorro.getCuentaahorrohistorials();
-			Cuentaahorrohistorial cuentaahorrohistorial = historiales.get(0);
-
-			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
-			cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
-			listarBeneficiarioCuenta(cuentaahorro);		
+			listarBeneficiarioCuenta(cuentaplazofijo);		
 			
-			listartitularCuenta(cuentaahorro);
+			listartitularCuenta(cuentaplazofijo);
 			
-			String dniCliente = cuentaahorro.getPersonanaturalcliente().getPersonanatural().getDni();
-			cuentaahorro.getPersonanaturalcliente().setDni(dniCliente);
-			cuentaahorro.setDni(dniCliente);
+			String dniCliente = cuentaplazofijo.getPersonanaturalcliente().getPersonanatural().getDni();
+			cuentaplazofijo.getPersonanaturalcliente().setDni(dniCliente);
+			cuentaplazofijo.setDni(dniCliente);
 
 		} if (comboTipoPersona.getItemSelected() == 2) {			
 			Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
@@ -169,47 +145,42 @@ public class AperturaCuentaahorroBean implements Serializable {
 			Personajuridicacliente personajuridicacliente = new Personajuridicacliente();
 			
 			personajuridicacliente.setPersonajuridica(personajuridica);
-			
-			
+						
 			listaraccionista(personajuridica);
 			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
-			this.cuentaahorro = cuentaahorro;
-			this.cuentaahorro.setPersonajuridicacliente(personajuridicacliente);
-			this.cuentaahorro.setTitularcuentas(listTitularcuenta);
+			this.cuentaplazofijo = cuentaplazofijo;
+			this.cuentaplazofijo.setPersonajuridicacliente(personajuridicacliente);
+			this.cuentaplazofijo.setTitularcuentas(listTitularcuenta);
 			
-			List<Cuentaahorrohistorial> historiales = cuentaahorro.getCuentaahorrohistorials();
-			Cuentaahorrohistorial cuentaahorrohistorial = historiales.get(0);
-			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
-			cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
-			listartitularCuenta(cuentaahorro);
+			listartitularCuenta(cuentaplazofijo);
 			
 			
-			String rucCliente = cuentaahorro.getPersonajuridicacliente().getPersonajuridica().getRuc();
-			cuentaahorro.getPersonajuridicacliente().setRuc(rucCliente);
-			cuentaahorro.setRuc(rucCliente);
+			String rucCliente = cuentaplazofijo.getPersonajuridicacliente().getPersonajuridica().getRuc();
+			cuentaplazofijo.getPersonajuridicacliente().setRuc(rucCliente);
+			cuentaplazofijo.setRuc(rucCliente);
 		}
 		if (comboTipoPersona.getItemSelected() < 1 || comboTipoPersona.getItemSelected() > 2) {
 			throw new Exception("Error al establecer los parametros de la cuenta de ahorros");
 		}
 	}
 	
-	private void listarBeneficiarioCuenta(Cuentaahorro cuentaahorro){
-		List<Beneficiariocuenta> beneficiariocuentas = cuentaahorro.getBeneficiariocuentas();
+	private void listarBeneficiarioCuenta(Cuentaplazofijo cuentaplazofijo){
+		List<Beneficiariocuenta> beneficiariocuentas = cuentaplazofijo.getBeneficiariocuentas();
 
 		for (Iterator<Beneficiariocuenta> iterator = beneficiariocuentas.iterator(); iterator.hasNext();) {
 			Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
-			var.setCuentaahorro(cuentaahorro);
+			var.setCuentaplazofijo(cuentaplazofijo);
 		}
 	}
 	
-	private void listartitularCuenta(Cuentaahorro cuentaahorro){
-		List<Titularcuenta> titularcuentas = cuentaahorro.getTitularcuentas();
+	private void listartitularCuenta(Cuentaplazofijo cuentaplazofijo){
+		List<Titularcuenta> titularcuentas = cuentaplazofijo.getTitularcuentas();
 
 		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
 			Titularcuenta var = (Titularcuenta) iterator.next();
 			String dni = var.getPersonanatural().getDni();
 			var.setDni(dni);
-			var.setCuentaahorro(cuentaahorro);
+			var.setCuentaplazofijo(cuentaplazofijo);
 		}
 	}
 	
@@ -253,7 +224,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 			}
 		}
 
-		if (!datosFinancierosCuentaAhorroMB.isValid()) {
+		if (!datosFinancierosCuentaPlazoFijoMB.isValid()) {
 			result = false;
 			this.mensaje = mensaje + "Datos Financieros invalidos \n";
 		}
@@ -283,48 +254,18 @@ public class AperturaCuentaahorroBean implements Serializable {
 	}
 
 	public void establecerTitularDefecto() {
-		if (isPersonaNatural()) {
-			List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares().getRows();
-			
-			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-			Titularcuenta titularcuenta = new Titularcuenta();
-			titularcuenta.setPersonanatural(personanatural);
+		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
 
-			Personanatural representanteLegal = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
-			Titularcuenta titularRepresentante = new Titularcuenta();
-			titularRepresentante.setPersonanatural(representanteLegal);
-			
-			if(titularcuentas == null){
-				titularcuentas = new ArrayList<Titularcuenta>();
-			}
-			
-			titularcuentas.remove(titularRepresentante);
-			
-			if(!titularcuentas.contains(titularcuenta)){
-				titularcuentas.add(titularcuenta);
-			}
-					
-		}
-		if (isPersonaJuridica()) {
-			List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares().getRows();
-			
-			Personanatural representanteLegal = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
-			Titularcuenta titularRepresentante = new Titularcuenta();
-			titularRepresentante.setPersonanatural(representanteLegal);
+		Titularcuenta titularcuenta = new Titularcuenta();
+		titularcuenta.setPersonanatural(personanatural);
 
-			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-			Titularcuenta titularcuenta = new Titularcuenta();
-			titularcuenta.setPersonanatural(personanatural);
-			
-			if(titularcuentas == null){
-				titularcuentas = new ArrayList<Titularcuenta>();
-			}
-			
-			titularcuentas.remove(titularcuenta);
-			
-			if(!titularcuentas.contains(titularRepresentante)){
-				titularcuentas.add(titularRepresentante);
-			}
+		List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares()
+				.getRows();
+
+		if (titularcuentas.size() == 0) {
+			titularcuentas.add(titularcuenta);
+		} else {
+			titularcuentas.set(0, titularcuenta);
 		}
 	}
 
@@ -334,12 +275,12 @@ public class AperturaCuentaahorroBean implements Serializable {
 	 * 
 	 * **/
 
-	public Cuentaahorro getCuentaahorro() {
-		return cuentaahorro;
+	public Cuentaplazofijo getCuentacorriente() {
+		return cuentaplazofijo;
 	}
 
-	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
-		this.cuentaahorro = cuentaahorro;
+	public void setCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) {
+		this.cuentaplazofijo = cuentaplazofijo;
 	}
 
 	public String getMensaje() {
@@ -348,6 +289,15 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
+	}
+
+	public DatosFinancierosCuentaPlazoFijoBean getDatosFinancierosCuentaPlazoFijoMB() {
+		return datosFinancierosCuentaPlazoFijoMB;
+	}
+
+	public void setDatosFinancierosCuentaPlazoFijoMB(
+			DatosFinancierosCuentaPlazoFijoBean datosFinancierosCuentaPlazoFijoMB) {
+		this.datosFinancierosCuentaPlazoFijoMB = datosFinancierosCuentaPlazoFijoMB;
 	}
 
 	public ComboBean<String> getComboTipoPersona() {
@@ -374,15 +324,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 		this.personaJuridicaMB = personaJuridicaMB;
 	}
 
-	public DatosFinancierosCuentaAhorroBean getDatosFinancierosCuentaAhorroMB() {
-		return datosFinancierosCuentaAhorroMB;
-	}
-
-	public void setDatosFinancierosCuentaAhorroMB(
-			DatosFinancierosCuentaAhorroBean datosFinancierosCuentaAhorroMB) {
-		this.datosFinancierosCuentaAhorroMB = datosFinancierosCuentaAhorroMB;
-	}
-
 	public TitularesBean getTitularesMB() {
 		return titularesMB;
 	}
@@ -397,6 +338,10 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	public void setBeneficiariosMB(BeneficiariosBean beneficiariosMB) {
 		this.beneficiariosMB = beneficiariosMB;
+	}
+
+	public Cuentaplazofijo getCuentaplazofijo() {
+		return cuentaplazofijo;
 	}
 
 }

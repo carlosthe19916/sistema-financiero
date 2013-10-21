@@ -140,6 +140,9 @@ public class Titularcuenta implements Serializable {
 
 	public void setPersonanatural(Personanatural personanatural) {
 		this.personanatural = personanatural;
+		if(personanatural!=null){
+			this.dni = personanatural.getDni();
+		}
 	}
 
 	public String getNumerocuentaahorro() {
@@ -165,5 +168,20 @@ public class Titularcuenta implements Serializable {
 	public void setNumerocuentaplazofijo(String numerocuentaplazofijo) {
 		this.numerocuentaplazofijo = numerocuentaplazofijo;
 	}
-
+	/*
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Titularcuenta)) {
+            return false;
+        }
+        // a room can be uniquely identified by it's number and the building it belongs to
+        final Titularcuenta other = (Titularcuenta) obj;
+        return other.getIdsexo() == idtitularcuenta ? true:false;
+	}
+	
+	@Override
+    public int hashCode() {
+        return idtitularcuenta;
+    }
+*/
 }

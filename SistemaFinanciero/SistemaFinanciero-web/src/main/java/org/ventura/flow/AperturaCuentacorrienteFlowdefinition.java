@@ -12,18 +12,18 @@ import javax.faces.flow.builder.FlowBuilderParameter;
 import javax.faces.flow.builder.FlowDefinition;
 
 
-public class AperturaCuentaahorro implements Serializable {
+public class AperturaCuentacorrienteFlowdefinition implements Serializable {
     
     @Produces
     @FlowDefinition
     public Flow defineFlow(@FlowBuilderParameter FlowBuilder flowBuilder) {
-        String flowId = "aperturarCuentaahorro-flow";
+        String flowId = "aperturarCuentacorriente-flow";
         flowBuilder.id("", flowId);
         flowBuilder.viewNode(flowId, "/" + flowId + "/" + flowId + ".xhtml").markAsStartNode();
         
-        flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{aperturaCuentaahorroBean.returnValue}");
+        flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{aperturaCuentacorrienteBean.returnValue}");
        
-        flowBuilder.inboundParameter("cuentaahorro", "#{aperturaCuentaahorroBean.cuentaahorro}");
+        flowBuilder.inboundParameter("cuentaahorro", "#{aperturaCuentacorrienteBean.cuentaahorro}");
        
         return flowBuilder.getFlow();
     }

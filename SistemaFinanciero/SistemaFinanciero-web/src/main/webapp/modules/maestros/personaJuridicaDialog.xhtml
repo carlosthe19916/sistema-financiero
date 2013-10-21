@@ -525,7 +525,10 @@
 
 							</div>
 							<div class="sf-buttons">
-								<p:commandButton value="Aceptar" update=":#{componentToUpdated}"
+								<p:commandButton 
+									value="Aceptar" 
+									actionListener="#{managedBean.establecerTitularDefecto()}"
+									update=":#{componentToUpdated}"
 									oncomplete="#{componentName}.hide()" />
 								<p:commandButton value="Cancelar"
 									onclick="#{componentName}.hide()" />
