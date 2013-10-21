@@ -9,173 +9,173 @@
 
 <ui:composition>
 
-		<p:dialog header="Persona Jurídica" widgetVar="#{componentName}" modal="true" height="520" width="700" rendered="#{managedBean.personaJuridica}">
-				
-			<h:form>
-			
-				<p:growl id="growl" sticky="true" />
-				
-				<p:wizard>
-					<p:tab title="Datos generales">
-						<div class="sf-agrupador">
-							<div class="sf-agrupador-content">
-	
-								<div class="sf-agrupador-content-cabecera">
-									<h3>DATOS DE LA EMPRESA</h3>
-								</div>
-								<div class="sf-agrupador-content-table">
-									<table>
-										<tr>
-											<td><p:outputLabel value="RUC:"/></td>
-											<td>
-												<p:inputText id="txtRucPJ" 
-													required="true"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.ruc}"
-													disabled="#{managedBean.personaJuridicaMB.editing}"
-													maxlength="11" 
-													requiredMessage="Ingrese Numero de RUC"
-													validatorMessage="El RUC tiene 11 digitos">
-													<f:validateLength minimum="11"/>
-													<p:ajax update="growl,@form" event="blur" 
+	<p:dialog header="Persona Jurídica" widgetVar="#{componentName}"
+		modal="true" height="520" width="700"
+		rendered="#{managedBean.personaJuridica}">
+
+		<h:form>
+
+			<p:growl id="growl" sticky="true" />
+
+			<p:wizard>
+				<p:tab title="Datos generales">
+					<div class="sf-agrupador">
+						<div class="sf-agrupador-content">
+
+							<div class="sf-agrupador-content-cabecera">
+								<h3>DATOS DE LA EMPRESA</h3>
+							</div>
+							<div class="sf-agrupador-content-table">
+								<table>
+									<tr>
+										<td><p:outputLabel value="RUC:" /></td>
+										<td><p:inputText id="txtRucPJ" required="true"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.ruc}"
+												disabled="#{managedBean.personaJuridicaMB.editing}"
+												maxlength="11" requiredMessage="Ingrese Numero de RUC"
+												validatorMessage="El RUC tiene 11 digitos">
+												<f:validateLength minimum="11" />
+												<p:ajax update="growl,@form" event="blur"
 													listener="#{managedBean.personaJuridicaMB.buscarPersonaJuririca()}" />
-												</p:inputText> 
-												<p:watermark for="txtRucPJ" value="RUC" /> 
-												<p:outputLabel for="txtRucPJ"/>									
-											</td>	
-											<td><p:outputLabel>Razon Social:</p:outputLabel></td>
-											<td>
-												<p:inputText id="txtRazonsocialPJ" 
-													required="true"
-													requiredMessage="Ingrese Razon Social"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.razonsocial}"
-													disabled="#{!managedBean.personaJuridicaMB.editing}">
-													<p:ajax update="growl,txtRazonsocialPJ" event="blur" />
-												</p:inputText> 
-												<p:watermark for="txtRazonsocialPJ" value="Razon Social" />
-												<p:outputLabel for="txtRazonsocialPJ"/>
-											</td>
-	
-										</tr>
-										<tr>
-											<td><p:outputLabel>Nombre Comercial:</p:outputLabel></td>
-											<td>
-												<p:inputText id="txtNombreComercialPJ"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.nombrecomercial}"
-													disabled="#{!managedBean.personaJuridicaMB.editing}">
-													<p:ajax update="growl,txtNombreComercialPJ" event="blur" />
-												</p:inputText> 
-												<p:watermark for="txtNombreComercialPJ" value="Nombre Comercial" />
-											</td>
-	
-											<td><p:outputLabel>Actividad Principal:</p:outputLabel></td>
-											<td>
-												<p:inputText id="txtActividadPrincipalPJ"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.actividadprincipal}"
-													disabled="#{!managedBean.personaJuridicaMB.editing}">
-													<p:ajax update="growl,txtActividadPrincipalPJ" event="blur" />
-												</p:inputText> 
-												<p:watermark for="txtActividadPrincipalPJ" value="Actividad Principal" />
-											</td>
-	
-										</tr>
-									</table>
-								</div>
+											</p:inputText> <p:watermark for="txtRucPJ" value="RUC" /> <p:outputLabel
+												for="txtRucPJ" /></td>
+										<td><p:outputLabel>Razon Social:</p:outputLabel></td>
+										<td><p:inputText id="txtRazonsocialPJ" required="true"
+												requiredMessage="Ingrese Razon Social"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.razonsocial}"
+												disabled="#{!managedBean.personaJuridicaMB.editing}">
+												<p:ajax update="growl,txtRazonsocialPJ" event="blur" />
+											</p:inputText> <p:watermark for="txtRazonsocialPJ" value="Razon Social" />
+											<p:outputLabel for="txtRazonsocialPJ" /></td>
+
+									</tr>
+									<tr>
+										<td><p:outputLabel>Nombre Comercial:</p:outputLabel></td>
+										<td><p:inputText id="txtNombreComercialPJ"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.nombrecomercial}"
+												disabled="#{!managedBean.personaJuridicaMB.editing}">
+												<p:ajax update="growl,txtNombreComercialPJ" event="blur" />
+											</p:inputText> <p:watermark for="txtNombreComercialPJ"
+												value="Nombre Comercial" /></td>
+
+										<td><p:outputLabel>Actividad Principal:</p:outputLabel></td>
+										<td><p:inputText id="txtActividadPrincipalPJ"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.actividadprincipal}"
+												disabled="#{!managedBean.personaJuridicaMB.editing}">
+												<p:ajax update="growl,txtActividadPrincipalPJ" event="blur" />
+											</p:inputText> <p:watermark for="txtActividadPrincipalPJ"
+												value="Actividad Principal" /></td>
+									</tr>
+									<tr>
+										<td><p:outputLabel>Fecha Constitucion:</p:outputLabel></td>
+										<td><p:calendar id="txtFechaconstitucion"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.fechaconstitucion}"
+												navigator="true" pattern="dd/MM/yy" required="true"
+												requiredMessage="Ingrese Fecha de Nacimiento"
+												converterMessage="El formato de la fecha de constitucion no es correcto"
+												disabled="#{!managedBean.personaJuridicaMB.editing}">
+												<p:ajax update="growl,txtFechaconstitucion" />
+												<f:convertDateTime pattern="dd/MM/yy" />
+											</p:calendar> <p:watermark for="txtFechaconstitucion" value="dd/mm/yyyy" /> <p:outputLabel
+												for="txtFechaconstitucion" />
+										</td>
+									</tr>
+								</table>
 							</div>
 						</div>
-	
-						<div class="sf-agrupador">
-							<div class="sf-agrupador-content">
-								<div class="sf-agrupador-content-cabecera">
-									<h3>DATOS COMERCIALES DE LA EMPRESA</h3>
-								</div>
-								<div class="sf-agrupador-content-table">
-	
-									<table>
-										<tr>
-											<td><p:outputLabel>Tipo de empresa:</p:outputLabel></td>
-											<td>
-												<p:selectOneRadio id="radioTipoempresaPJ"
-													disabled="#{!managedBean.personaJuridicaMB.editing}"
-													value="#{managedBean.personaJuridicaMB.comboTipoempresa.itemSelected}"
-													valueChangeListener="#{managedBean.personaJuridicaMB.changeTipoempresa}"
-													required="true" requiredMessage="Ingrese Tipo Empresa">
-													<f:selectItems
-														value="#{managedBean.personaJuridicaMB.comboTipoempresa.items.entrySet()}"
-														var="val1" itemLabel="#{val1.value.denominacion}"
-														itemValue="#{val1.key}" />
-												</p:selectOneRadio>
-											</td>
-										</tr>
-										<tr>
-											<td><p:outputLabel>Fin social:</p:outputLabel></td>
-											<td><p:selectOneRadio id="radioFinsocial"
-													disabled="#{!managedBean.personaJuridicaMB.editing}"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.finsocial}"
-													required="true" requiredMessage="Ingrese Fin Social">
-													<f:selectItem itemLabel="CON FINES DE LUCRO"
-														itemValue="true" />
-													<f:selectItem itemLabel="SIN FINES DE LUCRO"
-														itemValue="false" />
-												</p:selectOneRadio></td>
-										</tr>
-	
-									</table>
-	
-								</div>
+					</div>
+
+					<div class="sf-agrupador">
+						<div class="sf-agrupador-content">
+							<div class="sf-agrupador-content-cabecera">
+								<h3>DATOS COMERCIALES DE LA EMPRESA</h3>
+							</div>
+							<div class="sf-agrupador-content-table">
+
+								<table>
+									<tr>
+										<td><p:outputLabel>Tipo de empresa:</p:outputLabel></td>
+										<td><p:selectOneRadio id="radioTipoempresaPJ"
+												value="#{managedBean.personaJuridicaMB.comboTipoempresa.itemSelected}"
+												valueChangeListener="#{managedBean.personaJuridicaMB.changeTipoempresa}"
+												required="true" requiredMessage="Ingrese Tipo Empresa"
+												disabled="#{!managedBean.personaJuridicaMB.editing}">									
+												<f:selectItems
+													value="#{managedBean.personaJuridicaMB.comboTipoempresa.items.entrySet()}"
+													var="val1" itemLabel="#{val1.value.denominacion}"
+													itemValue="#{val1.key}" />
+													<p:ajax update="growl,radioTipoempresaPJ" />
+											</p:selectOneRadio></td>
+											<p:outputLabel for="radioTipoempresaPJ" />
+									</tr>
+									<tr>
+										<td><p:outputLabel>Fin social:</p:outputLabel></td>
+										<td><p:selectOneRadio id="radioFinsocial"
+												disabled="#{!managedBean.personaJuridicaMB.editing}"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.finsocial}"
+												required="true" requiredMessage="Ingrese Fin Social">
+												<f:selectItem itemLabel="CON FINES DE LUCRO"
+													itemValue="true" />
+												<f:selectItem itemLabel="SIN FINES DE LUCRO"
+													itemValue="false" />
+											</p:selectOneRadio></td>
+									</tr>
+
+								</table>
+
 							</div>
 						</div>
-	
-						<div class="sf-agrupador">
-							<div class="sf-agrupador-content">
-								<div class="sf-agrupador-content-cabecera">
-									<h3>DATOS ADICIONALES</h3>
-								</div>
-								<div class="sf-agrupador-content-table">
-									<table>
-										<tr>
-											<td><p:outputLabel>Direccion:</p:outputLabel></td>
-											<td colspan="3"><p:inputText id="txtDireccionPJ"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.direccion}"
-													disabled="#{!managedBean.personaJuridicaMB.editing}"
-													size="75" /> <p:watermark for="txtDireccionPJ"
-													value="Direccion" /></td>
-										</tr>
-										<tr>
-											<td><p:outputLabel>Referencia:</p:outputLabel></td>
-											<td colspan="3"><p:inputText id="txtReferenciaPJ"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.referencia}"
-													disabled="#{!managedBean.personaJuridicaMB.editing}"
-													size="75" /> <p:watermark for="txtReferenciaPJ"
-													value="referencia" /></td>
-										</tr>
-										<tr>
-											<td><p:outputLabel>Telefono:</p:outputLabel></td>
-											<td><p:inputText id="txtTelefonoPJ"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.telefono}"
-													disabled="#{!managedBean.personaJuridicaMB.editing}"/> 
-													<p:watermark for="txtTelefonoPJ"
-													value="Telefono1/Telefono2" /></td>
-											<td><p:outputLabel>Celular:</p:outputLabel></td>
-											<td><p:inputText id="txtCelularPJ"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.celular}"
-													disabled="#{!managedBean.personaJuridicaMB.editing}"/> 
-													<p:watermark for="txtCelularPJ"
-													value="Celular1/Celular2/RPM" /></td>
-										</tr>
-	
-										<tr>
-											<td><p:outputLabel>Email:</p:outputLabel></td>
-											<td colspan="3"><p:inputText id="TxtEmailPJ"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.email}"
-													disabled="#{!managedBean.personaJuridicaMB.editing}"
-													size="75" /> <p:watermark for="TxtEmailPJ"
-													value="email@dominio.com" /></td>
-										</tr>
-									</table>
-								</div>
+					</div>
+
+					<div class="sf-agrupador">
+						<div class="sf-agrupador-content">
+							<div class="sf-agrupador-content-cabecera">
+								<h3>DATOS ADICIONALES</h3>
+							</div>
+							<div class="sf-agrupador-content-table">
+								<table>
+									<tr>
+										<td><p:outputLabel>Direccion:</p:outputLabel></td>
+										<td colspan="3"><p:inputText id="txtDireccionPJ"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.direccion}"
+												disabled="#{!managedBean.personaJuridicaMB.editing}"
+												size="75" /> <p:watermark for="txtDireccionPJ"
+												value="Direccion" /></td>
+									</tr>
+									<tr>
+										<td><p:outputLabel>Referencia:</p:outputLabel></td>
+										<td colspan="3"><p:inputText id="txtReferenciaPJ"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.referencia}"
+												disabled="#{!managedBean.personaJuridicaMB.editing}"
+												size="75" /> <p:watermark for="txtReferenciaPJ"
+												value="referencia" /></td>
+									</tr>
+									<tr>
+										<td><p:outputLabel>Telefono:</p:outputLabel></td>
+										<td><p:inputText id="txtTelefonoPJ"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.telefono}"
+												disabled="#{!managedBean.personaJuridicaMB.editing}" /> <p:watermark
+												for="txtTelefonoPJ" value="Telefono1/Telefono2" /></td>
+										<td><p:outputLabel>Celular:</p:outputLabel></td>
+										<td><p:inputText id="txtCelularPJ"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.celular}"
+												disabled="#{!managedBean.personaJuridicaMB.editing}" /> <p:watermark
+												for="txtCelularPJ" value="Celular1/Celular2/RPM" /></td>
+									</tr>
+
+									<tr>
+										<td><p:outputLabel>Email:</p:outputLabel></td>
+										<td colspan="3"><p:inputText id="TxtEmailPJ"
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.email}"
+												disabled="#{!managedBean.personaJuridicaMB.editing}"
+												size="75" /> <p:watermark for="TxtEmailPJ"
+												value="email@dominio.com" /></td>
+									</tr>
+								</table>
 							</div>
 						</div>
-					</p:tab>
+					</div>
+				</p:tab>
 				<p:tab title="Representante Legal">
 					<div>
 						<div class="sf-agrupador">
@@ -195,12 +195,10 @@
 													validatorMessage="Número de DNI Invalido">
 													<f:validateRegex pattern="(^[0-9]{8}$)" />
 
-													<p:ajax update="growl,@form"
-														event="blur"
+													<p:ajax update="growl,@form" event="blur"
 														listener="#{managedBean.personaJuridicaMB.buscarPersonanatural()}" />
-												</p:inputText>
-												 <p:watermark for="txtDNIPN" value="DNI" /> 
-												 <p:outputLabel for="txtDNIPN" /></td>
+												</p:inputText> <p:watermark for="txtDNIPN" value="DNI" /> <p:outputLabel
+													for="txtDNIPN" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel value="Apellido Paterno:" /></td>
@@ -291,24 +289,24 @@
 											<td colspan="3"><p:inputText id="txtOcupacionPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.ocupacion}"
 													maxlength="70" size="71"
-													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
-													for="txtOcupacionPN" value="Ocupación" /></td>
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
+												<p:watermark for="txtOcupacionPN" value="Ocupación" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Direccion:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtDireccionPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.direccion}"
 													maxlength="200" size="71"
-													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
-													for="txtDireccionPN" value="Dirección" /></td>
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
+												<p:watermark for="txtDireccionPN" value="Dirección" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Referencia:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtReferenciaPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.referencia}"
 													maxlength="100" size="71"
-													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
-													for="txtReferenciaPN" value="Referencia" /></td>
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
+												<p:watermark for="txtReferenciaPN" value="Referencia" /></td>
 										</tr>
 
 										<tr>
@@ -316,22 +314,23 @@
 											<td><p:inputText id="txtTelefonoPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.telefono}"
 													maxlength="30"
-													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
-													for="txtTelefonoPN" value="Telefono1/telefono2" /></td>
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
+												<p:watermark for="txtTelefonoPN" value="Telefono1/telefono2" /></td>
 											<td><p:outputLabel>Celular:</p:outputLabel></td>
 											<td><p:inputText id="txtCelularPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.celular}"
 													maxlength="30"
-													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
-													for="txtCelularPN" value="celular1/celular2/RPM" /></td>
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
+												<p:watermark for="txtCelularPN"
+													value="celular1/celular2/RPM" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Email:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtEmailPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.email}"
 													maxlength="50" size="73"
-													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" /> <p:watermark
-													for="txtEmailPN" value="email@hotmail.com" /></td>
+													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
+												<p:watermark for="txtEmailPN" value="email@hotmail.com" /></td>
 										</tr>
 									</table>
 								</div>
@@ -340,11 +339,11 @@
 					</div>
 				</p:tab>
 				<p:tab title="Accionistas">
-						<div class="sf-agrupador">
-							<div class="sf-agrupador-content">
-								<div class="sf-agrupador-content-cabecera">
-									<h3>Datos de los Accionistas</h3>
-								</div>
+					<div class="sf-agrupador">
+						<div class="sf-agrupador-content">
+							<div class="sf-agrupador-content-cabecera">
+								<h3>Datos de los Accionistas</h3>
+							</div>
 							<div class="sf-agrupador-content-table">
 
 								<div class="buttons">
@@ -379,19 +378,24 @@
 										rowKey="#{accionista}" scrollable="true" scrollHeight="150"
 										scrollRows="5" rowIndexVar="row"
 										rowStyleClass="#{accionista.personanatural.dni == null ? 'sf-table-row-invalid' : null }">
-										
-										<p:ajax event="rowEditInit" listener="#{managedBean.personaJuridicaMB.tablaAccionistas.editRow()}" />
-										<p:ajax event="rowEdit" update=":growl,tablaAccionistas" listener="#{managedBean.personaJuridicaMB.tablaAccionistas.finishEditRow()}"/>
-										<p:ajax event="rowEditCancel" update=":growl,tablaAccionistas" listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowEditCancel()}"/>
-										
-										<p:ajax event="rowSelect" listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowSelect()}"/>  
-										<p:ajax event="rowUnselect" listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowUnselect()}"/>  
-								
+
+										<p:ajax event="rowEditInit"
+											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.editRow()}" />
+										<p:ajax event="rowEdit" update=":growl,tablaAccionistas"
+											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.finishEditRow()}" />
+										<p:ajax event="rowEditCancel" update=":growl,tablaAccionistas"
+											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowEditCancel()}" />
+
+										<p:ajax event="rowSelect"
+											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowSelect()}" />
+										<p:ajax event="rowUnselect"
+											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowUnselect()}" />
+
 										<p:column headerText="Nro" width="5%"
 											style="text-align:center;">
 											<h:outputText value="#{row + 1}" />
 										</p:column>
-								
+
 										<p:column headerText="DNI(*)" width="11%">
 											<p:cellEditor>
 												<f:facet name="output">
@@ -405,7 +409,8 @@
 														<f:validateRegex pattern="(^[0-9]{8}$)" />
 														<p:ajax
 															update="apellidoPaterno,apellidoMaterno,nombres,txtSexo,txtFecNac"
-															event="blur" listener="#{managedBean.personaJuridicaMB.buscarAccionista()}" />
+															event="blur"
+															listener="#{managedBean.personaJuridicaMB.buscarAccionista()}" />
 													</p:inputText>
 													<p:watermark for="dni" value="DNI" />
 												</f:facet>
@@ -526,12 +531,12 @@
 									onclick="#{componentName}.hide()" />
 							</div>
 						</div>
-						</div>
-					</p:tab>
-				</p:wizard>
-			</h:form>
-		</p:dialog>
-	
+					</div>
+				</p:tab>
+			</p:wizard>
+		</h:form>
+	</p:dialog>
+
 </ui:composition>
 </html>
 
