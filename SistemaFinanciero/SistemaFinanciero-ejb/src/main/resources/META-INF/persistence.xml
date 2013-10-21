@@ -16,7 +16,7 @@
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="SistemaFinancieroPU"
 		transaction-type="JTA">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasource/SistemaFinancieroDS</jta-data-source>
 
 		<class>org.ventura.entity.Personajuridicacliente</class>
@@ -56,13 +56,10 @@
 		<class>org.ventura.entity.Sucursal</class>
 		<class>org.ventura.entity.Cheque</class>
 		<class>org.ventura.entity.Usuario</class>
-		<class>org.ventura.entity.Aporte</class>
-		
 		<class>org.ventura.entity.Grupo</class>
 		<class>org.ventura.entity.Menu</class>
 		<class>org.ventura.entity.Modulo</class>
 		<class>org.ventura.entity.Pagina</class>
-		<class>org.ventura.entity.Cuentaaporte</class>
 		<class>org.ventura.entity.Rol</class>
 		<class>org.ventura.entity.Sistema</class>
 		<class>org.ventura.entity.Trabajador</class>
