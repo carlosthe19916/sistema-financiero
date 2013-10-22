@@ -70,7 +70,19 @@
 				<ui:param name="componentToUpdated" value="personaJuridica" />
 			</ui:include>
 			<!-- end Persona Juridica -->
-
+			
+			<!-- Datos financieros cuenta corriente -->
+			<ui:include
+				src="/modules/cuentasPersonales/apertura/datosFinancierosCuentaCorrienteResumen.xhtml">
+				<ui:param name="componentName" value="datosFinancieros" />
+				<ui:param name="editarOutputDialog" value="dlgDatosFinancieros" />
+			</ui:include>
+			<ui:include
+				src="/modules/cuentasPersonales/apertura/datosFinancierosCuentaCorrienteDialog.xhtml">
+				<ui:param name="componentName" value="dlgDatosFinancieros" />
+				<ui:param name="componentToUpdated" value="datosFinancieros" />
+			</ui:include>
+			<!-- end Datos financieros cuenta ahorros -->
 
 
 			<!-- Titulares -->
@@ -102,10 +114,18 @@
 		</h:panelGroup>
 
 		<div class="sf-buttons">
-			<p:commandButton value="Guardar"
-				action="#{aperturarCuentaAhorrosMB.createCuentaahorro()}"
-				styleClass="action green" />
-			<p:commandButton value="Cancelar" styleClass="action" />
+			<h:form>
+				<p:growl id="messages" showDetail="true" />
+				<p:commandButton 
+					value="Guardar"
+					action="#{aperturarCuentacorrienteBean.createCuentacorriente()}"
+					update="messages,:panelDatos">
+					<f:ajax onevent="handleDisableButton" />
+				</p:commandButton>
+
+				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"/>
+			</h:form>
+				
 		</div>
 
 	</ui:define>
