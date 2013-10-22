@@ -24,9 +24,8 @@ import org.ventura.entity.AccionistaPK;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaplazofijo;
 import org.ventura.entity.Personajuridica;
-import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanatural;
-import org.ventura.entity.Personanaturalcliente;
+import org.ventura.entity.Socio;
 import org.ventura.entity.Titularcuenta;
 
 @Named
@@ -112,6 +111,7 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 
 	public void establecerParametrosCuentaahorro() throws Exception {
 		Cuentaplazofijo cuentaplazofijo  = datosFinancierosCuentaPlazoFijoMB.getCuentaplazofijo();
+		Socio socio=new Socio();
 		if (comboTipoPersona.getItemSelected() == 1) {
 			// se recuperan los datos de los Managed Bean invocados
 			
@@ -121,12 +121,11 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
 
 			// se crean las clases a relacionar con la Cuenta de Ahorros
-			Personanaturalcliente personanaturalcliente = new Personanaturalcliente();
-			personanaturalcliente.setPersonanatural(personanatural);
+			socio.setPersonanatural(personanatural);
 
 			// Se relaciona la Cuenta de Ahorros con los objetos recuperados
 			this.cuentaplazofijo = cuentaplazofijo;
-			this.cuentaplazofijo.setPersonanaturalcliente(personanaturalcliente);
+			this.cuentaplazofijo.setSocio(socio);
 			this.cuentaplazofijo.setTitularcuentas(listTitularcuenta);
 			this.cuentaplazofijo.setBeneficiariocuentas(listBeneficiariocuenta);
 
@@ -134,30 +133,25 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			
 			listartitularCuenta(cuentaplazofijo);
 			
-			String dniCliente = cuentaplazofijo.getPersonanaturalcliente().getPersonanatural().getDni();
-			cuentaplazofijo.getPersonanaturalcliente().setDni(dniCliente);
-			cuentaplazofijo.setDni(dniCliente);
+			String dnisocio = cuentaplazofijo.getSocio().getPersonanatural().getDni();
+			cuentaplazofijo.getSocio().setDni(dnisocio);
 
 		} if (comboTipoPersona.getItemSelected() == 2) {			
 			Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
 
 			personajuridica.setListAccionista(personaJuridicaMB.getTablaAccionistas().getRows());
-			Personajuridicacliente personajuridicacliente = new Personajuridicacliente();
 			
-			personajuridicacliente.setPersonajuridica(personajuridica);
-						
+			socio.setPersonajuridica(personajuridica);
 			listaraccionista(personajuridica);
 			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
 			this.cuentaplazofijo = cuentaplazofijo;
-			this.cuentaplazofijo.setPersonajuridicacliente(personajuridicacliente);
+			this.cuentaplazofijo.setSocio(socio);
 			this.cuentaplazofijo.setTitularcuentas(listTitularcuenta);
 			
 			listartitularCuenta(cuentaplazofijo);
 			
-			
-			String rucCliente = cuentaplazofijo.getPersonajuridicacliente().getPersonajuridica().getRuc();
-			cuentaplazofijo.getPersonajuridicacliente().setRuc(rucCliente);
-			cuentaplazofijo.setRuc(rucCliente);
+			String rucsocio = cuentaplazofijo.getSocio().getPersonanatural().getDni();
+			cuentaplazofijo.getSocio().setDni(rucsocio);
 		}
 		if (comboTipoPersona.getItemSelected() < 1 || comboTipoPersona.getItemSelected() > 2) {
 			throw new Exception("Error al establecer los parametros de la cuenta de ahorros");
