@@ -20,7 +20,7 @@ public class Cuentaahorro implements Serializable {
 	private String numerocuentaahorro;
 
 	@Column(length = 8)
-	private String dni;
+	private String codigosocio;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -28,23 +28,17 @@ public class Cuentaahorro implements Serializable {
 
 	@Column(nullable = false)
 	private Integer idtipomoneda;
-
-	@Column(nullable = false)
-	private Integer idestadocuenta;
-
-	@Column(length = 11)
-	private String ruc;
-
+	
 	@Column(nullable = false)
 	private double saldo;
 
+	@Column(nullable = false)
+	private Integer idestadocuenta;
+	
+	
 	@ManyToOne
-	@JoinColumn(name = "dni", insertable = false, updatable = false)
-	private Personanaturalcliente personanaturalcliente;
-
-	@ManyToOne
-	@JoinColumn(name = "ruc", insertable = false, updatable = false)
-	private Personajuridicacliente personajuridicacliente;
+	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
+	private Socio socio;
 
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
@@ -84,14 +78,6 @@ public class Cuentaahorro implements Serializable {
 		this.numerocuentaahorro = numerocuentaahorro;
 	}
 
-	public String getDni() {
-		return this.dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
-
 	public Date getFechaapertura() {
 		return this.fechaapertura;
 	}
@@ -106,14 +92,6 @@ public class Cuentaahorro implements Serializable {
 
 	public void setIdtipomoneda(Integer idtipomoneda) {
 		this.idtipomoneda = idtipomoneda;
-	}
-
-	public String getRuc() {
-		return this.ruc;
-	}
-
-	public void setRuc(String ruc) {
-		this.ruc = ruc;
 	}
 
 	public double getSaldo() {
@@ -213,14 +191,6 @@ public class Cuentaahorro implements Serializable {
 		return titularcuenta;
 	}
 
-	public Personanaturalcliente getPersonanaturalcliente() {
-		return personanaturalcliente;
-	}
-
-	public void setPersonanaturalcliente(Personanaturalcliente personanaturalcliente) {
-		this.personanaturalcliente = personanaturalcliente;
-	}
-
 	public Tipomoneda getTipomoneda() {
 		return tipomoneda;
 	}
@@ -228,14 +198,6 @@ public class Cuentaahorro implements Serializable {
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
 		this.idtipomoneda = tipomoneda.getIdtipomoneda();
-	}
-
-	public Personajuridicacliente getPersonajuridicacliente() {
-		return personajuridicacliente;
-	}
-
-	public void setPersonajuridicacliente(Personajuridicacliente personajuridicacliente) {
-		this.personajuridicacliente = personajuridicacliente;
 	}
 
 	public Integer getIdestadocuenta() {
@@ -246,4 +208,19 @@ public class Cuentaahorro implements Serializable {
 		this.idestadocuenta = idestadocuenta;
 	}
 
+	public String getCodigosocio() {
+		return codigosocio;
+	}
+
+	public void setCodigosocio(String codigosocio) {
+		this.codigosocio = codigosocio;
+	}
+
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
+	}
 }
