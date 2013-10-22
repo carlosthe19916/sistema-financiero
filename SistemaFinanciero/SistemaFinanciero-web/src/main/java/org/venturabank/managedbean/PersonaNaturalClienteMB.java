@@ -34,7 +34,6 @@ public class PersonaNaturalClienteMB implements Serializable{
 	private String dniTemporal;
 
 	public PersonaNaturalClienteMB() {
-		setTablaClientes(new TablaMB<Personanaturalcliente>());
 		valorBusqueda = new String();
 	}
 	
@@ -63,21 +62,17 @@ public class PersonaNaturalClienteMB implements Serializable{
 	}
 	
 	public void buscarCliente(){
-		
-		
 		try {
-			Map<String, Object> pa = new HashMap<String, Object>();
-			pa.put("valor","%"+valorBusqueda.toUpperCase()+"%");
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("valor","%"+valorBusqueda.toUpperCase()+"%");
 			List<Personanaturalcliente> list;
-			
-			list = personaNaturalClienteServicesLocal.findByNamedQuery(Personanaturalcliente.OLL,pa);
-			
+			list = personaNaturalClienteServicesLocal.findByNamedQuery(Personanaturalcliente.CLIENTESPN,parameters);
 			tablaClientes.setRows(list);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void obtenerDNISeleccionado(){

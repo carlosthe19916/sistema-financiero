@@ -49,10 +49,10 @@
 										required="true" > 
 										<p:ajax update="growl" event="keyup" />
 									</p:inputText>
-									<p:watermark value="search for" for="txtBuscar" />
+									<p:watermark value="Buscar por DNI, Aplellidos y Nombres" for="txtBuscar" />
 								</td>
 								<td>
-									<p:commandButton value="buscar"  
+									<p:commandButton value="Buscar"  
 										actionListener="#{personaNaturalClienteMB.buscarCliente()}" 
 										update=":form-resultadoBusqueda"/>
 								</td>
@@ -123,14 +123,17 @@
 						rowKey="#{cliente}"
 						selection="#{personaNaturalClienteMB.tablaClientes.selectedRow}"
 						selectionMode="single" paginator="true" paginatorPosition="bottom"
-						rows="5" sortBy="#{cliente.personanatural.apellidopaterno}"
+						rows="5" 
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,20" widgetVar="tablaCliente"
-						 filteredValue="">
+						rowIndexVar="row">
 														
-						<p:ajax event="rowSelect" listener="#{personaNaturalClienteMB.obtenerDNISeleccionado()}" update=":form-buttons"/>   
-						
-						
+						<p:ajax event="rowSelect" listener="#{personaNaturalClienteMB.obtenerDNISeleccionado()}" update=":form-buttons"/>
+
+						<p:column headerText="Nro" width="5%" style="text-align:center;">
+							<h:outputText value="#{row + 1}" />
+						</p:column>
+
 						<p:column sortBy="#{cliente.dni}" headerText="DNI">
 							<h:outputText value="#{cliente.dni}" />
 						</p:column>
@@ -158,3 +161,4 @@
 	</ui:define>
 </ui:composition>
 </html>
+
