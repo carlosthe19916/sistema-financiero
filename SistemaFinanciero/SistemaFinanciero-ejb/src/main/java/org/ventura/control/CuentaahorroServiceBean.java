@@ -73,7 +73,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
-			crearPersonanaturalcliente(cuentaahorro.getPersonanaturalcliente());
+			crearPersonanaturalcliente(cuentaahorro.getSocio());
 			crearPersonanaturalForTitulares(cuentaahorro);
 			generarDatosTitularHistorial(cuentaahorro);
 			
@@ -92,7 +92,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
-			crearPersonajuridicacliente(cuentaahorro.getPersonajuridicacliente());
+			crearPersonajuridicacliente(cuentaahorro.getSocio());
 			crearPersonanaturalForTitulares(cuentaahorro);
 			generarDatosTitularHistorial(cuentaahorro);
 			
@@ -104,12 +104,12 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		return cuentaahorro;
 	}
 	
-	protected void crearPersonanaturalcliente(Personanaturalcliente personanaturalcliente) throws Exception{
-		if(personanaturalcliente!=null){
-			Object key = personanaturalcliente.getDni();
+	protected void crearPersonanaturalcliente(Socio socio) throws Exception{
+		if(socio!=null){
+			Object key = socio.getDni();
 			Object result= personaNaturalClienteServicesLocal.find(key);
 			if(result==null){
-				personaNaturalClienteServicesLocal.create(personanaturalcliente);
+				personaNaturalClienteServicesLocal.create(socio);
 			}			
 		}
 	}
