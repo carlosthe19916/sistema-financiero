@@ -20,15 +20,15 @@ public class Trabajador implements Serializable {
 	private String dni;
 
 	@Column(nullable=false)
-	private Integer idsucursal;
+	private Integer idagencia;
 	
 	@ManyToOne
 	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanatural personanatural;
 	
 	@ManyToOne
-	@JoinColumn(name = "idsucursal", insertable = false, updatable = false)
-	private Sucursal sucursal;
+	@JoinColumn(name = "idagencia", insertable = false, updatable = false)
+	private Agencia agencia;
 	
 	public Trabajador() {
 	}
@@ -41,14 +41,6 @@ public class Trabajador implements Serializable {
 		this.dni = dni;
 	}
 
-	public Integer getIdsucursal() {
-		return idsucursal;
-	}
-
-	public void setIdsucursal(Integer idsucursal) {
-		this.idsucursal = idsucursal;
-	}
-
 	public Personanatural getPersonanatural() {
 		return personanatural;
 	}
@@ -57,12 +49,20 @@ public class Trabajador implements Serializable {
 		this.personanatural = personanatural;
 	}
 
-	public Sucursal getSucursal() {
-		return sucursal;
+	public Integer getIdagencia() {
+		return idagencia;
 	}
 
-	public void setSucursal(Sucursal sucursal) {
-		this.sucursal = sucursal;
+	public void setIdagencia(Integer idagencia) {
+		this.idagencia = idagencia;
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }

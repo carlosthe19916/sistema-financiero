@@ -16,7 +16,7 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name = Usuario.ALL, query = "SELECT u FROM Usuario u"),
 		@NamedQuery(name = Usuario.ALL_ACTIVE, query = "SELECT u FROM Usuario u WHERE u.estado=true"),
-		@NamedQuery(name = Usuario.FIND_USER, query = "Select u From Usuario u LEFT OUTER JOIN u.trabajador t LEFT OUTER JOIN t.personanatural p LEFT OUTER JOIN t.sucursal s WHERE u.estado = true AND u.username = :username") })
+		@NamedQuery(name = Usuario.FIND_USER, query = "Select u From Usuario u LEFT OUTER JOIN u.trabajador t LEFT OUTER JOIN t.personanatural p LEFT OUTER JOIN t.agencia s WHERE u.estado = true AND u.username = :username") })
 public class Usuario implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

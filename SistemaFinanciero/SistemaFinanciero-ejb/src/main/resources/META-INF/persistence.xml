@@ -65,6 +65,7 @@
 		<class>org.ventura.entity.Rol</class>
 		<class>org.ventura.entity.Sistema</class>
 		<class>org.ventura.entity.Trabajador</class>
+		<class>org.ventura.entity.Agencia</class>
 
 		<properties>
 			<!-- Properties for Hibernate -->
