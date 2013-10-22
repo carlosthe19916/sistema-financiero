@@ -35,6 +35,9 @@ public class Cuentacorriente implements Serializable {
 	@Column(nullable = false)
 	private double saldo;
 	
+	@Column(nullable = false)
+	private Integer idestadocuenta;
+	
 	@ManyToOne
 	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
 	private Socio socio;
@@ -243,6 +246,14 @@ public class Cuentacorriente implements Serializable {
 
 	public void setSocio(Socio socio) {
 		this.socio = socio;
+	}
+
+	public Integer getIdestadocuenta() {
+		return idestadocuenta;
+	}
+
+	public void setIdestadocuenta(Integer idestadocuenta) {
+		this.idestadocuenta = idestadocuenta;
 	}
 
 }

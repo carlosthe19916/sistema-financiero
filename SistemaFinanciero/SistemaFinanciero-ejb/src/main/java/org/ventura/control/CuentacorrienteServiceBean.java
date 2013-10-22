@@ -3,6 +3,7 @@ package org.ventura.control;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,6 @@ import javax.persistence.TransactionRequiredException;
 import org.ventura.boundary.local.CuentacorrienteServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
-import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.CuentacorrienteServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaahorroDAO;
@@ -29,9 +29,8 @@ import org.ventura.dao.impl.TitularcuentaDAO;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentacorriente;
-import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanatural;
-import org.ventura.entity.Personanaturalcliente;
+import org.ventura.entity.Socio;
 import org.ventura.entity.Titularcuenta;
 import org.ventura.entity.Titularcuentahistorial;
 import org.ventura.util.exception.IllegalEntityException;
@@ -47,10 +46,7 @@ import org.ventura.util.logger.Log;
 public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 
 	@EJB
-	private PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
-
-	@EJB
-	private SocioServiceLocal personajuridicaclienteServiceLocal;
+	private SocioServiceLocal socioServiceLocal;
 	
 	@EJB
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
@@ -68,38 +64,22 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 	Log log;
 
 	@Override
-
 	public Cuentacorriente createCuentaCorrienteWithPersonanatural(Cuentacorriente cuentacorriente) throws Exception {
-
 		try {
-
 			generarNumeroCuenta(cuentacorriente);
 			generarDatosDeRegistro(cuentacorriente);
 
 			//creando tablas relacionadas
-			crearSocioPersonaNatural(cuentacorriente.getPersonanaturalcliente());
+			crearSocioPersonaNatural(cuentacorriente.getSocio());
 			crearPersonanaturalForTitulares(cuentacorriente);
 			generarDatosTitularHistorial(cuentacorriente);
 			
 			cuentacorrienteDAO.create(cuentacorriente);
-
-			cuentacorrienteDAO.create(cuentacorriente);
-		} catch (PreexistingEntityException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		} catch (IllegalEntityException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-		} catch (RollbackFailureException e) {
-			log.error("ERROR:" + e.getMessage());
-			log.error("Caused by:" + e.getCause());
-
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
 		}
 		return cuentacorriente;
-
 	}
 
 	@Override
@@ -109,12 +89,11 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 			generarDatosDeRegistro(cuentacorriente);
 
 			//creando tablas relacionadas
-			crearPersonajuridicacliente(cuentacorriente.getPersonajuridicacliente());
+			crearSocioPersonaJuridica(cuentacorriente.getSocio());
 			crearPersonanaturalForTitulares(cuentacorriente);
 			generarDatosTitularHistorial(cuentacorriente);
 			
-			cuentacorrienteDAO.create(cuentacorriente);
-			
+			cuentacorrienteDAO.create(cuentacorriente);			
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -122,22 +101,24 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 		return cuentacorriente;
 	}
 	
-	protected void crearPersonanaturalcliente(Personanaturalcliente personanaturalcliente) throws Exception{
-		if(personanaturalcliente!=null){
-			Object key = personanaturalcliente.getDni();
-			Object result= personaNaturalClienteServicesLocal.find(key);
-			if(result==null){
-				personaNaturalClienteServicesLocal.create(personanaturalcliente);
-			}			
+	protected void crearSocioPersonaNatural(Socio socio) throws Exception {
+		if (socio != null) {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("dni", socio.getDni());
+			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
+			if (result == null) {
+				socioServiceLocal.create(socio);
+			}
 		}
 	}
 
-	protected void crearPersonajuridicacliente(Personajuridicacliente personajuridicacliente) throws Exception {
-		if (personajuridicacliente != null) {
-			Object key = personajuridicacliente.getRuc();
-			Object result = personajuridicaclienteServiceLocal.find(key);
+	protected void crearSocioPersonaJuridica(Socio socio) throws Exception {
+		if (socio != null) {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("ruc", socio.getDni());
+			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
 			if (result == null) {
-				personajuridicaclienteServiceLocal.create(personajuridicacliente);
+				socioServiceLocal.create(socio);
 			}
 		}
 	}
@@ -181,7 +162,7 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 	private void generarDatosDeRegistro(Cuentacorriente cuentacorriente) {
 		cuentacorriente.setFechaapertura(Calendar.getInstance().getTime());
 		cuentacorriente.setSaldo(0);
-		cuentacorriente.getEstadocuenta().setIdestadocuenta(1);
+		cuentacorriente.setIdestadocuenta(1);
 	}
 
 	private void generarNumeroCuenta(Cuentacorriente cuentacorriente) {
@@ -198,7 +179,6 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 		}
 
 		cuentacorriente.setNumerocuentacorriente(digits.toString());
-
 
 	}
 
@@ -270,10 +250,10 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 	}
 
 	@Override
-	public List<Cuentacorriente> findByNamedQuery(String Cuentaahorro,
+	public List<Cuentacorriente> findByNamedQuery(String cuentacorriente,
 			Map<String, Object> parameters) {
 		try {
-			return cuentacorrienteDAO.findByNamedQuery(Cuentaahorro, parameters);
+			return cuentacorrienteDAO.findByNamedQuery(cuentacorriente, parameters);
 		} catch (RollbackFailureException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
