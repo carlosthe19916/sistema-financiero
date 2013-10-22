@@ -18,9 +18,6 @@
 		transaction-type="JTA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasource/SistemaFinancieroDS</jta-data-source>
-
-		<class>org.ventura.entity.Personajuridicacliente</class>
-		<class>org.ventura.entity.Personanaturalcliente</class>
 		<class>org.ventura.entity.Beneficiariocuenta</class>
 		<class>org.ventura.entity.ChequePK</class>
 		<class>org.ventura.entity.Chequeestado</class>

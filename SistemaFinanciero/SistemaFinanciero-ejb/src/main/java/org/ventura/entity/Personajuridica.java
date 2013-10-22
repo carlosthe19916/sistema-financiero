@@ -71,11 +71,6 @@ public class Personajuridica implements Serializable {
 	@OneToMany(mappedBy = "personajuridica", fetch = FetchType.EAGER)
 	private List<Accionista> listAccionista;
 	
-	// bi-directional many-to-one association to Accionista
-
-	@OneToMany(mappedBy = "personajuridica")
-	private List<Personajuridicacliente> listPersonajuridicacliente;
-
 	public Personajuridica() {
 	}
 
@@ -225,15 +220,6 @@ public class Personajuridica implements Serializable {
 	public void setPersonanatural(Personanatural personanatural) {
 		this.personanatural = personanatural;
 		this.dnirepresentantelegal = personanatural.getDni();
-	}
-
-	public List<Personajuridicacliente> getListPersonajuridicacliente() {
-		return listPersonajuridicacliente;
-	}
-
-	public void setListPersonajuridicacliente(
-			List<Personajuridicacliente> listPersonajuridicacliente) {
-		this.listPersonajuridicacliente = listPersonajuridicacliente;
 	}
 
 	public boolean isValid() {

@@ -23,7 +23,7 @@ public class Cuentaplazofijo implements Serializable {
 	private String numerocuentaplazofijo;
 
 	@Column(length=8)
-	private String dni;
+	private String codigosocio;
 
 	@Temporal(TemporalType.DATE)
 	private Date fechaapertura;
@@ -44,9 +44,6 @@ public class Cuentaplazofijo implements Serializable {
 	@Column(nullable=false)
 	private double montointerespagado;
 
-	@Column(length=11)
-	private String ruc;
-
 	private double tasainteres;
 
 	@Column(nullable=false)
@@ -59,12 +56,8 @@ public class Cuentaplazofijo implements Serializable {
 	private double trea;
 	
 	@ManyToOne
-	@JoinColumn(name = "dni", insertable = false, updatable = false)
-	private Personanaturalcliente personanaturalcliente;
-
-	@ManyToOne
-	@JoinColumn(name = "ruc", insertable = false, updatable = false)
-	private Personajuridicacliente personajuridicacliente;
+	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
+	private Socio socio;
 	
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
@@ -102,14 +95,6 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setNumerocuentaplazofijo(String numerocuentaplazofijo) {
 		this.numerocuentaplazofijo = numerocuentaplazofijo;
-	}
-
-	public String getDni() {
-		return this.dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
 	}
 
 	public Date getFechaapertura() {
@@ -158,14 +143,6 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setMontointerespagado(double montointerespagado) {
 		this.montointerespagado = montointerespagado;
-	}
-
-	public String getRuc() {
-		return this.ruc;
-	}
-
-	public void setRuc(String ruc) {
-		this.ruc = ruc;
 	}
 
 	public double getTasainteres() {
@@ -276,20 +253,20 @@ public class Cuentaplazofijo implements Serializable {
 		this.tipomoneda = tipomoneda;
 	}
 
-	public Personanaturalcliente getPersonanaturalcliente() {
-		return personanaturalcliente;
+	public String getCodigosocio() {
+		return codigosocio;
 	}
 
-	public void setPersonanaturalcliente(Personanaturalcliente personanaturalcliente) {
-		this.personanaturalcliente = personanaturalcliente;
+	public void setCodigosocio(String codigosocio) {
+		this.codigosocio = codigosocio;
 	}
 
-	public Personajuridicacliente getPersonajuridicacliente() {
-		return personajuridicacliente;
+	public Socio getSocio() {
+		return socio;
 	}
 
-	public void setPersonajuridicacliente(Personajuridicacliente personajuridicacliente) {
-		this.personajuridicacliente = personajuridicacliente;
+	public void setSocio(Socio socio) {
+		this.socio = socio;
 	}
 
 }

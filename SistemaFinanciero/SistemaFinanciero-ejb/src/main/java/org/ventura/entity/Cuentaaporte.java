@@ -28,7 +28,7 @@ public class Cuentaaporte implements Serializable{
 	private String numerocuentaaporte;
 
 	@Column(length = 8)
-	private String dni;
+	private String codigosocio;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -40,19 +40,12 @@ public class Cuentaaporte implements Serializable{
 	@Column(nullable = false)
 	private Integer idestadocuenta;
 
-	@Column(length = 11)
-	private String ruc;
-
 	@Column(nullable = false)
 	private double saldo;
 
 	@ManyToOne
-	@JoinColumn(name = "dni", insertable = false, updatable = false)
-	private Personanaturalcliente personanaturalcliente;
-
-	@ManyToOne
-	@JoinColumn(name = "ruc", insertable = false, updatable = false)
-	private Personajuridicacliente personajuridicacliente;
+	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
+	private Socio socio;
 
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
@@ -83,14 +76,6 @@ public class Cuentaaporte implements Serializable{
 		this.numerocuentaaporte = numerocuentaaporte;
 	}
 
-	public String getDni() {
-		return this.dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
-
 	public Date getFechaapertura() {
 		return this.fechaapertura;
 	}
@@ -105,14 +90,6 @@ public class Cuentaaporte implements Serializable{
 
 	public void setIdtipomoneda(Integer idtipomoneda) {
 		this.idtipomoneda = idtipomoneda;
-	}
-
-	public String getRuc() {
-		return this.ruc;
-	}
-
-	public void setRuc(String ruc) {
-		this.ruc = ruc;
 	}
 
 	public double getSaldo() {
@@ -151,14 +128,6 @@ public class Cuentaaporte implements Serializable{
 		this.estadocuenta = estadocuenta;
 		this.idestadocuenta = estadocuenta.getIdestadocuenta();
 	}
-
-	public Personanaturalcliente getPersonanaturalcliente() {
-		return personanaturalcliente;
-	}
-
-	public void setPersonanaturalcliente(Personanaturalcliente personanaturalcliente) {
-		this.personanaturalcliente = personanaturalcliente;
-	}
 	
 	public Aporte addAporte(Aporte aporte) {
 		getAporte().add(aporte);
@@ -180,14 +149,6 @@ public class Cuentaaporte implements Serializable{
 		this.idtipomoneda = tipomoneda.getIdtipomoneda();
 	}
 
-	public Personajuridicacliente getPersonajuridicacliente() {
-		return personajuridicacliente;
-	}
-
-	public void setPersonajuridicacliente(Personajuridicacliente personajuridicacliente) {
-		this.personajuridicacliente = personajuridicacliente;
-	}
-
 	public Integer getIdestadocuenta() {
 		return idestadocuenta;
 	}
@@ -202,6 +163,22 @@ public class Cuentaaporte implements Serializable{
 
 	public void setAporte(List<Aporte> aporte) {
 		this.aporte = aporte;
+	}
+
+	public String getCodigosocio() {
+		return codigosocio;
+	}
+
+	public void setCodigosocio(String codigosocio) {
+		this.codigosocio = codigosocio;
+	}
+
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
 	}
 
 }

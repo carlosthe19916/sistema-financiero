@@ -23,7 +23,7 @@ public class Cuentacorriente implements Serializable {
 	private String numerocuentacorriente;
 
 	@Column(length=8)
-	private String dni;
+	private String codigosocio;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
@@ -34,17 +34,10 @@ public class Cuentacorriente implements Serializable {
 	
 	@Column(nullable = false)
 	private double saldo;
-
-	@Column(length=11)
-	private String ruc;
-
+	
 	@ManyToOne
-	@JoinColumn(name = "dni", insertable = false, updatable = false)
-	private Personanaturalcliente personanaturalcliente;
-
-	@ManyToOne
-	@JoinColumn(name = "ruc", insertable = false, updatable = false)
-	private Personajuridicacliente personajuridicacliente;
+	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
+	private Socio socio;
 	
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
@@ -86,14 +79,6 @@ public class Cuentacorriente implements Serializable {
 		this.numerocuentacorriente = numerocuentacorriente;
 	}
 
-	public String getDni() {
-		return this.dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
-
 	public Date getFechaapertura() {
 		return this.fechaapertura;
 	}
@@ -108,14 +93,6 @@ public class Cuentacorriente implements Serializable {
 
 	public void setIdtipomoneda(Integer idtipomoneda) {
 		this.idtipomoneda = idtipomoneda;
-	}
-
-	public String getRuc() {
-		return this.ruc;
-	}
-
-	public void setRuc(String ruc) {
-		this.ruc = ruc;
 	}
 
 	public List<Beneficiariocuenta> getBeneficiariocuentas() {
@@ -236,22 +213,6 @@ public class Cuentacorriente implements Serializable {
 		return titularcuenta;
 	}
 
-	public Personanaturalcliente getPersonanaturalcliente() {
-		return personanaturalcliente;
-	}
-
-	public void setPersonanaturalcliente(Personanaturalcliente personanaturalcliente) {
-		this.personanaturalcliente = personanaturalcliente;
-	}
-
-	public Personajuridicacliente getPersonajuridicacliente() {
-		return personajuridicacliente;
-	}
-
-	public void setPersonajuridicacliente(Personajuridicacliente personajuridicacliente) {
-		this.personajuridicacliente = personajuridicacliente;
-	}
-
 	public double getSaldo() {
 		return saldo;
 	}
@@ -266,6 +227,22 @@ public class Cuentacorriente implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
+	}
+
+	public String getCodigosocio() {
+		return codigosocio;
+	}
+
+	public void setCodigosocio(String codigosocio) {
+		this.codigosocio = codigosocio;
+	}
+
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
 	}
 
 }
