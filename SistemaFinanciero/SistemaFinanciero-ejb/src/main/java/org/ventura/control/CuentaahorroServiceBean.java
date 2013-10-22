@@ -19,7 +19,7 @@ import javax.inject.Named;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
-import org.ventura.boundary.local.PersonajuridicaclienteServiceLocal;
+import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
@@ -49,7 +49,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	private PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
 
 	@EJB
-	private PersonajuridicaclienteServiceLocal personajuridicaclienteServiceLocal;
+	private SocioServiceLocal personajuridicaclienteServiceLocal;
 	
 	@EJB
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
@@ -73,7 +73,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
-			crearPersonanaturalcliente(cuentaahorro.getSocio());
+			crearPersonanaturalcliente(cuentaahorro.getPersonanaturalcliente());
 			crearPersonanaturalForTitulares(cuentaahorro);
 			generarDatosTitularHistorial(cuentaahorro);
 			
@@ -92,7 +92,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
-			crearPersonajuridicacliente(cuentaahorro.getSocio());
+			crearPersonajuridicacliente(cuentaahorro.getPersonajuridicacliente());
 			crearPersonanaturalForTitulares(cuentaahorro);
 			generarDatosTitularHistorial(cuentaahorro);
 			
@@ -104,12 +104,12 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		return cuentaahorro;
 	}
 	
-	protected void crearPersonanaturalcliente(Socio socio) throws Exception{
-		if(socio!=null){
-			Object key = socio.getDni();
+	protected void crearPersonanaturalcliente(Personanaturalcliente personanaturalcliente) throws Exception{
+		if(personanaturalcliente!=null){
+			Object key = personanaturalcliente.getDni();
 			Object result= personaNaturalClienteServicesLocal.find(key);
 			if(result==null){
-				personaNaturalClienteServicesLocal.create(socio);
+				personaNaturalClienteServicesLocal.create(personanaturalcliente);
 			}			
 		}
 	}
