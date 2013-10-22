@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.flow.FlowScoped;
 import javax.inject.Inject;
@@ -30,6 +31,7 @@ import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Personanaturalcliente;
 import org.ventura.entity.Titularcuenta;
+import org.venturabank.managedbean.session.UsuarioMB;
 
 @Named
 @FlowScoped("aperturarCuentaahorro-flow")
@@ -38,6 +40,9 @@ public class AperturaCuentaahorroBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String mensaje;
+	
+	@Inject
+	private UsuarioMB usuarioMB;
 
 	@EJB
 	private CuentaahorroServiceLocal cuentaahorroServiceLocal;
@@ -389,6 +394,14 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	public void setTitularDefecto(List<Titularcuenta> titularDefecto) {
 		this.titularDefecto = titularDefecto;
+	}
+
+	public UsuarioMB getUsuarioMB() {
+		return usuarioMB;
+	}
+
+	public void setUsuarioMB(UsuarioMB usuarioMB) {
+		this.usuarioMB = usuarioMB;
 	}
 
 
