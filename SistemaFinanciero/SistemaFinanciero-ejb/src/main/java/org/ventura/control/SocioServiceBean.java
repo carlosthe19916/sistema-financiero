@@ -17,6 +17,7 @@ import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.remote.SocioServiceRemote;
 import org.ventura.dao.impl.SocioDAO;
+import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
 import org.ventura.util.logger.Log;
@@ -44,6 +45,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 	public Socio create(Socio socio) throws Exception {
 		try {
 			Personanatural personanatural = socio.getPersonanatural();
+			Personajuridica personajuridica = socio.getPersonajuridica();
 			if (personanatural != null) {
 				Object key = personanatural.getDni();
 				Object result = personanaturalServiceLocal.find(key);
@@ -51,6 +53,14 @@ public class SocioServiceBean implements SocioServiceLocal {
 					personanaturalServiceLocal.create(personanatural);
 				}
 			}
+			if (personajuridica != null) {
+				Object key = personajuridica.getRuc();
+				Object result = personajuridicaServiceLocal.find(key);
+				if (result == null) {
+					personajuridicaServiceLocal.create(personajuridica);
+				}
+			}
+			
 			socioDAO.create(socio);		
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
