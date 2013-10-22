@@ -15,8 +15,8 @@ import java.util.Date;
 @NamedQuery(name = "Socio.findAll", query = "SELECT s FROM Socio s")
 @NamedQueries({
 		@NamedQuery(name = Socio.ALL, query = "Select s From Sexo s"),
-		@NamedQuery(name = Socio.FindByDni, query = "Select s From Socio s WHERE s.dni=:dni"),
-		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.ruc=:ruc")})
+		@NamedQuery(name = Socio.FindByDni, query = "Select s From Socio s WHERE s.estado=true AND s.dni=:dni"),
+		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.estado=true AND s.ruc=:ruc")})
 public class Socio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +42,9 @@ public class Socio implements Serializable {
 
 	@Column(length = 30)
 	private String ruc;
+	
+	@Column
+	private Boolean estado;
 
 	@ManyToOne
 	@JoinColumn(name = "ruc", nullable = false, insertable = false, updatable = false)

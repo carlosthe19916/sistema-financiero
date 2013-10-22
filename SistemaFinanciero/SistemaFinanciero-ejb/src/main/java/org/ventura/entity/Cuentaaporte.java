@@ -179,6 +179,11 @@ public class Cuentaaporte implements Serializable{
 
 	public void setSocio(Socio socio) {
 		this.socio = socio;
+		if(this.socio != null){
+			this.codigosocio = socio.getCodigosocio();
+		} else {
+			this.codigosocio = null;
+		}
 	}
 
 }

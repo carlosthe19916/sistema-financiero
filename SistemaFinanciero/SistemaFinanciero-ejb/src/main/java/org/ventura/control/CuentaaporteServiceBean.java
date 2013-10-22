@@ -38,6 +38,7 @@ import org.ventura.entity.Titularcuenta;
 import org.ventura.entity.Titularcuentahistorial;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
+import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
@@ -70,9 +71,12 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			generarDatosDeRegistro(cuentaaporte);
 
 			//creando tablas relacionadas
-			crearSocioPersonaNatural(cuentaaporte.getSocio());
-			
+			Socio socio = crearSocioPersonaNatural(cuentaaporte.getSocio());
+			cuentaaporte.setSocio(socio);
 			cuentaaporteDAO.create(cuentaaporte);
+		} catch(PreexistingEntityException e){
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new Exception("Error:" + e.getClass() + " " + e.getCause());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -87,10 +91,12 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			generarDatosDeRegistro(cuentaaporte);
 
 			//creando tablas relacionadas
-			crearSocioPersonaJuridica(cuentaaporte.getSocio());
-			
-			
+			Socio socio = crearSocioPersonaJuridica(cuentaaporte.getSocio());
+			cuentaaporte.setSocio(socio);			
 			cuentaaporteDAO.create(cuentaaporte);			
+		} catch(PreexistingEntityException e){
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new Exception("Error:" + e.getClass() + " " + e.getCause());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -98,26 +104,32 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		return cuentaaporte;
 	}
 	
-	protected void crearSocioPersonaNatural(Socio socio) throws Exception {
+	protected Socio crearSocioPersonaNatural(Socio socio) throws PreexistingEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni", socio.getDni());
 			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
 			if (result == null) {
-				socioServiceLocal.create(socio);
+				socio = socioServiceLocal.create(socio);
+			} else {
+				throw new PreexistingEntityException("El Socio Persona Natural ya tiene una cuenta de aportes activa");
 			}
 		}
+		return socio;
 	}
 
-	protected void crearSocioPersonaJuridica(Socio socio) throws Exception {
+	protected Socio crearSocioPersonaJuridica(Socio socio) throws PreexistingEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ruc", socio.getDni());
 			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
 			if (result == null) {
-				socioServiceLocal.create(socio);
+				socio = socioServiceLocal.create(socio);
+			} else {
+				throw new PreexistingEntityException("El Socio Persona Juridica ya tiene una cuenta de aportes activa");
 			}
 		}
+		return socio;
 	}
 	
 	protected void crearBeneficiarios(List<Beneficiariocuenta> beneficiarios) throws Exception {
