@@ -56,7 +56,7 @@ public class Cuentacorriente implements Serializable {
 
 	//bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
-	@JoinColumn(name="idestadocuenta", nullable=false)
+	@JoinColumn(name="idestadocuenta", nullable=false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
 
 	//bi-directional many-to-one association to Cuentacorrientehistorial
