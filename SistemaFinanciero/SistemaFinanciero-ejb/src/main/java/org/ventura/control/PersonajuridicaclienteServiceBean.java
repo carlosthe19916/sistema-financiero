@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.remote.SocioServiceRemote;
-import org.ventura.dao.impl.PersonajuridicaclienteDAO;
+import org.ventura.dao.impl.SocioDAO;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personajuridicacliente;
 import org.ventura.util.exception.NonexistentEntityException;
@@ -32,7 +32,7 @@ public class PersonajuridicaclienteServiceBean implements SocioServiceLocal {
 	private Log log;
 
 	@EJB
-	private PersonajuridicaclienteDAO oPersonajuridicaclienteDAO;
+	private SocioDAO oPersonajuridicaclienteDAO;
 	
 	@EJB
 	private PersonajuridicaServiceLocal personajuridicaServiceLocal;
