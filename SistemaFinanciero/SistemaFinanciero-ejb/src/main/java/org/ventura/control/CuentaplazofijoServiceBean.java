@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaplazofijoServiceLocal;
-import org.ventura.boundary.local.PersonajuridicaclienteServiceLocal;
+import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.CuentaplazofijoServiceRemote;
@@ -50,7 +50,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	private PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
 
 	@EJB
-	private PersonajuridicaclienteServiceLocal personajuridicaclienteServiceLocal;
+	private SocioServiceLocal personajuridicaclienteServiceLocal;
 	
 	@EJB
 	private PersonanaturalServiceLocal personanaturalServiceLocal;

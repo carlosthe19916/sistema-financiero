@@ -13,9 +13,9 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
-import org.ventura.boundary.local.PersonajuridicaclienteServiceLocal;
-import org.ventura.boundary.remote.PersonajuridicaclienteServiceRemote;
-import org.ventura.dao.impl.PersonajuridicaclienteDAO;
+import org.ventura.boundary.local.SocioServiceLocal;
+import org.ventura.boundary.remote.SocioServiceRemote;
+import org.ventura.dao.impl.SocioDAO;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personajuridicacliente;
 import org.ventura.util.exception.NonexistentEntityException;
@@ -23,16 +23,16 @@ import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
 @Stateless
-@Local(PersonajuridicaclienteServiceLocal.class)
-@Remote(PersonajuridicaclienteServiceRemote.class)
+@Local(SocioServiceLocal.class)
+@Remote(SocioServiceRemote.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-public class PersonajuridicaclienteServiceBean implements PersonajuridicaclienteServiceLocal {
+public class PersonajuridicaclienteServiceBean implements SocioServiceLocal {
 
 	@Inject
 	private Log log;
 
 	@EJB
-	private PersonajuridicaclienteDAO oPersonajuridicaclienteDAO;
+	private SocioDAO oPersonajuridicaclienteDAO;
 	
 	@EJB
 	private PersonajuridicaServiceLocal personajuridicaServiceLocal;
