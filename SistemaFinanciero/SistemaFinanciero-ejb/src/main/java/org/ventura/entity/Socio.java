@@ -6,35 +6,43 @@ import javax.persistence.*;
 
 import java.util.Date;
 
-
 /**
  * The persistent class for the socio database table.
  * 
  */
 @Entity
-@Table(name="socio",schema="socio")
-@NamedQuery(name="Socio.findAll", query="SELECT s FROM Socio s")
+@Table(name = "socio", schema = "socio")
+@NamedQuery(name = "Socio.findAll", query = "SELECT s FROM Socio s")
+@NamedQueries({
+		@NamedQuery(name = Socio.ALL, query = "Select s From Sexo s"),
+		@NamedQuery(name = Socio.FindByDni, query = "Select s From Socio s WHERE s.dni=:dni"),
+		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.ruc=:ruc")})
 public class Socio implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
+	public final static String ALL = "org.ventura.model.Socio.ALL";
+	public final static String FindByDni = "org.ventura.model.Socio.FindByDni";
+	public final static String FindByRuc = "org.ventura.model.Socio.FindByRuc";
+	
 	@Id
-	@Column(unique=true, nullable=false, length=8)
+	@Column(unique = true, nullable = false, length = 8)
 	private String codigosocio;
 
-	@Column(length=8)
+	@Column(length = 8)
 	private String dni;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanatural personanatural;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Date fechaasociado;
 
-	@Column(length=30)
+	@Column(length = 30)
 	private String ruc;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ruc", nullable = false, insertable = false, updatable = false)
 	private Personajuridica personajuridica;

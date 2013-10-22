@@ -77,7 +77,7 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 			generarDatosDeRegistro(cuentacorriente);
 
 			//creando tablas relacionadas
-			crearPersonanaturalcliente(cuentacorriente.getPersonanaturalcliente());
+			crearSocioPersonaNatural(cuentacorriente.getPersonanaturalcliente());
 			crearPersonanaturalForTitulares(cuentacorriente);
 			generarDatosTitularHistorial(cuentacorriente);
 			

@@ -76,7 +76,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			generarDatosDeRegistro(cuentaplazofijo);
 
 			//creando tablas relacionadas
-			crearPersonanaturalcliente(cuentaplazofijo.getPersonanaturalcliente());
+			crearSocioPersonaNatural(cuentaplazofijo.getPersonanaturalcliente());
 			crearPersonanaturalForTitulares(cuentaplazofijo);
 			generarDatosTitularHistorial(cuentaplazofijo);
 			

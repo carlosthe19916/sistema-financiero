@@ -74,7 +74,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			generarDatosDeRegistro(cuentaaporte);
 
 			//creando tablas relacionadas
-			crearPersonanaturalcliente(cuentaaporte.getPersonanaturalcliente());
+			crearSocioPersonaNatural(cuentaaporte.getPersonanaturalcliente());
 			
 			cuentaaporteDAO.create(cuentaaporte);
 		} catch (Exception e) {

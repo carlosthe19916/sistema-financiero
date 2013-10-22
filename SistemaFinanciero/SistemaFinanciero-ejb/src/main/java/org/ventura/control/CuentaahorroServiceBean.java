@@ -3,6 +3,7 @@ package org.ventura.control;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,16 +22,14 @@ import javax.persistence.TransactionRequiredException;
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
-import org.ventura.boundary.local.PersonanaturalclienteServiceLocal;
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaahorroDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
-import org.ventura.entity.Personajuridicacliente;
 import org.ventura.entity.Personanatural;
-import org.ventura.entity.Personanaturalcliente;
+import org.ventura.entity.Socio;
 import org.ventura.entity.Titularcuenta;
 import org.ventura.entity.Titularcuentahistorial;
 import org.ventura.util.exception.IllegalEntityException;
@@ -46,10 +45,7 @@ import org.ventura.util.logger.Log;
 public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 	@EJB
-	private PersonanaturalclienteServiceLocal personaNaturalClienteServicesLocal;
-
-	@EJB
-	private SocioServiceLocal personajuridicaclienteServiceLocal;
+	private SocioServiceLocal socioServiceLocal;
 	
 	@EJB
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
@@ -73,7 +69,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
-			crearPersonanaturalcliente(cuentaahorro.getPersonanaturalcliente());
+			crearSocioPersonaNatural(cuentaahorro.getSocio());
 			crearPersonanaturalForTitulares(cuentaahorro);
 			generarDatosTitularHistorial(cuentaahorro);
 			
@@ -92,7 +88,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
-			crearPersonajuridicacliente(cuentaahorro.getPersonajuridicacliente());
+			crearSocioPersonaJuridica(cuentaahorro.getSocio());
 			crearPersonanaturalForTitulares(cuentaahorro);
 			generarDatosTitularHistorial(cuentaahorro);
 			
@@ -104,22 +100,24 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		return cuentaahorro;
 	}
 	
-	protected void crearPersonanaturalcliente(Personanaturalcliente personanaturalcliente) throws Exception{
-		if(personanaturalcliente!=null){
-			Object key = personanaturalcliente.getDni();
-			Object result= personaNaturalClienteServicesLocal.find(key);
-			if(result==null){
-				personaNaturalClienteServicesLocal.create(personanaturalcliente);
-			}			
+	protected void crearSocioPersonaNatural(Socio socio) throws Exception {
+		if (socio != null) {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("dni", socio.getDni());
+			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
+			if (result == null) {
+				socioServiceLocal.create(socio);
+			}
 		}
 	}
 
-	protected void crearPersonajuridicacliente(Personajuridicacliente personajuridicacliente) throws Exception {
-		if (personajuridicacliente != null) {
-			Object key = personajuridicacliente.getRuc();
-			Object result = personajuridicaclienteServiceLocal.find(key);
+	protected void crearSocioPersonaJuridica(Socio socio) throws Exception {
+		if (socio != null) {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("ruc", socio.getDni());
+			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
 			if (result == null) {
-				personajuridicaclienteServiceLocal.create(personajuridicacliente);
+				socioServiceLocal.create(socio);
 			}
 		}
 	}
