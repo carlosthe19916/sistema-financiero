@@ -9,103 +9,80 @@
 
 <ui:composition>
 <h:form>			
-		<div id="panelCuentaCorrient">
+		<p:dialog id="#{componentName}" header="Datos Financieros" widgetVar="#{componentName}" modal="true" height="250" width="350">		
+		<div id="panelPersonaNatural">
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
+				<p:growl id="growl" sticky="true" />
 					<div class="sf-agrupador-content-cabecera">
-						<h3>FINALIDAD DE LA APERTURA</h3>
+						<h3>Datos de Apertura Cuenta Corriente</h3>
 					</div>
 					<div class="sf-agrupador-content-table">
 						<table>
 							<tr>
 								<td>
-									<input type="radio" name="xhtml_mp_tutorial_chapter" value="1"/>
+									<p:outputLabel>Moneda:</p:outputLabel>
 								</td>
-								<td>
-									<p:outputLabel>Pago de Planillas</p:outputLabel>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="radio" name="xhtml_mp_tutorial_chapter" value="2"/>
-								</td>
-								<td>
-									<p:outputLabel>Pago a Proveedores</p:outputLabel>
+								<td>							
+										<p:selectOneMenu id="tipoMoneda" value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.comboTipomoneda.itemSelected}" valueChangeListener="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.changeTipomoneda}" required="true" requiredMessage="Seleccione un tipo de moneda">
+											<f:selectItem itemLabel="--Seleccione--"/>
+											<f:selectItems value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.comboTipomoneda.items.entrySet()}" var="tipomoneda" itemLabel="#{tipomoneda.value.denominacion}" itemValue="#{tipomoneda.key}"/>
+											<p:ajax update="growl,tipoMoneda"/>
+										</p:selectOneMenu>
+										<p:outputLabel for="tipoMoneda"/>
+									
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<input type="radio" name="xhtml_mp_tutorial_chapter" value="3"/>
-								</td>
-								<td>
-									<p:outputLabel>Manejo de Liquidez</p:outputLabel>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="radio" name="xhtml_mp_tutorial_chapter" value="4"/>
-								</td>
-								<td colspan="3">
-									<p:outputLabel>Facilidades Crediticias</p:outputLabel>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="radio" name="xhtml_mp_tutorial_chapter" value="5"/>
-								</td>
-								<td>
-									<p:outputLabel>Otros (Especificar)</p:outputLabel>
-								</td>
-								<td>
-									<p:inputText id="txtOtros" value="" size="50"/>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="sf-agrupador">
-				<div class="sf-agrupador-content">
-					<div class="sf-agrupador-content-cabecera">
-						<h3>DATOS FINANCIEROS DE APERTURA</h3>
-					</div>
-					<div class="sf-agrupador-content-table">
-						<table>
-							<tr>
-								<td>
-									<p:outputLabel>Moneda</p:outputLabel>
-								</td>
-								<td>
-									<p:selectOneMenu>
-										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItem itemLabel="Nuevos Soles (S/.)" itemValue="1" />
-										<f:selectItem itemLabel="Dolares Americanos ($)" itemValue="2" />}
-										<f:selectItem itemLabel="Euros (€)" itemValue="3" />
-									</p:selectOneMenu>
-								</td>
-							</tr>
-							<tr>
-								<td align="right">
 									<p:outputLabel>Fecha Apertura:</p:outputLabel>
 								</td>
 								<td>
-									<p:calendar id="txtFechaApertura" size="20" /> 
-									<p:watermark for="txtFechaApertura" value="dd/mm/yyyy" />
+									<p:outputLabel id="a" value="#{datosFinancierosCuentaAhorroMB.fechaActual()}" styleClass="sf-label-bold">
+										<f:convertDateTime for="a" pattern="d/M/yyyy"/>
+									</p:outputLabel>
+									
 								</td>
+								
 							</tr>
 							<tr>
-								<td align="right">
+								<td>
 									<p:outputLabel>Tasa de Interes:</p:outputLabel>
 								</td>
 								<td>
-									<p:spinner id="spnTasaInteresCC" value="" stepFactor="0.01" size="17"/>
+									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorrohistorial.tasainteres}"/>
+									<p:outputLabel value="%"/>
 								</td>
 							</tr>
+							<tr>
+								<td>
+									<p:outputLabel>Estado cuenta:</p:outputLabel>
+								</td>
+								<td>
+									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorro.estadocuenta.denominacion}" styleClass="sf-label-bold"/> 									
+								</td>
+							
+							</tr>	
+							<tr>								
+								<td>
+									<p:outputLabel>Saldo:</p:outputLabel>
+								</td>
+								<td>																		
+									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorro.saldo}" styleClass="sf-label-bold"/>
+								</td>
+							</tr>						
 						</table>
 					</div>
 				</div>
 			</div>
+
+			<div class="sf-buttons">										
+				<p:commandButton update=":#{componentToUpdated}, growl" value="Aceptar" oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" />
+				<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" styleClass="action" />				
+			</div>
 		</div>
+	</p:dialog>		
+		
 </h:form>
 </ui:composition>
 </html>

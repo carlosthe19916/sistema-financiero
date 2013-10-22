@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -63,6 +64,8 @@ public class AperturarCuentacorrienteBean implements Serializable {
 
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
+	
+	private List<Titularcuenta> titularDefecto;
 
 	/**
 	 * 
@@ -72,6 +75,7 @@ public class AperturarCuentacorrienteBean implements Serializable {
 
 	public AperturarCuentacorrienteBean() {
 		this.cuentacorriente = new Cuentacorriente();
+		this.titularDefecto = new ArrayList<Titularcuenta>();
 	}
 
 	@PostConstruct
@@ -91,7 +95,7 @@ public class AperturarCuentacorrienteBean implements Serializable {
 		comboTipoPersona.setItemSelected(1);
 	}
 
-	public String createCuentaahorro() {
+	public String createCuentacorriente() {
 		try {
 			if (validarCuentaAhorro()) {
 				this.establecerParametrosCuentaahorro();
@@ -122,6 +126,7 @@ public class AperturarCuentacorrienteBean implements Serializable {
 			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
 
 			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
+			listTitularcuenta.add(titularDefecto.get(0));
 			List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
 
 			// se crean las clases a relacionar con la Cuenta de Ahorros
@@ -269,7 +274,7 @@ public class AperturarCuentacorrienteBean implements Serializable {
 	}
 
 	public void establecerTitularDefecto() {
-		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
+		/*Personanatural personanatural = personaNaturalMB.getPersonaNatural();
 
 		Titularcuenta titularcuenta = new Titularcuenta();
 		titularcuenta.setPersonanatural(personanatural);
@@ -281,6 +286,23 @@ public class AperturarCuentacorrienteBean implements Serializable {
 			titularcuentas.add(titularcuenta);
 		} else {
 			titularcuentas.set(0, titularcuenta);
+		}*/
+		if (isPersonaNatural()) {		
+			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
+			Titularcuenta titularcuenta = new Titularcuenta();
+			titularcuenta.setPersonanatural(personanatural);
+									
+			this.titularDefecto.clear();
+			this.titularDefecto.add(titularcuenta);
+							
+		}
+		if (isPersonaJuridica()) {
+			Personanatural representanteLegal = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
+			Titularcuenta titularRepresentante = new Titularcuenta();
+			titularRepresentante.setPersonanatural(representanteLegal);
+
+			this.titularDefecto.clear();
+			this.titularDefecto.add(titularRepresentante);
 		}
 	}
 
@@ -355,5 +377,12 @@ public class AperturarCuentacorrienteBean implements Serializable {
 		this.beneficiariosMB = beneficiariosMB;
 	}
 
+	public List<Titularcuenta> getTitularDefecto() {
+		return titularDefecto;
+	}
 
+	public void setTitularDefecto(List<Titularcuenta> titularDefecto) {
+		this.titularDefecto = titularDefecto;
+	}
+	
 }

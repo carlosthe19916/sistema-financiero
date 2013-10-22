@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<h:panelGroup id="#{componentName}">
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:form>
+					<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
+				</h:form>
+				<h:form>
+					<p:commandLink value="Editar" oncomplete="#{editarOutputDialog}.show();return false;"></p:commandLink>
+				</h:form>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Datos Financieros</h3>
+				</div>		
+				<div class="sf-agrupador-content-table">
+					<table width="370px">
+						<tbody>
+							<tr>
+								<td style="width: 180px;">
+									<p:outputLabel value="Moneda:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{aperturarCuentacorrienteBean.datosFinancierosCuentaCorrienteMB.cuentacorriente.tipomoneda.denominacion}" styleClass="sf-label-bold" />
+								</td>
+							</tr>	
+							<tr>
+								<td>
+									<p:outputLabel value="Fecha Apertura:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{datosFinancierosCuentaCorrienteMB.fechaActual()}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Tasa de Interés:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{aperturarCuentacorrienteBean.datosFinancierosCuentaCorrienteMB.cuentacorrientehistorial.tasainteres}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Estado Cuenta:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{aperturarCuentacorrienteBean.datosFinancierosCuentaCorrienteMB.cuentacorriente.estadocuenta.denominacion}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Saldo:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{aperturarCuentacorrienteBean.datosFinancierosCuentaCorrienteMB.cuentacorriente.saldo}" styleClass="sf-label-bold" />
+								</td>
+							</tr>					
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</h:panelGroup>
+	
+</ui:composition>
+</html>
