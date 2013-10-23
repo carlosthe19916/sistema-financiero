@@ -78,7 +78,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			cuentaahorroDAO.create(cuentaahorro);
 		} catch(NonexistentEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getCause());
+			throw new Exception("Error:" + e.getMessage());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -102,7 +102,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			cuentaahorroDAO.create(cuentaahorro);			
 		} catch(NonexistentEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getCause());
+			throw new Exception("Error:" + e.getMessage());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -114,10 +114,9 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni", socio.getDni());
-			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
-			if (result != null) {
-				List<Socio> socios = (List<Socio>) result;
-				for (Iterator<Socio> iterator = socios.iterator(); iterator.hasNext();) {
+			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
+			if (result.size() != 0) {
+				for (Iterator<Socio> iterator = result.iterator(); iterator.hasNext();) {
 					socio = iterator.next();
 					break;
 				}
