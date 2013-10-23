@@ -30,7 +30,7 @@
 	<ui:define name="content">
 
 		<div class="sf-content-cabecera">
-			<h2>Buscar Cliente</h2>
+			<h2>Buscar Socio</h2>
 		</div>
 
 		<h:form>		
@@ -44,16 +44,16 @@
 								<td><h:outputLabel>Buscar:</h:outputLabel></td>
 								<td>
 									<p:inputText id="txtBuscar" 
-										value="#{personaNaturalClienteMB.valorBusqueda}" 
+										value="#{socioBean.valorBusqueda}" 
 										size="80" 
-										required="true" > 
+										required="true" requiredMessage="Ingrese un valor de busqueda"> 
 										<p:ajax update="growl" event="keyup" />
 									</p:inputText>
-									<p:watermark value="search for" for="txtBuscar" />
+									<p:watermark value="Buscar por: Codigo Socio, DNI y Apellidos y Nombres" for="txtBuscar" />
 								</td>
 								<td>
 									<p:commandButton value="buscar"  
-										actionListener="#{personaNaturalClienteMB.buscarCliente()}" 
+										actionListener="#{socioBean.buscarSocio()}" 
 										update=":form-resultadoBusqueda"/>
 								</td>
 								<td>
@@ -71,20 +71,19 @@
 		<div class="buttons">
 			<h:form id="form-buttons">
 				<div class="tiptip">
-					<h:commandLink styleClass="button left" title="Nuevo Trabajador"
-						onclick="dlgCrearTrabajador.show();return false;">
+					<p:commandLink styleClass="button left" title="Nueva busqueda">
 						<span class="icon icon3"></span>
 						<span class="label">Nuevo</span>
-					</h:commandLink>
+					</p:commandLink>
 					
-					<h:link styleClass="button middle" title="Editar Trabajador" outcome="mostrarDatosCliente.xhtml" target="_blank" >
+					<h:link styleClass="button middle" title="Editar Socio" outcome="mostrarDatosCliente.xhtml" target="_blank" >
 				    	<span class="icon icon145"></span>
 						<span class="label">Editar</span>	
-				    	<f:param name="dni" value="#{personaNaturalClienteMB.dniTemporal}" />
+				    	<f:param name="dni" value="#{socioBean.dniTemporal}" />
 					</h:link>
 
 					<h:commandLink action="#" styleClass="button right"
-						title="Eliminar Trabajador">
+						title="Eliminar Socio">
 						<span class="icon icon186"></span>
 						<span class="label">Eliminar</span>
 					</h:commandLink>
@@ -118,40 +117,45 @@
 		<div style="padding: 0px 5px;">
 			<h:form id="form-resultadoBusqueda">
 				<div>
-					<p:dataTable id="table" var="cliente"
-						value="#{personaNaturalClienteMB.tablaClientes.rows}"
-						rowKey="#{cliente}"
-						selection="#{personaNaturalClienteMB.tablaClientes.selectedRow}"
+					<p:dataTable id="table" var="socio"
+						value="#{socioBean.tablaSocios.rows}"
+						rowKey="#{socio}"
+						selection="#{socioBean.tablaSocios.selectedRow}"
 						selectionMode="single" paginator="true" paginatorPosition="bottom"
-						rows="5" sortBy="#{cliente.personanatural.apellidopaterno}"
+						rows="20" sortOrder="ascending"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,20" widgetVar="tablaCliente"
+						rowsPerPageTemplate="50,100,200" widgetVar="tablaSocios"
 						rowIndexVar="row">
 														
-						<p:ajax event="rowSelect" listener="#{personaNaturalClienteMB.obtenerDNISeleccionado()}" update=":form-buttons"/>
+						<p:ajax event="rowSelect" listener="#{socioBean.obtenerDNISeleccionado()}" update=":form-buttons"/>
 
 						<p:column headerText="Nro" width="5%" style="text-align:center;">
 							<h:outputText value="#{row + 1}" />
 						</p:column>
 
-						<p:column sortBy="#{cliente.dni}" headerText="DNI">
-							<h:outputText value="#{cliente.dni}" />
+						<p:column sortBy="#{socio.codigosocio}" headerText="Codigo Socio">
+							<h:outputText value="#{socio.codigosocio}" />
+						</p:column>
+						
+						<p:column sortBy="#{socio.dni}" headerText="DNI">
+							<h:outputText value="#{socio.dni}" />
 						</p:column>
 
-						<p:column sortBy="#{cliente.personanatural.apellidopaterno}"
+						<p:column sortBy="#{socio.personanatural.apellidopaterno}"
 							headerText="Apellido Paterno">
-							<h:outputText value="#{cliente.personanatural.apellidopaterno}" />
+							<h:outputText value="#{socio.personanatural.apellidopaterno}" />
 						</p:column>
 
-						<p:column sortBy="#{cliente.personanatural.apellidomaterno}"
-							headerText="APellido Materno">
-							<h:outputText value="#{cliente.personanatural.apellidomaterno}" />
+						<p:column sortBy="#{socio.personanatural.apellidomaterno}"
+							headerText="Apellido Materno">
+							<h:outputText value="#{socio.personanatural.apellidomaterno}" />
 						</p:column>
-
-						<p:column sortBy="#{cliente.personanatural.nombres}"
+						
+						<p:column sortBy="#{socio.personanatural.nombres}"
 							headerText="Nombres">
-							<h:outputText value="#{cliente.personanatural.nombres}" />
+							<h:outputText value="#{socio.personanatural.nombres}" />
 						</p:column>
+						
 					</p:dataTable>
 
 				</div>

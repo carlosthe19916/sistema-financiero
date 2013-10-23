@@ -16,7 +16,8 @@ import java.util.Date;
 @NamedQueries({
 		@NamedQuery(name = Socio.ALL, query = "Select s From Sexo s"),
 		@NamedQuery(name = Socio.FindByDni, query = "Select s From Socio s WHERE s.estado=true AND s.dni=:dni"),
-		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.estado=true AND s.ruc=:ruc")})
+		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.estado=true AND s.ruc=:ruc"),
+		@NamedQuery(name = Socio.SOCIOSPN, query = "Select s From Socio s where s.codigosocio like :datoIngresado or s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado")})
 public class Socio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,6 +25,7 @@ public class Socio implements Serializable {
 	public final static String ALL = "org.ventura.model.Socio.ALL";
 	public final static String FindByDni = "org.ventura.model.Socio.FindByDni";
 	public final static String FindByRuc = "org.ventura.model.Socio.FindByRuc";
+	public final static String SOCIOSPN = "org.ventura.model.Socio.SOCIOSPN";
 	
 	@Id
 	@Column(unique = true, nullable = false, length = 8)
