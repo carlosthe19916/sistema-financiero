@@ -52,8 +52,7 @@
 		<class>org.ventura.entity.Tipoempresa</class>
 		<class>org.ventura.entity.Sucursal</class>
 		<class>org.ventura.entity.Cheque</class>
-		<class>org.ventura.entity.Cuentaaporte</class>
-		<class>org.ventura.entity.Aporte</class>		
+		<class>org.ventura.entity.Cuentaaporte</class>		
 		<class>org.ventura.entity.Usuario</class>
 		<class>org.ventura.entity.Grupo</class>
 		<class>org.ventura.entity.Menu</class>

@@ -51,7 +51,10 @@ public class Cuentaaporte implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
-
+	
+	@OneToMany(mappedBy = "cuentaaporte", cascade = CascadeType.ALL)
+	private List<Titularcuenta> titularcuentas;
+	
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
@@ -60,10 +63,9 @@ public class Cuentaaporte implements Serializable{
 	// bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy = "cuentaaporte", cascade = CascadeType.ALL)
 	private List<Beneficiariocuenta> beneficiariocuentas;
+	
 
 	// bi-directional many-to-one association to Cuentaahorrohistorial
-	@OneToMany(mappedBy = "cuentaaporte", cascade = CascadeType.ALL)
-	private List<Aporte> aporte;
 	
 	public Cuentaaporte() {
 	}
@@ -129,17 +131,7 @@ public class Cuentaaporte implements Serializable{
 		this.idestadocuenta = estadocuenta.getIdestadocuenta();
 	}
 	
-	public Aporte addAporte(Aporte aporte) {
-		getAporte().add(aporte);
-
-		return aporte;
-	}
-
-	public Aporte removeAporte(Aporte aporte) {
-		getAporte().remove(aporte);
 	
-		return aporte;
-	}
 	public Tipomoneda getTipomoneda() {
 		return tipomoneda;
 	}
@@ -156,13 +148,24 @@ public class Cuentaaporte implements Serializable{
 	public void setIdestadocuenta(Integer idestadocuenta) {
 		this.idestadocuenta = idestadocuenta;
 	}
-
-	public List<Aporte> getAporte() {
-		return aporte;
+	public List<Titularcuenta> getTitularcuentas() {
+		return this.titularcuentas;
 	}
 
-	public void setAporte(List<Aporte> aporte) {
-		this.aporte = aporte;
+	public void setTitularcuentas(List<Titularcuenta> titularcuentas) {
+		this.titularcuentas = titularcuentas;
+	}
+
+	public Titularcuenta addTitularcuenta(Titularcuenta titularcuenta) {
+		getTitularcuentas().add(titularcuenta);
+		
+		return titularcuenta;
+	}
+
+	public Titularcuenta removeTitularcuenta(Titularcuenta titularcuenta) {
+		getTitularcuentas().remove(titularcuenta);
+		
+		return titularcuenta;
 	}
 
 	public String getCodigosocio() {
