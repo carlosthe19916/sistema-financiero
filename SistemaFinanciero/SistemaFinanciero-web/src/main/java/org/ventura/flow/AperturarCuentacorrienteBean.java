@@ -20,7 +20,6 @@ import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
 import org.ventura.dependent.TitularesBean;
 import org.ventura.entity.Beneficiariocuenta;
-import org.ventura.entity.Cuentaahorrohistorial;
 import org.ventura.entity.Cuentacorriente;
 import org.ventura.entity.Cuentacorrientehistorial;
 import org.ventura.entity.Personajuridica;

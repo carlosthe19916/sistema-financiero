@@ -19,18 +19,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.TransactionRequiredException;
 
-import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
-import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
-import org.ventura.dao.impl.CuentaahorroDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
-import org.ventura.dao.impl.TitularcuentaDAO;
-import org.ventura.entity.Beneficiariocuenta;
-import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaaporte;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
@@ -73,12 +67,13 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			//creando tablas relacionadas
 			Socio socio = buscarSocioPersonaNatural(cuentaaporte.getSocio());
 			cuentaaporte.setSocio(socio);
+			
 			crearPersonanaturalForTitulares(cuentaaporte);
 			generarDatosTitularHistorial(cuentaaporte);
 			cuentaaporteDAO.create(cuentaaporte);
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getCause());
+			throw new Exception("Error:" + e.getMessage());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -93,14 +88,15 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			generarDatosDeRegistro(cuentaaporte);
 
 			//creando tablas relacionadas
-			Socio socio = buscarSocioPersonaNatural(cuentaaporte.getSocio());
+			Socio socio = buscarSocioPersonaJuridica(cuentaaporte.getSocio());
 			cuentaaporte.setSocio(socio);
+			
 			crearPersonanaturalForTitulares(cuentaaporte);
 			generarDatosTitularHistorial(cuentaaporte);		
 			cuentaaporteDAO.create(cuentaaporte);			
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getCause());
+			throw new Exception("Error:" + e.getMessage());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -108,23 +104,37 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		return cuentaaporte;
 	}
 	
-	protected Socio buscarSocioPersonaNatural(Socio socio) throws NonexistentEntityException, Exception {
+	protected Socio buscarSocioPersonaNatural(Socio socio) throws PreexistingEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni", socio.getDni());
 			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
-			if (result.size() != 0) {
-				for (Iterator<Socio> iterator = result.iterator(); iterator.hasNext();) {
-					socio = iterator.next();
-					break;
-				}
+			if (result.size() == 0) {
+				socioServiceLocal.create(socio);
 			} else {
-				throw new NonexistentEntityException("La Persona Natural no tiene una cuenta de aportes registrada");
+				throw new PreexistingEntityException("La Persona Natural ya tiene una cuenta de aportes Activa");
 			}
 		}
 		return socio;
 	}
-		
+
+	protected Socio buscarSocioPersonaJuridica(Socio socio) throws PreexistingEntityException, Exception {
+		if (socio != null) {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("ruc", socio.getDni());
+			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
+			if (result.size() == 0) {
+				for (Iterator<Socio> iterator = result.iterator(); iterator.hasNext();) {
+					socio = iterator.next();
+					socioServiceLocal.create(socio);
+					break;
+				}
+			} else {
+				throw new PreexistingEntityException("La Persona Juridica ya tiene una cuenta de aportes Activa");
+			}
+		}
+		return socio;
+	}
 	
 	protected void crearPersonanaturalForTitulares(Cuentaaporte cuentaaporte) throws IllegalEntityException, NonexistentEntityException, Exception {
 		List<Titularcuenta> titulares = cuentaaporte.getTitularcuentas();

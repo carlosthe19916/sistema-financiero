@@ -19,8 +19,8 @@ public class Cuentaahorro implements Serializable {
 	@Column(unique = true, nullable = false, length = 14)
 	private String numerocuentaahorro;
 
-	@Column(length = 8)
-	private String codigosocio;
+	@Column
+	private Integer codigosocio;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -208,11 +208,11 @@ public class Cuentaahorro implements Serializable {
 		this.idestadocuenta = idestadocuenta;
 	}
 
-	public String getCodigosocio() {
+	public Integer getCodigosocio() {
 		return codigosocio;
 	}
 
-	public void setCodigosocio(String codigosocio) {
+	public void setCodigosocio(Integer codigosocio) {
 		this.codigosocio = codigosocio;
 	}
 

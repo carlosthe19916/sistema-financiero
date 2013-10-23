@@ -27,8 +27,8 @@ public class Cuentaaporte implements Serializable{
 	@Column(unique = true, nullable = false, length = 14)
 	private String numerocuentaaporte;
 
-	@Column(length = 8)
-	private String codigosocio;
+	@Column
+	private Integer codigosocio;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -168,11 +168,11 @@ public class Cuentaaporte implements Serializable{
 		return titularcuenta;
 	}
 
-	public String getCodigosocio() {
+	public Integer getCodigosocio() {
 		return codigosocio;
 	}
 
-	public void setCodigosocio(String codigosocio) {
+	public void setCodigosocio(Integer codigosocio) {
 		this.codigosocio = codigosocio;
 	}
 

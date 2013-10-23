@@ -26,10 +26,11 @@ public class Socio implements Serializable {
 	public final static String FindByDni = "org.ventura.model.Socio.FindByDni";
 	public final static String FindByRuc = "org.ventura.model.Socio.FindByRuc";
 	public final static String SOCIOSPN = "org.ventura.model.Socio.SOCIOSPN";
-	
+
 	@Id
-	@Column(unique = true, nullable = false, length = 8)
-	private String codigosocio;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
+	private Integer codigosocio;
 
 	@Column(length = 8)
 	private String dni;
@@ -55,11 +56,11 @@ public class Socio implements Serializable {
 	public Socio() {
 	}
 
-	public String getCodigosocio() {
+	public Integer getCodigosocio() {
 		return this.codigosocio;
 	}
 
-	public void setCodigosocio(String codigosocio) {
+	public void setCodigosocio(Integer codigosocio) {
 		this.codigosocio = codigosocio;
 	}
 
