@@ -11,8 +11,7 @@
 
 	<h:panelGroup id="#{componentName}">
 		<div class="sf-agrupador">
-			<div class="sf-agrupador-menu">
-				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
+			<div class="sf-agrupador-menu">				
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -26,7 +25,7 @@
 									<p:outputLabel value="Moneda:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorro.tipomoneda.denominacion}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{aperturarCuentaaporteBean.datosFinancierosCuentaAporteMB.cuentaaporte.tipomoneda.denominacion}" styleClass="sf-label-bold" />
 								</td>
 							</tr>	
 							<tr>
@@ -34,23 +33,16 @@
 									<p:outputLabel value="Fecha Apertura:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{datosFinancierosCuentaAhorroMB.fechaActual()}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{datosFinancierosCuentaAporteBean.fechaActual()}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<p:outputLabel value="Tasa de Interés:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorrohistorial.tasainteres}" styleClass="sf-label-bold" />
-								</td>
-							</tr>	
+							
 							<tr>
 								<td>
 									<p:outputLabel value="Estado Cuenta:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorro.estadocuenta.denominacion}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{aperturarCuentaaporteBean.datosFinancierosCuentaAporteMB.cuentaaporte.estadocuenta.denominacion}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
 							<tr>
@@ -58,7 +50,7 @@
 									<p:outputLabel value="Saldo:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorro.saldo}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{aperturarCuentaaporteBean.datosFinancierosCuentaAporteMB.cuentaaporte.saldo}" styleClass="sf-label-bold" />
 								</td>
 							</tr>					
 						</tbody>
