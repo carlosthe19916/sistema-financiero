@@ -76,7 +76,7 @@
 												<p:outputLabel value="DNI:" />
 											</td>
 											<td style="min-width: 180px;">
-												<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personanaturalcliente.personanatural.dni}" styleClass="sf-label-bold" />
+												<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personanatural.dni}" styleClass="sf-label-bold" />
 											</td>
 										</tr>
 										<tr>
@@ -84,13 +84,13 @@
 												<p:outputLabel value="Apellidos y Nombres:" />
 											</td>
 											<td>
-												<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personanaturalcliente.personanatural.nombreCompleto}" styleClass="sf-label-bold" />
+												<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personanatural.nombreCompleto}" styleClass="sf-label-bold" />
 											</td>
 											<td>
 												<p:outputLabel value="Sexo:" />
 											</td>
 											<td>
-												<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personanaturalcliente.personanatural.sexo.denominacion}" styleClass="sf-label-bold" />
+												<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personanatural.sexo.denominacion}" styleClass="sf-label-bold" />
 											</td>
 										</tr>
 										<tr>
@@ -98,14 +98,14 @@
 												<p:outputLabel value="Fecha Nacimiento:" />
 											</td>
 											<td>
-												<h:outputText value="#{aperturaCuentaahorroBean.cuentaahorro.personanaturalcliente.personanatural.fechanacimiento}" styleClass="sf-label-bold" >
+												<h:outputText value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personanatural.fechanacimiento}" styleClass="sf-label-bold" >
 													<f:convertDateTime pattern="dd/MM/yyyy"/>
 												</h:outputText>									
 											</td>
 											<td>
 												<p:outputLabel value="Estado Civil:" />
 											</td>
-											<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personanaturalcliente.personanatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>								
+											<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personanatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>								
 										</tr>						
 									</tbody>
 								</table>
@@ -129,7 +129,7 @@
 													<p:outputLabel value="RUC:" />
 												</td>
 												<td style="min-width: 250px;">
-													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personajuridicacliente.personajuridica.ruc}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.ruc}" styleClass="sf-label-bold" />
 												</td>
 											</tr>	
 											<tr>
@@ -137,7 +137,7 @@
 													<p:outputLabel value="Razon Social:" />
 												</td>
 												<td>
-													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personajuridicacliente.personajuridica.razonsocial}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.razonsocial}" styleClass="sf-label-bold" />
 												</td>
 											</tr>	
 											<tr>
@@ -145,7 +145,7 @@
 													<p:outputLabel value="Fecha constitucion:" />
 												</td>
 												<td>
-													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personajuridicacliente.personajuridica.fechaconstitucion}" styleClass="sf-label-bold" >
+													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.fechaconstitucion}" styleClass="sf-label-bold" >
 														<f:convertDateTime pattern="dd/MM/yyyy"/>
 													</p:outputLabel>
 												</td>
@@ -164,7 +164,7 @@
 													<p:outputLabel value="DNI:" />
 												</td>
 												<td style="min-width: 250px;">
-													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personajuridicacliente.personajuridica.personanatural.dni}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.personanatural.dni}" styleClass="sf-label-bold" />
 												</td>
 											</tr>
 											<tr>
@@ -172,7 +172,7 @@
 													<p:outputLabel value="Apellidos y Nombres:" />
 												</td>
 												<td>
-													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personajuridicacliente.personajuridica.personanatural.nombreCompleto}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.personanatural.nombreCompleto}" styleClass="sf-label-bold" />
 												</td>
 											</tr>
 											<tr>
@@ -180,7 +180,7 @@
 													<p:outputLabel value="Fecha Nacimiento:" />
 												</td>
 												<td>
-													<h:outputText value="#{aperturaCuentaahorroBean.cuentaahorro.personajuridicacliente.personajuridica.personanatural.fechanacimiento}" styleClass="sf-label-bold" >
+													<h:outputText value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.personanatural.fechanacimiento}" styleClass="sf-label-bold" >
 														<f:convertDateTime pattern="dd/MM/yyyy"/>
 													</h:outputText>									
 												</td>
@@ -188,14 +188,14 @@
 													<p:outputLabel value="Sexo:" />
 												</td>
 												<td>
-													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personajuridicacliente.personajuridica.personanatural.sexo.denominacion}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.personanatural.sexo.denominacion}" styleClass="sf-label-bold" />
 												</td>
 											</tr>	
 											<tr>
 												<td>
 													<p:outputLabel value="Estado Civil:" />
 												</td>
-												<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.personajuridicacliente.personajuridica.personanatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>		
+												<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.personanatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>		
 											</tr>						
 										</tbody>
 									</table>

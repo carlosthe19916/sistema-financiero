@@ -21,9 +21,9 @@ public class AperturaCuentacorrienteFlowdefinition implements Serializable {
         flowBuilder.id("", flowId);
         flowBuilder.viewNode(flowId, "/" + flowId + "/" + flowId + ".xhtml").markAsStartNode();
         
-        flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{aperturaCuentacorrienteBean.returnValue}");
+        flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{aperturarCuentacorrienteBean.returnValue}");
        
-        flowBuilder.inboundParameter("cuentaahorro", "#{aperturaCuentacorrienteBean.cuentaahorro}");
+        flowBuilder.inboundParameter("cuentacorriente", "#{aperturarCuentacorrienteBean.cuentacorriente}");
        
         return flowBuilder.getFlow();
     }

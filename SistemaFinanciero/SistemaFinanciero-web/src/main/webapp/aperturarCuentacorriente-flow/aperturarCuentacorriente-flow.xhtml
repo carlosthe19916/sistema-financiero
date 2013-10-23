@@ -54,9 +54,11 @@
 			<ui:include src="/modules/maestros/personaNaturalDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentacorrienteBean}" />
 				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated" value=":personaNatural" />
+				<ui:param name="componentToUpdated"
+					value=":personaNatural,:titulares" />
 			</ui:include>
 			<!-- end PersonaNatural -->
+
 
 			<!-- Persona Juridica -->
 			<ui:include src="/modules/maestros/personaJuridicaResumen.xhtml">
@@ -67,11 +69,13 @@
 			<ui:include src="/modules/maestros/personaJuridicaDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentacorrienteBean}" />
 				<ui:param name="componentName" value="dlgPersonaJuridica" />
-				<ui:param name="componentToUpdated" value="personaJuridica" />
+				<ui:param name="componentToUpdated"
+					value="personaJuridica,:titulares" />
 			</ui:include>
 			<!-- end Persona Juridica -->
-			
-			<!-- Datos financieros cuenta corriente -->
+
+
+			<!-- Datos financieros cuenta ahorros -->
 			<ui:include
 				src="/modules/cuentasPersonales/apertura/datosFinancierosCuentaCorrienteResumen.xhtml">
 				<ui:param name="componentName" value="datosFinancieros" />
@@ -83,7 +87,6 @@
 				<ui:param name="componentToUpdated" value="datosFinancieros" />
 			</ui:include>
 			<!-- end Datos financieros cuenta ahorros -->
-
 
 			<!-- Titulares -->
 			<ui:include src="/modules/maestros/titularesResumen.xhtml">
@@ -113,6 +116,7 @@
 
 		</h:panelGroup>
 
+
 		<div class="sf-buttons">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
@@ -125,7 +129,6 @@
 
 				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"/>
 			</h:form>
-				
 		</div>
 
 	</ui:define>

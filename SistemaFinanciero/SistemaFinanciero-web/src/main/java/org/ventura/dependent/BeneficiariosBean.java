@@ -73,5 +73,9 @@ public class BeneficiariosBean implements Serializable {
 	public TablaBean<Beneficiariocuenta> getTablaBeneficiarios() {
 		return tablaBeneficiarios;
 	}
+	
+	public List<Beneficiariocuenta> getListBeneficiarios(){
+		return tablaBeneficiarios.getRows();
+	}
 
 }

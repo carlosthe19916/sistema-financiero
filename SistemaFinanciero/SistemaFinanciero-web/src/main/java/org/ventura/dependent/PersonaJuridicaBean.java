@@ -2,6 +2,8 @@ package org.ventura.dependent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,6 +15,7 @@ import javax.inject.Named;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.entity.Accionista;
+import org.ventura.entity.AccionistaPK;
 import org.ventura.entity.Estadocivil;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
@@ -35,16 +38,12 @@ public class PersonaJuridicaBean implements Serializable {
 	
 	@Inject
 	private ComboBean<Tipoempresa> comboTipoempresa;
-	
 	@Inject
 	private ComboBean<Sexo> comboSexo;
-	
 	@Inject
 	private ComboBean<Sexo> comboSexoAccionista;
-	
 	@Inject
 	private ComboBean<Estadocivil> comboEstadocivil;
-	
 	@Inject
 	private TablaBean<Accionista> tablaAccionistas;
 	
@@ -189,6 +188,22 @@ public class PersonaJuridicaBean implements Serializable {
 		else
 			return "Sin fines de lucro";
 
+	}
+	
+	public Personajuridica getPersonajuridicaProsesed() {
+		Personajuridica personajuridica = getoPersonajuridica();
+		List<Accionista> accionistas = tablaAccionistas.getRows();
+		personajuridica.setListAccionista(accionistas);
+
+		for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
+			Accionista accionista = iterator.next();
+			AccionistaPK accionistaPK = new AccionistaPK();
+			accionistaPK.setDni(accionista.getPersonanatural().getDni());
+			accionistaPK.setRuc(personajuridica.getRuc());
+			accionista.setId(accionistaPK);
+			accionista.setEstado(true);
+		}
+		return personajuridica;
 	}
 	
 	public Personajuridica getoPersonajuridica() {

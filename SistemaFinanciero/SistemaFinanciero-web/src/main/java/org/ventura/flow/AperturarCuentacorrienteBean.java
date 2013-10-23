@@ -1,11 +1,7 @@
 package org.ventura.flow;
 
 import java.io.Serializable;
-
-
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,9 +19,8 @@ import org.ventura.dependent.DatosFinancierosCuentaCorrienteBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
 import org.ventura.dependent.TitularesBean;
-import org.ventura.entity.Accionista;
-import org.ventura.entity.AccionistaPK;
 import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.Cuentaahorrohistorial;
 import org.ventura.entity.Cuentacorriente;
 import org.ventura.entity.Cuentacorrientehistorial;
 import org.ventura.entity.Personajuridica;
@@ -44,36 +39,24 @@ public class AperturarCuentacorrienteBean implements Serializable {
 	@EJB
 	private CuentacorrienteServiceLocal cuentacorrienteServiceLocal;
 
+	@Inject
 	private Cuentacorriente cuentacorriente;
-
 	@Inject
 	private ComboBean<String> comboTipoPersona;
-
 	@Inject
 	private PersonaNaturalBean personaNaturalMB;
-
 	@Inject
 	private PersonaJuridicaBean personaJuridicaMB;
-
 	@Inject
 	private DatosFinancierosCuentaCorrienteBean datosFinancierosCuentaCorrienteMB;
-
 	@Inject
 	private TitularesBean titularesMB;
-
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
 	
 	private List<Titularcuenta> titularDefecto;
 
-	/**
-	 * 
-	 * CONTRUCT POSTCONTRUC PREDESTROY
-	 * 
-	 **/
-
 	public AperturarCuentacorrienteBean() {
-		this.cuentacorriente = new Cuentacorriente();
 		this.titularDefecto = new ArrayList<Titularcuenta>();
 	}
 
@@ -82,11 +65,9 @@ public class AperturarCuentacorrienteBean implements Serializable {
 		this.cargarCombos();
 	}
 
-	/**
-	 * 
-	 * BUSSINES LOGIC
-	 * 
-	 * **/
+	public String getReturnValue(){
+		return "index";
+	}
 
 	public void cargarCombos() {
 		comboTipoPersona.getItems().put(1, "Persona Natural");
@@ -96,124 +77,62 @@ public class AperturarCuentacorrienteBean implements Serializable {
 
 	public String createCuentacorriente() {
 		try {
-			if (validarCuentaAhorro()) {
-				this.establecerParametrosCuentaahorro();
+			if (validarCuentacorriente(this.cuentacorriente)) {
+				Cuentacorriente cuentacorriente = establecerParametrosCuentacorriente(this.cuentacorriente);
 				if (isPersonaNatural()) {
-					this.cuentacorrienteServiceLocal.createCuentaCorrienteWithPersonanatural(cuentacorriente);
+					cuentacorriente = cuentacorrienteServiceLocal.createCuentaCorrienteWithPersonanatural(cuentacorriente);
 				}
 				if (isPersonaJuridica()) {
-					this.cuentacorrienteServiceLocal.createCuentaCorrienteWithPersonajuridica(cuentacorriente);
+					cuentacorriente = cuentacorrienteServiceLocal.createCuentaCorrienteWithPersonajuridica(cuentacorriente);
 				}				
-				return "cuentaAhorroImprimirDatos";
+				this.cuentacorriente = cuentacorriente;
+				return "aperturarCuentacorriente-flowA";
 			} else {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				return null;
 			}
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error", e.getMessage());
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		return null;
 	}
 
-	public void establecerParametrosCuentaahorro() throws Exception {
-		Cuentacorriente cuentacorriente  = datosFinancierosCuentaCorrienteMB.getCuentacorriente();
-		Socio socio= new Socio();
-		if (comboTipoPersona.getItemSelected() == 1) {
-			// se recuperan los datos de los Managed Bean invocados
-			
-			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-
-			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
-			listTitularcuenta.add(titularDefecto.get(0));
-			List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
-
-			// se crean las clases a relacionar con la Cuenta de Ahorros
+	public Cuentacorriente establecerParametrosCuentacorriente(Cuentacorriente cuentacorriente) throws Exception {
+		Socio socio = new Socio();
+		if (isPersonaNatural()) {
+			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
 			socio.setPersonanatural(personanatural);
-
-			// Se relaciona la Cuenta de Ahorros con los objetos recuperados
-			this.cuentacorriente = cuentacorriente;
-			this.cuentacorriente.setSocio(socio);
-			this.cuentacorriente.setTitularcuentas(listTitularcuenta);
-			this.cuentacorriente.setBeneficiariocuentas(listBeneficiariocuenta);
-
-			// se relacionan los titulares y beneficiarios a la cuentacorriente
-			List<Cuentacorrientehistorial> historiales = cuentacorriente.getCuentacorrientehistorials();
-			Cuentacorrientehistorial cuentacorrientehistorial = historiales.get(0);
-
-			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
-			cuentacorrientehistorial.setCantidadretirantes(cantidadRetirantes);
-			listarBeneficiarioCuenta(cuentacorriente);		
+			cuentacorriente.setSocio(socio);
 			
-			listartitularCuenta(cuentacorriente);
+			List<Titularcuenta> titularcuentas = titularesMB.getListTitulares();	
+			cuentacorriente.setTitularcuentas(titularcuentas);
 			
-			String dnisocio = cuentacorriente.getSocio().getPersonanatural().getDni();
-			cuentacorriente.getSocio().setDni(dnisocio);
-
-		} if (comboTipoPersona.getItemSelected() == 2) {			
-			Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
-
-			personajuridica.setListAccionista(personaJuridicaMB.getTablaAccionistas().getRows());
-			
+			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
+			cuentacorriente.setBeneficiariocuentas(beneficiarios);		
+		} if (isPersonaJuridica()) {			
+			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
+			cuentacorriente.setSocio(socio);
 			
-			listaraccionista(personajuridica);
-			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
-			this.cuentacorriente = cuentacorriente;
-			this.cuentacorriente.setSocio(socio);
-			this.cuentacorriente.setTitularcuentas(listTitularcuenta);
+			List<Titularcuenta> titularcuentas = titularesMB.getListTitulares();	
+			cuentacorriente.setTitularcuentas(titularcuentas);
 			
-			List<Cuentacorrientehistorial> historiales = cuentacorriente.getCuentacorrientehistorials();
-			Cuentacorrientehistorial cuentacorrientehistorial = historiales.get(0);
-			Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
-			cuentacorrientehistorial.setCantidadretirantes(cantidadRetirantes);
-			listartitularCuenta(cuentacorriente);
-			
-			String dnisocio = cuentacorriente.getSocio().getPersonanatural().getDni();
-			cuentacorriente.getSocio().setDni(dnisocio);
-			
+			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
+			cuentacorriente.setBeneficiariocuentas(beneficiarios);
 		}
-		if (comboTipoPersona.getItemSelected() < 1 || comboTipoPersona.getItemSelected() > 2) {
-			throw new Exception("Error al establecer los parametros de la cuenta de ahorros");
-		}
+		return cuentacorriente;
 	}
 	
-	private void listarBeneficiarioCuenta(Cuentacorriente cuentacorriente){
-		List<Beneficiariocuenta> beneficiariocuentas = cuentacorriente.getBeneficiariocuentas();
-
-		for (Iterator<Beneficiariocuenta> iterator = beneficiariocuentas.iterator(); iterator.hasNext();) {
-			Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
-			var.setCuentacorriente(cuentacorriente);
-		}
-	}
-	
-	private void listartitularCuenta(Cuentacorriente cuentacorriente){
-		List<Titularcuenta> titularcuentas = cuentacorriente.getTitularcuentas();
-
-		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
-			Titularcuenta var = (Titularcuenta) iterator.next();
-			String dni = var.getPersonanatural().getDni();
-			var.setDni(dni);
-			var.setCuentacorriente(cuentacorriente);
-		}
-	}
-	
-	private void listaraccionista(Personajuridica personajuridica){
-		List<Accionista> accionistas = personaJuridicaMB.getTablaAccionistas().getRows();
-
-		for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
-			Accionista var = (Accionista) iterator.next();
-			AccionistaPK accionistaPK = new AccionistaPK();
-			accionistaPK.setDni(var.getPersonanatural().getDni());
-			accionistaPK.setRuc(personajuridica.getRuc());
-			
-			var.setId(accionistaPK);
-			var.setEstado(true);
-		}
+	public void a (Cuentacorriente cuentacorriente){
+		List<Cuentacorrientehistorial> historiales = cuentacorriente.getCuentacorrientehistorials();
+		Cuentacorrientehistorial cuentaahorrohistorial = historiales.get(0);
+		Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
+		cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
 	}
 
-	public boolean validarCuentaAhorro() {
+	public boolean validarCuentacorriente(Cuentacorriente cuentacorriente) {
 
 		boolean result = true;
 
@@ -222,8 +141,7 @@ public class AperturarCuentacorrienteBean implements Serializable {
 		if (isPersonaNatural()) {
 			if (!personaNaturalMB.isValid()) {
 				result = false;
-				this.mensaje = mensaje
-						+ "Datos de Persona Natural Invalidos \n";
+				this.mensaje = mensaje + "Datos de Persona Natural Invalidos \n";
 			}
 			if (!beneficiariosMB.isValid()) {
 				result = false;
@@ -234,8 +152,7 @@ public class AperturarCuentacorrienteBean implements Serializable {
 		if (isPersonaJuridica()) {
 			if (!personaJuridicaMB.isValid()) {
 				result = false;
-				this.mensaje = mensaje
-						+ "Datos de Persona Juridica invalidos \n";
+				this.mensaje = mensaje + "Datos de Persona Juridica invalidos \n";
 			}
 		}
 
@@ -269,19 +186,6 @@ public class AperturarCuentacorrienteBean implements Serializable {
 	}
 
 	public void establecerTitularDefecto() {
-		/*Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-
-		Titularcuenta titularcuenta = new Titularcuenta();
-		titularcuenta.setPersonanatural(personanatural);
-
-		List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares()
-				.getRows();
-
-		if (titularcuentas.size() == 0) {
-			titularcuentas.add(titularcuenta);
-		} else {
-			titularcuentas.set(0, titularcuenta);
-		}*/
 		if (isPersonaNatural()) {		
 			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
 			Titularcuenta titularcuenta = new Titularcuenta();

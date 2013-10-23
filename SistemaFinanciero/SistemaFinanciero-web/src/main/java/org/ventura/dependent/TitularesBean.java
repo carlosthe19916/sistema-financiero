@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Sexo;
 import org.ventura.entity.Titularcuenta;
@@ -150,6 +151,16 @@ public class TitularesBean implements Serializable {
 
 	}
 
+	public List<Titularcuenta> getListTitulares(){
+		List<Titularcuenta> titularcuentas = tablaTitulares.getRows();
+		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
+			Titularcuenta titular = iterator.next();
+			String dni = titular.getPersonanatural().getDni();
+			titular.setDni(dni);
+		}
+		return tablaTitulares.getRows();
+	}
+	
 	public Integer getCantidadRetirantes() {
 		return cantidadRetirantes;
 	}

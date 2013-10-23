@@ -111,4 +111,8 @@ public class DatosFinancierosCuentaCorrienteBean implements Serializable{
 		this.comboTipomoneda = comboTipomoneda;
 	}
 
+	public ComboBean<Tipomoneda> getComboTipomoneda() {
+		return comboTipomoneda;
+	}
+
 }

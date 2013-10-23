@@ -230,6 +230,11 @@ public class Cuentacorriente implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
+		if(tipomoneda != null){
+			this.idtipomoneda = tipomoneda.getIdtipomoneda();
+		} else {
+			this.idtipomoneda = null;
+		}
 	}
 
 	public String getCodigosocio() {
