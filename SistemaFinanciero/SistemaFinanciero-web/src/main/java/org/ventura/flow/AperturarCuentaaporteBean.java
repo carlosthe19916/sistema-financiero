@@ -102,10 +102,10 @@ public class AperturarCuentaaporteBean implements Serializable {
 		comboTipoPersona.setItemSelected(1);
 	}
 
-	public String createCuentaahorro() {
+	public String createCuentaaporte() {
 		try {
-			if (validarCuentaAhorro()) {
-				this.establecerParametrosCuentaahorro();
+			if (validarCuentaAporte()) {
+				this.establecerParametrosCuentaaporte();
 				if (isPersonaNatural()) {
 					this.cuentaaporte = this.cuentaaporteServiceLocal.createCuentaAporteWithPersonanatural(cuentaaporte);
 				}
@@ -125,7 +125,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 		return null;
 	}
 
-	public void establecerParametrosCuentaahorro() throws Exception {
+	public void establecerParametrosCuentaaporte() throws Exception {
 		Cuentaaporte cuentaaporte = datosFinancierosCuentaAporteMB.getCuentaaporte();
 		Socio socio=new Socio();
 		if (comboTipoPersona.getItemSelected() == 1) {
@@ -216,7 +216,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 		}
 	}
 
-	public boolean validarCuentaAhorro() {
+	public boolean validarCuentaAporte() {
 
 		boolean result = true;
 

@@ -17,7 +17,7 @@ import java.util.Date;
 		@NamedQuery(name = Socio.ALL, query = "Select s From Sexo s"),
 		@NamedQuery(name = Socio.FindByDni, query = "Select s From Socio s WHERE s.estado=true AND s.dni=:dni"),
 		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.estado=true AND s.ruc=:ruc"),
-		@NamedQuery(name = Socio.SOCIOSPN, query = "Select s From Socio s where s.codigosocio like :datoIngresado or s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado")})		
+		@NamedQuery(name = Socio.SOCIOSPN, query = "Select s From Socio s where s.codigosocio like :datoIngresado or s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado")})
 public class Socio implements Serializable {
 
 	private static final long serialVersionUID = 1L;

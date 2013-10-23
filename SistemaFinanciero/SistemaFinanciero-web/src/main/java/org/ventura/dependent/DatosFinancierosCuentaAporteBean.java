@@ -2,9 +2,7 @@ package org.ventura.dependent;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
-
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,9 +12,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
-
 import org.ventura.entity.Cuentaaporte;
-
+import org.ventura.entity.Estadocuenta;
 import org.ventura.entity.Tipomoneda;
 
 @Named
@@ -39,13 +36,22 @@ public class DatosFinancierosCuentaAporteBean implements Serializable {
 	 */
 	public DatosFinancierosCuentaAporteBean() {
 		this.cuentaaporte = new Cuentaaporte();
+		Estadocuenta estadocuenta =new Estadocuenta();
+		estadocuenta.setIdestadocuenta(1);
+		estadocuenta.setEstado(true);
+		this.cuentaaporte.setEstadocuenta(estadocuenta);
+		
+		Tipomoneda tipomoneda =new Tipomoneda();
+		tipomoneda.setIdtipomoneda(1);
+		tipomoneda.setDenominacion("NUEVOS SOLES");
+		this.cuentaaporte.setTipomoneda(tipomoneda);
 		
 	}
 
 	@PostConstruct
 	private void initValues() {
 		
-		cargarCombos();		
+	//	cargarCombos();		
 		
 	}
 

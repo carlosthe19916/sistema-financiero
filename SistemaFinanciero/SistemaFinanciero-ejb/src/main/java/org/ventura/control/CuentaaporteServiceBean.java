@@ -71,8 +71,10 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			generarDatosDeRegistro(cuentaaporte);
 
 			//creando tablas relacionadas
-			Socio socio = crearSocioPersonaNatural(cuentaaporte.getSocio());
+			Socio socio = buscarSocioPersonaNatural(cuentaaporte.getSocio());
 			cuentaaporte.setSocio(socio);
+			crearPersonanaturalForTitulares(cuentaaporte);
+			generarDatosTitularHistorial(cuentaaporte);
 			cuentaaporteDAO.create(cuentaaporte);
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
@@ -91,8 +93,10 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			generarDatosDeRegistro(cuentaaporte);
 
 			//creando tablas relacionadas
-			Socio socio = crearSocioPersonaJuridica(cuentaaporte.getSocio());
-			cuentaaporte.setSocio(socio);			
+			Socio socio = buscarSocioPersonaNatural(cuentaaporte.getSocio());
+			cuentaaporte.setSocio(socio);
+			crearPersonanaturalForTitulares(cuentaaporte);
+			generarDatosTitularHistorial(cuentaaporte);		
 			cuentaaporteDAO.create(cuentaaporte);			
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
@@ -104,42 +108,55 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		return cuentaaporte;
 	}
 	
-	protected Socio crearSocioPersonaNatural(Socio socio) throws PreexistingEntityException, Exception {
+	protected Socio buscarSocioPersonaNatural(Socio socio) throws NonexistentEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni", socio.getDni());
-			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
-			if (result == null) {
-				socio = socioServiceLocal.create(socio);
+			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
+			if (result.size() != 0) {
+				for (Iterator<Socio> iterator = result.iterator(); iterator.hasNext();) {
+					socio = iterator.next();
+					break;
+				}
 			} else {
-				throw new PreexistingEntityException("El Socio Persona Natural ya tiene una cuenta de aportes activa");
+				throw new NonexistentEntityException("La Persona Natural no tiene una cuenta de aportes registrada");
 			}
 		}
 		return socio;
 	}
-
-	protected Socio crearSocioPersonaJuridica(Socio socio) throws PreexistingEntityException, Exception {
-		if (socio != null) {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("ruc", socio.getDni());
-			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
-			if (result == null) {
-				socio = socioServiceLocal.create(socio);
-			} else {
-				throw new PreexistingEntityException("El Socio Persona Juridica ya tiene una cuenta de aportes activa");
-			}
-		}
-		return socio;
-	}
-	
-	protected void crearBeneficiarios(List<Beneficiariocuenta> beneficiarios) throws Exception {
-		for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-			Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
-			beneficiariocuentaDAO.create(beneficiariocuenta);
-		}
-	}
-	
 		
+	
+	protected void crearPersonanaturalForTitulares(Cuentaaporte cuentaaporte) throws IllegalEntityException, NonexistentEntityException, Exception {
+		List<Titularcuenta> titulares = cuentaaporte.getTitularcuentas();
+		
+		for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
+			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
+			Personanatural personanatural = titularcuenta.getPersonanatural();
+			
+			Object key = personanatural.getDni();
+			Object result = personanaturalServiceLocal.find(key);
+			if(result == null){
+				personanaturalServiceLocal.create(personanatural);
+			}
+		}
+	}
+	
+	private void generarDatosTitularHistorial(Cuentaaporte cuentaaporte) {
+        List<Titularcuenta> list = cuentaaporte.getTitularcuentas();     
+		for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
+			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
+			List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
+			Titularcuentahistorial historial = new Titularcuentahistorial();
+			historial.setEstado(true);
+			historial.setFechaactiva(Calendar.getInstance().getTime());
+			lista.add(historial);
+			titularcuenta.setTitularcuentahistorials(lista);
+			historial.setTitularcuenta(titularcuenta);
+		}
+    }
+	
+	
+	
 	private void generarDatosDeRegistro(Cuentaaporte cuentaaporte) {
 		cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
 		cuentaaporte.setSaldo(0);		
