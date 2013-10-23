@@ -69,11 +69,16 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
-			crearSocioPersonaNatural(cuentaahorro.getSocio());
+			Socio socio = buscarSocioPersonaNatural(cuentaahorro.getSocio());
+			cuentaahorro.setSocio(socio);
+			
 			crearPersonanaturalForTitulares(cuentaahorro);
 			generarDatosTitularHistorial(cuentaahorro);
 			
 			cuentaahorroDAO.create(cuentaahorro);
+		} catch(NonexistentEntityException e){
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new Exception("Error:" + e.getCause());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -88,11 +93,16 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosDeRegistro(cuentaahorro);
 
 			//creando tablas relacionadas
-			crearSocioPersonaJuridica(cuentaahorro.getSocio());
+			Socio socio = buscarSocioPersonaJuridica(cuentaahorro.getSocio());
+			cuentaahorro.setSocio(socio);
+			
 			crearPersonanaturalForTitulares(cuentaahorro);
 			generarDatosTitularHistorial(cuentaahorro);
 			
 			cuentaahorroDAO.create(cuentaahorro);			
+		} catch(NonexistentEntityException e){
+			log.error("Error:" + e.getClass() + " " + e.getCause());
+			throw new Exception("Error:" + e.getCause());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -100,26 +110,40 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		return cuentaahorro;
 	}
 	
-	protected void crearSocioPersonaNatural(Socio socio) throws Exception {
+	protected Socio buscarSocioPersonaNatural(Socio socio) throws NonexistentEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni", socio.getDni());
 			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
-			if (result == null) {
-				socioServiceLocal.create(socio);
+			if (result != null) {
+				List<Socio> socios = (List<Socio>) result;
+				for (Iterator<Socio> iterator = socios.iterator(); iterator.hasNext();) {
+					socio = iterator.next();
+					break;
+				}
+			} else {
+				throw new NonexistentEntityException("La Persona Natural no tiene una cuenta de aportes registrada");
 			}
 		}
+		return socio;
 	}
 
-	protected void crearSocioPersonaJuridica(Socio socio) throws Exception {
+	protected Socio buscarSocioPersonaJuridica(Socio socio) throws NonexistentEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ruc", socio.getDni());
 			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
-			if (result == null) {
-				socioServiceLocal.create(socio);
+			if (result != null) {
+				List<Socio> socios = (List<Socio>) result;
+				for (Iterator<Socio> iterator = socios.iterator(); iterator.hasNext();) {
+					socio = iterator.next();
+					break;
+				}
+			} else {
+				throw new NonexistentEntityException("La Persona Juridica no tiene una cuenta de aportes registrada");
 			}
 		}
+		return socio;
 	}
 	
 	protected void crearBeneficiarios(List<Beneficiariocuenta> beneficiarios) throws Exception {

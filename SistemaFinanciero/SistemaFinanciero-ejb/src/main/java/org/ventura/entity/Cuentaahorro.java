@@ -222,5 +222,10 @@ public class Cuentaahorro implements Serializable {
 
 	public void setSocio(Socio socio) {
 		this.socio = socio;
+		if(socio != null){
+			this.codigosocio = socio.getCodigosocio();
+		} else {
+			this.codigosocio = null;
+		}
 	}
 }

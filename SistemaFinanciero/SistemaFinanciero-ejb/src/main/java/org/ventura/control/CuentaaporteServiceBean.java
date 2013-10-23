@@ -76,7 +76,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			cuentaaporteDAO.create(cuentaaporte);
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getClass() + " " + e.getCause());
+			throw new Exception("Error:" + e.getCause());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
@@ -96,7 +96,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			cuentaaporteDAO.create(cuentaaporte);			
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getClass() + " " + e.getCause());
+			throw new Exception("Error:" + e.getCause());
 		} catch (Exception e) {
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error al insertar los datos");
