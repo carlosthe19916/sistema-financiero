@@ -41,6 +41,9 @@ public class Beneficiariocuenta implements Serializable {
 	private Boolean estado;
 
 	@Column(length = 14)
+	private String numerocuentaaporte;
+	
+	@Column(length = 14)
 	private String numerocuentaahorro;
 
 	@Column(length = 14)
@@ -203,5 +206,18 @@ public class Beneficiariocuenta implements Serializable {
 
 	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
 		this.cuentaaporte = cuentaaporte;
+		if(cuentaaporte != null){
+			this.numerocuentaaporte = cuentaaporte.getNumerocuentaaporte();
+		} else {
+			this.numerocuentaaporte = null;
+		}
+	}
+
+	public String getNumerocuentaaporte() {
+		return numerocuentaaporte;
+	}
+
+	public void setNumerocuentaaporte(String numerocuentaaporte) {
+		this.numerocuentaaporte = numerocuentaaporte;
 	}
 }

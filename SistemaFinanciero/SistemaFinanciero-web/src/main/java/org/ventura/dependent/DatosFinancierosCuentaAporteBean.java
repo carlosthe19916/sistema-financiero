@@ -7,7 +7,6 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -25,57 +24,31 @@ public class DatosFinancierosCuentaAporteBean implements Serializable {
 	@EJB
 	CuentaaporteServiceLocal cuentaaporteServiceLocal;
 
+	@Inject
 	private Cuentaaporte cuentaaporte;
 
-
-	@Inject
-	private ComboBean<Tipomoneda> comboTipomoneda;
-
-	/*
-	 * Constructor
-	 */
-	public DatosFinancierosCuentaAporteBean() {
-		this.cuentaaporte = new Cuentaaporte();
-		Estadocuenta estadocuenta =new Estadocuenta();
-		estadocuenta.setIdestadocuenta(1);
-		estadocuenta.setEstado(true);
-		this.cuentaaporte.setEstadocuenta(estadocuenta);
-		
-		Tipomoneda tipomoneda =new Tipomoneda();
-		tipomoneda.setIdtipomoneda(1);
-		tipomoneda.setDenominacion("NUEVOS SOLES");
-		this.cuentaaporte.setTipomoneda(tipomoneda);
-		
+	public DatosFinancierosCuentaAporteBean() {	
 	}
 
 	@PostConstruct
-	private void initValues() {
+	private void initValues() {	
+		Estadocuenta estadocuenta = new Estadocuenta();
+		estadocuenta.setIdestadocuenta(1);
+		estadocuenta.setDenominacion("ACTIVO");
+		estadocuenta.setEstado(true);
+		this.cuentaaporte.setEstadocuenta(estadocuenta);
 		
-	//	cargarCombos();		
-		
+		Tipomoneda tipomoneda = new Tipomoneda();
+		tipomoneda.setIdtipomoneda(1);
+		tipomoneda.setEstado(true);
+		tipomoneda.setDenominacion("NUEVOS SOLES");
+		this.cuentaaporte.setTipomoneda(tipomoneda);
 	}
-
-	/*
-	 * Bussiness Logic
-	 */
 	
 	public boolean isValid(){
 		return cuentaaporte.getIdtipomoneda() != null ? true : false;
 	}
-	
-	private void cargarCombos(){
-		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
-	}
-	
-	public void changeTipomoneda(ValueChangeEvent event) {
-		Integer key = (Integer) event.getNewValue();
-		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);
-		this.cuentaaporte.setTipomoneda(tipomonedaSelected);
-	}
 
-	/*
-	 * Getters and Setters
-	 */
 	public Cuentaaporte getCuentaaporte() {
 		return cuentaaporte;
 	}
@@ -88,14 +61,6 @@ public class DatosFinancierosCuentaAporteBean implements Serializable {
 		java.util.Date date = new Date();
 		SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
 		return formateador.format(date);
-	}
-
-	public ComboBean<Tipomoneda> getComboTipomoneda() {
-		return comboTipomoneda;
-	}
-
-	public void setComboTipomoneda(ComboBean<Tipomoneda> comboTipomoneda) {
-		this.comboTipomoneda = comboTipomoneda;
 	}
 
 }
