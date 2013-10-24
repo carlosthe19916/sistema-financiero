@@ -46,7 +46,7 @@ public class Socio implements Serializable {
 	@Column(length = 30)
 	private String ruc;
 	
-	@Column
+	@Column(nullable = false)
 	private Boolean estado;
 
 	@ManyToOne
@@ -112,6 +112,14 @@ public class Socio implements Serializable {
 		} else {
 			this.ruc = null;
 		}
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
 }

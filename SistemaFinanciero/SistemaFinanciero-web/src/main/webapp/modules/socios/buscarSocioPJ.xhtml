@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<h:panelGroup id="#{componentName}"
+		rendered="#{managedBean.personaJuridica}">
+		<div style="padding: 0px 5px;">
+			<h:form id="form-resultadoBusquedaPJ">
+				<div>
+					<p:dataTable id="table" var="socio"
+						value="#{socioBean.tablaSocios.rows}" rowKey="#{socio}"
+						selection="#{socioBean.tablaSocios.selectedRow}"
+						selectionMode="single" paginator="true" paginatorPosition="bottom"
+						rows="20"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="50,100,200" widgetVar="tablaSocios"
+						rowIndexVar="row">
+
+						<p:ajax event="rowSelect" listener="#{socioBean.obtenerDNISeleccionado()}" update=":form-buttons" />
+
+						<p:column headerText="Nro" width="5%" style="text-align:center;">
+							<h:outputText value="#{row + 1}" />
+						</p:column>
+
+						
+
+						<p:column sortBy="#{socio.ruc}" headerText="RUC">
+							<h:outputText value="#{socio.ruc}" />
+						</p:column>
+
+						<p:column sortBy="#{socio.personajuridica.razonsocial}"
+							headerText="Razon Social">
+							<h:outputText value="#{socio.personajuridica.razonsocial}" />
+						</p:column>
+
+						<p:column sortBy="#{socio.personajuridica.nombrecomercial}"
+							headerText="Nombre Comercial">
+							<h:outputText value="#{socio.personajuridica.nombrecomercial}" />
+						</p:column>
+						
+						<p:column sortBy="#{socio.estado}" headerText="Estado">
+							<h:outputText value="#{socio.estado}" />
+						</p:column>	
+
+					</p:dataTable>
+				</div>
+			</h:form>
+		</div>
+	</h:panelGroup>
+</ui:composition>
+</html>
