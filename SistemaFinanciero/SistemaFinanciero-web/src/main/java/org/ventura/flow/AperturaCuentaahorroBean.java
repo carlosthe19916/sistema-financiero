@@ -27,6 +27,7 @@ import org.ventura.entity.Cuentaahorrohistorial;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
+import org.ventura.entity.Tipomoneda;
 import org.ventura.entity.Titularcuenta;
 import org.venturabank.managedbean.session.AgenciaBean;
 
@@ -120,6 +121,9 @@ public class AperturaCuentaahorroBean implements Serializable {
 	}
 
 	public Cuentaahorro establecerParametrosCuentaahorro(Cuentaahorro cuentaahorro) throws Exception {
+		cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
+		cuentaahorro.getCuentaahorrohistorials().get(0).setCantidadretirantes(getCantidadRetirantes());
+		
 		Socio socio = new Socio();
 		if (isPersonaNatural()) {
 			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
@@ -144,6 +148,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 			socio.setPersonajuridica(personajuridica);
 			cuentaahorro.setSocio(socio);
 		}
+		
 		return cuentaahorro;
 	}
 	

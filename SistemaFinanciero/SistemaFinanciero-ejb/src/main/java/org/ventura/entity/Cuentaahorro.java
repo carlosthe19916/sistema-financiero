@@ -197,7 +197,11 @@ public class Cuentaahorro implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
-		this.idtipomoneda = tipomoneda.getIdtipomoneda();
+		if(tipomoneda != null){
+			this.idtipomoneda = tipomoneda.getIdtipomoneda();
+		} else {
+			this.idtipomoneda = null;
+		}		
 	}
 
 	public Integer getIdestadocuenta() {

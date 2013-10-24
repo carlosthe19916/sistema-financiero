@@ -41,7 +41,7 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 	public DatosFinancierosCuentaAhorroBean() {
 		this.cuentaahorro = new Cuentaahorro();
 		this.cuentaahorrohistorial = new Cuentaahorrohistorial();	
-		this.cuentaahorrohistorial.setTasainteres(5);
+		this.cuentaahorrohistorial.setTasainteres(new Double(5));
 		this.cuentaahorrohistorial.setEstado(true);
 		this.cuentaahorrohistorial.setCuentaahorro(cuentaahorro);
 		

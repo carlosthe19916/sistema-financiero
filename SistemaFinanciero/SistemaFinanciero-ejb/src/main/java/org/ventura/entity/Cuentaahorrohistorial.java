@@ -32,7 +32,7 @@ public class Cuentaahorrohistorial implements Serializable {
 	private String numerocuentaahorro;
 
 	@Column(nullable = false)
-	private double tasainteres;
+	private Double tasainteres;
 
 	// bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
@@ -66,11 +66,11 @@ public class Cuentaahorrohistorial implements Serializable {
 		this.estado = estado;
 	}
 
-	public double getTasainteres() {
+	public Double getTasainteres() {
 		return this.tasainteres;
 	}
 
-	public void setTasainteres(double tasainteres) {
+	public void setTasainteres(Double tasainteres) {
 		this.tasainteres = tasainteres;
 	}
 

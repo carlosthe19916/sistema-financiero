@@ -35,7 +35,7 @@ public class Beneficiariocuenta implements Serializable {
 	private String nombres;
 
 	@Column(nullable = false)
-	private double porcentajebeneficio;
+	private Double porcentajebeneficio;
 
 	@Column(nullable = false)
 	private Boolean estado;
@@ -91,11 +91,11 @@ public class Beneficiariocuenta implements Serializable {
 		this.dni = dni;
 	}
 
-	public double getPorcentajebeneficio() {
+	public Double getPorcentajebeneficio() {
 		return this.porcentajebeneficio;
 	}
 
-	public void setPorcentajebeneficio(double porcentajebeneficio) {
+	public void setPorcentajebeneficio(Double porcentajebeneficio) {
 		this.porcentajebeneficio = porcentajebeneficio;
 	}
 
