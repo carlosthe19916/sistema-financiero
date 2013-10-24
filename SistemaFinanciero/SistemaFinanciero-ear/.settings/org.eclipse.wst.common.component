@@ -8,5 +8,17 @@
         <dependent-module archiveName="SistemaFinanciero-ejb.jar" deploy-path="/" handle="module:/resource/SistemaFinanciero-ejb/SistemaFinanciero-ejb">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="slf4j-api.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="slf4j-log4j12.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-log4j12/1.7.5/slf4j-log4j12-1.7.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jcl-over-slf4j.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/jcl-over-slf4j/1.7.5/jcl-over-slf4j-1.7.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="log4j.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>
