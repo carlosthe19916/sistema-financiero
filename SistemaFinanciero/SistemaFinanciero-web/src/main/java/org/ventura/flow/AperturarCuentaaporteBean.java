@@ -19,11 +19,13 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.DatosFinancierosCuentaAporteBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
+import org.ventura.entity.Agencia;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaaporte;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
+import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
 @FlowScoped("aperturarCuentaaporte-flow")
@@ -37,6 +39,8 @@ public class AperturarCuentaaporteBean implements Serializable {
 	private CuentaaporteServiceLocal cuentaaporteServiceLocal;
 
 	@Inject
+	private AgenciaBean agenciaBean;
+	@Inject
 	private Cuentaaporte cuentaaporte;
 	@Inject
 	private ComboBean<String> comboTipoPersona;
@@ -48,8 +52,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 	private DatosFinancierosCuentaAporteBean datosFinancierosCuentaAporteMB;
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
-
-
+	
 	public AperturarCuentaaporteBean() {
 	}
 
@@ -60,6 +63,8 @@ public class AperturarCuentaaporteBean implements Serializable {
 		
 	@PostConstruct
 	private void initValues() {
+		Agencia agencia = agenciaBean.getAgencia();
+		cuentaaporteServiceLocal.setAgencia(agencia);
 		this.cargarCombos();
 	}
 
@@ -227,6 +232,14 @@ public class AperturarCuentaaporteBean implements Serializable {
 
 	public void setBeneficiariosMB(BeneficiariosBean beneficiariosMB) {
 		this.beneficiariosMB = beneficiariosMB;
+	}
+
+	public AgenciaBean getAgenciaBean() {
+		return agenciaBean;
+	}
+
+	public void setAgenciaBean(AgenciaBean agenciaBean) {
+		this.agenciaBean = agenciaBean;
 	}
 
 }

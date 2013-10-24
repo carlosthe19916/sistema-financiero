@@ -3,10 +3,8 @@ package org.ventura.control;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -14,23 +12,29 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.TransactionRequiredException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
+import org.ventura.entity.Agencia;
 import org.ventura.entity.Cuentaaporte;
 import org.ventura.entity.Socio;
 import org.ventura.entity.Tipomoneda;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
+import org.ventura.util.logger.DelegatingLogger;
 import org.ventura.util.logger.Log;
+import org.ventura.util.logger.LogProducer;
 
 @Named
 @Stateless
@@ -41,29 +45,32 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 
 	@EJB
 	private SocioServiceLocal socioServiceLocal;
-
 	@EJB
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
-	
 	@EJB
 	private BeneficiariocuentaDAO beneficiariocuentaDAO;
-	
 	@EJB
 	private CuentaaporteDAO cuentaaporteDAO;
 	
 	@Inject
-	Log log;
+	private Agencia agencia;
+	@Inject
+	private Log log;
+	
+	private static final Logger logger = LoggerFactory.getLogger(CuentaaporteServiceBean.class);
+
 
 	@Override
 	public Cuentaaporte createCuentaAporteWithPersonanatural(Cuentaaporte cuentaaporte) throws Exception {
+		logger.error("probando error");
 		try {
-			generarNumeroCuenta(cuentaaporte);
-			generarDatosDeRegistro(cuentaaporte);
-
-			//creando tablas relacionadas
 			Socio socio = buscarSocioPersonaNatural(cuentaaporte.getSocio());
 			cuentaaporte.setSocio(socio);
 		
+			generarDatosDeRegistro(cuentaaporte);	
+			String numerocuentaaporte = generarNumeroCuenta(cuentaaporte,socio);
+			cuentaaporte.setNumerocuentaaporte(numerocuentaaporte);
+						
 			cuentaaporteDAO.create(cuentaaporte);
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
@@ -78,13 +85,13 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	@Override
 	public Cuentaaporte createCuentaAporteWithPersonajuridica(Cuentaaporte cuentaaporte) throws Exception {
 		try {
-			generarNumeroCuenta(cuentaaporte);
-			generarDatosDeRegistro(cuentaaporte);
-
-			//creando tablas relacionadas
 			Socio socio = buscarSocioPersonaJuridica(cuentaaporte.getSocio());
 			cuentaaporte.setSocio(socio);
 				
+			generarDatosDeRegistro(cuentaaporte);
+			String numerocuentaaporte = generarNumeroCuenta(cuentaaporte,socio);
+			cuentaaporte.setNumerocuentaaporte(numerocuentaaporte);
+						
 			cuentaaporteDAO.create(cuentaaporte);			
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
@@ -137,11 +144,10 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		cuentaaporte.setSaldo(0);		
 	}
 
-	private void generarNumeroCuenta(Cuentaaporte cuentaahorro) {
+	private String generarNumeroCuenta(Cuentaaporte cuentaahorro, Socio socio) {
 
-		Random random = new Random();
+		/*Random random = new Random();
 		int length = 14;
-
 		char[] digits = new char[length];
 		// Make sure the leading digit isn't 0.
 		digits[0] = (char) ('1' + random.nextInt(9));
@@ -149,9 +155,21 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		for (int i = 1; i < length; i++) {
 			digits[i] = (char) ('0' + random.nextInt(10));
 		}
-
 		cuentaahorro.setNumerocuentaaporte(digits.toString());
-
+		*/
+		String numeroCuenta = "";
+		numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
+		
+		String codigoSocio = socio.getCodigosocio().toString();
+		for (int i = codigoSocio.length(); i < 8; i++) {
+			codigoSocio = "0" + codigoSocio;
+		}
+		numeroCuenta = numeroCuenta + codigoSocio;
+		
+		numeroCuenta = numeroCuenta + cuentaahorro.getIdtipomoneda();
+		numeroCuenta = numeroCuenta + "10";
+		
+		return numeroCuenta;
 	}
 
 	@Override
@@ -243,6 +261,11 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }
