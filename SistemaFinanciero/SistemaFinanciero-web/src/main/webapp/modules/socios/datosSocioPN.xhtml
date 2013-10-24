@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="dni" value="#{mostrarDatosClienteMB.personanatural.dni}" />
+		<f:event listener="#{mostrarDatosClienteMB.cargarDatosPersonaNatural()}" type="preRenderView"></f:event>
+	</f:metadata>
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Datos Socio" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+
+		<div class="sf-content-cabecera">
+			<h2>Datos del Socio</h2>
+		</div>
+
+		<h:panelGroup id="panelDatosCliente">
+			<h:panelGrid columns="2">
+				<p:outputPanel>
+					<!-- Datos Personales Cliente-->
+					<ui:include
+						src="/modules/maestros/personaNaturalResumen.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						<ui:param name="componentName" value="personaNaturalCliente" />
+						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+					</ui:include>
+					<ui:include src="/modules/maestros/personaNaturalDialog.xhtml">
+						<ui:param name="managedBean" value="#{aperturarCuentaAhorrosMB}" />
+						<ui:param name="componentName" value="dlgPersonaNatural" />
+						<ui:param name="componentToUpdated" value=":personaNaturalCliente" />
+					</ui:include>
+					<!-- End Datos Personales Cliente-->
+				</p:outputPanel>
+				<p:outputPanel>
+					<!-- Cuenta de Aporte Cliente-->
+					<ui:include
+						src="/modules/cuentasPersonales/apertura/pruebita.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						<ui:param name="componentName" value="aporte1" />
+						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+					</ui:include>
+					<!-- End Cuenta de Aporte Cliente-->
+				</p:outputPanel>
+				<p:outputPanel>
+					<!-- Otras Cuentas Cliente-->
+					<ui:include
+						src="/modules/cuentasPersonales/apertura/cuentasCliente.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						<ui:param name="componentName" value="aporte2" />
+						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+					</ui:include>
+					<!-- End Otras Cuentas Cliente-->
+				</p:outputPanel>
+				<p:outputPanel>
+					<!-- Cuenta Creditos Cliente-->
+					<ui:include
+						src="/modules/cuentasPersonales/apertura/pruebita.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						<ui:param name="componentName" value="aporte3" />
+						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+					</ui:include>
+					<!-- End Creditos Cliente-->
+				</p:outputPanel>
+			</h:panelGrid>
+		</h:panelGroup>
+
+		<div class="sf-buttons">
+			<h:form>
+				<p:commandButton value="Probar" action="#{mostrarDatosClienteMB.CargarDatosCuentaAhorro()}" styleClass="action green" />
+				<p:commandButton value="Aceptar" action="#" styleClass="action green" update=":panelDatosCliente" />
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
+</html>
