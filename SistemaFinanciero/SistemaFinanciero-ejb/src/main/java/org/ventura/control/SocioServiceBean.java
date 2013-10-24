@@ -1,9 +1,9 @@
 package org.ventura.control;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-import javax.persistence.GeneratedValue;
 
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
@@ -63,6 +62,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 				}
 			}
 			
+			socio.setFechaasociado(Calendar.getInstance().getTime());
+			socio.setEstado(true);		
 			socioDAO.create(socio);		
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
