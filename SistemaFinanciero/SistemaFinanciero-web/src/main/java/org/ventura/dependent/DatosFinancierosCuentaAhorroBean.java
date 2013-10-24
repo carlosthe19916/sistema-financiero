@@ -80,6 +80,7 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);
 		this.cuentaahorro.setTipomoneda(tipomonedaSelected);
 	}
+	
 
 	/*
 	 * Getters and Setters
