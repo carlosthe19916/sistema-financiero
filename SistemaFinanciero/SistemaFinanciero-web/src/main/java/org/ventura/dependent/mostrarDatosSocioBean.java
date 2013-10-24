@@ -2,11 +2,15 @@ package org.ventura.dependent;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.entity.Cuentaahorro;
@@ -28,13 +32,19 @@ public class mostrarDatosSocioBean implements Serializable {
 	private TablaBean<Cuentaahorro> tablaCuentasPN;
 	
 	@ManagedProperty(value = "#{PersonaNaturalBean}")
-	private PersonaNaturalBean personaNaturalBean;
+	private PersonaNaturalBean personaNaturalMB;
 	
-	private Personanatural personanatural;
+	private Personanatural oPersonaNatural;
 	
 	
 	public mostrarDatosSocioBean() {
-		setPersonanatural(new Personanatural());
+	}
+	
+	@PostConstruct
+	public void intiValues(){
+		oPersonaNatural = new Personanatural();
+		tablaCuentasPN = new TablaBean<Cuentaahorro>();
+		personaNaturalMB = new PersonaNaturalBean();
 	}
 	
 	public TablaBean<Cuentaahorro> getTablaCuentasPN() {
@@ -45,21 +55,20 @@ public class mostrarDatosSocioBean implements Serializable {
 		this.tablaCuentasPN = tablaCuentasPN;
 	}
 
-	public PersonaNaturalBean getPersonaNaturalBean() {
-		return personaNaturalBean;
-	}
-	
-	public void setPersonaNaturalBean(PersonaNaturalBean personaNaturalBean) {
-		this.personaNaturalBean = personaNaturalBean;
-	}
-	
-	
-	public Personanatural getPersonanatural() {
-		return personanatural;
+	public PersonaNaturalBean getPersonaNaturalMB() {
+		return personaNaturalMB;
 	}
 
-	public void setPersonanatural(Personanatural personanatural) {
-		this.personanatural = personanatural;
+	public void setPersonaNaturalMB(PersonaNaturalBean personaNaturalMB) {
+		this.personaNaturalMB = personaNaturalMB;
+	}
+	
+	public Personanatural getoPersonaNatural() {
+		return oPersonaNatural;
+	}
+
+	public void setoPersonaNatural(Personanatural oPersonaNatural) {
+		this.oPersonaNatural = oPersonaNatural;
 	}
 	
 	public boolean isPersonaNatural() {
@@ -68,21 +77,28 @@ public class mostrarDatosSocioBean implements Serializable {
 	
 	public void cargarDatosPersonaNatural(){
 		try {
-			setPersonanatural(personaNaturalServiceLocal.find(personanatural.getDni()));
+			setoPersonaNatural(personaNaturalServiceLocal.find(oPersonaNatural.getDni()));
+			personaNaturalMB.setPersonaNatural(oPersonaNatural);
+			CargarCuentasPersonales();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		getPersonaNaturalBean().setPersonaNatural(personanatural);
-		CargarCuentasPersonales();
 	}
 	
 	public void CargarCuentasPersonales(){
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("dni", personanatural.getDni());
-		//List list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
+		parameters.put("dni", oPersonaNatural.getDni());
+		List list;
+		try {
+			list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
+			tablaCuentasPN.setRows(list);
+			System.out.println("Cuentas "+list.size());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//List<Cuentaahorro> list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
-		//getTablaCuentasPN().setRows(list);
 	}
-	
+
 }

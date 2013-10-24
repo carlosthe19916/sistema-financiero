@@ -11,10 +11,13 @@ import java.util.List;
  */
 @Entity
 @Table(name = "cuentaahorro", schema = "cuentapersonal")
+@NamedNativeQuery(name = Cuentaahorro.CUENTAS, query = "select f.numerocuentaahorro, f.dni, f.fechaapertura, f.idtipomoneda, f.ruc, f.saldo, f.idestadocuenta from cuentapersonal.f_retornar_cuentas(:dni) f", resultClass = Cuentaahorro.class)
 @NamedQuery(name = "Cuentaahorro.findAll", query = "SELECT c FROM Cuentaahorro c")
 public class Cuentaahorro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public final static String CUENTAS = "org.ventura.model.Cuentaahorro.CUENTAS";
+	
 	@Id
 	@Column(unique = true, nullable = false, length = 14)
 	private String numerocuentaahorro;
