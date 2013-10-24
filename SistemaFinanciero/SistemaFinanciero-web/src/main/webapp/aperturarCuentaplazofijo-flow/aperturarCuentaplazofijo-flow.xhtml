@@ -111,13 +111,17 @@
 			<!-- end Beneficiarios -->
 		</h:panelGroup>
 
-		<div class="sf-buttons">
+		<h:form>
+				<p:growl id="messages" showDetail="true" />
+				<p:commandButton 
+					value="Guardar"
+					action="#{aperturarCuentaPlazofijoBean.createCuentaplazofijo()}"
+					update="messages,:panelDatos">
+					<f:ajax onevent="handleDisableButton" />
+				</p:commandButton>
 
-			<p:commandButton value="Guardar"
-				action="#{aperturarCuentaPlazofijoBean.createCuentaplazofijo()}"
-				styleClass="action green" />
-			<p:commandButton value="Cancelar" styleClass="action" />
-		</div>
+				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"/>
+			</h:form>
 
 	</ui:define>
 

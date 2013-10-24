@@ -58,6 +58,8 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
+	
+	private List<Titularcuenta> titularDefecto;
 
 	/**
 	 * 
@@ -86,10 +88,10 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		comboTipoPersona.setItemSelected(1);
 	}
 
-	public String createCuentaahorro() {
+	public String createCuentaplazofijo() {
 		try {
-			if (validarCuentaAhorro()) {
-				this.establecerParametrosCuentaahorro();
+			if (validarCuentaPlazofijo()) {
+				this.establecerParametrosCuentaplazofijo();
 				if (isPersonaNatural()) {
 					this.cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonanatural(cuentaplazofijo);
 				}
@@ -109,7 +111,7 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		return null;
 	}
 
-	public void establecerParametrosCuentaahorro() throws Exception {
+	public void establecerParametrosCuentaplazofijo() throws Exception {
 		Cuentaplazofijo cuentaplazofijo  = datosFinancierosCuentaPlazoFijoMB.getCuentaplazofijo();
 		Socio socio=new Socio();
 		if (comboTipoPersona.getItemSelected() == 1) {
@@ -118,6 +120,7 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
 
 			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
+			listTitularcuenta.add(titularDefecto.get(0));
 			List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
 
 			// se crean las clases a relacionar con la Cuenta de Ahorros
@@ -144,6 +147,8 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			socio.setPersonajuridica(personajuridica);
 			listaraccionista(personajuridica);
 			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
+			listTitularcuenta.add(titularDefecto.get(0));
+			
 			this.cuentaplazofijo = cuentaplazofijo;
 			this.cuentaplazofijo.setSocio(socio);
 			this.cuentaplazofijo.setTitularcuentas(listTitularcuenta);
@@ -192,7 +197,7 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		}
 	}
 
-	public boolean validarCuentaAhorro() {
+	public boolean validarCuentaPlazofijo() {
 
 		boolean result = true;
 
@@ -336,6 +341,14 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 
 	public Cuentaplazofijo getCuentaplazofijo() {
 		return cuentaplazofijo;
+	}
+
+	public List<Titularcuenta> getTitularDefecto() {
+		return titularDefecto;
+	}
+
+	public void setTitularDefecto(List<Titularcuenta> titularDefecto) {
+		this.titularDefecto = titularDefecto;
 	}
 
 }

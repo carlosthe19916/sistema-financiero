@@ -1,7 +1,9 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -11,10 +13,15 @@ import java.util.List;
  */
 @Entity
 @Table(name="retirointeres",schema="cuentapersonal")
-@NamedQuery(name="Retirointere.findAll", query="SELECT r FROM Retirointere r")
-public class Retirointere implements Serializable {
+@NamedQuery(name="Retirointere.findAll", query="SELECT r FROM Retirointeres r")
+@NamedQueries({
+	@NamedQuery(name = Retirointeres.ALL, query = "Select t From Retirointeres t"),
+	@NamedQuery(name = Retirointeres.ALL_ACTIVE, query = "Select t From Retirointeres t WHERE t.estado=true") })
+public class Retirointeres implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public final static String ALL = "org.ventura.model.Retirointeres.ALL";
+	public final static String ALL_ACTIVE = "org.ventura.model.Retirointeres.ALL_ACTIVE";
 	@Id
 	@Column(unique=true, nullable=false)
 	private Integer idretirointeres;
@@ -29,10 +36,10 @@ public class Retirointere implements Serializable {
 	private Boolean estado;
 
 	//bi-directional many-to-one association to Cuentaplazofijo
-	@OneToMany(mappedBy="retirointere")
+	@OneToMany(mappedBy="retirointeres")
 	private List<Cuentaplazofijo> cuentaplazofijos;
 
-	public Retirointere() {
+	public Retirointeres() {
 	}
 
 	public Integer getIdretirointeres() {
@@ -77,15 +84,14 @@ public class Retirointere implements Serializable {
 
 	public Cuentaplazofijo addCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) {
 		getCuentaplazofijos().add(cuentaplazofijo);
-		cuentaplazofijo.setRetirointere(this);
+		cuentaplazofijo.setRetirointeres(this);
 
 		return cuentaplazofijo;
 	}
 
 	public Cuentaplazofijo removeCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) {
 		getCuentaplazofijos().remove(cuentaplazofijo);
-		cuentaplazofijo.setRetirointere(null);
-
+		cuentaplazofijo.setRetirointeres(null);
 		return cuentaplazofijo;
 	}
 

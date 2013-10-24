@@ -10,60 +10,114 @@
 <ui:composition>
 	<h:form>
 		<p:dialog id="#{componentName}" header="Datos Financieros"
-			widgetVar="#{componentName}" modal="true" height="250" width="350">
+			widgetVar="#{componentName}" modal="true" height="330" width="400">
 			<div id="panelPersonaNatural">
 				<div class="sf-agrupador">
 					<div class="sf-agrupador-content">
+						<p:growl id="growl" sticky="true" />
 						<div class="sf-agrupador-content-cabecera">
-							<h3>REGISTRAR DATOS FINANCIEROS</h3>
+							<h3>Datos de Apertura Cuenta Plazo Fijo</h3>
 						</div>
 						<div class="sf-agrupador-content-table">
 							<table>
 								<tr>
-									<td><p:outputLabel value="Monto:" /></td>
-									<td><p:outputLabel /></td>
-								</tr>
-
-								<tr>
 									<td><p:outputLabel>Moneda:</p:outputLabel></td>
-									<td><p:selectOneMenu value="">
-											<f:selectItem itemLabel="Soles" />
-											<f:selectItem itemLabel="Dolares" />
-											<f:selectItem itemLabel="Euros" />
-										</p:selectOneMenu></td>
+									<td><p:selectOneMenu id="tipoMoneda"
+											value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.comboTipomoneda.itemSelected}"
+											valueChangeListener="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.changeTipomoneda}"
+											required="true"
+											requiredMessage="Seleccione un tipo de moneda">
+											<f:selectItem itemLabel="--Seleccione--" />
+											<f:selectItems
+												value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.comboTipomoneda.items.entrySet()}"
+												var="tipomoneda"
+												itemLabel="#{tipomoneda.value.denominacion}"
+												itemValue="#{tipomoneda.key}" />
+											<p:ajax update="growl,tipoMoneda" />
+										</p:selectOneMenu> <p:outputLabel for="tipoMoneda" /></td>
 								</tr>
 								<tr>
-									<td><p:outputLabel value="Tributo:" /></td>
-									<td><p:outputLabel /></td>
-								</tr>
-								<tr>
-									<td><p:outputLabel value="Plazo:" /></td>
-									<td><p:outputLabel /></td>
-								</tr>
-								<tr>
-									<td align="right"><p:outputLabel>Fecha Apertura:</p:outputLabel></td>
-									<td><p:calendar id="txtFechaApertura" size="20" /> <p:watermark
-											for="txtFechaApertura" value="dd/mm/yyyy" /></td>
+									<td><p:outputLabel>Fecha de Apertura:</p:outputLabel></td>
+									<td><p:calendar id="txtFecAp"
+											value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.fechaapertura}"
+											navigator="true" pattern="dd/MM/yy" required="true"
+											requiredMessage="Ingrese Fecha de Apertura"
+											converterMessage="El formato de la fecha de apertura no es correcto">
+											<p:ajax update="growl,txtFecAp" />
+											<f:convertDateTime pattern="dd/MM/yy" />
+										</p:calendar> <p:watermark for="txtFecAp" value="dd/mm/yyyy" /> <p:outputLabel
+											for="txtFecAp" /></td>
+
 								</tr>
 
 								<tr>
-									<td align="right"><p:outputLabel>Tasa de Interes:</p:outputLabel></td>
-									<td><p:spinner id="spnTasaInteres" value=""
-											stepFactor="0.01" size="17" /></td>
+									<td><p:outputLabel>Monto de Apertura:</p:outputLabel></td>
+									<td colspan="3"><p:inputText id="txtmonto"
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.monto}"
+										 required="true" 
+										requiredMessage="Ingrese Monto">
+										<p:ajax update="growl,txtmonto" event="blur" />
+									</p:inputText> <p:watermark for="txtmonto" value="monto" /> <p:outputLabel
+										for="txtmonto" /></td>
 								</tr>
 								<tr>
+									<td><p:outputLabel value="Plazo (dias):" /></td>
+									<td colspan="3"><p:inputText id="txtplazo"
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.plazo}"
+										 required="true" 
+										requiredMessage="Ingrese plazo">
+										<p:ajax update="growl,txtplazo" event="blur" />
+									</p:inputText> <p:watermark for="txtplazo"  /> <p:outputLabel
+										for="txtplazo" /></td>
+								</tr>
+								
+								<tr>
+									<td><p:outputLabel>Frecuencia Capitalizacion:</p:outputLabel></td>
 									<td>
-										<div>
-											<h:panelGrid columns="2" style="margin-bottom:10px"
-												cellpadding="5">
-												<h:outputText value="Confirmacion de saldos: " />
-												<p:selectOneRadio id="slConfirmacionSaldos" value="">
-													<f:selectItem itemLabel="Si" itemValue="1" />
-													<f:selectItem itemLabel="No" itemValue="2" />
-												</p:selectOneRadio>
-											</h:panelGrid>
-										</div>
-									</td>
+									<p:selectOneMenu id="cmbFrecuenciacapitalizacion"
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.combofrecuenciacapitalizacion.itemSelected}"
+										valueChangeListener="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.changeFrecuenciacapitalizacion()}"
+										required="true" requiredMessage="Seleccione una frecuencia valida">
+										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										<f:selectItems 
+											value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.combofrecuenciacapitalizacion.items.entrySet()}"
+											var="val" itemLabel="#{val.value.denomicacion}"
+											itemValue="#{val.key}" />
+										<p:ajax update="growl,cmbFrecuenciacapitalizacion" />
+									</p:selectOneMenu> 
+									<p:outputLabel for="cmbFrecuenciacapitalizacion" />
+									</td>								
+								</tr>
+								
+								<tr>
+									<td><p:outputLabel>Retiro Interes:</p:outputLabel></td>
+									<td>
+									<p:selectOneMenu id="cmbRetirointeres"
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.comboretirointeres.itemSelected}"
+										valueChangeListener="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.changeRetirointeres()}"
+										required="true" requiredMessage="Seleccione un tipo de retiro de interes valido">
+										
+										<f:selectItem  itemLabel="--Seleccione--" itemValue="" />
+										<f:selectItems
+											value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.comboretirointeres.items.entrySet()}"
+											var="val" itemLabel="#{val.value.denominacion}"
+											itemValue="#{val.key}" />
+										<p:ajax update="growl,cmbRetirointeres" />
+									</p:selectOneMenu> 
+									<p:outputLabel for="cmbRetirointeres" />
+									</td>								
+								</tr>
+
+								<tr>
+									<td><p:outputLabel>Confirmacion de saldos:</p:outputLabel></td>
+									<td><p:selectOneRadio id="radiosaldos"
+												value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.confirmacionsaldos}"
+												required="true" requiredMessage="Ingrese Confirmacion de saldos">
+												<f:selectItem itemLabel="SI"
+													itemValue="true" />
+												<f:selectItem itemLabel="NO"
+													itemValue="false" />
+											</p:selectOneRadio></td>
 								</tr>
 
 							</table>

@@ -1,7 +1,9 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -12,9 +14,14 @@ import java.util.List;
 @Entity
 @Table(name="frecuenciacapitalizacion",schema="cuentapersonal")
 @NamedQuery(name="Frecuenciacapitalizacion.findAll", query="SELECT f FROM Frecuenciacapitalizacion f")
+@NamedQueries({
+	@NamedQuery(name = Frecuenciacapitalizacion.ALL, query = "Select t From Frecuenciacapitalizacion t"),
+	@NamedQuery(name = Frecuenciacapitalizacion.ALL_ACTIVE, query = "Select t From Frecuenciacapitalizacion t WHERE t.estado=true") })
 public class Frecuenciacapitalizacion implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	public final static String ALL = "org.ventura.model.Frecuenciacapitalizacion.ALL";
+	public final static String ALL_ACTIVE = "org.ventura.model.Frecuenciacapitalizacion.ALL_ACTIVE";
 	@Id
 	@Column(unique=true, nullable=false)
 	private Integer idfrecuenciacapitalizacion;

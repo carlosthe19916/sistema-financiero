@@ -34,7 +34,19 @@ public class Cuentaplazofijo implements Serializable {
 
 	@Column(nullable=false)
 	private Integer idtipomoneda;
-
+	
+	@Column(nullable=false)
+	private Integer idretirointeres;
+	
+	@Column(nullable=false)
+	private Integer idfrecuenciacapitalizacion;
+	
+	@Column(nullable=false)
+	private Integer plazo;
+	
+	@Column(nullable=false)
+	private boolean confirmacionsaldos;
+	
 	@Column(nullable=false)
 	private double itf;
 
@@ -62,6 +74,7 @@ public class Cuentaplazofijo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
 	private Tipomoneda tipomoneda;
+	
 
 	//bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy="cuentaplazofijo")
@@ -74,13 +87,13 @@ public class Cuentaplazofijo implements Serializable {
 
 	//bi-directional many-to-one association to Frecuenciacapitalizacion
 	@ManyToOne
-	@JoinColumn(name="idfrecuenciacapitalizacion", nullable=false)
+	@JoinColumn(name="idfrecuenciacapitalizacion", nullable = false, insertable = false, updatable = false)
 	private Frecuenciacapitalizacion frecuenciacapitalizacion;
 
 	//bi-directional many-to-one association to Retirointere
 	@ManyToOne
-	@JoinColumn(name="idretirointeres", nullable=false)
-	private Retirointere retirointere;
+	@JoinColumn(name="idretirointeres", nullable = false, insertable = false, updatable = false)
+	private Retirointeres retirointeres;
 
 	//bi-directional many-to-one association to Titularcuenta
 	@OneToMany(mappedBy="cuentaplazofijo")
@@ -215,14 +228,6 @@ public class Cuentaplazofijo implements Serializable {
 		this.frecuenciacapitalizacion = frecuenciacapitalizacion;
 	}
 
-	public Retirointere getRetirointere() {
-		return this.retirointere;
-	}
-
-	public void setRetirointere(Retirointere retirointere) {
-		this.retirointere = retirointere;
-	}
-
 	public List<Titularcuenta> getTitularcuentas() {
 		return this.titularcuentas;
 	}
@@ -267,6 +272,46 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setSocio(Socio socio) {
 		this.socio = socio;
+	}
+
+	public Integer getPlazo() {
+		return plazo;
+	}
+
+	public void setPlazo(Integer plazo) {
+		this.plazo = plazo;
+	}
+
+	public boolean isConfirmacionsaldos() {
+		return confirmacionsaldos;
+	}
+
+	public void setConfirmacionsaldos(boolean confirmacionsaldos) {
+		this.confirmacionsaldos = confirmacionsaldos;
+	}
+
+	public Integer getIdretirointeres() {
+		return idretirointeres;
+	}
+
+	public void setIdretirointeres(Integer idretirointeres) {
+		this.idretirointeres = idretirointeres;
+	}
+
+	public Integer getIdfrecuenciacapitalizacion() {
+		return idfrecuenciacapitalizacion;
+	}
+
+	public void setIdfrecuenciacapitalizacion(Integer idfrecuenciacapitalizacion) {
+		this.idfrecuenciacapitalizacion = idfrecuenciacapitalizacion;
+	}
+
+	public Retirointeres getRetirointeres() {
+		return retirointeres;
+	}
+
+	public void setRetirointeres(Retirointeres retirointeres) {
+		this.retirointeres = retirointeres;
 	}
 
 }
