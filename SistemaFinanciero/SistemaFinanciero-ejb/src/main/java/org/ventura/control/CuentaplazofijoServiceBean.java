@@ -3,6 +3,8 @@ package org.ventura.control;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,16 +27,23 @@ import org.ventura.boundary.remote.CuentaplazofijoServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaplazofijoDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
+import org.ventura.entity.Agencia;
 import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.Cuentaaporte;
+import org.ventura.entity.Cuentacorriente;
 import org.ventura.entity.Cuentaplazofijo;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
+import org.ventura.entity.Tipomoneda;
 import org.ventura.entity.Titularcuenta;
 import org.ventura.entity.Titularcuentahistorial;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
+import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
+
+import com.sun.tools.internal.xjc.generator.bean.ImplStructureStrategy.Result;
 
 @Stateless
 @Local(CuentaplazofijoServiceLocal.class)
@@ -58,6 +67,9 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	private CuentaplazofijoDAO cuentaplazofijoDAO;
 	
 	@Inject
+	private Agencia agencia;
+	
+	@Inject
 	Log log;
 
 	@Override
@@ -65,13 +77,13 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 
 
 		try {
-			generarNumeroCuenta(cuentaplazofijo);
-			generarDatosDeRegistro(cuentaplazofijo);
-
-			//creando tablas relacionadas
-			crearSocioPersonaNatural(cuentaplazofijo.getSocio());
-			crearPersonanaturalForTitulares(cuentaplazofijo);
-			generarDatosTitularHistorial(cuentaplazofijo);
+			
+			Socio socio = buscarSocioPersonaNatural(cuentaplazofijo.getSocio());
+			cuentaplazofijo.setSocio(socio);
+		
+			generarDatosDeRegistro(cuentaplazofijo);	
+			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
+			cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
 			
 			cuentaplazofijoDAO.create(cuentaplazofijo);
 		} catch (Exception e) {
@@ -85,13 +97,12 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	@Override
 	public Cuentaplazofijo createCuentaPlazofijoWithPersonajuridica(Cuentaplazofijo cuentaplazofijo) throws Exception {
 		try {
-			generarNumeroCuenta(cuentaplazofijo);
+			Socio socio = buscarSocioPersonaJuridica(cuentaplazofijo.getSocio());
+			cuentaplazofijo.setSocio(socio);
+				
 			generarDatosDeRegistro(cuentaplazofijo);
-
-			//creando tablas relacionadas
-			crearSocioPersonaJuridica(cuentaplazofijo.getSocio());
-			crearPersonanaturalForTitulares(cuentaplazofijo);
-			generarDatosTitularHistorial(cuentaplazofijo);
+			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
+			cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
 			
 			cuentaplazofijoDAO.create(cuentaplazofijo);
 			
@@ -102,75 +113,50 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		return cuentaplazofijo;
 	}
 	
-	protected void crearSocioPersonaNatural(Socio socio) throws Exception{
+	protected Socio buscarSocioPersonaNatural(Socio socio) throws NonexistentEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni", socio.getDni());
-			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
-			if (result == null) {
+			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
+			if (result.size() == 0) {
 				socioServiceLocal.create(socio);
+			} else {
+				throw new PreexistingEntityException("La Persona Natural ya tiene una cuenta de aportes Activa");
 			}
 		}
+		return socio;
 	}
 
-	protected void crearSocioPersonaJuridica(Socio socio) throws Exception {
+	protected Socio buscarSocioPersonaJuridica(Socio socio) throws NonexistentEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ruc", socio.getDni());
-			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc,
-					parameters);
-			if (result == null) {
+			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
+			if (result.size() == 0) {
 				socioServiceLocal.create(socio);
+			} else {
+				throw new PreexistingEntityException("La Persona Juridica ya tiene una cuenta de aportes Activa");
 			}
 		}
+		return socio;
 	}
 	
-	protected void crearBeneficiarios(List<Beneficiariocuenta> beneficiarios) throws Exception {
-		for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-			Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
-			beneficiariocuentaDAO.create(beneficiariocuenta);
-		}
-	}
-	
-	protected void crearPersonanaturalForTitulares(Cuentaplazofijo cuentaplazofijo) throws IllegalEntityException, NonexistentEntityException, Exception {
-		List<Titularcuenta> titulares = cuentaplazofijo.getTitularcuentas();
-		
-		for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
-			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
-			Personanatural personanatural = titularcuenta.getPersonanatural();
-			
-			Object key = personanatural.getDni();
-			Object result = personanaturalServiceLocal.find(key);
-			if(result == null){
-				personanaturalServiceLocal.create(personanatural);
-			}
-		}
-	}
-	
-	private void generarDatosTitularHistorial(Cuentaplazofijo cuentaplazofijo) {
-        List<Titularcuenta> list = cuentaplazofijo.getTitularcuentas();     
-		for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
-			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
-			List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
-			Titularcuentahistorial historial = new Titularcuentahistorial();
-			historial.setEstado(true);
-			historial.setFechaactiva(Calendar.getInstance().getTime());
-			lista.add(historial);
-			titularcuenta.setTitularcuentahistorials(lista);
-			historial.setTitularcuenta(titularcuenta);
-		}
-    }
-
 	private void generarDatosDeRegistro(Cuentaplazofijo cuentaplazofijo) {
+		cuentaplazofijo.setIdestadocuenta(1);							
 		cuentaplazofijo.setFechaapertura(Calendar.getInstance().getTime());
-		cuentaplazofijo.getEstadocuenta().setIdestadocuenta(1);
+		cuentaplazofijo.setFechavencimiento(calcularFechavencimientoContrato(cuentaplazofijo));
+		cuentaplazofijo.setTiceaf(0.01);
+		cuentaplazofijo.setTrea(0.01);
+		cuentaplazofijo.setMontointerespagado(MontoInteresPagado(cuentaplazofijo));
+		cuentaplazofijo.setItf(0.25);
+		cuentaplazofijo.setIdfrecuenciacapitalizacion(1);
+		cuentaplazofijo.setIdretirointeres(1);
 	}
 
-	private void generarNumeroCuenta(Cuentaplazofijo cuentaplazofijo) {
+	private String generarNumeroCuenta(Cuentaplazofijo cuentaplazofijo, Socio socio) {
 
-		Random random = new Random();
+		/*Random random = new Random();
 		int length = 14;
-
 		char[] digits = new char[length];
 		// Make sure the leading digit isn't 0.
 		digits[0] = (char) ('1' + random.nextInt(9));
@@ -178,9 +164,21 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		for (int i = 1; i < length; i++) {
 			digits[i] = (char) ('0' + random.nextInt(10));
 		}
-
-		cuentaplazofijo.setNumerocuentaplazofijo(digits.toString());
-
+		cuentaahorro.setNumerocuentaaporte(digits.toString());
+		*/
+		String numeroCuenta = "";
+		numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
+		
+		String codigoSocio = socio.getCodigosocio().toString();
+		for (int i = codigoSocio.length(); i < 8; i++) {
+			codigoSocio = "0" + codigoSocio;
+		}
+		numeroCuenta = numeroCuenta + codigoSocio;
+		
+		numeroCuenta = numeroCuenta + cuentaplazofijo.getIdtipomoneda();
+		numeroCuenta = numeroCuenta + "10";
+		
+		return numeroCuenta;
 	}
 
 	@Override
@@ -272,6 +270,28 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			e.printStackTrace();
 		}
 		return null;
+		
+		
+	}
+	
+	public Date calcularFechavencimientoContrato(Cuentaplazofijo cuentaplazofijo){
+		Date fecha=cuentaplazofijo.getFechaapertura();
+		int dias =cuentaplazofijo.getPlazo();
+		    Calendar cal = new GregorianCalendar();
+	        cal.setTimeInMillis(fecha.getTime());
+	        cal.add(Calendar.DATE, dias);
+	        
+	        return new Date(cal.getTimeInMillis());
+	
+	}
+	
+	public double MontoInteresPagado(Cuentaplazofijo cuentaplazofijo){
+		return cuentaplazofijo.getMonto()*cuentaplazofijo.getTiceaf();
+	}
+	
+	@Override
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }

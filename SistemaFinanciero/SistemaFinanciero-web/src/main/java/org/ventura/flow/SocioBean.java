@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.ComboBean;
+import org.ventura.dependent.TablaBean;
 import org.ventura.entity.Socio;
 import org.venturabank.util.TablaMB;
 
@@ -29,8 +30,8 @@ public class SocioBean implements Serializable {
 	@EJB
 	private SocioServiceLocal socioServicesLocal;
 
-	@ManagedProperty(value = "#{tablaMB}")
-	private TablaMB<Socio> tablaSocios;
+	@ManagedProperty(value = "#{TablaBean}")
+	private TablaBean<Socio> tablaSocios;
 
 	@Inject
 	private ComboBean<String> comboTipoPersona;
@@ -45,13 +46,14 @@ public class SocioBean implements Serializable {
 	@PostConstruct
 	public void initValues() {
 		this.cargarCombos();
+		tablaSocios = new TablaBean<Socio>();
 	}
 
-	public TablaMB<Socio> getTablaSocios() {
+	public TablaBean<Socio> getTablaSocios() {
 		return tablaSocios;
 	}
 
-	public void setTablaSocios(TablaMB<Socio> tablaSocios) {
+	public void setTablaSocios(TablaBean<Socio> tablaSocios) {
 		this.tablaSocios = tablaSocios;
 	}
 

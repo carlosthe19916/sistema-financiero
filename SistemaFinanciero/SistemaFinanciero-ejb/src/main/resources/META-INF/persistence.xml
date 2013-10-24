@@ -32,7 +32,7 @@
 		<class>org.ventura.entity.Estadocuenta</class>
 		<class>org.ventura.entity.Estadotarjeta</class>
 		<class>org.ventura.entity.Frecuenciacapitalizacion</class>
-		<class>org.ventura.entity.Retirointere</class>
+		<class>org.ventura.entity.Retirointeres</class>
 		<class>org.ventura.entity.Tarjetadebito</class>
 		<class>org.ventura.entity.Tarjetadebitoasignadocuentaahorro</class>
 		<class>org.ventura.entity.TarjetadebitoasignadocuentaahorroPK</class>

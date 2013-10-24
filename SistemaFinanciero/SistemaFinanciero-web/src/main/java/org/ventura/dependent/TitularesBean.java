@@ -1,8 +1,6 @@
 package org.ventura.dependent;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,10 +12,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Sexo;
 import org.ventura.entity.Titularcuenta;
-import org.ventura.entity.Titularcuentahistorial;
 
 @Named
 @Dependent
@@ -159,19 +157,6 @@ public class TitularesBean implements Serializable {
 			Titularcuenta titular = iterator.next();
 			String dni = titular.getPersonanatural().getDni();
 			titular.setDni(dni);
-			
-			List<Titularcuentahistorial> titularcuentahistoriales = titular.getTitularcuentahistorials();
-			if(titularcuentahistoriales == null){
-				titularcuentahistoriales = new ArrayList<Titularcuentahistorial>();
-				titular.setTitularcuentahistorials(titularcuentahistoriales);
-			} 			
-					
-			Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();
-			titularcuentahistorial.setEstado(true);
-			titularcuentahistorial.setFechaactiva(Calendar.getInstance().getTime());
-			
-			titularcuentahistorial.setTitularcuenta(titular);
-			titularcuentahistoriales.add(titularcuentahistorial);
 		}
 		return tablaTitulares.getRows();
 	}

@@ -1,6 +1,7 @@
 package org.ventura.flow;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,21 +13,26 @@ import javax.faces.flow.FlowScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.CuentaplazofijoServiceLocal;
 import org.ventura.dependent.BeneficiariosBean;
 import org.ventura.dependent.ComboBean;
+import org.ventura.dependent.DatosFinancierosCuentaAporteBean;
 import org.ventura.dependent.DatosFinancierosCuentaPlazoFijoBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
 import org.ventura.dependent.TitularesBean;
 import org.ventura.entity.Accionista;
 import org.ventura.entity.AccionistaPK;
+import org.ventura.entity.Agencia;
 import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.Cuentaaporte;
 import org.ventura.entity.Cuentaplazofijo;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
 import org.ventura.entity.Titularcuenta;
+import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
 @FlowScoped("aperturarCuentaplazofijo-flow")
@@ -35,50 +41,40 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String mensaje;
-	
+
 	@EJB
 	private CuentaplazofijoServiceLocal cuentaplazofijoServiceLocal;
 
-	private Cuentaplazofijo cuentaplazofijo;
-
 	@Inject
-	private DatosFinancierosCuentaPlazoFijoBean datosFinancierosCuentaPlazoFijoMB;
-	
+	private AgenciaBean agenciaBean;
+	@Inject
+	private Cuentaplazofijo cuentaplazofijo;
 	@Inject
 	private ComboBean<String> comboTipoPersona;
-
 	@Inject
 	private PersonaNaturalBean personaNaturalMB;
-
 	@Inject
 	private PersonaJuridicaBean personaJuridicaMB;
-
 	@Inject
-	private TitularesBean titularesMB;
-
+	private DatosFinancierosCuentaPlazoFijoBean datosFinancierosCuentaPlazoFijoMB;
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
-
-	/**
-	 * 
-	 * CONTRUCT POSTCONTRUC PREDESTROY
-	 * 
-	 **/
-
+	
 	public AperturarCuentaPlazofijoBean() {
-		this.cuentaplazofijo = new Cuentaplazofijo();
+		// TODO Auto-generated constructor stub	
 	}
 
+	public String getReturnValue() {
+		return "/index?module=2";
+	}
+	
+		
 	@PostConstruct
 	private void initValues() {
+		Agencia agencia = agenciaBean.getAgencia();
+		cuentaplazofijoServiceLocal.setAgencia(agencia);
 		this.cargarCombos();
 	}
-
-	/**
-	 * 
-	 * BUSSINES LOGIC
-	 * 
-	 * **/
 
 	public void cargarCombos() {
 		comboTipoPersona.getItems().put(1, "Persona Natural");
@@ -86,17 +82,18 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		comboTipoPersona.setItemSelected(1);
 	}
 
-	public String createCuentaahorro() {
+	public String createCuentaplazofijo() {
 		try {
-			if (validarCuentaAhorro()) {
-				this.establecerParametrosCuentaahorro();
+			if (validarCuentaPlazoFijo()) {
+				Cuentaplazofijo cuentaplazofijo = establecerParametrosCuentaplazofijo(this.cuentaplazofijo);
 				if (isPersonaNatural()) {
-					this.cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonanatural(cuentaplazofijo);
+					cuentaplazofijo = cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonanatural(cuentaplazofijo);
 				}
 				if (isPersonaJuridica()) {
-					this.cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonajuridica(cuentaplazofijo);
+					this.cuentaplazofijo = this.cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonajuridica(cuentaplazofijo);
 				}				
-				return "cuentaAhorroImprimirDatos";
+				this.cuentaplazofijo = cuentaplazofijo;
+				return "aperturarCuentaplazofijo-flowA";
 			} else {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -109,90 +106,29 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		return null;
 	}
 
-	public void establecerParametrosCuentaahorro() throws Exception {
-		Cuentaplazofijo cuentaplazofijo  = datosFinancierosCuentaPlazoFijoMB.getCuentaplazofijo();
-		Socio socio=new Socio();
-		if (comboTipoPersona.getItemSelected() == 1) {
-			// se recuperan los datos de los Managed Bean invocados
-			
-			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-
-			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
-			List<Beneficiariocuenta> listBeneficiariocuenta = beneficiariosMB.getTablaBeneficiarios().getRows();
-
-			// se crean las clases a relacionar con la Cuenta de Ahorros
+	public Cuentaplazofijo establecerParametrosCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) throws Exception {
+		Socio socio = new Socio();
+		if (isPersonaNatural()) {
+			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
 			socio.setPersonanatural(personanatural);
-
-			// Se relaciona la Cuenta de Ahorros con los objetos recuperados
-			this.cuentaplazofijo = cuentaplazofijo;
-			this.cuentaplazofijo.setSocio(socio);
-			this.cuentaplazofijo.setTitularcuentas(listTitularcuenta);
-			this.cuentaplazofijo.setBeneficiariocuentas(listBeneficiariocuenta);
-
-			listarBeneficiarioCuenta(cuentaplazofijo);		
+			cuentaplazofijo.setSocio(socio);
 			
-			listartitularCuenta(cuentaplazofijo);
 			
-			String dnisocio = cuentaplazofijo.getSocio().getPersonanatural().getDni();
-			cuentaplazofijo.getSocio().setDni(dnisocio);
-
-		} if (comboTipoPersona.getItemSelected() == 2) {			
-			Personajuridica personajuridica = personaJuridicaMB.getoPersonajuridica();
-
-			personajuridica.setListAccionista(personaJuridicaMB.getTablaAccionistas().getRows());
-			
+			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
+			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+				Beneficiariocuenta beneficiariocuenta = iterator.next();
+				beneficiariocuenta.setCuentaplazofijo(cuentaplazofijo);
+			}			
+			cuentaplazofijo.setBeneficiariocuentas(beneficiarios);		
+		} if (isPersonaJuridica()) {			
+			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
-			listaraccionista(personajuridica);
-			List<Titularcuenta> listTitularcuenta = titularesMB.getTablaTitulares().getRows();
-			this.cuentaplazofijo = cuentaplazofijo;
-			this.cuentaplazofijo.setSocio(socio);
-			this.cuentaplazofijo.setTitularcuentas(listTitularcuenta);
-			
-			listartitularCuenta(cuentaplazofijo);
-			
-			String rucsocio = cuentaplazofijo.getSocio().getPersonanatural().getDni();
-			cuentaplazofijo.getSocio().setDni(rucsocio);
+			cuentaplazofijo.setSocio(socio);
 		}
-		if (comboTipoPersona.getItemSelected() < 1 || comboTipoPersona.getItemSelected() > 2) {
-			throw new Exception("Error al establecer los parametros de la cuenta de ahorros");
-		}
-	}
-	
-	private void listarBeneficiarioCuenta(Cuentaplazofijo cuentaplazofijo){
-		List<Beneficiariocuenta> beneficiariocuentas = cuentaplazofijo.getBeneficiariocuentas();
-
-		for (Iterator<Beneficiariocuenta> iterator = beneficiariocuentas.iterator(); iterator.hasNext();) {
-			Beneficiariocuenta var = (Beneficiariocuenta) iterator.next();
-			var.setCuentaplazofijo(cuentaplazofijo);
-		}
-	}
-	
-	private void listartitularCuenta(Cuentaplazofijo cuentaplazofijo){
-		List<Titularcuenta> titularcuentas = cuentaplazofijo.getTitularcuentas();
-
-		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
-			Titularcuenta var = (Titularcuenta) iterator.next();
-			String dni = var.getPersonanatural().getDni();
-			var.setDni(dni);
-			var.setCuentaplazofijo(cuentaplazofijo);
-		}
-	}
-	
-	private void listaraccionista(Personajuridica personajuridica){
-		List<Accionista> accionistas = personaJuridicaMB.getTablaAccionistas().getRows();
-
-		for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
-			Accionista var = (Accionista) iterator.next();
-			AccionistaPK accionistaPK = new AccionistaPK();
-			accionistaPK.setDni(var.getPersonanatural().getDni());
-			accionistaPK.setRuc(personajuridica.getRuc());
-			
-			var.setId(accionistaPK);
-			var.setEstado(true);
-		}
+		return cuentaplazofijo;
 	}
 
-	public boolean validarCuentaAhorro() {
+	public boolean validarCuentaPlazoFijo() {
 
 		boolean result = true;
 
@@ -223,14 +159,11 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			this.mensaje = mensaje + "Datos Financieros invalidos \n";
 		}
 
-		if (!titularesMB.isValid()) {
-			result = false;
-			this.mensaje = mensaje + "Datos de Titulares \n";
-		}
-
-		// falta validar datos financieros
-
 		return result;
+	}
+	
+	public void establecerTitularDefecto() {
+		
 	}
 
 	public boolean isPersonaNatural() {
@@ -246,30 +179,14 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		else
 			return false;
 	}
-
-	public void establecerTitularDefecto() {
-		Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-
-		Titularcuenta titularcuenta = new Titularcuenta();
-		titularcuenta.setPersonanatural(personanatural);
-
-		List<Titularcuenta> titularcuentas = titularesMB.getTablaTitulares()
-				.getRows();
-
-		if (titularcuentas.size() == 0) {
-			titularcuentas.add(titularcuenta);
-		} else {
-			titularcuentas.set(0, titularcuenta);
-		}
+	
+	public void cleanCuentaahorro(){
+		this.personaNaturalMB.setPersonaNatural(new Personanatural());
+		this.personaJuridicaMB.setoPersonajuridica(new Personajuridica());
+		this.beneficiariosMB.getTablaBeneficiarios().setRows(new ArrayList<Beneficiariocuenta>());
 	}
 
-	/**
-	 * 
-	 * GETTER AND SETTER
-	 * 
-	 * **/
-
-	public Cuentaplazofijo getCuentacorriente() {
+	public Cuentaplazofijo getCuentaplazofijo() {
 		return cuentaplazofijo;
 	}
 
@@ -283,15 +200,6 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
-	}
-
-	public DatosFinancierosCuentaPlazoFijoBean getDatosFinancierosCuentaPlazoFijoMB() {
-		return datosFinancierosCuentaPlazoFijoMB;
-	}
-
-	public void setDatosFinancierosCuentaPlazoFijoMB(
-			DatosFinancierosCuentaPlazoFijoBean datosFinancierosCuentaPlazoFijoMB) {
-		this.datosFinancierosCuentaPlazoFijoMB = datosFinancierosCuentaPlazoFijoMB;
 	}
 
 	public ComboBean<String> getComboTipoPersona() {
@@ -318,12 +226,13 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		this.personaJuridicaMB = personaJuridicaMB;
 	}
 
-	public TitularesBean getTitularesMB() {
-		return titularesMB;
+	public DatosFinancierosCuentaPlazoFijoBean getDatosFinancierosCuentaPlazoFijoMB() {
+		return datosFinancierosCuentaPlazoFijoMB;
 	}
 
-	public void setTitularesMB(TitularesBean titularesMB) {
-		this.titularesMB = titularesMB;
+	public void setDatosFinancierosCuentaPlazoFijoMB(
+			DatosFinancierosCuentaPlazoFijoBean datosFinancierosCuentaPlazoFijoMB) {
+		this.datosFinancierosCuentaPlazoFijoMB = datosFinancierosCuentaPlazoFijoMB;
 	}
 
 	public BeneficiariosBean getBeneficiariosMB() {
@@ -334,8 +243,13 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		this.beneficiariosMB = beneficiariosMB;
 	}
 
-	public Cuentaplazofijo getCuentaplazofijo() {
-		return cuentaplazofijo;
+	public AgenciaBean getAgenciaBean() {
+		return agenciaBean;
+	}
+
+	public void setAgenciaBean(AgenciaBean agenciaBean) {
+		this.agenciaBean = agenciaBean;
 	}
 
 }
+

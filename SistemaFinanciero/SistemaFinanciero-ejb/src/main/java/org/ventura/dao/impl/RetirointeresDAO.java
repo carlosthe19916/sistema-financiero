@@ -8,12 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.entity.Retirointere;
+import org.ventura.entity.Retirointeres;
 import org.ventura.util.logger.Log;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class RetirointereDAO extends AbstractDAO<Retirointere>{
+public class RetirointeresDAO extends AbstractDAO<Retirointeres>{
 
 	@Inject
 	private Log log;
@@ -21,8 +21,8 @@ public class RetirointereDAO extends AbstractDAO<Retirointere>{
 	@PersistenceContext(unitName = "SistemaFinancieroPU")
     private EntityManager em;
 
-	public RetirointereDAO() {
-        super(Retirointere.class);
+	public RetirointeresDAO() {
+        super(Retirointeres.class);
     }
 	
     @Override
