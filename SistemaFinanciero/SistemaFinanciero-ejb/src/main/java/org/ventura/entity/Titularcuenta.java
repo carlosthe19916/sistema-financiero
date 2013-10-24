@@ -47,10 +47,7 @@ public class Titularcuenta implements Serializable {
 	@JoinColumn(name = "numerocuentaahorro", insertable = false, updatable = false)
 	private Cuentaahorro cuentaahorro;
 
-	@ManyToOne
-	@JoinColumn(name = "numerocuentaaporte", insertable = false, updatable = false)
-	private Cuentaaporte cuentaaporte;
-	
+		
 	// bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
 	@JoinColumn(name = "numerocuentacorriente", insertable = false, updatable = false)
@@ -198,11 +195,5 @@ public class Titularcuenta implements Serializable {
     }
 */
 
-	public Cuentaaporte getCuentaaporte() {
-		return cuentaaporte;
-	}
-
-	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
-		this.cuentaaporte = cuentaaporte;
-	}
+	
 }

@@ -36,6 +36,9 @@ public class Cuentaplazofijo implements Serializable {
 	private Integer idtipomoneda;
 	
 	@Column(nullable=false)
+	private Integer idestadocuenta;
+	
+	@Column(nullable=false)
 	private Integer idretirointeres;
 	
 	@Column(nullable=false)
@@ -312,6 +315,14 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setRetirointeres(Retirointeres retirointeres) {
 		this.retirointeres = retirointeres;
+	}
+
+	public Integer getIdestadocuenta() {
+		return idestadocuenta;
+	}
+
+	public void setIdestadocuenta(Integer idestadocuenta) {
+		this.idestadocuenta = idestadocuenta;
 	}
 
 }

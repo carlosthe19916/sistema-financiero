@@ -27,15 +27,19 @@ import org.ventura.boundary.remote.CuentaplazofijoServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaplazofijoDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
+import org.ventura.entity.Agencia;
 import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.Cuentaaporte;
 import org.ventura.entity.Cuentacorriente;
 import org.ventura.entity.Cuentaplazofijo;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
+import org.ventura.entity.Tipomoneda;
 import org.ventura.entity.Titularcuenta;
 import org.ventura.entity.Titularcuentahistorial;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
+import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
@@ -63,6 +67,9 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	private CuentaplazofijoDAO cuentaplazofijoDAO;
 	
 	@Inject
+	private Agencia agencia;
+	
+	@Inject
 	Log log;
 
 	@Override
@@ -70,15 +77,13 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 
 
 		try {
-			generarNumeroCuenta(cuentaplazofijo);
-			generarDatosDeRegistro(cuentaplazofijo);
-
-			//creando tablas relacionadas
+			
 			Socio socio = buscarSocioPersonaNatural(cuentaplazofijo.getSocio());
 			cuentaplazofijo.setSocio(socio);
-			
-			crearPersonanaturalForTitulares(cuentaplazofijo);
-			generarDatosTitularHistorial(cuentaplazofijo);
+		
+			generarDatosDeRegistro(cuentaplazofijo);	
+			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
+			cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
 			
 			cuentaplazofijoDAO.create(cuentaplazofijo);
 		} catch (Exception e) {
@@ -92,15 +97,12 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	@Override
 	public Cuentaplazofijo createCuentaPlazofijoWithPersonajuridica(Cuentaplazofijo cuentaplazofijo) throws Exception {
 		try {
-			generarNumeroCuenta(cuentaplazofijo);
-			generarDatosDeRegistro(cuentaplazofijo);
-
-			//creando tablas relacionadas
 			Socio socio = buscarSocioPersonaJuridica(cuentaplazofijo.getSocio());
 			cuentaplazofijo.setSocio(socio);
-			
-			crearPersonanaturalForTitulares(cuentaplazofijo);
-			generarDatosTitularHistorial(cuentaplazofijo);
+				
+			generarDatosDeRegistro(cuentaplazofijo);
+			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
+			cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
 			
 			cuentaplazofijoDAO.create(cuentaplazofijo);
 			
@@ -116,13 +118,10 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni", socio.getDni());
 			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
-			if (result.size() != 0) {
-				for (Iterator<Socio> iterator = result.iterator(); iterator.hasNext();) {
-					socio = iterator.next();
-					break;
-				}
+			if (result.size() == 0) {
+				socioServiceLocal.create(socio);
 			} else {
-				throw new NonexistentEntityException("La Persona Natural no tiene una cuenta de aportes registrada");
+				throw new PreexistingEntityException("La Persona Natural ya tiene una cuenta de aportes Activa");
 			}
 		}
 		return socio;
@@ -132,72 +131,19 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ruc", socio.getDni());
-			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
-			if (result != null) {
-				List<Socio> socios = (List<Socio>) result;
-				for (Iterator<Socio> iterator = socios.iterator(); iterator.hasNext();) {
-					socio = iterator.next();
-					break;
-				}
+			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
+			if (result.size() == 0) {
+				socioServiceLocal.create(socio);
 			} else {
-				throw new NonexistentEntityException("La Persona Juridica no tiene una cuenta de aportes registrada");
+				throw new PreexistingEntityException("La Persona Juridica ya tiene una cuenta de aportes Activa");
 			}
 		}
 		return socio;
 	}
 	
-		
-	protected void crearPersonanaturalForTitulares(Cuentacorriente cuentacorriente) throws IllegalEntityException, NonexistentEntityException, Exception {
-		List<Titularcuenta> titulares = cuentacorriente.getTitularcuentas();
-		
-		for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
-			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
-			Personanatural personanatural = titularcuenta.getPersonanatural();
-			
-			Object key = personanatural.getDni();
-			Object result = personanaturalServiceLocal.find(key);
-			if(result == null){
-				personanaturalServiceLocal.create(personanatural);
-			}
-		}
-	}
-	
-	private void generarDatosTitularHistorial(Cuentaplazofijo cuentaplazofijo) {
-        List<Titularcuenta> list = cuentaplazofijo.getTitularcuentas();     
-		for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
-			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
-			List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
-			Titularcuentahistorial historial = new Titularcuentahistorial();
-			historial.setEstado(true);
-			historial.setFechaactiva(Calendar.getInstance().getTime());
-			lista.add(historial);
-			titularcuenta.setTitularcuentahistorials(lista);
-			historial.setTitularcuenta(titularcuenta);
-		}
-    }
-	
-	
-		
-	protected void crearPersonanaturalForTitulares(Cuentaplazofijo cuentaplazofijo) throws IllegalEntityException, NonexistentEntityException, Exception {
-		List<Titularcuenta> titulares = cuentaplazofijo.getTitularcuentas();
-		
-		for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
-			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
-			Personanatural personanatural = titularcuenta.getPersonanatural();
-			
-			Object key = personanatural.getDni();
-			Object result = personanaturalServiceLocal.find(key);
-			if(result == null){
-				personanaturalServiceLocal.create(personanatural);
-			}
-		}
-	}
-	
-	
-
 	private void generarDatosDeRegistro(Cuentaplazofijo cuentaplazofijo) {
+		cuentaplazofijo.setIdestadocuenta(1);							
 		cuentaplazofijo.setFechaapertura(Calendar.getInstance().getTime());
-		cuentaplazofijo.getEstadocuenta().setIdestadocuenta(1);
 		cuentaplazofijo.setFechavencimiento(calcularFechavencimientoContrato(cuentaplazofijo));
 		cuentaplazofijo.setTiceaf(0.01);
 		cuentaplazofijo.setTrea(0.01);
@@ -207,11 +153,10 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		cuentaplazofijo.setIdretirointeres(1);
 	}
 
-	private void generarNumeroCuenta(Cuentaplazofijo cuentaplazofijo) {
+	private String generarNumeroCuenta(Cuentaplazofijo cuentaplazofijo, Socio socio) {
 
-		Random random = new Random();
+		/*Random random = new Random();
 		int length = 14;
-
 		char[] digits = new char[length];
 		// Make sure the leading digit isn't 0.
 		digits[0] = (char) ('1' + random.nextInt(9));
@@ -219,9 +164,21 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		for (int i = 1; i < length; i++) {
 			digits[i] = (char) ('0' + random.nextInt(10));
 		}
-
-		cuentaplazofijo.setNumerocuentaplazofijo(digits.toString());
-
+		cuentaahorro.setNumerocuentaaporte(digits.toString());
+		*/
+		String numeroCuenta = "";
+		numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
+		
+		String codigoSocio = socio.getCodigosocio().toString();
+		for (int i = codigoSocio.length(); i < 8; i++) {
+			codigoSocio = "0" + codigoSocio;
+		}
+		numeroCuenta = numeroCuenta + codigoSocio;
+		
+		numeroCuenta = numeroCuenta + cuentaplazofijo.getIdtipomoneda();
+		numeroCuenta = numeroCuenta + "10";
+		
+		return numeroCuenta;
 	}
 
 	@Override
@@ -330,6 +287,11 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	
 	public double MontoInteresPagado(Cuentaplazofijo cuentaplazofijo){
 		return cuentaplazofijo.getMonto()*cuentaplazofijo.getTiceaf();
+	}
+	
+	@Override
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }

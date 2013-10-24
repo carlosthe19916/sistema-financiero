@@ -46,31 +46,25 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	@Inject
 	private ComboBean<Retirointeres> comboretirointeres;
 	
-
+	
 
 	/*
 	 * Constructor
 	 */
-	public DatosFinancierosCuentaPlazoFijoBean() {
-		this.cuentaplazofijo = new Cuentaplazofijo();
-				
-		Estadocuenta estadocuenta = new Estadocuenta();
-		estadocuenta.setDenominacion("Activo");
-		estadocuenta.setIdestadocuenta(1);		
-		this.cuentaplazofijo.setEstadocuenta(estadocuenta);
-	
+	public DatosFinancierosCuentaPlazoFijoBean() {		
 	}
 
 	@PostConstruct
 	private void initValues() {		
-		cargarCombos();	
-		
+		Estadocuenta estadocuenta = new Estadocuenta();
+		estadocuenta.setIdestadocuenta(1);
+		estadocuenta.setDenominacion("ACTIVO");
+		estadocuenta.setEstado(true);
+		this.cuentaplazofijo.setEstadocuenta(estadocuenta);
+		cargarCombos();			
 		cuentaplazofijo.setTiceaf(0.01);
-		cuentaplazofijo.setTrea(0.01);
-	
-		cuentaplazofijo.setItf(0.25);
-	
-		
+		cuentaplazofijo.setTrea(0.01);	
+		cuentaplazofijo.setItf(0.25);		
 	}
 
 	/*

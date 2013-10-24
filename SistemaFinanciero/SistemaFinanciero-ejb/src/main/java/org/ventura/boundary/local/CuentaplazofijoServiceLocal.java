@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.CuentaplazofijoServiceRemote;
+import org.ventura.entity.Agencia;
 import org.ventura.entity.Cuentacorriente;
 import org.ventura.entity.Cuentaplazofijo;
 
@@ -17,7 +18,8 @@ public interface CuentaplazofijoServiceLocal extends CuentaplazofijoServiceRemot
 
 	public Cuentaplazofijo createCuentaPlazofijoWithPersonajuridica(Cuentaplazofijo cuentaplazofijo) throws Exception;
 
-
+	public void setAgencia(Agencia agencia);
+	
 	public Cuentaplazofijo find(Object id);
 
 	public void delete(Cuentaplazofijo oCuentaplazofijo)throws Exception;

@@ -52,9 +52,6 @@ public class Cuentaaporte implements Serializable{
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
 	
-	@OneToMany(mappedBy = "cuentaaporte", cascade = CascadeType.ALL)
-	private List<Titularcuenta> titularcuentas;
-	
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
@@ -156,26 +153,8 @@ public class Cuentaaporte implements Serializable{
 	public void setIdestadocuenta(Integer idestadocuenta) {
 		this.idestadocuenta = idestadocuenta;
 	}
-	public List<Titularcuenta> getTitularcuentas() {
-		return this.titularcuentas;
-	}
-
-	public void setTitularcuentas(List<Titularcuenta> titularcuentas) {
-		this.titularcuentas = titularcuentas;
-	}
-
-	public Titularcuenta addTitularcuenta(Titularcuenta titularcuenta) {
-		getTitularcuentas().add(titularcuenta);
-		
-		return titularcuenta;
-	}
-
-	public Titularcuenta removeTitularcuenta(Titularcuenta titularcuenta) {
-		getTitularcuentas().remove(titularcuenta);
-		
-		return titularcuenta;
-	}
-
+	
+	
 	public Integer getCodigosocio() {
 		return codigosocio;
 	}
