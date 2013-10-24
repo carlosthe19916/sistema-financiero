@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<h:panelGroup id="#{componentName}">
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				<h:form>
+					<p:commandLink value="Editar"
+						oncomplete="#{editarOutputDialog}.show();return false;"></p:commandLink>
+				</h:form>
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Otras Cuentas Personales</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+					<div style="padding: 0px 5px;">
+						<h:form id="form-CuntasAhorro">
+							<div>
+								<p:dataTable id="tablaCuentas" var="cuentasPN"
+									value="#{mostrarDatosSocioBean.tablaCuentasPN.rows}"
+									rowKey="#{cuentasPN}" rowIndexVar="row"
+									selection="#{mostrarDatosSocioBean.tablaCuentasPN.selectedRow}"
+									selectionMode="single" paginatorPosition="bottom"
+									sortBy="#{cuentasPN.tipomoneda.abreviatura}"
+									widgetVar="tablaCuentas" scrollable="true" scrollHeight="133" scrollWidth="500">
+
+									<p:column headerText="Nro" width="7%"
+										style="text-align:center;">
+										<h:outputText value="#{row + 1}" />
+									</p:column>
+
+									<p:column sortBy="#{cuentasPN.numerocuentaahorro}" width="95"
+										headerText="Nro. Cuenta">
+										<h:outputText value="#{cuentasPN.numerocuentaahorro}" />
+									</p:column>
+									
+									<p:column sortBy="#{cuentasPN.fechaapertura}" width="90"
+										headerText="Fec. Apertura">
+										<h:outputText value="#{cuentasPN.fechaapertura}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</p:column>
+
+									<p:column sortBy="#{cuentasPN.saldo}" headerText="Saldo" width="50">
+										<h:outputText value="#{cuentasPN.saldo}" />
+									</p:column>
+									
+									<p:column sortBy="#{cuentasPN.tipomoneda.abreviatura}" headerText="Moneda" width="60">
+										<h:outputText value="#{cuentasPN.tipomoneda.abreviatura}" />
+									</p:column>
+									
+									
+								</p:dataTable>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</h:panelGroup>
+</ui:composition>
+</html>

@@ -10,8 +10,8 @@
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="dni" value="#{mostrarDatosClienteMB.personanatural.dni}" />
-		<f:event listener="#{mostrarDatosClienteMB.cargarDatosPersonaNatural()}" type="preRenderView"></f:event>
+		<f:viewParam name="dni" value="#{mostrarDatosSocioBean.oPersonaNatural.dni}" />
+		<f:event listener="#{mostrarDatosSocioBean.cargarDatosPersonaNatural()}" type="preRenderView"></f:event>
 	</f:metadata>
 
 	<!-- Definiendo la cabecera de la pagina -->
@@ -32,7 +32,7 @@
 					<!-- Datos Personales Cliente-->
 					<ui:include
 						src="/modules/maestros/personaNaturalResumen.xhtml">
-						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
 						<ui:param name="componentName" value="personaNaturalCliente" />
 						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
 					</ui:include>
@@ -43,31 +43,34 @@
 					</ui:include>
 					<!-- End Datos Personales Cliente-->
 				</p:outputPanel>
+				
 				<p:outputPanel>
 					<!-- Cuenta de Aporte Cliente-->
 					<ui:include
-						src="/modules/cuentasPersonales/apertura/pruebita.xhtml">
-						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						src="/modules/maestros/personaNaturalResumen.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
 						<ui:param name="componentName" value="aporte1" />
 						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
 					</ui:include>
 					<!-- End Cuenta de Aporte Cliente-->
 				</p:outputPanel>
+				
 				<p:outputPanel>
 					<!-- Otras Cuentas Cliente-->
 					<ui:include
-						src="/modules/cuentasPersonales/apertura/cuentasCliente.xhtml">
-						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						src="/modules/socios/otrasCuentasSocio.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
 						<ui:param name="componentName" value="aporte2" />
 						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
 					</ui:include>
 					<!-- End Otras Cuentas Cliente-->
 				</p:outputPanel>
+				
 				<p:outputPanel>
 					<!-- Cuenta Creditos Cliente-->
 					<ui:include
-						src="/modules/cuentasPersonales/apertura/pruebita.xhtml">
-						<ui:param name="managedBean" value="#{mostrarDatosClienteMB}" />
+						src="/modules/maestros/personaNaturalResumen.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
 						<ui:param name="componentName" value="aporte3" />
 						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
 					</ui:include>
@@ -78,7 +81,7 @@
 
 		<div class="sf-buttons">
 			<h:form>
-				<p:commandButton value="Probar" action="#{mostrarDatosClienteMB.CargarDatosCuentaAhorro()}" styleClass="action green" />
+				<p:commandButton value="Probar" action="#" styleClass="action green" />
 				<p:commandButton value="Aceptar" action="#" styleClass="action green" update=":panelDatosCliente" />
 			</h:form>
 		</div>
