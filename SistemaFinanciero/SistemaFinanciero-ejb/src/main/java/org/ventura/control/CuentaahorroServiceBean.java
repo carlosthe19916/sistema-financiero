@@ -26,6 +26,7 @@ import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaahorroDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
+import org.ventura.entity.Agencia;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Personanatural;
@@ -59,6 +60,8 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	@EJB
 	private CuentaahorroDAO cuentaahorroDAO;
 	
+	@Inject
+	private Agencia agencia;
 	@Inject
 	Log log;
 
@@ -293,6 +296,11 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Override
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }

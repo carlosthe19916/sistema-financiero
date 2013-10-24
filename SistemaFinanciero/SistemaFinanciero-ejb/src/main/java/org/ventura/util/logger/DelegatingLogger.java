@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 public class DelegatingLogger implements Log {
 
 	private Logger logger;
-
+	
 	public DelegatingLogger(Logger logger) {
 		this.logger = logger;
 	}

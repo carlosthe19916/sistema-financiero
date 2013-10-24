@@ -104,8 +104,12 @@ public class Beneficiariocuenta implements Serializable {
 	}
 
 	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
-		this.cuentaahorro = cuentaahorro;
-		this.numerocuentaahorro = cuentaahorro.getNumerocuentaahorro();
+		this.cuentaahorro = cuentaahorro;			
+		if(cuentaahorro != null){
+			this.numerocuentaahorro = cuentaahorro.getNumerocuentaahorro();
+		} else {
+			this.numerocuentaahorro = null;
+		}
 	}
 
 	public Cuentacorriente getCuentacorriente() {

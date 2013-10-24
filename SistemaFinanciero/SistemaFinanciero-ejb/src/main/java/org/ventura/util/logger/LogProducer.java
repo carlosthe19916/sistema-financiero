@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author blog.adam-bien.com
  */
+
 public class LogProducer {
 
 	@Produces
@@ -18,6 +19,5 @@ public class LogProducer {
 		Logger logger = LoggerFactory.getLogger(aClass.getName());
 
 		return new DelegatingLogger(logger);
-
 	}
 }

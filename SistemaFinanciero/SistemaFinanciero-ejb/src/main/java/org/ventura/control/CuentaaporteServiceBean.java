@@ -12,7 +12,6 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.TransactionRequiredException;
@@ -32,9 +31,7 @@ import org.ventura.entity.Tipomoneda;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
-import org.ventura.util.logger.DelegatingLogger;
 import org.ventura.util.logger.Log;
-import org.ventura.util.logger.LogProducer;
 
 @Named
 @Stateless
@@ -56,13 +53,10 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	private Agencia agencia;
 	@Inject
 	private Log log;
-	
-	private static final Logger logger = LoggerFactory.getLogger(CuentaaporteServiceBean.class);
-
 
 	@Override
 	public Cuentaaporte createCuentaAporteWithPersonanatural(Cuentaaporte cuentaaporte) throws Exception {
-		logger.error("probando error");
+
 		try {
 			Socio socio = buscarSocioPersonaNatural(cuentaaporte.getSocio());
 			cuentaaporte.setSocio(socio);
