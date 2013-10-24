@@ -11,6 +11,11 @@ public class BeneficiariocuentaListener {
 	@PrePersist
 	public void updateFeatureCode(Beneficiariocuenta beneficiariocuenta) {
 
+		if (beneficiariocuenta.getCuentaaporte() != null) {
+			String numeroCuentaaporte = beneficiariocuenta.getCuentaaporte().getNumerocuentaaporte();
+			beneficiariocuenta.setNumerocuentaaporte(numeroCuentaaporte);
+		}
+		
 		if (beneficiariocuenta.getCuentaahorro() != null) {
 			String numeroCuentaahorro = beneficiariocuenta.getCuentaahorro().getNumerocuentaahorro();
 			beneficiariocuenta.setNumerocuentaahorro(numeroCuentaahorro);

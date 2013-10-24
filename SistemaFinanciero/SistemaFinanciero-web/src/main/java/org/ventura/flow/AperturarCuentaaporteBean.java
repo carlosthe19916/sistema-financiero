@@ -2,6 +2,7 @@ package org.ventura.flow;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -18,14 +19,11 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.DatosFinancierosCuentaAporteBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
-import org.ventura.dependent.TitularesBean;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaaporte;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
-import org.ventura.entity.Titularcuenta;
-import org.venturabank.managedbean.session.UsuarioMB;
 
 @Named
 @FlowScoped("aperturarCuentaaporte-flow")
@@ -34,9 +32,6 @@ public class AperturarCuentaaporteBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String mensaje;
-	
-	@Inject
-	private UsuarioMB usuarioMB;
 
 	@EJB
 	private CuentaaporteServiceLocal cuentaaporteServiceLocal;
@@ -45,7 +40,6 @@ public class AperturarCuentaaporteBean implements Serializable {
 	private Cuentaaporte cuentaaporte;
 	@Inject
 	private ComboBean<String> comboTipoPersona;
-
 	@Inject
 	private PersonaNaturalBean personaNaturalMB;
 	@Inject
@@ -53,14 +47,10 @@ public class AperturarCuentaaporteBean implements Serializable {
 	@Inject
 	private DatosFinancierosCuentaAporteBean datosFinancierosCuentaAporteMB;
 	@Inject
-	private TitularesBean titularesMB;
-	@Inject
 	private BeneficiariosBean beneficiariosMB;
 
-	private List<Titularcuenta> titularDefecto;
 
 	public AperturarCuentaaporteBean() {
-		this.titularDefecto = new ArrayList<Titularcuenta>();
 	}
 
 	public String getReturnValue() {
@@ -110,21 +100,16 @@ public class AperturarCuentaaporteBean implements Serializable {
 			socio.setPersonanatural(personanatural);
 			cuentaaporte.setSocio(socio);
 			
-			List<Titularcuenta> titularcuentas = titularesMB.getListTitulares();	
-			cuentaaporte.setTitularcuentas(titularcuentas);
-			
 			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
+			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+				Beneficiariocuenta beneficiariocuenta = iterator.next();
+				beneficiariocuenta.setCuentaaporte(cuentaaporte);
+			}			
 			cuentaaporte.setBeneficiariocuentas(beneficiarios);		
 		} if (isPersonaJuridica()) {			
 			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
 			cuentaaporte.setSocio(socio);
-			
-			List<Titularcuenta> titularcuentas = titularesMB.getListTitulares();	
-			cuentaaporte.setTitularcuentas(titularcuentas);
-			
-			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
-			cuentaaporte.setBeneficiariocuentas(beneficiarios);
 		}
 		return cuentaaporte;
 	}
@@ -160,14 +145,11 @@ public class AperturarCuentaaporteBean implements Serializable {
 			this.mensaje = mensaje + "Datos Financieros invalidos \n";
 		}
 
-		if (!titularesMB.isValid()) {
-			result = false;
-			this.mensaje = mensaje + "Datos de Titulares \n";
-		}
-
-		// falta validar datos financieros
-
 		return result;
+	}
+	
+	public void establecerTitularDefecto() {
+		
 	}
 
 	public boolean isPersonaNatural() {
@@ -187,35 +169,8 @@ public class AperturarCuentaaporteBean implements Serializable {
 	public void cleanCuentaahorro(){
 		this.personaNaturalMB.setPersonaNatural(new Personanatural());
 		this.personaJuridicaMB.setoPersonajuridica(new Personajuridica());
-		this.titularesMB.getTablaTitulares().setRows(new ArrayList<Titularcuenta>());
 		this.beneficiariosMB.getTablaBeneficiarios().setRows(new ArrayList<Beneficiariocuenta>());
 	}
-
-	public void establecerTitularDefecto() {
-		if (isPersonaNatural()) {		
-			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-			Titularcuenta titularcuenta = new Titularcuenta();
-			titularcuenta.setPersonanatural(personanatural);
-									
-			this.titularDefecto.clear();
-			this.titularDefecto.add(titularcuenta);
-							
-		}
-		if (isPersonaJuridica()) {
-			Personanatural representanteLegal = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
-			Titularcuenta titularRepresentante = new Titularcuenta();
-			titularRepresentante.setPersonanatural(representanteLegal);
-
-			this.titularDefecto.clear();
-			this.titularDefecto.add(titularRepresentante);
-		}
-	}
-
-	/**
-	 * 
-	 * GETTER AND SETTER
-	 * 
-	 * **/
 
 	public Cuentaaporte getCuentaaporte() {
 		return cuentaaporte;
@@ -266,36 +221,12 @@ public class AperturarCuentaaporteBean implements Serializable {
 		this.datosFinancierosCuentaAporteMB = datosFinancierosCuentaAporteMB;
 	}
 
-	public TitularesBean getTitularesMB() {
-		return titularesMB;
-	}
-
-	public void setTitularesMB(TitularesBean titularesMB) {
-		this.titularesMB = titularesMB;
-	}
-
 	public BeneficiariosBean getBeneficiariosMB() {
 		return beneficiariosMB;
 	}
 
 	public void setBeneficiariosMB(BeneficiariosBean beneficiariosMB) {
 		this.beneficiariosMB = beneficiariosMB;
-	}
-
-	public List<Titularcuenta> getTitularDefecto() {
-		return titularDefecto;
-	}
-
-	public void setTitularDefecto(List<Titularcuenta> titularDefecto) {
-		this.titularDefecto = titularDefecto;
-	}
-
-	public UsuarioMB getUsuarioMB() {
-		return usuarioMB;
-	}
-
-	public void setUsuarioMB(UsuarioMB usuarioMB) {
-		this.usuarioMB = usuarioMB;
 	}
 
 }

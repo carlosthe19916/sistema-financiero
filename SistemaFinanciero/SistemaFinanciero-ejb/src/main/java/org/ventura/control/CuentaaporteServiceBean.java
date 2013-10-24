@@ -1,6 +1,5 @@
 package org.ventura.control;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,12 +25,9 @@ import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.entity.Cuentaaporte;
-import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
-import org.ventura.entity.Titularcuenta;
-import org.ventura.entity.Titularcuentahistorial;
+import org.ventura.entity.Tipomoneda;
 import org.ventura.util.exception.IllegalEntityException;
-import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
@@ -67,9 +63,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			//creando tablas relacionadas
 			Socio socio = buscarSocioPersonaNatural(cuentaaporte.getSocio());
 			cuentaaporte.setSocio(socio);
-			
-			crearPersonanaturalForTitulares(cuentaaporte);
-			generarDatosTitularHistorial(cuentaaporte);
+		
 			cuentaaporteDAO.create(cuentaaporte);
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
@@ -90,9 +84,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			//creando tablas relacionadas
 			Socio socio = buscarSocioPersonaJuridica(cuentaaporte.getSocio());
 			cuentaaporte.setSocio(socio);
-			
-			crearPersonanaturalForTitulares(cuentaaporte);
-			generarDatosTitularHistorial(cuentaaporte);		
+				
 			cuentaaporteDAO.create(cuentaaporte);			
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
@@ -124,50 +116,23 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			parameters.put("ruc", socio.getDni());
 			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
 			if (result.size() == 0) {
-				for (Iterator<Socio> iterator = result.iterator(); iterator.hasNext();) {
-					socio = iterator.next();
-					socioServiceLocal.create(socio);
-					break;
-				}
+				socioServiceLocal.create(socio);
 			} else {
 				throw new PreexistingEntityException("La Persona Juridica ya tiene una cuenta de aportes Activa");
 			}
 		}
 		return socio;
 	}
-	
-	protected void crearPersonanaturalForTitulares(Cuentaaporte cuentaaporte) throws IllegalEntityException, NonexistentEntityException, Exception {
-		List<Titularcuenta> titulares = cuentaaporte.getTitularcuentas();
 		
-		for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
-			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
-			Personanatural personanatural = titularcuenta.getPersonanatural();
-			
-			Object key = personanatural.getDni();
-			Object result = personanaturalServiceLocal.find(key);
-			if(result == null){
-				personanaturalServiceLocal.create(personanatural);
-			}
-		}
-	}
-	
-	private void generarDatosTitularHistorial(Cuentaaporte cuentaaporte) {
-        List<Titularcuenta> list = cuentaaporte.getTitularcuentas();     
-		for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
-			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
-			List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
-			Titularcuentahistorial historial = new Titularcuentahistorial();
-			historial.setEstado(true);
-			historial.setFechaactiva(Calendar.getInstance().getTime());
-			lista.add(historial);
-			titularcuenta.setTitularcuentahistorials(lista);
-			historial.setTitularcuenta(titularcuenta);
-		}
-    }
-	
-	
-	
-	private void generarDatosDeRegistro(Cuentaaporte cuentaaporte) {
+	private void generarDatosDeRegistro(Cuentaaporte cuentaaporte) {		
+		cuentaaporte.setIdestadocuenta(1);
+		
+		Tipomoneda tipomoneda = new Tipomoneda();
+		tipomoneda.setIdtipomoneda(1);
+		tipomoneda.setDenominacion("NUEVOS SOLES");
+		tipomoneda.setEstado(true);
+		cuentaaporte.setTipomoneda(tipomoneda);
+		
 		cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
 		cuentaaporte.setSaldo(0);		
 	}
