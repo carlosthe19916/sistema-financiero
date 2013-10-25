@@ -200,7 +200,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		cuentaahorro.setIdtipomoneda(cuentaahorro.getIdtipomoneda());
 	}
 
-	private String generarNumeroCuenta(Cuentaahorro cuentaahorro, Socio socio) {
+	private String generarNumeroCuenta(Cuentaahorro cuentaahorro, Socio socio) throws IllegalEntityException, NonexistentEntityException, Exception {
 		String numeroCuenta = "";
 		numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
 		
@@ -212,8 +212,13 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		
 		numeroCuenta = numeroCuenta + cuentaahorro.getIdtipomoneda();
 		numeroCuenta = numeroCuenta + "11";
-		
-		return numeroCuenta;
+	
+		Cuentaahorro aux = cuentaahorroDAO.find(numeroCuenta);
+		if(aux != null){
+			return numeroCuenta;
+		} else {
+			return generarNumeroCuenta(cuentaahorro, socio);
+		}
 	}
 
 	@Override

@@ -137,7 +137,7 @@ public class Validator {
 		//validar historiales del titular
 		List<Titularcuentahistorial> titularHistorial = titularcuenta.getTitularcuentahistorials();
 		if (validateTitularhistoriales(titularHistorial)) {
-			if(titularHistorial.size() != 0){
+			if(titularHistorial.size() == 0){
 				return false;
 			} 
 		} else {
