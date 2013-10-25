@@ -20,6 +20,7 @@ public class TablaBean<E> {
 	private E selectedRow;
 	private E editingRow;
 	private List<E> selectedRows;
+	private List<E> frozenRows;
 
 	@SuppressWarnings("unchecked")
 	public TablaBean() {
@@ -27,14 +28,15 @@ public class TablaBean<E> {
 		this.selectedRow = (E) new Object();
 		this.editingRow = null;
 		this.selectedRows = (List<E>) new ArrayList<Object>();
+		this.frozenRows = (List<E>) new ArrayList<Object>();
 	}
 
-	public TablaBean(List<E> rows, E selectedRow, E editingRow,
-			List<E> selectedRows) {
+	public TablaBean(List<E> rows, E selectedRow, E editingRow, List<E> selectedRows, List<E> frozenRows) {
 		this.rows = rows;
 		this.selectedRow = selectedRow;
 		this.editingRow = editingRow;
 		this.selectedRows = selectedRows;
+		this.frozenRows = frozenRows;
 	}
 
 	public void initValuesFromNamedQueryName(String namedQueryName) {
@@ -120,6 +122,14 @@ public class TablaBean<E> {
 
 	public void setEditingRow(E editingRow) {
 		this.editingRow = editingRow;
+	}
+
+	public List<E> getFrozenRows() {
+		return frozenRows;
+	}
+
+	public void setFrozenRows(List<E> frozenRows) {
+		this.frozenRows = frozenRows;
 	}
 
 }
