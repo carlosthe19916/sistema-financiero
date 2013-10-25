@@ -13,10 +13,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaahorrohistorial;
 import org.ventura.entity.Estadocuenta;
 import org.ventura.entity.Tipomoneda;
+import org.ventura.entity.TiposervicioType;
+import org.ventura.entity.TipotasaPasivaType;
 
 @Named
 @Dependent
@@ -26,6 +29,8 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 
 	@EJB
 	private CuentaahorroServiceLocal cuentaahorroServiceLocal;
+	@EJB
+	private TasainteresServiceLocal tasainteresServiceLocal;
 	@Inject
 	private Cuentaahorro cuentaahorro;
 	@Inject
@@ -34,7 +39,7 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 	private ComboBean<Tipomoneda> comboTipomoneda;
 
 	@PostConstruct
-	private void initValues() {		
+	private void initValues() throws Exception {	
 		Estadocuenta estadocuenta = new Estadocuenta();
 		estadocuenta.setDenominacion("Activo");
 		estadocuenta.setIdestadocuenta(1);
@@ -43,12 +48,16 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 		this.cuentaahorro.addCuentaahorrohistorial(cuentaahorrohistorial);
 		this.cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
 		
+		Double tasainteres = tasainteresServiceLocal.getTasainteres(TiposervicioType.CUENTA_AHORRO, TipotasaPasivaType.TICAH, new Double(0));
+		
 		this.cuentaahorrohistorial.setCantidadretirantes(0);
 		this.cuentaahorrohistorial.setEstado(true);
-		this.cuentaahorrohistorial.setTasainteres(new Double(5));
+		this.cuentaahorrohistorial.setTasainteres(tasainteres);
 		this.cuentaahorrohistorial.setCuentaahorro(cuentaahorro);
 	
 		cargarCombos();
+		
+		
 	}
 
 	private void cargarCombos(){
