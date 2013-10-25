@@ -1,7 +1,10 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -131,7 +134,11 @@ public class Cuentaahorro implements Serializable {
 
 	public void setEstadocuenta(Estadocuenta estadocuenta) {
 		this.estadocuenta = estadocuenta;
-		this.idestadocuenta = estadocuenta.getIdestadocuenta();
+		if (estadocuenta != null) {
+			this.idestadocuenta = estadocuenta.getIdestadocuenta();
+		} else {
+			this.idestadocuenta = null;
+		}
 	}
 
 	public List<Cuentaahorrohistorial> getCuentaahorrohistorials() {
@@ -143,8 +150,12 @@ public class Cuentaahorro implements Serializable {
 	}
 
 	public Cuentaahorrohistorial addCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
-		getCuentaahorrohistorials().add(cuentaahorrohistorial);
-
+		if(cuentaahorrohistorials != null) {
+			cuentaahorrohistorials.add(cuentaahorrohistorial);
+		} else {
+			cuentaahorrohistorials = new ArrayList<Cuentaahorrohistorial>();
+			cuentaahorrohistorials.add(cuentaahorrohistorial);
+		}	
 		return cuentaahorrohistorial;
 	}
 

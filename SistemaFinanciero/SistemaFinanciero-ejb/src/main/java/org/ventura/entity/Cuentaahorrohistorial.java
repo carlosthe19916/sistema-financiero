@@ -80,6 +80,11 @@ public class Cuentaahorrohistorial implements Serializable {
 
 	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
 		this.cuentaahorro = cuentaahorro;
+		if(cuentaahorro != null){
+			this.numerocuentaahorro = cuentaahorro.getNumerocuentaahorro();
+		} else {
+			this.numerocuentaahorro = null;
+		}
 	}
 
 	public String getNumerocuentaahorro() {

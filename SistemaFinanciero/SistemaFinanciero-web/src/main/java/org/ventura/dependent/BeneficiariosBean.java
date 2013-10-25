@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.util.validate.Validator;
 
 @Named
 @Dependent
@@ -20,7 +21,8 @@ public class BeneficiariosBean implements Serializable {
 	private TablaBean<Beneficiariocuenta> tablaBeneficiarios;
 
 	public boolean isValid(){
-		return true;
+		List<Beneficiariocuenta> beneficiarios = tablaBeneficiarios.getRows();
+		return Validator.validateBeneficiarios(beneficiarios);
 	}
 	
 	public void addBeneficiario() {
@@ -65,8 +67,7 @@ public class BeneficiariosBean implements Serializable {
 		
 	}
 
-	public void setTablaBeneficiarios(
-			TablaBean<Beneficiariocuenta> tablaBeneficiarios) {
+	public void setTablaBeneficiarios(TablaBean<Beneficiariocuenta> tablaBeneficiarios) {
 		this.tablaBeneficiarios = tablaBeneficiarios;
 	}
 
