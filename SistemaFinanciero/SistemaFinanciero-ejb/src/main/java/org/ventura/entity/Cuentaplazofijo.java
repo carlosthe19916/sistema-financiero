@@ -23,7 +23,10 @@ public class Cuentaplazofijo implements Serializable {
 	private Integer idcuentaplazofijo;
 
 	@Column
-	private Integer codigosocio;
+	private Integer idsocio;
+	
+	@Column(length = 14)
+	private String numerocuentaplazofijo;
 
 	@Temporal(TemporalType.DATE)
 	private Date fechaapertura;
@@ -77,7 +80,7 @@ public class Cuentaplazofijo implements Serializable {
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
+	@JoinColumn(name = "idsocio", insertable = false, updatable = false)
 	private Socio socio;
 	
 	@ManyToOne
@@ -223,6 +226,11 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setEstadocuenta(Estadocuenta estadocuenta) {
 		this.estadocuenta = estadocuenta;
+		if (estadocuenta != null) {
+			this.idestadocuenta = estadocuenta.getIdestadocuenta();
+		} else {
+			this.idestadocuenta = null;
+		}
 	}
 
 	public Frecuenciacapitalizacion getFrecuenciacapitalizacion() {
@@ -269,12 +277,12 @@ public class Cuentaplazofijo implements Serializable {
 	}
 
 	
-	public Integer getCodigosocio() {
-		return codigosocio;
+	public Integer getIdsocio() {
+		return idsocio;
 	}
 
-	public void setCodigosocio(Integer codigosocio) {
-		this.codigosocio = codigosocio;
+	public void setIdsocio(Integer idsocio) {
+		this.idsocio = idsocio;
 	}
 
 	public Socio getSocio() {
@@ -283,6 +291,11 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setSocio(Socio socio) {
 		this.socio = socio;
+		if(socio != null){
+			this.idsocio = socio.getIdsocio();
+		} else {
+			this.idsocio = null;
+		}
 	}
 
 	public Integer getPlazo() {
@@ -355,6 +368,14 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setAgencia(Agencia agencia) {
 		this.agencia = agencia;
+	}
+
+	public String getNumerocuentaplazofijo() {
+		return numerocuentaplazofijo;
+	}
+
+	public void setNumerocuentaplazofijo(String numerocuentaplazofijo) {
+		this.numerocuentaplazofijo = numerocuentaplazofijo;
 	}
 
 }

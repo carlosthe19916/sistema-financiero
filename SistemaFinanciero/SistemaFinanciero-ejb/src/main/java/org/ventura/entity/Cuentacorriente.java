@@ -23,7 +23,10 @@ public class Cuentacorriente implements Serializable {
 	private Integer idcuentacorriente;
 
 	@Column
-	private Integer codigosocio;
+	private Integer idsocio;
+	
+	@Column(length = 14)
+	private String numerocuentacorriente;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
@@ -42,7 +45,7 @@ public class Cuentacorriente implements Serializable {
 	private Integer idagencia;
 	
 	@ManyToOne
-	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
+	@JoinColumn(name = "idsocio", insertable = false, updatable = false)
 	private Socio socio;
 	
 	@ManyToOne
@@ -236,12 +239,12 @@ public class Cuentacorriente implements Serializable {
 		}
 	}
 
-	public Integer getCodigosocio() {
-		return codigosocio;
+	public Integer getIdsocio() {
+		return idsocio;
 	}
 
-	public void setCodigosocio(Integer codigosocio) {
-		this.codigosocio = codigosocio;
+	public void setIdsocio(Integer idsocio) {
+		this.idsocio = idsocio;
 	}
 
 	public Socio getSocio() {
@@ -282,6 +285,14 @@ public class Cuentacorriente implements Serializable {
 
 	public void setAgencia(Agencia agencia) {
 		this.agencia = agencia;
+	}
+
+	public String getNumerocuentacorriente() {
+		return numerocuentacorriente;
+	}
+
+	public void setNumerocuentacorriente(String numerocuentacorriente) {
+		this.numerocuentacorriente = numerocuentacorriente;
 	}
 
 }

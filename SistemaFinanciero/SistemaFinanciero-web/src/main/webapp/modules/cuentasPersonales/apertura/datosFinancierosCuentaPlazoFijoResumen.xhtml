@@ -85,10 +85,11 @@
 							</tr>
 							<tr>
 								<td><p:outputLabel value="Fecha Vencimiento:" /></td>
-								<td><p:outputLabel
-										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.fechavencimiento}"
-										styleClass="sf-label-bold" /></td>
+								<td><p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.fechavencimiento}" styleClass="sf-label-bold">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</p:outputLabel></td>
 							</tr>
+							
 							<tr>
 								<td><p:outputLabel value="Frecuencia Capitalizacion:" /></td>
 								<td><p:outputLabel

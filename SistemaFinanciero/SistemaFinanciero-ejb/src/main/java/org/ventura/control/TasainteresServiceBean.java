@@ -62,6 +62,16 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 		case TICC:
 			parameters.put("tipotasa", TipotasaPasivaType.TICC.toString());
 			break;
+		case TICEAF:
+			parameters.put("tipotasa", TipotasaPasivaType.TICEAF.toString());
+			break;
+		case TREA:
+			parameters.put("tipotasa", TipotasaPasivaType.TREA.toString());
+			break;
+		case ITF:
+			parameters.put("tipotasa", TipotasaPasivaType.ITF.toString());
+			break;				
+			
 		default:
 			log.error("Error: TipotasaPasivaType no valido");
 			throw new Exception("Error: TipotasaPasivaType not found");

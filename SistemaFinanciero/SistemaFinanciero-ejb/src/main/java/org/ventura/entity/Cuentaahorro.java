@@ -24,7 +24,10 @@ public class Cuentaahorro implements Serializable {
 	@Id
 	@Column(unique = true, nullable = false)
 	private Integer idcuentaahorro;
-
+	
+	@Column(length = 14)
+	private String numerocuentaahorro;
+	
 	@Column
 	private Integer idsocio;
 
@@ -267,5 +270,13 @@ public class Cuentaahorro implements Serializable {
 
 	public void setAgencia(Agencia agencia) {
 		this.agencia = agencia;
+	}
+
+	public String getNumerocuentaahorro() {
+		return numerocuentaahorro;
+	}
+
+	public void setNumerocuentaahorro(String numerocuentaahorro) {
+		this.numerocuentaahorro = numerocuentaahorro;
 	}
 }

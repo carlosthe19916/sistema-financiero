@@ -13,5 +13,11 @@ public enum TipotasaPasivaType {
      * TICC es la abreviatura existente
      * en la base datos
      */
-    TICC
+    TICC,
+    
+    TICEAF,
+    
+    TREA,
+    
+    ITF
 }

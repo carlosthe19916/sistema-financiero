@@ -17,12 +17,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaplazofijoServiceLocal;
+import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.dao.impl.RetirointeresDAO;
 import org.ventura.entity.Cuentaplazofijo;
 import org.ventura.entity.Estadocuenta;
 import org.ventura.entity.Frecuenciacapitalizacion;
 import org.ventura.entity.Retirointeres;
 import org.ventura.entity.Tipomoneda;
+import org.ventura.entity.TiposervicioType;
+import org.ventura.entity.TipotasaPasivaType;
 import org.venturabank.util.ComboMB;
 
 
@@ -34,6 +37,8 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 
 	@EJB
 	CuentaplazofijoServiceLocal cuentaplazofijoServiceLocal;
+	@EJB
+	private TasainteresServiceLocal tasainteresServiceLocal;
 	@Inject
 	private Cuentaplazofijo cuentaplazofijo;
 	@Inject
@@ -50,23 +55,36 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	 */
 
 	@PostConstruct
-	private void initValues() {		
+	private void initValues(){
 		Estadocuenta estadocuenta = new Estadocuenta();
+		estadocuenta.setDenominacion("Activo");
 		estadocuenta.setIdestadocuenta(1);
-		estadocuenta.setDenominacion("ACTIVO");
-		estadocuenta.setEstado(true);
-		this.cuentaplazofijo.setEstadocuenta(estadocuenta);
-		this.cuentaplazofijo.setTiceaf(0.01);
-		this.cuentaplazofijo.setTrea(0.01);	
-		this.cuentaplazofijo.setItf(0.25);
-		this.cuentaplazofijo.setMontointerespagado(12);
+		estadocuenta.setEstado(true);		
+		this.cuentaplazofijo.setEstadocuenta(estadocuenta);	
 		this.cuentaplazofijo.setFechaapertura(Calendar.getInstance().getTime());
-		cargarCombos();	
+		
+		
+		cargarCombos();
+		
+		
 	}
 
 	/*
 	 * Bussiness Logic
 	 */
+	
+	public void mostrardatos() throws Exception{
+		
+		
+		Double ticeaf = tasainteresServiceLocal.getTasainteres(TiposervicioType.CUENTA_PLAZO_FIJO, TipotasaPasivaType.TICEAF, new Double(1000000));
+		this.cuentaplazofijo.setTiceaf(ticeaf);
+		Double trea = tasainteresServiceLocal.getTasainteres(TiposervicioType.CUENTA_PLAZO_FIJO, TipotasaPasivaType.TREA, new Double(1000000));
+		this.cuentaplazofijo.setTrea(trea);
+		Double itf = tasainteresServiceLocal.getTasainteres(TiposervicioType.CUENTA_PLAZO_FIJO, TipotasaPasivaType.ITF, new Double(1000000));
+		this.cuentaplazofijo.setItf(itf);
+		this.cuentaplazofijo.setMontointerespagado(this.cuentaplazofijo.getMonto()*this.cuentaplazofijo.getTiceaf());
+		this.cuentaplazofijo.setFechavencimiento(calcularFechavencimientoContrato());
+	}
 	
 	public boolean isValid(){
 		return cuentaplazofijo.getIdtipomoneda() != null ? true : false;
@@ -102,14 +120,14 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 		return "No confirmar saldos";
 	}
 	
-	public void calcularFechavencimientoContrato(){
+	public Date calcularFechavencimientoContrato(){
 		Date fecha=cuentaplazofijo.getFechaapertura();
 		int dias =cuentaplazofijo.getPlazo();
 		    Calendar cal = new GregorianCalendar();
 	        cal.setTimeInMillis(fecha.getTime());
 	        cal.add(Calendar.DATE, dias);
 	        
-	        this.cuentaplazofijo.setFechavencimiento(new Date(cal.getTimeInMillis()));	
+	        return new Date(cal.getTimeInMillis());	
 	}
 	
 	public void calcularMontoInteres(){
