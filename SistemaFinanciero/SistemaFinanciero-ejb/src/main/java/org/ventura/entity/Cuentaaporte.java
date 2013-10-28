@@ -42,6 +42,9 @@ public class Cuentaaporte implements Serializable{
 
 	@Column(nullable = false)
 	private double saldo;
+	
+	@Column(nullable = false)
+	private Integer idagencia;
 
 	@ManyToOne
 	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
@@ -51,6 +54,10 @@ public class Cuentaaporte implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
+	
+	@ManyToOne
+	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
+	private Agencia agencia;
 	
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
@@ -174,6 +181,14 @@ public class Cuentaaporte implements Serializable{
 		} else {
 			this.codigosocio = null;
 		}
+	}
+
+	public Integer getIdagencia() {
+		return idagencia;
+	}
+
+	public void setIdagencia(Integer idagencia) {
+		this.idagencia = idagencia;
 	}
 
 }

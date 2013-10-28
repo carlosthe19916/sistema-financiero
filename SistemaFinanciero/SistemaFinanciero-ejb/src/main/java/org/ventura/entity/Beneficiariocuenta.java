@@ -40,16 +40,16 @@ public class Beneficiariocuenta implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column
+	@Column(nullable = false)
 	private Integer numerocuentaaporte;
 	
-	@Column
+	@Column(nullable = false)
 	private Integer numerocuentaahorro;
 
-	@Column
+	@Column(nullable = false)
 	private Integer numerocuentacorriente;
 
-	@Column
+	@Column(nullable = false)
 	private Integer numerocuentaplazofijo;
 
 	// bi-directional many-to-one association to Cuentaahorro
