@@ -4,7 +4,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
 import org.ventura.entity.Cuentaahorrohistorial;
-import org.ventura.entity.Titularcuentahistorial;
 
 public class CuentaahorrohistorialListener {
 
@@ -13,8 +12,8 @@ public class CuentaahorrohistorialListener {
 	public void updateFeatureCode(Cuentaahorrohistorial cuentaahorrohistorial) {
 
 		if (cuentaahorrohistorial.getCuentaahorro() != null) {
-			String numeroCuentaahorro = cuentaahorrohistorial.getCuentaahorro().getNumerocuentaahorro();
-			cuentaahorrohistorial.setNumerocuentaahorro(numeroCuentaahorro);
+			Integer idcuentaahorro = cuentaahorrohistorial.getCuentaahorro().getIdcuentaahorro();
+			cuentaahorrohistorial.setIdcuentaahorro(idcuentaahorro);;
 		}
 	}
 }

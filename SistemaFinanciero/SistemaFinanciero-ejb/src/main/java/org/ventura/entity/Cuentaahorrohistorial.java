@@ -87,12 +87,12 @@ public class Cuentaahorrohistorial implements Serializable {
 		}
 	}
 
-	public Integer getNumerocuentaahorro() {
+	public Integer getIdcuentaahorro() {
 		return idcuentaahorro;
 	}
 
-	public void setNumerocuentaahorro(Integer numerocuentaahorro) {
-		this.idcuentaahorro = numerocuentaahorro;
+	public void setIdcuentaahorro(Integer idcuentaahorro) {
+		this.idcuentaahorro = idcuentaahorro;
 	}
 
 }
