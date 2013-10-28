@@ -36,24 +36,25 @@
 							<h:outputText value="#{socio.dni}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.personanatural.apellidopaterno}"
+						<p:column sortBy="#{socio.apellidopaterno}"
 							headerText="Apellido Paterno">
-							<h:outputText value="#{socio.personanatural.apellidopaterno}" />
+							<h:outputText value="#{socio.apellidopaterno}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.personanatural.apellidomaterno}"
+						<p:column sortBy="#{socio.apellidomaterno}"
 							headerText="Apellido Materno">
-							<h:outputText value="#{socio.personanatural.apellidomaterno}" />
+							<h:outputText value="#{socio.apellidomaterno}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.personanatural.nombres}"
+						<p:column sortBy="#{socio.nombres}"
 							headerText="Nombres">
-							<h:outputText value="#{socio.personanatural.nombres}" />
+							<h:outputText value="#{socio.nombres}" />
 						</p:column>
 						
 						<p:column sortBy="#{socio.estado}" headerText="Estado">
 							<h:outputText value="#{socio.estado}" />
 						</p:column>
+					
 					</p:dataTable>
 				</div>
 			</h:form>
