@@ -77,7 +77,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 					
 				generarDatosDeRegistro(cuentaahorro);	
 				String numerocuentaahorro = generarNumeroCuenta(cuentaahorro,socio);
-				cuentaahorro.setNumerocuentaahorro(numerocuentaahorro);
+				//cuentaahorro.setNumerocuentaahorro(numerocuentaahorro);
 							
 				cuentaahorroDAO.create(cuentaahorro);
 			} else {
@@ -104,7 +104,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			generarDatosTitularHistorial(cuentaahorro);
 			
 			String numerocuentaaporte = generarNumeroCuenta(cuentaahorro,socio);
-			cuentaahorro.setNumerocuentaahorro(numerocuentaaporte);
+			//cuentaahorro.setNumerocuentaahorro(numerocuentaaporte);
 			cuentaahorroDAO.create(cuentaahorro);	
 			
 		} catch(NonexistentEntityException e){
@@ -187,7 +187,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
     			historial.setEstado(true);
     			historial.setFechaactiva(Calendar.getInstance().getTime());
     			lista.add(historial);
-    			titularcuenta.setTitularcuentahistorials(lista);
+    		//	titularcuenta.setTitularcuentahistorials(lista);
     			historial.setTitularcuenta(titularcuenta);
     		}
         }
@@ -201,7 +201,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 
 	private String generarNumeroCuenta(Cuentaahorro cuentaahorro, Socio socio) throws IllegalEntityException, NonexistentEntityException, Exception {
-		String numeroCuenta = "";
+	/*	String numeroCuenta = "";
 		numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
 		
 		String codigoSocio = socio.getCodigosocio().toString();
@@ -218,7 +218,8 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			return numeroCuenta;
 		} else {
 			return generarNumeroCuenta(cuentaahorro, socio);
-		}
+		}*/
+		return null;
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		
 			generarDatosDeRegistro(cuentaplazofijo);	
 			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
-			cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
+			//cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
 			
 			cuentaplazofijoDAO.create(cuentaplazofijo);
 		} catch (Exception e) {
@@ -105,7 +105,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			generarDatosTitularHistorial(cuentaplazofijo);
 			
 			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
-			cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
+			//cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
 			cuentaplazofijoDAO.create(cuentaplazofijo);
 			
 		} catch (Exception e) {
@@ -184,7 +184,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
     			historial.setEstado(true);
     			historial.setFechaactiva(Calendar.getInstance().getTime());
     			lista.add(historial);
-    			titularcuenta.setTitularcuentahistorials(lista);
+    			//titularcuenta.setTitularcuentahistorials(lista);
     			historial.setTitularcuenta(titularcuenta);
     		}
         }
@@ -205,7 +205,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	private String generarNumeroCuenta(Cuentaplazofijo cuentaplazofijo, Socio socio) {
 
 		String numeroCuenta = "";
-		numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
+	/*	numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
 		
 		String codigoSocio = socio.getCodigosocio().toString();
 		for (int i = codigoSocio.length(); i < 8; i++) {
@@ -215,7 +215,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		
 		numeroCuenta = numeroCuenta + cuentaplazofijo.getIdtipomoneda();
 		numeroCuenta = numeroCuenta + "11";
-		
+		*/
 		return numeroCuenta;
 	}
 

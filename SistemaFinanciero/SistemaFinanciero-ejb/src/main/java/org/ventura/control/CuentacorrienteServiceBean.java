@@ -178,7 +178,7 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 			historial.setEstado(true);
 			historial.setFechaactiva(Calendar.getInstance().getTime());
 			lista.add(historial);
-			titularcuenta.setTitularcuentahistorials(lista);
+			//titularcuenta.setTitularcuentahistorials(lista);
 			historial.setTitularcuenta(titularcuenta);
 		}
     }
@@ -190,7 +190,7 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 	}
 
 	private void generarNumeroCuenta(Cuentacorriente cuentacorriente) {
-
+/*
 		Random random = new Random();
 		int length = 14;
 
@@ -203,7 +203,7 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 		}
 
 		cuentacorriente.setNumerocuentacorriente(digits.toString());
-
+*/
 	}
 
 	@Override
