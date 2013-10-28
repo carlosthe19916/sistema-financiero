@@ -59,22 +59,26 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 	private DatosFinancierosCuentaPlazoFijoBean datosFinancierosCuentaPlazoFijoMB;
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
+	@Inject
+	private TitularesBean titularesMB;
+	
+	private List<Titularcuenta> titularDefecto;
+	
 	
 	public AperturarCuentaPlazofijoBean() {
-		// TODO Auto-generated constructor stub	
-	}
-
-	public String getReturnValue() {
-		return "/index?module=2";
+		this.titularDefecto = new ArrayList<Titularcuenta>();
 	}
 	
-		
 	@PostConstruct
 	private void initValues() {
 		Agencia agencia = agenciaBean.getAgencia();
 		cuentaplazofijoServiceLocal.setAgencia(agencia);
 		this.cargarCombos();
 	}
+	
+	public String getReturnValue() {
+		return "/index?module=2";
+	}		
 
 	public void cargarCombos() {
 		comboTipoPersona.getItems().put(1, "Persona Natural");
@@ -84,7 +88,7 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 
 	public String createCuentaplazofijo() {
 		try {
-			if (validarCuentaPlazoFijo()) {
+			if (validarCurrentBean()) {
 				Cuentaplazofijo cuentaplazofijo = establecerParametrosCuentaplazofijo(this.cuentaplazofijo);
 				if (isPersonaNatural()) {
 					cuentaplazofijo = cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonanatural(cuentaplazofijo);
@@ -107,28 +111,61 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 	}
 
 	public Cuentaplazofijo establecerParametrosCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) throws Exception {
+		cuentaplazofijo = datosFinancierosCuentaPlazoFijoMB.getCuentaplazofijo();
 		Socio socio = new Socio();
 		if (isPersonaNatural()) {
 			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
 			socio.setPersonanatural(personanatural);
 			cuentaplazofijo.setSocio(socio);
 			
-			
+			List<Titularcuenta> titulares = titularesMB.getListTitulares();
+			//titulares.add(titularDefecto.get(0));
+			cuentaplazofijo.setTitularcuentas(titulares);
+			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
+				Titularcuenta titular = iterator.next();
+				titular.setCuentaplazofijo(cuentaplazofijo);
+			}
 			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
+			cuentaplazofijo.setBeneficiariocuentas(beneficiarios);
 			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
 				Beneficiariocuenta beneficiariocuenta = iterator.next();
 				beneficiariocuenta.setCuentaplazofijo(cuentaplazofijo);
-			}			
-			cuentaplazofijo.setBeneficiariocuentas(beneficiarios);		
+			}
 		} if (isPersonaJuridica()) {			
 			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
 			cuentaplazofijo.setSocio(socio);
+			
+			List<Titularcuenta> titulares = titularesMB.getListTitulares();
+			titulares.add(titularDefecto.get(0));
+			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
+				Titularcuenta titular = iterator.next();
+				titular.setCuentaplazofijo(cuentaplazofijo);
+			}
 		}
 		return cuentaplazofijo;
 	}
+	
+	public void establecerTitularDefecto() {
+		if (isPersonaNatural()) {		
+			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
+			Titularcuenta titularcuenta = new Titularcuenta();
+			titularcuenta.setPersonanatural(personanatural);
+									
+			this.titularDefecto.clear();
+			this.titularDefecto.add(titularcuenta);
+							
+		}
+		if (isPersonaJuridica()) {
+			Personanatural representanteLegal = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
+			Titularcuenta titularRepresentante = new Titularcuenta();
+			titularRepresentante.setPersonanatural(representanteLegal);
 
-	public boolean validarCuentaPlazoFijo() {
+			this.titularDefecto.clear();
+			this.titularDefecto.add(titularRepresentante);
+		}
+	}
+	public boolean validarCurrentBean() {
 
 		boolean result = true;
 
@@ -159,12 +196,16 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			this.mensaje = mensaje + "Datos Financieros invalidos \n";
 		}
 
+		if (!titularesMB.isValid()) {
+			result = false;
+			this.mensaje = mensaje + "Datos de Titulares \n";
+		}
+
+		// falta validar datos financieros
+
 		return result;
 	}
 	
-	public void establecerTitularDefecto() {
-		
-	}
 
 	public boolean isPersonaNatural() {
 		if (comboTipoPersona.getItemSelected() == 1)
@@ -183,6 +224,7 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 	public void cleanCuentaahorro(){
 		this.personaNaturalMB.setPersonaNatural(new Personanatural());
 		this.personaJuridicaMB.setoPersonajuridica(new Personajuridica());
+		this.titularesMB.getTablaTitulares().setRows(new ArrayList<Titularcuenta>());
 		this.beneficiariosMB.getTablaBeneficiarios().setRows(new ArrayList<Beneficiariocuenta>());
 	}
 
@@ -249,6 +291,22 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 
 	public void setAgenciaBean(AgenciaBean agenciaBean) {
 		this.agenciaBean = agenciaBean;
+	}
+
+	public TitularesBean getTitularesMB() {
+		return titularesMB;
+	}
+
+	public void setTitularesMB(TitularesBean titularesMB) {
+		this.titularesMB = titularesMB;
+	}
+
+	public List<Titularcuenta> getTitularDefecto() {
+		return titularDefecto;
+	}
+
+	public void setTitularDefecto(List<Titularcuenta> titularDefecto) {
+		this.titularDefecto = titularDefecto;
 	}
 
 }

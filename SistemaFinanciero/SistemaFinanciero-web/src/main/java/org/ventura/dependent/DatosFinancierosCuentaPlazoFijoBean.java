@@ -34,15 +34,12 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 
 	@EJB
 	CuentaplazofijoServiceLocal cuentaplazofijoServiceLocal;
-
+	@Inject
 	private Cuentaplazofijo cuentaplazofijo;
-
 	@Inject
-	private ComboBean<Tipomoneda> comboTipomoneda;
-	
+	private ComboBean<Tipomoneda> comboTipomoneda;	
 	@Inject
-	private ComboBean<Frecuenciacapitalizacion> combofrecuenciacapitalizacion;
-	
+	private ComboBean<Frecuenciacapitalizacion> combofrecuenciacapitalizacion;	
 	@Inject
 	private ComboBean<Retirointeres> comboretirointeres;
 	
@@ -51,8 +48,6 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	/*
 	 * Constructor
 	 */
-	public DatosFinancierosCuentaPlazoFijoBean() {		
-	}
 
 	@PostConstruct
 	private void initValues() {		
@@ -61,10 +56,12 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 		estadocuenta.setDenominacion("ACTIVO");
 		estadocuenta.setEstado(true);
 		this.cuentaplazofijo.setEstadocuenta(estadocuenta);
-		cargarCombos();			
-		cuentaplazofijo.setTiceaf(0.01);
-		cuentaplazofijo.setTrea(0.01);	
-		cuentaplazofijo.setItf(0.25);		
+		this.cuentaplazofijo.setTiceaf(0.01);
+		this.cuentaplazofijo.setTrea(0.01);	
+		this.cuentaplazofijo.setItf(0.25);
+		this.cuentaplazofijo.setMontointerespagado(12);
+		this.cuentaplazofijo.setFechaapertura(Calendar.getInstance().getTime());
+		cargarCombos();	
 	}
 
 	/*
@@ -77,8 +74,8 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	
 	public void cargarCombos(){
 		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
-		getComboretirointeres().initValuesFromNamedQueryName(Retirointeres.ALL_ACTIVE);
-		getCombofrecuenciacapitalizacion().initValuesFromNamedQueryName(Frecuenciacapitalizacion.ALL_ACTIVE);
+		comboretirointeres.initValuesFromNamedQueryName(Retirointeres.ALL_ACTIVE);
+		combofrecuenciacapitalizacion.initValuesFromNamedQueryName(Frecuenciacapitalizacion.ALL_ACTIVE);
 	}
 	
 	public void changeTipomoneda(ValueChangeEvent event) {
@@ -88,12 +85,12 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	}
 	public void changeFrecuenciacapitalizacion(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Frecuenciacapitalizacion frecuenciacapitalizacionSelected = getCombofrecuenciacapitalizacion().getObjectItemSelected(key);
+		Frecuenciacapitalizacion frecuenciacapitalizacionSelected = combofrecuenciacapitalizacion.getObjectItemSelected(key);
 		this.cuentaplazofijo.setFrecuenciacapitalizacion(frecuenciacapitalizacionSelected);
 	}
 	public void changeRetirointeres(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Retirointeres retirointeresSelected = getComboretirointeres().getObjectItemSelected(key);
+		Retirointeres retirointeresSelected = comboretirointeres.getObjectItemSelected(key);
 		this.cuentaplazofijo.setRetirointeres(retirointeresSelected);
 	}
 	
@@ -103,6 +100,25 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 		if(saldos)
 			return "Confirmar saldos";
 		return "No confirmar saldos";
+	}
+	
+	public void calcularFechavencimientoContrato(){
+		Date fecha=cuentaplazofijo.getFechaapertura();
+		int dias =cuentaplazofijo.getPlazo();
+		    Calendar cal = new GregorianCalendar();
+	        cal.setTimeInMillis(fecha.getTime());
+	        cal.add(Calendar.DATE, dias);
+	        
+	        this.cuentaplazofijo.setFechavencimiento(new Date(cal.getTimeInMillis()));	
+	}
+	
+	public void calcularMontoInteres(){
+		this.cuentaplazofijo.setMontointerespagado(cuentaplazofijo.getMonto()*cuentaplazofijo.getTiceaf());
+	}
+	public void cargarDatos(){
+		
+		calcularFechavencimientoContrato();
+		calcularMontoInteres();
 	}
 
 	/*
@@ -130,17 +146,7 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 		return comboTipomoneda;
 	}
 	
-	public Date calcularFechavencimientoContrato(){
-		Date fecha=cuentaplazofijo.getFechaapertura();
-		int dias =cuentaplazofijo.getPlazo();
-		    Calendar cal = new GregorianCalendar();
-	        cal.setTimeInMillis(fecha.getTime());
-	        cal.add(Calendar.DATE, dias);
-	        
-	        return new Date(cal.getTimeInMillis());
-	
-	}
-	
+
 	
 	public double MontoInteresPagado(){
 		return cuentaplazofijo.getMonto()*cuentaplazofijo.getTiceaf();

@@ -39,7 +39,7 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 	private ComboBean<Tipomoneda> comboTipomoneda;
 
 	@PostConstruct
-	private void initValues() throws Exception {	
+	private void initValues() throws Exception {
 		Estadocuenta estadocuenta = new Estadocuenta();
 		estadocuenta.setDenominacion("Activo");
 		estadocuenta.setIdestadocuenta(1);

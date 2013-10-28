@@ -1,6 +1,7 @@
-<<<<<<< HEAD
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -18,239 +19,99 @@
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
 					<h3>Datos Financieros</h3>
-				</div>		
+				</div>
 				<div class="sf-agrupador-content-table">
 					<table width="370px">
 						<tbody>
 							<tr>
-								<td style="width: 180px;">
-									<p:outputLabel value="Moneda:" />
+								<td style="width: 180px;"><p:outputLabel value="Moneda:" />
 								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.tipomoneda.denominacion}" styleClass="sf-label-bold" />
-								</td>
-							</tr>	
-							<tr>
-								<td>
-									<p:outputLabel value="Estado Cuenta:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.estadocuenta.denominacion}" styleClass="sf-label-bold" />
-								</td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.tipomoneda.denominacion}"
+										styleClass="sf-label-bold" /></td>
 							</tr>
 							<tr>
-								<td>
-									<p:outputLabel value="Fecha Apertura:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.fechaActual()}" styleClass="sf-label-bold" />
-								</td>
+								<td><p:outputLabel value="Estado Cuenta:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.estadocuenta.denominacion}"
+										styleClass="sf-label-bold" /></td>
 							</tr>
 							<tr>
+								<td><p:outputLabel value="Fecha Apertura:" /></td>
 								<td>
-									<p:outputLabel value="Monto Apertura:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.monto}" styleClass="sf-label-bold" />
-								</td>
-							</tr>	
-							<tr>
-								<td>
-									<p:outputLabel value="Plazo:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.plazo}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-														
-							<tr>
-								<td>
-									<p:outputLabel value="TICEAF:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.ticeaf}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<p:outputLabel value="TREA:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.trea}" styleClass="sf-label-bold" />
-								</td>
-							</tr>	
-							
-							<tr>
-								<td>
-									<p:outputLabel value="ITF:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.itf}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<p:outputLabel value="Monto Interes Pagado:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.montointerespagado}" styleClass="sf-label-bold" />
-								</td>
+								<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.fechaapertura}" styleClass="sf-label-bold">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</p:outputLabel></td>
 							</tr>
 							<tr>
-								<td>
-									<p:outputLabel value="Fecha Vencimiento:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.fechavencimiento}" styleClass="sf-label-bold" />
-								</td>
+								<td><p:outputLabel value="Monto Apertura:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.monto}"
+										styleClass="sf-label-bold" /></td>
 							</tr>
-														
 							<tr>
-								<td>
-									<p:outputLabel value="Confirmacion de saldos:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.confirmarSaldos()}" styleClass="sf-label-bold" />
-								</td>
+								<td><p:outputLabel value="Plazo:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.plazo}"
+										styleClass="sf-label-bold" /></td>
 							</tr>
-							
-											
+
+							<tr>
+								<td><p:outputLabel value="TICEAF:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.ticeaf}"
+										styleClass="sf-label-bold" /></td>
+							</tr>
+
+							<tr>
+								<td><p:outputLabel value="TREA:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.trea}"
+										styleClass="sf-label-bold" /></td>
+							</tr>
+
+							<tr>
+								<td><p:outputLabel value="ITF:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.itf}"
+										styleClass="sf-label-bold" /></td>
+							</tr>
+
+							<tr>
+								<td><p:outputLabel value="Monto Interes Pagado:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.montointerespagado}"
+										styleClass="sf-label-bold" /></td>
+							</tr>
+							<tr>
+								<td><p:outputLabel value="Fecha Vencimiento:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.fechavencimiento}"
+										styleClass="sf-label-bold" /></td>
+							</tr>
+							<tr>
+								<td><p:outputLabel value="Frecuencia Capitalizacion:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.frecuenciacapitalizacion.denomicacion}"
+										styleClass="sf-label-bold" /></td>
+							</tr>
+							<tr>
+								<td><p:outputLabel value="Retiro Interes:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.retirointeres.denominacion}"
+										styleClass="sf-label-bold" /></td>
+							</tr>
+							<tr>
+								<td><p:outputLabel value="Confirmacion de saldos:" /></td>
+								<td><p:outputLabel
+										value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.confirmarSaldos()}"
+										styleClass="sf-label-bold" /></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
 	</h:panelGroup>
-	
 </ui:composition>
-=======
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-
-<ui:composition>
-
-	<h:panelGroup id="#{componentName}">
-		<div class="sf-agrupador">
-			<div class="sf-agrupador-menu">
-				<h:outputLink onclick="#{editarOutputDialog}.show();return false;">Editar</h:outputLink>
-			</div>
-			<div class="sf-agrupador-content">
-				<div class="sf-agrupador-content-cabecera">
-					<h3>Datos Financieros</h3>
-				</div>		
-				<div class="sf-agrupador-content-table">
-					<table width="370px">
-						<tbody>
-							<tr>
-								<td style="width: 180px;">
-									<p:outputLabel value="Moneda:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.tipomoneda.denominacion}" styleClass="sf-label-bold" />
-								</td>
-							</tr>	
-							<tr>
-								<td>
-									<p:outputLabel value="Estado Cuenta:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.estadocuenta.denominacion}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p:outputLabel value="Fecha Apertura:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.fechaActual()}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p:outputLabel value="Monto Apertura:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.monto}" styleClass="sf-label-bold" />
-								</td>
-							</tr>	
-							<tr>
-								<td>
-									<p:outputLabel value="Plazo:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.plazo}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-														
-							<tr>
-								<td>
-									<p:outputLabel value="TICEAF:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.ticeaf}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<p:outputLabel value="TREA:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.trea}" styleClass="sf-label-bold" />
-								</td>
-							</tr>	
-							
-							<tr>
-								<td>
-									<p:outputLabel value="ITF:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.itf}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<p:outputLabel value="Monto Interes Pagado:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.montointerespagado}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p:outputLabel value="Fecha Vencimiento:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.fechavencimiento}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-														
-							<tr>
-								<td>
-									<p:outputLabel value="Confirmacion de saldos:" />
-								</td>
-								<td>
-									<p:outputLabel value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.confirmarSaldos()}" styleClass="sf-label-bold" />
-								</td>
-							</tr>
-							
-											
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</h:panelGroup>
-	
-</ui:composition>
->>>>>>> branch 'master' of https://code.google.com/p/sistema-financiero/
 </html>
