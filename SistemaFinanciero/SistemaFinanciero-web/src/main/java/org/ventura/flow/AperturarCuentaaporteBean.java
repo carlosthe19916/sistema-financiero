@@ -40,9 +40,9 @@ public class AperturarCuentaaporteBean implements Serializable {
 	private SocioServiceLocal socioServiceLocal;
 
 	@Inject
-	private AgenciaBean agenciaBean;
+	private Socio socio;
 	@Inject
-	private Cuentaaporte cuentaaporte;
+	private AgenciaBean agenciaBean;
 	@Inject
 	private ComboBean<String> comboTipoPersona;
 	@Inject
@@ -77,7 +77,7 @@ public class AperturarCuentaaporteBean implements Serializable {
  			if (validarAperturarCuentaaporteBean()) {
 				Socio socio = new Socio();
 				socio = establecerParametrosCuentaaporte(socio);
-				socio = socioServiceLocal.create(socio);				
+				this.socio = socioServiceLocal.create(socio);				
 				return "aperturarCuentaaporte-flowA";
 			} else {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
@@ -173,14 +173,6 @@ public class AperturarCuentaaporteBean implements Serializable {
 		this.beneficiariosMB.getTablaBeneficiarios().setRows(new ArrayList<Beneficiariocuenta>());
 	}
 
-	public Cuentaaporte getCuentaaporte() {
-		return cuentaaporte;
-	}
-
-	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
-		this.cuentaaporte = cuentaaporte;
-	}
-
 	public String getMensaje() {
 		return mensaje;
 	}
@@ -236,6 +228,14 @@ public class AperturarCuentaaporteBean implements Serializable {
 
 	public void setAgenciaBean(AgenciaBean agenciaBean) {
 		this.agenciaBean = agenciaBean;
+	}
+
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
 	}
 
 }

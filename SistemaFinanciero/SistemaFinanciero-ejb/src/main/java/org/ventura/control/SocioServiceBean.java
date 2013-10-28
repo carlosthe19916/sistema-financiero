@@ -2,6 +2,7 @@ package org.ventura.control;
 
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ import org.ventura.dao.impl.SocioDAO;
 import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
+import org.ventura.util.exception.IllegalEntityException;
+import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.validate.Validator;
 
@@ -35,22 +38,21 @@ public class SocioServiceBean implements SocioServiceLocal {
 
 	@EJB
 	private SocioDAO socioDAO;
-	
 	@EJB
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
-	
 	@EJB
 	private PersonajuridicaServiceLocal personajuridicaServiceLocal;
-	
 
 	@Override
 	public Socio create(Socio socio) throws Exception {
 		try {
 			socio.setFechaasociado(Calendar.getInstance().getTime());
-			socio.setEstado(true);	
-			
+			socio.setEstado(true);
+
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			List<Socio> resultList = null;	
 			boolean isValidSocio = Validator.validateSocio(socio);
-			if(isValidSocio == true){
+			if (isValidSocio == true) {
 				Personanatural personanatural = socio.getPersonanatural();
 				Personajuridica personajuridica = socio.getPersonajuridica();
 				if (personanatural != null) {
@@ -59,6 +61,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 					if (result == null) {
 						personanaturalServiceLocal.create(personanatural);
 					}
+					parameters.put("dni", socio.getDni());
+					resultList = socioDAO.findByNamedQuery(Socio.FindByDni, parameters);
 				}
 				if (personajuridica != null) {
 					Object key = personajuridica.getRuc();
@@ -66,12 +70,28 @@ public class SocioServiceBean implements SocioServiceLocal {
 					if (result == null) {
 						personajuridicaServiceLocal.create(personajuridica);
 					}
-				}				
-				socioDAO.create(socio);	
+					parameters.put("ruc", socio.getRuc());
+					resultList = socioDAO.findByNamedQuery(Socio.FindByRuc, parameters);
+				}
+				if (resultList.size() == 0) {
+					socioDAO.create(socio);
+				} else {
+					throw new PreexistingEntityException("El cliente ya tiene una cuenta de aportes Activa");
+				}
 			} else {
 				log.error("Exception: method Validator(socio) is false");
-				throw new Exception("Datos de Socio Invalidos");
-			}			
+				throw new IllegalEntityException("Datos de Socio Invalidos");
+			}
+		} catch (IllegalEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());
+		} catch (PreexistingEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -110,7 +130,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 	@Override
 	public void update(Socio socio) throws Exception {
 		try {
-			 socioDAO.update(socio);
+			socioDAO.update(socio);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -120,7 +140,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 	}
 
 	@Override
-	public Collection<Socio> findByNamedQuery(String queryName) throws Exception {
+	public Collection<Socio> findByNamedQuery(String queryName)
+			throws Exception {
 		Collection<Socio> collection = null;
 		try {
 			collection = socioDAO.findByNamedQuery(queryName);
@@ -134,7 +155,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 	}
 
 	@Override
-	public Collection<Socio> findByNamedQuery(String queryName, int resultLimit) throws Exception {
+	public Collection<Socio> findByNamedQuery(String queryName, int resultLimit)
+			throws Exception {
 		Collection<Socio> collection = null;
 		try {
 			collection = socioDAO.findByNamedQuery(queryName, resultLimit);
@@ -148,7 +170,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 	}
 
 	@Override
-	public List<Socio> findByNamedQuery(String socio,Map<String, Object> parameters) throws Exception {
+	public List<Socio> findByNamedQuery(String socio,
+			Map<String, Object> parameters) throws Exception {
 		List<Socio> list = null;
 		try {
 			list = socioDAO.findByNamedQuery(socio, parameters);
@@ -162,7 +185,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 	}
 
 	@Override
-	public List<Socio> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception {
+	public List<Socio> findByNamedQuery(String namedQueryName,
+			Map<String, Object> parameters, int resultLimit) throws Exception {
 		List<Socio> list = null;
 		try {
 			list = socioDAO.findByNamedQuery(namedQueryName, parameters);

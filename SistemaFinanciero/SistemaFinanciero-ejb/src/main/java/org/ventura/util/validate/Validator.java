@@ -1,5 +1,6 @@
 package org.ventura.util.validate;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,9 +63,6 @@ public class Validator {
 		if(socio.getCuentaaporte() == null){
 			return false;
 		}
-		if(!validateCuentaaporte(socio.getCuentaaporte())){
-			return false;
-		}
 		if(socio.getEstado() == null){
 			return false;
 		}
@@ -74,6 +72,12 @@ public class Validator {
 		if(socio.getDni() != null && socio.getRuc() != null){
 			return false;
 		}
+		if(socio.getPersonajuridica() != null){
+			socio.getCuentaaporte().setBeneficiarios(new ArrayList<Beneficiariocuenta>());
+			if(!validateCuentaaporte(socio.getCuentaaporte())){
+				return false;
+			}
+		}	
 		return true;
 	}
 	

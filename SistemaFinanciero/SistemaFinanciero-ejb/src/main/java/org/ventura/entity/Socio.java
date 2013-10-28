@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.ventura.entity.listener.SocioListener;
-
 import java.util.Date;
 
 /**
@@ -14,7 +12,6 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "socio", schema = "socio")
-@EntityListeners( { SocioListener.class })
 @NamedQuery(name = "Socio.findAll", query = "SELECT s FROM Socio s")
 @NamedQueries({
 		@NamedQuery(name = Socio.ALL, query = "Select s From Sexo s"),
@@ -43,9 +40,6 @@ public class Socio implements Serializable {
 	@Column(length = 30)
 	private String ruc;
 
-	@Column
-	private Integer idcuentaaporte;
-
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fechaasociado;
@@ -61,9 +55,8 @@ public class Socio implements Serializable {
 	@JoinColumn(name = "ruc", nullable = false, insertable = false, updatable = false)
 	private Personajuridica personajuridica;
 
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@PrimaryKeyJoinColumn
-	@JoinColumn(name = "idcuentaaporte", nullable = false, insertable = false, updatable = false)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "idcuentaaporte", nullable = false)
 	private Cuentaaporte cuentaaporte;
 	
 	public Socio() {
@@ -135,24 +128,11 @@ public class Socio implements Serializable {
 		this.idsocio = idsocio;
 	}
 
-	public Integer getIdcuentaaporte() {
-		return idcuentaaporte;
-	}
-
-	public void setIdcuentaaporte(Integer idcuentaaporte) {
-		this.idcuentaaporte = idcuentaaporte;
-	}
-
 	public Cuentaaporte getCuentaaporte() {
 		return cuentaaporte;
 	}
 
 	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
 		this.cuentaaporte = cuentaaporte;
-		if (cuentaaporte != null) {
-			this.idcuentaaporte = cuentaaporte.getIdcuentaaporte();
-		} else {
-			this.cuentaaporte = null;
-		}
 	}
 }

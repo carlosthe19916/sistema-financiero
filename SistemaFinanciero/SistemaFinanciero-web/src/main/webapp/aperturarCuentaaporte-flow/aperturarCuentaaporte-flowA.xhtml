@@ -44,15 +44,15 @@
 						</tr>
 						<tr>
 							<td><p:outputLabel value="Nro. cuenta:" /></td>
-							<td><p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.numerocuentaaporte}" styleClass="sf-label-bold"/></td>
+							<td><p:outputLabel value="#{aperturarCuentaaporteBean.socio.cuentaaporte.numerocuentaaporte}" styleClass="sf-label-bold"/></td>
 							<td style="width: 50px;"></td>
 							<td><p:outputLabel value="Moneda:" /></td>
-							<td><p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.tipomoneda.denominacion}" styleClass="sf-label-bold"/></td>
+							<td><p:outputLabel value="#{aperturarCuentaaporteBean.socio.cuentaaporte.tipomoneda.denominacion}" styleClass="sf-label-bold"/></td>
 						</tr>
 						<tr>
 							<td><p:outputLabel value="Fecha apertura:"/></td>
 							<td>
-								<h:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.fechaapertura}" styleClass="sf-label-bold">
+								<h:outputLabel value="#{aperturarCuentaaporteBean.socio.cuentaaporte.fechaapertura}" styleClass="sf-label-bold">
 									<f:convertDateTime pattern="dd/MM/yyyy"/>
 								</h:outputLabel>
 							</td>
@@ -74,7 +74,7 @@
 												<p:outputLabel value="DNI:" />
 											</td>
 											<td style="min-width: 180px;">
-												<p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personanatural.dni}" styleClass="sf-label-bold" />
+												<p:outputLabel value="#{aperturarCuentaaporteBean.socio.personanatural.dni}" styleClass="sf-label-bold" />
 											</td>
 										</tr>
 										<tr>
@@ -82,13 +82,13 @@
 												<p:outputLabel value="Apellidos y Nombres:" />
 											</td>
 											<td>
-												<p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personanatural.nombreCompleto}" styleClass="sf-label-bold" />
+												<p:outputLabel value="#{aperturarCuentaaporteBean.socio.personanatural.nombreCompleto}" styleClass="sf-label-bold" />
 											</td>
 											<td>
 												<p:outputLabel value="Sexo:" />
 											</td>
 											<td>
-												<p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personanatural.sexo.denominacion}" styleClass="sf-label-bold" />
+												<p:outputLabel value="#{aperturarCuentaaporteBean.socio.personanatural.sexo.denominacion}" styleClass="sf-label-bold" />
 											</td>
 										</tr>
 										<tr>
@@ -96,7 +96,7 @@
 												<p:outputLabel value="Fecha Nacimiento:" />
 											</td>
 											<td>
-												<h:outputText value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personanatural.fechanacimiento}" styleClass="sf-label-bold" >
+												<h:outputText value="#{aperturarCuentaaporteBean.socio.personanatural.fechanacimiento}" styleClass="sf-label-bold" >
 													<f:convertDateTime pattern="dd/MM/yyyy"/>
 												</h:outputText>									
 											</td>
@@ -123,7 +123,7 @@
 													<p:outputLabel value="RUC:" />
 												</td>
 												<td style="min-width: 250px;">
-													<p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personajuridica.ruc}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturarCuentaaporteBean.socio.personajuridica.ruc}" styleClass="sf-label-bold" />
 												</td>
 											</tr>	
 											<tr>
@@ -131,7 +131,7 @@
 													<p:outputLabel value="Razon Social:" />
 												</td>
 												<td>
-													<p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personajuridica.razonsocial}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturarCuentaaporteBean.socio.personajuridica.razonsocial}" styleClass="sf-label-bold" />
 												</td>
 											</tr>	
 											<tr>
@@ -139,7 +139,7 @@
 													<p:outputLabel value="Fecha constitucion:" />
 												</td>
 												<td>
-													<p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personajuridica.fechaconstitucion}" styleClass="sf-label-bold" >
+													<p:outputLabel value="#{aperturarCuentaaporteBean.socio.personajuridica.fechaconstitucion}" styleClass="sf-label-bold" >
 														<f:convertDateTime pattern="dd/MM/yyyy"/>
 													</p:outputLabel>
 												</td>
@@ -158,7 +158,7 @@
 													<p:outputLabel value="DNI:" />
 												</td>
 												<td style="min-width: 250px;">
-													<p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personajuridica.personanatural.dni}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturarCuentaaporteBean.socio.personajuridica.personanatural.dni}" styleClass="sf-label-bold" />
 												</td>
 											</tr>
 											<tr>
@@ -166,7 +166,7 @@
 													<p:outputLabel value="Apellidos y Nombres:" />
 												</td>
 												<td>
-													<p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personajuridica.personanatural.nombreCompleto}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturarCuentaaporteBean.socio.personajuridica.personanatural.nombreCompleto}" styleClass="sf-label-bold" />
 												</td>
 											</tr>
 											<tr>
@@ -174,7 +174,7 @@
 													<p:outputLabel value="Fecha Nacimiento:" />
 												</td>
 												<td>
-													<h:outputText value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personajuridica.personanatural.fechanacimiento}" styleClass="sf-label-bold" >
+													<h:outputText value="#{aperturarCuentaaporteBean.socio.personajuridica.personanatural.fechanacimiento}" styleClass="sf-label-bold" >
 														<f:convertDateTime pattern="dd/MM/yyyy"/>
 													</h:outputText>									
 												</td>
@@ -182,14 +182,14 @@
 													<p:outputLabel value="Sexo:" />
 												</td>
 												<td>
-													<p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personajuridica.personanatural.sexo.denominacion}" styleClass="sf-label-bold" />
+													<p:outputLabel value="#{aperturarCuentaaporteBean.socio.personajuridica.personanatural.sexo.denominacion}" styleClass="sf-label-bold" />
 												</td>
 											</tr>	
 											<tr>
 												<td>
 													<p:outputLabel value="Estado Civil:" />
 												</td>
-												<td><p:outputLabel value="#{aperturarCuentaaporteBean.cuentaaporte.socio.personajuridica.personanatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>		
+												<td><p:outputLabel value="#{aperturarCuentaaporteBean.socio.personajuridica.personanatural.estadocivil.denominacion}" styleClass="sf-label-bold" /></td>		
 											</tr>						
 										</tbody>
 									</table>
@@ -207,7 +207,7 @@
 								<tr>
 									<td style="width: 180px; vertical-align: top;"><p:outputLabel value="Beneficiarios:" /></td>
 									<td>
-										<p:dataList value="#{aperturarCuentaaporteBean.cuentaaporte.beneficiarios}" var="beneficiarios" type="ordered" itemType="1" styleClass="sf-label-bold" emptyMessage="No registrado">
+										<p:dataList value="#{aperturarCuentaaporteBean.socio.cuentaaporte.beneficiarios}" var="beneficiarios" type="ordered" itemType="1" styleClass="sf-label-bold" emptyMessage="No registrado">
 											<p:outputLabel value="DNI: #{beneficiarios.dni}" style="min-width:50px; padding-right: 12px;"/>
 											<p:outputLabel value=" #{beneficiarios.nombreCompleto}" style="min-width:150px; padding-right: 12px;"/>
 											<p:outputLabel value="% #{beneficiarios.porcentajebeneficio}" style="min-width:50px; padding-right: 12px;"/>
