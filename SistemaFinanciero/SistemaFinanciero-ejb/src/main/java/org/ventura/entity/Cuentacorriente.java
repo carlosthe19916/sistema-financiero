@@ -81,14 +81,6 @@ public class Cuentacorriente implements Serializable {
 	public Cuentacorriente() {
 	}
 
-	public Integer getNumerocuentacorriente() {
-		return this.idcuentacorriente;
-	}
-
-	public void setNumerocuentacorriente(Integer numerocuentacorriente) {
-		this.idcuentacorriente = numerocuentacorriente;
-	}
-
 	public Date getFechaapertura() {
 		return this.fechaapertura;
 	}
@@ -274,6 +266,22 @@ public class Cuentacorriente implements Serializable {
 
 	public void setIdagencia(Integer idagencia) {
 		this.idagencia = idagencia;
+	}
+
+	public Integer getIdcuentacorriente() {
+		return idcuentacorriente;
+	}
+
+	public void setIdcuentacorriente(Integer idcuentacorriente) {
+		this.idcuentacorriente = idcuentacorriente;
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }

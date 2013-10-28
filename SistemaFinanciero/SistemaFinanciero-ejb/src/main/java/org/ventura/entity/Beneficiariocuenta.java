@@ -12,7 +12,7 @@ import org.ventura.entity.listener.BeneficiariocuentaListener;
  */
 @Entity
 @Table(name = "beneficiariocuenta", schema = "cuentapersonal")
-@EntityListeners( { BeneficiariocuentaListener.class})
+@EntityListeners({ BeneficiariocuentaListener.class })
 @NamedQuery(name = "Beneficiariocuenta.findAll", query = "SELECT b FROM Beneficiariocuenta b")
 public class Beneficiariocuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -41,35 +41,35 @@ public class Beneficiariocuenta implements Serializable {
 	private Boolean estado;
 
 	@Column(nullable = false)
-	private Integer numerocuentaaporte;
-	
-	@Column(nullable = false)
-	private Integer numerocuentaahorro;
+	private Integer idcuentaaporte;
 
 	@Column(nullable = false)
-	private Integer numerocuentacorriente;
+	private Integer idcuentaahorro;
 
 	@Column(nullable = false)
-	private Integer numerocuentaplazofijo;
+	private Integer idcuentacorriente;
+
+	@Column(nullable = false)
+	private Integer idcuentaplazofijo;
+
+	// bi-directional many-to-one association to Cuentaaporte
+	@ManyToOne
+	@JoinColumn(name = "idcuentaaporte", insertable = false, updatable = false)
+	private Cuentaaporte cuentaaporte;
 
 	// bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
-	@JoinColumn(name = "numerocuentaahorro", insertable = false, updatable = false)
+	@JoinColumn(name = "idcuentaahorro", insertable = false, updatable = false)
 	private Cuentaahorro cuentaahorro;
-	
-	// bi-directional many-to-one association to Cuentaaporte
-	@ManyToOne
-	@JoinColumn(name = "numerocuentaaporte", insertable = false, updatable = false)
-	private Cuentaaporte cuentaaporte;
 
 	// bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name = "numerocuentacorriente", insertable = false, updatable = false)
+	@JoinColumn(name = "idcuentacorriente", insertable = false, updatable = false)
 	private Cuentacorriente cuentacorriente;
 
 	// bi-directional many-to-one association to Cuentaplazofijo
 	@ManyToOne
-	@JoinColumn(name = "numerocuentaplazofijo", insertable = false, updatable = false)
+	@JoinColumn(name = "idcuentaplazofijo", insertable = false, updatable = false)
 	private Cuentaplazofijo cuentaplazofijo;
 
 	public Beneficiariocuenta() {
@@ -104,11 +104,11 @@ public class Beneficiariocuenta implements Serializable {
 	}
 
 	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
-		this.cuentaahorro = cuentaahorro;			
-		if(cuentaahorro != null){
-			this.numerocuentaahorro = cuentaahorro.getNumerocuentaahorro();
+		this.cuentaahorro = cuentaahorro;
+		if (cuentaahorro != null) {
+			this.idcuentaahorro = cuentaahorro.getIdcuentaahorro();
 		} else {
-			this.numerocuentaahorro = null;
+			this.idcuentaahorro = null;
 		}
 	}
 
@@ -118,7 +118,11 @@ public class Beneficiariocuenta implements Serializable {
 
 	public void setCuentacorriente(Cuentacorriente cuentacorriente) {
 		this.cuentacorriente = cuentacorriente;
-		this.numerocuentacorriente = cuentacorriente.getNumerocuentacorriente();
+		if (cuentacorriente != null) {
+			this.idcuentacorriente = cuentacorriente.getIdcuentacorriente();
+		} else {
+			this.idcuentacorriente = null;
+		}
 	}
 
 	public Cuentaplazofijo getCuentaplazofijo() {
@@ -127,9 +131,22 @@ public class Beneficiariocuenta implements Serializable {
 
 	public void setCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) {
 		this.cuentaplazofijo = cuentaplazofijo;
-		this.numerocuentaplazofijo = cuentaplazofijo.getNumerocuentaplazofijo();
+		if (cuentaplazofijo != null) {
+			this.idcuentaplazofijo = cuentaplazofijo.getIdcuentaplazofijo();
+		} else {
+			this.idcuentaplazofijo = null;
+		}
 	}
 
+	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
+		this.cuentaaporte = cuentaaporte;
+		if (cuentaaporte != null) {
+			this.idcuentaaporte = cuentaaporte.getIdcuentaaporte();
+		} else {
+			this.idcuentaaporte = null;
+		}
+	}
+	
 	public String getApellidopaterno() {
 		return apellidopaterno;
 	}
@@ -162,30 +179,42 @@ public class Beneficiariocuenta implements Serializable {
 		this.estado = estado;
 	}
 
-	public Integer getNumerocuentaahorro() {
-		return numerocuentaahorro;
+	public Cuentaaporte getCuentaaporte() {
+		return cuentaaporte;
 	}
 
-	public void setNumerocuentaahorro(Integer numerocuentaahorro) {
-		this.numerocuentaahorro = numerocuentaahorro;
+	public Integer getIdcuentaaporte() {
+		return idcuentaaporte;
 	}
 
-	public Integer getNumerocuentacorriente() {
-		return numerocuentacorriente;
+	public void setIdcuentaaporte(Integer idcuentaaporte) {
+		this.idcuentaaporte = idcuentaaporte;
 	}
 
-	public void setNumerocuentacorriente(Integer numerocuentacorriente) {
-		this.numerocuentacorriente = numerocuentacorriente;
+	public Integer getIdcuentaahorro() {
+		return idcuentaahorro;
 	}
 
-	public Integer getNumerocuentaplazofijo() {
-		return numerocuentaplazofijo;
+	public void setIdcuentaahorro(Integer idcuentaahorro) {
+		this.idcuentaahorro = idcuentaahorro;
 	}
 
-	public void setNumerocuentaplazofijo(Integer numerocuentaplazofijo) {
-		this.numerocuentaplazofijo = numerocuentaplazofijo;
+	public Integer getIdcuentacorriente() {
+		return idcuentacorriente;
 	}
 
+	public void setIdcuentacorriente(Integer idcuentacorriente) {
+		this.idcuentacorriente = idcuentacorriente;
+	}
+
+	public Integer getIdcuentaplazofijo() {
+		return idcuentaplazofijo;
+	}
+
+	public void setIdcuentaplazofijo(Integer idcuentaplazofijo) {
+		this.idcuentaplazofijo = idcuentaplazofijo;
+	}
+	
 	public String getNombreCompleto() {
 		String apellidoPaterno = getApellidopaterno();
 		String apellidoMaterno = getApellidomaterno();
@@ -204,24 +233,5 @@ public class Beneficiariocuenta implements Serializable {
 		return apellidoPaterno + " " + apellidoMaterno + " " + nombres;
 	}
 
-	public Cuentaaporte getCuentaaporte() {
-		return cuentaaporte;
-	}
-
-	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
-		this.cuentaaporte = cuentaaporte;
-		if(cuentaaporte != null){
-			this.numerocuentaaporte = cuentaaporte.getNumerocuentaaporte();
-		} else {
-			this.numerocuentaaporte = null;
-		}
-	}
-
-	public Integer getNumerocuentaaporte() {
-		return numerocuentaaporte;
-	}
-
-	public void setNumerocuentaaporte(Integer numerocuentaaporte) {
-		this.numerocuentaaporte = numerocuentaaporte;
-	}
+	
 }

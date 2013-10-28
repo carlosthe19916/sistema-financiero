@@ -26,7 +26,7 @@ public class Cuentaahorro implements Serializable {
 	private Integer idcuentaahorro;
 
 	@Column
-	private Integer codigosocio;
+	private Integer idsocio;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -44,10 +44,8 @@ public class Cuentaahorro implements Serializable {
 	@Column(nullable = false)
 	private Integer idagencia;
 	
-	
-	
 	@ManyToOne
-	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
+	@JoinColumn(name = "idsocio", insertable = false, updatable = false)
 	private Socio socio;
 
 	// bi-directional many-to-one association to Estadocuenta
@@ -82,14 +80,6 @@ public class Cuentaahorro implements Serializable {
 	private List<Tarjetadebitoasignadocuentaahorro> tarjetadebitoasignadocuentaahorros;
 
 	public Cuentaahorro() {
-	}
-
-	public Integer getNumerocuentaahorro() {
-		return this.idcuentaahorro;
-	}
-
-	public void setNumerocuentaahorro(Integer numerocuentaahorro) {
-		this.idcuentaahorro = numerocuentaahorro;
 	}
 
 	public Date getFechaapertura() {
@@ -234,12 +224,12 @@ public class Cuentaahorro implements Serializable {
 		this.idestadocuenta = idestadocuenta;
 	}
 
-	public Integer getCodigosocio() {
-		return codigosocio;
+	public Integer getIdsocio() {
+		return idsocio;
 	}
 
-	public void setCodigosocio(Integer codigosocio) {
-		this.codigosocio = codigosocio;
+	public void setIdsocio(Integer codigosocio) {
+		this.idsocio = codigosocio;
 	}
 
 	public Socio getSocio() {
@@ -249,9 +239,9 @@ public class Cuentaahorro implements Serializable {
 	public void setSocio(Socio socio) {
 		this.socio = socio;
 		if(socio != null){
-			this.codigosocio = socio.getCodigosocio();
+			this.idsocio = socio.getIdsocio();
 		} else {
-			this.codigosocio = null;
+			this.idsocio = null;
 		}
 	}
 
@@ -261,5 +251,21 @@ public class Cuentaahorro implements Serializable {
 
 	public void setIdagencia(Integer idagencia) {
 		this.idagencia = idagencia;
+	}
+
+	public Integer getIdcuentaahorro() {
+		return idcuentaahorro;
+	}
+
+	public void setIdcuentaahorro(Integer idcuentaahorro) {
+		this.idcuentaahorro = idcuentaahorro;
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 }

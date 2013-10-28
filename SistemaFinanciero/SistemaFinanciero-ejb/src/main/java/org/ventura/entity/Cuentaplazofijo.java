@@ -115,14 +115,6 @@ public class Cuentaplazofijo implements Serializable {
 	public Cuentaplazofijo() {
 	}
 
-	public Integer getNumerocuentaplazofijo() {
-		return this.idcuentaplazofijo;
-	}
-
-	public void setNumerocuentaplazofijo(Integer numerocuentaplazofijo) {
-		this.idcuentaplazofijo = numerocuentaplazofijo;
-	}
-
 	public Date getFechaapertura() {
 		return this.fechaapertura;
 	}
@@ -347,6 +339,22 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setIdagencia(Integer idagencia) {
 		this.idagencia = idagencia;
+	}
+
+	public Integer getIdcuentaplazofijo() {
+		return idcuentaplazofijo;
+	}
+
+	public void setIdcuentaplazofijo(Integer idcuentaplazofijo) {
+		this.idcuentaplazofijo = idcuentaplazofijo;
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }
