@@ -67,6 +67,7 @@
 		<class>org.ventura.entity.tasas.Tasainteres</class>
 		<class>org.ventura.entity.tasas.Tiposervicio</class>
 		<class>org.ventura.entity.tasas.Tipotasa</class>
+		<class>org.ventura.entity.ViewSocioPN</class>
 
 		<properties>
 			<!-- Properties for Hibernate -->

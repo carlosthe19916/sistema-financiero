@@ -105,8 +105,8 @@
 				</div>
 
 				<div class="sf-buttons">
-					<p:commandButton update="#{componentToUpdated}, growl"
-						value="Aceptar"
+					<p:commandButton update="#{componentToUpdated}, growl" 
+						value="Aceptar" actionListener="#{datosFinancierosCuentaPlazoFijoBean.mostrardatos()}"
 						oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" />
 					<p:commandButton value="Cancelar" onclick="#{componentName}.hide()"
 						styleClass="action" />

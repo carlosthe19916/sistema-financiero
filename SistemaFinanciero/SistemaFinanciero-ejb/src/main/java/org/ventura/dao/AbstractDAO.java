@@ -136,7 +136,6 @@ public abstract class AbstractDAO<T> {
 			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
 		return list;
-
 	}
 
 	public List<T> findByNamedQuery(String queryName, int resultLimit) throws RollbackFailureException, Exception {

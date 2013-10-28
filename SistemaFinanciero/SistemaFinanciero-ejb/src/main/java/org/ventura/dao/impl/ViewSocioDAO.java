@@ -1,26 +1,19 @@
 package org.ventura.dao.impl;
 
-import java.util.Iterator;
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-import javax.management.Query;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
-import org.hsqldb.Session;
 import org.ventura.dao.AbstractDAO;
-import org.ventura.entity.Socio;
+import org.ventura.entity.ViewSocioPN;
 import org.ventura.util.logger.Log;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class SocioDAO extends AbstractDAO<Socio>{
+public class ViewSocioDAO extends AbstractDAO<ViewSocioPN>{
 
 	@Inject
 	private Log log;
@@ -28,8 +21,8 @@ public class SocioDAO extends AbstractDAO<Socio>{
 	@PersistenceContext(unitName = "SistemaFinancieroPU")
     private EntityManager em;
 
-	public SocioDAO() {
-        super(Socio.class);
+	public ViewSocioDAO() {
+        super(ViewSocioPN.class);
     }
 	
     @Override

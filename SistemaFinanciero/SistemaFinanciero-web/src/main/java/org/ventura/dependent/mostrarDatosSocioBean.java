@@ -13,8 +13,10 @@ import javax.faces.bean.ViewScoped;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Personanatural;
+import org.ventura.entity.Socio;
 
 @ManagedBean
 @ViewScoped
@@ -26,6 +28,9 @@ public class mostrarDatosSocioBean implements Serializable {
 	PersonanaturalServiceLocal personaNaturalServiceLocal;
 	
 	@EJB
+	SocioServiceLocal socioServiceLocal;
+	
+	@EJB
 	CuentaahorroServiceLocal cuentaAhorroServiceLocal;
 	
 	@ManagedProperty(value = "#{TablaBean}")
@@ -35,6 +40,8 @@ public class mostrarDatosSocioBean implements Serializable {
 	private PersonaNaturalBean personaNaturalMB;
 	
 	private Personanatural oPersonaNatural;
+	
+	private Socio oSocio;
 	
 	
 	public mostrarDatosSocioBean() {
@@ -71,13 +78,22 @@ public class mostrarDatosSocioBean implements Serializable {
 		this.oPersonaNatural = oPersonaNatural;
 	}
 	
+	public Socio getoSocio() {
+		return oSocio;
+	}
+
+	public void setoSocio(Socio oSocio) {
+		this.oSocio = oSocio;
+	}
+	
 	public boolean isPersonaNatural() {
 		return true;
 	}
 	
 	public void cargarDatosPersonaNatural(){
 		try {
-			setoPersonaNatural(personaNaturalServiceLocal.find(oPersonaNatural.getDni()));
+			setoSocio(socioServiceLocal.find(oSocio.getDni()));
+			setoPersonaNatural(personaNaturalServiceLocal.find(oSocio.getDni()));
 			personaNaturalMB.setPersonaNatural(oPersonaNatural);
 			CargarCuentasPersonales();
 		} catch (Exception e) {
@@ -85,12 +101,12 @@ public class mostrarDatosSocioBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void CargarCuentasPersonales(){
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("dni", oPersonaNatural.getDni());
-		List list;
 		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("codigoSocio", oSocio.getIdsocio());
+			List list;
 			list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
 			tablaCuentasPN.setRows(list);
 			System.out.println("Cuentas "+list.size());
@@ -100,5 +116,4 @@ public class mostrarDatosSocioBean implements Serializable {
 		}
 		//List<Cuentaahorro> list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
 	}
-
 }
