@@ -22,15 +22,15 @@
 						rowsPerPageTemplate="50,100,200" widgetVar="tablaSocios"
 						rowIndexVar="row">
 
-						<p:ajax event="rowSelect"
-							listener="#{socioBean.obtenerDNISeleccionado()}"
-							update=":form-buttons"/>
+						<p:ajax event="rowSelect" listener="#{socioBean.obtenerDNISeleccionado()}" update=":form-buttons"/>
 
 						<p:column headerText="Nro" width="5%" style="text-align:center;">
 							<h:outputText value="#{row + 1}" />
 						</p:column>
 
-						
+						<p:column sortBy="#{socio.codigosocio}" headerText="Codigo Socio">
+							<h:outputText value="#{socio.codigosocio}" />
+						</p:column>
 						
 						<p:column sortBy="#{socio.dni}" headerText="DNI">
 							<h:outputText value="#{socio.dni}" />

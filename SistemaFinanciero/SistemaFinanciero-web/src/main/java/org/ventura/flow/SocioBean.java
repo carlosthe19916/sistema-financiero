@@ -16,7 +16,6 @@ import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.Socio;
-import org.venturabank.util.TablaMB;
 
 @ManagedBean
 @ViewScoped
@@ -136,4 +135,6 @@ public class SocioBean implements Serializable {
 	public void limpiarTablas(){
 		tablaSocios.getRows().clear();
 	}
+
+	
 }

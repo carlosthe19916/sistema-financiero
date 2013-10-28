@@ -10,7 +10,7 @@
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="dni" value="#{mostrarDatosSocioBean.oPersonaNatural.dni}" />
+		<f:viewParam name="dni" value="#{mostrarDatosSocioBean.oSocio.dni}" />
 		<f:event listener="#{mostrarDatosSocioBean.cargarDatosPersonaNatural()}" type="preRenderView"></f:event>
 	</f:metadata>
 
