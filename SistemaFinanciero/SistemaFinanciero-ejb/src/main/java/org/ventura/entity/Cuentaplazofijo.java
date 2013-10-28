@@ -58,7 +58,8 @@ public class Cuentaplazofijo implements Serializable {
 
 	@Column(nullable=false)
 	private double montointerespagado;
-
+	
+	@Column(nullable=false)
 	private double tasainteres;
 
 	@Column(nullable=false)
@@ -252,15 +253,21 @@ public class Cuentaplazofijo implements Serializable {
 
 		return titularcuenta;
 	}
+	
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
+		if(tipomoneda != null){
+			this.idtipomoneda = tipomoneda.getIdtipomoneda();
+		} else {
+			this.idtipomoneda = null;
+		}		
+	}
 
 	public Tipomoneda getTipomoneda() {
 		return tipomoneda;
 	}
 
-	public void setTipomoneda(Tipomoneda tipomoneda) {
-		this.tipomoneda = tipomoneda;
-	}
-
+	
 	public Integer getCodigosocio() {
 		return codigosocio;
 	}
