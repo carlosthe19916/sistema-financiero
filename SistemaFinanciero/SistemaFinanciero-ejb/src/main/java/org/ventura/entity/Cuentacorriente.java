@@ -20,7 +20,7 @@ public class Cuentacorriente implements Serializable {
 
 	@Id
 	@Column(unique=true, nullable=false)
-	private Integer numerocuentacorriente;
+	private Integer idcuentacorriente;
 
 	@Column
 	private Integer codigosocio;
@@ -82,11 +82,11 @@ public class Cuentacorriente implements Serializable {
 	}
 
 	public Integer getNumerocuentacorriente() {
-		return this.numerocuentacorriente;
+		return this.idcuentacorriente;
 	}
 
 	public void setNumerocuentacorriente(Integer numerocuentacorriente) {
-		this.numerocuentacorriente = numerocuentacorriente;
+		this.idcuentacorriente = numerocuentacorriente;
 	}
 
 	public Date getFechaapertura() {

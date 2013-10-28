@@ -20,7 +20,7 @@ public class Cuentaplazofijo implements Serializable {
 
 	@Id
 	@Column(unique=true, nullable=false)
-	private Integer numerocuentaplazofijo;
+	private Integer idcuentaplazofijo;
 
 	@Column
 	private Integer codigosocio;
@@ -116,11 +116,11 @@ public class Cuentaplazofijo implements Serializable {
 	}
 
 	public Integer getNumerocuentaplazofijo() {
-		return this.numerocuentaplazofijo;
+		return this.idcuentaplazofijo;
 	}
 
 	public void setNumerocuentaplazofijo(Integer numerocuentaplazofijo) {
-		this.numerocuentaplazofijo = numerocuentaplazofijo;
+		this.idcuentaplazofijo = numerocuentaplazofijo;
 	}
 
 	public Date getFechaapertura() {

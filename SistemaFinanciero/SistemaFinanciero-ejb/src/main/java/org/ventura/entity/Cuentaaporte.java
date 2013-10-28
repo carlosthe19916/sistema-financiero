@@ -25,7 +25,7 @@ public class Cuentaaporte implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(unique = true, nullable = false)
-	private Integer numerocuentaaporte;
+	private Integer idcuentaaporte;
 
 	@Column
 	private Integer codigosocio;
@@ -74,14 +74,7 @@ public class Cuentaaporte implements Serializable{
 	public Cuentaaporte() {
 	}
 
-	public Integer getNumerocuentaaporte() {
-		return this.numerocuentaaporte;
-	}
-
-	public void setNumerocuentaaporte(Integer numerocuentaaporte) {
-		this.numerocuentaaporte = numerocuentaaporte;
-	}
-
+	
 	public Date getFechaapertura() {
 		return this.fechaapertura;
 	}
@@ -189,6 +182,16 @@ public class Cuentaaporte implements Serializable{
 
 	public void setIdagencia(Integer idagencia) {
 		this.idagencia = idagencia;
+	}
+
+
+	public Integer getIdcuentaaporte() {
+		return idcuentaaporte;
+	}
+
+
+	public void setIdcuentaaporte(Integer idcuentaaporte) {
+		this.idcuentaaporte = idcuentaaporte;
 	}
 
 }

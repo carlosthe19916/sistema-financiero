@@ -23,7 +23,7 @@ public class Cuentaahorro implements Serializable {
 	
 	@Id
 	@Column(unique = true, nullable = false)
-	private Integer numerocuentaahorro;
+	private Integer idcuentaahorro;
 
 	@Column
 	private Integer codigosocio;
@@ -85,11 +85,11 @@ public class Cuentaahorro implements Serializable {
 	}
 
 	public Integer getNumerocuentaahorro() {
-		return this.numerocuentaahorro;
+		return this.idcuentaahorro;
 	}
 
 	public void setNumerocuentaahorro(Integer numerocuentaahorro) {
-		this.numerocuentaahorro = numerocuentaahorro;
+		this.idcuentaahorro = numerocuentaahorro;
 	}
 
 	public Date getFechaapertura() {

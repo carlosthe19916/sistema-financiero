@@ -1,6 +1,7 @@
 package org.ventura.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -26,10 +27,13 @@ public class Cuentacorrientehistorial implements Serializable {
 
 	@Column(nullable=false)
 	private double tasainteres;
+	
+	@Column(nullable = false)
+	private Integer idcuentacorriente;
 
 	//bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name="numerocuentacorriente", nullable=false)
+	@JoinColumn(name="idcuentacorriente", nullable=false)
 	private Cuentacorriente cuentacorriente;
 
 	public Cuentacorrientehistorial() {
@@ -73,6 +77,14 @@ public class Cuentacorrientehistorial implements Serializable {
 
 	public void setCuentacorriente(Cuentacorriente cuentacorriente) {
 		this.cuentacorriente = cuentacorriente;
+	}
+
+	public Integer getIdcuentacorriente() {
+		return idcuentacorriente;
+	}
+
+	public void setIdcuentacorriente(Integer idcuentacorriente) {
+		this.idcuentacorriente = idcuentacorriente;
 	}
 
 }
