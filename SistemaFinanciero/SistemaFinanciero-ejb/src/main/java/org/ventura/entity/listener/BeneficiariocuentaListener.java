@@ -13,7 +13,7 @@ public class BeneficiariocuentaListener {
 
 		if (beneficiariocuenta.getCuentaaporte() != null) {
 			Integer idcuentaaporte = beneficiariocuenta.getCuentaaporte().getIdcuentaaporte();
-			beneficiariocuenta.setIdcuentaaporte(idcuentaaporte);;
+			beneficiariocuenta.setIdcuentaaporte(idcuentaaporte);
 		}
 		
 		if (beneficiariocuenta.getCuentaahorro() != null) {

@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
@@ -22,14 +25,15 @@ import javax.persistence.TemporalType;
 public class Cuentaaporte implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idcuentaaporte;
 
 	@Column(length = 14)
 	private String numerocuentaaporte;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fechaapertura;
@@ -45,6 +49,9 @@ public class Cuentaaporte implements Serializable {
 
 	@Column(nullable = false)
 	private Integer idagencia;
+	
+	@Transient
+	private Socio socio;
 
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
@@ -63,9 +70,7 @@ public class Cuentaaporte implements Serializable {
 	// bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy = "cuentaaporte", cascade = CascadeType.ALL)
 	private List<Beneficiariocuenta> beneficiarios;
-
-	// bi-directional many-to-one association to Cuentaahorrohistorial
-
+	
 	public Cuentaaporte() {
 	}
 
@@ -142,13 +147,18 @@ public class Cuentaaporte implements Serializable {
 	public void setIdcuentaaporte(Integer idcuentaaporte) {
 		this.idcuentaaporte = idcuentaaporte;
 	}
-	
+
 	public Agencia getAgencia() {
 		return agencia;
 	}
 
 	public void setAgencia(Agencia agencia) {
 		this.agencia = agencia;
+		if(agencia != null){
+			this.idagencia = agencia.getIdagencia();
+		} else {
+			this.idagencia = null;
+		}
 	}
 
 	public String getNumerocuentaaporte() {
@@ -165,6 +175,14 @@ public class Cuentaaporte implements Serializable {
 
 	public void setBeneficiarios(List<Beneficiariocuenta> beneficiarios) {
 		this.beneficiarios = beneficiarios;
+	}
+
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
 	}
 
 }

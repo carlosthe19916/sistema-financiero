@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
+import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.BeneficiariosBean;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.DatosFinancierosCuentaAporteBean;
@@ -36,7 +37,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 	private String mensaje;
 
 	@EJB
-	private CuentaaporteServiceLocal cuentaaporteServiceLocal;
+	private SocioServiceLocal socioServiceLocal;
 
 	@Inject
 	private AgenciaBean agenciaBean;
@@ -59,12 +60,9 @@ public class AperturarCuentaaporteBean implements Serializable {
 	public String getReturnValue() {
 		return "/index?module=2";
 	}
-	
 		
 	@PostConstruct
 	private void initValues() {
-		Agencia agencia = agenciaBean.getAgencia();
-		cuentaaporteServiceLocal.setAgencia(agencia);
 		this.cargarCombos();
 	}
 
@@ -76,15 +74,10 @@ public class AperturarCuentaaporteBean implements Serializable {
 
 	public String createCuentaaporte() {
 		try {
-			if (validarCuentaAporte()) {
-				Cuentaaporte cuentaaporte = establecerParametrosCuentaaporte(this.cuentaaporte);
-				if (isPersonaNatural()) {
-					cuentaaporte = cuentaaporteServiceLocal.createCuentaAporteWithPersonanatural(cuentaaporte);
-				}
-				if (isPersonaJuridica()) {
-					this.cuentaaporte = this.cuentaaporteServiceLocal.createCuentaAporteWithPersonajuridica(cuentaaporte);
-				}				
-				this.cuentaaporte = cuentaaporte;
+ 			if (validarAperturarCuentaaporteBean()) {
+				Socio socio = new Socio();
+				socio = establecerParametrosCuentaaporte(socio);
+				socio = socioServiceLocal.create(socio);				
 				return "aperturarCuentaaporte-flowA";
 			} else {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
@@ -98,28 +91,31 @@ public class AperturarCuentaaporteBean implements Serializable {
 		return null;
 	}
 
-	public Cuentaaporte establecerParametrosCuentaaporte(Cuentaaporte cuentaaporte) throws Exception {
-		Socio socio = new Socio();
+	public Socio establecerParametrosCuentaaporte(Socio socio) throws Exception {
+		Agencia agencia = agenciaBean.getAgencia();
+		Cuentaaporte cuentaaporte = datosFinancierosCuentaAporteMB.getCuentaaporte();
+		
+		cuentaaporte.setAgencia(agencia);
+		socio.setCuentaaporte(cuentaaporte);
+		
 		if (isPersonaNatural()) {
 			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
 			socio.setPersonanatural(personanatural);
-			//cuentaaporte.setSocio(socio);
 			
 			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
 			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
 				Beneficiariocuenta beneficiariocuenta = iterator.next();
 				beneficiariocuenta.setCuentaaporte(cuentaaporte);
 			}			
-			//cuentaaporte.setBeneficiariocuentas(beneficiarios);		
+			cuentaaporte.setBeneficiarios(beneficiarios);		
 		} if (isPersonaJuridica()) {			
 			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
-			//cuentaaporte.setSocio(socio);
-		}
-		return cuentaaporte;
+		}	
+		return socio;
 	}
 
-	public boolean validarCuentaAporte() {
+	public boolean validarAperturarCuentaaporteBean() {
 
 		boolean result = true;
 

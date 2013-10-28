@@ -22,6 +22,7 @@ import org.ventura.entity.Personajuridica;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
 import org.ventura.util.logger.Log;
+import org.ventura.util.validate.Validator;
 
 @Stateless
 @Local(SocioServiceLocal.class)
@@ -45,31 +46,37 @@ public class SocioServiceBean implements SocioServiceLocal {
 	@Override
 	public Socio create(Socio socio) throws Exception {
 		try {
-			Personanatural personanatural = socio.getPersonanatural();
-			Personajuridica personajuridica = socio.getPersonajuridica();
-			if (personanatural != null) {
-				Object key = personanatural.getDni();
-				Object result = personanaturalServiceLocal.find(key);
-				if (result == null) {
-					personanaturalServiceLocal.create(personanatural);
-				}
-			}
-			if (personajuridica != null) {
-				Object key = personajuridica.getRuc();
-				Object result = personajuridicaServiceLocal.find(key);
-				if (result == null) {
-					personajuridicaServiceLocal.create(personajuridica);
-				}
-			}
-			
 			socio.setFechaasociado(Calendar.getInstance().getTime());
-			socio.setEstado(true);		
-			socioDAO.create(socio);		
+			socio.setEstado(true);	
+			
+			boolean isValidSocio = Validator.validateSocio(socio);
+			if(isValidSocio == true){
+				Personanatural personanatural = socio.getPersonanatural();
+				Personajuridica personajuridica = socio.getPersonajuridica();
+				if (personanatural != null) {
+					Object key = personanatural.getDni();
+					Object result = personanaturalServiceLocal.find(key);
+					if (result == null) {
+						personanaturalServiceLocal.create(personanatural);
+					}
+				}
+				if (personajuridica != null) {
+					Object key = personajuridica.getRuc();
+					Object result = personajuridicaServiceLocal.find(key);
+					if (result == null) {
+						personajuridicaServiceLocal.create(personajuridica);
+					}
+				}				
+				socioDAO.create(socio);	
+			} else {
+				log.error("Exception: method Validator(socio) is false");
+				throw new Exception("Datos de Socio Invalidos");
+			}			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw new Exception("Error: No se pudo Crear el Socio");
 		}
 		return socio;
 	}

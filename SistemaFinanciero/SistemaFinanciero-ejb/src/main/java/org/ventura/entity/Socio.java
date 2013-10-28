@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.listener.SocioListener;
+
 import java.util.Date;
 
 /**
@@ -12,12 +14,13 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "socio", schema = "socio")
+@EntityListeners( { SocioListener.class })
 @NamedQuery(name = "Socio.findAll", query = "SELECT s FROM Socio s")
 @NamedQueries({
 		@NamedQuery(name = Socio.ALL, query = "Select s From Sexo s"),
 		@NamedQuery(name = Socio.FindByDni, query = "Select s From Socio s WHERE s.estado=true AND s.dni=:dni"),
 		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.estado=true AND s.ruc=:ruc"),
-		@NamedQuery(name = Socio.SOCIOSPN, query = "Select s From Socio s where s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado or s.personanatural.nombres like :datoIngresado"),
+		//@NamedQuery(name = Socio.SOCIOSPN1, query = "Select s From Socio s where s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado or s.personanatural.nombres like :datoIngresado"),
 		@NamedQuery(name = Socio.SOCIOSPJ, query = "Select s From Socio s where s.ruc like :datoIngresado or s.personajuridica.razonsocial like :datoIngresado or s.personajuridica.nombrecomercial like :datoIngresado") })
 public class Socio implements Serializable {
 
@@ -26,7 +29,7 @@ public class Socio implements Serializable {
 	public final static String ALL = "org.ventura.model.Socio.ALL";
 	public final static String FindByDni = "org.ventura.model.Socio.FindByDni";
 	public final static String FindByRuc = "org.ventura.model.Socio.FindByRuc";
-	public final static String SOCIOSPN = "org.ventura.model.Socio.SOCIOSPN";
+	//public final static String SOCIOSPN1 = "org.ventura.model.Socio.SOCIOSPN1";
 	public final static String SOCIOSPJ = "org.ventura.model.Socio.SOCIOSPJ";
 
 	@Id
@@ -39,16 +42,16 @@ public class Socio implements Serializable {
 
 	@Column(length = 30)
 	private String ruc;
-	
+
 	@Column
 	private Integer idcuentaaporte;
-	
-	@Column(nullable = false)
-	private Boolean estado;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fechaasociado;
+	
+	@Column(nullable = false)
+	private Boolean estado;
 
 	@ManyToOne
 	@JoinColumn(name = "dni", insertable = false, updatable = false)
@@ -58,7 +61,8 @@ public class Socio implements Serializable {
 	@JoinColumn(name = "ruc", nullable = false, insertable = false, updatable = false)
 	private Personajuridica personajuridica;
 
-	@ManyToOne
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@PrimaryKeyJoinColumn
 	@JoinColumn(name = "idcuentaaporte", nullable = false, insertable = false, updatable = false)
 	private Cuentaaporte cuentaaporte;
 	
@@ -145,6 +149,10 @@ public class Socio implements Serializable {
 
 	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
 		this.cuentaaporte = cuentaaporte;
+		if (cuentaaporte != null) {
+			this.idcuentaaporte = cuentaaporte.getIdcuentaaporte();
+		} else {
+			this.cuentaaporte = null;
+		}
 	}
-
 }

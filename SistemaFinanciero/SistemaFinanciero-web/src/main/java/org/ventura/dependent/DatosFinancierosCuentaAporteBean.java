@@ -2,6 +2,7 @@ package org.ventura.dependent;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -43,6 +44,8 @@ public class DatosFinancierosCuentaAporteBean implements Serializable {
 		tipomoneda.setEstado(true);
 		tipomoneda.setDenominacion("NUEVOS SOLES");
 		this.cuentaaporte.setTipomoneda(tipomoneda);
+		
+		this.cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
 	}
 	
 	public boolean isValid(){

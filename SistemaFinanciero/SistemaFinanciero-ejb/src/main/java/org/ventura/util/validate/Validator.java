@@ -6,6 +6,7 @@ import java.util.List;
 import org.ventura.entity.Beneficiariocuenta;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaahorrohistorial;
+import org.ventura.entity.Cuentaaporte;
 import org.ventura.entity.Personanatural;
 import org.ventura.entity.Socio;
 import org.ventura.entity.Titularcuenta;
@@ -38,8 +39,30 @@ public class Validator {
 		return true;
 	}
 	
+	public static boolean validateCuentaaporte(Cuentaaporte cuentaaporte){
+		if(cuentaaporte == null){
+			return false;
+		}
+		if(cuentaaporte.getIdestadocuenta() == null){
+			return false;
+		}
+		if(cuentaaporte.getIdtipomoneda() == null){
+			return false;
+		}
+		if(!validateBeneficiarios(cuentaaporte.getBeneficiarios())){
+			return false;
+		}
+		return true;
+	}
+	
 	public static boolean validateSocio(Socio socio){
 		if(socio == null){
+			return false;
+		}
+		if(socio.getCuentaaporte() == null){
+			return false;
+		}
+		if(!validateCuentaaporte(socio.getCuentaaporte())){
 			return false;
 		}
 		if(socio.getEstado() == null){
@@ -48,8 +71,13 @@ public class Validator {
 		if(socio.getDni() == null && socio.getRuc() == null){
 			return false;
 		}
+		if(socio.getDni() != null && socio.getRuc() != null){
+			return false;
+		}
 		return true;
 	}
+	
+	
 	
 	public static boolean validateCuentaahorrohistoriales(List<Cuentaahorrohistorial> cuentaahorrohistoriales){
 		if(cuentaahorrohistoriales == null){

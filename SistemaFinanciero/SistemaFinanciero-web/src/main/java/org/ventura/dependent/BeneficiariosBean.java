@@ -26,7 +26,8 @@ public class BeneficiariosBean implements Serializable {
 	}
 	
 	public void addBeneficiario() {
-		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();		
+		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();
+		beneficiariocuenta.setEstado(true);
 		this.tablaBeneficiarios.addRow(beneficiariocuenta);
 	}
 	
