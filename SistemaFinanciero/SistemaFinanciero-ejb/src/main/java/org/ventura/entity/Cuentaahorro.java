@@ -22,8 +22,8 @@ public class Cuentaahorro implements Serializable {
 	public final static String CUENTAS = "org.ventura.model.Cuentaahorro.CUENTAS";
 	
 	@Id
-	@Column(unique = true, nullable = false, length = 14)
-	private String numerocuentaahorro;
+	@Column(unique = true, nullable = false)
+	private Integer numerocuentaahorro;
 
 	@Column
 	private Integer codigosocio;
@@ -76,11 +76,11 @@ public class Cuentaahorro implements Serializable {
 	public Cuentaahorro() {
 	}
 
-	public String getNumerocuentaahorro() {
+	public Integer getNumerocuentaahorro() {
 		return this.numerocuentaahorro;
 	}
 
-	public void setNumerocuentaahorro(String numerocuentaahorro) {
+	public void setNumerocuentaahorro(Integer numerocuentaahorro) {
 		this.numerocuentaahorro = numerocuentaahorro;
 	}
 

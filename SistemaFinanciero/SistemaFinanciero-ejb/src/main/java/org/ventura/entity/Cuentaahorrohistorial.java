@@ -28,8 +28,8 @@ public class Cuentaahorrohistorial implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable = false, length = 14)
-	private String numerocuentaahorro;
+	@Column(nullable = false)
+	private Integer numerocuentaahorro;
 
 	@Column(nullable = false)
 	private Double tasainteres;
@@ -87,11 +87,11 @@ public class Cuentaahorrohistorial implements Serializable {
 		}
 	}
 
-	public String getNumerocuentaahorro() {
+	public Integer getNumerocuentaahorro() {
 		return numerocuentaahorro;
 	}
 
-	public void setNumerocuentaahorro(String numerocuentaahorro) {
+	public void setNumerocuentaahorro(Integer numerocuentaahorro) {
 		this.numerocuentaahorro = numerocuentaahorro;
 	}
 

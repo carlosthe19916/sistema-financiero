@@ -19,8 +19,8 @@ public class Cuentaplazofijo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false, length=14)
-	private String numerocuentaplazofijo;
+	@Column(unique=true, nullable=false)
+	private Integer numerocuentaplazofijo;
 
 	@Column
 	private Integer codigosocio;
@@ -106,11 +106,11 @@ public class Cuentaplazofijo implements Serializable {
 	public Cuentaplazofijo() {
 	}
 
-	public String getNumerocuentaplazofijo() {
+	public Integer getNumerocuentaplazofijo() {
 		return this.numerocuentaplazofijo;
 	}
 
-	public void setNumerocuentaplazofijo(String numerocuentaplazofijo) {
+	public void setNumerocuentaplazofijo(Integer numerocuentaplazofijo) {
 		this.numerocuentaplazofijo = numerocuentaplazofijo;
 	}
 
@@ -260,7 +260,7 @@ public class Cuentaplazofijo implements Serializable {
 			this.idtipomoneda = tipomoneda.getIdtipomoneda();
 		} else {
 			this.idtipomoneda = null;
-		}		
+		}			
 	}
 
 	public Tipomoneda getTipomoneda() {

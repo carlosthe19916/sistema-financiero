@@ -40,17 +40,17 @@ public class Beneficiariocuenta implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(length = 14)
-	private String numerocuentaaporte;
+	@Column
+	private Integer numerocuentaaporte;
 	
-	@Column(length = 14)
-	private String numerocuentaahorro;
+	@Column
+	private Integer numerocuentaahorro;
 
-	@Column(length = 14)
-	private String numerocuentacorriente;
+	@Column
+	private Integer numerocuentacorriente;
 
-	@Column(length = 14)
-	private String numerocuentaplazofijo;
+	@Column
+	private Integer numerocuentaplazofijo;
 
 	// bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
@@ -162,27 +162,27 @@ public class Beneficiariocuenta implements Serializable {
 		this.estado = estado;
 	}
 
-	public String getNumerocuentaahorro() {
+	public Integer getNumerocuentaahorro() {
 		return numerocuentaahorro;
 	}
 
-	public void setNumerocuentaahorro(String numerocuentaahorro) {
+	public void setNumerocuentaahorro(Integer numerocuentaahorro) {
 		this.numerocuentaahorro = numerocuentaahorro;
 	}
 
-	public String getNumerocuentacorriente() {
+	public Integer getNumerocuentacorriente() {
 		return numerocuentacorriente;
 	}
 
-	public void setNumerocuentacorriente(String numerocuentacorriente) {
+	public void setNumerocuentacorriente(Integer numerocuentacorriente) {
 		this.numerocuentacorriente = numerocuentacorriente;
 	}
 
-	public String getNumerocuentaplazofijo() {
+	public Integer getNumerocuentaplazofijo() {
 		return numerocuentaplazofijo;
 	}
 
-	public void setNumerocuentaplazofijo(String numerocuentaplazofijo) {
+	public void setNumerocuentaplazofijo(Integer numerocuentaplazofijo) {
 		this.numerocuentaplazofijo = numerocuentaplazofijo;
 	}
 
@@ -217,11 +217,11 @@ public class Beneficiariocuenta implements Serializable {
 		}
 	}
 
-	public String getNumerocuentaaporte() {
+	public Integer getNumerocuentaaporte() {
 		return numerocuentaaporte;
 	}
 
-	public void setNumerocuentaaporte(String numerocuentaaporte) {
+	public void setNumerocuentaaporte(Integer numerocuentaaporte) {
 		this.numerocuentaaporte = numerocuentaaporte;
 	}
 }

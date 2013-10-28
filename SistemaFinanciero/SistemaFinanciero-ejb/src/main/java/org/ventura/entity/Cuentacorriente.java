@@ -19,8 +19,8 @@ public class Cuentacorriente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false, length=14)
-	private String numerocuentacorriente;
+	@Column(unique=true, nullable=false)
+	private Integer numerocuentacorriente;
 
 	@Column
 	private Integer codigosocio;
@@ -74,11 +74,11 @@ public class Cuentacorriente implements Serializable {
 	public Cuentacorriente() {
 	}
 
-	public String getNumerocuentacorriente() {
+	public Integer getNumerocuentacorriente() {
 		return this.numerocuentacorriente;
 	}
 
-	public void setNumerocuentacorriente(String numerocuentacorriente) {
+	public void setNumerocuentacorriente(Integer numerocuentacorriente) {
 		this.numerocuentacorriente = numerocuentacorriente;
 	}
 
