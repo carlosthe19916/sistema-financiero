@@ -23,10 +23,13 @@ public class DatosFinancierosCuentaAporteBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	CuentaaporteServiceLocal cuentaaporteServiceLocal;
+	private CuentaaporteServiceLocal cuentaaporteServiceLocal;
 
 	@Inject
 	private Cuentaaporte cuentaaporte;
+	
+	@Inject
+	private Estadocuenta estadocuenta;
 
 	public DatosFinancierosCuentaAporteBean() {	
 	}
