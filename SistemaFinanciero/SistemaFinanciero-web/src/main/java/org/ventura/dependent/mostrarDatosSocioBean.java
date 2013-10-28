@@ -105,7 +105,7 @@ public class mostrarDatosSocioBean implements Serializable {
 	public void CargarCuentasPersonales(){
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("codigoSocio", oSocio.getCodigosocio());
+			parameters.put("codigoSocio", oSocio.getIdsocio());
 			List list;
 			list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
 			tablaCuentasPN.setRows(list);
