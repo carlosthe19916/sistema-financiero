@@ -4,36 +4,35 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the cuentacorrientehistorial database table.
  * 
  */
 @Entity
-@Table(name="cuentacorrientehistorial",schema="cuentapersonal")
-@NamedQuery(name="Cuentacorrientehistorial.findAll", query="SELECT c FROM Cuentacorrientehistorial c")
+@Table(name = "cuentacorrientehistorial", schema = "cuentapersonal")
+@NamedQuery(name = "Cuentacorrientehistorial.findAll", query = "SELECT c FROM Cuentacorrientehistorial c")
 public class Cuentacorrientehistorial implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idcuentacorrientehistorial;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer cantidadretirantes;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private double tasainteres;
-	
+
 	@Column(nullable = false)
 	private Integer idcuentacorriente;
 
-	//bi-directional many-to-one association to Cuentacorriente
+	// bi-directional many-to-one association to Cuentacorriente
 	@ManyToOne
-	@JoinColumn(name="idcuentacorriente", nullable=false)
+	@JoinColumn(name = "idcuentacorriente", nullable = false, insertable = false, updatable = false)
 	private Cuentacorriente cuentacorriente;
 
 	public Cuentacorrientehistorial() {

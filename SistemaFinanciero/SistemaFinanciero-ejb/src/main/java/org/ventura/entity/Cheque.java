@@ -19,8 +19,8 @@ public class Cheque implements Serializable {
 	@Column(nullable = false)
 	private Integer idestadocheque;
 
-	@Column(nullable = false, length = 14)
-	private String numerocuentacorriente;
+	@Column(nullable = false)
+	private Integer idcuentacorriente;
 
 	@ManyToOne
 	@JoinColumn(name = "idestadocheque", nullable = false, insertable = false, updatable = false)
@@ -45,12 +45,12 @@ public class Cheque implements Serializable {
 		this.idestadocheque = idestadocheque;
 	}
 
-	public String getNumerocuentacorriente() {
-		return this.numerocuentacorriente;
+	public Integer getIdcuentacorriente() {
+		return this.idcuentacorriente;
 	}
 
-	public void setNumerocuentacorriente(String numerocuentacorriente) {
-		this.numerocuentacorriente = numerocuentacorriente;
+	public void setIdcuentacorriente(Integer idcuentacorriente) {
+		this.idcuentacorriente = idcuentacorriente;
 	}
 
 	public Chequeestado getChequeestado() {
