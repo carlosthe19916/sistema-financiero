@@ -30,15 +30,17 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td><h:form>
+					<td>
+						<h:form>
 							<p:selectOneMenu
 								value="#{aperturarCuentaPlazofijoBean.comboTipoPersona.itemSelected}">
 								<f:selectItems
 									value="#{aperturarCuentaPlazofijoBean.comboTipoPersona.items.entrySet()}"
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-								<p:ajax update=":panelDatos"></p:ajax>
+								<p:ajax listener="#{aperturarCuentaPlazofijoBean.establecerTitularDefecto()}" update=":panelDatos"/>
 							</p:selectOneMenu>
-						</h:form></td>
+						</h:form>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -54,7 +56,8 @@
 			<ui:include src="/modules/maestros/personaNaturalDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaPlazofijoBean}" />
 				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated" value=":personaNatural" />
+				<ui:param name="componentToUpdated"
+					value=":personaNatural,:titulares" />
 			</ui:include>
 			<!-- end PersonaNatural -->
 
@@ -67,22 +70,23 @@
 			<ui:include src="/modules/maestros/personaJuridicaDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaPlazofijoBean}" />
 				<ui:param name="componentName" value="dlgPersonaJuridica" />
-				<ui:param name="componentToUpdated" value="personaJuridica" />
+				<ui:param name="componentToUpdated"
+					value="personaJuridica,:titulares" />
 			</ui:include>
 			<!-- end Persona Juridica -->
 
-			<!-- Datos financieros cuenta Plazo Fijo -->
+			<!-- Datos financieros cuenta ahorros -->
 			<ui:include
 				src="/modules/cuentasPersonales/apertura/datosFinancierosCuentaPlazoFijoResumen.xhtml">
-				<ui:param name="componentName" value="datosFinancierosResumen" />
+				<ui:param name="componentName" value="datosFinancieros" />
 				<ui:param name="editarOutputDialog" value="dlgDatosFinancieros" />
 			</ui:include>
 			<ui:include
 				src="/modules/cuentasPersonales/apertura/datosFinancierosCuentaPlazoFijoDialog.xhtml">
 				<ui:param name="componentName" value="dlgDatosFinancieros" />
-				<ui:param name="componentToUpdated" value=":datosFinancierosResumen" />
+				<ui:param name="componentToUpdated" value=":datosFinancieros" />
 			</ui:include>
-			<!-- end Datos financieros Plazo Fijo -->
+			<!-- end Datos financieros cuenta ahorros -->
 
 			<!-- Titulares -->
 			<ui:include src="/modules/maestros/titularesResumen.xhtml">
@@ -111,7 +115,8 @@
 			<!-- end Beneficiarios -->
 		</h:panelGroup>
 
-		<h:form>
+		<div class="sf-buttons">
+			<h:form>
 				<p:growl id="messages" showDetail="true" />
 				<p:commandButton 
 					value="Guardar"
@@ -122,6 +127,7 @@
 
 				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"/>
 			</h:form>
+		</div>
 
 	</ui:define>
 

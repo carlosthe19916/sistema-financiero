@@ -34,7 +34,9 @@
 									<p:outputLabel value="Fecha Apertura:" />
 								</td>
 								<td>
-									<p:outputLabel value="#{datosFinancierosCuentaAhorroMB.fechaActual()}" styleClass="sf-label-bold" />
+									<p:outputLabel value="#{aperturaCuentaahorroBean.datosFinancierosCuentaAhorroMB.cuentaahorro.fechaapertura}" styleClass="sf-label-bold">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</p:outputLabel>
 								</td>
 							</tr>
 							<tr>

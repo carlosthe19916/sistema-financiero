@@ -19,8 +19,8 @@ public class Cuentaplazofijo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false, length=14)
-	private String numerocuentaplazofijo;
+	@Column(unique=true, nullable=false)
+	private Integer idcuentaplazofijo;
 
 	@Column
 	private Integer codigosocio;
@@ -58,7 +58,8 @@ public class Cuentaplazofijo implements Serializable {
 
 	@Column(nullable=false)
 	private double montointerespagado;
-
+	
+	@Column(nullable=false)
 	private double tasainteres;
 
 	@Column(nullable=false)
@@ -70,9 +71,18 @@ public class Cuentaplazofijo implements Serializable {
 	@Column(nullable=false)
 	private double trea;
 	
+	@Column(nullable=false)
+	private Integer idagencia;
+	
+	
+	
 	@ManyToOne
 	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
 	private Socio socio;
+	
+	@ManyToOne
+	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
+	private Agencia agencia;
 	
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
@@ -103,14 +113,6 @@ public class Cuentaplazofijo implements Serializable {
 	private List<Titularcuenta> titularcuentas;
 
 	public Cuentaplazofijo() {
-	}
-
-	public String getNumerocuentaplazofijo() {
-		return this.numerocuentaplazofijo;
-	}
-
-	public void setNumerocuentaplazofijo(String numerocuentaplazofijo) {
-		this.numerocuentaplazofijo = numerocuentaplazofijo;
 	}
 
 	public Date getFechaapertura() {
@@ -252,15 +254,21 @@ public class Cuentaplazofijo implements Serializable {
 
 		return titularcuenta;
 	}
+	
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
+		if(tipomoneda != null){
+			this.idtipomoneda = tipomoneda.getIdtipomoneda();
+		} else {
+			this.idtipomoneda = null;
+		}			
+	}
 
 	public Tipomoneda getTipomoneda() {
 		return tipomoneda;
 	}
 
-	public void setTipomoneda(Tipomoneda tipomoneda) {
-		this.tipomoneda = tipomoneda;
-	}
-
+	
 	public Integer getCodigosocio() {
 		return codigosocio;
 	}
@@ -323,6 +331,30 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setIdestadocuenta(Integer idestadocuenta) {
 		this.idestadocuenta = idestadocuenta;
+	}
+
+	public Integer getIdagencia() {
+		return idagencia;
+	}
+
+	public void setIdagencia(Integer idagencia) {
+		this.idagencia = idagencia;
+	}
+
+	public Integer getIdcuentaplazofijo() {
+		return idcuentaplazofijo;
+	}
+
+	public void setIdcuentaplazofijo(Integer idcuentaplazofijo) {
+		this.idcuentaplazofijo = idcuentaplazofijo;
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }

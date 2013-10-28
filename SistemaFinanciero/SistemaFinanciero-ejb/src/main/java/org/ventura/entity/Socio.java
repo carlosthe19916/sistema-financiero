@@ -18,7 +18,7 @@ import java.util.Date;
 		@NamedQuery(name = Socio.FindByDni, query = "Select s From Socio s WHERE s.estado=true AND s.dni=:dni"),
 		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.estado=true AND s.ruc=:ruc"),
 		@NamedQuery(name = Socio.SOCIOSPN, query = "Select s From Socio s where s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado or s.personanatural.nombres like :datoIngresado"),
-		@NamedQuery(name = Socio.SOCIOSPJ, query = "Select s From Socio s where s.ruc like :datoIngresado or s.personajuridica.razonsocial like :datoIngresado or s.personajuridica.nombrecomercial like :datoIngresado")})
+		@NamedQuery(name = Socio.SOCIOSPJ, query = "Select s From Socio s where s.ruc like :datoIngresado or s.personajuridica.razonsocial like :datoIngresado or s.personajuridica.nombrecomercial like :datoIngresado") })
 public class Socio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,40 +30,39 @@ public class Socio implements Serializable {
 	public final static String SOCIOSPJ = "org.ventura.model.Socio.SOCIOSPJ";
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
-	private Integer codigosocio;
+	private Integer idsocio;
 
 	@Column(length = 8)
 	private String dni;
+
+	@Column(length = 30)
+	private String ruc;
+	
+	@Column
+	private Integer idcuentaaporte;
+	
+	@Column(nullable = false)
+	private Boolean estado;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
+	private Date fechaasociado;
 
 	@ManyToOne
 	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanatural personanatural;
 
-	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	private Date fechaasociado;
-
-	@Column(length = 30)
-	private String ruc;
-	
-	@Column(nullable = false)
-	private Boolean estado;
-
 	@ManyToOne
 	@JoinColumn(name = "ruc", nullable = false, insertable = false, updatable = false)
 	private Personajuridica personajuridica;
 
+	@ManyToOne
+	@JoinColumn(name = "idcuentaaporte", nullable = false, insertable = false, updatable = false)
+	private Cuentaaporte cuentaaporte;
+	
 	public Socio() {
-	}
-
-	public Integer getCodigosocio() {
-		return this.codigosocio;
-	}
-
-	public void setCodigosocio(Integer codigosocio) {
-		this.codigosocio = codigosocio;
 	}
 
 	public String getDni() {
@@ -96,7 +95,7 @@ public class Socio implements Serializable {
 
 	public void setPersonanatural(Personanatural personanatural) {
 		this.personanatural = personanatural;
-		if(personanatural != null){
+		if (personanatural != null) {
 			this.dni = personanatural.getDni();
 		} else {
 			this.dni = null;
@@ -109,7 +108,7 @@ public class Socio implements Serializable {
 
 	public void setPersonajuridica(Personajuridica personajuridica) {
 		this.personajuridica = personajuridica;
-		if(personajuridica != null){
+		if (personajuridica != null) {
 			this.ruc = personajuridica.getRuc();
 		} else {
 			this.ruc = null;
@@ -122,6 +121,30 @@ public class Socio implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+
+	public Integer getIdsocio() {
+		return idsocio;
+	}
+
+	public void setIdsocio(Integer idsocio) {
+		this.idsocio = idsocio;
+	}
+
+	public Integer getIdcuentaaporte() {
+		return idcuentaaporte;
+	}
+
+	public void setIdcuentaaporte(Integer idcuentaaporte) {
+		this.idcuentaaporte = idcuentaaporte;
+	}
+
+	public Cuentaaporte getCuentaaporte() {
+		return cuentaaporte;
+	}
+
+	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
+		this.cuentaaporte = cuentaaporte;
 	}
 
 }

@@ -12,23 +12,23 @@ public class BeneficiariocuentaListener {
 	public void updateFeatureCode(Beneficiariocuenta beneficiariocuenta) {
 
 		if (beneficiariocuenta.getCuentaaporte() != null) {
-			String numeroCuentaaporte = beneficiariocuenta.getCuentaaporte().getNumerocuentaaporte();
-			beneficiariocuenta.setNumerocuentaaporte(numeroCuentaaporte);
+			Integer idcuentaaporte = beneficiariocuenta.getCuentaaporte().getIdcuentaaporte();
+			beneficiariocuenta.setIdcuentaaporte(idcuentaaporte);;
 		}
 		
 		if (beneficiariocuenta.getCuentaahorro() != null) {
-			String numeroCuentaahorro = beneficiariocuenta.getCuentaahorro().getNumerocuentaahorro();
-			beneficiariocuenta.setNumerocuentaahorro(numeroCuentaahorro);
+			Integer idcuentaahorro = beneficiariocuenta.getCuentaahorro().getIdcuentaahorro();
+			beneficiariocuenta.setIdcuentaahorro(idcuentaahorro);;
 		}
 		
 		if (beneficiariocuenta.getCuentacorriente() != null) {
-			String numeroCuentaCorriente = beneficiariocuenta.getCuentacorriente().getNumerocuentacorriente();
-			beneficiariocuenta.setNumerocuentaahorro(numeroCuentaCorriente);
+			Integer idcuentacorriente = beneficiariocuenta.getCuentacorriente().getIdcuentacorriente();
+			beneficiariocuenta.setIdcuentacorriente(idcuentacorriente);;
 		}
 		
 		if (beneficiariocuenta.getCuentaplazofijo() != null) {
-			String numeroCuentaplazofijo = beneficiariocuenta.getCuentaplazofijo().getNumerocuentaplazofijo();
-			beneficiariocuenta.setNumerocuentaahorro(numeroCuentaplazofijo);
+			Integer idcuentaplazofijo = beneficiariocuenta.getCuentaplazofijo().getIdcuentaplazofijo();
+			beneficiariocuenta.setIdcuentaplazofijo(idcuentaplazofijo);;
 		}
 	}
 }

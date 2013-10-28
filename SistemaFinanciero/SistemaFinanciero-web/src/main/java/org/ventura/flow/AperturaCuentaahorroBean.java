@@ -120,10 +120,14 @@ public class AperturaCuentaahorroBean implements Serializable {
 	}
 
 	public Cuentaahorro establecerParametrosCuentaahorro(Cuentaahorro cuentaahorro) throws Exception {
+		cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
+		cuentaahorro.getCuentaahorrohistorials().get(0).setCantidadretirantes(titularesMB.getCantidadRetirantes());
+		
 		Socio socio = new Socio();
 		if (isPersonaNatural()) {
 			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
 			socio.setPersonanatural(personanatural);
+			socio.setEstado(true);
 			cuentaahorro.setSocio(socio);
 			
 			List<Titularcuenta> titulares = titularesMB.getListTitulares();
@@ -131,6 +135,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 				Titularcuenta titular = iterator.next();
 				titular.setCuentaahorro(cuentaahorro);
 			}
+			cuentaahorro.setTitularcuentas(titulares);
 			
 			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
 			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
@@ -142,8 +147,10 @@ public class AperturaCuentaahorroBean implements Serializable {
 		} if (isPersonaJuridica()) {			
 			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
+			socio.setEstado(true);
 			cuentaahorro.setSocio(socio);
 		}
+		
 		return cuentaahorro;
 	}
 	

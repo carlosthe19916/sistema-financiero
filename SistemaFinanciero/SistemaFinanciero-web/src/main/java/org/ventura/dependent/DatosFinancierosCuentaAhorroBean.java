@@ -2,9 +2,8 @@ package org.ventura.dependent;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,10 +13,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaahorrohistorial;
 import org.ventura.entity.Estadocuenta;
 import org.ventura.entity.Tipomoneda;
+import org.ventura.entity.TiposervicioType;
+import org.ventura.entity.TipotasaPasivaType;
 
 @Named
 @Dependent
@@ -26,53 +28,44 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	CuentaahorroServiceLocal cuentaahorroServiceLocal;
-
+	private CuentaahorroServiceLocal cuentaahorroServiceLocal;
+	@EJB
+	private TasainteresServiceLocal tasainteresServiceLocal;
+	@Inject
 	private Cuentaahorro cuentaahorro;
-	
+	@Inject
 	private Cuentaahorrohistorial cuentaahorrohistorial;
-
 	@Inject
 	private ComboBean<Tipomoneda> comboTipomoneda;
 
-	/*
-	 * Constructor
-	 */
-	public DatosFinancierosCuentaAhorroBean() {
-		this.cuentaahorro = new Cuentaahorro();
-		this.cuentaahorrohistorial = new Cuentaahorrohistorial();	
-		this.cuentaahorrohistorial.setTasainteres(5);
-		this.cuentaahorrohistorial.setEstado(true);
-		this.cuentaahorrohistorial.setCuentaahorro(cuentaahorro);
-		
+	@PostConstruct
+	private void initValues() throws Exception {
 		Estadocuenta estadocuenta = new Estadocuenta();
 		estadocuenta.setDenominacion("Activo");
 		estadocuenta.setIdestadocuenta(1);
+		estadocuenta.setEstado(true);		
+		this.cuentaahorro.setEstadocuenta(estadocuenta);	
+		this.cuentaahorro.addCuentaahorrohistorial(cuentaahorrohistorial);
+		this.cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
 		
-		this.cuentaahorro.setEstadocuenta(estadocuenta);
-	}
-
-	@PostConstruct
-	private void initValues() {
+		Double tasainteres = tasainteresServiceLocal.getTasainteres(TiposervicioType.CUENTA_AHORRO, TipotasaPasivaType.TICAH, new Double(0));
 		
+		this.cuentaahorrohistorial.setCantidadretirantes(0);
+		this.cuentaahorrohistorial.setEstado(true);
+		this.cuentaahorrohistorial.setTasainteres(tasainteres);
+		this.cuentaahorrohistorial.setCuentaahorro(cuentaahorro);
+	
 		cargarCombos();
 		
-		List<Cuentaahorrohistorial> listCuentaahorrohistorial = new ArrayList<Cuentaahorrohistorial>();
-		this.cuentaahorro.setCuentaahorrohistorials(listCuentaahorrohistorial);
 		
-		this.cuentaahorro.addCuentaahorrohistorial(cuentaahorrohistorial);
 	}
 
-	/*
-	 * Bussiness Logic
-	 */
+	private void cargarCombos(){
+		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
+	}
 	
 	public boolean isValid(){
 		return cuentaahorro.getIdtipomoneda() != null ? true : false;
-	}
-	
-	private void cargarCombos(){
-		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 	}
 	
 	public void changeTipomoneda(ValueChangeEvent event) {
@@ -81,10 +74,6 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 		this.cuentaahorro.setTipomoneda(tipomonedaSelected);
 	}
 	
-
-	/*
-	 * Getters and Setters
-	 */
 	public Cuentaahorro getCuentaahorro() {
 		return cuentaahorro;
 	}
@@ -97,8 +86,7 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 		return cuentaahorrohistorial;
 	}
 
-	public void setCuentaahorrohistorial(
-			Cuentaahorrohistorial cuentaahorrohistorial) {
+	public void setCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
 		this.cuentaahorrohistorial = cuentaahorrohistorial;
 	}
 	

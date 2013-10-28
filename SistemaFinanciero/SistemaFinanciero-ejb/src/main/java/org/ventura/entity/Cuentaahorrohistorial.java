@@ -28,15 +28,15 @@ public class Cuentaahorrohistorial implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable = false, length = 14)
-	private String numerocuentaahorro;
+	@Column(nullable = false)
+	private Integer idcuentaahorro;
 
 	@Column(nullable = false)
-	private double tasainteres;
+	private Double tasainteres;
 
 	// bi-directional many-to-one association to Cuentaahorro
 	@ManyToOne
-	@JoinColumn(name = "numerocuentaahorro", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idcuentaahorro", nullable = false, insertable = false, updatable = false)
 	private Cuentaahorro cuentaahorro;
 
 	public Cuentaahorrohistorial() {
@@ -66,11 +66,11 @@ public class Cuentaahorrohistorial implements Serializable {
 		this.estado = estado;
 	}
 
-	public double getTasainteres() {
+	public Double getTasainteres() {
 		return this.tasainteres;
 	}
 
-	public void setTasainteres(double tasainteres) {
+	public void setTasainteres(Double tasainteres) {
 		this.tasainteres = tasainteres;
 	}
 
@@ -80,14 +80,19 @@ public class Cuentaahorrohistorial implements Serializable {
 
 	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
 		this.cuentaahorro = cuentaahorro;
+		if(cuentaahorro != null){
+			this.idcuentaahorro = cuentaahorro.getIdcuentaahorro();
+		} else {
+			this.idcuentaahorro = null;
+		}
 	}
 
-	public String getNumerocuentaahorro() {
-		return numerocuentaahorro;
+	public Integer getIdcuentaahorro() {
+		return idcuentaahorro;
 	}
 
-	public void setNumerocuentaahorro(String numerocuentaahorro) {
-		this.numerocuentaahorro = numerocuentaahorro;
+	public void setIdcuentaahorro(Integer idcuentaahorro) {
+		this.idcuentaahorro = idcuentaahorro;
 	}
 
 }

@@ -103,18 +103,18 @@ public class AperturarCuentaaporteBean implements Serializable {
 		if (isPersonaNatural()) {
 			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
 			socio.setPersonanatural(personanatural);
-			cuentaaporte.setSocio(socio);
+			//cuentaaporte.setSocio(socio);
 			
 			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
 			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
 				Beneficiariocuenta beneficiariocuenta = iterator.next();
 				beneficiariocuenta.setCuentaaporte(cuentaaporte);
 			}			
-			cuentaaporte.setBeneficiariocuentas(beneficiarios);		
+			//cuentaaporte.setBeneficiariocuentas(beneficiarios);		
 		} if (isPersonaJuridica()) {			
 			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
-			cuentaaporte.setSocio(socio);
+			//cuentaaporte.setSocio(socio);
 		}
 		return cuentaaporte;
 	}

@@ -161,10 +161,10 @@ public class TitularesBean implements Serializable {
 			String dni = titular.getPersonanatural().getDni();
 			titular.setDni(dni);
 			
-			List<Titularcuentahistorial> historial = titular.getTitularcuentahistorials();
+			List<Titularcuentahistorial> historial = titular.getTitularhitorial();
 			if(historial == null){
 				historial = new ArrayList<Titularcuentahistorial>();
-				titular.setTitularcuentahistorials(historial);
+				titular.setTitularhitorial(historial);
 			}
 			
 			Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();

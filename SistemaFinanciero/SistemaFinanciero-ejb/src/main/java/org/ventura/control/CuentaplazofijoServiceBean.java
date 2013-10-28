@@ -29,6 +29,7 @@ import org.ventura.dao.impl.CuentaplazofijoDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
 import org.ventura.entity.Agencia;
 import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.Cuentaahorro;
 import org.ventura.entity.Cuentaaporte;
 import org.ventura.entity.Cuentacorriente;
 import org.ventura.entity.Cuentaplazofijo;
@@ -83,7 +84,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		
 			generarDatosDeRegistro(cuentaplazofijo);	
 			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
-			cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
+			//cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
 			
 			cuentaplazofijoDAO.create(cuentaplazofijo);
 		} catch (Exception e) {
@@ -100,10 +101,11 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			Socio socio = buscarSocioPersonaJuridica(cuentaplazofijo.getSocio());
 			cuentaplazofijo.setSocio(socio);
 				
-			generarDatosDeRegistro(cuentaplazofijo);
-			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
-			cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
+			crearPersonanaturalForTitulares(cuentaplazofijo);
+			generarDatosTitularHistorial(cuentaplazofijo);
 			
+			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
+			//cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
 			cuentaplazofijoDAO.create(cuentaplazofijo);
 			
 		} catch (Exception e) {
@@ -118,10 +120,13 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni", socio.getDni());
 			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
-			if (result.size() == 0) {
-				socioServiceLocal.create(socio);
+			if (result.size() != 0) {
+				for (Iterator<Socio> iterator = result.iterator(); iterator.hasNext();) {
+					socio = iterator.next();
+					break;
+				}
 			} else {
-				throw new PreexistingEntityException("La Persona Natural ya tiene una cuenta de aportes Activa");
+				throw new NonexistentEntityException("La Persona Natural no tiene una cuenta de aportes registrada");
 			}
 		}
 		return socio;
@@ -131,15 +136,59 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ruc", socio.getDni());
-			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
-			if (result.size() == 0) {
-				socioServiceLocal.create(socio);
+			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
+			if (result != null) {
+				List<Socio> socios = (List<Socio>) result;
+				for (Iterator<Socio> iterator = socios.iterator(); iterator.hasNext();) {
+					socio = iterator.next();
+					break;
+				}
 			} else {
-				throw new PreexistingEntityException("La Persona Juridica ya tiene una cuenta de aportes Activa");
+				throw new NonexistentEntityException("La Persona Juridica no tiene una cuenta de aportes registrada");
 			}
 		}
 		return socio;
 	}
+	
+	protected void crearBeneficiarios(List<Beneficiariocuenta> beneficiarios) throws Exception {
+		for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+			Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
+			beneficiariocuentaDAO.create(beneficiariocuenta);
+		}
+	}
+	
+	protected void crearPersonanaturalForTitulares(Cuentaplazofijo cuentaplazofijo) throws IllegalEntityException, NonexistentEntityException, Exception {
+		List<Titularcuenta> titulares = cuentaplazofijo.getTitularcuentas();
+		
+		if(titulares != null) {
+			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
+				Titularcuenta titularcuenta = iterator.next();
+				Personanatural personanatural = titularcuenta.getPersonanatural();	
+				if(personanatural != null){
+					Object key = personanatural.getDni();
+					Object result = personanaturalServiceLocal.find(key);
+					if(result == null){
+						personanaturalServiceLocal.create(personanatural);
+					}
+				}			
+			}
+		}
+	}
+	private void generarDatosTitularHistorial(Cuentaplazofijo cuentaplazofijo) {
+        List<Titularcuenta> list = cuentaplazofijo.getTitularcuentas();   
+        if(list != null){
+        	for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
+    			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
+    			List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
+    			Titularcuentahistorial historial = new Titularcuentahistorial();
+    			historial.setEstado(true);
+    			historial.setFechaactiva(Calendar.getInstance().getTime());
+    			lista.add(historial);
+    			//titularcuenta.setTitularcuentahistorials(lista);
+    			historial.setTitularcuenta(titularcuenta);
+    		}
+        }
+    }
 	
 	private void generarDatosDeRegistro(Cuentaplazofijo cuentaplazofijo) {
 		cuentaplazofijo.setIdestadocuenta(1);							
@@ -155,19 +204,8 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 
 	private String generarNumeroCuenta(Cuentaplazofijo cuentaplazofijo, Socio socio) {
 
-		/*Random random = new Random();
-		int length = 14;
-		char[] digits = new char[length];
-		// Make sure the leading digit isn't 0.
-		digits[0] = (char) ('1' + random.nextInt(9));
-
-		for (int i = 1; i < length; i++) {
-			digits[i] = (char) ('0' + random.nextInt(10));
-		}
-		cuentaahorro.setNumerocuentaaporte(digits.toString());
-		*/
 		String numeroCuenta = "";
-		numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
+	/*	numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
 		
 		String codigoSocio = socio.getCodigosocio().toString();
 		for (int i = codigoSocio.length(); i < 8; i++) {
@@ -176,8 +214,8 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 		numeroCuenta = numeroCuenta + codigoSocio;
 		
 		numeroCuenta = numeroCuenta + cuentaplazofijo.getIdtipomoneda();
-		numeroCuenta = numeroCuenta + "10";
-		
+		numeroCuenta = numeroCuenta + "11";
+		*/
 		return numeroCuenta;
 	}
 

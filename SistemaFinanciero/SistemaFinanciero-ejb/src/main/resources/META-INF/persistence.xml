@@ -63,6 +63,10 @@
 		<class>org.ventura.entity.Trabajador</class>
 		<class>org.ventura.entity.Agencia</class>
 		<class>org.ventura.entity.Socio</class>
+		<class>org.ventura.entity.tasas.Servicio</class>
+		<class>org.ventura.entity.tasas.Tasainteres</class>
+		<class>org.ventura.entity.tasas.Tiposervicio</class>
+		<class>org.ventura.entity.tasas.Tipotasa</class>
 
 		<properties>
 			<!-- Properties for Hibernate -->

@@ -58,12 +58,12 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	public Cuentaaporte createCuentaAporteWithPersonanatural(Cuentaaporte cuentaaporte) throws Exception {
 
 		try {
-			Socio socio = buscarSocioPersonaNatural(cuentaaporte.getSocio());
-			cuentaaporte.setSocio(socio);
+			//Socio socio = buscarSocioPersonaNatural(cuentaaporte.getSocio());
+			//cuentaaporte.setSocio(socio);
 		
-			generarDatosDeRegistro(cuentaaporte);	
-			String numerocuentaaporte = generarNumeroCuenta(cuentaaporte,socio);
-			cuentaaporte.setNumerocuentaaporte(numerocuentaaporte);
+			//generarDatosDeRegistro(cuentaaporte);	
+			//String numerocuentaaporte = generarNumeroCuenta(cuentaaporte,socio);
+			//cuentaaporte.setNumerocuentaaporte(numerocuentaaporte);
 						
 			cuentaaporteDAO.create(cuentaaporte);
 		} catch(PreexistingEntityException e){
@@ -79,12 +79,12 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	@Override
 	public Cuentaaporte createCuentaAporteWithPersonajuridica(Cuentaaporte cuentaaporte) throws Exception {
 		try {
-			Socio socio = buscarSocioPersonaJuridica(cuentaaporte.getSocio());
-			cuentaaporte.setSocio(socio);
+			//Socio socio = buscarSocioPersonaJuridica(cuentaaporte.getSocio());
+			//cuentaaporte.setSocio(socio);
 				
-			generarDatosDeRegistro(cuentaaporte);
-			String numerocuentaaporte = generarNumeroCuenta(cuentaaporte,socio);
-			cuentaaporte.setNumerocuentaaporte(numerocuentaaporte);
+			//generarDatosDeRegistro(cuentaaporte);
+			//String numerocuentaaporte = generarNumeroCuenta(cuentaaporte,socio);
+			//cuentaaporte.setNumerocuentaaporte(numerocuentaaporte);
 						
 			cuentaaporteDAO.create(cuentaaporte);			
 		} catch(PreexistingEntityException e){
@@ -151,7 +151,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		}
 		cuentaahorro.setNumerocuentaaporte(digits.toString());
 		*/
-		String numeroCuenta = "";
+	/*	String numeroCuenta = "";
 		numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
 		
 		String codigoSocio = socio.getCodigosocio().toString();
@@ -163,7 +163,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		numeroCuenta = numeroCuenta + cuentaahorro.getIdtipomoneda();
 		numeroCuenta = numeroCuenta + "10";
 		
-		return numeroCuenta;
+		return numeroCuenta;*/return null;
 	}
 
 	@Override

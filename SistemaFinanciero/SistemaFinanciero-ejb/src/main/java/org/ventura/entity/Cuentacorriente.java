@@ -19,8 +19,8 @@ public class Cuentacorriente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false, length=14)
-	private String numerocuentacorriente;
+	@Column(unique=true, nullable=false)
+	private Integer idcuentacorriente;
 
 	@Column
 	private Integer codigosocio;
@@ -38,6 +38,9 @@ public class Cuentacorriente implements Serializable {
 	@Column(nullable = false)
 	private Integer idestadocuenta;
 	
+	@Column(nullable = false)
+	private Integer idagencia;
+	
 	@ManyToOne
 	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
 	private Socio socio;
@@ -45,6 +48,10 @@ public class Cuentacorriente implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
 	private Tipomoneda tipomoneda;
+	
+	@ManyToOne
+	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
+	private Agencia agencia;
 	
 	//bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy="cuentacorriente")
@@ -72,14 +79,6 @@ public class Cuentacorriente implements Serializable {
 	private List<Titularcuenta> titularcuentas;
 
 	public Cuentacorriente() {
-	}
-
-	public String getNumerocuentacorriente() {
-		return this.numerocuentacorriente;
-	}
-
-	public void setNumerocuentacorriente(String numerocuentacorriente) {
-		this.numerocuentacorriente = numerocuentacorriente;
 	}
 
 	public Date getFechaapertura() {
@@ -259,6 +258,30 @@ public class Cuentacorriente implements Serializable {
 
 	public void setIdestadocuenta(Integer idestadocuenta) {
 		this.idestadocuenta = idestadocuenta;
+	}
+
+	public Integer getIdagencia() {
+		return idagencia;
+	}
+
+	public void setIdagencia(Integer idagencia) {
+		this.idagencia = idagencia;
+	}
+
+	public Integer getIdcuentacorriente() {
+		return idcuentacorriente;
+	}
+
+	public void setIdcuentacorriente(Integer idcuentacorriente) {
+		this.idcuentacorriente = idcuentacorriente;
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }

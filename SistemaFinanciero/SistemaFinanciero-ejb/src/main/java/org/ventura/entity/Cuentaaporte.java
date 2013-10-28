@@ -16,20 +16,20 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
 @NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c")
-public class Cuentaaporte implements Serializable{
+public class Cuentaaporte implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	@Id
-	@Column(unique = true, nullable = false, length = 14)
+	@Column(unique = true, nullable = false)
+	private Integer idcuentaaporte;
+
+	@Column(length = 14)
 	private String numerocuentaaporte;
-
-	@Column
-	private Integer codigosocio;
-
+	
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fechaapertura;
@@ -43,15 +43,18 @@ public class Cuentaaporte implements Serializable{
 	@Column(nullable = false)
 	private double saldo;
 
-	@ManyToOne
-	@JoinColumn(name = "codigosocio", insertable = false, updatable = false)
-	private Socio socio;
+	@Column(nullable = false)
+	private Integer idagencia;
 
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
+	private Agencia agencia;
+
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
@@ -59,20 +62,11 @@ public class Cuentaaporte implements Serializable{
 
 	// bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy = "cuentaaporte", cascade = CascadeType.ALL)
-	private List<Beneficiariocuenta> beneficiariocuentas;
-	
+	private List<Beneficiariocuenta> beneficiarios;
 
 	// bi-directional many-to-one association to Cuentaahorrohistorial
-	
+
 	public Cuentaaporte() {
-	}
-
-	public String getNumerocuentaaporte() {
-		return this.numerocuentaaporte;
-	}
-
-	public void setNumerocuentaaporte(String numerocuentaaporte) {
-		this.numerocuentaaporte = numerocuentaaporte;
 	}
 
 	public Date getFechaapertura() {
@@ -99,51 +93,30 @@ public class Cuentaaporte implements Serializable{
 		this.saldo = saldo;
 	}
 
-	public List<Beneficiariocuenta> getBeneficiariocuentas() {
-		return this.beneficiariocuentas;
-	}
-
-	public void setBeneficiariocuentas(List<Beneficiariocuenta> beneficiariocuentas) {
-		this.beneficiariocuentas = beneficiariocuentas;
-	}
-
-	public Beneficiariocuenta addBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
-		getBeneficiariocuentas().add(beneficiariocuenta);
-
-		return beneficiariocuenta;
-	}
-
-	public Beneficiariocuenta removeBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
-		getBeneficiariocuentas().remove(beneficiariocuenta);
-
-		return beneficiariocuenta;
-	}
-
 	public Estadocuenta getEstadocuenta() {
 		return this.estadocuenta;
 	}
 
 	public void setEstadocuenta(Estadocuenta estadocuenta) {
 		this.estadocuenta = estadocuenta;
-		if(estadocuenta != null){
+		if (estadocuenta != null) {
 			this.idestadocuenta = estadocuenta.getIdestadocuenta();
 		} else {
 			this.idestadocuenta = null;
-		}		
+		}
 	}
-	
-	
+
 	public Tipomoneda getTipomoneda() {
 		return tipomoneda;
 	}
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
-		if(tipomoneda != null){
+		if (tipomoneda != null) {
 			this.idtipomoneda = tipomoneda.getIdtipomoneda();
 		} else {
 			this.idtipomoneda = null;
-		}	
+		}
 	}
 
 	public Integer getIdestadocuenta() {
@@ -153,27 +126,45 @@ public class Cuentaaporte implements Serializable{
 	public void setIdestadocuenta(Integer idestadocuenta) {
 		this.idestadocuenta = idestadocuenta;
 	}
+
+	public Integer getIdagencia() {
+		return idagencia;
+	}
+
+	public void setIdagencia(Integer idagencia) {
+		this.idagencia = idagencia;
+	}
+
+	public Integer getIdcuentaaporte() {
+		return idcuentaaporte;
+	}
+
+	public void setIdcuentaaporte(Integer idcuentaaporte) {
+		this.idcuentaaporte = idcuentaaporte;
+	}
 	
-	
-	public Integer getCodigosocio() {
-		return codigosocio;
+	public Agencia getAgencia() {
+		return agencia;
 	}
 
-	public void setCodigosocio(Integer codigosocio) {
-		this.codigosocio = codigosocio;
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
-	public Socio getSocio() {
-		return socio;
+	public String getNumerocuentaaporte() {
+		return numerocuentaaporte;
 	}
 
-	public void setSocio(Socio socio) {
-		this.socio = socio;
-		if(this.socio != null){
-			this.codigosocio = socio.getCodigosocio();
-		} else {
-			this.codigosocio = null;
-		}
+	public void setNumerocuentaaporte(String numerocuentaaporte) {
+		this.numerocuentaaporte = numerocuentaaporte;
+	}
+
+	public List<Beneficiariocuenta> getBeneficiarios() {
+		return beneficiarios;
+	}
+
+	public void setBeneficiarios(List<Beneficiariocuenta> beneficiarios) {
+		this.beneficiarios = beneficiarios;
 	}
 
 }
