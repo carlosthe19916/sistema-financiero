@@ -3,7 +3,7 @@ package org.ventura.entity.listener;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 
 public class BeneficiariocuentaListener {
 
@@ -13,7 +13,7 @@ public class BeneficiariocuentaListener {
 
 		if (beneficiariocuenta.getCuentaaporte() != null) {
 			Integer idcuentaaporte = beneficiariocuenta.getCuentaaporte().getIdcuentaaporte();
-			beneficiariocuenta.setIdcuentaaporte(idcuentaaporte);;
+			beneficiariocuenta.setIdcuentaaporte(idcuentaaporte);
 		}
 		
 		if (beneficiariocuenta.getCuentaahorro() != null) {

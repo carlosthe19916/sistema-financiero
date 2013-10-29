@@ -7,7 +7,7 @@ import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.entity.Agencia;
+import org.ventura.entity.schema.sucursal.Agencia;
 
 @Named
 @SessionScoped

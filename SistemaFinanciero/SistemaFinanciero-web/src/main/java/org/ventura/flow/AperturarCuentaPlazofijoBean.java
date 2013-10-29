@@ -22,16 +22,16 @@ import org.ventura.dependent.DatosFinancierosCuentaPlazoFijoBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
 import org.ventura.dependent.TitularesBean;
-import org.ventura.entity.Accionista;
-import org.ventura.entity.AccionistaPK;
-import org.ventura.entity.Agencia;
-import org.ventura.entity.Beneficiariocuenta;
-import org.ventura.entity.Cuentaaporte;
-import org.ventura.entity.Cuentaplazofijo;
-import org.ventura.entity.Personajuridica;
-import org.ventura.entity.Personanatural;
-import org.ventura.entity.Socio;
-import org.ventura.entity.Titularcuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
+import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
+import org.ventura.entity.schema.persona.Accionista;
+import org.ventura.entity.schema.persona.AccionistaPK;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named

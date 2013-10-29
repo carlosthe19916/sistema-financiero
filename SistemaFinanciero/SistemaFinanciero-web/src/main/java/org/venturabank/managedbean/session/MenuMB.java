@@ -14,8 +14,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.ventura.boundary.local.LoginServiceLocal;
-import org.ventura.entity.Menu;
-import org.ventura.entity.Modulo;
+import org.ventura.entity.schema.seguridad.Menu;
+import org.ventura.entity.schema.seguridad.Modulo;
 
 @ManagedBean
 @ViewScoped

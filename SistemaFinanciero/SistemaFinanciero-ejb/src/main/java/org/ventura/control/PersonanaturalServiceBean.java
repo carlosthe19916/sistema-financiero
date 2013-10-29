@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.PersonanaturalServiceRemote;
 import org.ventura.dao.impl.PersonanaturalDAO;
-import org.ventura.entity.Personanatural;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.util.logger.Log;
 
 @Stateless

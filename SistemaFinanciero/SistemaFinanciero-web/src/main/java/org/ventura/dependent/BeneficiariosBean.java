@@ -8,7 +8,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.util.validate.Validator;
 
 @Named
@@ -26,7 +26,8 @@ public class BeneficiariosBean implements Serializable {
 	}
 	
 	public void addBeneficiario() {
-		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();		
+		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();
+		beneficiariocuenta.setEstado(true);
 		this.tablaBeneficiarios.addRow(beneficiariocuenta);
 	}
 	

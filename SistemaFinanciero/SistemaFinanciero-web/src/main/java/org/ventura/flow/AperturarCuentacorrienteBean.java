@@ -19,13 +19,13 @@ import org.ventura.dependent.DatosFinancierosCuentaCorrienteBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
 import org.ventura.dependent.TitularesBean;
-import org.ventura.entity.Beneficiariocuenta;
-import org.ventura.entity.Cuentacorriente;
-import org.ventura.entity.Cuentacorrientehistorial;
-import org.ventura.entity.Personajuridica;
-import org.ventura.entity.Personanatural;
-import org.ventura.entity.Socio;
-import org.ventura.entity.Titularcuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Cuentacorriente;
+import org.ventura.entity.schema.cuentapersonal.Cuentacorrientehistorial;
+import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.socio.Socio;
 
 @Named
 @FlowScoped("aperturarCuentacorriente-flow")

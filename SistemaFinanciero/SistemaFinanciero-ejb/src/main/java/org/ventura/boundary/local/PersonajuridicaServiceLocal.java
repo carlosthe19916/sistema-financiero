@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.PersonajuridicaServiceRemote;
-import org.ventura.entity.Personajuridica;
+import org.ventura.entity.schema.persona.Personajuridica;
 
 @Local
 public interface PersonajuridicaServiceLocal extends PersonajuridicaServiceRemote {

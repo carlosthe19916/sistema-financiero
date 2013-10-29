@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 import org.hsqldb.Session;
 import org.ventura.dao.AbstractDAO;
-import org.ventura.entity.Socio;
+import org.ventura.entity.schema.socio.Socio;
 import org.ventura.util.logger.Log;
 
 @Stateless

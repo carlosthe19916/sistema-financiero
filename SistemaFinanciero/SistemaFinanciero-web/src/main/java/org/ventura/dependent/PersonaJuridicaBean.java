@@ -14,13 +14,13 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
-import org.ventura.entity.Accionista;
-import org.ventura.entity.AccionistaPK;
-import org.ventura.entity.Estadocivil;
-import org.ventura.entity.Personajuridica;
-import org.ventura.entity.Personanatural;
-import org.ventura.entity.Sexo;
-import org.ventura.entity.Tipoempresa;
+import org.ventura.entity.schema.maestro.Estadocivil;
+import org.ventura.entity.schema.maestro.Sexo;
+import org.ventura.entity.schema.persona.Accionista;
+import org.ventura.entity.schema.persona.AccionistaPK;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.persona.Tipoempresa;
 
 @Named
 @Dependent

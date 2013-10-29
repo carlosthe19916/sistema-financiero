@@ -13,7 +13,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.ventura.boundary.local.LoginServiceLocal;
-import org.ventura.entity.Modulo;
+import org.ventura.entity.schema.seguridad.Modulo;
 
 @SessionScoped
 @ManagedBean
