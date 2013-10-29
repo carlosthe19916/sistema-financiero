@@ -36,23 +36,31 @@
 							<h:outputText value="#{socio.dni}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.apellidopaterno}"
+						<p:column sortBy="#{socio.personanatural.apellidopaterno}"
 							headerText="Apellido Paterno">
-							<h:outputText value="#{socio.apellidopaterno}" />
+							<h:outputText value="#{socio.personanatural.apellidopaterno}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.apellidomaterno}"
+						<p:column sortBy="#{socio.personanatural.apellidomaterno}"
 							headerText="Apellido Materno">
-							<h:outputText value="#{socio.apellidomaterno}" />
+							<h:outputText value="#{socio.personanatural.apellidomaterno}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.nombres}"
+						<p:column sortBy="#{socio.personanatural.nombres}"
 							headerText="Nombres">
-							<h:outputText value="#{socio.nombres}" />
+							<h:outputText value="#{socio.personanatural.nombres}" />
 						</p:column>
 						
 						<p:column sortBy="#{socio.estado}" headerText="Estado">
 							<h:outputText value="#{socio.estado}" />
+						</p:column>
+						
+						<p:column sortBy="#{socio.agencia.denominacion}" headerText="Agencia">
+							<h:outputText value="#{socio.agencia.denominacion}" />
+						</p:column>
+						
+						<p:column sortBy="#{socio.cuentaaporte.idcuentaaporte}" headerText="Agencia">
+							<h:outputText value="#{socio.cuentaaporte.idcuentaaporte}" />
 						</p:column>
 					
 					</p:dataTable>

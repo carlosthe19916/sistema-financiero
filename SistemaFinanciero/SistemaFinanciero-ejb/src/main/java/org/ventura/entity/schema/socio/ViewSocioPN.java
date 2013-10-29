@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.sucursal.Agencia;
 
 import java.util.Date;
 
@@ -14,7 +17,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "viewsociopn", schema = "socio")
-@NamedQueries({ @NamedQuery(name = ViewSocioPN.SOCIOSPN, query = "select s from ViewSocioPN s where s.idsocio like :datoIngresado or s.dni like :datoIngresado or s.apellidopaterno like :datoIngresado or s.apellidomaterno like :datoIngresado or s.nombres like :datoIngresado or s.nombrecompleto like :datoIngresado") })
+@NamedQueries({ @NamedQuery(name = ViewSocioPN.SOCIOSPN, query = "select s from ViewSocioPN s where s.idsocio like :datoIngresado or s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado or s.personanatural.nombres like :datoIngresado or s.nombrecompleto like :datoIngresado") })
 public class ViewSocioPN implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,8 +29,14 @@ public class ViewSocioPN implements Serializable {
 	@Column(unique = true, nullable = false)
 	private String idsocio;
 
-	@Column(length = 8)
+	@Column(length = 8, nullable = true)
 	private String dni;
+	
+	@Column(length = 11, nullable = true)
+	private String ruc;
+
+	@Column(nullable = true)
+	private String nombrecompleto;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -35,26 +44,38 @@ public class ViewSocioPN implements Serializable {
 
 	@Column(nullable = false)
 	private Boolean estado;
-
-	@Column(nullable = false, length = 40)
-	private String apellidopaterno;
-
-	@Column(nullable = false, length = 40)
-	private String apellidomaterno;
-
-	@Column(nullable = false, length = 50)
-	private String nombres;
-
-	@Column(nullable = true, length = 50)
-	private String nombrecompleto;
+	
+	@Column(nullable=false)
+	private Integer idagencia;
+	
+	@Column(nullable=false, insertable=false, updatable = false)
+	private Integer idcuentaaporte;
+	
+	@ManyToOne
+	@JoinColumn(name = "dni", insertable = false, updatable = false)
+	private Personanatural personanatural;
+	
+	@ManyToOne
+	@JoinColumn(name = "idagencia", insertable = false, updatable = false)
+	private Agencia agencia;
 
 	@ManyToOne
-	@JoinColumn(name = "idcuentaaporte", nullable = false, insertable = false, updatable = false)
-	private Cuentaaporte cuentaaporte;
+	@JoinColumn(name = "ruc", insertable = false, updatable = false)
+	private Personajuridica personajuridica;
 
-	public ViewSocioPN() {
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "idcuentaaporte", insertable = false, nullable = false)
+	private Cuentaaporte cuentaaporte;
+	
+	
+	public String getIdsocio() {
+		return idsocio;
 	}
 
+	public void setIdsocio(String idsocio) {
+		this.idsocio = idsocio;
+	}
+	
 	public String getDni() {
 		return this.dni;
 	}
@@ -63,12 +84,20 @@ public class ViewSocioPN implements Serializable {
 		this.dni = dni;
 	}
 
-	public String getIdsocio() {
-		return idsocio;
+	public String getRuc() {
+		return ruc;
 	}
 
-	public void setIdsocio(String idsocio) {
-		this.idsocio = idsocio;
+	public void setRuc(String ruc) {
+		this.ruc = ruc;
+	}
+	
+	public String getNombrecompleto() {
+		return nombrecompleto;
+	}
+
+	public void setNombrecompleto(String nombrecompleto) {
+		this.nombrecompleto = nombrecompleto;
 	}
 
 	public Date getFechaasociado() {
@@ -86,37 +115,13 @@ public class ViewSocioPN implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-
-	public String getApellidopaterno() {
-		return apellidopaterno;
+	
+	public Integer getIdagencia() {
+		return idagencia;
 	}
 
-	public void setApellidopaterno(String apellidopaterno) {
-		this.apellidopaterno = apellidopaterno;
-	}
-
-	public String getApellidomaterno() {
-		return apellidomaterno;
-	}
-
-	public void setApellidomaterno(String apellidomaterno) {
-		this.apellidomaterno = apellidomaterno;
-	}
-
-	public String getNombres() {
-		return nombres;
-	}
-
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
-	}
-
-	public String getNombrecompleto() {
-		return nombrecompleto;
-	}
-
-	public void setNombrecompleto(String nombrecompleto) {
-		this.nombrecompleto = nombrecompleto;
+	public void setIdagencia(Integer idagencia) {
+		this.idagencia = idagencia;
 	}
 
 	public Cuentaaporte getCuentaaporte() {
@@ -126,5 +131,36 @@ public class ViewSocioPN implements Serializable {
 	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
 		this.cuentaaporte = cuentaaporte;
 	}
+	
+	public Agencia getAgencia() {
+		return agencia;
+	}
 
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
+	}
+	
+	public Integer getIdcuentaaporte() {
+		return idcuentaaporte;
+	}
+
+	public void setIdcuentaaporte(Integer idcuentaaporte) {
+		this.idcuentaaporte = idcuentaaporte;
+	}
+
+	public Personanatural getPersonanatural() {
+		return personanatural;
+	}
+
+	public void setPersonanatural(Personanatural personanatural) {
+		this.personanatural = personanatural;
+	}
+
+	public Personajuridica getPersonajuridica() {
+		return personajuridica;
+	}
+
+	public void setPersonajuridica(Personajuridica personajuridica) {
+		this.personajuridica = personajuridica;
+	}
 }
