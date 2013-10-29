@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
-import org.ventura.entity.schema.sucursal.Agencia;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +25,7 @@ public class Cuentaahorro implements Serializable {
 	public final static String CUENTAS = "org.ventura.model.Cuentaahorro.CUENTAS";
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idcuentaahorro;
 	
@@ -48,7 +48,6 @@ public class Cuentaahorro implements Serializable {
 	@Column(nullable = false)
 	private Integer idestadocuenta;
 	
-	
 	@ManyToOne
 	@JoinColumn(name = "idsocio", insertable = false, updatable = false)
 	private Socio socio;
@@ -58,8 +57,6 @@ public class Cuentaahorro implements Serializable {
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
 
-	
-	
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)

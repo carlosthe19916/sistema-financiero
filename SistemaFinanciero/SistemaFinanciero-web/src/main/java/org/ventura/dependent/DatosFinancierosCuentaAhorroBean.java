@@ -12,15 +12,12 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.entity.GeneratedEstadocuenta;
 import org.ventura.entity.GeneratedTipotasaPasiva;
 import org.ventura.entity.GeneratedEstadocuenta.EstadocuentaType;
 import org.ventura.entity.GeneratedTiposervicio;
 import org.ventura.entity.GeneratedTiposervicio.TiposervicioType;
-import org.ventura.entity.GeneratedTipotasaActiva;
-import org.ventura.entity.GeneratedTipotasaActiva.TipotasaActivaType;
 import org.ventura.entity.GeneratedTipotasaPasiva.TipotasaPasivaType;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
@@ -36,8 +33,6 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private CuentaahorroServiceLocal cuentaahorroServiceLocal;
-	@EJB
 	private TasainteresServiceLocal tasainteresServiceLocal;
 	@Inject
 	private Cuentaahorro cuentaahorro;
@@ -45,11 +40,9 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 	private Cuentaahorrohistorial cuentaahorrohistorial;
 	@Inject
 	private ComboBean<Tipomoneda> comboTipomoneda;
-
 	@Inject
 	@GeneratedEstadocuenta(strategy = EstadocuentaType.ACTIVO)
 	private Estadocuenta estadocuenta;
-
 	@Inject
 	@GeneratedTiposervicio(strategy = TiposervicioType.CUENTA_AHORRO)
 	private Tiposervicio tiposervicio;
@@ -73,7 +66,6 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 		this.cuentaahorrohistorial.setCuentaahorro(cuentaahorro);
 
 		cargarCombos();
-
 	}
 
 	private void cargarCombos() {
@@ -86,8 +78,7 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 
 	public void changeTipomoneda(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Tipomoneda tipomonedaSelected = comboTipomoneda
-				.getObjectItemSelected(key);
+		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);
 		this.cuentaahorro.setTipomoneda(tipomonedaSelected);
 	}
 
@@ -103,8 +94,7 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 		return cuentaahorrohistorial;
 	}
 
-	public void setCuentaahorrohistorial(
-			Cuentaahorrohistorial cuentaahorrohistorial) {
+	public void setCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
 		this.cuentaahorrohistorial = cuentaahorrohistorial;
 	}
 

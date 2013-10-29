@@ -60,12 +60,6 @@ public class Validator {
 		if(socio == null){
 			return false;
 		}
-		if(socio.getCuentaaporte() == null){
-			return false;
-		}
-		if(socio.getEstado() == null){
-			return false;
-		}
 		if(socio.getDni() == null && socio.getRuc() == null){
 			return false;
 		}
