@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.entity.ViewSocioPN;
+import org.ventura.entity.schema.socio.ViewSocioPN;
 import org.ventura.util.logger.Log;
 
 @Stateless

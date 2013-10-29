@@ -12,10 +12,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
+import org.ventura.boundary.local.FunctionCuentasServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.socio.FunctionCuentas;
 import org.ventura.entity.schema.socio.Socio;
 
 @ManagedBean
@@ -31,10 +33,10 @@ public class mostrarDatosSocioBean implements Serializable {
 	SocioServiceLocal socioServiceLocal;
 	
 	@EJB
-	CuentaahorroServiceLocal cuentaAhorroServiceLocal;
+	FunctionCuentasServiceLocal functionCuentasServiceLocal;
 	
 	@ManagedProperty(value = "#{TablaBean}")
-	private TablaBean<Cuentaahorro> tablaCuentasPN;
+	private TablaBean<FunctionCuentas> tablaCuentasPN;
 	
 	@ManagedProperty(value = "#{PersonaNaturalBean}")
 	private PersonaNaturalBean personaNaturalMB;
@@ -50,15 +52,16 @@ public class mostrarDatosSocioBean implements Serializable {
 	@PostConstruct
 	public void intiValues(){
 		oPersonaNatural = new Personanatural();
-		tablaCuentasPN = new TablaBean<Cuentaahorro>();
+		oSocio = new Socio();
+		tablaCuentasPN = new TablaBean<FunctionCuentas>();
 		personaNaturalMB = new PersonaNaturalBean();
 	}
 	
-	public TablaBean<Cuentaahorro> getTablaCuentasPN() {
+	public TablaBean<FunctionCuentas> getTablaCuentasPN() {
 		return tablaCuentasPN;
 	}
 
-	public void setTablaCuentasPN(TablaBean<Cuentaahorro> tablaCuentasPN) {
+	public void setTablaCuentasPN(TablaBean<FunctionCuentas> tablaCuentasPN) {
 		this.tablaCuentasPN = tablaCuentasPN;
 	}
 
@@ -92,9 +95,10 @@ public class mostrarDatosSocioBean implements Serializable {
 	
 	public void cargarDatosPersonaNatural(){
 		try {
-			setoSocio(socioServiceLocal.find(oSocio.getDni()));
+			setoSocio(socioServiceLocal.findByDNI(oSocio.getDni()));
 			setoPersonaNatural(personaNaturalServiceLocal.find(oSocio.getDni()));
 			personaNaturalMB.setPersonaNatural(oPersonaNatural);
+			imprimir();
 			CargarCuentasPersonales();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -103,17 +107,29 @@ public class mostrarDatosSocioBean implements Serializable {
 	}
 
 	public void CargarCuentasPersonales(){
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("codigoSocio", oSocio.getIdsocio());
+		List<FunctionCuentas> list = null;
 		try {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("codigoSocio", oSocio.getIdsocio());
-			List list;
-			list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
-			tablaCuentasPN.setRows(list);
-			System.out.println("Cuentas "+list.size());
+			//list = functionCuentasServiceLocal.findByNamedQuery(FunctionCuentas.CUENTAS, parameters);
+			//tablaCuentasPN.setRows(list);
+			//System.out.println("Cuentas "+list.size());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//List<Cuentaahorro> list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
+	}
+	
+	public void imprimir(){
+		System.out.println("--------Socio----------");
+		System.out.println(oSocio.getIdsocio());
+		System.out.println(oSocio.getDni());
+		System.out.println(oSocio.getPersonanatural().getApellidopaterno());
+		System.out.println("--------Persona Natural--------");
+		System.out.println(oPersonaNatural.getDni());
+		System.out.println(oPersonaNatural.getApellidopaterno());
+		System.out.println("--------Managed Bean-----------");
+		System.out.println(personaNaturalMB.getPersonaNatural().getDni());
+		System.out.println(personaNaturalMB.getPersonaNatural().getApellidopaterno());
 	}
 }

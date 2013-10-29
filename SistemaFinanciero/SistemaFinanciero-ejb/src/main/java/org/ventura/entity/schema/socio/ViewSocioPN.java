@@ -1,4 +1,4 @@
-package org.ventura.entity;
+package org.ventura.entity.schema.socio;
 
 import java.io.Serializable;
 
@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "viewsociopn", schema = "socio")
-@NamedQueries({ @NamedQuery(name = ViewSocioPN.SOCIOSPN, query = "select s from ViewSocioPN s where s.idsocio like :datoIngresado or s.dni like :datoIngresado") })
+@NamedQueries({ @NamedQuery(name = ViewSocioPN.SOCIOSPN, query = "select s from ViewSocioPN s where s.idsocio like :datoIngresado or s.dni like :datoIngresado or s.apellidopaterno like :datoIngresado or s.apellidomaterno like :datoIngresado or s.nombres like :datoIngresado or s.nombrecompleto like :datoIngresado") })
 public class ViewSocioPN implements Serializable {
 
 	private static final long serialVersionUID = 1L;

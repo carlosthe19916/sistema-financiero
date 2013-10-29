@@ -1,8 +1,12 @@
-package org.ventura.entity;
+package org.ventura.entity.schema.socio;
 
 import java.io.Serializable;
 
 import javax.persistence.*;
+
+import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
+import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.sucursal.Agencia;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.FunctionCuentasServiceLocal;
 import org.ventura.boundary.remote.FuntionCuentasServiceRemote;
 import org.ventura.dao.impl.FunctionCuentasDAO;
-import org.ventura.entity.FunctionCuentas;
+import org.ventura.entity.schema.socio.FunctionCuentas;
 import org.ventura.util.logger.Log;
 
 @Stateless

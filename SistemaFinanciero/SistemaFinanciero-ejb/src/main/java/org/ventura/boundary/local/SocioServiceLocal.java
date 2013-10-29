@@ -15,6 +15,8 @@ public interface SocioServiceLocal extends SocioServiceRemote{
 	public Socio create(Socio oSocio)throws Exception;
 
 	public Socio find(Object id)throws Exception;
+	
+	public Socio findByDNI(Object dni)throws Exception;
 
 	public void delete(Socio oSocio)throws Exception;
 

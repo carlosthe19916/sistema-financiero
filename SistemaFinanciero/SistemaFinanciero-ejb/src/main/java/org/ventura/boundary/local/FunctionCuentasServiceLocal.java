@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.FuntionCuentasServiceRemote;
-import org.ventura.entity.FunctionCuentas;
+import org.ventura.entity.schema.socio.FunctionCuentas;
 
 @Local
 public interface FunctionCuentasServiceLocal extends FuntionCuentasServiceRemote{

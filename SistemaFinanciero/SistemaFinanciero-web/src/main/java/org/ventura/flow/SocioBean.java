@@ -16,8 +16,8 @@ import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.ViewSocioServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
-import org.ventura.entity.ViewSocioPN;
 import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.socio.ViewSocioPN;
 
 @ManagedBean
 @ViewScoped
@@ -133,10 +133,10 @@ public class SocioBean implements Serializable {
 	}
 
 	public void obtenerDNISeleccionado() {
-		//Socio socio = getTablaSocios().getSelectedRow();
-		//dniTemporal = socio.getDni();
+		ViewSocioPN viewSocioPN = tablaSocios.getSelectedRow();
+		dniTemporal = viewSocioPN.getDni();
 	}
-	
+
 	public void limpiarTablas(){
 		getTablaSocios().getRows().clear();
 	}

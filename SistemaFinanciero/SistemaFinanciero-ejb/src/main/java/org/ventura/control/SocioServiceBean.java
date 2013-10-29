@@ -3,6 +3,7 @@ package org.ventura.control;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -113,6 +114,30 @@ public class SocioServiceBean implements SocioServiceLocal {
 			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return socio;
+	}
+	
+	@Override
+	public Socio findByDNI(Object dni) throws Exception {
+		Socio oSocio = null;
+		
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("dni", dni);
+		
+		List<Socio> list = null;
+		try {
+			System.out.println("Probando");
+			list = socioDAO.findByNamedQuery(Socio.FindByDni, parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, intÃ©ntelo nuevamente");
+		}
+		
+		for (Iterator<Socio> iterator = list.iterator(); iterator.hasNext();) {
+			oSocio = (Socio) iterator.next();
+		}
+		return oSocio;
 	}
 
 	@Override
