@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.SocioServiceRemote;
-import org.ventura.entity.Socio;
+import org.ventura.entity.schema.socio.Socio;
 
 @Local
 public interface SocioServiceLocal extends SocioServiceRemote{
