@@ -13,7 +13,6 @@ import javax.faces.flow.FlowScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.BeneficiariosBean;
 import org.ventura.dependent.ComboBean;
