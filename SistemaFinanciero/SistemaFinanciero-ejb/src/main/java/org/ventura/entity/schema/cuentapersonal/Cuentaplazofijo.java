@@ -78,8 +78,7 @@ public class Cuentaplazofijo implements Serializable {
 	@Column(nullable=false)
 	private double trea;
 	
-	@Column(nullable=false)
-	private Integer idagencia;
+
 	
 	
 	
@@ -87,10 +86,7 @@ public class Cuentaplazofijo implements Serializable {
 	@JoinColumn(name = "idsocio", insertable = false, updatable = false)
 	private Socio socio;
 	
-	@ManyToOne
-	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
-	private Agencia agencia;
-	
+		
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
 	private Tipomoneda tipomoneda;
@@ -350,13 +346,7 @@ public class Cuentaplazofijo implements Serializable {
 		this.idestadocuenta = idestadocuenta;
 	}
 
-	public Integer getIdagencia() {
-		return idagencia;
-	}
-
-	public void setIdagencia(Integer idagencia) {
-		this.idagencia = idagencia;
-	}
+	
 
 	public Integer getIdcuentaplazofijo() {
 		return idcuentaplazofijo;
@@ -366,13 +356,7 @@ public class Cuentaplazofijo implements Serializable {
 		this.idcuentaplazofijo = idcuentaplazofijo;
 	}
 
-	public Agencia getAgencia() {
-		return agencia;
-	}
-
-	public void setAgencia(Agencia agencia) {
-		this.agencia = agencia;
-	}
+	
 
 	public String getNumerocuentaplazofijo() {
 		return numerocuentaplazofijo;

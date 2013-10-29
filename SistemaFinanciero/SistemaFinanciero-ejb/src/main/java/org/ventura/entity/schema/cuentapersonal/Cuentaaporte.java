@@ -52,8 +52,7 @@ public class Cuentaaporte implements Serializable {
 	@Column(nullable = false)
 	private double saldo;
 
-	@Column(nullable = false)
-	private Integer idagencia;
+
 	
 	@Transient
 	private Socio socio;
@@ -63,9 +62,7 @@ public class Cuentaaporte implements Serializable {
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
 
-	@ManyToOne
-	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
-	private Agencia agencia;
+
 
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
@@ -137,13 +134,7 @@ public class Cuentaaporte implements Serializable {
 		this.idestadocuenta = idestadocuenta;
 	}
 
-	public Integer getIdagencia() {
-		return idagencia;
-	}
-
-	public void setIdagencia(Integer idagencia) {
-		this.idagencia = idagencia;
-	}
+	
 
 	public Integer getIdcuentaaporte() {
 		return idcuentaaporte;
@@ -153,18 +144,7 @@ public class Cuentaaporte implements Serializable {
 		this.idcuentaaporte = idcuentaaporte;
 	}
 
-	public Agencia getAgencia() {
-		return agencia;
-	}
-
-	public void setAgencia(Agencia agencia) {
-		this.agencia = agencia;
-		if(agencia != null){
-			this.idagencia = agencia.getIdagencia();
-		} else {
-			this.idagencia = null;
-		}
-	}
+	
 
 	public String getNumerocuentaaporte() {
 		return numerocuentaaporte;

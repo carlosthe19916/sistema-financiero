@@ -7,6 +7,7 @@ import javax.persistence.*;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.sucursal.Agencia;
 
 import java.util.Date;
 
@@ -50,10 +51,17 @@ public class Socio implements Serializable {
 	
 	@Column(nullable = false)
 	private Boolean estado;
+	
+	@Column(nullable=false)
+	private Integer idagencia;
 
 	@ManyToOne
 	@JoinColumn(name = "dni", insertable = false, updatable = false)
 	private Personanatural personanatural;
+	
+	@ManyToOne
+	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
+	private Agencia agencia;
 
 	@ManyToOne
 	@JoinColumn(name = "ruc", nullable = false, insertable = false, updatable = false)
@@ -115,6 +123,19 @@ public class Socio implements Serializable {
 			this.ruc = null;
 		}
 	}
+	
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
+		if(agencia != null){
+			this.idagencia = agencia.getIdagencia();
+		} else {
+			this.idagencia = null;
+		}
+	}
 
 	public Boolean getEstado() {
 		return estado;
@@ -139,4 +160,14 @@ public class Socio implements Serializable {
 	public void setCuentaaporte(Cuentaaporte cuentaaporte) {
 		this.cuentaaporte = cuentaaporte;
 	}
+
+	public Integer getIdagencia() {
+		return idagencia;
+	}
+
+	public void setIdagencia(Integer idagencia) {
+		this.idagencia = idagencia;
+	}
+
+	
 }

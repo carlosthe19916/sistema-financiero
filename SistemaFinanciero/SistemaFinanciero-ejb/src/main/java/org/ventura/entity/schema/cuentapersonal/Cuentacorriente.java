@@ -45,8 +45,7 @@ public class Cuentacorriente implements Serializable {
 	@Column(nullable = false)
 	private Integer idestadocuenta;
 	
-	@Column(nullable = false)
-	private Integer idagencia;
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "idsocio", insertable = false, updatable = false)
@@ -56,9 +55,7 @@ public class Cuentacorriente implements Serializable {
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
 	private Tipomoneda tipomoneda;
 	
-	@ManyToOne
-	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
-	private Agencia agencia;
+
 	
 	//bi-directional many-to-one association to Beneficiariocuenta
 	@OneToMany(mappedBy="cuentacorriente")
@@ -267,13 +264,7 @@ public class Cuentacorriente implements Serializable {
 		this.idestadocuenta = idestadocuenta;
 	}
 
-	public Integer getIdagencia() {
-		return idagencia;
-	}
-
-	public void setIdagencia(Integer idagencia) {
-		this.idagencia = idagencia;
-	}
+	
 
 	public Integer getIdcuentacorriente() {
 		return idcuentacorriente;
@@ -283,13 +274,7 @@ public class Cuentacorriente implements Serializable {
 		this.idcuentacorriente = idcuentacorriente;
 	}
 
-	public Agencia getAgencia() {
-		return agencia;
-	}
 
-	public void setAgencia(Agencia agencia) {
-		this.agencia = agencia;
-	}
 
 	public String getNumerocuentacorriente() {
 		return numerocuentacorriente;
