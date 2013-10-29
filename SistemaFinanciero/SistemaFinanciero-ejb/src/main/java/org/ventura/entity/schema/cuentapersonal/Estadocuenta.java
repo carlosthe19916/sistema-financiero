@@ -8,6 +8,7 @@ import javax.persistence.*;
  * The persistent class for the estadocuenta database table.
  * 
  */
+
 @Entity
 @Table(name="estadocuenta",schema="cuentapersonal")
 @NamedQuery(name="Estadocuenta.findAll", query="SELECT e FROM Estadocuenta e")

@@ -14,11 +14,11 @@ import java.util.Date;
 @Entity
 @Table(name = "tasainteres", schema = "tasas")
 @NamedQuery(name = "Tasainteres.findAll", query = "SELECT t FROM Tasainteres t")
-@NamedQueries({ @NamedQuery(name = Tasainteres.FindByAbreviatura, query = "Select ti From Tasainteres ti INNER JOIN ti.tiposervicio ts INNER JOIN ts.servicio s INNER JOIN ti.tipotasa tt WHERE s.estado = TRUE and ts.estado = TRUE and ti.estado = TRUE and tt.estado = TRUE and tt.abreviatura=:tipotasa and ts.denominacion=:tiposervicio") })
+@NamedQueries({ @NamedQuery(name = Tasainteres.FindById, query = "Select ti From Tasainteres ti INNER JOIN ti.tiposervicio ts INNER JOIN ts.servicio s INNER JOIN ti.tipotasa tt WHERE s.estado = TRUE and ts.estado = TRUE and ti.estado = TRUE and tt.estado = TRUE and tt.idtipotasa=:idtipotasa and ts.idtiposervicio=:idtiposervicio and :monto BETWEEN ti.montominimo and ti.montomaximo") })
 public class Tasainteres implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public final static String FindByAbreviatura = "org.ventura.entity.tasas.Tasainteres.FindByAbreviatura";
+	public final static String FindById = "org.ventura.entity.tasas.Tasainteres.FindById";
 
 	@Id
 	@Column(unique = true, nullable = false)

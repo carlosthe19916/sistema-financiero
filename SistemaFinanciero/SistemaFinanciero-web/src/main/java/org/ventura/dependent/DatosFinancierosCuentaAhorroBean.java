@@ -14,12 +14,20 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
-import org.ventura.entity.TiposervicioType;
-import org.ventura.entity.TipotasaPasivaType;
+import org.ventura.entity.GeneratedEstadocuenta;
+import org.ventura.entity.GeneratedTipotasaPasiva;
+import org.ventura.entity.GeneratedEstadocuenta.EstadocuentaType;
+import org.ventura.entity.GeneratedTiposervicio;
+import org.ventura.entity.GeneratedTiposervicio.TiposervicioType;
+import org.ventura.entity.GeneratedTipotasaActiva;
+import org.ventura.entity.GeneratedTipotasaActiva.TipotasaActivaType;
+import org.ventura.entity.GeneratedTipotasaPasiva.TipotasaPasivaType;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.tasas.Tiposervicio;
+import org.ventura.entity.tasas.Tipotasa;
 
 @Named
 @Dependent
@@ -38,42 +46,51 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 	@Inject
 	private ComboBean<Tipomoneda> comboTipomoneda;
 
+	@Inject
+	@GeneratedEstadocuenta(strategy = EstadocuentaType.ACTIVO)
+	private Estadocuenta estadocuenta;
+
+	@Inject
+	@GeneratedTiposervicio(strategy = TiposervicioType.CUENTA_AHORRO)
+	private Tiposervicio tiposervicio;
+
+	@Inject
+	@GeneratedTipotasaPasiva(strategyTasaPasiva = TipotasaPasivaType.TICAH)
+	private Tipotasa tipotasa;
+
 	@PostConstruct
 	private void initValues() throws Exception {
-		Estadocuenta estadocuenta = new Estadocuenta();
-		estadocuenta.setDenominacion("Activo");
-		estadocuenta.setIdestadocuenta(1);
-		estadocuenta.setEstado(true);		
-		this.cuentaahorro.setEstadocuenta(estadocuenta);	
+
+		this.cuentaahorro.setEstadocuenta(estadocuenta);
 		this.cuentaahorro.addCuentaahorrohistorial(cuentaahorrohistorial);
 		this.cuentaahorro.setFechaapertura(Calendar.getInstance().getTime());
-		
-		Double tasainteres = tasainteresServiceLocal.getTasainteres(TiposervicioType.CUENTA_AHORRO, TipotasaPasivaType.TICAH, new Double(0));
-		
+
+		Double tasainteres = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasa, new Double(0));
+
 		this.cuentaahorrohistorial.setCantidadretirantes(0);
 		this.cuentaahorrohistorial.setEstado(true);
 		this.cuentaahorrohistorial.setTasainteres(tasainteres);
 		this.cuentaahorrohistorial.setCuentaahorro(cuentaahorro);
-	
+
 		cargarCombos();
-		
-		
+
 	}
 
-	private void cargarCombos(){
+	private void cargarCombos() {
 		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 	}
-	
-	public boolean isValid(){
+
+	public boolean isValid() {
 		return cuentaahorro.getIdtipomoneda() != null ? true : false;
 	}
-	
+
 	public void changeTipomoneda(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);
+		Tipomoneda tipomonedaSelected = comboTipomoneda
+				.getObjectItemSelected(key);
 		this.cuentaahorro.setTipomoneda(tipomonedaSelected);
 	}
-	
+
 	public Cuentaahorro getCuentaahorro() {
 		return cuentaahorro;
 	}
@@ -86,11 +103,12 @@ public class DatosFinancierosCuentaAhorroBean implements Serializable {
 		return cuentaahorrohistorial;
 	}
 
-	public void setCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
+	public void setCuentaahorrohistorial(
+			Cuentaahorrohistorial cuentaahorrohistorial) {
 		this.cuentaahorrohistorial = cuentaahorrohistorial;
 	}
-	
-	public String fechaActual(){
+
+	public String fechaActual() {
 		java.util.Date date = new Date();
 		SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
 		return formateador.format(date);
