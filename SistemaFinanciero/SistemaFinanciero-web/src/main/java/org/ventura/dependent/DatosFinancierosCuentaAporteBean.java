@@ -12,10 +12,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
-import org.ventura.entity.EstadocuentaType;
 import org.ventura.entity.GeneratedEstadocuenta;
 import org.ventura.entity.GeneratedTipomoneda;
-import org.ventura.entity.TipomonedaType;
+import org.ventura.entity.GeneratedEstadocuenta.EstadocuentaType;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
@@ -47,7 +47,6 @@ public class DatosFinancierosCuentaAporteBean implements Serializable {
 	private void initValues() {	
 		this.cuentaaporte.setEstadocuenta(estadocuenta);
 		this.cuentaaporte.setTipomoneda(tipomoneda);
-		
 		this.cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
 	}
 	
