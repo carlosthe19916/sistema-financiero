@@ -94,7 +94,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 		Agencia agencia = agenciaBean.getAgencia();
 		Cuentaaporte cuentaaporte = datosFinancierosCuentaAporteMB.getCuentaaporte();
 		
-		cuentaaporte.setAgencia(agencia);
+		socio.setAgencia(agencia);
 		socio.setCuentaaporte(cuentaaporte);
 		
 		if (isPersonaNatural()) {
