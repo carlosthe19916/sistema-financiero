@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.ventura.entity.Beneficiariocuenta;
-import org.ventura.entity.Cuentaahorro;
-import org.ventura.entity.Cuentaahorrohistorial;
-import org.ventura.entity.Cuentaaporte;
-import org.ventura.entity.Personanatural;
-import org.ventura.entity.Socio;
-import org.ventura.entity.Titularcuenta;
-import org.ventura.entity.Titularcuentahistorial;
+import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
+import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
+import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.socio.Socio;
 
 public class Validator {
 	

@@ -14,12 +14,12 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
-import org.ventura.entity.Cuentaahorro;
-import org.ventura.entity.Cuentaahorrohistorial;
-import org.ventura.entity.Estadocuenta;
-import org.ventura.entity.Tipomoneda;
 import org.ventura.entity.TiposervicioType;
 import org.ventura.entity.TipotasaPasivaType;
+import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
+import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
+import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 
 @Named
 @Dependent

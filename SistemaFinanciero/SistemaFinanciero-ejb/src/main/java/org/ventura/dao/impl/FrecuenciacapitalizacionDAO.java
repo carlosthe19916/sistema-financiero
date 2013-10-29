@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.entity.Frecuenciacapitalizacion;
+import org.ventura.entity.schema.cuentapersonal.Frecuenciacapitalizacion;
 import org.ventura.util.logger.Log;
 
 @Stateless

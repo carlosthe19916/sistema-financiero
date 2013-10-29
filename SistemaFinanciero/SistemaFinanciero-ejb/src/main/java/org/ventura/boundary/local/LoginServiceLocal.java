@@ -5,10 +5,10 @@ import java.util.Collection;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.LoginServiceRemote;
-import org.ventura.entity.Menu;
-import org.ventura.entity.Modulo;
-import org.ventura.entity.Rol;
-import org.ventura.entity.Usuario;
+import org.ventura.entity.schema.seguridad.Menu;
+import org.ventura.entity.schema.seguridad.Modulo;
+import org.ventura.entity.schema.seguridad.Rol;
+import org.ventura.entity.schema.seguridad.Usuario;
 
 @Local
 public interface LoginServiceLocal extends LoginServiceRemote {

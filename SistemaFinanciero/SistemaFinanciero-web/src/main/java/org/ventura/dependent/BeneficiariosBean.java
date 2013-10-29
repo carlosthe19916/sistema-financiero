@@ -8,7 +8,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.entity.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.util.validate.Validator;
 
 @Named

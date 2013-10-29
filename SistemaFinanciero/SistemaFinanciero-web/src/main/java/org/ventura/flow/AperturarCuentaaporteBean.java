@@ -20,12 +20,12 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.DatosFinancierosCuentaAporteBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
-import org.ventura.entity.Agencia;
-import org.ventura.entity.Beneficiariocuenta;
-import org.ventura.entity.Cuentaaporte;
-import org.ventura.entity.Personajuridica;
-import org.ventura.entity.Personanatural;
-import org.ventura.entity.Socio;
+import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named

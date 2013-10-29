@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.CuentacorrienteServiceRemote;
-import org.ventura.entity.Cuentaahorro;
-import org.ventura.entity.Cuentacorriente;
+import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
+import org.ventura.entity.schema.cuentapersonal.Cuentacorriente;
 
 @Local
 public interface CuentacorrienteServiceLocal extends CuentacorrienteServiceRemote{

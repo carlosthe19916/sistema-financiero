@@ -14,10 +14,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentacorrienteServiceLocal;
-import org.ventura.entity.Cuentacorriente;
-import org.ventura.entity.Cuentacorrientehistorial;
-import org.ventura.entity.Estadocuenta;
-import org.ventura.entity.Tipomoneda;
+import org.ventura.entity.schema.cuentapersonal.Cuentacorriente;
+import org.ventura.entity.schema.cuentapersonal.Cuentacorrientehistorial;
+import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 
 @Named
 @Dependent

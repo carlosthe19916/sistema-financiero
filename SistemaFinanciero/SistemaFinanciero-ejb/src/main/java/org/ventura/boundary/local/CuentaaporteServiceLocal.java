@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
-import org.ventura.entity.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 
 public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 		

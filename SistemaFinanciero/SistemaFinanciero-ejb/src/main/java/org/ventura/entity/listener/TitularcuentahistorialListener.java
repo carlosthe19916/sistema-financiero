@@ -3,7 +3,7 @@ package org.ventura.entity.listener;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import org.ventura.entity.Titularcuentahistorial;
+import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
 
 public class TitularcuentahistorialListener {
 

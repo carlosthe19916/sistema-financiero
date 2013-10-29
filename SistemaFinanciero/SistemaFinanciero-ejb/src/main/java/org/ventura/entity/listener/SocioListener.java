@@ -3,8 +3,8 @@ package org.ventura.entity.listener;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import org.ventura.entity.Cuentaaporte;
-import org.ventura.entity.Socio;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.socio.Socio;
 
 public class SocioListener {
 

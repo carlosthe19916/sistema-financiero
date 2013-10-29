@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+
 import java.util.Date;
 
 /**

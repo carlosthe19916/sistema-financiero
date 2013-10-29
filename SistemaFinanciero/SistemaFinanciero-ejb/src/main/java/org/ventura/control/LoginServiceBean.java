@@ -18,10 +18,10 @@ import org.ventura.boundary.remote.LoginServiceRemote;
 import org.ventura.dao.impl.MenuDAO;
 import org.ventura.dao.impl.ModuloDAO;
 import org.ventura.dao.impl.UsuarioDAO;
-import org.ventura.entity.Menu;
-import org.ventura.entity.Modulo;
-import org.ventura.entity.Rol;
-import org.ventura.entity.Usuario;
+import org.ventura.entity.schema.seguridad.Menu;
+import org.ventura.entity.schema.seguridad.Modulo;
+import org.ventura.entity.schema.seguridad.Rol;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.util.exception.RollbackFailureException;
 
 @Stateless

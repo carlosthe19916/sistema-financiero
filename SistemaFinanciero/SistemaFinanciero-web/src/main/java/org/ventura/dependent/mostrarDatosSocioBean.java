@@ -14,9 +14,9 @@ import javax.faces.bean.ViewScoped;
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
-import org.ventura.entity.Cuentaahorro;
-import org.ventura.entity.Personanatural;
-import org.ventura.entity.Socio;
+import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.socio.Socio;
 
 @ManagedBean
 @ViewScoped

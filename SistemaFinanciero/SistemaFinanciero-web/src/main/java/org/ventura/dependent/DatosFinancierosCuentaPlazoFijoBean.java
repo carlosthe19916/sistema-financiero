@@ -19,13 +19,13 @@ import javax.inject.Named;
 import org.ventura.boundary.local.CuentaplazofijoServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.dao.impl.RetirointeresDAO;
-import org.ventura.entity.Cuentaplazofijo;
-import org.ventura.entity.Estadocuenta;
-import org.ventura.entity.Frecuenciacapitalizacion;
-import org.ventura.entity.Retirointeres;
-import org.ventura.entity.Tipomoneda;
 import org.ventura.entity.TiposervicioType;
 import org.ventura.entity.TipotasaPasivaType;
+import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
+import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
+import org.ventura.entity.schema.cuentapersonal.Frecuenciacapitalizacion;
+import org.ventura.entity.schema.cuentapersonal.Retirointeres;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.venturabank.util.ComboMB;
 
 

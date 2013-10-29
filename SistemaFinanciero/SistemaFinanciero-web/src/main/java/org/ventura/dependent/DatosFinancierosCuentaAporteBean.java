@@ -12,9 +12,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
-import org.ventura.entity.Cuentaaporte;
-import org.ventura.entity.Estadocuenta;
-import org.ventura.entity.Tipomoneda;
+import org.ventura.entity.EstadocuentaType;
+import org.ventura.entity.GeneratedEstadocuenta;
+import org.ventura.entity.GeneratedTipomoneda;
+import org.ventura.entity.TipomonedaType;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 
 @Named
 @Dependent
@@ -29,23 +33,19 @@ public class DatosFinancierosCuentaAporteBean implements Serializable {
 	private Cuentaaporte cuentaaporte;
 	
 	@Inject
+	@GeneratedEstadocuenta(strategy = EstadocuentaType.ACTIVO)
 	private Estadocuenta estadocuenta;
 
+	@Inject
+	@GeneratedTipomoneda(strategy = TipomonedaType.NUEVO_SOL)
+	private Tipomoneda tipomoneda;
+	
 	public DatosFinancierosCuentaAporteBean() {	
 	}
 
 	@PostConstruct
 	private void initValues() {	
-		Estadocuenta estadocuenta = new Estadocuenta();
-		estadocuenta.setIdestadocuenta(1);
-		estadocuenta.setDenominacion("ACTIVO");
-		estadocuenta.setEstado(true);
 		this.cuentaaporte.setEstadocuenta(estadocuenta);
-		
-		Tipomoneda tipomoneda = new Tipomoneda();
-		tipomoneda.setIdtipomoneda(1);
-		tipomoneda.setEstado(true);
-		tipomoneda.setDenominacion("NUEVOS SOLES");
 		this.cuentaaporte.setTipomoneda(tipomoneda);
 		
 		this.cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());

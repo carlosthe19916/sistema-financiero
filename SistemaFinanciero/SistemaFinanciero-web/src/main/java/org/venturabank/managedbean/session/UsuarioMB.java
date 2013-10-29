@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.LoginServiceLocal;
-import org.ventura.entity.Usuario;
+import org.ventura.entity.schema.seguridad.Usuario;
 
 @Named
 @SessionScoped

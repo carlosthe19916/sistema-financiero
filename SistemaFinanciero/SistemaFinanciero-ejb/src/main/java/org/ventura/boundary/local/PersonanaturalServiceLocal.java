@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.PersonanaturalServiceRemote;
-import org.ventura.entity.Personanatural;
+import org.ventura.entity.schema.persona.Personanatural;
 
 @Local
 public interface PersonanaturalServiceLocal extends PersonanaturalServiceRemote{

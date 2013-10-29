@@ -12,9 +12,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
-import org.ventura.entity.Estadocivil;
-import org.ventura.entity.Personanatural;
-import org.ventura.entity.Sexo;
+import org.ventura.entity.schema.maestro.Estadocivil;
+import org.ventura.entity.schema.maestro.Sexo;
+import org.ventura.entity.schema.persona.Personanatural;
 
 @Named
 @Dependent

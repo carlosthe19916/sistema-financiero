@@ -16,8 +16,8 @@ import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.ViewSocioServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
-import org.ventura.entity.Socio;
 import org.ventura.entity.ViewSocioPN;
+import org.ventura.entity.schema.socio.Socio;
 
 @ManagedBean
 @ViewScoped

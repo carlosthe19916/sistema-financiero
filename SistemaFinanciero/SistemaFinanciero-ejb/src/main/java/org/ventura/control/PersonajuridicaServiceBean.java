@@ -18,9 +18,9 @@ import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.PersonajuridicaServiceRemote;
 import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.dao.impl.PersonajuridicaDAO;
-import org.ventura.entity.Accionista;
-import org.ventura.entity.Personajuridica;
-import org.ventura.entity.Personanatural;
+import org.ventura.entity.schema.persona.Accionista;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.util.logger.Log;
 
 @Stateless

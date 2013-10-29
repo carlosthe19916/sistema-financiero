@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.entity.Modulo;
+import org.ventura.entity.schema.seguridad.Modulo;
 import org.ventura.util.logger.Log;
 
 @Stateless
