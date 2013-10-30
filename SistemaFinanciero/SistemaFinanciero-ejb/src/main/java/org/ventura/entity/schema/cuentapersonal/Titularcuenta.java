@@ -21,14 +21,15 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name = Titularcuenta.V, query = "Select s From Titularcuenta s"),
 		@NamedQuery(name = Titularcuenta.VA, query = "Select c From Titularcuenta c where c.dni=:valor"),
-		@NamedQuery(name = Titularcuenta.FindAllForCuentaahorro, query = "SELECT t FROM Titularcuenta t INNER JOIN t.cuentaahorro c WHERE c.idcuentaahorro =:idcuentaahorro")})
+		@NamedQuery(name = Titularcuenta.FindAllForCuentaahorro, query = "SELECT t FROM Titularcuenta t INNER JOIN t.cuentaahorro c WHERE c.idcuentaahorro =:idcuentaahorro"),
+		@NamedQuery(name = Titularcuenta.FindAllForCuentaplazofijo, query = "SELECT t FROM Titularcuenta t INNER JOIN t.cuentaplazofijo c WHERE c.idcuentaplazofijo =:idcuentaplazofijo")})
 public class Titularcuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String V = "org.ventura.model.Titularcuenta.V";
 	public final static String VA = "org.ventura.model.Titularcuenta.VA";
 	public final static String FindAllForCuentaahorro = "org.ventura.model.Titularcuenta.FindAllForCuentaahorro";
-	
+	public final static String FindAllForCuentaplazofijo = "org.ventura.model.Titularcuenta.FindAllForCuentaplazofijo";
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)

@@ -5,11 +5,11 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
-import org.ventura.boundary.remote.ViewSocioServiceRemote;
+import org.ventura.boundary.remote.ViewSocioPNServiceRemote;
 import org.ventura.entity.schema.socio.ViewSocioPN;
 
 @Local
-public interface ViewSocioServiceLocal extends ViewSocioServiceRemote{
+public interface ViewSocioPNServiceLocal extends ViewSocioPNServiceRemote{
 
 	public List<ViewSocioPN> findByNamedQuery(String ViewSocioPN, Map<String, Object> parameters)throws Exception;
 

@@ -11,29 +11,29 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
-import org.ventura.boundary.local.ViewSocioServiceLocal;
-import org.ventura.boundary.remote.ViewSocioServiceRemote;
-import org.ventura.dao.impl.ViewSocioDAO;
+import org.ventura.boundary.local.ViewSocioPNServiceLocal;
+import org.ventura.boundary.remote.ViewSocioPNServiceRemote;
+import org.ventura.dao.impl.ViewSocioPNDAO;
 import org.ventura.entity.schema.socio.ViewSocioPN;
 import org.ventura.util.logger.Log;
 
 @Stateless
-@Local(ViewSocioServiceLocal.class)
-@Remote(ViewSocioServiceRemote.class)
+@Local(ViewSocioPNServiceLocal.class)
+@Remote(ViewSocioPNServiceRemote.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-public class ViewSocioServiceBean implements ViewSocioServiceLocal {
+public class ViewSocioPNServiceBean implements ViewSocioPNServiceLocal {
 
 	@Inject
 	private Log log;
 
 	@EJB
-	private ViewSocioDAO viewSocioDAO;
+	private ViewSocioPNDAO viewSocioPNDAO;
 
 	@Override
 	public List<ViewSocioPN> findByNamedQuery(String viewSocioPN, Map<String, Object> parameters) throws Exception {
 		List<ViewSocioPN> list = null;
 		try {
-			list = viewSocioDAO.findByNamedQuery(viewSocioPN, parameters);
+			list = viewSocioPNDAO.findByNamedQuery(viewSocioPN, parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -47,7 +47,7 @@ public class ViewSocioServiceBean implements ViewSocioServiceLocal {
 	public List<ViewSocioPN> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception {
 		List<ViewSocioPN> list = null;
 		try {
-			list = viewSocioDAO.findByNamedQuery(namedQueryName, parameters);
+			list = viewSocioPNDAO.findByNamedQuery(namedQueryName, parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

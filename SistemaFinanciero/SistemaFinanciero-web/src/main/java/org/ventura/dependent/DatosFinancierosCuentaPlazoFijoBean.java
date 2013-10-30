@@ -9,24 +9,26 @@ import java.util.GregorianCalendar;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.NoneScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentaplazofijoServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
-import org.ventura.dao.impl.RetirointeresDAO;
-import org.ventura.entity.TiposervicioType;
-import org.ventura.entity.TipotasaPasivaType;
+import org.ventura.entity.GeneratedEstadocuenta;
+import org.ventura.entity.GeneratedTiposervicio;
+import org.ventura.entity.GeneratedTipotasaPasiva;
+import org.ventura.entity.GeneratedTiposervicio.TiposervicioType;
+import org.ventura.entity.GeneratedEstadocuenta.EstadocuentaType;
 import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
+import org.ventura.entity.GeneratedTipotasaPasiva.TipotasaPasivaType;
 import org.ventura.entity.schema.cuentapersonal.Frecuenciacapitalizacion;
 import org.ventura.entity.schema.cuentapersonal.Retirointeres;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.venturabank.util.ComboMB;
+import org.ventura.entity.tasas.Tiposervicio;
+import org.ventura.entity.tasas.Tipotasa;
+
 
 
 @Named
@@ -46,49 +48,63 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	@Inject
 	private ComboBean<Frecuenciacapitalizacion> combofrecuenciacapitalizacion;	
 	@Inject
-	private ComboBean<Retirointeres> comboretirointeres;
+	private ComboBean<Retirointeres> comboretirointeres;	
+	@Inject
+	@GeneratedEstadocuenta(strategy = EstadocuentaType.ACTIVO)
+	private Estadocuenta estadocuenta;
 	
-	
+	@Inject
+	@GeneratedTiposervicio(strategy = TiposervicioType.CUENTA_PLAZO_FIJO)
+	private Tiposervicio tiposervicio;
 
+	@Inject
+	@GeneratedTipotasaPasiva(strategyTasaPasiva = TipotasaPasivaType.TICEAF)
+	private Tipotasa tipotasaTICEAF;
+	
+	@Inject
+	@GeneratedTipotasaPasiva(strategyTasaPasiva = TipotasaPasivaType.TREA)
+	private Tipotasa tipotasaTREA;
+	
+	@Inject
+	@GeneratedTipotasaPasiva(strategyTasaPasiva = TipotasaPasivaType.ITF)
+	private Tipotasa tipotasaITF;
+	
 	/*
 	 * Constructor
 	 */
 
 	@PostConstruct
-	private void initValues(){
-		Estadocuenta estadocuenta = new Estadocuenta();
-		estadocuenta.setDenominacion("Activo");
-		estadocuenta.setIdestadocuenta(1);
-		estadocuenta.setEstado(true);		
+	private void initValues() throws Exception{
 		this.cuentaplazofijo.setEstadocuenta(estadocuenta);	
 		this.cuentaplazofijo.setFechaapertura(Calendar.getInstance().getTime());
-		
-		
+			
 		cargarCombos();
-		
-		
+			
 	}
 
 	/*
 	 * Bussiness Logic
 	 */
-	
-	public void mostrardatos() throws Exception{
-		
-		
-		Double ticeaf = tasainteresServiceLocal.getTasainteres(TiposervicioType.CUENTA_PLAZO_FIJO, TipotasaPasivaType.TICEAF, new Double(1000000));
+	public void cargartasasinteres() throws Exception{
+		Double ticeaf = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasaTICEAF, new Double(cuentaplazofijo.getMonto()));
 		this.cuentaplazofijo.setTiceaf(ticeaf);
-		Double trea = tasainteresServiceLocal.getTasainteres(TiposervicioType.CUENTA_PLAZO_FIJO, TipotasaPasivaType.TREA, new Double(1000000));
+		Double trea = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasaTREA, new Double(cuentaplazofijo.getMonto()));
 		this.cuentaplazofijo.setTrea(trea);
-		Double itf = tasainteresServiceLocal.getTasainteres(TiposervicioType.CUENTA_PLAZO_FIJO, TipotasaPasivaType.ITF, new Double(1000000));
+		Double itf = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasaITF, new Double(cuentaplazofijo.getMonto()));
 		this.cuentaplazofijo.setItf(itf);
-		this.cuentaplazofijo.setMontointerespagado(this.cuentaplazofijo.getMonto()*this.cuentaplazofijo.getTiceaf());
-		this.cuentaplazofijo.setFechavencimiento(calcularFechavencimientoContrato());
+		mostrardatos();
+	}
+	
+	public void mostrardatos(){
+		calcularMontoInteres();
+		calcularFechavencimientoContrato();
 	}
 	
 	public boolean isValid(){
 		return cuentaplazofijo.getIdtipomoneda() != null ? true : false;
 	}
+	
+	
 	
 	public void cargarCombos(){
 		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
@@ -116,28 +132,26 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	public String confirmarSaldos(){
 		boolean saldos = cuentaplazofijo.isConfirmacionsaldos();
 		if(saldos)
-			return "Confirmar saldos";
-		return "No confirmar saldos";
+			return "CONFIRMAR SALDOS";
+		return "NO CONFIRMAR SALDOS";
 	}
 	
-	public Date calcularFechavencimientoContrato(){
-		Date fecha=cuentaplazofijo.getFechaapertura();
+	public void calcularFechavencimientoContrato(){
+		Date fecha= new Date();
+		fecha=Calendar.getInstance().getTime();
 		int dias =cuentaplazofijo.getPlazo();
 		    Calendar cal = new GregorianCalendar();
 	        cal.setTimeInMillis(fecha.getTime());
 	        cal.add(Calendar.DATE, dias);
 	        
-	        return new Date(cal.getTimeInMillis());	
+	        this.cuentaplazofijo.setFechavencimiento(new Date(cal.getTimeInMillis()));	
 	}
 	
 	public void calcularMontoInteres(){
 		this.cuentaplazofijo.setMontointerespagado(cuentaplazofijo.getMonto()*cuentaplazofijo.getTiceaf());
 	}
-	public void cargarDatos(){
 		
-		calcularFechavencimientoContrato();
-		calcularMontoInteres();
-	}
+	
 
 	/*
 	 * Getters and Setters
@@ -164,12 +178,6 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 		return comboTipomoneda;
 	}
 	
-
-	
-	public double MontoInteresPagado(){
-		return cuentaplazofijo.getMonto()*cuentaplazofijo.getTiceaf();
-	}
-
 	public ComboBean<Frecuenciacapitalizacion> getCombofrecuenciacapitalizacion() {
 		return combofrecuenciacapitalizacion;
 	}

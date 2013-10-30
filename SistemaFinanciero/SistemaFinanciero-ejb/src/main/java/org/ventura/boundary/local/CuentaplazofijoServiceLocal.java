@@ -17,8 +17,6 @@ public interface CuentaplazofijoServiceLocal extends CuentaplazofijoServiceRemot
 	public Cuentaplazofijo createCuentaPlazofijoWithPersonanatural(Cuentaplazofijo cuentaplazofijo) throws Exception;
 
 	public Cuentaplazofijo createCuentaPlazofijoWithPersonajuridica(Cuentaplazofijo cuentaplazofijo) throws Exception;
-
-	public void setAgencia(Agencia agencia);
 	
 	public Cuentaplazofijo find(Object id);
 

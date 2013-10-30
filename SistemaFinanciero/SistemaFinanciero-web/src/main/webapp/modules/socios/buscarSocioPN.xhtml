@@ -13,13 +13,13 @@
 		<div style="padding: 0px 5px;">
 			<h:form id="form-resultadoBusquedaPN">
 				<div>
-					<p:dataTable id="table" var="socio"
-						value="#{socioBean.tablaSocios.rows}" rowKey="#{socio}"
-						selection="#{socioBean.tablaSocios.selectedRow}"
+					<p:dataTable id="table" var="socioPN"
+						value="#{socioBean.tablaSociosPN.rows}" rowKey="#{socioPN}"
+						selection="#{socioBean.tablaSociosPN.selectedRow}"
 						selectionMode="single" paginator="true" paginatorPosition="bottom"
 						rows="20" sortOrder="ascending" emptyMessage="No se han encontrado resultados para tu búsqueda: #{socioBean.valorBusqueda}"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="50,100,200" widgetVar="tablaSocios"
+						rowsPerPageTemplate="50,100,200" widgetVar="tablaSociosPN"
 						rowIndexVar="row">
 
 						<p:ajax event="rowSelect" listener="#{socioBean.obtenerDNISeleccionado()}" update=":form-buttons"/>
@@ -28,35 +28,41 @@
 							<h:outputText value="#{row + 1}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.idsocio}" headerText="Codigo Socio">
-							<h:outputText value="#{socio.idsocio}" />
+						<p:column sortBy="#{socioPN.idsocio}" headerText="Codigo Socio">
+							<h:outputText value="#{socioPN.idsocio}" />
 						</p:column>
 						
-						<p:column sortBy="#{socio.dni}" headerText="DNI">
-							<h:outputText value="#{socio.dni}" />
+						<p:column sortBy="#{socioPN.dni}" headerText="DNI">
+							<h:outputText value="#{socioPN.dni}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.personanatural.apellidopaterno}"
+						<p:column sortBy="#{socioPN.personanatural.apellidopaterno}"
 							headerText="Apellido Paterno">
-							<h:outputText value="#{socio.personanatural.apellidopaterno}" />
+							<h:outputText value="#{socioPN.personanatural.apellidopaterno}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.personanatural.apellidomaterno}"
+						<p:column sortBy="#{socioPN.personanatural.apellidomaterno}"
 							headerText="Apellido Materno">
-							<h:outputText value="#{socio.personanatural.apellidomaterno}" />
+							<h:outputText value="#{socioPN.personanatural.apellidomaterno}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.personanatural.nombres}"
+						<p:column sortBy="#{socioPN.personanatural.nombres}"
 							headerText="Nombres">
-							<h:outputText value="#{socio.personanatural.nombres}" />
+							<h:outputText value="#{socioPN.personanatural.nombres}" />
 						</p:column>
 						
-						<p:column sortBy="#{socio.estado}" headerText="Estado">
-							<h:outputText value="#{socio.estado}" />
+						<p:column sortBy="#{socioPN.fechaasociado}" headerText="Fec. Asociado">
+							<h:outputText value="#{socioPN.fechaasociado}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
 						</p:column>
 						
-						<p:column sortBy="#{socio.agencia.denominacion}" headerText="Agencia">
-							<h:outputText value="#{socio.agencia.denominacion}" />
+						<p:column sortBy="#{socioPN.agencia.denominacion}" headerText="Agencia">
+							<h:outputText value="#{socioPN.agencia.denominacion}" />
+						</p:column>
+						
+						<p:column sortBy="#{socioPN.estado}" headerText="Estado">
+							<h:outputText value="#{socioPN.estado}" />
 						</p:column>
 					
 					</p:dataTable>

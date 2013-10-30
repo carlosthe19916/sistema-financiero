@@ -13,10 +13,11 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import org.ventura.boundary.local.SocioServiceLocal;
-import org.ventura.boundary.local.ViewSocioServiceLocal;
+import org.ventura.boundary.local.ViewSocioPJServiceLocal;
+import org.ventura.boundary.local.ViewSocioPNServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
-import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.socio.ViewSocioPJ;
 import org.ventura.entity.schema.socio.ViewSocioPN;
 
 @ManagedBean
@@ -32,10 +33,16 @@ public class SocioBean implements Serializable {
 	private SocioServiceLocal socioServicesLocal;
 	
 	@EJB
-	private ViewSocioServiceLocal viewSocioServiceLocal;
+	private ViewSocioPNServiceLocal viewSocioPNServiceLocal;
+	
+	@EJB
+	private ViewSocioPJServiceLocal viewSocioPJServiceLocal;
 
 	@ManagedProperty(value = "#{TablaBean}")
-	private TablaBean<ViewSocioPN> tablaSocios;
+	private TablaBean<ViewSocioPN> tablaSociosPN;
+	
+	@ManagedProperty(value = "#{TablaBean}")
+	private TablaBean<ViewSocioPJ> tablaSociosPJ;
 
 	@Inject
 	private ComboBean<String> comboTipoPersona;
@@ -50,15 +57,24 @@ public class SocioBean implements Serializable {
 	@PostConstruct
 	public void initValues() {
 		this.cargarCombos();
-		tablaSocios = new TablaBean<ViewSocioPN>();
+		tablaSociosPN = new TablaBean<ViewSocioPN>();
+		tablaSociosPJ = new TablaBean<ViewSocioPJ>();
 	}
 
-	public TablaBean<ViewSocioPN> getTablaSocios() {
-		return tablaSocios;
+	public TablaBean<ViewSocioPN> getTablaSociosPN() {
+		return tablaSociosPN;
 	}
 
-	public void setTablaSocios(TablaBean<ViewSocioPN> tablaSocios) {
-		this.tablaSocios = tablaSocios;
+	public void setTablaSociosPN(TablaBean<ViewSocioPN> tablaSociosPN) {
+		this.tablaSociosPN = tablaSociosPN;
+	}
+	
+	public TablaBean<ViewSocioPJ> getTablaSociosPJ() {
+		return tablaSociosPJ;
+	}
+
+	public void setTablaSociosPJ(TablaBean<ViewSocioPJ> tablaSociosPJ) {
+		this.tablaSociosPJ = tablaSociosPJ;
 	}
 
 	public String getValorBusqueda() {
@@ -111,8 +127,8 @@ public class SocioBean implements Serializable {
 			parameters.put("datoIngresado", "%" + valorBusqueda.toUpperCase()+ "%");
 			List<ViewSocioPN> list;
 			try {
-				list = viewSocioServiceLocal.findByNamedQuery(ViewSocioPN.SOCIOSPN, parameters);
-				tablaSocios.setRows(list);
+				list = viewSocioPNServiceLocal.findByNamedQuery(ViewSocioPN.SOCIOSPN, parameters);
+				tablaSociosPN.setRows(list);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -120,10 +136,10 @@ public class SocioBean implements Serializable {
 		} else {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("datoIngresado", "%" + valorBusqueda.toUpperCase()+ "%");
-			List<Socio> list;
+			List<ViewSocioPJ> list;
 			try {
-				list = socioServicesLocal.findByNamedQuery(Socio.SOCIOSPJ,parameters);
-				//getTablaSocios().setRows(list);
+				list = viewSocioPJServiceLocal.findByNamedQuery(ViewSocioPJ.SOCIOSPJ, parameters);				
+				tablaSociosPJ.setRows(list);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -133,14 +149,13 @@ public class SocioBean implements Serializable {
 	}
 
 	public void obtenerDNISeleccionado() {
-		ViewSocioPN viewSocioPN = tablaSocios.getSelectedRow();
+		ViewSocioPN viewSocioPN = getTablaSociosPN().getSelectedRow();
 		dniTemporal = viewSocioPN.getDni();
 	}
 
 	public void limpiarTablas(){
-		getTablaSocios().getRows().clear();
+		tablaSociosPN.getRows().clear();
+		tablaSociosPJ.getRows().clear();
+		valorBusqueda = new String();
 	}
-
-	
-	
 }

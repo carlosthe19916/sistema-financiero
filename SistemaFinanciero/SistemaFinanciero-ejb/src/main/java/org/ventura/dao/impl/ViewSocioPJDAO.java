@@ -8,12 +8,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
+import org.ventura.entity.schema.socio.ViewSocioPJ;
 import org.ventura.entity.schema.socio.ViewSocioPN;
 import org.ventura.util.logger.Log;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class ViewSocioDAO extends AbstractDAO<ViewSocioPN>{
+public class ViewSocioPJDAO extends AbstractDAO<ViewSocioPJ>{
 
 	@Inject
 	private Log log;
@@ -21,8 +22,8 @@ public class ViewSocioDAO extends AbstractDAO<ViewSocioPN>{
 	@PersistenceContext(unitName = "SistemaFinancieroPU")
     private EntityManager em;
 
-	public ViewSocioDAO() {
-        super(ViewSocioPN.class);
+	public ViewSocioPJDAO() {
+        super(ViewSocioPJ.class);
     }
 	
     @Override

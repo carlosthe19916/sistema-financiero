@@ -43,6 +43,7 @@ import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
+import org.ventura.util.validate.Validator;
 
 import com.sun.tools.internal.xjc.generator.bean.ImplStructureStrategy.Result;
 
@@ -68,30 +69,46 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	private CuentaplazofijoDAO cuentaplazofijoDAO;
 	
 	@Inject
-	private Agencia agencia;
-	
-	@Inject
-	Log log;
+	private Log log;
 
 	@Override
 	public Cuentaplazofijo createCuentaPlazofijoWithPersonanatural(Cuentaplazofijo cuentaplazofijo) throws Exception {
-
-
 		try {
-			
-			Socio socio = buscarSocioPersonaNatural(cuentaplazofijo.getSocio());
-			cuentaplazofijo.setSocio(socio);
-		
-			generarDatosDeRegistro(cuentaplazofijo);	
-			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
-			//cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
-			
-			cuentaplazofijoDAO.create(cuentaplazofijo);
-		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error al insertar los datos");
-		}
+			boolean result = Validator.validateCuentaplazofijo(cuentaplazofijo);
+			if (result == true) {
+				Socio socio = buscarSocioPersonaNatural(cuentaplazofijo.getSocio());
+				cuentaplazofijo.setSocio(socio);
 
+				crearPersonanaturalForTitulares(cuentaplazofijo);
+
+				generarDatosDeRegistro(cuentaplazofijo);
+				cuentaplazofijoDAO.create(cuentaplazofijo);
+				
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("idcuentaplazofijo", cuentaplazofijo.getIdcuentaplazofijo());
+				List<Titularcuenta> titulares = titularcuentaDAO.findByNamedQuery(Titularcuenta.FindAllForCuentaplazofijo, parameters);
+				cuentaplazofijo.setTitularcuentas(titulares);
+				
+			} else {
+				log.error("Exception: method Validator(Cuentaahorro) is false");
+				throw new IllegalEntityException("Datos de Cuenta de Ahorro Invalidos");
+			}
+		} catch (IllegalEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());
+		} catch (NonexistentEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear la cuenta de ahorros");
+		}
 		return cuentaplazofijo;
 	}
 
@@ -159,18 +176,17 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	
 	protected void crearPersonanaturalForTitulares(Cuentaplazofijo cuentaplazofijo) throws IllegalEntityException, NonexistentEntityException, Exception {
 		List<Titularcuenta> titulares = cuentaplazofijo.getTitularcuentas();
-		
-		if(titulares != null) {
+		if (titulares != null) {
 			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
 				Titularcuenta titularcuenta = iterator.next();
-				Personanatural personanatural = titularcuenta.getPersonanatural();	
-				if(personanatural != null){
+				Personanatural personanatural = titularcuenta.getPersonanatural();
+				if (personanatural != null) {
 					Object key = personanatural.getDni();
 					Object result = personanaturalServiceLocal.find(key);
-					if(result == null){
+					if (result == null) {
 						personanaturalServiceLocal.create(personanatural);
 					}
-				}			
+				}
 			}
 		}
 	}
@@ -191,15 +207,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
     }
 	
 	private void generarDatosDeRegistro(Cuentaplazofijo cuentaplazofijo) {
-		cuentaplazofijo.setIdestadocuenta(1);							
-		cuentaplazofijo.setFechaapertura(Calendar.getInstance().getTime());
-		cuentaplazofijo.setFechavencimiento(calcularFechavencimientoContrato(cuentaplazofijo));
-		cuentaplazofijo.setTiceaf(0.01);
-		cuentaplazofijo.setTrea(0.01);
-		cuentaplazofijo.setMontointerespagado(MontoInteresPagado(cuentaplazofijo));
-		cuentaplazofijo.setItf(0.25);
-		cuentaplazofijo.setIdfrecuenciacapitalizacion(1);
-		cuentaplazofijo.setIdretirointeres(1);
+		
 	}
 
 	private String generarNumeroCuenta(Cuentaplazofijo cuentaplazofijo, Socio socio) {
@@ -307,29 +315,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
-		
-		
-	}
+		return null;		
+	}	
 	
-	public Date calcularFechavencimientoContrato(Cuentaplazofijo cuentaplazofijo){
-		Date fecha=cuentaplazofijo.getFechaapertura();
-		int dias =cuentaplazofijo.getPlazo();
-		    Calendar cal = new GregorianCalendar();
-	        cal.setTimeInMillis(fecha.getTime());
-	        cal.add(Calendar.DATE, dias);
-	        
-	        return new Date(cal.getTimeInMillis());
-	
-	}
-	
-	public double MontoInteresPagado(Cuentaplazofijo cuentaplazofijo){
-		return cuentaplazofijo.getMonto()*cuentaplazofijo.getTiceaf();
-	}
-	
-	@Override
-	public void setAgencia(Agencia agencia) {
-		this.agencia = agencia;
-	}
-
 }
