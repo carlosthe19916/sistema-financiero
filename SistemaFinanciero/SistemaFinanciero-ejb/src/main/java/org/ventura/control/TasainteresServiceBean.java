@@ -15,11 +15,9 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.boundary.remote.TasainteresServiceRemote;
 import org.ventura.dao.impl.TasainteresDAO;
-import org.ventura.entity.TiposervicioType;
-import org.ventura.entity.TipotasaActivaType;
-import org.ventura.entity.TipotasaPasivaType;
 import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.entity.tasas.Tiposervicio;
+import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.util.logger.Log;
 
 @Stateless
@@ -32,7 +30,7 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 	private Log log;
 	@Inject
 	private TasainteresDAO tasainteresDAO;
-
+/*
 	@Override
 	public Double getTasainteres(TiposervicioType tiposervicioType, TipotasaPasivaType tipotasa, Double monto) throws Exception {
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -88,12 +86,22 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 		log.error("Error: tasa de interes no encontrada para el  monto enviado");
 		throw new Exception("Error: Error: tasa de interes no encontrada para el  monto enviado");
 	}
+*/
 
 	@Override
-	public Double getTasainteres(TiposervicioType tiposervicioType,
-			TipotasaActivaType tipotasa, Double monto) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Double getTasainteres(Tiposervicio tiposervicio, Tipotasa tipotasa, Double monto) throws Exception {
+		Map<String, Object> parameters = new HashMap<String, Object>();		
+		parameters.put("idtiposervicio", tiposervicio.getIdtiposervicio());
+		parameters.put("idtipotasa", tipotasa.getIdtipotasa());
+		parameters.put("monto", monto);
+		
+		List<Tasainteres> resultList = tasainteresDAO.findByNamedQuery(Tasainteres.FindById, parameters);
+		for (Iterator<Tasainteres> iterator = resultList.iterator(); iterator.hasNext();) {
+			Tasainteres tasainteres = iterator.next();		
+			return tasainteres.getTasa();
+		}		
+		log.error("Error: tasa de interes no encontrada para el  monto enviado");
+		throw new Exception("Error: Error: tasa de interes no encontrada para el  monto enviado");
 	}
 
 }

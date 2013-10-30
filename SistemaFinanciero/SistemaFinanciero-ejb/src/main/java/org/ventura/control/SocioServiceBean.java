@@ -97,7 +97,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error: No se pudo Crear el Socio");
+			throw new Exception("Error Interno: No se pudo Crear el Socio");
 		}
 		return socio;
 	}

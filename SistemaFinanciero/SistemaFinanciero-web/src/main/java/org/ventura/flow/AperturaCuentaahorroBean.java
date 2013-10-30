@@ -27,8 +27,6 @@ import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
-import org.ventura.entity.schema.sucursal.Agencia;
-import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
 @FlowScoped("aperturarCuentaahorro-flow")
@@ -37,9 +35,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String mensaje;
-	
-	@Inject
-	private AgenciaBean agenciaBean;
 
 	@EJB
 	private CuentaahorroServiceLocal cuentaahorroServiceLocal;
@@ -68,8 +63,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 	
 	@PostConstruct
 	private void initValues() {
-		Agencia agencia = agenciaBean.getAgencia();
-		cuentaahorroServiceLocal.setAgencia(agencia);
 		this.cargarCombos();
 	}
 	
@@ -119,15 +112,17 @@ public class AperturaCuentaahorroBean implements Serializable {
 		return null;
 	}
 
-	public Cuentaahorro establecerParametrosCuentaahorro(Cuentaahorro cuentaahorro) throws Exception {
+	public Cuentaahorro establecerParametrosCuentaahorro(Cuentaahorro cuentaahorro) throws Exception {		
+		Cuentaahorrohistorial cuentaahorrohistorial = datosFinancierosCuentaAhorroMB.getCuentaahorrohistorial();
+		Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
+		cuentaahorrohistorial.setCantidadretirantes(cantidadRetirantes);
+		
 		cuentaahorro = datosFinancierosCuentaAhorroMB.getCuentaahorro();
-		cuentaahorro.getCuentaahorrohistorials().get(0).setCantidadretirantes(titularesMB.getCantidadRetirantes());
 		
 		Socio socio = new Socio();
 		if (isPersonaNatural()) {
 			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
 			socio.setPersonanatural(personanatural);
-			socio.setEstado(true);
 			cuentaahorro.setSocio(socio);
 			
 			List<Titularcuenta> titulares = titularesMB.getListTitulares();

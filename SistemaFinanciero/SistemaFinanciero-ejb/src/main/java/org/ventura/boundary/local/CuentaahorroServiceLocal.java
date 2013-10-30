@@ -8,12 +8,9 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
-import org.ventura.entity.schema.sucursal.Agencia;
 
 @Local
 public interface CuentaahorroServiceLocal extends CuentaahorroServiceRemote{
-	
-	public void setAgencia(Agencia agencia);
 	
 	public Cuentaahorro createCuentaAhorroWithPersonanatural(Cuentaahorro cuentaahorro) throws Exception;
 
