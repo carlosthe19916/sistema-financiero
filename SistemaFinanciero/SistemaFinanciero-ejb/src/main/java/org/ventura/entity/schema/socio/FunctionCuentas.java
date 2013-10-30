@@ -17,8 +17,7 @@ import java.util.List;
  * 
  */
 
-@NamedNativeQuery(name = FunctionCuentas.CUENTAS, query = "select f from cuentapersonal.f_retornar_cuentas(:codigoSocio) f", resultClass = FunctionCuentas.class)
-@NamedQuery(name = "Cuentaahorro.findAll", query = "SELECT c FROM Cuentaahorro c")
+@NamedNativeQuery(name = FunctionCuentas.CUENTAS, query = "select f.numerocuenta, f.idsocio, f.fechaapertura, f.idtipomoneda, f.saldo, f.idestadocuenta, f.idcuenta, f.idagencia, f.tipocuenta from cuentapersonal.f_retornar_cuentas(:codigoSocio) f", resultClass = FunctionCuentas.class)
 public class FunctionCuentas implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
