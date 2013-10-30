@@ -1,6 +1,5 @@
 package org.ventura.control;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,7 +27,6 @@ import org.ventura.dao.impl.TitularcuentaDAO;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
-import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.util.exception.IllegalEntityException;
@@ -106,8 +104,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	}
 
 	@Override
-	public Cuentaahorro createCuentaAhorroWithPersonajuridica(
-			Cuentaahorro cuentaahorro) throws Exception {
+	public Cuentaahorro createCuentaAhorroWithPersonajuridica(Cuentaahorro cuentaahorro) throws Exception {
 		try {
 			boolean result = Validator.validateCuentaahorro(cuentaahorro);
 			if (result == true) {
@@ -205,22 +202,6 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 						personanaturalServiceLocal.create(personanatural);
 					}
 				}
-			}
-		}
-	}
-
-	private void generarDatosTitularHistorial(Cuentaahorro cuentaahorro) {
-		List<Titularcuenta> list = cuentaahorro.getTitularcuentas();
-		if (list != null) {
-			for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
-				Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
-				List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
-				Titularcuentahistorial historial = new Titularcuentahistorial();
-				historial.setEstado(true);
-				historial.setFechaactiva(Calendar.getInstance().getTime());
-				lista.add(historial);
-				// titularcuenta.setTitularcuentahistorials(lista);
-				historial.setTitularcuenta(titularcuenta);
 			}
 		}
 	}

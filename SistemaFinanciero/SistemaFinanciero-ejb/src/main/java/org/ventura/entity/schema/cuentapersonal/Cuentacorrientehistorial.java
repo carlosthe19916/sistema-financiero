@@ -25,7 +25,7 @@ public class Cuentacorrientehistorial implements Serializable {
 	private Boolean estado;
 
 	@Column(nullable = false)
-	private double tasainteres;
+	private Double tasainteres;
 
 	@Column(nullable = false)
 	private Integer idcuentacorriente;
@@ -62,11 +62,11 @@ public class Cuentacorrientehistorial implements Serializable {
 		this.estado = estado;
 	}
 
-	public double getTasainteres() {
+	public Double getTasainteres() {
 		return this.tasainteres;
 	}
 
-	public void setTasainteres(double tasainteres) {
+	public void setTasainteres(Double tasainteres) {
 		this.tasainteres = tasainteres;
 	}
 

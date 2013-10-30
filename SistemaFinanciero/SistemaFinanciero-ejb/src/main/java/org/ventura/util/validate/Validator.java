@@ -1,6 +1,5 @@
 package org.ventura.util.validate;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,6 +7,8 @@ import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Cuentacorriente;
+import org.ventura.entity.schema.cuentapersonal.Cuentacorrientehistorial;
 import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
@@ -15,6 +16,31 @@ import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 
 public class Validator {
+	
+	public static boolean validateCuentacorriente(Cuentacorriente cuentacorriente){
+		if(cuentacorriente == null){
+			return false;
+		}
+		if(cuentacorriente.getIdestadocuenta() == null){
+			return false;
+		}
+		if(cuentacorriente.getIdtipomoneda() == null){
+			return false;
+		}
+		if(!validateCuentacorrientehistoriales(cuentacorriente.getCuentacorrientehistorials())){
+			return false;
+		}
+		if(!validateSocio(cuentacorriente.getSocio())){
+			return false;
+		}
+		if(!validateTitulares(cuentacorriente.getTitularcuentas())){
+			return false;
+		}
+		if(!validateBeneficiarios(cuentacorriente.getBeneficiariocuentas())){
+			return false;
+		}
+		return true;
+	}
 	
 	public static boolean validateCuentaahorro(Cuentaahorro cuentaahorro){
 		if(cuentaahorro == null){
@@ -109,6 +135,20 @@ public class Validator {
 		return true;
 	}
 	
+	public static boolean validateCuentacorrientehistoriales(List<Cuentacorrientehistorial> cuentacorrientehistorials){
+		if(cuentacorrientehistorials == null){
+			return false;
+		}
+		for (Iterator<Cuentacorrientehistorial> iterator = cuentacorrientehistorials.iterator(); iterator.hasNext();) {
+			Cuentacorrientehistorial cuentaahorrohistorial = iterator.next();
+			boolean resutl = validateCuentacorrientehistorial(cuentaahorrohistorial);
+			if(resutl == false){
+				return false;
+			}
+		}	
+		return true;
+	}
+	
 	public static boolean validateCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial){
 		if(cuentaahorrohistorial == null){
 			return false;
@@ -123,6 +163,25 @@ public class Validator {
 			return false;
 		}
 		if(cuentaahorrohistorial.getCuentaahorro() == null){
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean validateCuentacorrientehistorial(Cuentacorrientehistorial cuentacorrientehistorial){
+		if(cuentacorrientehistorial == null){
+			return false;
+		}
+		if(cuentacorrientehistorial.getEstado() == null){
+			return false;
+		}
+		if(cuentacorrientehistorial.getCantidadretirantes() == null){
+			return false;
+		}
+		if(cuentacorrientehistorial.getTasainteres() == null) {
+			return false;
+		}
+		if(cuentacorrientehistorial.getCuentacorriente() == null){
 			return false;
 		}
 		return true;

@@ -31,6 +31,17 @@ public class TiposervicioServiceFactory {
 	}
 	
 	@Produces
+	@GeneratedTiposervicio(strategy = TiposervicioType.CUENTA_CORRIENTE)
+	public Tiposervicio getTiposervicioCuentacorriente(InjectionPoint p) {
+		Tiposervicio tiposervicio = new Tiposervicio();
+		tiposervicio.setDenominacion("CUENTA_CORRIENTE");
+		tiposervicio.setDescripcion("SERVICIO DE TASA PARA LAS CUENTAS DE CORRIENTE");
+		tiposervicio.setIdtiposervicio(3);
+		tiposervicio.setEstado(true);	
+		return tiposervicio;
+	}
+	
+	@Produces
 	@GeneratedTiposervicio(strategy = TiposervicioType.CUENTA_PLAZO_FIJO)
 	public Tiposervicio getTiposervicioCuentaplazofijo(InjectionPoint p) {
 		Tiposervicio tiposervicio = new Tiposervicio();

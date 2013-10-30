@@ -6,8 +6,8 @@ import javax.persistence.*;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
-import org.ventura.entity.schema.sucursal.Agencia;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class Cuentacorriente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique=true, nullable=false)
 	private Integer idcuentacorriente;
 
@@ -162,9 +163,12 @@ public class Cuentacorriente implements Serializable {
 	}
 
 	public Cuentacorrientehistorial addCuentacorrientehistorial(Cuentacorrientehistorial cuentacorrientehistorial) {
-		getCuentacorrientehistorials().add(cuentacorrientehistorial);
-		cuentacorrientehistorial.setCuentacorriente(this);
-
+		if (this.cuentacorrientehistorials != null) {
+			this.cuentacorrientehistorials.add(cuentacorrientehistorial);
+		} else {
+			this.cuentacorrientehistorials = new ArrayList<Cuentacorrientehistorial>();
+			this.cuentacorrientehistorials.add(cuentacorrientehistorial);
+		}
 		return cuentacorrientehistorial;
 	}
 

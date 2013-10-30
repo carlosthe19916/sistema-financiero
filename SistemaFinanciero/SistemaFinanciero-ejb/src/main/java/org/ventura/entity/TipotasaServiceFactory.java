@@ -20,6 +20,17 @@ public class TipotasaServiceFactory {
 	}
 	
 	@Produces
+	@GeneratedTipotasaPasiva(strategyTasaPasiva = TipotasaPasivaType.TICC)
+	public Tipotasa gettipotasaCuentacorriente(InjectionPoint p) {
+		Tipotasa tipotasa = new Tipotasa();
+		tipotasa.setDenominacion("TASA_INTERES_CUENTA_AHORRO");
+		tipotasa.setDescripcion("TASA DE INTERES A LA CUENTA DE AHORRO");
+		tipotasa.setIdtipotasa(5);
+		tipotasa.setEstado(true);	
+		return tipotasa;
+	}
+	
+	@Produces
 	@GeneratedTipotasaPasiva(strategyTasaPasiva = TipotasaPasivaType.TICEAF)
 	public Tipotasa gettipotasaCuentaplazofijoTICEAF(InjectionPoint p) {
 		Tipotasa tipotasa = new Tipotasa();

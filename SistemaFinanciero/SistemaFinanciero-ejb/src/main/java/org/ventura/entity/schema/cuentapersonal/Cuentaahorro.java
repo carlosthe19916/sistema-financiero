@@ -153,8 +153,7 @@ public class Cuentaahorro implements Serializable {
 		this.cuentaahorrohistorials = cuentaahorrohistorials;
 	}
 
-	public Cuentaahorrohistorial addCuentaahorrohistorial(
-			Cuentaahorrohistorial cuentaahorrohistorial) {
+	public Cuentaahorrohistorial addCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
 		if (cuentaahorrohistorials != null) {
 			cuentaahorrohistorials.add(cuentaahorrohistorial);
 		} else {
