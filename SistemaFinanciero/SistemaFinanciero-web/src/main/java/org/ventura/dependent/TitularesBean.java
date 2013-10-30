@@ -73,8 +73,14 @@ public class TitularesBean implements Serializable {
 
 	public void addTitular() {
 		Titularcuenta titularcuenta = new Titularcuenta();
+		Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();
+		titularcuentahistorial.setEstado(true);
+		titularcuentahistorial.setFechaactiva(Calendar.getInstance().getTime());
+		titularcuentahistorial.setTitularcuenta(titularcuenta);
+		
 		Personanatural personanatural = new Personanatural();
 		titularcuenta.setPersonanatural(personanatural);
+		titularcuenta.addTitularhistorial(titularcuentahistorial);
 		this.tablaTitulares.addRow(titularcuenta);
 	}
 
@@ -140,7 +146,7 @@ public class TitularesBean implements Serializable {
 
 	public List<Titularcuenta> getListTitulares(){
 		List<Titularcuenta> titularcuentas = tablaTitulares.getAllRows();
-		/*for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
+		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
 			Titularcuenta titular = iterator.next();
 			String dni = titular.getPersonanatural().getDni();
 			titular.setDni(dni);
@@ -149,16 +155,8 @@ public class TitularesBean implements Serializable {
 			if(historial == null){
 				historial = new ArrayList<Titularcuentahistorial>();
 				titular.setTitularhitorial(historial);
-			}
-			
-			Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();
-			titularcuentahistorial.setEstado(true);
-			titularcuentahistorial.setFechaactiva(Calendar.getInstance().getTime());
-			
-			historial.add(titularcuentahistorial);
-			titularcuentahistorial.setTitularcuenta(titular);
-			
-		}*/
+			}		
+		}
 		return titularcuentas;
 	}
 	

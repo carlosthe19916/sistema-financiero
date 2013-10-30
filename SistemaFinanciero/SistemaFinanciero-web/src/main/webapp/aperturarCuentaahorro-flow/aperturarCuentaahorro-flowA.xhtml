@@ -58,7 +58,7 @@
 							</td>
 							<td></td>
 							<td><p:outputLabel value="Tasa de interes:" /></td>
-							<td><p:outputLabel value="no disponible" styleClass="sf-label-bold"/></td>
+							<td><p:outputLabel value="#{aperturaCuentaahorroBean.cuentaahorrohistorial.tasainteres}" styleClass="sf-label-bold"/></td>
 						</tr>
 					</table>
 				</div>
@@ -203,6 +203,28 @@
 							</div>
 						</div>
 					</h:panelGroup>	
+					<div style="margin-bottom: 10px;">
+						<div class="sf-agrupador-content-cabecera-black">
+							<h3>TITULARES</h3>
+						</div>
+						<div style="margin-left: 5px;">
+							<table>
+								<tr>
+									<td style="vertical-align: top;"><p:outputLabel value="Titulares:" /></td>
+									<td>
+										<p:dataList value="#{aperturaCuentaahorroBean.cuentaahorro.titularcuentas}" var="titulares" type="ordered" itemType="1" styleClass="sf-label-bold" >					            
+											<p:outputLabel value="DNI:#{titulares.personanatural.dni}" style="padding-right: 12px;"/>
+											<p:outputLabel value="#{titulares.personanatural.nombreCompleto}" style="min-width:100px; padding-right: 12px;"/>		
+											<h:outputLabel value="#{titulares.personanatural.fechanacimiento}" style="min-width:50px; padding-right: 12px;">
+												<f:convertDateTime pattern="dd/MM/yy" />
+											</h:outputLabel>
+											<p:outputLabel value="#{titulares.personanatural.sexo.denominacion}" style="min-width:100px; padding-right: 12px;"/>							
+										</p:dataList>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
 					<h:panelGroup id="beneficiarios" rendered="#{aperturaCuentaahorroBean.personaNatural}">
 					<div style="margin-bottom: 10px;">
 						<div class="sf-agrupador-content-cabecera-black">
