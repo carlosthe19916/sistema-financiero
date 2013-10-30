@@ -13,9 +13,9 @@
 		<div style="padding: 0px 5px;">
 			<h:form id="form-resultadoBusquedaPJ">
 				<div>
-					<p:dataTable id="table" var="socio"
-						value="#{socioBean.tablaSocios.rows}" rowKey="#{socio}"
-						selection="#{socioBean.tablaSocios.selectedRow}"
+					<p:dataTable id="table" var="socioPJ"
+						value="#{socioBean.tablaSociosPJ.rows}" rowKey="#{socioPJ}"
+						selection="#{socioBean.tablaSociosPJ.selectedRow}"
 						selectionMode="single" paginator="true" paginatorPosition="bottom"
 						rows="20" sortOrder="ascending" emptyMessage="No se han encontrado resultados para tu búsqueda: #{socioBean.valorBusqueda}"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -28,24 +28,36 @@
 							<h:outputText value="#{row + 1}" />
 						</p:column>
 
-						
-
-						<p:column sortBy="#{socio.ruc}" headerText="RUC">
-							<h:outputText value="#{socio.ruc}" />
+						<p:column sortBy="#{socioPJ.idsocio}" headerText="Codigo Socio">
+							<h:outputText value="#{socioPJ.idsocio}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.personajuridica.razonsocial}"
+						<p:column sortBy="#{socioPJ.ruc}" headerText="RUC">
+							<h:outputText value="#{socioPJ.ruc}" />
+						</p:column>
+
+						<p:column sortBy="#{socioPJ.personajuridica.razonsocial}"
 							headerText="Razon Social">
-							<h:outputText value="#{socio.personajuridica.razonsocial}" />
+							<h:outputText value="#{socioPJ.personajuridica.razonsocial}" />
 						</p:column>
 
-						<p:column sortBy="#{socio.personajuridica.nombrecomercial}"
+						<p:column sortBy="#{socioPJ.personajuridica.nombrecomercial}"
 							headerText="Nombre Comercial">
-							<h:outputText value="#{socio.personajuridica.nombrecomercial}" />
+							<h:outputText value="#{socioPJ.personajuridica.nombrecomercial}" />
 						</p:column>
 						
-						<p:column sortBy="#{socio.estado}" headerText="Estado">
-							<h:outputText value="#{socio.estado}" />
+						<p:column sortBy="#{socioPJ.fechaasociado}" headerText="Fec. Asociado">
+							<h:outputText value="#{socioPJ.fechaasociado}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						
+						<p:column sortBy="#{socioPJ.agencia.denominacion}" headerText="Agencia">
+							<h:outputText value="#{socioPJ.agencia.denominacion}" />
+						</p:column>
+						
+						<p:column sortBy="#{socioPJ.estado}" headerText="Estado">
+							<h:outputText value="#{socioPJ.estado}" />
 						</p:column>	
 
 					</p:dataTable>

@@ -1,7 +1,6 @@
 package org.ventura.dependent;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +12,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
-import org.ventura.boundary.local.FunctionCuentasServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.persona.Personanatural;
-import org.ventura.entity.schema.socio.FunctionCuentas;
 import org.ventura.entity.schema.socio.Socio;
 
 @ManagedBean
@@ -32,9 +29,6 @@ public class mostrarDatosSocioBean implements Serializable {
 	
 	@EJB
 	SocioServiceLocal socioServiceLocal;
-	
-	@EJB
-	FunctionCuentasServiceLocal functionCuentasServiceLocal;
 	
 	@EJB
 	CuentaahorroServiceLocal cuentaAhorroServiceLocal;
