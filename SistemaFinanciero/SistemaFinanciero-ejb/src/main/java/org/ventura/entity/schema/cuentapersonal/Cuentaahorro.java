@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "cuentaahorro", schema = "cuentapersonal")
-@NamedNativeQuery(name = Cuentaahorro.CUENTAS, query = "select f.numerocuentaahorro, f.idsocio, f.idcuentaahorro, f.idestadocuenta from cuentapersonal.f_retornar(:codigoSocio) f", resultClass = Cuentaahorro.class)
+@NamedNativeQuery(name = Cuentaahorro.CUENTAS, query = "select f.numerocuentaahorro, f.idsocio, f.idcuentaahorro, f.idestadocuenta, f.fechaapertura, f.idtipomoneda, f.saldo from cuentapersonal.f_retornar(:codigoSocio) f", resultClass = Cuentaahorro.class)
 @NamedQuery(name = "Cuentaahorro.findAll", query = "SELECT c FROM Cuentaahorro c")
 @NamedQueries({ @NamedQuery(name = Cuentaahorro.Find, query = "SELECT cah FROM Cuentaahorro cah INNER JOIN cah.cuentaahorrohistorials cahh WHERE cah.idcuentaahorro=:idcuentaahorro") })
 public class Cuentaahorro implements Serializable {
