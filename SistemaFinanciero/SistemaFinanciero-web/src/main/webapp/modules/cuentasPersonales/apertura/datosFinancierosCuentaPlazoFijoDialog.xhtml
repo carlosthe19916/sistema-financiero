@@ -41,7 +41,7 @@
 									<td><p:outputLabel>Monto de Apertura:</p:outputLabel></td>
 									<td colspan="3"><p:inputText id="txtmonto"
 											value="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cuentaplazofijo.monto}"
-											required="true" requiredMessage="Ingrese Monto">
+											required="true" requiredMessage="Ingrese Monto"  >
 											<p:ajax update="growl,txtmonto" event="blur" />
 										</p:inputText> <p:watermark for="txtmonto" value="monto" /> <p:outputLabel
 											for="txtmonto" /></td>
@@ -106,8 +106,8 @@
 
 				<div class="sf-buttons">
 					<p:commandButton update="#{componentToUpdated}, growl" 
-						value="Aceptar" actionListener="#{datosFinancierosCuentaPlazoFijoBean.mostrardatos()}"
-						oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" />
+						value="Aceptar" actionListener="#{aperturarCuentaPlazofijoBean.datosFinancierosCuentaPlazoFijoMB.cargartasasinteres()}"
+						oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()"/>
 					<p:commandButton value="Cancelar" onclick="#{componentName}.hide()"
 						styleClass="action" />
 				</div>

@@ -46,8 +46,6 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 	private CuentaplazofijoServiceLocal cuentaplazofijoServiceLocal;
 
 	@Inject
-	private AgenciaBean agenciaBean;
-	@Inject
 	private Cuentaplazofijo cuentaplazofijo;
 	@Inject
 	private ComboBean<String> comboTipoPersona;
@@ -65,14 +63,8 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 	private List<Titularcuenta> titularDefecto;
 	
 	
-	public AperturarCuentaPlazofijoBean() {
-		this.titularDefecto = new ArrayList<Titularcuenta>();
-	}
-	
 	@PostConstruct
 	private void initValues() {
-		Agencia agencia = agenciaBean.getAgencia();
-		cuentaplazofijoServiceLocal.setAgencia(agencia);
 		this.cargarCombos();
 	}
 	
@@ -91,7 +83,8 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			if (validarCurrentBean()) {
 				Cuentaplazofijo cuentaplazofijo = establecerParametrosCuentaplazofijo(this.cuentaplazofijo);
 				if (isPersonaNatural()) {
-					cuentaplazofijo = cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonanatural(cuentaplazofijo);
+					cuentaplazofijo = this.cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonanatural(cuentaplazofijo);
+					this.cuentaplazofijo=cuentaplazofijo;
 				}
 				if (isPersonaJuridica()) {
 					this.cuentaplazofijo = this.cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonajuridica(cuentaplazofijo);
@@ -118,53 +111,37 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			socio.setPersonanatural(personanatural);
 			cuentaplazofijo.setSocio(socio);
 			
-			List<Titularcuenta> titulares = titularesMB.getListTitulares();
-			//titulares.add(titularDefecto.get(0));
-			cuentaplazofijo.setTitularcuentas(titulares);
+			List<Titularcuenta> titulares = titularesMB.getListTitulares();			
 			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
 				Titularcuenta titular = iterator.next();
 				titular.setCuentaplazofijo(cuentaplazofijo);
 			}
+			cuentaplazofijo.setTitularcuentas(titulares);
+			
 			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
-			cuentaplazofijo.setBeneficiariocuentas(beneficiarios);
 			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
 				Beneficiariocuenta beneficiariocuenta = iterator.next();
 				beneficiariocuenta.setCuentaplazofijo(cuentaplazofijo);
 			}
+			cuentaplazofijo.setBeneficiariocuentas(beneficiarios);
+			
 		} if (isPersonaJuridica()) {			
 			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
+			socio.setEstado(true);
 			cuentaplazofijo.setSocio(socio);
 			
-			List<Titularcuenta> titulares = titularesMB.getListTitulares();
+			/*List<Titularcuenta> titulares = titularesMB.getListTitulares();
 			titulares.add(titularDefecto.get(0));
 			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
 				Titularcuenta titular = iterator.next();
 				titular.setCuentaplazofijo(cuentaplazofijo);
-			}
+			}*/
 		}
 		return cuentaplazofijo;
 	}
 	
-	public void establecerTitularDefecto() {
-		if (isPersonaNatural()) {		
-			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-			Titularcuenta titularcuenta = new Titularcuenta();
-			titularcuenta.setPersonanatural(personanatural);
-									
-			this.titularDefecto.clear();
-			this.titularDefecto.add(titularcuenta);
-							
-		}
-		if (isPersonaJuridica()) {
-			Personanatural representanteLegal = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
-			Titularcuenta titularRepresentante = new Titularcuenta();
-			titularRepresentante.setPersonanatural(representanteLegal);
-
-			this.titularDefecto.clear();
-			this.titularDefecto.add(titularRepresentante);
-		}
-	}
+	
 	public boolean validarCurrentBean() {
 
 		boolean result = true;
@@ -285,13 +262,7 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		this.beneficiariosMB = beneficiariosMB;
 	}
 
-	public AgenciaBean getAgenciaBean() {
-		return agenciaBean;
-	}
 
-	public void setAgenciaBean(AgenciaBean agenciaBean) {
-		this.agenciaBean = agenciaBean;
-	}
 
 	public TitularesBean getTitularesMB() {
 		return titularesMB;
