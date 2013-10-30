@@ -1,6 +1,7 @@
 package org.ventura.dependent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +36,11 @@ public class mostrarDatosSocioBean implements Serializable {
 	@EJB
 	FunctionCuentasServiceLocal functionCuentasServiceLocal;
 	
+	@EJB
+	CuentaahorroServiceLocal cuentaAhorroServiceLocal;
+	
 	@ManagedProperty(value = "#{TablaBean}")
-	private TablaBean<FunctionCuentas> tablaCuentasPN;
+	private TablaBean<Cuentaahorro> tablaCuentasPN;
 	
 	@ManagedProperty(value = "#{PersonaNaturalBean}")
 	private PersonaNaturalBean personaNaturalMB;
@@ -53,18 +57,18 @@ public class mostrarDatosSocioBean implements Serializable {
 	public void intiValues(){
 		oPersonaNatural = new Personanatural();
 		oSocio = new Socio();
-		tablaCuentasPN = new TablaBean<FunctionCuentas>();
+		tablaCuentasPN = new TablaBean<Cuentaahorro>();
 		personaNaturalMB = new PersonaNaturalBean();
 	}
 	
-	public TablaBean<FunctionCuentas> getTablaCuentasPN() {
+	public TablaBean<Cuentaahorro> getTablaCuentasPN() {
 		return tablaCuentasPN;
 	}
 
-	public void setTablaCuentasPN(TablaBean<FunctionCuentas> tablaCuentasPN) {
+	public void setTablaCuentasPN(TablaBean<Cuentaahorro> tablaCuentasPN) {
 		this.tablaCuentasPN = tablaCuentasPN;
 	}
-
+	
 	public PersonaNaturalBean getPersonaNaturalMB() {
 		return personaNaturalMB;
 	}
@@ -98,7 +102,6 @@ public class mostrarDatosSocioBean implements Serializable {
 			setoSocio(socioServiceLocal.findByDNI(oSocio.getDni()));
 			setoPersonaNatural(personaNaturalServiceLocal.find(oSocio.getDni()));
 			personaNaturalMB.setPersonaNatural(oPersonaNatural);
-			imprimir();
 			CargarCuentasPersonales();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -109,27 +112,17 @@ public class mostrarDatosSocioBean implements Serializable {
 	public void CargarCuentasPersonales(){
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoSocio", oSocio.getIdsocio());
-		List<FunctionCuentas> list = null;
+		List<Cuentaahorro> list;
 		try {
-			//list = functionCuentasServiceLocal.findByNamedQuery(FunctionCuentas.CUENTAS, parameters);
-			//tablaCuentasPN.setRows(list);
-			//System.out.println("Cuentas "+list.size());
+			list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
+			tablaCuentasPN.setRows(list);
+			System.out.println("malllll");
+			System.out.println("Cuentas "+list.size());
+			System.out.println("biennnnn");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void imprimir(){
-		System.out.println("--------Socio----------");
-		System.out.println(oSocio.getIdsocio());
-		System.out.println(oSocio.getDni());
-		System.out.println(oSocio.getPersonanatural().getApellidopaterno());
-		System.out.println("--------Persona Natural--------");
-		System.out.println(oPersonaNatural.getDni());
-		System.out.println(oPersonaNatural.getApellidopaterno());
-		System.out.println("--------Managed Bean-----------");
-		System.out.println(personaNaturalMB.getPersonaNatural().getDni());
-		System.out.println(personaNaturalMB.getPersonaNatural().getApellidopaterno());
-	}
 }
