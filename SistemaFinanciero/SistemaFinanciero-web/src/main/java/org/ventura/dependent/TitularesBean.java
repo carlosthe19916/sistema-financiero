@@ -9,12 +9,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
-import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
 import org.ventura.entity.schema.maestro.Sexo;
@@ -28,12 +29,9 @@ public class TitularesBean implements Serializable {
 
 	@EJB
 	PersonanaturalServiceLocal personanaturalServiceLocal;
-
 	private Integer cantidadRetirantes;
-
 	@Inject
 	private TablaBean<Titularcuenta> tablaTitulares;
-
 	@Inject
 	private ComboBean<Sexo> comboSexo;
 
@@ -47,52 +45,42 @@ public class TitularesBean implements Serializable {
 	}
 
 	public void buscarPersonanatural() {
-
 		try {
 			Titularcuenta titularcuenta = tablaTitulares.getEditingRow();
 			Personanatural personanatural = titularcuenta.getPersonanatural();
-
-			personanatural = personanaturalServiceLocal.find(personanatural
-					.getDni());
-
+			personanatural = personanaturalServiceLocal.find(personanatural.getDni());
 			if (personanatural != null) {
 				titularcuenta.setPersonanatural(personanatural);
-
 				this.comboSexo.setItemSelected(personanatural.getSexo());
-
 				this.tablaTitulares.setEditingRow(titularcuenta);
 			} else {
-
 				personanatural = new Personanatural();
 				personanatural.setDni(tablaTitulares.getSelectedRow().getDni());
 				titularcuenta.setPersonanatural(personanatural);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error", e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-
 	}
 
 	public boolean isValid() {
-		if (cantidadRetirantes > tablaTitulares.getRows().size() + 1)
-			return false;
-		else
+		if (cantidadRetirantes <= tablaTitulares.getAllRows().size() && cantidadRetirantes >= 1)
 			return true;
+		else
+			return false;
 	}
 
 	public void addTitular() {
 		Titularcuenta titularcuenta = new Titularcuenta();
 		Personanatural personanatural = new Personanatural();
 		titularcuenta.setPersonanatural(personanatural);
-
 		this.tablaTitulares.addRow(titularcuenta);
 	}
 
 	public void addTitular(Personanatural personanatural) {
 		Titularcuenta titularcuenta = new Titularcuenta();
 		titularcuenta.setPersonanatural(personanatural);
-
 		this.tablaTitulares.addRow(titularcuenta);
 	}
 
@@ -107,16 +95,12 @@ public class TitularesBean implements Serializable {
 	public void changeSexo(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Sexo sexoSelected = comboSexo.getObjectItemSelected(key);
-		this.tablaTitulares.getEditingRow().getPersonanatural()
-				.setSexo(sexoSelected);
+		this.tablaTitulares.getEditingRow().getPersonanatural().setSexo(sexoSelected);
 	}
 
 	public void validarTitulares() {
-
 		List<Titularcuenta> titularcuentas = tablaTitulares.getRows();
-
-		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator
-				.hasNext();) {
+		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
 			Titularcuenta titular = (Titularcuenta) iterator.next();
 			Personanatural personanatural = titular.getPersonanatural();
 
@@ -155,8 +139,8 @@ public class TitularesBean implements Serializable {
 	}
 
 	public List<Titularcuenta> getListTitulares(){
-		List<Titularcuenta> titularcuentas = tablaTitulares.getRows();
-		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
+		List<Titularcuenta> titularcuentas = tablaTitulares.getAllRows();
+		/*for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
 			Titularcuenta titular = iterator.next();
 			String dni = titular.getPersonanatural().getDni();
 			titular.setDni(dni);
@@ -174,8 +158,8 @@ public class TitularesBean implements Serializable {
 			historial.add(titularcuentahistorial);
 			titularcuentahistorial.setTitularcuenta(titular);
 			
-		}
-		return tablaTitulares.getRows();
+		}*/
+		return titularcuentas;
 	}
 	
 	public Integer getCantidadRetirantes() {

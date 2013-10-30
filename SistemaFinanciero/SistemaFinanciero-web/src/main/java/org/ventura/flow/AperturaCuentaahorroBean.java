@@ -54,13 +54,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
 
-	private List<Titularcuenta> titularDefecto;
-
-	public AperturaCuentaahorroBean() {
-		this.titularDefecto = new ArrayList<Titularcuenta>();
-	}
-
-	
 	@PostConstruct
 	private void initValues() {
 		this.cargarCombos();
@@ -93,7 +86,8 @@ public class AperturaCuentaahorroBean implements Serializable {
 			if (validarCurrentBean()) {
 				Cuentaahorro cuentaahorro = establecerParametrosCuentaahorro(this.cuentaahorro);
 				if (isPersonaNatural()) {
-					this.cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonanatural(cuentaahorro);
+					cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonanatural(cuentaahorro);
+					this.cuentaahorro = cuentaahorro;
 				}
 				if (isPersonaJuridica()) {
 					this.cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonajuridica(cuentaahorro);
@@ -215,20 +209,21 @@ public class AperturaCuentaahorroBean implements Serializable {
 	public void establecerTitularDefecto() {
 		if (isPersonaNatural()) {		
 			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-			Titularcuenta titularcuenta = new Titularcuenta();
-			titularcuenta.setPersonanatural(personanatural);
-									
-			this.titularDefecto.clear();
-			this.titularDefecto.add(titularcuenta);
-							
+			Titularcuenta titular = new Titularcuenta();
+			titular.setPersonanatural(personanatural);
+				
+			List<Titularcuenta> titularcuentas = this.titularesMB.getTablaTitulares().getFrozenRows();
+			titularcuentas.clear();
+			titularcuentas.add(titular);						
 		}
 		if (isPersonaJuridica()) {
 			Personanatural representanteLegal = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
 			Titularcuenta titularRepresentante = new Titularcuenta();
 			titularRepresentante.setPersonanatural(representanteLegal);
 
-			this.titularDefecto.clear();
-			this.titularDefecto.add(titularRepresentante);
+			List<Titularcuenta> titularcuentas = this.titularesMB.getTablaTitulares().getFrozenRows();
+			titularcuentas.clear();
+			titularcuentas.add(titularRepresentante);
 		}
 	}
 
@@ -301,14 +296,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	public void setBeneficiariosMB(BeneficiariosBean beneficiariosMB) {
 		this.beneficiariosMB = beneficiariosMB;
-	}
-
-	public List<Titularcuenta> getTitularDefecto() {
-		return titularDefecto;
-	}
-
-	public void setTitularDefecto(List<Titularcuenta> titularDefecto) {
-		this.titularDefecto = titularDefecto;
 	}
 
 }

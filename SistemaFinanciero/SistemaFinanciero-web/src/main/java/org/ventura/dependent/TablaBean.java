@@ -1,6 +1,7 @@
 package org.ventura.dependent;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -94,6 +95,21 @@ public class TablaBean<E> {
 
 	public List<E> getRows() {
 		return rows;
+	}
+	
+	public List<E> getAllRows() {
+		List<E> rows = this.rows;
+		List<E> frozenRows = this.frozenRows;
+		List<E> result = new ArrayList<E>();
+		for (Iterator<E> iterator = rows.iterator(); iterator.hasNext();) {
+			E e = (E) iterator.next();
+			result.add(e);
+		};
+		for (Iterator<E> iterator = frozenRows.iterator(); iterator.hasNext();) {
+			E e = (E) iterator.next();
+			result.add(e);
+		};
+		return result;
 	}
 
 	public void setRows(List<E> rows) {

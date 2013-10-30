@@ -29,7 +29,7 @@
 							<td style="vertical-align: top;"><p:outputLabel value="Titulares:" /></td>
 							<td>
 								<h:form>  
-									    <p:dataTable var="titulares" value="#{managedBean.titularesMB.tablaTitulares.rows}" frozenRows="#{managedBean.titularDefecto}">    								    						
+									    <p:dataTable var="titulares" value="#{managedBean.titularesMB.tablaTitulares.rows}" frozenRows="#{managedBean.titularesMB.tablaTitulares.frozenRows}">    								    						
 										        <p:column headerText="DNI">  
 										            <h:outputText value="#{titulares.personanatural.dni}" />  
 										        </p:column>  							    	

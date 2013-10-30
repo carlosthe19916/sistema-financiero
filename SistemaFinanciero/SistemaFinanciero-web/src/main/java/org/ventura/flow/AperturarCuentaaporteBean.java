@@ -76,7 +76,8 @@ public class AperturarCuentaaporteBean implements Serializable {
  			if (validarAperturarCuentaaporteBean()) {
 				Socio socio = new Socio();
 				socio = establecerParametrosCuentaaporte(socio);
-				this.socio = socioServiceLocal.create(socio);				
+				socio = socioServiceLocal.create(socio);	
+				this.socio = socio;
 				return "aperturarCuentaaporte-flowA";
 			} else {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
