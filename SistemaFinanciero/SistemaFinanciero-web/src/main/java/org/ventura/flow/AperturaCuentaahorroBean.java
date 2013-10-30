@@ -96,7 +96,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 				if (isPersonaJuridica()) {
 					cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonajuridica(cuentaahorro);
 					this.cuentaahorro = cuentaahorro;
-					this.cuentaahorrohistorial = this.cuentaahorro.getCuentaahorrohistorials().get(0);
+					//this.cuentaahorrohistorial = this.cuentaahorro.getCuentaahorrohistorials().get(0);
 				}			
 				this.cuentaahorro = cuentaahorro;
 				return "aperturarCuentaahorro-flowA";
@@ -144,6 +144,15 @@ public class AperturaCuentaahorroBean implements Serializable {
 			socio.setPersonajuridica(personajuridica);
 			socio.setEstado(true);
 			cuentaahorro.setSocio(socio);
+			
+			List<Titularcuenta> titulares = titularesMB.getListTitulares();
+			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
+				Titularcuenta titular = iterator.next();
+				titular.setCuentaahorro(cuentaahorro);
+			}
+			cuentaahorro.setTitularcuentas(titulares);
+			
+			cuentaahorro.setBeneficiariocuentas(new ArrayList<Beneficiariocuenta>());	
 		}
 		
 		return cuentaahorro;
@@ -234,6 +243,13 @@ public class AperturaCuentaahorroBean implements Serializable {
 			Titularcuenta titularRepresentante = new Titularcuenta();
 			titularRepresentante.setPersonanatural(representanteLegal);
 
+			Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();
+			titularcuentahistorial.setEstado(true);
+			titularcuentahistorial.setFechaactiva(Calendar.getInstance().getTime());
+			titularcuentahistorial.setTitularcuenta(titularRepresentante);
+			
+			titularRepresentante.addTitularhistorial(titularcuentahistorial);
+			
 			List<Titularcuenta> titularcuentas = this.titularesMB.getTablaTitulares().getFrozenRows();
 			titularcuentas.clear();
 			titularcuentas.add(titularRepresentante);

@@ -66,12 +66,6 @@ public class Validator {
 		if(socio.getDni() != null && socio.getRuc() != null){
 			return false;
 		}
-		if(socio.getPersonajuridica() != null){
-			socio.getCuentaaporte().setBeneficiarios(new ArrayList<Beneficiariocuenta>());
-			if(!validateCuentaaporte(socio.getCuentaaporte())){
-				return false;
-			}
-		}	
 		return true;
 	}
 	

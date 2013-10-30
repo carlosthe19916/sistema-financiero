@@ -109,22 +109,41 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	public Cuentaahorro createCuentaAhorroWithPersonajuridica(
 			Cuentaahorro cuentaahorro) throws Exception {
 		try {
-			Socio socio = buscarSocioPersonaJuridica(cuentaahorro.getSocio());
-			cuentaahorro.setSocio(socio);
+			boolean result = Validator.validateCuentaahorro(cuentaahorro);
+			if (result == true) {
+				Socio socio = buscarSocioPersonaJuridica(cuentaahorro.getSocio());
+				cuentaahorro.setSocio(socio);
 
-			crearPersonanaturalForTitulares(cuentaahorro);
-			//generarDatosTitularHistorial(cuentaahorro);
+				crearPersonanaturalForTitulares(cuentaahorro);
 
-			//String numerocuentaaporte = generarNumeroCuenta(cuentaahorro, socio);
-			// cuentaahorro.setNumerocuentaahorro(numerocuentaaporte);
-			cuentaahorroDAO.create(cuentaahorro);
-
+				generarDatosDeRegistro(cuentaahorro);
+				cuentaahorroDAO.create(cuentaahorro);
+				
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("idcuentaahorro", cuentaahorro.getIdcuentaahorro());
+				List<Titularcuenta> titulares = titularcuentaDAO.findByNamedQuery(Titularcuenta.FindAllForCuentaahorro, parameters);
+				cuentaahorro.setTitularcuentas(titulares);
+				
+				
+			} else {
+				log.error("Exception: method Validator(Cuentaahorro) is false");
+				throw new IllegalEntityException("Datos de Cuenta de Ahorro Invalidos");
+			}
+		} catch (IllegalEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());
 		} catch (NonexistentEntityException e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getMessage());
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());
 		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error al insertar los datos");
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear la cuenta de ahorros");
 		}
 		return cuentaahorro;
 	}
@@ -149,7 +168,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	protected Socio buscarSocioPersonaJuridica(Socio socio) throws NonexistentEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("ruc", socio.getDni());
+			parameters.put("ruc", socio.getRuc());
 			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
 			if (result.size() != 0) {
 				for (Iterator<Socio> iterator = result.iterator(); iterator.hasNext();) {
