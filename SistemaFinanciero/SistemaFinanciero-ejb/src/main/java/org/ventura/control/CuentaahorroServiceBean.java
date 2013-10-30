@@ -79,7 +79,9 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 				Map<String, Object> parameters = new HashMap<String, Object>();
 				parameters.put("idcuentaahorro", cuentaahorro.getIdcuentaahorro());
 				List<Titularcuenta> titulares = titularcuentaDAO.findByNamedQuery(Titularcuenta.FindAllForCuentaahorro, parameters);
-				cuentaahorro.setTitularcuentas(titulares);		
+				cuentaahorro.setTitularcuentas(titulares);
+				
+				
 			} else {
 				log.error("Exception: method Validator(Cuentaahorro) is false");
 				throw new IllegalEntityException("Datos de Cuenta de Ahorro Invalidos");

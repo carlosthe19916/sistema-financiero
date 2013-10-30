@@ -44,6 +44,8 @@ public class AperturaCuentaahorroBean implements Serializable {
 	@Inject
 	private Cuentaahorro cuentaahorro;
 	@Inject
+	private Cuentaahorrohistorial cuentaahorrohistorial;
+	@Inject
 	private ComboBean<String> comboTipoPersona;
 	@Inject
 	private PersonaNaturalBean personaNaturalMB;
@@ -94,6 +96,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 				if (isPersonaJuridica()) {
 					cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonajuridica(cuentaahorro);
 					this.cuentaahorro = cuentaahorro;
+					this.cuentaahorrohistorial = this.cuentaahorro.getCuentaahorrohistorials().get(0);
 				}			
 				this.cuentaahorro = cuentaahorro;
 				return "aperturarCuentaahorro-flowA";
@@ -306,6 +309,14 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	public void setBeneficiariosMB(BeneficiariosBean beneficiariosMB) {
 		this.beneficiariosMB = beneficiariosMB;
+	}
+
+	public Cuentaahorrohistorial getCuentaahorrohistorial() {
+		return cuentaahorrohistorial;
+	}
+
+	public void setCuentaahorrohistorial(Cuentaahorrohistorial cuentaahorrohistorial) {
+		this.cuentaahorrohistorial = cuentaahorrohistorial;
 	}
 
 }
