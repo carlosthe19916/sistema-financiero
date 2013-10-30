@@ -29,5 +29,16 @@ public class TiposervicioServiceFactory {
 		tiposervicio.setEstado(true);	
 		return tiposervicio;
 	}
+	
+	@Produces
+	@GeneratedTiposervicio(strategy = TiposervicioType.CUENTA_PLAZO_FIJO)
+	public Tiposervicio getTiposervicioCuentaplazofijo(InjectionPoint p) {
+		Tiposervicio tiposervicio = new Tiposervicio();
+		tiposervicio.setDenominacion("CUENTA_PLAZO_FIJO");
+		tiposervicio.setDescripcion("SERVICIO DE TASA PARA LAS CUENTAS A PLAZO FIJO");
+		tiposervicio.setIdtiposervicio(4);
+		tiposervicio.setEstado(true);	
+		return tiposervicio;
+	}
 
 }
