@@ -42,20 +42,13 @@
 										<h:outputText value="#{cuentasPN.numerocuentaahorro}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPN.fechaapertura}" width="90"
-										headerText="Fec. Apertura">
-										<h:outputText value="#{cuentasPN.fechaapertura}">
-											<f:convertDateTime pattern="dd/MM/yyyy"/>
-										</h:outputText>
-									</p:column>
+				
 
-									<p:column sortBy="#{cuentasPN.saldo}" headerText="Saldo" width="50">
-										<h:outputText value="#{cuentasPN.saldo}" />
+									<p:column sortBy="#{cuentasPN.idsocio}" headerText="Saldo" width="50">
+										<h:outputText value="#{cuentasPN.idsocio}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPN.tipomoneda.abreviatura}" headerText="Moneda" width="60">
-										<h:outputText value="#{cuentasPN.tipomoneda.abreviatura}" />
-									</p:column>
+									
 									
 									
 								</p:dataTable>
