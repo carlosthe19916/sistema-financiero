@@ -2,6 +2,7 @@ package org.ventura.flow;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
+import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
@@ -90,7 +92,8 @@ public class AperturaCuentaahorroBean implements Serializable {
 					this.cuentaahorro = cuentaahorro;
 				}
 				if (isPersonaJuridica()) {
-					this.cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonajuridica(cuentaahorro);
+					cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonajuridica(cuentaahorro);
+					this.cuentaahorro = cuentaahorro;
 				}			
 				this.cuentaahorro = cuentaahorro;
 				return "aperturarCuentaahorro-flowA";
@@ -212,6 +215,13 @@ public class AperturaCuentaahorroBean implements Serializable {
 			Titularcuenta titular = new Titularcuenta();
 			titular.setPersonanatural(personanatural);
 				
+			Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();
+			titularcuentahistorial.setEstado(true);
+			titularcuentahistorial.setFechaactiva(Calendar.getInstance().getTime());
+			titularcuentahistorial.setTitularcuenta(titular);
+			
+			titular.addTitularhistorial(titularcuentahistorial);
+			
 			List<Titularcuenta> titularcuentas = this.titularesMB.getTablaTitulares().getFrozenRows();
 			titularcuentas.clear();
 			titularcuentas.add(titular);						

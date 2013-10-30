@@ -59,6 +59,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	@EJB
 	private CuentaahorroDAO cuentaahorroDAO;
 
+
 	@Inject
 	private Log log;
 
@@ -74,6 +75,11 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 				generarDatosDeRegistro(cuentaahorro);
 				cuentaahorroDAO.create(cuentaahorro);
+				
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("idcuentaahorro", cuentaahorro.getIdcuentaahorro());
+				List<Titularcuenta> titulares = titularcuentaDAO.findByNamedQuery(Titularcuenta.FindAllForCuentaahorro, parameters);
+				cuentaahorro.setTitularcuentas(titulares);		
 			} else {
 				log.error("Exception: method Validator(Cuentaahorro) is false");
 				throw new IllegalEntityException("Datos de Cuenta de Ahorro Invalidos");
@@ -105,7 +111,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			cuentaahorro.setSocio(socio);
 
 			crearPersonanaturalForTitulares(cuentaahorro);
-			generarDatosTitularHistorial(cuentaahorro);
+			//generarDatosTitularHistorial(cuentaahorro);
 
 			//String numerocuentaaporte = generarNumeroCuenta(cuentaahorro, socio);
 			// cuentaahorro.setNumerocuentaahorro(numerocuentaaporte);
@@ -165,17 +171,12 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 		}
 	}
 
-	protected void crearPersonanaturalForTitulares(Cuentaahorro cuentaahorro)
-			throws IllegalEntityException, NonexistentEntityException,
-			Exception {
+	protected void crearPersonanaturalForTitulares(Cuentaahorro cuentaahorro) throws IllegalEntityException, NonexistentEntityException, Exception {
 		List<Titularcuenta> titulares = cuentaahorro.getTitularcuentas();
-
 		if (titulares != null) {
-			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator
-					.hasNext();) {
+			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
 				Titularcuenta titularcuenta = iterator.next();
-				Personanatural personanatural = titularcuenta
-						.getPersonanatural();
+				Personanatural personanatural = titularcuenta.getPersonanatural();
 				if (personanatural != null) {
 					Object key = personanatural.getDni();
 					Object result = personanaturalServiceLocal.find(key);
@@ -190,8 +191,7 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 	private void generarDatosTitularHistorial(Cuentaahorro cuentaahorro) {
 		List<Titularcuenta> list = cuentaahorro.getTitularcuentas();
 		if (list != null) {
-			for (Iterator<Titularcuenta> iterator = list.iterator(); iterator
-					.hasNext();) {
+			for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
 				Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
 				List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
 				Titularcuentahistorial historial = new Titularcuentahistorial();

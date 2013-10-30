@@ -20,13 +20,15 @@ import java.util.List;
 @NamedQuery(name = "Titularcuenta.findAll", query = "SELECT t FROM Titularcuenta t")
 @NamedQueries({
 		@NamedQuery(name = Titularcuenta.V, query = "Select s From Titularcuenta s"),
-		@NamedQuery(name = Titularcuenta.VA, query = "Select c From Titularcuenta c where c.dni=:valor") })
+		@NamedQuery(name = Titularcuenta.VA, query = "Select c From Titularcuenta c where c.dni=:valor"),
+		@NamedQuery(name = Titularcuenta.FindAllForCuentaahorro, query = "SELECT t FROM Titularcuenta t INNER JOIN t.cuentaahorro c WHERE c.idcuentaahorro =:idcuentaahorro")})
 public class Titularcuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String V = "org.ventura.model.Titularcuenta.V";
 	public final static String VA = "org.ventura.model.Titularcuenta.VA";
-
+	public final static String FindAllForCuentaahorro = "org.ventura.model.Titularcuenta.FindAllForCuentaahorro";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
@@ -91,6 +93,11 @@ public class Titularcuenta implements Serializable {
 
 	public void setCuentaahorro(Cuentaahorro cuentaahorro) {
 		this.cuentaahorro = cuentaahorro;
+		if (cuentaahorro != null) {
+			this.idcuentaahorro = cuentaahorro.getIdcuentaahorro();
+		} else {
+			this.idcuentaahorro = null;
+		}
 	}
 
 	public Cuentacorriente getCuentacorriente() {
