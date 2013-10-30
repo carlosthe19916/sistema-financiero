@@ -8,6 +8,7 @@ import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
 import org.ventura.entity.schema.persona.Personanatural;
@@ -35,6 +36,29 @@ public class Validator {
 			return false;
 		}
 		if(!validateBeneficiarios(cuentaahorro.getBeneficiariocuentas())){
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean validateCuentaplazofijo(Cuentaplazofijo cuentaplazofijo){
+		if(cuentaplazofijo == null){
+			return false;
+		}
+		if(cuentaplazofijo.getIdestadocuenta() == null){
+			return false;
+		}
+		if(cuentaplazofijo.getIdtipomoneda() == null){
+			return false;
+		}
+		
+		if(!validateSocio(cuentaplazofijo.getSocio())){
+			return false;
+		}
+		if(!validateTitulares(cuentaplazofijo.getTitularcuentas())){
+			return false;
+		}
+		if(!validateBeneficiarios(cuentaplazofijo.getBeneficiariocuentas())){
 			return false;
 		}
 		return true;
