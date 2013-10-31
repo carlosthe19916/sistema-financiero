@@ -47,12 +47,12 @@
 				<p:outputPanel>
 					<!-- Cuenta de Aporte Persona Natural-->
 					<ui:include
-						src="/modules/socios/datosCuentaAporte.xhtml">
+						src="/modules/socios/datosSocio/datosCuentaAporte.xhtml">
 						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
 						<ui:param name="componentName" value="aporteBeneficiario" />
 						<ui:param name="editarOutputDialog" value="dlgBeneficiarioCAP" />
 					</ui:include>
-					<ui:include src="/modules/socios/beneficiariosCAPDialog.xhtml">
+					<ui:include src="/modules/socios/datosSocio/beneficiariosCAPDialog.xhtml">
 						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
 						<ui:param name="componentName" value="dlgBeneficiarioCAP" />
 						<ui:param name="componentToUpdated" value="aporteBeneficiario" />
@@ -64,7 +64,7 @@
 				<p:outputPanel>
 					<!-- Otras Cuentas Persona Natural-->
 					<ui:include
-						src="/modules/socios/otrasCuentasSocio.xhtml">
+						src="/modules/socios/datosSocio/otrasCuentasSocio.xhtml">
 						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
 						<ui:param name="componentName" value="aporte2" />
 						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
