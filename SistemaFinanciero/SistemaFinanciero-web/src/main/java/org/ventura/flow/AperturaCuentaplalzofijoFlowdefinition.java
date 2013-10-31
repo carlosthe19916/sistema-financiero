@@ -21,9 +21,9 @@ public class AperturaCuentaplalzofijoFlowdefinition implements Serializable {
         flowBuilder.id("", flowId);
         flowBuilder.viewNode(flowId, "/" + flowId + "/" + flowId + ".xhtml").markAsStartNode();
         
-        flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{aperturaCuentaahorroBean.returnValue}");
+        flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{aperturarCuentaPlazofijoBean.returnValue}");
        
-        flowBuilder.inboundParameter("cuentaahorro", "#{aperturaCuentaahorroBean.cuentaahorro}");
+        flowBuilder.inboundParameter("cuentaplazofijo", "#{aperturarCuentaPlazofijoBean.cuentaplazofijo}");
        
         return flowBuilder.getFlow();
     }

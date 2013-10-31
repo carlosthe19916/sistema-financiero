@@ -18,6 +18,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaplazofijoServiceLocal;
@@ -46,7 +47,7 @@ import org.ventura.util.logger.Log;
 import org.ventura.util.validate.Validator;
 
 import com.sun.tools.internal.xjc.generator.bean.ImplStructureStrategy.Result;
-
+@Named
 @Stateless
 @Local(CuentaplazofijoServiceLocal.class)
 @Remote(CuentaplazofijoServiceRemote.class)
@@ -90,8 +91,8 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 				cuentaplazofijo.setTitularcuentas(titulares);
 				
 			} else {
-				log.error("Exception: method Validator(Cuentaahorro) is false");
-				throw new IllegalEntityException("Datos de Cuenta de Ahorro Invalidos");
+				log.error("Exception: method Validator(Cuentaplazofijo) is false");
+				throw new IllegalEntityException("Datos de Cuenta a Plazo Fijo Invalidos");
 			}
 		} catch (IllegalEntityException e) {
 			log.error("Exception:" + e.getClass());
@@ -107,7 +108,7 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear la cuenta de ahorros");
+			throw new Exception("Error Interno: No se pudo Crear la cuenta a Plazo fijo");
 		}
 		return cuentaplazofijo;
 	}
@@ -115,19 +116,41 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	@Override
 	public Cuentaplazofijo createCuentaPlazofijoWithPersonajuridica(Cuentaplazofijo cuentaplazofijo) throws Exception {
 		try {
-			Socio socio = buscarSocioPersonaJuridica(cuentaplazofijo.getSocio());
-			cuentaplazofijo.setSocio(socio);
+			boolean result = Validator.validateCuentaplazofijo(cuentaplazofijo);
+			if (result == true) {
+				Socio socio = buscarSocioPersonaJuridica(cuentaplazofijo.getSocio());
+				cuentaplazofijo.setSocio(socio);
+
+				crearPersonanaturalForTitulares(cuentaplazofijo);
+
+				generarDatosDeRegistro(cuentaplazofijo);
+				cuentaplazofijoDAO.create(cuentaplazofijo);
 				
-			crearPersonanaturalForTitulares(cuentaplazofijo);
-			generarDatosTitularHistorial(cuentaplazofijo);
-			
-			String numerocuentaplazofijo = generarNumeroCuenta(cuentaplazofijo,socio);
-			//cuentaplazofijo.setNumerocuentaplazofijo(numerocuentaplazofijo);
-			cuentaplazofijoDAO.create(cuentaplazofijo);
-			
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("idcuentaplazofijo", cuentaplazofijo.getIdcuentaplazofijo());
+				List<Titularcuenta> titulares = titularcuentaDAO.findByNamedQuery(Titularcuenta.FindAllForCuentaplazofijo, parameters);
+				cuentaplazofijo.setTitularcuentas(titulares);
+				
+				
+			} else {
+				log.error("Exception: method Validator(Cuentaplazofijo) is false");
+				throw new IllegalEntityException("Datos de Cuenta a Plazo Fijo Invalidos");
+			}
+		} catch (IllegalEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());
+		} catch (NonexistentEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());
 		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error al insertar los datos");
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear la cuenta a plazo fijo");
 		}
 		return cuentaplazofijo;
 	}
@@ -152,11 +175,10 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 	protected Socio buscarSocioPersonaJuridica(Socio socio) throws NonexistentEntityException, Exception {
 		if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("ruc", socio.getDni());
-			Object result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
-			if (result != null) {
-				List<Socio> socios = (List<Socio>) result;
-				for (Iterator<Socio> iterator = socios.iterator(); iterator.hasNext();) {
+			parameters.put("ruc", socio.getRuc());
+			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
+			if (result.size() != 0) {
+				for (Iterator<Socio> iterator = result.iterator(); iterator.hasNext();) {
 					socio = iterator.next();
 					break;
 				}
@@ -190,43 +212,15 @@ public class CuentaplazofijoServiceBean implements CuentaplazofijoServiceLocal {
 			}
 		}
 	}
-	private void generarDatosTitularHistorial(Cuentaplazofijo cuentaplazofijo) {
-        List<Titularcuenta> list = cuentaplazofijo.getTitularcuentas();   
-        if(list != null){
-        	for (Iterator<Titularcuenta> iterator = list.iterator(); iterator.hasNext();) {
-    			Titularcuenta titularcuenta = (Titularcuenta) iterator.next();
-    			List<Titularcuentahistorial> lista = new ArrayList<Titularcuentahistorial>();
-    			Titularcuentahistorial historial = new Titularcuentahistorial();
-    			historial.setEstado(true);
-    			historial.setFechaactiva(Calendar.getInstance().getTime());
-    			lista.add(historial);
-    			//titularcuenta.setTitularcuentahistorials(lista);
-    			historial.setTitularcuenta(titularcuenta);
-    		}
-        }
-    }
 	
+		
 	private void generarDatosDeRegistro(Cuentaplazofijo cuentaplazofijo) {
-		
+		cuentaplazofijo.setFechaapertura(Calendar.getInstance().getTime());
+		cuentaplazofijo.setIdestadocuenta(1);
+		cuentaplazofijo.setIdtipomoneda(cuentaplazofijo.getIdtipomoneda());
 	}
 
-	private String generarNumeroCuenta(Cuentaplazofijo cuentaplazofijo, Socio socio) {
-
-		String numeroCuenta = "";
-	/*	numeroCuenta = numeroCuenta + agencia.getCodigoagencia();
-		
-		String codigoSocio = socio.getCodigosocio().toString();
-		for (int i = codigoSocio.length(); i < 8; i++) {
-			codigoSocio = "0" + codigoSocio;
-		}
-		numeroCuenta = numeroCuenta + codigoSocio;
-		
-		numeroCuenta = numeroCuenta + cuentaplazofijo.getIdtipomoneda();
-		numeroCuenta = numeroCuenta + "11";
-		*/
-		return numeroCuenta;
-	}
-
+	
 	@Override
 	public Cuentaplazofijo find(Object id) {
 		try {
