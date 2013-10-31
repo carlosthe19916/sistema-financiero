@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ventura.flow;
+package org.ventura.flow.definition;
 
 import java.io.Serializable;
 import javax.enterprise.inject.Produces;

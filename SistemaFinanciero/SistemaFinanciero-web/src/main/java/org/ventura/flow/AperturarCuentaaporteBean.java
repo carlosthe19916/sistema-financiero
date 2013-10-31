@@ -52,9 +52,6 @@ public class AperturarCuentaaporteBean implements Serializable {
 	private DatosFinancierosCuentaAporteBean datosFinancierosCuentaAporteMB;
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
-	
-	public AperturarCuentaaporteBean() {
-	}
 
 	public String getReturnValue() {
 		return "/index?module=2";
@@ -116,36 +113,28 @@ public class AperturarCuentaaporteBean implements Serializable {
 	}
 
 	public boolean validarAperturarCuentaaporteBean() {
-
 		boolean result = true;
-
 		this.mensaje = "ERROR:\n";
-
 		if (isPersonaNatural()) {
 			if (!personaNaturalMB.isValid()) {
 				result = false;
-				this.mensaje = mensaje
-						+ "Datos de Persona Natural Invalidos \n";
+				this.mensaje = mensaje + "Datos de Persona Natural Invalidos \n";
 			}
 			if (!beneficiariosMB.isValid()) {
 				result = false;
 				this.mensaje = mensaje + "Datos de Beneficiarios \n";
 			}
 		}
-
 		if (isPersonaJuridica()) {
 			if (!personaJuridicaMB.isValid()) {
 				result = false;
-				this.mensaje = mensaje
-						+ "Datos de Persona Juridica invalidos \n";
+				this.mensaje = mensaje+ "Datos de Persona Juridica invalidos \n";
 			}
 		}
-
 		if (!datosFinancierosCuentaAporteMB.isValid()) {
 			result = false;
 			this.mensaje = mensaje + "Datos Financieros invalidos \n";
 		}
-
 		return result;
 	}
 	
@@ -209,8 +198,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 		return datosFinancierosCuentaAporteMB;
 	}
 
-	public void setDatosFinancierosCuentaAporteMB(
-			DatosFinancierosCuentaAporteBean datosFinancierosCuentaAporteMB) {
+	public void setDatosFinancierosCuentaAporteMB(DatosFinancierosCuentaAporteBean datosFinancierosCuentaAporteMB) {
 		this.datosFinancierosCuentaAporteMB = datosFinancierosCuentaAporteMB;
 	}
 
