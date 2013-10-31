@@ -11,77 +11,73 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the cuentacorriente database table.
  * 
  */
 @Entity
-@Table(name="cuentacorriente",schema="cuentapersonal")
-@NamedQuery(name="Cuentacorriente.findAll", query="SELECT c FROM Cuentacorriente c")
+@Table(name = "cuentacorriente", schema = "cuentapersonal")
+@NamedQuery(name = "Cuentacorriente.findAll", query = "SELECT c FROM Cuentacorriente c")
 public class Cuentacorriente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idcuentacorriente;
 
 	@Column
 	private Integer idsocio;
-	
+
 	@Column(length = 14)
 	private String numerocuentacorriente;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Date fechaapertura;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer idtipomoneda;
-	
+
 	@Column(nullable = false)
 	private double saldo;
-	
+
 	@Column(nullable = false)
 	private Integer idestadocuenta;
-	
-	
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idsocio", insertable = false, updatable = false)
 	private Socio socio;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
 	private Tipomoneda tipomoneda;
-	
 
-	
-	//bi-directional many-to-one association to Beneficiariocuenta
-	@OneToMany(mappedBy="cuentacorriente")
+	// bi-directional many-to-one association to Beneficiariocuenta
+	@OneToMany(mappedBy = "cuentacorriente", cascade = CascadeType.ALL)
 	private List<Beneficiariocuenta> beneficiariocuentas;
 
-	//bi-directional many-to-one association to Chequera
-	@OneToMany(mappedBy="cuentacorriente")
-	private List<Chequera> chequeras;
+	// bi-directional many-to-one association to Titularcuenta
+	@OneToMany(mappedBy = "cuentacorriente", cascade = CascadeType.ALL)
+	private List<Titularcuenta> titularcuentas;
 
-	//bi-directional many-to-one association to Estadocuenta
-	@ManyToOne
-	@JoinColumn(name="idestadocuenta", nullable=false, insertable = false, updatable = false)
-	private Estadocuenta estadocuenta;
-
-	//bi-directional many-to-one association to Cuentacorrientehistorial
-	@OneToMany(mappedBy="cuentacorriente")
+	// bi-directional many-to-one association to Cuentacorrientehistorial
+	@OneToMany(mappedBy = "cuentacorriente", cascade = CascadeType.ALL)
 	private List<Cuentacorrientehistorial> cuentacorrientehistorials;
 
-	//bi-directional many-to-one association to Tarjetadebitoasignadocuentacorriente
-	@OneToMany(mappedBy="cuentacorriente")
-	private List<Tarjetadebitoasignadocuentacorriente> tarjetadebitoasignadocuentacorrientes;
+	// bi-directional many-to-one association to Chequera
+	@OneToMany(mappedBy = "cuentacorriente")
+	private List<Chequera> chequeras;
 
-	//bi-directional many-to-one association to Titularcuenta
-	@OneToMany(mappedBy="cuentacorriente")
-	private List<Titularcuenta> titularcuentas;
+	// bi-directional many-to-one association to Estadocuenta
+	@ManyToOne
+	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
+	private Estadocuenta estadocuenta;
+
+	// bi-directional many-to-one association to
+	// Tarjetadebitoasignadocuentacorriente
+	@OneToMany(mappedBy = "cuentacorriente")
+	private List<Tarjetadebitoasignadocuentacorriente> tarjetadebitoasignadocuentacorrientes;
 
 	public Cuentacorriente() {
 	}
@@ -106,18 +102,21 @@ public class Cuentacorriente implements Serializable {
 		return this.beneficiariocuentas;
 	}
 
-	public void setBeneficiariocuentas(List<Beneficiariocuenta> beneficiariocuentas) {
+	public void setBeneficiariocuentas(
+			List<Beneficiariocuenta> beneficiariocuentas) {
 		this.beneficiariocuentas = beneficiariocuentas;
 	}
 
-	public Beneficiariocuenta addBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta addBeneficiariocuenta(
+			Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().add(beneficiariocuenta);
 		beneficiariocuenta.setCuentacorriente(this);
 
 		return beneficiariocuenta;
 	}
 
-	public Beneficiariocuenta removeBeneficiariocuenta(Beneficiariocuenta beneficiariocuenta) {
+	public Beneficiariocuenta removeBeneficiariocuenta(
+			Beneficiariocuenta beneficiariocuenta) {
 		getBeneficiariocuentas().remove(beneficiariocuenta);
 		beneficiariocuenta.setCuentacorriente(null);
 
@@ -152,17 +151,24 @@ public class Cuentacorriente implements Serializable {
 
 	public void setEstadocuenta(Estadocuenta estadocuenta) {
 		this.estadocuenta = estadocuenta;
+		if (this.estadocuenta != null) {
+			this.idestadocuenta = estadocuenta.getIdestadocuenta();
+		} else {
+			this.idestadocuenta = null;
+		}
 	}
 
 	public List<Cuentacorrientehistorial> getCuentacorrientehistorials() {
 		return this.cuentacorrientehistorials;
 	}
 
-	public void setCuentacorrientehistorials(List<Cuentacorrientehistorial> cuentacorrientehistorials) {
+	public void setCuentacorrientehistorials(
+			List<Cuentacorrientehistorial> cuentacorrientehistorials) {
 		this.cuentacorrientehistorials = cuentacorrientehistorials;
 	}
 
-	public Cuentacorrientehistorial addCuentacorrientehistorial(Cuentacorrientehistorial cuentacorrientehistorial) {
+	public Cuentacorrientehistorial addCuentacorrientehistorial(
+			Cuentacorrientehistorial cuentacorrientehistorial) {
 		if (this.cuentacorrientehistorials != null) {
 			this.cuentacorrientehistorials.add(cuentacorrientehistorial);
 		} else {
@@ -172,7 +178,8 @@ public class Cuentacorriente implements Serializable {
 		return cuentacorrientehistorial;
 	}
 
-	public Cuentacorrientehistorial removeCuentacorrientehistorial(Cuentacorrientehistorial cuentacorrientehistorial) {
+	public Cuentacorrientehistorial removeCuentacorrientehistorial(
+			Cuentacorrientehistorial cuentacorrientehistorial) {
 		getCuentacorrientehistorials().remove(cuentacorrientehistorial);
 		cuentacorrientehistorial.setCuentacorriente(null);
 
@@ -183,19 +190,24 @@ public class Cuentacorriente implements Serializable {
 		return this.tarjetadebitoasignadocuentacorrientes;
 	}
 
-	public void setTarjetadebitoasignadocuentacorrientes(List<Tarjetadebitoasignadocuentacorriente> tarjetadebitoasignadocuentacorrientes) {
+	public void setTarjetadebitoasignadocuentacorrientes(
+			List<Tarjetadebitoasignadocuentacorriente> tarjetadebitoasignadocuentacorrientes) {
 		this.tarjetadebitoasignadocuentacorrientes = tarjetadebitoasignadocuentacorrientes;
 	}
 
-	public Tarjetadebitoasignadocuentacorriente addTarjetadebitoasignadocuentacorriente(Tarjetadebitoasignadocuentacorriente tarjetadebitoasignadocuentacorriente) {
-		getTarjetadebitoasignadocuentacorrientes().add(tarjetadebitoasignadocuentacorriente);
+	public Tarjetadebitoasignadocuentacorriente addTarjetadebitoasignadocuentacorriente(
+			Tarjetadebitoasignadocuentacorriente tarjetadebitoasignadocuentacorriente) {
+		getTarjetadebitoasignadocuentacorrientes().add(
+				tarjetadebitoasignadocuentacorriente);
 		tarjetadebitoasignadocuentacorriente.setCuentacorriente(this);
 
 		return tarjetadebitoasignadocuentacorriente;
 	}
 
-	public Tarjetadebitoasignadocuentacorriente removeTarjetadebitoasignadocuentacorriente(Tarjetadebitoasignadocuentacorriente tarjetadebitoasignadocuentacorriente) {
-		getTarjetadebitoasignadocuentacorrientes().remove(tarjetadebitoasignadocuentacorriente);
+	public Tarjetadebitoasignadocuentacorriente removeTarjetadebitoasignadocuentacorriente(
+			Tarjetadebitoasignadocuentacorriente tarjetadebitoasignadocuentacorriente) {
+		getTarjetadebitoasignadocuentacorrientes().remove(
+				tarjetadebitoasignadocuentacorriente);
 		tarjetadebitoasignadocuentacorriente.setCuentacorriente(null);
 
 		return tarjetadebitoasignadocuentacorriente;
@@ -237,7 +249,7 @@ public class Cuentacorriente implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
-		if(tipomoneda != null){
+		if (tipomoneda != null) {
 			this.idtipomoneda = tipomoneda.getIdtipomoneda();
 		} else {
 			this.idtipomoneda = null;
@@ -258,6 +270,11 @@ public class Cuentacorriente implements Serializable {
 
 	public void setSocio(Socio socio) {
 		this.socio = socio;
+		if (socio != null) {
+			this.idsocio = socio.getIdsocio();
+		} else {
+			this.idsocio = null;
+		}
 	}
 
 	public Integer getIdestadocuenta() {
@@ -268,8 +285,6 @@ public class Cuentacorriente implements Serializable {
 		this.idestadocuenta = idestadocuenta;
 	}
 
-	
-
 	public Integer getIdcuentacorriente() {
 		return idcuentacorriente;
 	}
@@ -277,8 +292,6 @@ public class Cuentacorriente implements Serializable {
 	public void setIdcuentacorriente(Integer idcuentacorriente) {
 		this.idcuentacorriente = idcuentacorriente;
 	}
-
-
 
 	public String getNumerocuentacorriente() {
 		return numerocuentacorriente;
