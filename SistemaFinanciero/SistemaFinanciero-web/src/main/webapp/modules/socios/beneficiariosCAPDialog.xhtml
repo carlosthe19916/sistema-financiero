@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<p:dialog header="Beneficiarios" widgetVar="#{componentName}"
+		modal="true" height="400" width="750">
+		
+		<p:growl id="growl" sticky="true" />
+		
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Datos de Beneficiarios</h3>
+				</div>
+				<div class="sf-agrupador-content-table">
+
+					<div class="buttons">
+						<div class="tiptip">
+							<h:form>
+								<p:commandLink update=":form-beneficiarios"
+									actionListener="#{managedBean.addBeneficiario()}"
+									styleClass="button left" title="Nuevo">
+									<span class="icon icon3"></span>
+									<span class="label">Nuevo</span>
+								</p:commandLink>
+								<p:commandLink onclick="editar" styleClass="button middle"
+									title="Nuevo">
+									<span class="icon icon145"></span>
+									<span class="label">Editar</span>
+								</p:commandLink>
+								<p:commandLink update=":form-beneficiarios"
+									actionListener="#{managedBean.removeBeneficiario()}"
+									styleClass="button right" title="Eliminar Trabajador">
+									<span class="icon icon186"></span>
+									<span class="label">Eliminar</span>
+								</p:commandLink>
+							</h:form>
+						</div>
+					</div>
+
+					<div style="padding: 0px 5px;">
+						<h:form id="form-beneficiarios">
+							<p:dataTable id="tablaBeneficiarios"
+								value="#{managedBean.tablaBeneficiarioCAP.rows}"
+								var="beneficiario" editable="true" selectionMode="single"
+								selection="#{managedBean.tablaBeneficiarioCAP.selectedRow}"
+								rowKey="#{beneficiario}" scrollable="true" scrollHeight="150"
+								scrollRows="5" rowIndexVar="row"
+								rowStyleClass="#{beneficiario.apellidopaterno == null ? 'sf-table-row-invalid' : null }">
+
+								<p:ajax event="rowEdit" update=":growl,tablaBeneficiarios" />
+								<p:ajax event="rowEditCancel"
+									update=":growl,tablaBeneficiarios" />
+
+								<p:column headerText="Nro" width="10%"
+									style="text-align:center;">
+									<h:outputText value="#{row + 1}" />
+								</p:column>
+								<p:column headerText="DNI(*)" width="15%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{beneficiario.dni}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{beneficiario.dni}" maxlength="8"
+												validatorMessage="DNI no tiene digitos validos">
+
+											</p:inputText>
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column headerText="Apellido Paterno" width="20%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{beneficiario.apellidopaterno}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{beneficiario.apellidopaterno}"
+												required="true" maxlength="50"
+												requiredMessage="Apellido Paterno (Obligatorio)" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column headerText="Apellido Materno" width="20%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{beneficiario.apellidomaterno}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{beneficiario.apellidomaterno}"
+												required="true" maxlength="50"
+												requiredMessage="Apellido Materno (Obligatorio)" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column headerText="Nombres" width="20%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{beneficiario.nombres}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{beneficiario.nombres}" required="true"
+												maxlength="50" requiredMessage="Nombres (Obligatorio)" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column headerText="Porcentaje" width="15%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{beneficiario.porcentajebeneficio}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{beneficiario.porcentajebeneficio}" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column width="10%">
+									<p:rowEditor />
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</div>
+
+					<div class="sf-buttons">
+						<h:form>
+							<p:commandButton 
+								value="Aceptar" 
+								update=":#{componentToUpdated},:form-beneficiarios"
+								oncomplete="#{componentName}.hide()"
+								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
+							</p:commandButton>
+							<p:commandButton 
+								value="Cancelar"
+								update=":form-beneficiarios"
+								onclick="#{componentName}.hide()"
+								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
+							</p:commandButton>
+						</h:form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	
+	</p:dialog>
+</ui:composition>
+</html>
+

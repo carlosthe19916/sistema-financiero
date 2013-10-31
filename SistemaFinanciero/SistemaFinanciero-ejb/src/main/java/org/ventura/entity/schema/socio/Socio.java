@@ -21,7 +21,9 @@ import java.util.Date;
 @NamedQueries({
 		@NamedQuery(name = Socio.ALL, query = "Select s From Sexo s"),
 		@NamedQuery(name = Socio.FindByDni, query = "Select s From Socio s WHERE s.estado=true AND s.dni=:dni"),
-		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.estado=true AND s.ruc=:ruc")})
+		@NamedQuery(name = Socio.FindByRuc, query = "Select s From Socio s WHERE s.estado=true AND s.ruc=:ruc"),
+		@NamedQuery(name = Socio.SOCIOSPN, query = "select s from ViewSocioPN s where s.estado=true and (s.idsocio like :datoIngresado or s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado or s.personanatural.nombres like :datoIngresado or s.nombrecompleto like :datoIngresado)"),
+		@NamedQuery(name = Socio.SOCIOSPJ, query = "Select s From ViewSocioPJ s where s.estado=true and (s.idsocio like :datoIngresado or s.ruc like :datoIngresado or s.personajuridica.razonsocial like :datoIngresado or s.personajuridica.nombrecomercial like :datoIngresado)")})
 public class Socio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +31,8 @@ public class Socio implements Serializable {
 	public final static String ALL = "org.ventura.model.Socio.ALL";
 	public final static String FindByDni = "org.ventura.model.Socio.FindByDni";
 	public final static String FindByRuc = "org.ventura.model.Socio.FindByRuc";
+	public final static String SOCIOSPN = "org.ventura.model.Socio.SOCIOSPN";
+	public final static String SOCIOSPJ = "org.ventura.model.Socio.SOCIOSPJ";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
