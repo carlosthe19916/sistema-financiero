@@ -4,17 +4,22 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.listener.CuentaahorrohistorialListener;
+import org.ventura.entity.listener.CuentacorrientehistorialListener;
+
 /**
  * The persistent class for the cuentacorrientehistorial database table.
  * 
  */
 @Entity
 @Table(name = "cuentacorrientehistorial", schema = "cuentapersonal")
+@EntityListeners( { CuentacorrientehistorialListener.class })
 @NamedQuery(name = "Cuentacorrientehistorial.findAll", query = "SELECT c FROM Cuentacorrientehistorial c")
 public class Cuentacorrientehistorial implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idcuentacorrientehistorial;
 
@@ -76,6 +81,11 @@ public class Cuentacorrientehistorial implements Serializable {
 
 	public void setCuentacorriente(Cuentacorriente cuentacorriente) {
 		this.cuentacorriente = cuentacorriente;
+		if(cuentacorriente != null){
+			this.idcuentacorriente = cuentacorriente.getIdcuentacorriente();
+		} else {
+			this.idcuentacorriente = null;
+		}
 	}
 
 	public Integer getIdcuentacorriente() {

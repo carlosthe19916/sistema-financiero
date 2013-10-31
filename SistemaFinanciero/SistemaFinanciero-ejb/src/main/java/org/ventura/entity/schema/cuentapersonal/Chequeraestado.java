@@ -23,7 +23,7 @@ public class Chequeraestado implements Serializable {
 	private String abreviatura;
 
 	@Column(nullable=false)
-	private Integer denominacion;
+	private String denominacion;
 
 	@Column(nullable=false)
 	private Boolean estado;
@@ -51,11 +51,11 @@ public class Chequeraestado implements Serializable {
 		this.abreviatura = abreviatura;
 	}
 
-	public Integer getDenominacion() {
-		return this.denominacion;
+	public String getDenominacion() {
+		return denominacion;
 	}
 
-	public void setDenominacion(Integer denominacion) {
+	public void setDenominacion(String denominacion) {
 		this.denominacion = denominacion;
 	}
 

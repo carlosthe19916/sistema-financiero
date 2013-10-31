@@ -36,7 +36,7 @@
 								<f:selectItems
 									value="#{aperturarCuentaaporteBean.comboTipoPersona.items.entrySet()}"
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-								<p:ajax listener="#{aperturarCuentaaporteBean.establecerTitularDefecto()}" update=":panelDatos"/>
+								<p:ajax listener="#{aperturarCuentaaporteBean.cleanCuentaahorro()}" update=":panelDatos"/>
 							</p:selectOneMenu>
 						</h:form>
 					</td>

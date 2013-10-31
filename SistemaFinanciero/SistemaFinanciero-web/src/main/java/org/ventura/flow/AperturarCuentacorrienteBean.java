@@ -2,6 +2,8 @@ package org.ventura.flow;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +25,7 @@ import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentacorriente;
 import org.ventura.entity.schema.cuentapersonal.Cuentacorrientehistorial;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
+import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
@@ -52,12 +55,6 @@ public class AperturarCuentacorrienteBean implements Serializable {
 	private TitularesBean titularesMB;
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
-	
-	private List<Titularcuenta> titularDefecto;
-
-	public AperturarCuentacorrienteBean() {
-		this.titularDefecto = new ArrayList<Titularcuenta>();
-	}
 
 	@PostConstruct
 	private void initValues() {
@@ -99,27 +96,46 @@ public class AperturarCuentacorrienteBean implements Serializable {
 	}
 
 	public Cuentacorriente establecerParametrosCuentacorriente(Cuentacorriente cuentacorriente) throws Exception {
+		Cuentacorrientehistorial cuentacorrientehistorial = datosFinancierosCuentaCorrienteMB.getCuentacorrientehistorial();
+		Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
+		cuentacorrientehistorial.setCantidadretirantes(cantidadRetirantes);
+		
+		cuentacorriente = datosFinancierosCuentaCorrienteMB.getCuentacorriente();
+		
 		Socio socio = new Socio();
 		if (isPersonaNatural()) {
 			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
 			socio.setPersonanatural(personanatural);
 			cuentacorriente.setSocio(socio);
 			
-			List<Titularcuenta> titularcuentas = titularesMB.getListTitulares();	
-			cuentacorriente.setTitularcuentas(titularcuentas);
+			List<Titularcuenta> titulares = titularesMB.getListTitulares();
+			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
+				Titularcuenta titular = iterator.next();
+				titular.setCuentacorriente(cuentacorriente);;
+			}
+			cuentacorriente.setTitularcuentas(titulares);
 			
 			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
-			cuentacorriente.setBeneficiariocuentas(beneficiarios);		
+			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+				Beneficiariocuenta beneficiariocuenta = iterator.next();
+				beneficiariocuenta.setCuentacorriente(cuentacorriente);
+			}		
+			
+			cuentacorriente.setBeneficiariocuentas(beneficiarios);				
 		} if (isPersonaJuridica()) {			
 			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
+			socio.setEstado(true);
 			cuentacorriente.setSocio(socio);
 			
-			List<Titularcuenta> titularcuentas = titularesMB.getListTitulares();	
-			cuentacorriente.setTitularcuentas(titularcuentas);
+			List<Titularcuenta> titulares = titularesMB.getListTitulares();
+			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
+				Titularcuenta titular = iterator.next();
+				titular.setCuentacorriente(cuentacorriente);
+			}
+			cuentacorriente.setTitularcuentas(titulares);
 			
-			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
-			cuentacorriente.setBeneficiariocuentas(beneficiarios);
+			cuentacorriente.setBeneficiariocuentas(new ArrayList<Beneficiariocuenta>());
 		}
 		return cuentacorriente;
 	}
@@ -187,20 +203,35 @@ public class AperturarCuentacorrienteBean implements Serializable {
 	public void establecerTitularDefecto() {
 		if (isPersonaNatural()) {		
 			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-			Titularcuenta titularcuenta = new Titularcuenta();
-			titularcuenta.setPersonanatural(personanatural);
-									
-			this.titularDefecto.clear();
-			this.titularDefecto.add(titularcuenta);
-							
+			Titularcuenta titular = new Titularcuenta();
+			titular.setPersonanatural(personanatural);
+				
+			Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();
+			titularcuentahistorial.setEstado(true);
+			titularcuentahistorial.setFechaactiva(Calendar.getInstance().getTime());
+			titularcuentahistorial.setTitularcuenta(titular);
+			
+			titular.addTitularhistorial(titularcuentahistorial);
+			
+			List<Titularcuenta> titularcuentas = this.titularesMB.getTablaTitulares().getFrozenRows();
+			titularcuentas.clear();
+			titularcuentas.add(titular);						
 		}
 		if (isPersonaJuridica()) {
 			Personanatural representanteLegal = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
 			Titularcuenta titularRepresentante = new Titularcuenta();
 			titularRepresentante.setPersonanatural(representanteLegal);
 
-			this.titularDefecto.clear();
-			this.titularDefecto.add(titularRepresentante);
+			Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();
+			titularcuentahistorial.setEstado(true);
+			titularcuentahistorial.setFechaactiva(Calendar.getInstance().getTime());
+			titularcuentahistorial.setTitularcuenta(titularRepresentante);
+			
+			titularRepresentante.addTitularhistorial(titularcuentahistorial);
+			
+			List<Titularcuenta> titularcuentas = this.titularesMB.getTablaTitulares().getFrozenRows();
+			titularcuentas.clear();
+			titularcuentas.add(titularRepresentante);
 		}
 	}
 
@@ -274,13 +305,4 @@ public class AperturarCuentacorrienteBean implements Serializable {
 	public void setBeneficiariosMB(BeneficiariosBean beneficiariosMB) {
 		this.beneficiariosMB = beneficiariosMB;
 	}
-
-	public List<Titularcuenta> getTitularDefecto() {
-		return titularDefecto;
-	}
-
-	public void setTitularDefecto(List<Titularcuenta> titularDefecto) {
-		this.titularDefecto = titularDefecto;
-	}
-	
 }

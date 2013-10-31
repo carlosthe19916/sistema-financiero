@@ -23,7 +23,6 @@ public class Cuentaplazofijo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique=true, nullable=false)
 	private Integer idcuentaplazofijo;
 
@@ -94,7 +93,7 @@ public class Cuentaplazofijo implements Serializable {
 	
 
 	//bi-directional many-to-one association to Beneficiariocuenta
-	@OneToMany(mappedBy="cuentaplazofijo", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="cuentaplazofijo")
 	private List<Beneficiariocuenta> beneficiariocuentas;
 
 	//bi-directional many-to-one association to Estadocuenta
@@ -113,7 +112,7 @@ public class Cuentaplazofijo implements Serializable {
 	private Retirointeres retirointeres;
 
 	//bi-directional many-to-one association to Titularcuenta
-	@OneToMany(mappedBy="cuentaplazofijo", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="cuentaplazofijo")
 	private List<Titularcuenta> titularcuentas;
 
 	public Cuentaplazofijo() {
@@ -240,11 +239,6 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setFrecuenciacapitalizacion(Frecuenciacapitalizacion frecuenciacapitalizacion) {
 		this.frecuenciacapitalizacion = frecuenciacapitalizacion;
-		if(frecuenciacapitalizacion!=null){
-			this.idfrecuenciacapitalizacion=frecuenciacapitalizacion.getIdfrecuenciacapitalizacion();
-		}else{
-			this.estadocuenta=null;
-		}
 	}
 
 	public List<Titularcuenta> getTitularcuentas() {
@@ -342,11 +336,6 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setRetirointeres(Retirointeres retirointeres) {
 		this.retirointeres = retirointeres;
-		if(retirointeres != null){
-			this.idretirointeres = retirointeres.getIdretirointeres();
-		} else {
-			this.idretirointeres = null;
-		}
 	}
 
 	public Integer getIdestadocuenta() {

@@ -8,6 +8,8 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.SocioServiceRemote;
 import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.socio.ViewSocioPJ;
+import org.ventura.entity.schema.socio.ViewSocioPN;
 
 @Local
 public interface SocioServiceLocal extends SocioServiceRemote{
@@ -27,7 +29,11 @@ public interface SocioServiceLocal extends SocioServiceRemote{
 	public Collection<Socio> findByNamedQuery(String queryName, int resultLimit)throws Exception;
 
 	public List<Socio> findByNamedQuery(String Socio, Map<String, Object> parameters)throws Exception;
-
+	
+	public List<ViewSocioPN> findByNamedQueryViewSocioPN(String ViewSocioPN, Map<String, Object> parameters)throws Exception;
+	
+	public List<ViewSocioPJ> findByNamedQueryViewSocioPJ(String ViewSocioPN, Map<String, Object> parameters)throws Exception;
+	
 	public List<Socio> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit)throws Exception;
 
 }

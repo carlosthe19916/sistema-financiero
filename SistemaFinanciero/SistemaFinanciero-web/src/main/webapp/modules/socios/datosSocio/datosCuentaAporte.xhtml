@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<h:panelGroup id="#{componentName}" rendered="#{managedBean.personaNatural}" >
+		<div class="sf-agrupador">
+			<div class="sf-agrupador-menu">
+				
+				<h:form>
+					<p:commandLink value="Editar" oncomplete="#{editarOutputDialog}.show();return false;" ></p:commandLink>
+				</h:form>
+		
+			</div>
+			<div class="sf-agrupador-content">
+				<div class="sf-agrupador-content-cabecera">
+					<h3>Cuenta Aporte</h3>
+				</div>		
+				<div class="sf-agrupador-content-table">
+					<table>
+						<tbody>
+							<tr>
+								<td style="min-width: 180px;">
+									<p:outputLabel value="Número Cuenta Aporte" />
+								</td>
+								<td style="min-width: 180px;">
+									<p:outputLabel value="#{managedBean.oSocio.cuentaaporte.numerocuentaaporte}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Estado Cuenta" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.oSocio.cuentaaporte.estadocuenta.denominacion}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Moneda" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.oSocio.cuentaaporte.tipomoneda.denominacion}" styleClass="sf-label-bold" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:outputLabel value="Fecha Apertura" />
+								</td>
+								<td>
+									<h:outputText value="#{managedBean.oSocio.cuentaaporte.fechaapertura}" styleClass="sf-label-bold" >
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText>									
+								</td>
+							</tr>	
+							<tr>
+								<td>
+									<p:outputLabel value="Saldo" />
+								</td>
+								<td>
+									<h:outputText value="#{managedBean.oSocio.cuentaaporte.saldo}" styleClass="sf-label-bold" >
+									</h:outputText>									
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</h:panelGroup>
+	
+</ui:composition>
+</html>

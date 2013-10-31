@@ -16,8 +16,6 @@ import javax.inject.Named;
 import org.ventura.boundary.local.CuentaplazofijoServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.entity.GeneratedEstadocuenta;
-import org.ventura.entity.GeneratedFrecuenciacapitalizacion;
-import org.ventura.entity.GeneratedFrecuenciacapitalizacion.FrecuenciacapitalizacionType;
 import org.ventura.entity.GeneratedTiposervicio;
 import org.ventura.entity.GeneratedTipotasaPasiva;
 import org.ventura.entity.GeneratedTiposervicio.TiposervicioType;
@@ -56,10 +54,6 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	private Estadocuenta estadocuenta;
 	
 	@Inject
-	@GeneratedFrecuenciacapitalizacion(strategy = FrecuenciacapitalizacionType.DIARIA)
-	private Frecuenciacapitalizacion frecuenciacapitalizacion;
-	
-	@Inject
 	@GeneratedTiposervicio(strategy = TiposervicioType.CUENTA_PLAZO_FIJO)
 	private Tiposervicio tiposervicio;
 
@@ -67,7 +61,7 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	@GeneratedTipotasaPasiva(strategyTasaPasiva = TipotasaPasivaType.TICEAF)
 	private Tipotasa tipotasaTICEAF;
 	
-	@Inject	
+	@Inject
 	@GeneratedTipotasaPasiva(strategyTasaPasiva = TipotasaPasivaType.TREA)
 	private Tipotasa tipotasaTREA;
 	

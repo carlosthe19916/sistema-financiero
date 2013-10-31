@@ -2,7 +2,6 @@ package org.ventura.flow;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,7 +26,6 @@ import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
-import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.AccionistaPK;
 import org.ventura.entity.schema.persona.Personajuridica;
@@ -61,6 +59,8 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 	private BeneficiariosBean beneficiariosMB;
 	@Inject
 	private TitularesBean titularesMB;
+	
+	private List<Titularcuenta> titularDefecto;
 	
 	
 	@PostConstruct
@@ -131,14 +131,12 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			socio.setEstado(true);
 			cuentaplazofijo.setSocio(socio);
 			
-			List<Titularcuenta> titulares = titularesMB.getListTitulares();
+			/*List<Titularcuenta> titulares = titularesMB.getListTitulares();
+			titulares.add(titularDefecto.get(0));
 			for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
 				Titularcuenta titular = iterator.next();
 				titular.setCuentaplazofijo(cuentaplazofijo);
-			}
-			cuentaplazofijo.setTitularcuentas(titulares);
-			
-			cuentaplazofijo.setBeneficiariocuentas(new ArrayList<Beneficiariocuenta>());
+			}*/
 		}
 		return cuentaplazofijo;
 	}
@@ -183,41 +181,6 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		// falta validar datos financieros
 
 		return result;
-	}
-	
-	public void establecerTitularDefecto() {
-		if (isPersonaNatural()) {		
-			Personanatural personanatural = personaNaturalMB.getPersonaNatural();
-			Titularcuenta titular = new Titularcuenta();
-			titular.setPersonanatural(personanatural);
-				
-			Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();
-			titularcuentahistorial.setEstado(true);
-			titularcuentahistorial.setFechaactiva(Calendar.getInstance().getTime());
-			titularcuentahistorial.setTitularcuenta(titular);
-			
-			titular.addTitularhistorial(titularcuentahistorial);
-			
-			List<Titularcuenta> titularcuentas = this.titularesMB.getTablaTitulares().getFrozenRows();
-			titularcuentas.clear();
-			titularcuentas.add(titular);						
-		}
-		if (isPersonaJuridica()) {
-			Personanatural representanteLegal = personaJuridicaMB.getoPersonajuridica().getPersonanatural();
-			Titularcuenta titularRepresentante = new Titularcuenta();
-			titularRepresentante.setPersonanatural(representanteLegal);
-
-			Titularcuentahistorial titularcuentahistorial = new Titularcuentahistorial();
-			titularcuentahistorial.setEstado(true);
-			titularcuentahistorial.setFechaactiva(Calendar.getInstance().getTime());
-			titularcuentahistorial.setTitularcuenta(titularRepresentante);
-			
-			titularRepresentante.addTitularhistorial(titularcuentahistorial);
-			
-			List<Titularcuenta> titularcuentas = this.titularesMB.getTablaTitulares().getFrozenRows();
-			titularcuentas.clear();
-			titularcuentas.add(titularRepresentante);
-		}
 	}
 	
 
@@ -307,6 +270,14 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 
 	public void setTitularesMB(TitularesBean titularesMB) {
 		this.titularesMB = titularesMB;
+	}
+
+	public List<Titularcuenta> getTitularDefecto() {
+		return titularDefecto;
+	}
+
+	public void setTitularDefecto(List<Titularcuenta> titularDefecto) {
+		this.titularDefecto = titularDefecto;
 	}
 
 }

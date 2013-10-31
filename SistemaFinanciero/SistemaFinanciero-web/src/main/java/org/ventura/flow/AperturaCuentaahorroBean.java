@@ -91,11 +91,9 @@ public class AperturaCuentaahorroBean implements Serializable {
 				Cuentaahorro cuentaahorro = establecerParametrosCuentaahorro(this.cuentaahorro);
 				if (isPersonaNatural()) {
 					cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonanatural(cuentaahorro);
-					this.cuentaahorro = cuentaahorro;
 				}
 				if (isPersonaJuridica()) {
 					cuentaahorro = this.cuentaahorroServiceLocal.createCuentaAhorroWithPersonajuridica(cuentaahorro);
-					this.cuentaahorro = cuentaahorro;
 					//this.cuentaahorrohistorial = this.cuentaahorro.getCuentaahorrohistorials().get(0);
 				}			
 				this.cuentaahorro = cuentaahorro;

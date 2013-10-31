@@ -13,10 +13,9 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import org.ventura.boundary.local.SocioServiceLocal;
-import org.ventura.boundary.local.ViewSocioPJServiceLocal;
-import org.ventura.boundary.local.ViewSocioPNServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
+import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.socio.ViewSocioPJ;
 import org.ventura.entity.schema.socio.ViewSocioPN;
 
@@ -31,12 +30,6 @@ public class SocioBean implements Serializable {
 
 	@EJB
 	private SocioServiceLocal socioServicesLocal;
-	
-	@EJB
-	private ViewSocioPNServiceLocal viewSocioPNServiceLocal;
-	
-	@EJB
-	private ViewSocioPJServiceLocal viewSocioPJServiceLocal;
 
 	@ManagedProperty(value = "#{TablaBean}")
 	private TablaBean<ViewSocioPN> tablaSociosPN;
@@ -125,10 +118,11 @@ public class SocioBean implements Serializable {
 		if (isPersonaNatural()) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("datoIngresado", "%" + valorBusqueda.toUpperCase()+ "%");
-			List<ViewSocioPN> list;
+			List<ViewSocioPN> list = null;
 			try {
-				list = viewSocioPNServiceLocal.findByNamedQuery(ViewSocioPN.SOCIOSPN, parameters);
-				tablaSociosPN.setRows(list);
+				list = socioServicesLocal.findByNamedQueryViewSocioPN(Socio.SOCIOSPN, parameters);
+				//list = viewSocioPNServiceLocal.findByNamedQuery(ViewSocioPN.SOCIOSPN, parameters);
+				getTablaSociosPN().setRows(list);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -136,9 +130,9 @@ public class SocioBean implements Serializable {
 		} else {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("datoIngresado", "%" + valorBusqueda.toUpperCase()+ "%");
-			List<ViewSocioPJ> list;
+			List<ViewSocioPJ> list = null;
 			try {
-				list = viewSocioPJServiceLocal.findByNamedQuery(ViewSocioPJ.SOCIOSPJ, parameters);				
+				list = socioServicesLocal.findByNamedQueryViewSocioPJ(Socio.SOCIOSPJ, parameters);				
 				tablaSociosPJ.setRows(list);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -154,7 +148,7 @@ public class SocioBean implements Serializable {
 	}
 
 	public void limpiarTablas(){
-		tablaSociosPN.getRows().clear();
+		getTablaSociosPN().getRows().clear();
 		tablaSociosPJ.getRows().clear();
 		valorBusqueda = new String();
 	}

@@ -8,11 +8,13 @@ import javax.annotation.Generated;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,17 +22,22 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.openjpa.persistence.FetchAttribute;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.sucursal.Agencia;
 
 @Entity
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
-@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c")
+@NamedQueries({
+				@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c"),
+				@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.idcuentaaporte = :idCuentaAporte")})
 public class Cuentaaporte implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public final static String BENEFICIARIOS = "org.ventura.model.Cuentaaporte.BENEFICIARIOS";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)

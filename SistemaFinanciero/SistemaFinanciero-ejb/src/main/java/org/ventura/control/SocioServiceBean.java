@@ -20,9 +20,13 @@ import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.remote.SocioServiceRemote;
 import org.ventura.dao.impl.SocioDAO;
+import org.ventura.dao.impl.ViewSocioPJDAO;
+import org.ventura.dao.impl.ViewSocioPNDAO;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.socio.ViewSocioPJ;
+import org.ventura.entity.schema.socio.ViewSocioPN;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.logger.Log;
@@ -39,6 +43,10 @@ public class SocioServiceBean implements SocioServiceLocal {
 
 	@EJB
 	private SocioDAO socioDAO;
+	@EJB
+	private ViewSocioPNDAO viewSocioPNDAO;
+	@EJB
+	private ViewSocioPJDAO viewSocioPJDAO;
 	@EJB
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB
@@ -200,6 +208,34 @@ public class SocioServiceBean implements SocioServiceLocal {
 		List<Socio> list = null;
 		try {
 			list = socioDAO.findByNamedQuery(socio, parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+		return list;
+	}
+	
+	@Override
+	public List<ViewSocioPN> findByNamedQueryViewSocioPN(String viewSocioPN, Map<String, Object> parameters) throws Exception {
+		List<ViewSocioPN> list = null;
+		try {
+			list = viewSocioPNDAO.findByNamedQuery(viewSocioPN, parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+		return list;
+	}
+	
+	@Override
+	public List<ViewSocioPJ> findByNamedQueryViewSocioPJ(String viewSocioPJ, Map<String, Object> parameters) throws Exception {
+		List<ViewSocioPJ> list = null;
+		try {
+			list = viewSocioPJDAO.findByNamedQuery(viewSocioPJ, parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

@@ -69,10 +69,6 @@ public class DatosFinancierosCuentaCorrienteBean implements Serializable {
 		cargarCombos();	
 	}
 
-	/*
-	 * Bussiness Logic
-	 */
-
 	public boolean isValid() {
 		return cuentacorriente.getIdtipomoneda() != null ? true : false;
 	}
@@ -83,14 +79,10 @@ public class DatosFinancierosCuentaCorrienteBean implements Serializable {
 
 	public void changeTipomoneda(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Tipomoneda tipomonedaSelected = comboTipomoneda
-				.getObjectItemSelected(key);
+		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);
 		this.cuentacorriente.setTipomoneda(tipomonedaSelected);
 	}
 
-	/*
-	 * Getters and Setters
-	 */
 	public Cuentacorriente getCuentacorriente() {
 		return cuentacorriente;
 	}
@@ -103,8 +95,7 @@ public class DatosFinancierosCuentaCorrienteBean implements Serializable {
 		return cuentacorrientehistorial;
 	}
 
-	public void setCuentacorrientehistorial(
-			Cuentacorrientehistorial cuentacorrientehistorial) {
+	public void setCuentacorrientehistorial(Cuentacorrientehistorial cuentacorrientehistorial) {
 		this.cuentacorrientehistorial = cuentacorrientehistorial;
 	}
 
