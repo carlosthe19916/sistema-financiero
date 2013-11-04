@@ -22,6 +22,7 @@ import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
+import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
@@ -198,10 +199,21 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	}
 
 	@Override
-	public List<Cuentaaporte> findByNamedQuery(String cuentaaporte,
-			Map<String, Object> parameters) {
+	public List<Cuentaaporte> findByNamedQuery(String cuentaaporte, Map<String, Object> parameters) {
 		try {
 			return cuentaaporteDAO.findByNamedQuery(cuentaaporte, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Beneficiariocuenta> findByNamedQueryBeneficiario(String beneficiario,
+			Map<String, Object> parameters) {
+		try {
+			return beneficiariocuentaDAO.findByNamedQuery(beneficiario, parameters);
 		} catch (RollbackFailureException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
