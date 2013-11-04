@@ -33,8 +33,8 @@ public abstract class AbstractDAO<T> {
 	public void create(T entity) throws PreexistingEntityException, IllegalEntityException, RollbackFailureException, Exception {
 		try {
 			getEntityManager().persist(entity);
-			getEntityManager().flush();
-			getEntityManager().refresh(entity);
+			//getEntityManager().flush();
+			//getEntityManager().refresh(entity);
 		} catch (EntityExistsException exception) {
 			throw new PreexistingEntityException("Entity: " + entity + " already exists", exception);
 		} catch (IllegalArgumentException  exception) {

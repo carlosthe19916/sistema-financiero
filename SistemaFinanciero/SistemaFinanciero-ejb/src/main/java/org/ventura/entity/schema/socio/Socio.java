@@ -67,7 +67,7 @@ public class Socio implements Serializable {
 	@JoinColumn(name = "ruc", nullable = false, insertable = false, updatable = false)
 	private Personajuridica personajuridica;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idcuentaaporte", nullable = false)
 	private Cuentaaporte cuentaaporte;
 	

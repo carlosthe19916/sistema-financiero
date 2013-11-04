@@ -90,7 +90,8 @@ public class AperturarCuentaaporteBean implements Serializable {
 
 	public Socio establecerParametrosCuentaaporte(Socio socio) throws Exception {
 		Agencia agencia = agenciaBean.getAgencia();
-		Cuentaaporte cuentaaporte = datosFinancierosCuentaAporteMB.getCuentaaporte();
+		Cuentaaporte cuentaaporte = new Cuentaaporte();
+		cuentaaporte = datosFinancierosCuentaAporteMB.getCuentaaporte();
 		
 		socio.setAgencia(agencia);
 		socio.setCuentaaporte(cuentaaporte);
