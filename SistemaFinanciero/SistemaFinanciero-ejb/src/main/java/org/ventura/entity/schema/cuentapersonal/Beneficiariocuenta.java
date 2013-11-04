@@ -13,7 +13,9 @@ import org.ventura.entity.listener.BeneficiariocuentaListener;
 @Entity
 @Table(name = "beneficiariocuenta", schema = "cuentapersonal")
 @EntityListeners({ BeneficiariocuentaListener.class })
-@NamedQuery(name = "Beneficiariocuenta.findAll", query = "SELECT b FROM Beneficiariocuenta b")
+@NamedQueries({
+				@NamedQuery(name = "Beneficiariocuenta.findAll", query = "SELECT b FROM Beneficiariocuenta b")})
+
 public class Beneficiariocuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 

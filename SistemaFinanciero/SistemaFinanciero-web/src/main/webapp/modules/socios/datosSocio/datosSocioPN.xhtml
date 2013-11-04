@@ -29,7 +29,7 @@
 		<h:panelGroup id="panelDatosCliente">
 			<h:panelGrid columns="2">
 				<p:outputPanel>
-					<!-- Datos Personales Cliente-->
+					<!-- Datos Personales Persona Natural-->
 					<ui:include
 						src="/modules/maestros/personaNaturalResumen.xhtml">
 						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
@@ -41,40 +41,46 @@
 						<ui:param name="componentName" value="dlgPersonaNatural" />
 						<ui:param name="componentToUpdated" value=":personaNaturalCliente" />
 					</ui:include>
-					<!-- End Datos Personales Cliente-->
+					<!-- End Datos Personales Persona Natural-->
 				</p:outputPanel>
 				
 				<p:outputPanel>
-					<!-- Cuenta de Aporte Cliente-->
+					<!-- Cuenta de Aporte Persona Natural-->
 					<ui:include
-						src="/modules/maestros/personaNaturalResumen.xhtml">
+						src="/modules/socios/datosSocio/datosCuentaAporte.xhtml">
 						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
-						<ui:param name="componentName" value="aporte1" />
-						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
+						<ui:param name="componentName" value="aporteBeneficiario" />
+						<ui:param name="editarOutputDialog" value="dlgBeneficiarioCAP" />
 					</ui:include>
-					<!-- End Cuenta de Aporte Cliente-->
+					<ui:include src="/modules/socios/datosSocio/beneficiariosCAPDialog.xhtml">
+						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
+						<ui:param name="componentName" value="dlgBeneficiarioCAP" />
+						<ui:param name="componentToUpdated" value="aporteBeneficiario" />
+					</ui:include>
+					<!-- End Cuenta de Aporte Persona Natural-->
 				</p:outputPanel>
 				
+				
 				<p:outputPanel>
-					<!-- Otras Cuentas Cliente-->
+					<!-- Otras Cuentas Persona Natural-->
 					<ui:include
-						src="/modules/socios/otrasCuentasSocio.xhtml">
+						src="/modules/socios/datosSocio/otrasCuentasSocio.xhtml">
 						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
 						<ui:param name="componentName" value="aporte2" />
 						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
 					</ui:include>
-					<!-- End Otras Cuentas Cliente-->
+					<!-- End Otras Cuentas Persona Natural-->
 				</p:outputPanel>
 				
 				<p:outputPanel>
-					<!-- Cuenta Creditos Cliente-->
+					<!-- Creditos Persona Natural-->
 					<ui:include
 						src="/modules/maestros/personaNaturalResumen.xhtml">
 						<ui:param name="managedBean" value="#{mostrarDatosSocioBean}" />
 						<ui:param name="componentName" value="aporte3" />
 						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
 					</ui:include>
-					<!-- End Creditos Cliente-->
+					<!-- End Creditos Persona Natural-->
 				</p:outputPanel>
 			</h:panelGrid>
 		</h:panelGroup>

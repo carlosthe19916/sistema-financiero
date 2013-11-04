@@ -17,12 +17,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "viewsociopj", schema = "socio")
-@NamedQueries({@NamedQuery(name = ViewSocioPJ.SOCIOSPJ, query = "Select s From ViewSocioPJ s where s.estado=true and (s.idsocio like :datoIngresado or s.ruc like :datoIngresado or s.personajuridica.razonsocial like :datoIngresado or s.personajuridica.nombrecomercial like :datoIngresado)")})
 public class ViewSocioPJ implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	public final static String SOCIOSPJ = "org.ventura.model.ViewSocioPN.SOCIOSPJ";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

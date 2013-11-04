@@ -77,7 +77,7 @@
 					</p:commandLink>
 
 					<h:link styleClass="button middle" title="Editar Socio"
-						outcome="datosSocioPN.xhtml" target="_blank">
+						outcome="datosSocio/datosSocioPN.xhtml" target="_blank">
 						<span class="icon icon145"></span>
 						<span class="label">Editar</span>
 						<f:param name="dni" value="#{socioBean.dniTemporal}" />
@@ -118,7 +118,7 @@
 		<h:panelGroup id="panelDatos">
 
 			<!-- Buscar Persona Natural -->
-			<ui:include src="/modules/socios/buscarSocioPN.xhtml">
+			<ui:include src="/modules/socios/datosSocio/buscarSocioPN.xhtml">
 				<ui:param name="managedBean" value="#{socioBean}" />
 				<ui:param name="componentName" value="buscarSocioPN" />
 				<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
@@ -126,7 +126,7 @@
 			<!-- end Buscar PersonaNatural -->
 
 			<!-- Buscar Persona Juridica -->
-			<ui:include src="/modules/socios/buscarSocioPJ.xhtml">
+			<ui:include src="/modules/socios/datosSocio/buscarSocioPJ.xhtml">
 				<ui:param name="managedBean" value="#{socioBean}" />
 				<ui:param name="componentName" value="buscarSocioPJ" />
 				<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
