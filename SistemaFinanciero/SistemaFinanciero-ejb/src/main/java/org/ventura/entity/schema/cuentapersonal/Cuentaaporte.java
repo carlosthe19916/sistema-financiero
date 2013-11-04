@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Generated;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,13 +21,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.openjpa.persistence.FetchAttribute;
+import org.ventura.entity.listener.CuentaaporteListener;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
-import org.ventura.entity.schema.sucursal.Agencia;
 
 @Entity
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
+@EntityListeners(CuentaaporteListener.class)
 @NamedQueries({
 				@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c"),
 				@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.idcuentaaporte = :idCuentaAporte")})
@@ -59,17 +58,10 @@ public class Cuentaaporte implements Serializable {
 	@Column(nullable = false)
 	private double saldo;
 
-
-	
-	@Transient
-	private Socio socio;
-
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
-
-
 
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
@@ -167,14 +159,6 @@ public class Cuentaaporte implements Serializable {
 
 	public void setBeneficiarios(List<Beneficiariocuenta> beneficiarios) {
 		this.beneficiarios = beneficiarios;
-	}
-
-	public Socio getSocio() {
-		return socio;
-	}
-
-	public void setSocio(Socio socio) {
-		this.socio = socio;
 	}
 
 }

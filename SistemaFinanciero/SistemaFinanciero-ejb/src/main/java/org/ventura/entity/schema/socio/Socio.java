@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.listener.SocioListener;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
@@ -17,6 +18,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "socio", schema = "socio")
+@EntityListeners(SocioListener.class)
 @NamedQuery(name = "Socio.findAll", query = "SELECT s FROM Socio s")
 @NamedQueries({
 		@NamedQuery(name = Socio.ALL, query = "Select s From Sexo s"),

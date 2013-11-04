@@ -61,8 +61,6 @@ public class SocioServiceBean implements SocioServiceLocal {
 			if (isValidSocio == true) {
 				socio.setIdsocio(null);
 				socio.getCuentaaporte().setIdcuentaaporte(null);
-				socio.setFechaasociado(Calendar.getInstance().getTime());
-				socio.setEstado(true);
 				
 				Map<String, Object> parameters = new HashMap<String, Object>();
 				List<Socio> resultList = null;
@@ -111,7 +109,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se pudo Crear el Socio");
-		}
+		} 
 		return socio;
 	}
 

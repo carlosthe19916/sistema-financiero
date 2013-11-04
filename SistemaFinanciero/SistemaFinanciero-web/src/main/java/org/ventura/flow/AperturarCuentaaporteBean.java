@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.flow.FlowScoped;
@@ -84,7 +85,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error", e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
-		}
+		} 
 		return null;
 	}
 

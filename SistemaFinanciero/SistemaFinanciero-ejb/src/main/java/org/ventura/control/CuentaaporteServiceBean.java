@@ -56,9 +56,9 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			generarDatosDeRegistro(cuentaaporte);	
 			cuentaaporteDAO.create(cuentaaporte);
 			
-			Socio socio = cuentaaporte.getSocio();
-			socio.setCuentaaporte(cuentaaporte);
-			socio = buscarSocioPersonaNatural(socio);			
+			//Socio socio = cuentaaporte.getSocio();
+			//socio.setCuentaaporte(cuentaaporte);
+			//socio = buscarSocioPersonaNatural(socio);			
 		} catch(PreexistingEntityException e){
 			log.error("Error:" + e.getClass() + " " + e.getCause());
 			throw new Exception("Error:" + e.getMessage());
