@@ -69,6 +69,7 @@
 		<class>org.ventura.entity.tasas.Tipotasa</class>
 		<class>org.ventura.entity.schema.socio.ViewSocioPN</class>
 		<class>org.ventura.entity.schema.socio.ViewSocioPJ</class>
+		<class>org.ventura.entity.schema.cuentapersonal.ViewCuentas</class>
 
 		<properties>
 			<!-- Properties for Hibernate -->

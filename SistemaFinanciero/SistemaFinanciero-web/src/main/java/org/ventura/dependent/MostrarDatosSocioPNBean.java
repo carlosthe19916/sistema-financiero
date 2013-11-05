@@ -129,7 +129,7 @@ public class MostrarDatosSocioPNBean implements Serializable {
 			list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
 			tablaCuentasPN.setRows(list);
 			System.out.println("malllll");
-			// System.out.println("Cuentas "+list.size());
+			System.out.println("Cuentas "+list.size());
 			System.out.println("biennnnn");
 			cargarBeneficiariosCuentaAporte();
 		} catch (Exception e) {
