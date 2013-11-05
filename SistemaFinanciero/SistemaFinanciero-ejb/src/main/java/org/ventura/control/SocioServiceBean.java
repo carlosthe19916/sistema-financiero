@@ -1,6 +1,5 @@
 package org.ventura.control;
 
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -85,7 +84,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 					parameters.put("ruc", socio.getRuc());
 					resultList = socioDAO.findByNamedQuery(Socio.FindByRuc, parameters);
 				}
-				if (resultList.size() == 0) {
+				if (resultList == null || resultList.size() == 0) {
 					socioDAO.create(socio);
 				} else {
 					throw new PreexistingEntityException("El cliente ya tiene una cuenta de aportes Activa");
