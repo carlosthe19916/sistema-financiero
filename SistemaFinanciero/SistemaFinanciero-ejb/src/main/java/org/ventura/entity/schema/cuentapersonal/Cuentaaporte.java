@@ -18,10 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.entity.schema.socio.Socio;
+
 
 @Entity
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
@@ -57,17 +56,10 @@ public class Cuentaaporte implements Serializable {
 	@Column(nullable = false)
 	private double saldo;
 
-
-	
-	@Transient
-	private Socio socio;
-
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
-
-
 
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
@@ -165,14 +157,6 @@ public class Cuentaaporte implements Serializable {
 
 	public void setBeneficiarios(List<Beneficiariocuenta> beneficiarios) {
 		this.beneficiarios = beneficiarios;
-	}
-
-	public Socio getSocio() {
-		return socio;
-	}
-
-	public void setSocio(Socio socio) {
-		this.socio = socio;
 	}
 
 }
