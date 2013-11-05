@@ -25,31 +25,36 @@
 						<h:form id="form-CuntasAhorro">
 							<div>
 								<p:dataTable id="tablaCuentas" var="cuentasPN"
-									value="#{mostrarDatosSocioBean.tablaCuentasPN.rows}"
-									rowKey="#{cuentasPN}" rowIndexVar="row"
-									selection="#{mostrarDatosSocioBean.tablaCuentasPN.selectedRow}"
-									selectionMode="single" paginatorPosition="bottom"
-									sortBy="#{cuentasPN.tipomoneda.abreviatura}"
+									value="#{mostrarDatosSocioPNBean.tablaCuentasPN.rows}"
+									rowKey="#{cuentasPN}" rowIndexVar="row" emptyMessage="Esta persona no tiene cuentas personales"
+									selection="#{mostrarDatosSocioPNBean.tablaCuentasPN.selectedRow}"
+									selectionMode="single" paginatorPosition="bottom" sortOrder="descending"
 									widgetVar="tablaCuentas" scrollable="true" scrollHeight="133" scrollWidth="500">
-
-									<p:column headerText="Nro" width="7%"
-										style="text-align:center;">
-										<h:outputText value="#{row + 1}" />
-									</p:column>
 
 									<p:column sortBy="#{cuentasPN.numerocuentaahorro}" width="95"
 										headerText="Nro. Cuenta">
 										<h:outputText value="#{cuentasPN.numerocuentaahorro}" />
 									</p:column>
 									
-				
-
-									<p:column sortBy="#{cuentasPN.idsocio}" headerText="Saldo" width="50">
-										<h:outputText value="#{cuentasPN.idsocio}" />
+									<p:column sortBy="#{cuentasPN.fechaapertura}" width="95"
+										headerText="Fec. Apertura" style="text-align:center;">
+										<h:outputText value="#{cuentasPN.fechaapertura}" />
 									</p:column>
 									
+									<p:column sortBy="#{cuentasPN.saldo}" width="65"
+										headerText="Saldo">
+										<h:outputText value="#{cuentasPN.saldo}" />
+									</p:column>
 									
+									<p:column sortBy="#{cuentasPN.tipomoneda.abreviatura}" width="65"
+										headerText="Moneda" style="text-align:center;">
+										<h:outputText value="#{cuentasPN.tipomoneda.abreviatura}" />
+									</p:column>
 									
+									<p:column sortBy="#{cuentasPN.tipocuenta}" width="95"
+										headerText="Tipo Cuenta">
+										<h:outputText value="#{cuentasPN.tipocuenta}" />
+									</p:column>
 									
 								</p:dataTable>
 							</div>

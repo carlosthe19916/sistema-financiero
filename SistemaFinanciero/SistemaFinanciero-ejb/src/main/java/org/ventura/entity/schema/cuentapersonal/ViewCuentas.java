@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
+
 import java.util.Date;
 
 /**
@@ -14,6 +15,8 @@ import java.util.Date;
 @Entity
 @Table(name="view_retornar_cuentas", schema="cuentapersonal")
 //@NamedNativeQuery(name = ViewCuentas.CUENTAS, query = "select f.numerocuenta, f.idsocio, f.fechaapertura, f.idtipomoneda, f.saldo, f.idestadocuenta, f.idcuenta, f.idagencia, f.tipocuenta from cuentapersonal.f_retornar_cuentas(:codigoSocio) f", resultClass = ViewCuentas.class)
+@NamedQueries({
+	@NamedQuery(name = ViewCuentas.CUENTAS, query = "select c from ViewCuentas c where c.idsocio = :codigoSocio")})
 public class ViewCuentas implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
