@@ -22,7 +22,7 @@
 						rowsPerPageTemplate="50,100,200" widgetVar="tablaSociosPN"
 						rowIndexVar="row">
 
-						<p:ajax event="rowSelect" listener="#{socioBean.obtenerDNISeleccionado()}" update=":form-buttons"/>
+						<p:ajax event="rowSelect" listener="#{socioBean.obtenerDNIoRUCSeleccionado()}" update=":form-buttons"/>
 
 						<p:column headerText="Nro" width="5%" style="text-align:center;">
 							<h:outputText value="#{row + 1}" />

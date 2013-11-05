@@ -79,8 +79,15 @@
 					<h:link styleClass="button middle" title="Editar Socio"
 						outcome="datosSocio/datosSocioPN.xhtml" target="_blank">
 						<span class="icon icon145"></span>
-						<span class="label">Editar</span>
-						<f:param name="dni" value="#{socioBean.dniTemporal}" />
+						<span class="label">EditarPN</span>
+						<f:param name="dni" value="#{socioBean.DNIoRUCTemporal}" />
+					</h:link>
+					
+					<h:link styleClass="button middle" title="Editar Socio"
+						outcome="datosSocio/datosSocioPJ.xhtml" target="_blank">
+						<span class="icon icon145"></span>
+						<span class="label">EditarPJ</span>
+						<f:param name="ruc" value="#{socioBean.DNIoRUCTemporal}" />
 					</h:link>
 
 					<h:commandLink action="#" styleClass="button right"

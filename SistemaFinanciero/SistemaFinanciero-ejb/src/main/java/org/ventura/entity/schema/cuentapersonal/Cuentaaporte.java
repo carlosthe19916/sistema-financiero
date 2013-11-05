@@ -21,16 +21,19 @@ import javax.persistence.TemporalType;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
 
+
 @Entity
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
 @NamedQueries({
 				@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c"),
-				@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.idcuentaaporte = :idCuentaAporte")})
+				@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.idcuentaaporte = :idCuentaAporte"),
+				@NamedQuery(name = Cuentaaporte.ACCIONISTAS, query = "select ac from Accionista ac where ac.personajuridica.ruc = :ruc")})
 public class Cuentaaporte implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String BENEFICIARIOS = "org.ventura.model.Cuentaaporte.BENEFICIARIOS";
+	public final static String ACCIONISTAS = "org.ventura.model.Cuentaaporte.ACCIONISTAS";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

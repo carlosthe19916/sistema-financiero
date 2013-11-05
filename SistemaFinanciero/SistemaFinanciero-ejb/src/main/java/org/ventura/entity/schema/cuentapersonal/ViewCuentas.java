@@ -1,35 +1,29 @@
-package org.ventura.entity.schema.socio;
+package org.ventura.entity.schema.cuentapersonal;
 
 import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.entity.schema.sucursal.Agencia;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * The persistent class for the FunctionCuentas database table.
  * 
  */
-
-@NamedNativeQuery(name = FunctionCuentas.CUENTAS, query = "select f.numerocuenta, f.idsocio, f.fechaapertura, f.idtipomoneda, f.saldo, f.idestadocuenta, f.idcuenta, f.idagencia, f.tipocuenta from cuentapersonal.f_retornar_cuentas(:codigoSocio) f", resultClass = FunctionCuentas.class)
-public class FunctionCuentas implements Serializable {
+@Entity
+@Table(name="view_retornar_cuentas", schema="cuentapersonal")
+//@NamedNativeQuery(name = ViewCuentas.CUENTAS, query = "select f.numerocuenta, f.idsocio, f.fechaapertura, f.idtipomoneda, f.saldo, f.idestadocuenta, f.idcuenta, f.idagencia, f.tipocuenta from cuentapersonal.f_retornar_cuentas(:codigoSocio) f", resultClass = ViewCuentas.class)
+public class ViewCuentas implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	public final static String CUENTAS = "org.ventura.model.FunctionCuentas.CUENTAS";
+	public final static String CUENTAS = "org.ventura.model.view_retornar_cuentas.CUENTAS";
+	
 	
 	@Id
-	@Column(unique = true, nullable = false)
-	private Integer idcuenta;
-
-	@Column(length = 14)
-	private String numerocuenta;
+	@Column(unique = true, length = 14)
+	private String numerocuentaahorro;
 	
 	@Column(nullable = false)
 	private Integer idsocio;
@@ -48,7 +42,7 @@ public class FunctionCuentas implements Serializable {
 	private Integer idestadocuenta;
 	
 	@Column(nullable = false)
-	private Integer idagencia;
+	private Integer idcuentaahorro;
 	
 	@Column
 	private String tipocuenta;
@@ -57,33 +51,69 @@ public class FunctionCuentas implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
-
-	@ManyToOne
-	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
-	private Agencia agencia;
 	
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
 	private Tipomoneda tipomoneda;
 
-	public FunctionCuentas() {
+	public ViewCuentas() {
 	}
 	
-	public Integer getIdcuenta() {
-		return idcuenta;
+	public String getNumerocuentaahorro() {
+		return numerocuentaahorro;
 	}
 
-	public void setIdcuenta(Integer idcuenta) {
-		this.idcuenta = idcuenta;
+	public void setNumerocuentaahorro(String numerocuentaahorro) {
+		this.numerocuentaahorro = numerocuentaahorro;
 	}
 
-	public String getNumerocuenta() {
-		return numerocuenta;
+	public Integer getIdsocio() {
+		return idsocio;
+	}
+	
+	public void setIdsocio(Integer idsocio) {
+		this.idsocio = idsocio;
 	}
 
-	public void setNumerocuenta(String numerocuenta) {
-		this.numerocuenta = numerocuenta;
+	public Date getFechaapertura() {
+		return fechaapertura;
+	}
+
+	public void setFechaapertura(Date fechaapertura) {
+		this.fechaapertura = fechaapertura;
+	}
+
+	public Integer getIdtipomoneda() {
+		return idtipomoneda;
+	}
+
+	public void setIdtipomoneda(Integer idtipomoneda) {
+		this.idtipomoneda = idtipomoneda;
+	}
+
+	public double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
+
+	public Integer getIdestadocuenta() {
+		return idestadocuenta;
+	}
+
+	public void setIdestadocuenta(Integer idestadocuenta) {
+		this.idestadocuenta = idestadocuenta;
+	}
+
+	public Integer getIdcuentaahorro() {
+		return idcuentaahorro;
+	}
+
+	public void setIdcuentaahorro(Integer idcuentaahorro) {
+		this.idcuentaahorro = idcuentaahorro;
 	}
 
 	public String getTipocuenta() {
@@ -93,31 +123,9 @@ public class FunctionCuentas implements Serializable {
 	public void setTipocuenta(String tipocuenta) {
 		this.tipocuenta = tipocuenta;
 	}
-
-	public Date getFechaapertura() {
-		return this.fechaapertura;
-	}
-
-	public void setFechaapertura(Date fechaapertura) {
-		this.fechaapertura = fechaapertura;
-	}
-
-	public Integer getIdtipomoneda() {
-		return this.idtipomoneda;
-	}
-
-	public void setIdtipomoneda(Integer idtipomoneda) {
-		this.idtipomoneda = idtipomoneda;
-	}
-
-	public double getSaldo() {
-		return this.saldo;
-	}
-
-	public void setSaldo(double saldo) {
-		this.saldo = saldo;
-	}
-
+	
+	
+	//getters and setters bi-directional many-to-one association
 	public Estadocuenta getEstadocuenta() {
 		return this.estadocuenta;
 	}
@@ -142,38 +150,6 @@ public class FunctionCuentas implements Serializable {
 		} else {
 			this.idtipomoneda = null;
 		}		
-	}
-
-	public Integer getIdestadocuenta() {
-		return idestadocuenta;
-	}
-
-	public void setIdestadocuenta(Integer idestadocuenta) {
-		this.idestadocuenta = idestadocuenta;
-	}
-
-	public Integer getIdsocio() {
-		return idsocio;
-	}
-
-	public void setIdsocio(Integer codigosocio) {
-		this.idsocio = codigosocio;
-	}
-
-	public Integer getIdagencia() {
-		return idagencia;
-	}
-
-	public void setIdagencia(Integer idagencia) {
-		this.idagencia = idagencia;
-	}
-
-	public Agencia getAgencia() {
-		return agencia;
-	}
-
-	public void setAgencia(Agencia agencia) {
-		this.agencia = agencia;
 	}
 
 }
