@@ -11,7 +11,6 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.entity.GeneratedEstadocuenta;
 import org.ventura.entity.GeneratedTipomoneda;
 import org.ventura.entity.GeneratedEstadocuenta.EstadocuentaType;
@@ -25,9 +24,6 @@ import org.ventura.entity.schema.maestro.Tipomoneda;
 public class DatosFinancierosCuentaAporteBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@EJB
-	private CuentaaporteServiceLocal cuentaaporteServiceLocal;
 
 	@Inject
 	private Cuentaaporte cuentaaporte;

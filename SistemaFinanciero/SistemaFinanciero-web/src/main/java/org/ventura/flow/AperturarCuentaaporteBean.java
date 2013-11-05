@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.flow.FlowScoped;
@@ -84,13 +85,14 @@ public class AperturarCuentaaporteBean implements Serializable {
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error", e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
-		}
+		} 
 		return null;
 	}
 
 	public Socio establecerParametrosCuentaaporte(Socio socio) throws Exception {
 		Agencia agencia = agenciaBean.getAgencia();
-		Cuentaaporte cuentaaporte = datosFinancierosCuentaAporteMB.getCuentaaporte();
+		Cuentaaporte cuentaaporte = new Cuentaaporte();
+		cuentaaporte = datosFinancierosCuentaAporteMB.getCuentaaporte();
 		
 		socio.setAgencia(agencia);
 		socio.setCuentaaporte(cuentaaporte);

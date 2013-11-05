@@ -1,6 +1,5 @@
 package org.ventura.control;
 
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
@@ -32,10 +32,11 @@ import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.validate.Validator;
 
+@Named
 @Stateless
 @Local(SocioServiceLocal.class)
 @Remote(SocioServiceRemote.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class SocioServiceBean implements SocioServiceLocal {
 
 	@Inject
@@ -54,14 +55,15 @@ public class SocioServiceBean implements SocioServiceLocal {
 
 	@Override
 	public Socio create(Socio socio) throws Exception {
-		try {
-			socio.setFechaasociado(Calendar.getInstance().getTime());
-			socio.setEstado(true);
-
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			List<Socio> resultList = null;	
-			boolean isValidSocio = Validator.validateSocio(socio);
+		try {	
+			boolean isValidSocio = Validator.validateSocio(socio);	
 			if (isValidSocio == true) {
+				socio.setIdsocio(null);
+				socio.getCuentaaporte().setIdcuentaaporte(null);
+				
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				List<Socio> resultList = null;
+				
 				Personanatural personanatural = socio.getPersonanatural();
 				Personajuridica personajuridica = socio.getPersonajuridica();
 				if (personanatural != null) {
@@ -82,7 +84,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 					parameters.put("ruc", socio.getRuc());
 					resultList = socioDAO.findByNamedQuery(Socio.FindByRuc, parameters);
 				}
-				if (resultList.size() == 0) {
+				if (resultList == null || resultList.size() == 0) {
 					socioDAO.create(socio);
 				} else {
 					throw new PreexistingEntityException("El cliente ya tiene una cuenta de aportes Activa");
@@ -106,7 +108,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se pudo Crear el Socio");
-		}
+		} 
 		return socio;
 	}
 

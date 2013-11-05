@@ -26,7 +26,7 @@ import org.ventura.util.logger.Log;
 @Stateless
 @Local(PersonajuridicaServiceLocal.class)
 @Remote(PersonajuridicaServiceRemote.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 
 	@Inject
