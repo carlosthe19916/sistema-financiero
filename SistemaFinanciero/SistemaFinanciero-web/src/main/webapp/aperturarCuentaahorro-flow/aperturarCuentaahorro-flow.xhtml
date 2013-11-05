@@ -126,8 +126,7 @@
 				<p:commandButton 
 					value="Guardar"
 					action="#{aperturaCuentaahorroBean.createCuentaahorro()}"
-					update="messages,:panelDatos">
-					<f:ajax onevent="handleDisableButton" />
+					update="messages,:panelDatos" onclick="onSubmitButton();">
 				</p:commandButton>
 
 				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"/>
