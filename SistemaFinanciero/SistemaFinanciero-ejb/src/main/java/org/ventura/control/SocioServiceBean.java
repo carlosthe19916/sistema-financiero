@@ -133,13 +133,35 @@ public class SocioServiceBean implements SocioServiceLocal {
 		
 		List<Socio> list = null;
 		try {
-			System.out.println("Probando");
 			list = socioDAO.findByNamedQuery(Socio.FindByDni, parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error interno, intÃ©ntelo nuevamente");
+		}
+		
+		for (Iterator<Socio> iterator = list.iterator(); iterator.hasNext();) {
+			oSocio = (Socio) iterator.next();
+		}
+		return oSocio;
+	}
+	
+	@Override
+	public Socio findByRUC(Object ruc) throws Exception {
+		Socio oSocio = null;
+		
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("ruc", ruc);
+		
+		List<Socio> list = null;
+		try {
+			list = socioDAO.findByNamedQuery(Socio.FindByRuc, parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		
 		for (Iterator<Socio> iterator = list.iterator(); iterator.hasNext();) {

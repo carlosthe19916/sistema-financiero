@@ -24,7 +24,7 @@ import org.ventura.flow.SocioBean;
 
 @ManagedBean
 @ViewScoped
-public class mostrarDatosSocioBean implements Serializable {
+public class MostrarDatosSocioPNBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,7 +53,7 @@ public class mostrarDatosSocioBean implements Serializable {
 
 	private Socio oSocio;
 
-	public mostrarDatosSocioBean() {
+	public MostrarDatosSocioPNBean() {
 	}
 
 	@PostConstruct

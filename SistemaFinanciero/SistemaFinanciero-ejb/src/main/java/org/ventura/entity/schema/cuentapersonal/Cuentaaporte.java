@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Generated;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,21 +20,21 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.openjpa.persistence.FetchAttribute;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
-import org.ventura.entity.schema.sucursal.Agencia;
 
 @Entity
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
 @NamedQueries({
 				@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c"),
-				@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.idcuentaaporte = :idCuentaAporte")})
+				@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.idcuentaaporte = :idCuentaAporte"),
+				@NamedQuery(name = Cuentaaporte.ACCIONISTAS, query = "select ac from Accionista ac where ac.personajuridica.ruc = :ruc")})
 public class Cuentaaporte implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String BENEFICIARIOS = "org.ventura.model.Cuentaaporte.BENEFICIARIOS";
+	public final static String ACCIONISTAS = "org.ventura.model.Cuentaaporte.ACCIONISTAS";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

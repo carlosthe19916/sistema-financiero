@@ -20,11 +20,13 @@ import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
+import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
@@ -44,6 +46,8 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB
 	private BeneficiariocuentaDAO beneficiariocuentaDAO;
+	@EJB
+	private AccionistaDAO accionistaDAO;
 	@EJB
 	private CuentaaporteDAO cuentaaporteDAO;
 	
@@ -214,6 +218,18 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			Map<String, Object> parameters) {
 		try {
 			return beneficiariocuentaDAO.findByNamedQuery(beneficiario, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Accionista> findByNamedQueryAccionista(String accionista,
+			Map<String, Object> parameters) {
+		try {
+			return accionistaDAO.findByNamedQuery(accionista, parameters);
 		} catch (RollbackFailureException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

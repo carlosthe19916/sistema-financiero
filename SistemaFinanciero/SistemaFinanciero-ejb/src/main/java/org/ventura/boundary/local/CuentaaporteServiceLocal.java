@@ -7,6 +7,7 @@ import java.util.Map;
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.persona.Accionista;
 
 public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 		
@@ -27,6 +28,8 @@ public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 		public List<Cuentaaporte> findByNamedQuery(String Cuentaaporte, Map<String, Object> parameters) throws Exception;
 		
 		public List<Beneficiariocuenta> findByNamedQueryBeneficiario(String beneficiario, Map<String, Object> parameters) throws Exception;
+		
+		public List<Accionista> findByNamedQueryAccionista(String accionista, Map<String, Object> parameters) throws Exception;
 
 		public List<Cuentaaporte> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
 

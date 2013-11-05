@@ -41,7 +41,8 @@ public class SocioBean implements Serializable {
 	private ComboBean<String> comboTipoPersona;
 
 	private String valorBusqueda;
-	private String dniTemporal;
+
+	private String DNIoRUCTemporal;
 
 	public SocioBean() {
 		valorBusqueda = new String();
@@ -78,12 +79,12 @@ public class SocioBean implements Serializable {
 		this.valorBusqueda = valorBusqueda;
 	}
 
-	public String getDniTemporal() {
-		return dniTemporal;
+	public String getDNIoRUCTemporal() {
+		return DNIoRUCTemporal;
 	}
 
-	public void setDniTemporal(String dniTemporal) {
-		this.dniTemporal = dniTemporal;
+	public void setDNIoRUCTemporal(String dNIoRUCTemporal) {
+		DNIoRUCTemporal = dNIoRUCTemporal;
 	}
 
 	public ComboBean<String> getComboTipoPersona() {
@@ -139,17 +140,21 @@ public class SocioBean implements Serializable {
 				e.printStackTrace();
 			}
 		}
-
-	}
-
-	public void obtenerDNISeleccionado() {
-		ViewSocioPN viewSocioPN = getTablaSociosPN().getSelectedRow();
-		dniTemporal = viewSocioPN.getDni();
 	}
 
 	public void limpiarTablas(){
 		getTablaSociosPN().getRows().clear();
 		tablaSociosPJ.getRows().clear();
 		valorBusqueda = new String();
+	}
+	
+	public void obtenerDNIoRUCSeleccionado(){
+		if (isPersonaNatural()) {
+			ViewSocioPN viewSocioPN = getTablaSociosPN().getSelectedRow();
+			DNIoRUCTemporal = viewSocioPN.getDni();
+		} else {
+			ViewSocioPJ viewSocioPJ = getTablaSociosPJ().getSelectedRow();
+			DNIoRUCTemporal = viewSocioPJ.getRuc();
+		}
 	}
 }
