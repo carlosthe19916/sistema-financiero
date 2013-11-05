@@ -29,22 +29,20 @@
 			<table>
 				<tr>
 					<td>Tipo Persona:</td>
-					<td>
-						<h:form>
+					<td><h:form>
 							<p:selectOneMenu
 								value="#{aperturarCuentaaporteBean.comboTipoPersona.itemSelected}">
 								<f:selectItems
 									value="#{aperturarCuentaaporteBean.comboTipoPersona.items.entrySet()}"
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-								<p:ajax listener="#{aperturarCuentaaporteBean.cleanCuentaahorro()}" update=":panelDatos"/>
+								<p:ajax
+									listener="#{aperturarCuentaaporteBean.cleanCuentaahorro()}"
+									update=":panelDatos" />
 							</p:selectOneMenu>
-						</h:form>
-					</td>
+						</h:form></td>
 				</tr>
 			</table>
 		</div>
-
-
 
 		<h:panelGroup id="panelDatos">
 
@@ -57,8 +55,7 @@
 			<ui:include src="/modules/maestros/personaNaturalDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaaporteBean}" />
 				<ui:param name="componentName" value="dlgPersonaNatural" />
-				<ui:param name="componentToUpdated"
-					value=":personaNatural" />
+				<ui:param name="componentToUpdated" value=":personaNatural" />
 			</ui:include>
 			<!-- end PersonaNatural -->
 
@@ -72,8 +69,7 @@
 			<ui:include src="/modules/maestros/personaJuridicaDialog.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaaporteBean}" />
 				<ui:param name="componentName" value="dlgPersonaJuridica" />
-				<ui:param name="componentToUpdated"
-					value="personaJuridica" />
+				<ui:param name="componentToUpdated" value="personaJuridica" />
 			</ui:include>
 			<!-- end Persona Juridica -->
 
@@ -84,11 +80,11 @@
 				<ui:param name="componentName" value="datosFinancieros" />
 				<ui:param name="editarOutputDialog" value="dlgDatosFinancieros" />
 			</ui:include>
-			
-			
+
+
 			<!-- end Datos financieros cuenta ahorros -->
 
-			
+
 			<!-- Beneficiarios -->
 			<ui:include src="/modules/maestros/beneficiariosResumen.xhtml">
 				<ui:param name="managedBean" value="#{aperturarCuentaaporteBean}" />
@@ -111,14 +107,26 @@
 				<p:commandButton 
 					value="Guardar"
 					action="#{aperturarCuentaaporteBean.createCuentaaporte()}"
-					update="messages,:panelDatos">
-					<f:ajax onevent="handleDisableButton" />
+					update="messages,:panelDatos" 
+					onclick="onSubmitButton();">
 				</p:commandButton>
 
-				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"/>
+				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"
+					onclick="onSubmitButton();" />
+
 			</h:form>
 		</div>
-		
+
+		<p:ajaxStatus id="ajaxStatusPanel">
+			<f:facet name="start">
+				<p:graphicImage name="load.gif" library="images" width="32"
+					height="32" style="position: absolute;top: 50%;left: 50%;" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+
 	</ui:define>
 
 </ui:composition>

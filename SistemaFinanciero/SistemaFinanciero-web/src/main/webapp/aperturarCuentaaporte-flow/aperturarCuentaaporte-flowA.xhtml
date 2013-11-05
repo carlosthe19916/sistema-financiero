@@ -235,21 +235,19 @@
 					</center>
 				</div>
 			</div>
-			<div class="sf-buttons">
-				<h:form>
-					<div class="sf-separator">
-						<p:commandButton 
-							value="Imprimir" 
-							type="button"
-							icon="ui-icon-print">
-							<p:printer target=":panelDatos" />
-						</p:commandButton>
-						<p:commandButton value="Salir" action="returnFromCustomerFlow">
-						</p:commandButton>
-					</div>
-				</h:form>
-			</div>
 		</h:panelGroup>
+		<div class="sf-buttons">
+			<h:form>
+				<div class="sf-separator">
+					<p:commandButton value="Imprimir" type="button"
+						icon="ui-icon-print">
+						<p:printer target=":panelDatos" />
+					</p:commandButton>
+					<p:commandButton value="Salir" action="returnFromCustomerFlow">
+					</p:commandButton>
+				</div>
+			</h:form>
+		</div>
 	</ui:define>
 
 </ui:composition>
