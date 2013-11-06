@@ -22,31 +22,27 @@
 
 	<h:outputScript library="js" name="jquery.tiptip.js"></h:outputScript>
 	<h:outputScript library="js" name="helper.js"></h:outputScript>
-	
+
 	<script type="text/javascript">
 	    $(document).ready(function () {
-	    	 // Launch TipTip tooltip
+	    	// Launch TipTip tooltip
 	        $('.tiptip a.button, .tiptip button').tipTip();
 
-	     	// Toggle the dropdown menu's
+	     // Toggle the dropdown menu's
 	        $(".dropdown .button, .dropdown button").click(function () {
 	            $(this).parent().find('.dropdown-slider').slideToggle('fast');
 	            $(this).find('span.toggle').toggleClass('active');
 	            return false;
 	        });
-
-	     	// Close open dropdown slider/s by clicking elsewhwere on page
-	        $(document).bind('click', function (e) {
-	            if (e.target.id != $('.dropdown').attr('class')) {
-	                $('.dropdown-slider').slideUp();
-	                $('span.toggle').removeClass('active');
-	            }
-	        }); // END document.bind
-
-	        //poner clases para los botones
-	        //$("button").removeClass("ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only");
-	        //$("button span").removeClass("ui-button-text ui-c").addClass("label");
 	    });
+
+	 // Close open dropdown slider/s by clicking elsewhwere on page
+	    $(document).bind('click', function (e) {
+	        if (e.target.id != $('.dropdown').attr('class')) {
+	            $('.dropdown-slider').slideUp();
+	            $('span.toggle').removeClass('active');
+	        }
+	    }); // END document.bind
 	</script>
 
 	<title><ui:insert name="title" /></title>
@@ -64,13 +60,11 @@
 				<tr>
 					<td class="sf-layout-sidebar-widget sf-wide-layout-sidebar-widget">
 
-						<!-- Menu --> 
-						<ui:include src="menuLeft.xhtml" />
-						
+						<!-- Menu --> <ui:include src="menuLeft.xhtml" />
+
 					</td>
 					<td>
-						<!-- content --> 
-						<ui:insert name="content">
+						<!-- content --> <ui:insert name="content">
 							<span>Pagina en construccion</span>
 						</ui:insert>
 					</td>

@@ -10,11 +10,11 @@
 <ui:composition>
 
 	<p:dialog header="Beneficiarios" widgetVar="#{componentName}"
-		modal="true" height="400" width="750"
+		modal="true" height="300" width="850"
 		rendered="#{managedBean.personaNatural}">
-		
+
 		<p:growl id="growl" sticky="true" />
-		
+
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -52,32 +52,27 @@
 								value="#{managedBean.beneficiariosMB.tablaBeneficiarios.rows}"
 								var="beneficiario" editable="true" selectionMode="single"
 								selection="#{managedBean.beneficiariosMB.tablaBeneficiarios.selectedRow}"
-								rowKey="#{beneficiario}" scrollable="true" scrollHeight="150"
-								scrollRows="5" rowIndexVar="row"
-								rowStyleClass="#{beneficiario.apellidopaterno == null ? 'sf-table-row-invalid' : null }">
+								rowKey="#{beneficiario}" rowIndexVar="row">
 
 								<p:ajax event="rowEdit" update=":growl,tablaBeneficiarios" />
-								<p:ajax event="rowEditCancel"
-									update=":growl,tablaBeneficiarios" />
+								<p:ajax event="rowEditCancel" update=":growl,tablaBeneficiarios" />
 
-								<p:column headerText="Nro" width="10%"
+								<p:column headerText="Nro" width="15px"
 									style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
-								<p:column headerText="DNI(*)" width="15%">
+								<p:column headerText="DNI(*)">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.dni}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{beneficiario.dni}" maxlength="8"
-												validatorMessage="DNI no tiene digitos validos">
-
+											<p:inputText value="#{beneficiario.dni}" maxlength="8" validatorMessage="DNI no tiene digitos validos">
 											</p:inputText>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Paterno" width="20%">
+								<p:column headerText="Apellido Paterno">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.apellidopaterno}" />
@@ -89,7 +84,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Materno" width="20%">
+								<p:column headerText="Apellido Materno">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.apellidomaterno}" />
@@ -101,7 +96,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Nombres" width="20%">
+								<p:column headerText="Nombres">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.nombres}" />
@@ -112,7 +107,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Porcentaje" width="15%">
+								<p:column headerText="Porcentaje">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.porcentajebeneficio}" />
@@ -122,7 +117,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column width="10%">
+								<p:column width="20px">
 									<p:rowEditor />
 								</p:column>
 							</p:dataTable>
@@ -131,15 +126,12 @@
 
 					<div class="sf-buttons">
 						<h:form>
-							<p:commandButton 
-								value="Aceptar" 
+							<p:commandButton value="Aceptar"
 								update=":#{componentToUpdated},:form-beneficiarios"
 								oncomplete="#{componentName}.hide()"
 								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
 							</p:commandButton>
-							<p:commandButton 
-								value="Cancelar"
-								update=":form-beneficiarios"
+							<p:commandButton value="Cancelar" update=":form-beneficiarios"
 								onclick="#{componentName}.hide()"
 								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
 							</p:commandButton>
@@ -149,7 +141,7 @@
 				</div>
 			</div>
 		</div>
-	
+
 	</p:dialog>
 </ui:composition>
 </html>
