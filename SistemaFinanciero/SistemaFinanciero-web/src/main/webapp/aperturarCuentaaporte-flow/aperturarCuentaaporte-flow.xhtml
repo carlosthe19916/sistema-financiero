@@ -4,7 +4,9 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -96,34 +98,34 @@
 				<ui:param name="componentName" value="dlgBeneficiarios" />
 				<ui:param name="componentToUpdated" value="beneficiarios" />
 			</ui:include>
-			<!-- end Beneficiarios -->
-
+			<!-- end Beneficiarios -->	
 		</h:panelGroup>
 
 
 		<div class="sf-buttons">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
+
 				<p:commandButton value="Guardar"
 					action="#{aperturarCuentaaporteBean.createCuentaaporte()}"
-					update="messages,:panelDatos" onclick="onSubmitButton();">
+					update="messages,:panelDatos" onclick="onSubmitButton();"
+					onstart="PF('blockUIWidget').block()"
+					oncomplete="PF('blockUIWidget').unblock()">
+				</p:commandButton>
+				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"
+					onclick="onSubmitButton();" onstart="PF('blockUIWidget').block()"
+					oncomplete="PF('blockUIWidget').unblock()">
 				</p:commandButton>
 
-				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"
-					onclick="onSubmitButton();" />
-
+				<pe:blockUI widgetVar="blockUIWidget">
+					<h:panelGrid columns="2">
+						<p:graphicImage library="images" name="load.gif" width="32"
+							height="32" style="margin-right: 12px; vertical-align: middle; " />
+						<h:outputText value="Please wait..." style="white-space: nowrap;" />
+					</h:panelGrid>
+				</pe:blockUI>
 			</h:form>
 		</div>
-
-		<p:ajaxStatus id="ajaxStatusPanel">
-			<f:facet name="start">
-				<p:graphicImage name="load.gif" library="images" width="32"
-					height="32" style="position: absolute;top: 50%;left: 50%;" />
-			</f:facet>
-			<f:facet name="complete">
-				<h:outputText value="" />
-			</f:facet>
-		</p:ajaxStatus>
 	</ui:define>
 
 </ui:composition>

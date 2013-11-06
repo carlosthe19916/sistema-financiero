@@ -5,16 +5,23 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:composition>
 
-	<p:dialog widgetVar="#{componentName}" modal="true" header="Persona Natural" rendered="#{managedBean.personaNatural}">
+	<p:dialog id="dlg-personaNatural" widgetVar="#{componentName}" modal="true" header="Persona Natural" rendered="#{managedBean.personaNatural}">
 
 		<h:form id="form-datosPersonanatural">
 		
 			<p:growl id="growl" sticky="true" />
-		
+			<pe:blockUI target=":dlg-personaNatural" widgetVar="blockUIWidget-PersonaNatural">
+				<h:panelGrid columns="2">
+					<p:graphicImage library="images" name="load.gif" width="32" height="32" style="margin-right: 12px; vertical-align: middle;" />
+					<h:outputText value="Please wait..." style="white-space: nowrap;" />
+				</h:panelGrid>
+			</pe:blockUI>
+			
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
 					<div class="sf-agrupador-content-cabecera">
@@ -34,7 +41,7 @@
 										requiredMessage="Ingrese Número de DNI"
 										validatorMessage="Número de DNI Invalido">
 										<f:validateRegex pattern="(^[0-9]{8}$)" />
-										<p:ajax update="growl,@form,:form-datosPersonanatural,:form-buttons" event="blur" listener="#{managedBean.personaNaturalMB.buscarPersona()}"/>
+										<p:ajax update="growl,@form,:form-datosPersonanatural,:form-buttons" event="blur" listener="#{managedBean.personaNaturalMB.buscarPersona()}" onstart="PF('blockUIWidget-PersonaNatural').block()" oncomplete="PF('blockUIWidget-PersonaNatural').unblock()"/>
 									</p:inputText> 
 									<p:watermark for="txtDNIPN" value="DNI" /> 
 									<p:outputLabel for="txtDNIPN" />
