@@ -15,7 +15,6 @@ import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
-import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.ViewCuentas;
 import org.ventura.entity.schema.persona.Accionista;
