@@ -27,7 +27,7 @@
 		</div>
 
 		<h:panelGroup id="panelDatosSocioPJ">
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="1">
 				<p:outputPanel>
 					<!-- Datos Persona Juridica-->
 					<ui:include src="/modules/maestros/personaJuridicaResumen.xhtml">
@@ -42,9 +42,9 @@
 					</ui:include>
 					<!-- End Datos Persona Juridica-->
 				</p:outputPanel>
+			</h:panelGrid>	
 			
-				
-				
+			<h:panelGrid columns="2">	
 				<p:outputPanel>
 					<!-- Cuenta de Aporte Persona Juridica-->
 					<ui:include
@@ -59,7 +59,7 @@
 				<p:outputPanel>
 					<!-- Otras Cuentas Persona Juridica-->
 					<ui:include
-						src="/modules/socios/datosSocio/otrasCuentasSocio.xhtml">
+						src="/modules/socios/datosSocio/otrasCuentasSocioPJ.xhtml">
 						<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
 						<ui:param name="componentName" value="otrasCuentas" />
 					</ui:include>

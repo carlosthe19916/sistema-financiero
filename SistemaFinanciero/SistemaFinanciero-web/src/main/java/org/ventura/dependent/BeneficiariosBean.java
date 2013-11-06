@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -32,16 +34,16 @@ public class BeneficiariosBean implements Serializable {
 	}
 	
 	public void validarBeneficiarios(){
-	
+		String mensaje= "Porcentaje de beneficio invalido";
 		List<Beneficiariocuenta> beneficiarios = tablaBeneficiarios.getRows();
-
+		Double porcentaje_total = new Double(0.0);
 		for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
 			Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
 			
 			boolean appellidoPaterno = true;
 			boolean appellidoMaterno = true;
 			boolean nombres= true;
-			
+			porcentaje_total+=beneficiariocuenta.getPorcentajebeneficio();
 			if(beneficiariocuenta.getApellidopaterno()==null||beneficiariocuenta.getApellidopaterno().isEmpty()||beneficiariocuenta.getApellidopaterno().trim().isEmpty()){
 				appellidoPaterno= false;
 			}
@@ -54,8 +56,12 @@ public class BeneficiariosBean implements Serializable {
 					
 			if(!(appellidoPaterno&&appellidoMaterno&&nombres)){
 				iterator.remove();
-			}
-			
+			}			
+		}
+		if(porcentaje_total!=100.0){
+			System.out.println("error::");
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error",mensaje);
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		
 	}

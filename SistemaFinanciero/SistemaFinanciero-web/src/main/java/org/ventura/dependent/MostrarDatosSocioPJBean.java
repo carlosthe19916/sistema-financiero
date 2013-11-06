@@ -15,8 +15,8 @@ import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
-import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.ViewCuentas;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.socio.Socio;
@@ -40,8 +40,8 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	CuentaaporteServiceLocal cuentaAporteServiceLocal;
 
 	@ManagedProperty(value = "#{TablaBean}")
-	private TablaBean<Cuentaahorro> tablaCuentasPN;
-	
+	private TablaBean<ViewCuentas> tablaCuentasPJ;
+
 	@ManagedProperty(value = "#{TablaBean}")
 	private TablaBean<Accionista> tablaAccionistasCAP;
 
@@ -59,17 +59,17 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	public void intiValues() {
 		oPersonaJuridica = new Personajuridica();
 		oSocio = new Socio();
-		tablaCuentasPN = new TablaBean<Cuentaahorro>();
+		tablaCuentasPJ = new TablaBean<ViewCuentas>();
 		tablaAccionistasCAP = new TablaBean<Accionista>();
 		personaJuridicaMB = new PersonaJuridicaBean();
 	}
 
-	public TablaBean<Cuentaahorro> getTablaCuentasPN() {
-		return tablaCuentasPN;
+	public TablaBean<ViewCuentas> getTablaCuentasPJ() {
+		return tablaCuentasPJ;
 	}
 
-	public void setTablaCuentasPN(TablaBean<Cuentaahorro> tablaCuentasPN) {
-		this.tablaCuentasPN = tablaCuentasPN;
+	public void setTablaCuentasPJ(TablaBean<ViewCuentas> tablaCuentasPJ) {
+		this.tablaCuentasPJ = tablaCuentasPJ;
 	}
 
 	public TablaBean<Accionista> getTablaAccionistasCAP() {
@@ -124,13 +124,10 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	public void CargarCuentasPersonales() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoSocio", oSocio.getIdsocio());
-		List<Cuentaahorro> list = null;
+		List<ViewCuentas> list = null;
 		try {
-			list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
-			tablaCuentasPN.setRows(list);
-			System.out.println("malllll");
-			// System.out.println("Cuentas "+list.size());
-			System.out.println("biennnnn");
+			list = cuentaAhorroServiceLocal.findByNamedQueryCuentas(ViewCuentas.CUENTAS, parameters);
+			tablaCuentasPJ.setRows(list);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

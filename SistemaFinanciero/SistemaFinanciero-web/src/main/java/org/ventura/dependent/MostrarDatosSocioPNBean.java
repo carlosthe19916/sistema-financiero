@@ -18,6 +18,7 @@ import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.ViewCuentas;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.flow.SocioBean;
@@ -41,7 +42,7 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	CuentaaporteServiceLocal cuentaAporteServiceLocal;
 
 	@ManagedProperty(value = "#{TablaBean}")
-	private TablaBean<Cuentaahorro> tablaCuentasPN;
+	private TablaBean<ViewCuentas> tablaCuentasPN;
 	
 	@ManagedProperty(value = "#{TablaBean}")
 	private TablaBean<Beneficiariocuenta> tablaBeneficiarioCAP;
@@ -60,16 +61,16 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	public void intiValues() {
 		oPersonaNatural = new Personanatural();
 		oSocio = new Socio();
-		tablaCuentasPN = new TablaBean<Cuentaahorro>();
+		tablaCuentasPN =  new TablaBean<ViewCuentas>();
 		tablaBeneficiarioCAP = new TablaBean<Beneficiariocuenta>();
 		personaNaturalMB = new PersonaNaturalBean();
 	}
 
-	public TablaBean<Cuentaahorro> getTablaCuentasPN() {
+	public TablaBean<ViewCuentas> getTablaCuentasPN() {
 		return tablaCuentasPN;
 	}
 
-	public void setTablaCuentasPN(TablaBean<Cuentaahorro> tablaCuentasPN) {
+	public void setTablaCuentasPN(TablaBean<ViewCuentas> tablaCuentasPN) {
 		this.tablaCuentasPN = tablaCuentasPN;
 	}
 
@@ -124,13 +125,10 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	public void CargarCuentasPersonales() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoSocio", oSocio.getIdsocio());
-		List<Cuentaahorro> list = null;
+		List<ViewCuentas> list = null;
 		try {
-			list = cuentaAhorroServiceLocal.findByNamedQuery(Cuentaahorro.CUENTAS, parameters);
+			list = cuentaAhorroServiceLocal.findByNamedQueryCuentas(ViewCuentas.CUENTAS, parameters);
 			tablaCuentasPN.setRows(list);
-			System.out.println("malllll");
-			System.out.println("Cuentas "+list.size());
-			System.out.println("biennnnn");
 			cargarBeneficiariosCuentaAporte();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

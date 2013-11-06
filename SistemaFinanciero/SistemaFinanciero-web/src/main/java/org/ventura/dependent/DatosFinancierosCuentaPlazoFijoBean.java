@@ -101,16 +101,20 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 		mostrardatos();
 	}
 	
-	public void mostrardatos(){
+	public String mostrardatos(){
 		calcularMontoInteres();
 		calcularFechavencimientoContrato();
+		if(cuentaplazofijo.isConfirmacionsaldos())
+			return "CONFIRMAR SALDOS";
+		return "NO CONFIRMAR SALDOS";
 	}
 	
 	public boolean isValid(){
-		return cuentaplazofijo.getIdtipomoneda() != null ? true : false;
+		if(cuentaplazofijo.getTipomoneda()!=null &&cuentaplazofijo.getFrecuenciacapitalizacion()!=null && cuentaplazofijo.getRetirointeres()!=null)
+			return true;
+		return false;
 	}
-	
-	
+		
 	
 	public void cargarCombos(){
 		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);

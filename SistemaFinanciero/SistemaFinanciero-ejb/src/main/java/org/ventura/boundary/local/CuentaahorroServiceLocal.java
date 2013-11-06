@@ -8,6 +8,7 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
+import org.ventura.entity.schema.cuentapersonal.ViewCuentas;
 
 @Local
 public interface CuentaahorroServiceLocal extends CuentaahorroServiceRemote{
@@ -27,6 +28,8 @@ public interface CuentaahorroServiceLocal extends CuentaahorroServiceRemote{
 	public Collection<Cuentaahorro> findByNamedQuery(String queryName, int resultLimit) throws Exception;
 
 	public List<Cuentaahorro> findByNamedQuery(String Cuentaahorro, Map<String, Object> parameters) throws Exception;
+	
+	public List<ViewCuentas> findByNamedQueryCuentas(String ViewCuentas, Map<String, Object> parameters) throws Exception;
 
 	public List<Cuentaahorro> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
 

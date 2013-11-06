@@ -24,9 +24,11 @@ import org.ventura.boundary.remote.CuentaahorroServiceRemote;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaahorroDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
+import org.ventura.dao.impl.ViewCuentasDAO;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
+import org.ventura.entity.schema.cuentapersonal.ViewCuentas;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.util.exception.IllegalEntityException;
@@ -56,6 +58,9 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 
 	@EJB
 	private CuentaahorroDAO cuentaahorroDAO;
+	
+	@EJB
+	private ViewCuentasDAO viewCuentasDAO;
 
 
 	@Inject
@@ -290,6 +295,20 @@ public class CuentaahorroServiceBean implements CuentaahorroServiceLocal {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Override
+	public List<ViewCuentas> findByNamedQueryCuentas(String viewCuentas, Map<String, Object> parameters) throws Exception {
+		List<ViewCuentas> list = null;
+		try {
+			list = viewCuentasDAO.findByNamedQuery(viewCuentas, parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, intÃ©ntelo nuevamente");
+		}
+		return list;
 	}
 
 	@Override
