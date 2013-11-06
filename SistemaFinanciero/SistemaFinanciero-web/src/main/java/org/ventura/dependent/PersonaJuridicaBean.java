@@ -104,7 +104,7 @@ public class PersonaJuridicaBean implements Serializable {
 				this.comboEstadocivil.setItemSelected(personanatural.getEstadocivil());				
 			} else {
 				personanatural = new Personanatural();
-				personanatural.setDni(oPersonajuridica.getPersonanatural().getDni());
+				personanatural.setDni(oPersonajuridica.getDnirepresentantelegal());
 				
 				this.oPersonajuridica.setPersonanatural(personanatural);
 				this.comboSexo.setItemSelected(-1);

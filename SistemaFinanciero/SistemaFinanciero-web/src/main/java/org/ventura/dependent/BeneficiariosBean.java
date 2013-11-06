@@ -34,7 +34,6 @@ public class BeneficiariosBean implements Serializable {
 	}
 	
 	public void validarBeneficiarios(){
-		String mensaje= "Porcentaje de beneficio invalido";
 		List<Beneficiariocuenta> beneficiarios = tablaBeneficiarios.getRows();
 		Double porcentaje_total = new Double(0.0);
 		for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
@@ -43,7 +42,12 @@ public class BeneficiariosBean implements Serializable {
 			boolean appellidoPaterno = true;
 			boolean appellidoMaterno = true;
 			boolean nombres= true;
-			porcentaje_total+=beneficiariocuenta.getPorcentajebeneficio();
+			
+			porcentaje_total = (beneficiariocuenta.getPorcentajebeneficio() == null) ? porcentaje_total : porcentaje_total + beneficiariocuenta.getPorcentajebeneficio();
+			if(beneficiariocuenta.getPorcentajebeneficio() == null){
+				beneficiariocuenta.setPorcentajebeneficio(new Double(0));
+			}
+			
 			if(beneficiariocuenta.getApellidopaterno()==null||beneficiariocuenta.getApellidopaterno().isEmpty()||beneficiariocuenta.getApellidopaterno().trim().isEmpty()){
 				appellidoPaterno= false;
 			}
@@ -58,12 +62,12 @@ public class BeneficiariosBean implements Serializable {
 				iterator.remove();
 			}			
 		}
-		if(porcentaje_total!=100.0){
-			System.out.println("error::");
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error",mensaje);
-			FacesContext.getCurrentInstance().addMessage(null, message);
-		}
-		
+		if(porcentaje_total != 100.0){
+			FacesContext context = FacesContext.getCurrentInstance();			
+			context.validationFailed();	
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Suma Incorrecta (%)", "Porcentaje de Beneficios no suman 100%");
+			context.addMessage(null, message);
+		}	
 	}
 
 	public void removeBeneficiario() {

@@ -5,16 +5,23 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:composition>
 
-	<p:dialog header="Beneficiarios" widgetVar="#{componentName}"
+	<p:dialog id="dlg-beneficiarios" header="Beneficiarios" widgetVar="#{componentName}"
 		modal="true" height="300" width="850"
 		rendered="#{managedBean.personaNatural}">
 
-		<p:growl id="growl" sticky="true" />
-
+		<p:growl id="growl" sticky="true" showDetail="true"/>
+		<pe:blockUI target="dlg-beneficiarios" widgetVar="blockUIWidget-benefificario">
+				<h:panelGrid columns="2">
+					<p:graphicImage library="images" name="load.gif" width="32" height="32" style="margin-right: 12px; vertical-align: middle;" />
+					<h:outputText value="Please wait..." style="white-space: nowrap;" />
+				</h:panelGrid>
+		</pe:blockUI>
+		
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
@@ -113,7 +120,7 @@
 											<h:outputText value="#{beneficiario.porcentajebeneficio}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{beneficiario.porcentajebeneficio}" />
+											<p:inputText value="#{beneficiario.porcentajebeneficio}" required="true" requiredMessage="Porcentaje (Obligatorio)"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
@@ -127,9 +134,10 @@
 					<div class="sf-buttons">
 						<h:form>
 							<p:commandButton value="Aceptar"
-								update=":#{componentToUpdated},:form-beneficiarios"
-								oncomplete="#{componentName}.hide()"
-								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
+								update=":#{componentToUpdated},:form-beneficiarios,:growl"
+								oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()"
+								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">	
+								<p:ajax onstart="PF('blockUIWidget-benefificario').block()" oncomplete="PF('blockUIWidget-benefificario').unblock()"/>							
 							</p:commandButton>
 							<p:commandButton value="Cancelar" update=":form-beneficiarios"
 								onclick="#{componentName}.hide()"

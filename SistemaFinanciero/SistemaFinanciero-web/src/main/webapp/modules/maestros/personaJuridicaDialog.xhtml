@@ -5,18 +5,25 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:composition>
 
-	<p:dialog header="Persona Jurídica" widgetVar="#{componentName}"
+	<p:dialog id="dlg-personaJuridica" header="Persona Jurídica" widgetVar="#{componentName}"
 		modal="true" height="550" width="700"
 		rendered="#{managedBean.personaJuridica}">
 
 		<h:form>
 
 			<p:growl id="growl" sticky="true" />
-
+			<pe:blockUI target=":dlg-personaJuridica" widgetVar="blockUIWidget-personaJuridica">
+				<h:panelGrid columns="2">
+					<p:graphicImage library="images" name="load.gif" width="32" height="32" style="margin-right: 12px; vertical-align: middle;" />
+					<h:outputText value="Please wait..." style="white-space: nowrap;" />
+				</h:panelGrid>
+			</pe:blockUI>
+			
 			<p:wizard>
 				<p:tab title="Datos generales">
 					<div class="sf-agrupador">
@@ -36,9 +43,11 @@
 												validatorMessage="El RUC tiene 11 digitos">
 												<f:validateLength minimum="11" />
 												<p:ajax update="growl,@form" event="blur"
-													listener="#{managedBean.personaJuridicaMB.buscarPersonaJuririca()}" />
-											</p:inputText> <p:watermark for="txtRucPJ" value="RUC" /> <p:outputLabel
-												for="txtRucPJ" /></td>
+													listener="#{managedBean.personaJuridicaMB.buscarPersonaJuririca()}"  onstart="PF('blockUIWidget-personaJuridica').block()" oncomplete="PF('blockUIWidget-personaJuridica').unblock()"/>
+											</p:inputText> 
+											<p:watermark for="txtRucPJ" value="RUC" /> 
+											<p:outputLabel for="txtRucPJ" />
+										</td>
 										<td><p:outputLabel>Razon Social:</p:outputLabel></td>
 										<td><p:inputText id="txtRazonsocialPJ" required="true"
 												requiredMessage="Ingrese Razon Social"
@@ -197,7 +206,7 @@
 													<f:validateRegex pattern="(^[0-9]{8}$)" />
 
 													<p:ajax update="growl,@form" event="blur"
-														listener="#{managedBean.personaJuridicaMB.buscarPersonanatural()}" />
+														listener="#{managedBean.personaJuridicaMB.buscarPersonanatural()}" onstart="PF('blockUIWidget-personaJuridica').block()" oncomplete="PF('blockUIWidget-personaJuridica').unblock()"/>
 												</p:inputText> <p:watermark for="txtDNIPN" value="DNI" /> <p:outputLabel
 													for="txtDNIPN" /></td>
 										</tr>
@@ -530,9 +539,10 @@
 									value="Aceptar" 
 									actionListener="#{managedBean.establecerTitularDefecto()}"
 									update=":#{componentToUpdated}"
-									oncomplete="#{componentName}.hide()" />
-								<p:commandButton value="Cancelar"
-									onclick="#{componentName}.hide()" />
+									oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()">
+									<p:ajax onstart="PF('blockUIWidget-personaJuridica').block()" oncomplete="PF('blockUIWidget-personaJuridica').unblock()"/>
+								</p:commandButton>
+								<p:commandButton value="Cancelar" onclick="#{componentName}.hide()" />
 							</div>
 						</div>
 					</div>

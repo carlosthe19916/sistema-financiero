@@ -194,7 +194,9 @@
 					actionListener="#{managedBean.establecerTitularDefecto()}"
 					update="growl,@form,#{componentToUpdated}" 
 					oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" 
-					rendered="#{managedBean.personaNaturalMB.editing}"/>
+					rendered="#{managedBean.personaNaturalMB.editing}">
+					<p:ajax onstart="PF('blockUIWidget-PersonaNatural').block()" oncomplete="PF('blockUIWidget-PersonaNatural').unblock()"/>
+				</p:commandButton>
 				<p:commandButton value="Cancelar" 
 					onclick="#{componentName}.hide()" 
 					rendered="#{managedBean.personaNaturalMB.editing}"/>
