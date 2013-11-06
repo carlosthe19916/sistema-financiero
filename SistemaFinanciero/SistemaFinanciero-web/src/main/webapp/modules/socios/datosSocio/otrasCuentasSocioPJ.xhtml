@@ -21,6 +21,7 @@
 					<h3>Otras Cuentas Personales</h3>
 				</div>
 				<div class="sf-agrupador-content-table">
+				
 					<div style="padding: 0px 5px;">
 						<h:form id="form-CuntasAhorro">
 							<div>
@@ -29,10 +30,10 @@
 									rowKey="#{cuentasPJ}" rowIndexVar="row" emptyMessage="Esta persona no tiene cuentas personales"
 									selection="#{mostrarDatosSocioPJBean.tablaCuentasPJ.selectedRow}"
 									selectionMode="single" paginatorPosition="bottom" sortOrder="descending"
-									widgetVar="tablaCuentas" scrollable="true" scrollHeight="133" scrollWidth="580">
+									widgetVar="tablaCuentas" scrollable="true" scrollHeight="133" scrollWidth="">
 
-									<p:column sortBy="#{cuentasPJ.numerocuentaahorro}" width="95"
-										headerText="Nro. Cuenta">
+									<p:column sortBy="#{cuentasPJ.numerocuentaahorro}" width="100"
+										headerText="Nro. Cuenta" style="text-align:center;">
 										<h:outputText value="#{cuentasPJ.numerocuentaahorro}" />
 									</p:column>
 									
@@ -41,17 +42,17 @@
 										<h:outputText value="#{cuentasPJ.fechaapertura}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPJ.saldo}" width="65"
+									<p:column sortBy="#{cuentasPJ.saldo}" width="100"
 										headerText="Saldo">
 										<h:outputText value="#{cuentasPJ.saldo}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPJ.tipomoneda.abreviatura}" width="65"
+									<p:column sortBy="#{cuentasPJ.tipomoneda.denominacion}" width="100"
 										headerText="Moneda" style="text-align:center;">
-										<h:outputText value="#{cuentasPJ.tipomoneda.abreviatura}" />
+										<h:outputText value="#{cuentasPJ.tipomoneda.denominacion}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPJ.tipocuenta}" width="95"
+									<p:column sortBy="#{cuentasPJ.tipocuenta}" width="100"
 										headerText="Tipo Cuenta">
 										<h:outputText value="#{cuentasPJ.tipocuenta}" />
 									</p:column>
@@ -60,6 +61,7 @@
 							</div>
 						</h:form>
 					</div>
+					
 				</div>
 			</div>
 		</div>
