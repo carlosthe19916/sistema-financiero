@@ -25,57 +25,43 @@
 		<div class="sf-content-cabecera">
 			<h2>Datos del Socio</h2>
 		</div>
-
 		<h:panelGroup id="panelDatosSocioPJ">
-			<h:panelGrid columns="1">
-				<p:outputPanel>
-					<!-- Datos Persona Juridica-->
-					<ui:include src="/modules/maestros/personaJuridicaResumen.xhtml">
-						<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
-						<ui:param name="componentName" value="personaJuridica" />
-						<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
-					</ui:include>
-					<ui:include src="/modules/maestros/personaJuridicaDialog.xhtml">
-						<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
-						<ui:param name="componentName" value="dlgPersonaJuridica" />
-						<ui:param name="componentToUpdated" value="personaJuridica" />
-					</ui:include>
-					<!-- End Datos Persona Juridica-->
-				</p:outputPanel>
-			</h:panelGrid>	
-			
-			<h:panelGrid columns="2">	
-				<p:outputPanel>
-					<!-- Cuenta de Aporte Persona Juridica-->
-					<ui:include
-						src="/modules/socios/datosSocio/datosCuentaAporte.xhtml">
-						<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
-						<ui:param name="componentName" value="datosCuentaAporte" />
-					</ui:include>
-					
-					<!-- End Cuenta de Aporte Persona Juridica-->
-				</p:outputPanel>
-				
-				<p:outputPanel>
-					<!-- Otras Cuentas Persona Juridica-->
-					<ui:include
-						src="/modules/socios/datosSocio/otrasCuentasSocioPJ.xhtml">
-						<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
-						<ui:param name="componentName" value="otrasCuentas" />
-					</ui:include>
-					<!-- End Otras Cuentas Persona Juridica-->
-				</p:outputPanel>
-				
-			</h:panelGrid>
+
+			<p:outputPanel>
+				<!-- Cuenta de Aporte Persona Juridica-->
+				<ui:include src="/modules/socios/datosSocio/datosCuentaAporte.xhtml">
+					<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
+					<ui:param name="componentName" value="datosCuentaAporte" />
+				</ui:include>
+				<!-- End Cuenta de Aporte Persona Juridica-->
+			</p:outputPanel>
+
+			<p:outputPanel>
+				<!-- Datos Persona Juridica-->
+				<ui:include src="/modules/maestros/personaJuridicaResumen.xhtml">
+					<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
+					<ui:param name="componentName" value="personaJuridica" />
+					<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
+				</ui:include>
+				<ui:include src="/modules/maestros/personaJuridicaDialog.xhtml">
+					<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
+					<ui:param name="componentName" value="dlgPersonaJuridica" />
+					<ui:param name="componentToUpdated" value="personaJuridica" />
+				</ui:include>
+				<!-- End Datos Persona Juridica-->
+			</p:outputPanel>
+
+			<p:outputPanel>
+				<!-- Otras Cuentas Persona Juridica-->
+				<ui:include
+					src="/modules/socios/datosSocio/otrasCuentasSocioPJ.xhtml">
+					<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
+					<ui:param name="componentName" value="otrasCuentas" />
+				</ui:include>
+				<!-- End Otras Cuentas Persona Juridica-->
+			</p:outputPanel>
+
 		</h:panelGroup>
-
-		<div class="sf-buttons">
-			<h:form>
-				<p:commandButton value="Probar" action="#" styleClass="action green" />
-				<p:commandButton value="Aceptar" action="#" styleClass="action green" update=":panelDatosSocioPJ" />
-			</h:form>
-		</div>
-
 	</ui:define>
 </ui:composition>
 </html>

@@ -59,7 +59,7 @@
 					</ui:include>
 					<!-- End Cuenta de Aporte Persona Natural-->
 				</p:outputPanel>
-				
+			</h:panelGrid>
 				
 				<p:outputPanel>
 					<!-- Otras Cuentas Persona Natural-->
@@ -72,25 +72,7 @@
 					<!-- End Otras Cuentas Persona Natural-->
 				</p:outputPanel>
 				
-				<p:outputPanel>
-					<!-- Creditos Persona Natural-->
-					<ui:include
-						src="/modules/maestros/personaNaturalResumen.xhtml">
-						<ui:param name="managedBean" value="#{mostrarDatosSocioPNBean}" />
-						<ui:param name="componentName" value="aporte3" />
-						<ui:param name="editarOutputDialog" value="dlgPersonaNatural" />
-					</ui:include>
-					<!-- End Creditos Persona Natural-->
-				</p:outputPanel>
-			</h:panelGrid>
 		</h:panelGroup>
-
-		<div class="sf-buttons">
-			<h:form>
-				<p:commandButton value="Probar" action="#" styleClass="action green" />
-				<p:commandButton value="Aceptar" action="#" styleClass="action green" update=":panelDatosCliente" />
-			</h:form>
-		</div>
 
 	</ui:define>
 </ui:composition>

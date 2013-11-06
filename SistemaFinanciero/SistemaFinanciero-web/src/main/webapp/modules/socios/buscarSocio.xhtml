@@ -59,7 +59,7 @@
 										<f:selectItems
 											value="#{socioBean.comboTipoPersona.items.entrySet()}"
 											var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-										<p:ajax update=":panelDatos" listener="#{socioBean.limpiarTablas()}"></p:ajax>
+										<p:ajax update=":panelDatos, :form-buttons" listener="#{socioBean.limpiarTablas()}"></p:ajax>
 									</p:selectOneMenu></td>
 							</tr>
 						</tbody>
@@ -77,16 +77,16 @@
 					</p:commandLink>
 
 					<h:link styleClass="button middle" title="Editar Socio"
-						outcome="datosSocio/datosSocioPN.xhtml" target="_blank">
+						outcome="datosSocio/datosSocioPN.xhtml" target="_blank" rendered="#{socioBean.personaNatural}">
 						<span class="icon icon145"></span>
-						<span class="label">EditarPN</span>
+						<span class="label">Editar</span>
 						<f:param name="dni" value="#{socioBean.DNIoRUCTemporal}" />
 					</h:link>
 					
 					<h:link styleClass="button middle" title="Editar Socio"
-						outcome="datosSocio/datosSocioPJ.xhtml" target="_blank">
+						outcome="datosSocio/datosSocioPJ.xhtml" target="_blank" rendered="#{socioBean.personaJuridica}">
 						<span class="icon icon145"></span>
-						<span class="label">EditarPJ</span>
+						<span class="label">Editar</span>
 						<f:param name="ruc" value="#{socioBean.DNIoRUCTemporal}" />
 					</h:link>
 
