@@ -2,10 +2,12 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"	
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -123,11 +125,22 @@
 				<p:commandButton 
 					value="Guardar"
 					action="#{aperturarCuentacorrienteBean.createCuentacorriente()}"
-					update="messages,:panelDatos">
-					<f:ajax onevent="handleDisableButton" />
+					update="messages,:panelDatos" onclick="onSubmitButton();"
+					onstart="PF('blockUIWidget').block()"
+					oncomplete="PF('blockUIWidget').unblock()">
 				</p:commandButton>
-
-				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"/>
+				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"
+				onclick="onSubmitButton();" onstart="PF('blockUIWidget').block()"
+					oncomplete="PF('blockUIWidget').unblock()">
+				</p:commandButton>
+				
+				<pe:blockUI widgetVar="blockUIWidget">
+					<h:panelGrid columns="2">
+						<p:graphicImage library="images" name="load.gif" width="32"
+							height="32" style="margin-right: 12px; vertical-align: middle; " />
+						<h:outputText value="Please wait..." style="white-space: nowrap;" />
+					</h:panelGrid>
+				</pe:blockUI>
 			</h:form>
 		</div>
 

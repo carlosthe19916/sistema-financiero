@@ -26,6 +26,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
+import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
@@ -250,8 +251,10 @@ public class AperturaCuentaahorroBean implements Serializable {
 			
 			List<Titularcuenta> titularcuentas = this.titularesMB.getTablaTitulares().getFrozenRows();
 			titularcuentas.clear();
-			titularcuentas.add(titularRepresentante);
+			titularcuentas.add(titularRepresentante);					
 		}
+		
+		
 	}
 
 	/**

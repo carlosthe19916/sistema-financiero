@@ -8,12 +8,15 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Accionista;
@@ -138,6 +141,26 @@ public class PersonaJuridicaBean implements Serializable {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}	
+	}
+	
+	public void validarPorcentajeParticipacion(){
+		List<Accionista> acionistas = tablaAccionistas.getRows();
+		Double porcentaje_total = new Double(0.0);
+		for (Iterator<Accionista> iterator = acionistas.iterator(); iterator.hasNext();) {
+			Accionista accionista = (Accionista) iterator.next();
+			
+			porcentaje_total = (accionista.getPorcentajeparticipacion() == null) ? porcentaje_total : porcentaje_total + accionista.getPorcentajeparticipacion();
+			
+			if(accionista.getPorcentajeparticipacion() == 0){
+				accionista.setPorcentajeparticipacion(new Double(0));
+			}
+		}
+		if(porcentaje_total != 100.0){
+			FacesContext context = FacesContext.getCurrentInstance();			
+			context.validationFailed();	
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Suma Incorrecta (%)", "Porcentaje de Participacion no suman 100%");
+			context.addMessage(null, message);
 		}	
 	}
 	
