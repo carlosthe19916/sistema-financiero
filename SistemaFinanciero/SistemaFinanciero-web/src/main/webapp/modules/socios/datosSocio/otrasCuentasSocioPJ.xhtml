@@ -32,28 +32,32 @@
 									selectionMode="single" paginatorPosition="bottom" sortOrder="descending"
 									widgetVar="tablaCuentas" scrollable="true" scrollHeight="133" scrollWidth="">
 
-									<p:column sortBy="#{cuentasPJ.numerocuentaahorro}" width="100"
-										headerText="Nro. Cuenta" style="text-align:center;">
+									<p:column headerText="Nro" width="10%" style="text-align:center;">
+										<h:outputText value="#{row + 1}" />
+									</p:column>
+									
+									<p:column sortBy="#{cuentasPJ.numerocuentaahorro}" width="150"
+										headerText="Número de Cuenta" style="text-align:center;">
 										<h:outputText value="#{cuentasPJ.numerocuentaahorro}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPJ.fechaapertura}" width="95"
-										headerText="Fec. Apertura" style="text-align:center;">
+									<p:column sortBy="#{cuentasPJ.fechaapertura}" width="130"
+										headerText="Fecha Apertura" style="text-align:center;">
 										<h:outputText value="#{cuentasPJ.fechaapertura}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPJ.saldo}" width="100"
+									<p:column sortBy="#{cuentasPJ.saldo}" width="130"
 										headerText="Saldo">
 										<h:outputText value="#{cuentasPJ.saldo}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPJ.tipomoneda.denominacion}" width="100"
+									<p:column sortBy="#{cuentasPJ.tipomoneda.denominacion}" width="150"
 										headerText="Moneda" style="text-align:center;">
 										<h:outputText value="#{cuentasPJ.tipomoneda.denominacion}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPJ.tipocuenta}" width="100"
-										headerText="Tipo Cuenta">
+									<p:column sortBy="#{cuentasPJ.tipocuenta}" width="130"
+										headerText="Tipo de Cuenta">
 										<h:outputText value="#{cuentasPJ.tipocuenta}" />
 									</p:column>
 									

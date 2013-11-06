@@ -32,7 +32,7 @@
 							<h:outputText value="#{socioPN.idsocio}" />
 						</p:column>
 						
-						<p:column sortBy="#{socioPN.dni}" headerText="DNI">
+						<p:column sortBy="#{socioPN.dni}" headerText="DNI" style="text-align:center;">
 							<h:outputText value="#{socioPN.dni}" />
 						</p:column>
 
@@ -51,7 +51,7 @@
 							<h:outputText value="#{socioPN.personanatural.nombres}" />
 						</p:column>
 						
-						<p:column sortBy="#{socioPN.fechaasociado}" headerText="Fecha Asociado">
+						<p:column sortBy="#{socioPN.fechaasociado}" headerText="Fecha Asociado" style="text-align:center;">
 							<h:outputText value="#{socioPN.fechaasociado}">
 								<f:convertDateTime pattern="dd/MM/yyyy"/>
 							</h:outputText>
@@ -59,14 +59,6 @@
 						
 						<p:column sortBy="#{socioPN.agencia.denominacion}" headerText="Agencia">
 							<h:outputText value="#{socioPN.agencia.denominacion}" />
-						</p:column>
-						
-						<p:column sortBy="#{socioPN.estado}" headerText="Estado">
-							<h:outputText value="#{socioPN.estado}" />
-						</p:column>
-						
-						<p:column sortBy="#{socioPN.idcuentaaporte}" headerText="Nº CAP">
-							<h:outputText value="#{socioPN.idcuentaaporte}" />
 						</p:column>
 						
 					</p:dataTable>

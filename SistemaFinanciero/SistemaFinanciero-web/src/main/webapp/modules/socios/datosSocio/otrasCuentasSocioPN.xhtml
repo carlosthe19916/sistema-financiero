@@ -29,30 +29,34 @@
 									rowKey="#{cuentasPN}" rowIndexVar="row" emptyMessage="Esta persona no tiene cuentas personales"
 									selection="#{mostrarDatosSocioPNBean.tablaCuentasPN.selectedRow}"
 									selectionMode="single" paginatorPosition="bottom" sortOrder="descending"
-									widgetVar="tablaCuentas" scrollable="true" scrollHeight="133" scrollWidth="500">
+									widgetVar="tablaCuentas" scrollable="true" scrollHeight="133" scrollWidth="">
 
-									<p:column sortBy="#{cuentasPN.numerocuentaahorro}" width="95"
-										headerText="Nro. Cuenta">
+									<p:column headerText="Nro" width="10%" style="text-align:center;">
+										<h:outputText value="#{row + 1}" />
+									</p:column>
+
+									<p:column sortBy="#{cuentasPN.numerocuentaahorro}" width="150"
+										headerText="Número de Cuenta" style="text-align:center;">
 										<h:outputText value="#{cuentasPN.numerocuentaahorro}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPN.fechaapertura}" width="95"
-										headerText="Fec. Apertura" style="text-align:center;">
+									<p:column sortBy="#{cuentasPN.fechaapertura}" width="130"
+										headerText="Fecha Apertura" style="text-align:center;">
 										<h:outputText value="#{cuentasPN.fechaapertura}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPN.saldo}" width="65"
+									<p:column sortBy="#{cuentasPN.saldo}" width="130"
 										headerText="Saldo">
 										<h:outputText value="#{cuentasPN.saldo}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPN.tipomoneda.abreviatura}" width="65"
+									<p:column sortBy="#{cuentasPN.tipomoneda.denominacion}" width="150"
 										headerText="Moneda" style="text-align:center;">
-										<h:outputText value="#{cuentasPN.tipomoneda.abreviatura}" />
+										<h:outputText value="#{cuentasPN.tipomoneda.denominacion}" />
 									</p:column>
 									
-									<p:column sortBy="#{cuentasPN.tipocuenta}" width="95"
-										headerText="Tipo Cuenta">
+									<p:column sortBy="#{cuentasPN.tipocuenta}" width="130"
+										headerText="Tipo de Cuenta">
 										<h:outputText value="#{cuentasPN.tipocuenta}" />
 									</p:column>
 									
