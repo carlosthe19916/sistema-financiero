@@ -53,6 +53,14 @@
 								<td>
 									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.nombrecomercial}" styleClass="sf-label-bold" />
 								</td>
+								<td>
+									<p:outputLabel value="Fecha constitucion:" />
+								</td>
+								<td>
+									<p:outputLabel value="#{managedBean.personaJuridicaMB.oPersonajuridica.fechaconstitucion}" styleClass="sf-label-bold">
+										<f:convertDateTime pattern="dd/MM/yy" />
+									</p:outputLabel>
+								</td>
 							</tr>
 							<tr>
 								<td>
