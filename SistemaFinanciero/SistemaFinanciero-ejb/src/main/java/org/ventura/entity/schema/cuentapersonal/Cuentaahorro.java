@@ -31,7 +31,7 @@ public class Cuentaahorro implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer idcuentaahorro;
 
-	@Column(length = 14)
+	@Column(unique = true, length = 14)
 	private String numerocuentaahorro;
 
 	@Column

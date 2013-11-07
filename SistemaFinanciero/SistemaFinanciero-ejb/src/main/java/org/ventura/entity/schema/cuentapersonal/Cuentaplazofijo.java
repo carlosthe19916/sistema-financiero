@@ -30,7 +30,7 @@ public class Cuentaplazofijo implements Serializable {
 	@Column
 	private Integer idsocio;
 	
-	@Column(length = 14)
+	@Column(unique = true, length = 14)
 	private String numerocuentaplazofijo;
 
 	@Temporal(TemporalType.DATE)

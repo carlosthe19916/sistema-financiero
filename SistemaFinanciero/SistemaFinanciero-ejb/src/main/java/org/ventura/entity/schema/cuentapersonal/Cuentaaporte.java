@@ -40,7 +40,7 @@ public class Cuentaaporte implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer idcuentaaporte;
 
-	@Column(length = 14)
+	@Column(unique = true, length = 14)
 	private String numerocuentaaporte;
 
 	@Temporal(TemporalType.DATE)

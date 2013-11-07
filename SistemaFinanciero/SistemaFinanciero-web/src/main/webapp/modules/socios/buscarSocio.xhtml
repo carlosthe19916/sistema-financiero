@@ -5,7 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:metadata>
 	<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
@@ -52,7 +53,7 @@
 								<td><p:commandButton value="buscar"
 										actionListener="#{socioBean.buscarSocio()}"
 										update=":panelDatos" /></td>
-
+								
 								<td><h:outputLabel>Tipo Persona:</h:outputLabel></td>
 								<td><p:selectOneMenu
 										value="#{socioBean.comboTipoPersona.itemSelected}">
@@ -71,7 +72,7 @@
 		<div class="buttons">
 			<h:form id="form-buttons">
 				<div class="tiptip">
-					<p:commandLink styleClass="button left" title="Nueva busqueda" actionListener="#{socioBean.showMessage()}">
+					<p:commandLink styleClass="button left" title="Nueva busqueda" actionListener = "#{socioBean.showMessage()}">
 						<span class="icon icon3"></span>
 						<span class="label">Nuevo</span>
 					</p:commandLink>

@@ -5,7 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:composition>
 	<h:panelGroup id="#{componentName}"
@@ -15,7 +16,7 @@
 				<div>
 					<p:dataTable id="table" var="socioPN"
 						value="#{socioBean.tablaSociosPN.rows}" rowKey="#{socioPN}"
-						selection="#{socioBean.tablaSociosPN.selectedRow}"
+						selection="#{socioBean.tablaSociosPN.selectedRow}" lazy="true"
 						selectionMode="single" paginator="true" paginatorPosition="bottom"
 						rows="20" sortOrder="ascending" emptyMessage="No se han encontrado resultados para tu búsqueda: #{socioBean.valorBusqueda}"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
