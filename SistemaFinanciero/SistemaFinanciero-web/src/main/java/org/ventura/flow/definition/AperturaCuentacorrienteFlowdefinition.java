@@ -46,7 +46,7 @@ public class AperturaCuentacorrienteFlowdefinition implements Serializable {
 		.outboundParameter("sexoPersonajuridica", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personajuridica.personanatural.sexo.denominacion}")
 		
 		.outboundParameter("titulares", "#{aperturarCuentacorrienteBean.cuentacorriente.titularcuentas}")
-		.outboundParameter("beneficiarios", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.cuentaaporte.beneficiarios}");
+		.outboundParameter("beneficiarios", "#{aperturarCuentacorrienteBean.cuentacorriente.beneficiariocuentas}");
        
         return flowBuilder.getFlow();
     }

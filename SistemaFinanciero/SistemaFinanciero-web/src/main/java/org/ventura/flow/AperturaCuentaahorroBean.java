@@ -27,7 +27,6 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
 import org.ventura.entity.schema.maestro.Sexo;
-import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;

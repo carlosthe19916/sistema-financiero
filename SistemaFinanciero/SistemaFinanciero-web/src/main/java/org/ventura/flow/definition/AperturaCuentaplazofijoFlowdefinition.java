@@ -46,7 +46,7 @@ public class AperturaCuentaplazofijoFlowdefinition implements Serializable {
 		.outboundParameter("sexoPersonajuridica", "#{aperturarCuentaPlazofijoBean.cuentaplazofijo.socio.personajuridica.personanatural.sexo.denominacion}")
 		
 		.outboundParameter("titulares", "#{aperturarCuentaPlazofijoBean.cuentaplazofijo.titularcuentas}")
-		.outboundParameter("beneficiarios", "#{aperturarCuentaPlazofijoBean.cuentaplazofijo.socio.cuentaaporte.beneficiarios}");
+		.outboundParameter("beneficiarios", "#{aperturarCuentaPlazofijoBean.cuentaplazofijo.beneficiariocuentas}");
        
         return flowBuilder.getFlow();
     }
