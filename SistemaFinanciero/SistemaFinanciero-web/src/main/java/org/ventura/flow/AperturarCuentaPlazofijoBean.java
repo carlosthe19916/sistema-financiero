@@ -17,24 +17,18 @@ import javax.inject.Named;
 import org.ventura.boundary.local.CuentaplazofijoServiceLocal;
 import org.ventura.dependent.BeneficiariosBean;
 import org.ventura.dependent.ComboBean;
-import org.ventura.dependent.DatosFinancierosCuentaAporteBean;
 import org.ventura.dependent.DatosFinancierosCuentaPlazoFijoBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
 import org.ventura.dependent.TitularesBean;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
-import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
 import org.ventura.entity.schema.maestro.Sexo;
-import org.ventura.entity.schema.persona.Accionista;
-import org.ventura.entity.schema.persona.AccionistaPK;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
-import org.ventura.entity.schema.sucursal.Agencia;
-import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
 @FlowScoped("aperturarCuentaplazofijo-flow")
