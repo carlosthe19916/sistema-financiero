@@ -38,7 +38,7 @@
 								<f:selectItems
 									value="#{aperturarCuentacorrienteBean.comboTipoPersona.items.entrySet()}"
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-								<p:ajax update=":panelDatos"></p:ajax>
+								<p:ajax listener="#{aperturarCuentacorrienteBean.cleanCuentacorriente()}" update=":panelDatos"></p:ajax>
 							</p:selectOneMenu>
 						</h:form></td>
 				</tr>

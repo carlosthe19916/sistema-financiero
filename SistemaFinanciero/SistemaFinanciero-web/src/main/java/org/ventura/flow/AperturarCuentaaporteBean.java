@@ -172,7 +172,9 @@ public class AperturarCuentaaporteBean implements Serializable {
 	}
 	
 	public void establecerTitularDefecto() {
-		
+		if(comboTipoPersona.getItemSelected()==2){
+			personaJuridicaMB.validarPorcentajeParticipacion();
+		}
 	}
 
 	public boolean isPersonaNatural() {
@@ -189,7 +191,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 			return false;
 	}
 	
-	public void cleanCuentaahorro(){
+	public void cleanCuentaaporte(){
 		this.personaNaturalMB.setPersonaNatural(new Personanatural());
 		this.personaJuridicaMB.setoPersonajuridica(new Personajuridica());
 		this.beneficiariosMB.getTablaBeneficiarios().setRows(new ArrayList<Beneficiariocuenta>());

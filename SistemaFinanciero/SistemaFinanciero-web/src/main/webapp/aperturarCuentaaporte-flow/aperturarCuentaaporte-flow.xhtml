@@ -38,7 +38,7 @@
 									value="#{aperturarCuentaaporteBean.comboTipoPersona.items.entrySet()}"
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
 								<p:ajax
-									listener="#{aperturarCuentaaporteBean.cleanCuentaahorro()}"
+									listener="#{aperturarCuentaaporteBean.cleanCuentaaporte()}"
 									update=":panelDatos" />
 							</p:selectOneMenu>
 						</h:form></td>

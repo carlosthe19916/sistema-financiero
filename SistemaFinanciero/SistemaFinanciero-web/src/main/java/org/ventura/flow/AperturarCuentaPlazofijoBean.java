@@ -259,7 +259,7 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 			return false;
 	}
 	
-	public void cleanCuentaahorro(){
+	public void cleanCuentaplazofijo(){
 		this.personaNaturalMB.setPersonaNatural(new Personanatural());
 		this.personaJuridicaMB.setoPersonajuridica(new Personajuridica());
 		this.titularesMB.getTablaTitulares().setRows(new ArrayList<Titularcuenta>());

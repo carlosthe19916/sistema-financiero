@@ -216,6 +216,13 @@ public class AperturarCuentacorrienteBean implements Serializable {
 
 		return result;
 	}
+	
+	public void cleanCuentacorriente(){
+		this.personaNaturalMB.setPersonaNatural(new Personanatural());
+		this.personaJuridicaMB.setoPersonajuridica(new Personajuridica());
+		this.titularesMB.getTablaTitulares().setRows(new ArrayList<Titularcuenta>());
+		this.beneficiariosMB.getTablaBeneficiarios().setRows(new ArrayList<Beneficiariocuenta>());
+	}
 
 	public boolean isPersonaNatural() {
 		if (comboTipoPersona.getItemSelected() == 1)
