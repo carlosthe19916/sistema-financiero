@@ -141,7 +141,6 @@ public class TitularesBean implements Serializable {
 			}
 
 		}
-
 	}
 
 	public List<Titularcuenta> getListTitulares(){
