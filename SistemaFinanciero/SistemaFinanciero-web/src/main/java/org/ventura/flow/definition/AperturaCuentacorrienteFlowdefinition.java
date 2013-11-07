@@ -24,7 +24,7 @@ public class AperturaCuentacorrienteFlowdefinition implements Serializable {
         flowBuilder.returnNode("returnFromAperturarCorrienteFlow").fromOutcome("#{aperturarCuentacorrienteBean.returnValue}");
 
 		flowBuilder.flowCallNode("imprimirAperturaCuenta-flow").flowReference("", "imprimirAperturaCuenta-flow")
-		.outboundParameter("tipocuenta", "CUENTA A PLAZO FIJO")
+		.outboundParameter("tipocuenta", "CUENTA CORRIENTE")
 		.outboundParameter("numerocuenta", "#{aperturarCuentacorrienteBean.cuentacorriente.numerocuentacorriente}")
 		.outboundParameter("moneda", "#{aperturarCuentacorrienteBean.cuentacorriente.tipomoneda.denominacion}")
 		.outboundParameter("fechaapertura", "#{aperturarCuentacorrienteBean.cuentacorriente.fechaapertura}")
