@@ -141,6 +141,17 @@ public class TitularesBean implements Serializable {
 			}
 
 		}
+		
+		System.out.println("cantidad de titulares "+cantidadRetirantes);
+		System.out.println("Cantidad de titulares en tabla "+tablaTitulares.getAllRows().size());
+		
+		if(cantidadRetirantes < 1 || cantidadRetirantes > tablaTitulares.getAllRows().size()){
+			FacesContext context = FacesContext.getCurrentInstance();			
+			context.validationFailed();	
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cantidad de Retirantes", "Porcentaje de Beneficios no suman 100%");
+			context.addMessage(null, message);
+		}
+		
 	}
 
 	public List<Titularcuenta> getListTitulares(){

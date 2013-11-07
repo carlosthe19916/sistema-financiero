@@ -5,13 +5,20 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:composition>
 
-	<p:dialog header="Titulares" widgetVar="#{componentName}" modal="true" height="400" width="750">
+	<p:dialog id="dlg-titulares" header="Titulares" widgetVar="#{componentName}" modal="true" height="400" width="970">
 		
 		<p:growl id="growlTitulares" sticky="true" />
+		<pe:blockUI target="dlg-titulares" widgetVar="blockUIWidget-titular">
+				<h:panelGrid columns="2">
+					<p:graphicImage library="images" name="load.gif" width="32" height="32" style="margin-right: 12px; vertical-align: middle;" />
+					<h:outputText value="Please wait..." style="white-space: nowrap;" />
+				</h:panelGrid>
+		</pe:blockUI>
 			
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-content">
@@ -78,8 +85,7 @@
 								value="#{managedBean.titularesMB.tablaTitulares.rows}"
 								var="titular" editable="true" selectionMode="single"
 								selection="#{managedBean.titularesMB.tablaTitulares.selectedRow}"
-								rowKey="#{titular}" scrollable="true" scrollHeight="150"
-								scrollRows="5" rowIndexVar="row"
+								rowKey="#{titular}" rowIndexVar="row"
 								rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }">
 
 								<p:ajax event="rowEditInit" listener="#{managedBean.titularesMB.tablaTitulares.editRow()}" />
@@ -105,7 +111,7 @@
 												requiredMessage="DNI (Obligatorio)"
 												validatorMessage="DNI no tiene digitos validos">
 												<f:validateRegex pattern="(^[0-9]{8}$)" />
-												<p:ajax update="apellidoPaterno,apellidoMaterno,nombres,txtSexo,txtFecNac" event="blur" listener="#{managedBean.titularesMB.buscarPersonanatural()}"/>
+												<p:ajax update="apellidoPaterno,apellidoMaterno,nombres,txtSexo,txtFecNac" event="blur" listener="#{managedBean.titularesMB.buscarPersonanatural()}" onstart="PF('blockUIWidget-titular').block()" oncomplete="PF('blockUIWidget-titular').unblock()"/>
 											</p:inputText>
 											<p:watermark for="dni" value="DNI" />
 										</f:facet>
@@ -203,8 +209,10 @@
 					<h:form>
 						<p:commandButton value="Aceptar"
 							update="#{componentToUpdated},:form-titulares"
-							oncomplete="#{componentName}.hide()"
-							actionListener="#{managedBean.titularesMB.validarTitulares()}" />
+							oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()"
+							actionListener="#{managedBean.titularesMB.validarTitulares()}">
+						<p:ajax onstart="PF('blockUIWidget-titular').block()" oncomplete="PF('blockUIWidget-titular').unblock()"/>	
+						</p:commandButton>
 						<p:commandButton value="Cancelar"
 							onclick="#{componentName}.hide()"
 							actionListener="#{managedBean.titularesMB.validarTitulares()}"
