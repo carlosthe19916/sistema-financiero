@@ -15,6 +15,8 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
@@ -56,7 +58,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 
 	@Override
 	public Socio create(Socio socio) throws Exception {
-		try {	
+		try {				
 			boolean isValidSocio = Validator.validateSocio(socio);	
 			if (isValidSocio == true) {
 				

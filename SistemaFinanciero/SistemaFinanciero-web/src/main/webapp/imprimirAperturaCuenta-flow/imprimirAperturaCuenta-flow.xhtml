@@ -57,7 +57,8 @@
 					</table>
 				</div>
 				<div class="sf-separator">
-					<h:panelGroup id="personaNatural" rendered="#{flowScope.isPersonanatural}">
+					<h:panelGroup id="personaNatural"
+						rendered="#{flowScope.isPersonanatural}">
 						<div style="margin-bottom: 10px;">
 							<div class="sf-agrupador-content-cabecera-black">
 								<h3>CLIENTE</h3>
@@ -95,7 +96,7 @@
 							</div>
 						</div>
 					</h:panelGroup>
-					<h:panelGroup rendered="#{flowScope.isPersonajuridica}" >
+					<h:panelGroup rendered="#{flowScope.isPersonajuridica}">
 						<div style="margin-bottom: 10px;">
 							<div class="sf-agrupador-content-cabecera-black">
 								<h3>CLIENTE</h3>
@@ -167,58 +168,58 @@
 							</div>
 						</div>
 					</h:panelGroup>
-				</div>
-				<div style="margin-bottom: 10px;">
-					<div class="sf-agrupador-content-cabecera-black">
-						<h3>TITULARES</h3>
+					<div style="margin-bottom: 10px;">
+						<div class="sf-agrupador-content-cabecera-black">
+							<h3>TITULARES</h3>
+						</div>
+						<div style="margin-left: 5px;">
+							<table>
+								<tr>
+									<td style="width: 180px; vertical-align: top;"><p:outputLabel
+											value="Titulares:" /></td>
+									<td><p:dataList value="#{flowScope.titulares}"
+											var="titulares" type="ordered" itemType="1"
+											styleClass="sf-label-bold">
+											<p:outputLabel value="DNI:#{titulares.personanatural.dni}"
+												style="padding-right: 12px;" />
+											<p:outputLabel
+												value="#{titulares.personanatural.nombreCompleto}"
+												style="min-width:100px; padding-right: 12px;" />
+											<h:outputLabel
+												value="#{titulares.personanatural.fechanacimiento}"
+												style="min-width:50px; padding-right: 12px;">
+												<f:convertDateTime pattern="dd/MM/yy" />
+											</h:outputLabel>
+											<p:outputLabel
+												value="#{titulares.personanatural.sexo.denominacion}"
+												style="min-width:100px; padding-right: 12px;" />
+										</p:dataList></td>
+								</tr>
+							</table>
+						</div>
 					</div>
-					<div style="margin-left: 5px;">
-						<table>
-							<tr>
-								<td style="width: 180px; vertical-align: top;"><p:outputLabel
-										value="Titulares:" /></td>
-								<td><p:dataList value="#{flowScope.titulares}"
-										var="titulares" type="ordered" itemType="1"
-										styleClass="sf-label-bold">
-										<p:outputLabel value="DNI:#{titulares.personanatural.dni}"
-											style="padding-right: 12px;" />
-										<p:outputLabel
-											value="#{titulares.personanatural.nombreCompleto}"
-											style="min-width:100px; padding-right: 12px;" />
-										<h:outputLabel
-											value="#{titulares.personanatural.fechanacimiento}"
-											style="min-width:50px; padding-right: 12px;">
-											<f:convertDateTime pattern="dd/MM/yy" />
-										</h:outputLabel>
-										<p:outputLabel
-											value="#{titulares.personanatural.sexo.denominacion}"
-											style="min-width:100px; padding-right: 12px;" />
-									</p:dataList></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div style="margin-bottom: 10px;">
-					<div class="sf-agrupador-content-cabecera-black">
-						<h3>BENEFICIARIOS</h3>
-					</div>
-					<div style="margin-left: 5px;">
-						<table>
-							<tr>
-								<td style="width: 180px; vertical-align: top;"><p:outputLabel
-										value="Beneficiarios:" /></td>
-								<td><p:dataList value="#{flowScope.beneficiarios}"
-										var="beneficiarios" type="ordered" itemType="1"
-										styleClass="sf-label-bold">
-										<p:outputLabel value="DNI: #{beneficiarios.dni}"
-											style="min-width:50px; padding-right: 12px;" />
-										<p:outputLabel value=" #{beneficiarios.nombreCompleto}"
-											style="min-width:150px; padding-right: 12px;" />
-										<p:outputLabel value="% #{beneficiarios.porcentajebeneficio}"
-											style="min-width:50px; padding-right: 12px;" />
-									</p:dataList></td>
-							</tr>
-						</table>
+					<div style="margin-bottom: 10px;">
+						<div class="sf-agrupador-content-cabecera-black">
+							<h3>BENEFICIARIOS</h3>
+						</div>
+						<div style="margin-left: 5px;">
+							<table>
+								<tr>
+									<td style="width: 180px; vertical-align: top;"><p:outputLabel
+											value="Beneficiarios:" /></td>
+									<td><p:dataList value="#{flowScope.beneficiarios}"
+											var="beneficiarios" type="ordered" itemType="1"
+											styleClass="sf-label-bold">
+											<p:outputLabel value="DNI: #{beneficiarios.dni}"
+												style="min-width:50px; padding-right: 12px;" />
+											<p:outputLabel value=" #{beneficiarios.nombreCompleto}"
+												style="min-width:150px; padding-right: 12px;" />
+											<p:outputLabel value="% #{beneficiarios.porcentajebeneficio}"
+												style="min-width:50px; padding-right: 12px;" />
+										</p:dataList></td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
 				<div style="margin-top: 50px;">
@@ -252,7 +253,8 @@
 						icon="ui-icon-print">
 						<p:printer target=":panelDatos" />
 					</p:commandButton>
-					<p:commandButton value="Salir" action="returnFromImprimirAperturaCuentaFlow"></p:commandButton>
+					<p:commandButton value="Salir"
+						action="returnFromImprimirAperturaCuentaFlow"></p:commandButton>
 				</div>
 			</h:form>
 		</div>
