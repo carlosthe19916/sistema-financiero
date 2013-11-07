@@ -31,10 +31,20 @@
 									selectionMode="single" paginatorPosition="bottom" sortOrder="descending"
 									widgetVar="tablaCuentas" scrollable="true" scrollHeight="133" scrollWidth="">
 
-									<p:column headerText="Nro" width="10%" style="text-align:center;">
+									<p:column headerText="Nº" width="10%" style="text-align:center;">
 										<h:outputText value="#{row + 1}" />
 									</p:column>
 
+									<p:column sortBy="#{cuentasPN.idsocio}" width="100"
+										headerText="Código Socio" style="text-align:center;">
+										<h:outputText value="#{cuentasPN.idsocio}" />
+									</p:column>
+									
+									<p:column sortBy="#{cuentasPN.idcuentaahorro}" width="80"
+										headerText="Id cuenta" style="text-align:center;">
+										<h:outputText value="#{cuentasPN.idcuentaahorro}" />
+									</p:column>
+									
 									<p:column sortBy="#{cuentasPN.numerocuentaahorro}" width="150"
 										headerText="Número de Cuenta" style="text-align:center;">
 										<h:outputText value="#{cuentasPN.numerocuentaahorro}" />

@@ -29,7 +29,7 @@ public class Cuentacorriente implements Serializable {
 	@Column
 	private Integer idsocio;
 
-	@Column(length = 14)
+	@Column(unique = true, length = 14)
 	private String numerocuentacorriente;
 
 	@Temporal(TemporalType.DATE)
