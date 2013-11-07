@@ -47,7 +47,7 @@
 										requiredMessage="Ingrese un valor de busqueda">
 										<p:ajax update="growl" event="keyup" />
 									</p:inputText> <p:watermark
-										value="Buscar por: Codigo Socio, DNI y Apellidos y Nombres"
+										value="Buscar por: Codigo Socio, DNI, RUC, Apellidos y Nombres o Razon Social"
 										for="txtBuscar" /></td>
 								<td><p:commandButton value="buscar"
 										actionListener="#{socioBean.buscarSocio()}"
@@ -71,7 +71,7 @@
 		<div class="buttons">
 			<h:form id="form-buttons">
 				<div class="tiptip">
-					<p:commandLink styleClass="button left" title="Nueva busqueda">
+					<p:commandLink styleClass="button left" title="Nueva busqueda" actionListener="#{socioBean.showMessage()}">
 						<span class="icon icon3"></span>
 						<span class="label">Nuevo</span>
 					</p:commandLink>

@@ -77,7 +77,7 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 				cuentacorriente.setTitularcuentas(titulares);		
 			} else {
 				log.error("Exception: method Validator(Cuentacorriente) is false");
-				throw new IllegalEntityException("Datos de Cuenta de Ahorro Invalidos");
+				throw new IllegalEntityException("Datos de Cuenta corriente Invalidos");
 			}
 		} catch (IllegalEntityException e) {
 			log.error("Exception:" + e.getClass());
@@ -93,7 +93,7 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear la cuenta de ahorros");
+			throw new Exception("Error Interno: No se pudo Crear la cuenta corriente");
 		}
 		return cuentacorriente;
 	}
@@ -116,8 +116,8 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 				List<Titularcuenta> titulares = titularcuentaDAO.findByNamedQuery(Titularcuenta.FindAllForCuentacorriente, parameters);
 				cuentacorriente.setTitularcuentas(titulares);		
 			} else {
-				log.error("Exception: method Validator(Cuentaahorro) is false");
-				throw new IllegalEntityException("Datos de Cuenta de Ahorro Invalidos");
+				log.error("Exception: method Validator(Cuentacorriente) is false");
+				throw new IllegalEntityException("Datos de Cuenta corriente Invalidos");
 			}
 		} catch (IllegalEntityException e) {
 			log.error("Exception:" + e.getClass());
@@ -133,7 +133,7 @@ public class CuentacorrienteServiceBean implements CuentacorrienteServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear la cuenta de ahorros");
+			throw new Exception("Error Interno: No se pudo Crear la cuenta corriente");
 		}
 		return cuentacorriente;
 	}

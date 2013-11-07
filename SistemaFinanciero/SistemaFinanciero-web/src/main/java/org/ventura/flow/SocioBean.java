@@ -7,11 +7,13 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.primefaces.context.RequestContext;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
@@ -156,5 +158,11 @@ public class SocioBean implements Serializable {
 			ViewSocioPJ viewSocioPJ = getTablaSociosPJ().getSelectedRow();
 			DNIoRUCTemporal = viewSocioPJ.getRuc();
 		}
+	}
+	
+	
+	public void showMessage() {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "What we do in life", "Echoes in eternity.");
+		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
 }

@@ -22,7 +22,7 @@ public class Accionista implements Serializable {
 	private Boolean estado;
 
 	@Column(nullable=false)
-	private double porcentajeparticipacion;
+	private Double porcentajeparticipacion;
 
 	//bi-directional many-to-one association to Personajuridica
 	@ManyToOne
@@ -53,11 +53,11 @@ public class Accionista implements Serializable {
 		this.estado = estado;
 	}
 
-	public double getPorcentajeparticipacion() {
+	public Double getPorcentajeparticipacion() {
 		return this.porcentajeparticipacion;
 	}
 
-	public void setPorcentajeparticipacion(double porcentajeparticipacion) {
+	public void setPorcentajeparticipacion(Double porcentajeparticipacion) {
 		this.porcentajeparticipacion = porcentajeparticipacion;
 	}
 
