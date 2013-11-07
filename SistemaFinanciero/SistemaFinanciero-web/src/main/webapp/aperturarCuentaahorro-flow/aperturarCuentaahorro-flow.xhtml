@@ -136,17 +136,20 @@
 				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"
 					onclick="onSubmitButton();" onstart="PF('blockUIWidget').block()"
 					oncomplete="PF('blockUIWidget').unblock()">
-				</p:commandButton>
+				</p:commandButton>	
 				<pe:blockUI widgetVar="blockUIWidget">
 					<h:panelGrid columns="2">
 						<p:graphicImage library="images" name="load.gif" width="32"
 							height="32" style="margin-right: 12px; vertical-align: middle; " />
 						<h:outputText value="Please wait..." style="white-space: nowrap;" />
 					</h:panelGrid>
-				</pe:blockUI>
-				
+				</pe:blockUI>			
 			</h:form>
 		</div>
+		<pe:ajaxErrorHandler title="Error"
+			body="Error interno, intentelo nuevamente"
+			button="Aceptar" widgetVar="ajaxErrorHandler"
+			buttonOnclick="ajaxErrorHandler.hide()" />
 		
 	</ui:define>
 

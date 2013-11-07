@@ -14,6 +14,7 @@ import javax.faces.flow.FlowScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.RequestContext;
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.dependent.BeneficiariosBean;
 import org.ventura.dependent.ComboBean;
@@ -106,8 +107,8 @@ public class AperturaCuentaahorroBean implements Serializable {
 				return null;
 			}
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error", e.getMessage());
-			FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message); 
 		}
 		return null;
 	}

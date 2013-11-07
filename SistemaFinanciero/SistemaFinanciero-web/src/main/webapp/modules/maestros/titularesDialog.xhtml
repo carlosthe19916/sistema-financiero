@@ -10,42 +10,43 @@
 
 <ui:composition>
 
-	<p:dialog id="dlg-titulares" header="Titulares" widgetVar="#{componentName}" modal="true" height="400" width="970">
-		
-		<p:growl id="growlTitulares" sticky="true" />
+	<p:dialog id="dlg-titulares" header="Titulares"
+		widgetVar="#{componentName}" modal="true" height="400" width="970">
+
+		<p:growl id="growlTitulares" sticky="true" showDetail="true" />
 		<pe:blockUI target="dlg-titulares" widgetVar="blockUIWidget-titular">
-				<h:panelGrid columns="2">
-					<p:graphicImage library="images" name="load.gif" width="32" height="32" style="margin-right: 12px; vertical-align: middle;" />
-					<h:outputText value="Please wait..." style="white-space: nowrap;" />
-				</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:graphicImage library="images" name="load.gif" width="32"
+					height="32" style="margin-right: 12px; vertical-align: middle;" />
+				<h:outputText value="Please wait..." style="white-space: nowrap;" />
+			</h:panelGrid>
 		</pe:blockUI>
-			
+		<pe:ajaxErrorHandler title="Error"
+			body="Ocurrio un error en el servidor"
+			button="Cerrar" widgetVar="titularesErrorHandler"
+			buttonOnclick="titularesErrorHandler.hide()" />
+
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
 					<h3>Datos de los Titulares</h3>
 				</div>
 				<div class="sf-agrupador-content-table">
-					
+
 					<div>
 						<h:form>
 							<table>
 								<tr>
 									<td><p:outputLabel>Cantidad de Retirantes:</p:outputLabel></td>
-									<td>
-										<p:inputText id="cantidadRetirantes" 
-											value="#{managedBean.titularesMB.cantidadRetirantes}" 
-											size="1" 
-											required="true"
-											maxlength="2"
+									<td><p:inputText id="cantidadRetirantes"
+											value="#{managedBean.titularesMB.cantidadRetirantes}"
+											size="1" required="true" maxlength="2"
 											requiredMessage="Ingrese Cantidad de Retirantes"
-											validatorMessage="Cantidad de Retirantes Inválido" 
-											converterMessage="Cantidad de Retirantes Inválido">											
-											<p:ajax update="@form,:growlTitulares" event="blur"/>
-										</p:inputText>										
-										<p:watermark for="cantidadRetirantes" value="01" /> 
-										<p:outputLabel for="cantidadRetirantes" />								
-									</td>
+											validatorMessage="Cantidad de Retirantes Inválido"
+											converterMessage="Cantidad de Retirantes Inválido">
+											<p:ajax update="@form,:growlTitulares" event="blur" />
+										</p:inputText> <p:watermark for="cantidadRetirantes" value="01" /> <p:outputLabel
+											for="cantidadRetirantes" /></td>
 								</tr>
 							</table>
 						</h:form>
@@ -60,10 +61,9 @@
 									<span class="icon icon3"></span>
 									<span class="label">Nuevo</span>
 								</p:commandLink>
-								<p:commandLink update=":form-titulares" 
-									actionListener="#{managedBean.titularesMB.editTitular()}" 
-									styleClass="button middle"
-									title="Nuevo">
+								<p:commandLink update=":form-titulares"
+									actionListener="#{managedBean.titularesMB.editTitular()}"
+									styleClass="button middle" title="Nuevo">
 									<span class="icon icon145"></span>
 									<span class="label">Editar</span>
 								</p:commandLink>
@@ -78,9 +78,9 @@
 					</div>
 
 					<div style="padding: 0px 5px;">
-						
+
 						<h:form id="form-titulares">
-						
+
 							<p:dataTable id="tablaTitulares"
 								value="#{managedBean.titularesMB.tablaTitulares.rows}"
 								var="titular" editable="true" selectionMode="single"
@@ -88,15 +88,19 @@
 								rowKey="#{titular}" rowIndexVar="row"
 								rowStyleClass="#{titular.personanatural.dni == null ? 'sf-table-row-invalid' : null }">
 
-								<p:ajax event="rowEditInit" listener="#{managedBean.titularesMB.tablaTitulares.editRow()}" />
-								<p:ajax event="rowEdit" update=":growl,tablaTitulares" listener="#{managedBean.titularesMB.tablaTitulares.finishEditRow()}"/>
-								<p:ajax event="rowEditCancel" update=":growl,tablaTitulares" listener="#{managedBean.titularesMB.tablaTitulares.rowEditCancel()}"/>
-								
-								<p:ajax event="rowSelect" listener="#{managedBean.titularesMB.tablaTitulares.rowSelect()}"/>  
-								<p:ajax event="rowUnselect" listener="#{managedBean.titularesMB.tablaTitulares.rowUnselect()}"/>  
+								<p:ajax event="rowEditInit"
+									listener="#{managedBean.titularesMB.tablaTitulares.editRow()}" />
+								<p:ajax event="rowEdit" update=":growl,tablaTitulares"
+									listener="#{managedBean.titularesMB.tablaTitulares.finishEditRow()}" />
+								<p:ajax event="rowEditCancel" update=":growl,tablaTitulares"
+									listener="#{managedBean.titularesMB.tablaTitulares.rowEditCancel()}" />
 
-								<p:column headerText="Nro" width="5%"
-									style="text-align:center;">
+								<p:ajax event="rowSelect"
+									listener="#{managedBean.titularesMB.tablaTitulares.rowSelect()}" />
+								<p:ajax event="rowUnselect"
+									listener="#{managedBean.titularesMB.tablaTitulares.rowUnselect()}" />
+
+								<p:column headerText="Nro" width="5%" style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
 
@@ -111,7 +115,12 @@
 												requiredMessage="DNI (Obligatorio)"
 												validatorMessage="DNI no tiene digitos validos">
 												<f:validateRegex pattern="(^[0-9]{8}$)" />
-												<p:ajax update="apellidoPaterno,apellidoMaterno,nombres,txtSexo,txtFecNac" event="blur" listener="#{managedBean.titularesMB.buscarPersonanatural()}" onstart="PF('blockUIWidget-titular').block()" oncomplete="PF('blockUIWidget-titular').unblock()"/>
+												<p:ajax
+													update="apellidoPaterno,apellidoMaterno,nombres,txtSexo,txtFecNac"
+													event="blur"
+													listener="#{managedBean.titularesMB.buscarPersonanatural()}"
+													onstart="PF('blockUIWidget-titular').block()"
+													oncomplete="PF('blockUIWidget-titular').unblock()" />
 											</p:inputText>
 											<p:watermark for="dni" value="DNI" />
 										</f:facet>
@@ -159,11 +168,12 @@
 											<p:watermark for="nombres" value="Nombres" />
 										</f:facet>
 									</p:cellEditor>
-								</p:column>							
+								</p:column>
 								<p:column headerText="F.Nacimiento(*)" width="15%">
 									<p:cellEditor>
 										<f:facet name="output">
-											<h:outputText value="#{titular.personanatural.fechanacimiento}">
+											<h:outputText
+												value="#{titular.personanatural.fechanacimiento}">
 												<f:convertDateTime pattern="dd/MM/yy" />
 											</h:outputText>
 										</f:facet>
@@ -173,32 +183,35 @@
 												navigator="true" pattern="dd/MM/yy" required="true"
 												requiredMessage="Ingrese Fecha de Nacimiento"
 												converterMessage="El formato de la fecha de nacimiento no es correcto">
-											</p:calendar> 
-											<p:watermark for="txtFecNac" value="dd/mm/yyyy" /> 
+											</p:calendar>
+											<p:watermark for="txtFecNac" value="dd/mm/yyyy" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								
+
 								<p:column headerText="Sexo(*)" width="15%">
 									<p:cellEditor>
 										<f:facet name="output">
-											<h:outputText value="#{titular.personanatural.sexo.denominacion}" />
+											<h:outputText
+												value="#{titular.personanatural.sexo.denominacion}" />
 										</f:facet>
 										<f:facet name="input">
 											<p:selectOneMenu id="txtSexo"
 												value="#{managedBean.titularesMB.comboSexo.itemSelected}"
 												valueChangeListener="#{managedBean.titularesMB.changeSexo}"
-												required="true" requiredMessage="Seleccione un sexo valido" style="width:100%">
+												required="true" requiredMessage="Seleccione un sexo valido"
+												style="width:100%">
 												<f:selectItem id="e" itemLabel="--Seleccione--" itemValue="" />
-												<f:selectItems value="#{managedBean.titularesMB.comboSexo.items.entrySet()}"
+												<f:selectItems
+													value="#{managedBean.titularesMB.comboSexo.items.entrySet()}"
 													var="val" itemLabel="#{val.value.denominacion}"
 													itemValue="#{val.key}" />
 											</p:selectOneMenu>
 										</f:facet>
 									</p:cellEditor>
-								</p:column>																					
+								</p:column>
 								<p:column width="7%">
-									<p:rowEditor>										
+									<p:rowEditor>
 									</p:rowEditor>
 								</p:column>
 							</p:dataTable>
@@ -208,10 +221,11 @@
 				<div class="sf-buttons">
 					<h:form>
 						<p:commandButton value="Aceptar"
-							update="#{componentToUpdated},:form-titulares"
+							update="#{componentToUpdated},:form-titulares,:growlTitulares"
 							oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()"
 							actionListener="#{managedBean.titularesMB.validarTitulares()}">
-						<p:ajax onstart="PF('blockUIWidget-titular').block()" oncomplete="PF('blockUIWidget-titular').unblock()"/>	
+							<p:ajax onstart="PF('blockUIWidget-titular').block()"
+								oncomplete="PF('blockUIWidget-titular').unblock()" />
 						</p:commandButton>
 						<p:commandButton value="Cancelar"
 							onclick="#{componentName}.hide()"

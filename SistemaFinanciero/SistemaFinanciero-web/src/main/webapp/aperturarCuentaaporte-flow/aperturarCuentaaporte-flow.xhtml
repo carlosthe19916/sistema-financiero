@@ -98,7 +98,7 @@
 				<ui:param name="componentName" value="dlgBeneficiarios" />
 				<ui:param name="componentToUpdated" value="beneficiarios" />
 			</ui:include>
-			<!-- end Beneficiarios -->	
+			<!-- end Beneficiarios -->
 		</h:panelGroup>
 
 
@@ -112,7 +112,8 @@
 					onstart="PF('blockUIWidget').block()"
 					oncomplete="PF('blockUIWidget').unblock()">
 				</p:commandButton>
-				<p:commandButton value="Cancelar" action="returnFromAperturarCuentaaporteFlow"
+				<p:commandButton value="Cancelar"
+					action="returnFromAperturarCuentaaporteFlow"
 					onclick="onSubmitButton();" onstart="PF('blockUIWidget').block()"
 					oncomplete="PF('blockUIWidget').unblock()">
 				</p:commandButton>
@@ -126,6 +127,12 @@
 				</pe:blockUI>
 			</h:form>
 		</div>
+
+		<pe:ajaxErrorHandler title="Error"
+			body="Error interno, intentelo nuevamente"
+			button="Aceptar" widgetVar="ajaxErrorHandler"
+			buttonOnclick="ajaxErrorHandler.hide()" />
+
 	</ui:define>
 
 </ui:composition>
