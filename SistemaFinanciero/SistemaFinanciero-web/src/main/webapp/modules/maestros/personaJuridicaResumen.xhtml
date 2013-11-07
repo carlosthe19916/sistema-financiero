@@ -235,8 +235,11 @@
 										<p:column headerText="Nombres">
 											<h:outputText value="#{accionistas.personanatural.nombres}" />
 										</p:column>
-										<p:column headerText="Fecha Nacimiento">
-											<h:outputText value="#{accionistas.personanatural.fechanacimiento}" />
+										<p:column headerText="Fecha Nacimiento">											
+											<h:outputText
+														value="#{accionistas.personanatural.fechanacimiento}">
+														<f:convertDateTime pattern="dd/MM/yy" />
+													</h:outputText>
 										</p:column>
 										<p:column headerText="Sexo">
 											<h:outputText value="#{accionistas.personanatural.sexo.denominacion}" />

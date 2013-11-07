@@ -55,6 +55,8 @@ public class TablaBean<E> {
 
 	public void finishEditRow() {
 		this.clearEditinRow();
+		
+		
 	}
 	
 	public void rowSelect() {
