@@ -21,9 +21,30 @@ public class AperturaCuentaahorroFlowdefinition implements Serializable {
         flowBuilder.id("", flowId);
         flowBuilder.viewNode(flowId, "/" + flowId + "/" + flowId + ".xhtml").markAsStartNode();
         
-        flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{aperturaCuentaahorroBean.returnValue}");
-
-        flowBuilder.inboundParameter("cuentaahorro", "#{aperturaCuentaahorroBean.cuentaahorro}");
+        flowBuilder.flowCallNode("imprimirAperturaCuenta-flow").flowReference("", "imprimirAperturaCuenta-flow")
+		.outboundParameter("tipocuenta", "CUENTA DE AHORRO")
+		.outboundParameter("numerocuenta", "#{aperturaCuentaahorroBean.cuentaahorro.numerocuentaahorro}")
+		.outboundParameter("moneda", "#{aperturaCuentaahorroBean.cuentaahorro.tipomoneda.denominacion}")
+		.outboundParameter("fechaapertura", "#{aperturaCuentaahorroBean.cuentaahorro.fechaapertura}")
+					
+		.outboundParameter("isPersonanatural", "#{aperturaCuentaahorroBean.personaNatural}")
+		.outboundParameter("isPersonajuridica", "#{aperturaCuentaahorroBean.personaJuridica}")
+		
+		.outboundParameter("dniPersonanatural", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personanatural.dni}")
+		.outboundParameter("nombrecompletoPersonanatural", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personanatural.nombreCompleto}")
+		.outboundParameter("sexoPersonanatural", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personanatural.sexo.denominacion}")
+		.outboundParameter("fechanacimientoPersonanatural", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personanatural.fechanacimiento}")
+		
+		.outboundParameter("ruc", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.ruc}")
+		.outboundParameter("razonsocial", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.razonsocial}")
+		.outboundParameter("fechaconstitucion", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.fechaconstitucion}")
+		.outboundParameter("dniPersonajuridica", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.personanatural.dni}")
+		.outboundParameter("nombrecompletoPersonajuridica", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.personanatural.nombreCompleto}")
+		.outboundParameter("fechanacimientoPersonajuridica", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.personanatural.fechanacimiento}")
+		.outboundParameter("sexoPersonajuridica", "#{aperturaCuentaahorroBean.cuentaahorro.socio.personajuridica.personanatural.sexo.denominacion}")
+		
+		.outboundParameter("titulares", "#{aperturaCuentaahorroBean.cuentaahorro.titularcuentas}")
+		.outboundParameter("beneficiarios", "#{aperturaCuentaahorroBean.cuentaahorro.beneficiariocuentas}");
 
         return flowBuilder.getFlow();
     }

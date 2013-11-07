@@ -39,7 +39,7 @@ public class ImprimirAperturaCuentaBean {
 	private List<Beneficiariocuenta> beneficiarios;
 
 	public String getReturnValue() {
-		return "/index?module=2";
+		return "/index";
 	}
 	
 	public String getTipocuenta() {

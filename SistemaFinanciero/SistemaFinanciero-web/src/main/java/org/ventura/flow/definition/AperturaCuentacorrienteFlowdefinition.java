@@ -21,9 +21,32 @@ public class AperturaCuentacorrienteFlowdefinition implements Serializable {
         flowBuilder.id("", flowId);
         flowBuilder.viewNode(flowId, "/" + flowId + "/" + flowId + ".xhtml").markAsStartNode();
         
-        flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{aperturarCuentacorrienteBean.returnValue}");
-       
-        flowBuilder.inboundParameter("cuentacorriente", "#{aperturarCuentacorrienteBean.cuentacorriente}");
+        flowBuilder.returnNode("returnFromAperturarCorrienteFlow").fromOutcome("#{aperturarCuentacorrienteBean.returnValue}");
+
+		flowBuilder.flowCallNode("imprimirAperturaCuenta-flow").flowReference("", "imprimirAperturaCuenta-flow")
+		.outboundParameter("tipocuenta", "CUENTA A PLAZO FIJO")
+		.outboundParameter("numerocuenta", "#{aperturarCuentacorrienteBean.cuentacorriente.numerocuentacorriente}")
+		.outboundParameter("moneda", "#{aperturarCuentacorrienteBean.cuentacorriente.tipomoneda.denominacion}")
+		.outboundParameter("fechaapertura", "#{aperturarCuentacorrienteBean.cuentacorriente.fechaapertura}")
+					
+		.outboundParameter("isPersonanatural", "#{aperturarCuentacorrienteBean.personaNatural}")
+		.outboundParameter("isPersonajuridica", "#{aperturarCuentacorrienteBean.personaJuridica}")
+		
+		.outboundParameter("dniPersonanatural", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personanatural.dni}")
+		.outboundParameter("nombrecompletoPersonanatural", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personanatural.nombreCompleto}")
+		.outboundParameter("sexoPersonanatural", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personanatural.sexo.denominacion}")
+		.outboundParameter("fechanacimientoPersonanatural", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personanatural.fechanacimiento}")
+		
+		.outboundParameter("ruc", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personajuridica.ruc}")
+		.outboundParameter("razonsocial", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personajuridica.razonsocial}")
+		.outboundParameter("fechaconstitucion", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personajuridica.fechaconstitucion}")
+		.outboundParameter("dniPersonajuridica", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personajuridica.personanatural.dni}")
+		.outboundParameter("nombrecompletoPersonajuridica", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personajuridica.personanatural.nombreCompleto}")
+		.outboundParameter("fechanacimientoPersonajuridica", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personajuridica.personanatural.fechanacimiento}")
+		.outboundParameter("sexoPersonajuridica", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.personajuridica.personanatural.sexo.denominacion}")
+		
+		.outboundParameter("titulares", "#{aperturarCuentacorrienteBean.cuentacorriente.titularcuentas}")
+		.outboundParameter("beneficiarios", "#{aperturarCuentacorrienteBean.cuentacorriente.socio.cuentaaporte.beneficiarios}");
        
         return flowBuilder.getFlow();
     }

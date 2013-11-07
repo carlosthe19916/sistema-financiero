@@ -18,8 +18,8 @@ public class ImprimirAperturaCuentaFlowDefinition implements Serializable{
         flowBuilder.id("", flowId);
         flowBuilder.viewNode(flowId, "/" + flowId + "/" + flowId + ".xhtml").markAsStartNode();
         
-        flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{imprimirAperturaCuentaBean.returnValue}");
-
+        flowBuilder.returnNode("returnFromImprimirAperturaCuentaFlow").fromOutcome("#{imprimirAperturaCuentaBean.returnValue}");
+        
         flowBuilder.inboundParameter("tipocuenta", "#{flowScope.tipocuenta}")
         .inboundParameter("numerocuenta", "#{flowScope.numerocuenta}")
         .inboundParameter("moneda", "#{flowScope.moneda}")
@@ -44,6 +44,9 @@ public class ImprimirAperturaCuentaFlowDefinition implements Serializable{
          
         .inboundParameter("titulares", "#{flowScope.titulares}")
         .inboundParameter("beneficiarios", "#{flowScope.beneficiarios}");
+        
+        
+        flowBuilder.flowCallNode("aperturarCuentaaporte-flow").flowReference("", "aperturarCuentaaporte-flow");
         
         return flowBuilder.getFlow();
     }

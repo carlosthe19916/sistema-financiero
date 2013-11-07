@@ -24,7 +24,7 @@ public class AperturarCuentaaporteFlowdefinition implements Serializable {
 		flowBuilder.id("", flowId);
 		flowBuilder.viewNode(flowId, "/" + flowId + "/" + flowId + ".xhtml").markAsStartNode();
 
-		flowBuilder.returnNode("returnFromCustomerFlow").fromOutcome("#{aperturarCuentaaporteBean.returnValue}");
+		flowBuilder.returnNode("returnFromAperturarCuentaaporteFlow").fromOutcome("#{aperturarCuentaaporteBean.returnValue}");
 
 		flowBuilder.flowCallNode("imprimirAperturaCuenta-flow").flowReference("", "imprimirAperturaCuenta-flow")
 		.outboundParameter("tipocuenta", "CUENTA DE APORTES")

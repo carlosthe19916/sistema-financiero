@@ -56,7 +56,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 	private BeneficiariosBean beneficiariosMB;
 
 	public String getReturnValue() {
-		return "/index?module=2";
+		return "/index";
 	}
 		
 	@PostConstruct

@@ -26,6 +26,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentacorriente;
 import org.ventura.entity.schema.cuentapersonal.Cuentacorrientehistorial;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
+import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
@@ -82,7 +83,8 @@ public class AperturarCuentacorrienteBean implements Serializable {
 					cuentacorriente = cuentacorrienteServiceLocal.createCuentaCorrienteWithPersonajuridica(cuentacorriente);
 				}				
 				this.cuentacorriente = cuentacorriente;
-				return "aperturarCuentacorriente-flowA";
+				validarValoresNulosParaImpresion();
+				return "imprimirAperturaCuenta-flow";
 			} else {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -95,6 +97,35 @@ public class AperturarCuentacorrienteBean implements Serializable {
 		return null;
 	}
 
+	private void validarValoresNulosParaImpresion(){
+		if(isPersonaNatural()){
+			this.cuentacorriente.getSocio().setPersonajuridica(new Personajuridica());
+			
+			this.cuentacorriente.getSocio().getPersonajuridica().setRuc("");
+			this.cuentacorriente.getSocio().getPersonajuridica().setRazonsocial("");
+			this.cuentacorriente.getSocio().getPersonajuridica().setFechaconstitucion(Calendar.getInstance().getTime());
+			
+			Personanatural personanatural =  new Personanatural();
+			personanatural.setDni("");
+			personanatural.setFechanacimiento(Calendar.getInstance().getTime());
+			Sexo sexo = new Sexo();
+			sexo.setDenominacion("");
+			personanatural.setSexo(sexo);
+			
+			this.cuentacorriente.getSocio().getPersonajuridica().setPersonanatural(personanatural);
+		}
+		
+		if(isPersonaJuridica()){
+			Personanatural personanatural =  new Personanatural();
+			personanatural.setDni("");
+			personanatural.setFechanacimiento(Calendar.getInstance().getTime());
+			Sexo sexo = new Sexo();
+			sexo.setDenominacion("");
+			personanatural.setSexo(sexo);		
+			this.cuentacorriente.getSocio().setPersonanatural(personanatural);
+		}
+	}
+	
 	public Cuentacorriente establecerParametrosCuentacorriente(Cuentacorriente cuentacorriente) throws Exception {
 		Cuentacorrientehistorial cuentacorrientehistorial = datosFinancierosCuentaCorrienteMB.getCuentacorrientehistorial();
 		Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();

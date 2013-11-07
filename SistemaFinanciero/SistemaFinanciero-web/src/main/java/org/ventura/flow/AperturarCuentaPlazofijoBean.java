@@ -27,6 +27,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
+import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.AccionistaPK;
 import org.ventura.entity.schema.persona.Personajuridica;
@@ -89,7 +90,8 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 					this.cuentaplazofijo = this.cuentaplazofijoServiceLocal.createCuentaPlazofijoWithPersonajuridica(cuentaplazofijo);
 				}				
 				this.cuentaplazofijo = cuentaplazofijo;
-				return "aperturarCuentaplazofijo-flowA";
+				validarValoresNulosParaImpresion();
+				return "imprimirAperturaCuenta-flow";
 			} else {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -102,6 +104,35 @@ public class AperturarCuentaPlazofijoBean implements Serializable {
 		return null;
 	}
 
+	private void validarValoresNulosParaImpresion(){
+		if(isPersonaNatural()){
+			this.cuentaplazofijo.getSocio().setPersonajuridica(new Personajuridica());
+			
+			this.cuentaplazofijo.getSocio().getPersonajuridica().setRuc("");
+			this.cuentaplazofijo.getSocio().getPersonajuridica().setRazonsocial("");
+			this.cuentaplazofijo.getSocio().getPersonajuridica().setFechaconstitucion(Calendar.getInstance().getTime());
+			
+			Personanatural personanatural =  new Personanatural();
+			personanatural.setDni("");
+			personanatural.setFechanacimiento(Calendar.getInstance().getTime());
+			Sexo sexo = new Sexo();
+			sexo.setDenominacion("");
+			personanatural.setSexo(sexo);
+			
+			this.cuentaplazofijo.getSocio().getPersonajuridica().setPersonanatural(personanatural);
+		}
+		
+		if(isPersonaJuridica()){
+			Personanatural personanatural =  new Personanatural();
+			personanatural.setDni("");
+			personanatural.setFechanacimiento(Calendar.getInstance().getTime());
+			Sexo sexo = new Sexo();
+			sexo.setDenominacion("");
+			personanatural.setSexo(sexo);		
+			this.cuentaplazofijo.getSocio().setPersonanatural(personanatural);
+		}
+	}
+	
 	public Cuentaplazofijo establecerParametrosCuentaplazofijo(Cuentaplazofijo cuentaplazofijo) throws Exception {
 		cuentaplazofijo = datosFinancierosCuentaPlazoFijoMB.getCuentaplazofijo();
 		Socio socio = new Socio();

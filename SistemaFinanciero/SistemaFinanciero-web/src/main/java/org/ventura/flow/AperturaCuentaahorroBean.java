@@ -26,6 +26,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
 import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
 import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
+import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
@@ -98,7 +99,8 @@ public class AperturaCuentaahorroBean implements Serializable {
 					//this.cuentaahorrohistorial = this.cuentaahorro.getCuentaahorrohistorials().get(0);
 				}			
 				this.cuentaahorro = cuentaahorro;
-				return "aperturarCuentaahorro-flowA";
+				validarValoresNulosParaImpresion();
+				return "imprimirAperturaCuenta-flow";
 			} else {
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "System Error", mensaje);
 				FacesContext.getCurrentInstance().addMessage(null, message);
@@ -111,6 +113,35 @@ public class AperturaCuentaahorroBean implements Serializable {
 		return null;
 	}
 
+	private void validarValoresNulosParaImpresion(){
+		if(isPersonaNatural()){
+			this.cuentaahorro.getSocio().setPersonajuridica(new Personajuridica());
+			
+			this.cuentaahorro.getSocio().getPersonajuridica().setRuc("");
+			this.cuentaahorro.getSocio().getPersonajuridica().setRazonsocial("");
+			this.cuentaahorro.getSocio().getPersonajuridica().setFechaconstitucion(Calendar.getInstance().getTime());
+			
+			Personanatural personanatural =  new Personanatural();
+			personanatural.setDni("");
+			personanatural.setFechanacimiento(Calendar.getInstance().getTime());
+			Sexo sexo = new Sexo();
+			sexo.setDenominacion("");
+			personanatural.setSexo(sexo);
+			
+			this.cuentaahorro.getSocio().getPersonajuridica().setPersonanatural(personanatural);
+		}
+		
+		if(isPersonaJuridica()){
+			Personanatural personanatural =  new Personanatural();
+			personanatural.setDni("");
+			personanatural.setFechanacimiento(Calendar.getInstance().getTime());
+			Sexo sexo = new Sexo();
+			sexo.setDenominacion("");
+			personanatural.setSexo(sexo);		
+			this.cuentaahorro.getSocio().setPersonanatural(personanatural);
+		}
+	}
+	
 	public Cuentaahorro establecerParametrosCuentaahorro(Cuentaahorro cuentaahorro) throws Exception {		
 		Cuentaahorrohistorial cuentaahorrohistorial = datosFinancierosCuentaAhorroMB.getCuentaahorrohistorial();
 		Integer cantidadRetirantes = titularesMB.getCantidadRetirantes();
