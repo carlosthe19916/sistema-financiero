@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"	
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:jsf="http://xmlns.jcp.org/jsf">
@@ -15,7 +15,7 @@
 		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
 		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
 	</f:metadata>
-	
+
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
 		<h:outputText value="Apertura Cta. Corriente" />
@@ -38,8 +38,20 @@
 								<f:selectItems
 									value="#{aperturarCuentacorrienteBean.comboTipoPersona.items.entrySet()}"
 									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-								<p:ajax listener="#{aperturarCuentacorrienteBean.cleanCuentacorriente()}" update=":panelDatos"></p:ajax>
+								<p:ajax
+									listener="#{aperturarCuentacorrienteBean.cleanCuentacorriente()}"
+									update=":panelDatos" onstart="PF('blockUIWidget').block()"
+									oncomplete="PF('blockUIWidget').unblock()" />
 							</p:selectOneMenu>
+							<pe:blockUI widgetVar="blockUIWidget">
+								<h:panelGrid columns="2">
+									<p:graphicImage library="images" name="load.gif" width="32"
+										height="32"
+										style="margin-right: 12px; vertical-align: middle; " />
+									<h:outputText value="Please wait..."
+										style="white-space: nowrap;" />
+								</h:panelGrid>
+							</pe:blockUI>
 						</h:form></td>
 				</tr>
 			</table>
@@ -122,15 +134,14 @@
 		<div class="sf-buttons">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
-				<p:commandButton 
-					value="Guardar"
+				<p:commandButton value="Guardar"
 					action="#{aperturarCuentacorrienteBean.createCuentacorriente()}"
 					update="messages,:panelDatos" onclick="onSubmitButton();"
 					onstart="PF('blockUIWidget').block()"
 					oncomplete="PF('blockUIWidget').unblock()">
 				</p:commandButton>
 				<p:commandButton value="Cancelar" action="returnFromCustomerFlow"
-				onclick="onSubmitButton();" onstart="PF('blockUIWidget').block()"
+					onclick="onSubmitButton();" onstart="PF('blockUIWidget').block()"
 					oncomplete="PF('blockUIWidget').unblock()">
 				</p:commandButton>
 				<pe:blockUI widgetVar="blockUIWidget">
@@ -143,9 +154,8 @@
 			</h:form>
 		</div>
 		<pe:ajaxErrorHandler title="Error"
-			body="Error interno, intentelo nuevamente"
-			button="Aceptar" widgetVar="ajaxErrorHandler"
-			buttonOnclick="ajaxErrorHandler.hide()" />
+			body="Error interno, intentelo nuevamente" button="Aceptar"
+			widgetVar="ajaxErrorHandler" buttonOnclick="ajaxErrorHandler.hide()" />
 
 	</ui:define>
 

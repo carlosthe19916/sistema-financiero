@@ -222,10 +222,9 @@
 					<h:form>
 						<p:commandButton value="Aceptar"
 							update="#{componentToUpdated},:form-titulares,:growlTitulares"
-							oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()"
+							onstart="PF('blockUIWidget-titular').block()"
+							oncomplete="PF('blockUIWidget-titular').unblock(); if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()"
 							actionListener="#{managedBean.titularesMB.validarTitulares()}">
-							<p:ajax onstart="PF('blockUIWidget-titular').block()"
-								oncomplete="PF('blockUIWidget-titular').unblock()" />
 						</p:commandButton>
 						<p:commandButton value="Cancelar"
 							onclick="#{componentName}.hide()"

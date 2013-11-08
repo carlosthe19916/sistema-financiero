@@ -3,8 +3,11 @@ package org.ventura.dependent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -135,20 +138,28 @@ public class TitularesBean implements Serializable {
 					|| personanatural.getNombres().trim().isEmpty()) {
 				nombres = false;
 			}
-
 			if (!(appellidoPaterno && appellidoMaterno && nombres)) {
 				iterator.remove();
 			}
-
-		}
-		
+		}	
 		if(cantidadRetirantes < 1 || cantidadRetirantes > tablaTitulares.getAllRows().size()){
 			FacesContext context = FacesContext.getCurrentInstance();			
 			context.validationFailed();	
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cantidad de Retirantes", "Porcentaje de Beneficios no suman 100%");
 			context.addMessage(null, message);
 		}
-		
+		eliminarTitularesDuplicados();
+	}
+	
+	public void eliminarTitularesDuplicados(){
+		List<Titularcuenta> titularcuentas = tablaTitulares.getRows();
+		Map<String, Titularcuenta> titularMap = new HashMap<String, Titularcuenta>();
+		for (Iterator<Titularcuenta> iterator = titularcuentas.iterator(); iterator.hasNext();) {
+			Titularcuenta titular = (Titularcuenta) iterator.next();
+			titularMap.put(titular.getDni(), titular);
+		}	
+		titularcuentas = new ArrayList<Titularcuenta>(titularMap.values());
+		tablaTitulares.setRows(titularcuentas);
 	}
 
 	public List<Titularcuenta> getListTitulares(){
