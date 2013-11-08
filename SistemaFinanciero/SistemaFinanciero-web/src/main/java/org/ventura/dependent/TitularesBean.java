@@ -3,7 +3,6 @@ package org.ventura.dependent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -145,7 +144,7 @@ public class TitularesBean implements Serializable {
 		if(cantidadRetirantes < 1 || cantidadRetirantes > tablaTitulares.getAllRows().size()){
 			FacesContext context = FacesContext.getCurrentInstance();			
 			context.validationFailed();	
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cantidad de Retirantes", "Porcentaje de Beneficios no suman 100%");
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cantidad de Retirantes", "La cantidad de retirantes no es valido");
 			context.addMessage(null, message);
 		}
 		eliminarTitularesDuplicados();
