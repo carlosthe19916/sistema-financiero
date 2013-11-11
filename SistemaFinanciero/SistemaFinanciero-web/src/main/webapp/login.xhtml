@@ -8,6 +8,9 @@
 
 
 <h:head>
+	<h:outputStylesheet library="css" name="main.css" />
+	<!-- Google Style buttons -->
+	<h:outputStylesheet library="css" name="css3-buttons.css" />
 </h:head>
 <h:body>
 
@@ -19,22 +22,30 @@
 	<br />
 	<br />
 
-	<div style="width: 350px ; margin-left: auto ; margin-right: auto ;">
+	<div
+		style="width: 350px; margin-left: auto; margin-right: auto; border: 1px solid #D2D2D2;">
 		<form method="post" action="j_security_check">
 			<div>
-				<table>
-					<tr>
-						<td><label>Usuario:</label></td>
-						<td><input type="text" name="j_username" /></td>
-					</tr>
-					<tr>
-						<td><label>Password:</label></td>
-						<td><input type="password" name="j_password" /></td>
-					</tr>
-				</table>
-			</div>
-			<div>
-				<input type="submit" value="Login" />
+				<div>
+					<h2 class="p6n-cloudsql-title">Acceso al sistema</h2>
+				</div>
+				<div>
+					<table>
+						<tr>
+							<td><label>Usuario:</label></td>
+							<td><input type="text" name="j_username" /></td>
+						</tr>
+						<tr>
+							<td><label>Password:</label></td>
+							<td><input type="password" name="j_password" /></td>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<button class="action blue" type="submit">
+						<span class="label">Login</span>
+					</button>
+				</div>
 			</div>
 		</form>
 	</div>
