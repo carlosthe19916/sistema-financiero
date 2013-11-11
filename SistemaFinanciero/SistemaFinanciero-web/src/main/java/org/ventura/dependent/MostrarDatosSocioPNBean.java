@@ -116,6 +116,7 @@ public class MostrarDatosSocioPNBean implements Serializable {
 			setoSocio(socioServiceLocal.findByDNI(oSocio.getDni()));
 			setoPersonaNatural(personaNaturalServiceLocal.find(oSocio.getDni()));
 			personaNaturalMB.setPersonaNatural(oPersonaNatural);
+			personaNaturalMB.changeEditingState();
 			CargarCuentasPersonales();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
