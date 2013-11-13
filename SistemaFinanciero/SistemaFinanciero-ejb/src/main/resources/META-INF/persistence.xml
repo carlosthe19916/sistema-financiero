@@ -70,6 +70,17 @@
 		<class>org.ventura.entity.schema.socio.ViewSocioPN</class>
 		<class>org.ventura.entity.schema.socio.ViewSocioPJ</class>
 		<class>org.ventura.entity.schema.cuentapersonal.ViewCuentas</class>
+		<class>org.ventura.entity.schema.caja.Boveda</class>
+		<class>org.ventura.entity.schema.caja.Caja</class>
+		<class>org.ventura.entity.schema.caja.Denominacionmoneda</class>
+		<class>org.ventura.entity.schema.caja.Detallehistorialboveda</class>
+		<class>org.ventura.entity.schema.caja.Detalletransaccionboveda</class>
+		<class>org.ventura.entity.schema.caja.Estadoapertura</class>
+		<class>org.ventura.entity.schema.caja.Estadomovimiento</class>
+		<class>org.ventura.entity.schema.caja.Historialboveda</class>
+		<class>org.ventura.entity.schema.caja.Tipotransaccion</class>
+		<class>org.ventura.entity.schema.caja.Transaccionboveda</class>
+		<class>org.ventura.entity.schema.caja.Transaccioncaja</class>
 
 		<properties>
 			<!-- Properties for Hibernate -->
