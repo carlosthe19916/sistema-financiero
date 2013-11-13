@@ -34,7 +34,7 @@
 			<h2>Buscar Socio</h2>
 		</div>
 
-		<h:form>
+		<h:form id="buscar">
 			<p:growl id="growl" sticky="true" />
 
 			<div class="sf-agrupador-content">
@@ -43,13 +43,20 @@
 						<tbody>
 							<tr>
 								<td><h:outputLabel>Buscar:</h:outputLabel></td>
-								<td><p:inputText id="txtBuscar"
+								<td><p:inputText id="txtBuscarPN"
 										value="#{socioBean.valorBusqueda}" size="80" required="true"
-										requiredMessage="Ingrese un valor de busqueda">
+										requiredMessage="Ingrese un valor de busqueda" rendered="#{socioBean.personaNatural}">
 										<p:ajax update="growl" event="keyup" />
 									</p:inputText> <p:watermark
-										value="Buscar por: Codigo Socio, DNI, RUC, Apellidos y Nombres o Razon Social"
-										for="txtBuscar" /></td>
+										value="Buscar por: Codigo Socio, DNI o Apellidos y Nombres"
+										for="txtBuscarPN" /></td>
+								<td><p:inputText id="txtBuscarPJ"
+										value="#{socioBean.valorBusqueda}" size="80" required="true"
+										requiredMessage="Ingrese un valor de busqueda" rendered="#{socioBean.personaJuridica}">
+										<p:ajax update="growl" event="keyup" />
+									</p:inputText> <p:watermark
+										value="Buscar por: Codigo Socio, RUC o Razon Social"
+										for="txtBuscarPJ" /></td>
 								<td><p:commandButton value="buscar"
 										actionListener="#{socioBean.buscarSocio()}"
 										update=":panelDatos" /></td>
@@ -60,7 +67,7 @@
 										<f:selectItems
 											value="#{socioBean.comboTipoPersona.items.entrySet()}"
 											var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-										<p:ajax update=":panelDatos, :form-buttons" listener="#{socioBean.limpiarTablas()}"></p:ajax>
+										<p:ajax update=":panelDatos, :form-buttons, :buscar" listener="#{socioBean.limpiarTablas()}"></p:ajax>
 									</p:selectOneMenu></td>
 							</tr>
 						</tbody>

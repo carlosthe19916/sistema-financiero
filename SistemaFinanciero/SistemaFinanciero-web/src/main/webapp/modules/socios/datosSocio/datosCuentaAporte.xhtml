@@ -12,32 +12,30 @@
 	<h:panelGroup id="#{componentName}">
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-menu">
-				
 				<h:form>
 					<p:commandLink value="Editar" oncomplete="#{editarOutputDialog}.show();return false;" ></p:commandLink>
 				</h:form>
-		
 			</div>
 			<div class="sf-agrupador-content">
 				<div class="sf-agrupador-content-cabecera">
 					<h3>Cuenta Aporte</h3>
 				</div>		
 				<div class="sf-agrupador-content-table">
-					<table width="50%">
+					<table>
 						<tbody>
 							<tr>
-								<td style="min-width: 180px;">
+								<td style="min-width: 245px;">
 									<p:outputLabel value="Tipo Cuenta" />
 								</td>
-								<td style="min-width: 180px;">
-									<p:outputLabel value="CUENTA DE APORTE" styleClass="sf-label-bold" />
+								<td style="min-width: 245px;">
+									<p:outputLabel value="CUENTA APORTE" styleClass="sf-label-bold" />
 								</td>
 							</tr>
 							<tr>
-								<td style="min-width: 180px;">
+								<td>
 									<p:outputLabel value="Número Cuenta" />
 								</td>
-								<td style="min-width: 180px;">
+								<td>
 									<p:outputLabel value="#{managedBean.oSocio.cuentaaporte.numerocuentaaporte}" styleClass="sf-label-bold" />
 								</td>
 							</tr>
