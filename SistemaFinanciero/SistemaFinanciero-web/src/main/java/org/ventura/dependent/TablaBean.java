@@ -3,9 +3,12 @@ package org.ventura.dependent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.NoneScoped;
 import javax.inject.Named;
 
 import org.ventura.dao.CrudService;
@@ -32,7 +35,8 @@ public class TablaBean<E> {
 		this.frozenRows = (List<E>) new ArrayList<Object>();
 	}
 
-	public TablaBean(List<E> rows, E selectedRow, E editingRow, List<E> selectedRows, List<E> frozenRows) {
+	public TablaBean(List<E> rows, E selectedRow, E editingRow,
+			List<E> selectedRows, List<E> frozenRows) {
 		this.rows = rows;
 		this.selectedRow = selectedRow;
 		this.editingRow = editingRow;
@@ -42,6 +46,11 @@ public class TablaBean<E> {
 
 	public void initValuesFromNamedQueryName(String namedQueryName) {
 		List<E> list = crudService.findWithNamedQuery(namedQueryName);
+		this.rows = list;
+	}
+
+	public void initValuesFromNamedQueryName(String namedQueryName, Map<String, Object> parameters) {
+		List<E> list = crudService.findWithNamedQuery(namedQueryName, parameters);
 		this.rows = list;
 	}
 
@@ -55,10 +64,9 @@ public class TablaBean<E> {
 
 	public void finishEditRow() {
 		this.clearEditinRow();
-		
-		
+
 	}
-	
+
 	public void rowSelect() {
 		this.editingRow = this.selectedRow;
 	}
@@ -74,7 +82,7 @@ public class TablaBean<E> {
 	public void clearRows() {
 		this.rows = new ArrayList<E>();
 	}
-	
+
 	public void addRow(E row) {
 		this.rows.add(row);
 	}
@@ -98,7 +106,7 @@ public class TablaBean<E> {
 	public List<E> getRows() {
 		return rows;
 	}
-	
+
 	public List<E> getAllRows() {
 		List<E> rows = this.rows;
 		List<E> frozenRows = this.frozenRows;
@@ -106,11 +114,13 @@ public class TablaBean<E> {
 		for (Iterator<E> iterator = rows.iterator(); iterator.hasNext();) {
 			E e = (E) iterator.next();
 			result.add(e);
-		};
+		}
+		;
 		for (Iterator<E> iterator = frozenRows.iterator(); iterator.hasNext();) {
 			E e = (E) iterator.next();
 			result.add(e);
-		};
+		}
+		;
 		return result;
 	}
 

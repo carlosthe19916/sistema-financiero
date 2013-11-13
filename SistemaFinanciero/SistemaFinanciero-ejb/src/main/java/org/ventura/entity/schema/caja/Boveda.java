@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.sucursal.Agencia;
 
 import java.util.List;
 
@@ -15,8 +16,12 @@ import java.util.List;
 @Entity
 @Table(name = "boveda", schema = "caja")
 @NamedQuery(name = "Boveda.findAll", query = "SELECT b FROM Boveda b")
+@NamedQueries({ @NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia ") })
 public class Boveda implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.ALL_ACTIVE_BY_AGENCIA";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -48,6 +53,10 @@ public class Boveda implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
 	private Tipomoneda tipomoneda;
+
+	@ManyToOne
+	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
+	private Agencia agencia;
 
 	@ManyToMany
 	@JoinTable(name = "boveda_caja", joinColumns = { @JoinColumn(name = "idboveda", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idcaja", nullable = false) })
@@ -188,6 +197,14 @@ public class Boveda implements Serializable {
 
 	public void setIdestadomovimiento(Integer idestadomovimiento) {
 		this.idestadomovimiento = idestadomovimiento;
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 }

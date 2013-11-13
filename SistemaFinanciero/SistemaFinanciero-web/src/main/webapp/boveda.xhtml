@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Apertura Cta. Ahorros" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+		<h:outputStylesheet library="css" name="main.css" />
+		<div>
+			<div>
+				<h:form id="form-buttons">
+					<div class="buttons">
+
+						<div class="tiptip">
+							<h:commandLink styleClass="button left" title="Nueva bóveda"
+								onclick="dlgNuevaAgencia.show();return false;">
+								<span class="icon icon3"></span>
+								<span class="label">Nuevo</span>
+							</h:commandLink>
+							<h:commandLink action="#" styleClass="button right"
+								title="Eliminar Socio">
+								<span class="icon icon186"></span>
+								<span class="label">Eliminar</span>
+							</h:commandLink>
+						</div>
+
+					</div>
+				</h:form>
+			</div>
+			<div>
+				<h:form>
+					<p:dataTable value="#{administrarBoveda.tablaBoveda.rows}"
+						var="boveda">
+						<h:column>
+							<f:facet name="header">Denominacion</f:facet>
+							<h:outputText value="#{boveda.denominacion}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Moneda</f:facet>
+							<h:outputText value="#{boveda.idtipomoneda}" />
+						</h:column>
+					</p:dataTable>
+					<h:form>
+						<p:dataTable var="boveda" value="#{administrarBoveda.tablaBoveda.rows}">
+							<p:column headerText="Model">
+								<h:outputText value="#{boveda.denominacion}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</h:form>
+			</div>
+		</div>
+		<div>
+			<p:dialog widgetVar="dlgNuevaAgencia" closeOnEscape="true">
+				<h:form>
+					<div>
+						<table class="p6n-api-cred-create-form">
+							<tr>
+								<td class="p6n-api-cred-create-label"><label>Agencia:</label></td>
+								<td class="p6n-api-no-tooltip"></td>
+								<td class="p6n-api-cred-input-holder"><label
+									jsf:value="#{administrarBoveda.agenciaBean.agencia.denominacion}"></label>
+								</td>
+							</tr>
+							<tr>
+								<td class="p6n-api-cred-create-label"><label>Denominacion:</label></td>
+								<td class="p6n-api-no-tooltip"></td>
+								<td class="p6n-api-cred-input-holder"><input type="text"
+									jsf:value="#{administrarBoveda.boveda.denominacion}"
+									placeholder="denominacion" required="required" /></td>
+							</tr>
+							<tr>
+								<td class="p6n-api-cred-create-label"><label>Moneda:</label></td>
+								<td class="p6n-api-no-tooltip"></td>
+								<td><h:selectOneMenu id="txtTipomoneda"
+										value="#{administrarBoveda.comboTipomoneda.itemSelected}"
+										valueChangeListener="#{administrarBoveda.changeTipomoneda}"
+										pt:required="required">
+										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										<f:selectItems
+											value="#{administrarBoveda.comboTipomoneda.items.entrySet()}"
+											var="val" itemLabel="#{val.value.denominacion}"
+											itemValue="#{val.key}" />
+										<f:ajax update="txtTipomoneda" />
+									</h:selectOneMenu></td>
+							</tr>
+							<tr>
+								<td class="p6n-api-cred-create-label"><label>Saldo:</label></td>
+								<td class="p6n-api-no-tooltip"></td>
+								<td><label jsf:value="#{administrarBoveda.boveda.saldo}"></label></td>
+							</tr>
+						</table>
+					</div>
+					<div class="sf-buttons">
+						<button jsf:id="btnGuardar"
+							jsf:actionListener="#{administrarBoveda.createBoveda()}"
+							jsf:update="growl,@form" class="action blue">
+							<span class="label">Save</span>
+						</button>
+						<button jsf:id="btnCancelar"
+							onclick="nuevaBoveda.hide();return false;" class="action">
+							<span class="label">Cancel</span>
+						</button>
+						<h:commandButton action="#{administrarBoveda.createBoveda()}"
+							value="prueba" />
+					</div>
+				</h:form>
+			</p:dialog>
+		</div>
+	</ui:define>
+
+
+
+
+</ui:composition>
+</html>
