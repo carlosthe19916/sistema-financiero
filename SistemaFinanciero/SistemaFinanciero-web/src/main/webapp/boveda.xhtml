@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -9,7 +8,15 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
 
+
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<h:outputStylesheet library="css" name="main.css" />
+
+	<f:metadata>
+		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
+		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+	</f:metadata>
 
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
@@ -18,7 +25,7 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-		<h:outputStylesheet library="css" name="main.css" />
+
 		<div>
 			<div>
 				<h:form id="form-buttons">
@@ -30,8 +37,13 @@
 								<span class="icon icon3"></span>
 								<span class="label">Nuevo</span>
 							</h:commandLink>
+							<h:commandLink action="#" styleClass="button middle"
+								title="Editar Boveda">
+								<span class="icon icon186"></span>
+								<span class="label">Editar</span>
+							</h:commandLink>
 							<h:commandLink action="#" styleClass="button right"
-								title="Eliminar Socio">
+								title="Eliminar Boveda">
 								<span class="icon icon186"></span>
 								<span class="label">Eliminar</span>
 							</h:commandLink>
@@ -54,9 +66,27 @@
 						</h:column>
 					</p:dataTable>
 					<h:form>
-						<p:dataTable var="boveda" value="#{administrarBoveda.tablaBoveda.rows}">
-							<p:column headerText="Model">
+						<p:dataTable var="boveda"
+							value="#{administrarBoveda.tablaBoveda.rows}"
+							selectionMode="single"
+							selection="#{administrarBoveda.tablaBoveda.selectedRow}"
+							rowKey="#{boveda}" rowIndexVar="row">
+
+							<p:column headerText="Nro" width="5%" style="text-align:center;">
+								<h:outputText value="#{row + 1}" />
+							</p:column>
+
+							<p:column headerText="Denominacion">
 								<h:outputText value="#{boveda.denominacion}" />
+							</p:column>
+							<p:column headerText="Moneda">
+								<h:outputText value="#{boveda.tipomoneda.denominacion}" />
+							</p:column>
+							<p:column headerText="Saldo">
+								<h:outputText value="#{boveda.saldo}" />
+							</p:column>
+							<p:column headerText="Estado Apertura">
+								<h:outputText value="#{boveda.estadomovimiento.denominacion}" />
 							</p:column>
 						</p:dataTable>
 					</h:form>
@@ -114,16 +144,14 @@
 							onclick="nuevaBoveda.hide();return false;" class="action">
 							<span class="label">Cancel</span>
 						</button>
-						<h:commandButton action="#{administrarBoveda.createBoveda()}"
-							value="prueba" />
 					</div>
 				</h:form>
 			</p:dialog>
 		</div>
 	</ui:define>
 
-
-
-
 </ui:composition>
 </html>
+
+
+
