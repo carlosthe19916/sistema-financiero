@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<ui:composition>
+
+	<p:dialog widgetVar="#{componentName}" header="NUEVA BOVEDA"
+		closeOnEscape="true" closable="false" resizable="false" modal="true">
+		<h:form>
+			<div>
+				<table class="p6n-api-cred-create-form">
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Agencia:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						<td class="p6n-api-cred-input-holder"
+							style="vertical-align: middle;"><label
+							jsf:value="#{administrarBoveda.agenciaBean.agencia.denominacion}"
+							class="sf-label-bold" /></td>
+					</tr>
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Denominacion:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						<td class="p6n-api-cred-input-holder"><input type="text"
+							jsf:value="#{administrarBoveda.boveda.denominacion}"
+							placeholder="denominacion" required="required" /></td>
+					</tr>
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Moneda:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						<td><h:selectOneMenu id="txtTipomoneda"
+								value="#{administrarBoveda.comboTipomoneda.itemSelected}"
+								valueChangeListener="#{administrarBoveda.changeTipomoneda}"
+								pt:required="required">
+								<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+								<f:selectItems
+									value="#{administrarBoveda.comboTipomoneda.items.entrySet()}"
+									var="val" itemLabel="#{val.value.denominacion}"
+									itemValue="#{val.key}" />
+								<f:ajax update="txtTipomoneda" />
+							</h:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Saldo:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						<td style="vertical-align: middle;"><label
+							jsf:value="#{administrarBoveda.boveda.saldo}"
+							class="sf-label-bold" /></td>
+					</tr>
+				</table>
+			</div>
+			<div class="sf-buttons">
+				<button jsf:id="btnGuardar" jsf:value="btnGuardar"
+					jsf:actionListener="#{administrarBoveda.createBoveda()}"
+					jsf:update="#{componentToUpdated}" class="action blue">
+					<span class="label">Save</span>
+				</button>
+				<button jsf:id="btnCancelar" pt:type="reset"
+					onclick="dlgNuevaAgencia.hide();" class="action">
+					<span class="label">Cancel</span>
+				</button>
+			</div>
+		</h:form>
+	</p:dialog>
+
+</ui:composition>
+</html>
+
+
+
+
+
+
+
+

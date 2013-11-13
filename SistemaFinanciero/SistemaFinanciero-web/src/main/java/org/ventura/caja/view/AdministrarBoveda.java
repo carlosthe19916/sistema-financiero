@@ -1,4 +1,4 @@
-package org.ventura.caja;
+package org.ventura.caja.view;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -42,10 +42,11 @@ public class AdministrarBoveda implements Serializable {
 		boveda.setIdagencia(agenciaBean.getAgencia().getIdagencia());
 		boveda.setIdestadomovimiento(1);
 		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
-		
+
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		tablaBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
+		tablaBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,
+				parameters);
 	}
 
 	public void createBoveda() {
