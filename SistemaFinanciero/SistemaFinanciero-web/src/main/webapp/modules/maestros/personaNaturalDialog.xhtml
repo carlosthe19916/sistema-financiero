@@ -54,7 +54,7 @@
 										value="#{managedBean.personaNaturalMB.personaNatural.apellidopaterno}"
 										disabled="#{!managedBean.personaNaturalMB.editing}"
 										required="true" maxlength="50"
-										requiredMessage="Ingrese Apellido Paterno">
+										requiredMessage="Ingrese Apellido Paterno" onkeyup="this.value = this.value.toUpperCase();">
 										<p:ajax update="growl,txtApPaternoPN" event="blur" />
 									</p:inputText> <p:watermark for="txtApPaternoPN" value="Apellido Paterno" />
 									<p:outputLabel for="txtApPaternoPN" /></td>
@@ -64,7 +64,7 @@
 										required="true" maxlength="50"
 										requiredMessage="Ingrese Apellido Materno"
 										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update="growl,txtApMaternoPN" event="blur" />
+										<p:ajax update="growl,txtApMaternoPN" event="blur" onkeyup="this.value = this.value.toUpperCase();"/>
 									</p:inputText> <p:watermark for="txtApMaternoPN" value="Apellido Materno" />
 									<p:outputLabel for="txtApMaternoPN" /></td>
 							</tr>
@@ -75,7 +75,7 @@
 										size="71" required="true" maxlength="60"
 										requiredMessage="Ingrese Nombres"
 										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update="growl,txtNombresPN" event="blur" />
+										<p:ajax update="growl,txtNombresPN" event="blur" onkeyup="this.value = this.value.toUpperCase();"/>
 									</p:inputText> <p:watermark for="txtNombresPN" value="Nombres" /> <p:outputLabel
 										for="txtNombresPN" /></td>
 							</tr>
@@ -144,7 +144,7 @@
 								<td colspan="3"><p:inputText id="txtOcupacionPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.ocupacion}"
 										maxlength="70" size="71"
-										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
+										disabled="#{!managedBean.personaNaturalMB.editing}" onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark
 										for="txtOcupacionPN" value="Ocupación" /></td>
 							</tr>
 							<tr>
@@ -153,7 +153,7 @@
 										value="#{managedBean.personaNaturalMB.personaNatural.direccion}"
 										maxlength="200" size="71"
 										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
-										for="txtDireccionPN" value="Dirección" /></td>
+										for="txtDireccionPN" value="Dirección" onkeyup="this.value = this.value.toUpperCase();"/></td>
 							</tr>
 							<tr>
 								<td><p:outputLabel>Referencia:</p:outputLabel></td>
@@ -161,7 +161,7 @@
 										value="#{managedBean.personaNaturalMB.personaNatural.referencia}"
 										maxlength="100" size="71"
 										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
-										for="txtReferenciaPN" value="Referencia" /></td>
+										for="txtReferenciaPN" value="Referencia" onkeyup="this.value = this.value.toUpperCase();"/></td>
 							</tr>
 
 							<tr>
@@ -185,7 +185,7 @@
 								<p:inputText id="txtEmailPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.email}"
 										maxlength="50" size="73"
-										disabled="#{!managedBean.personaNaturalMB.editing}" /> 
+										disabled="#{!managedBean.personaNaturalMB.editing}" onkeyup="this.value = this.value.toUpperCase();"/> 
 										<p:watermark for="txtEmailPN" value="email@hotmail.com" />					
 								</td>
 							</tr>

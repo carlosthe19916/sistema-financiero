@@ -1,6 +1,8 @@
 package org.ventura.dependent;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,9 +37,12 @@ public class PersonaNaturalBean implements Serializable {
 
 	private boolean isEditing;
 
+	private boolean isMayor;
+
 	public PersonaNaturalBean() {
 		this.personaNatural = new Personanatural();
 		isEditing = false;
+		isMayor = false;
 	}
 
 	@PostConstruct
@@ -49,12 +54,14 @@ public class PersonaNaturalBean implements Serializable {
 	public void buscarPersona() {
 		try {
 			Personanatural personanatural;
-			personanatural = personanaturalServiceLocal.find(personaNatural.getDni());
-			
+			personanatural = personanaturalServiceLocal.find(personaNatural
+					.getDni());
+
 			if (personanatural != null) {
 				this.personaNatural = personanatural;
 				this.comboSexo.setItemSelected(personanatural.getSexo());
-				this.comboEstadoCivil.setItemSelected(personanatural.getEstadocivil());
+				this.comboEstadoCivil.setItemSelected(personanatural
+						.getEstadocivil());
 			} else {
 				personanatural = new Personanatural();
 				personanatural.setDni(getPersonaNatural().getDni());
@@ -66,9 +73,26 @@ public class PersonaNaturalBean implements Serializable {
 				this.changeEditingState();
 			}
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "System Error", e.getMessage());
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"System Error", e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+	}
+
+	public void verificarEdad() {
+		Date fechaactual = Calendar.getInstance().getTime();
+		Date fechanacimiento = personaNatural.getFechanacimiento();
+		int anio = fechaactual.getYear() - fechanacimiento.getYear();
+		int mes = fechaactual.getMonth() - fechanacimiento.getMonth();
+		int dia = fechaactual.getDay() - fechanacimiento.getDay();
+		if (mes < 0 || (mes == 0 && dia < 0)) {
+			anio--;
+		}
+		
+		if(anio<18){
+			this.isMayor=true;
+		}
+
 	}
 
 	public boolean isValid() {
@@ -83,7 +107,8 @@ public class PersonaNaturalBean implements Serializable {
 
 	public void changeEstadoCivil(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Estadocivil estadocivilSelected = comboEstadoCivil.getObjectItemSelected(key);
+		Estadocivil estadocivilSelected = comboEstadoCivil
+				.getObjectItemSelected(key);
 		this.personaNatural.setEstadocivil(estadocivilSelected);
 
 	}
@@ -122,6 +147,14 @@ public class PersonaNaturalBean implements Serializable {
 
 	public void setComboEstadoCivil(ComboBean<Estadocivil> comboEstadoCivil) {
 		this.comboEstadoCivil = comboEstadoCivil;
+	}
+
+	public boolean isMayor() {
+		return isMayor;
+	}
+
+	public void setMayor(boolean isMayor) {
+		this.isMayor = isMayor;
 	}
 
 }

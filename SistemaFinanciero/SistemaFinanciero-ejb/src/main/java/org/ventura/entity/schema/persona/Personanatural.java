@@ -53,7 +53,13 @@ public class Personanatural implements Serializable {
 
 	@Column(length = 50)
 	private String ocupacion;
-
+	
+	@Column(length = 8)
+	private String dniapoderado;
+	
+	@Column(length = 150)
+	private String apoderado;
+	
 	@Column(length = 50)
 	private String email;
 
@@ -259,6 +265,22 @@ public class Personanatural implements Serializable {
 		}
 		return result;
 		
+	}
+
+	public String getDniapoderado() {
+		return dniapoderado;
+	}
+
+	public void setDniapoderado(String dniapoderado) {
+		this.dniapoderado = dniapoderado;
+	}
+
+	public String getApoderado() {
+		return apoderado;
+	}
+
+	public void setApoderado(String apoderado) {
+		this.apoderado = apoderado;
 	}
 	
 	
