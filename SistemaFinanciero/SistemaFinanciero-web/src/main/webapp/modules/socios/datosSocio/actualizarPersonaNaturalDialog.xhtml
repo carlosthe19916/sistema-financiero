@@ -46,7 +46,7 @@
 								<td><p:outputLabel value="Apellido Paterno:" /></td>
 								<td><p:inputText id="txtApPaternoPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.apellidopaterno}"
-										required="true" maxlength="50"
+										required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
 										requiredMessage="Ingrese Apellido Paterno">
 										<p:ajax update="growl" event="blur" />
 									</p:inputText> <p:watermark for="txtApPaternoPN" value="Apellido Paterno" />
@@ -54,7 +54,7 @@
 								<td><p:outputLabel value="Apellido Materno:" /></td>
 								<td><p:inputText id="txtApMaternoPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.apellidomaterno}"
-										required="true" maxlength="50"
+										required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
 										requiredMessage="Ingrese Apellido Materno">
 										<p:ajax update="growl" event="blur" />
 									</p:inputText> <p:watermark for="txtApMaternoPN" value="Apellido Materno" />
@@ -64,7 +64,7 @@
 								<td><p:outputLabel>Nombres:</p:outputLabel></td>
 								<td colspan="3"><p:inputText id="txtNombresPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.nombres}"
-										size="71" required="true" maxlength="60"
+										size="71" required="true" maxlength="60" onkeyup="this.value = this.value.toUpperCase();"
 										requiredMessage="Ingrese Nombres">
 										<p:ajax update="growl" event="blur" />
 									</p:inputText> <p:watermark for="txtNombresPN" value="Nombres" /> <p:outputLabel
@@ -132,7 +132,7 @@
 								<td colspan="3"><p:inputText id="txtOcupacionPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.ocupacion}"
 										maxlength="70" size="71"
-										/> <p:watermark
+										onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark
 										for="txtOcupacionPN" value="Ocupación" /></td>
 							</tr>
 							<tr>
@@ -140,7 +140,7 @@
 								<td colspan="5"><p:inputText id="txtDireccionPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.direccion}"
 										maxlength="200" size="71"
-										/> <p:watermark
+										onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark
 										for="txtDireccionPN" value="Dirección" /></td>
 							</tr>
 							<tr>
@@ -148,7 +148,7 @@
 								<td colspan="5"><p:inputText id="txtReferenciaPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.referencia}"
 										maxlength="100" size="71"
-										/> <p:watermark
+										onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark
 										for="txtReferenciaPN" value="Referencia" /></td>
 							</tr>
 
@@ -173,7 +173,7 @@
 								<p:inputText id="txtEmailPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.email}"
 										maxlength="50" size="73"
-										/> 
+										onkeyup="this.value = this.value.toUpperCase();"/> 
 										<p:watermark for="txtEmailPN" value="email@hotmail.com" />					
 								</td>
 							</tr>
@@ -186,15 +186,18 @@
 					actionListener="#{mostrarDatosSocioPNBean.actualizarDatosSocio()}"
 					update="growl,#{componentToUpdated}" 
 					oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()">
+					<p:confirm header="Confirmation" message="Los datos se actualizaron correctamente..." icon="ui-icon-alert" />
 				</p:commandButton>
 				<p:commandButton value="Cancelar" 
 					onclick="#{componentName}.hide()" />
-			</div>			
+			</div>
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="Aceptar" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			</p:confirmDialog>
 		</h:form>
-
 	</p:dialog>
-	
-	
 </ui:composition>
 </html>
 

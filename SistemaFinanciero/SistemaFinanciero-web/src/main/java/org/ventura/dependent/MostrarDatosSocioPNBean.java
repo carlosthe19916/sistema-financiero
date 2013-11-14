@@ -205,15 +205,9 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	public void actualizarDatosSocio(){
 		try {
  			personaNaturalServiceLocal.update(oPersonaNatural);
- 			actualizacionCorrecta();
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
 	        RequestContext.getCurrentInstance().showMessageInDialog(message); 
 		}
-	}
-	
-	public void actualizacionCorrecta() {  
-		 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización Correcta...",  "");  
-	     FacesContext.getCurrentInstance().addMessage(null, message);
-    }  
+	}  
 }
