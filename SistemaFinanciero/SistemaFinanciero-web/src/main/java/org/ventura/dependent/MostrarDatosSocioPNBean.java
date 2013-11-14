@@ -7,11 +7,14 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
+import org.primefaces.context.RequestContext;
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
@@ -20,6 +23,8 @@ import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.ViewCuentas;
+import org.ventura.entity.schema.maestro.Estadocivil;
+import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.flow.SocioBean;
@@ -54,6 +59,12 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	private Personanatural oPersonaNatural;
 
 	private Socio oSocio;
+	
+	@Inject
+	private ComboBean<Sexo> comboSexo;
+
+	@Inject
+	private ComboBean<Estadocivil> comboEstadoCivil;
 
 	public MostrarDatosSocioPNBean() {
 	}
@@ -65,6 +76,8 @@ public class MostrarDatosSocioPNBean implements Serializable {
 		tablaCuentasPN =  new TablaBean<ViewCuentas>();
 		tablaBeneficiarioCAP = new TablaBean<Beneficiariocuenta>();
 		personaNaturalMB = new PersonaNaturalBean();
+		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
+		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
 	}
 
 	public TablaBean<ViewCuentas> getTablaCuentasPN() {
@@ -106,6 +119,22 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	public void setTablaBeneficiarioCAP(TablaBean<Beneficiariocuenta> tablaBeneficiarioCAP) {
 		this.tablaBeneficiarioCAP = tablaBeneficiarioCAP;
 	}
+	
+	public ComboBean<Sexo> getComboSexo() {
+		return comboSexo;
+	}
+
+	public void setComboSexo(ComboBean<Sexo> comboSexo) {
+		this.comboSexo = comboSexo;
+	}
+
+	public ComboBean<Estadocivil> getComboEstadoCivil() {
+		return comboEstadoCivil;
+	}
+
+	public void setComboEstadoCivil(ComboBean<Estadocivil> comboEstadoCivil) {
+		this.comboEstadoCivil = comboEstadoCivil;
+	}
 
 	public boolean isPersonaNatural() {
 		return true;
@@ -116,12 +145,24 @@ public class MostrarDatosSocioPNBean implements Serializable {
 			setoSocio(socioServiceLocal.findByDNI(oSocio.getDni()));
 			setoPersonaNatural(personaNaturalServiceLocal.find(oSocio.getDni()));
 			personaNaturalMB.setPersonaNatural(oPersonaNatural);
+			cargarComboSexo();
+			cargarComboEstadoCivil();
 			personaNaturalMB.changeEditingState();
 			CargarCuentasPersonales();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void cargarComboEstadoCivil() {
+		personaNaturalMB.setComboEstadoCivil(comboEstadoCivil);
+		personaNaturalMB.getComboEstadoCivil().setItemSelected(oPersonaNatural.getIdestadocivil());
+	}
+
+	private void cargarComboSexo() {
+		personaNaturalMB.setComboSexo(comboSexo);
+		personaNaturalMB.getComboSexo().setItemSelected(oPersonaNatural.getIdsexo());
 	}
 
 	public void CargarCuentasPersonales() {
@@ -160,5 +201,19 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	public void removeBeneficiario() {
 		this.tablaBeneficiarioCAP.removeSelectedRow();
 	}
- 
+	
+	public void actualizarDatosSocio(){
+		try {
+ 			personaNaturalServiceLocal.update(oPersonaNatural);
+ 			actualizacionCorrecta();
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message); 
+		}
+	}
+	
+	public void actualizacionCorrecta() {  
+		 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización Correcta...",  "");  
+	     FacesContext.getCurrentInstance().addMessage(null, message);
+    }  
 }
