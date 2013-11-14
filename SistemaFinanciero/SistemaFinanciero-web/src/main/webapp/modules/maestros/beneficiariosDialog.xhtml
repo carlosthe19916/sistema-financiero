@@ -86,7 +86,7 @@
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.apellidopaterno}"
-												required="true" maxlength="50"
+												required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
 												requiredMessage="Apellido Paterno (Obligatorio)" />
 										</f:facet>
 									</p:cellEditor>
@@ -98,7 +98,7 @@
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.apellidomaterno}"
-												required="true" maxlength="50"
+												required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
 												requiredMessage="Apellido Materno (Obligatorio)" />
 										</f:facet>
 									</p:cellEditor>
@@ -110,7 +110,7 @@
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.nombres}" required="true"
-												maxlength="50" requiredMessage="Nombres (Obligatorio)" />
+												maxlength="50" requiredMessage="Nombres (Obligatorio)" onkeyup="this.value = this.value.toUpperCase();"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>

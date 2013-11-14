@@ -52,7 +52,7 @@
 										<td><p:inputText id="txtRazonsocialPJ" required="true"
 												requiredMessage="Ingrese Razon Social"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.razonsocial}"
-												disabled="#{!managedBean.personaJuridicaMB.editing}">
+												disabled="#{!managedBean.personaJuridicaMB.editing}" onkeyup="this.value = this.value.toUpperCase();">
 												<p:ajax update="growl,txtRazonsocialPJ" event="blur" />
 											</p:inputText> <p:watermark for="txtRazonsocialPJ" value="Razon Social" />
 											<p:outputLabel for="txtRazonsocialPJ" /></td>
@@ -62,7 +62,7 @@
 										<td><p:outputLabel>Nombre Comercial:</p:outputLabel></td>
 										<td><p:inputText id="txtNombreComercialPJ"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.nombrecomercial}"
-												disabled="#{!managedBean.personaJuridicaMB.editing}">
+												disabled="#{!managedBean.personaJuridicaMB.editing}" onkeyup="this.value = this.value.toUpperCase();">
 												<p:ajax update="growl,txtNombreComercialPJ" event="blur" />
 											</p:inputText> <p:watermark for="txtNombreComercialPJ"
 												value="Nombre Comercial" /></td>
@@ -70,7 +70,7 @@
 										<td><p:outputLabel>Actividad Principal:</p:outputLabel></td>
 										<td><p:inputText id="txtActividadPrincipalPJ"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.actividadprincipal}"
-												disabled="#{!managedBean.personaJuridicaMB.editing}">
+												disabled="#{!managedBean.personaJuridicaMB.editing}" onkeyup="this.value = this.value.toUpperCase();">
 												<p:ajax update="growl,txtActividadPrincipalPJ" event="blur" />
 											</p:inputText> <p:watermark for="txtActividadPrincipalPJ"
 												value="Actividad Principal" /></td>
@@ -149,7 +149,7 @@
 										<td colspan="3"><p:inputText id="txtDireccionPJ"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.direccion}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}"
-												size="75" /> <p:watermark for="txtDireccionPJ"
+												size="75" onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark for="txtDireccionPJ"
 												value="Direccion" /></td>
 									</tr>
 									<tr>
@@ -157,7 +157,7 @@
 										<td colspan="3"><p:inputText id="txtReferenciaPJ"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.referencia}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}"
-												size="75" /> <p:watermark for="txtReferenciaPJ"
+												size="75" onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark for="txtReferenciaPJ"
 												value="referencia" /></td>
 									</tr>
 									<tr>
@@ -178,7 +178,7 @@
 										<td colspan="3"><p:inputText id="TxtEmailPJ"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.email}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}"
-												size="75" /> <p:watermark for="TxtEmailPJ"
+												size="75" onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark for="TxtEmailPJ"
 												value="email@dominio.com" /></td>
 									</tr>
 								</table>
@@ -202,7 +202,7 @@
 													disabled="#{!managedBean.personaJuridicaMB.editing or managedBean.personaJuridicaMB.editingPersonanatural}"
 													required="true" maxlength="8"
 													requiredMessage="Ingrese Número de DNI"
-													validatorMessage="Número de DNI Invalido">
+													validatorMessage="Número de DNI Invalido" >
 													<f:validateRegex pattern="(^[0-9]{8}$)" />
 
 													<p:ajax update="growl,@form" event="blur"
@@ -215,18 +215,18 @@
 											<td><p:inputText id="txtApPaternoPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.apellidopaterno}"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}"
-													required="true" maxlength="50"
+													required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
 													requiredMessage="Ingrese Apellido Paterno">
-													<p:ajax update="growl,txtApPaternoPN" event="blur" />
+													<p:ajax update="growl,txtApPaternoPN" event="blur"/>
 												</p:inputText> <p:watermark for="txtApPaternoPN" value="Apellido Paterno" />
 												<p:outputLabel for="txtApPaternoPN" /></td>
 											<td><p:outputLabel value="Apellido Materno:" /></td>
 											<td><p:inputText id="txtApMaternoPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.apellidomaterno}"
-													required="true" maxlength="50"
+													required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
 													requiredMessage="Ingrese Apellido Materno"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
-													<p:ajax update="growl,txtApMaternoPN" event="blur" />
+													<p:ajax update="growl,txtApMaternoPN" event="blur" onkeyup="this.value = this.value.toUpperCase();"/>
 												</p:inputText> <p:watermark for="txtApMaternoPN" value="Apellido Materno" />
 												<p:outputLabel for="txtApMaternoPN" /></td>
 										</tr>
@@ -235,9 +235,9 @@
 											<td colspan="3"><p:inputText id="txtNombresPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.nombres}"
 													size="71" required="true" maxlength="60"
-													requiredMessage="Ingrese Nombres"
+													requiredMessage="Ingrese Nombres" onkeyup="this.value = this.value.toUpperCase();"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
-													<p:ajax update="growl,txtNombresPN" event="blur" />
+													<p:ajax update="growl,txtNombresPN" event="blur" onkeyup="this.value = this.value.toUpperCase();"/>
 												</p:inputText> <p:watermark for="txtNombresPN" value="Nombres" /> <p:outputLabel
 													for="txtNombresPN" /></td>
 										</tr>
@@ -298,7 +298,7 @@
 											<td><p:outputLabel>Ocupacion:</p:outputLabel></td>
 											<td colspan="3"><p:inputText id="txtOcupacionPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.ocupacion}"
-													maxlength="70" size="71"
+													maxlength="70" size="71" onkeyup="this.value = this.value.toUpperCase();"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
 												<p:watermark for="txtOcupacionPN" value="Ocupación" /></td>
 										</tr>
@@ -306,7 +306,7 @@
 											<td><p:outputLabel>Direccion:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtDireccionPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.direccion}"
-													maxlength="200" size="71"
+													maxlength="200" size="71" onkeyup="this.value = this.value.toUpperCase();"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
 												<p:watermark for="txtDireccionPN" value="Dirección" /></td>
 										</tr>
@@ -314,7 +314,7 @@
 											<td><p:outputLabel>Referencia:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtReferenciaPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.referencia}"
-													maxlength="100" size="71"
+													maxlength="100" size="71" onkeyup="this.value = this.value.toUpperCase();"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
 												<p:watermark for="txtReferenciaPN" value="Referencia" /></td>
 										</tr>
@@ -338,7 +338,7 @@
 											<td><p:outputLabel>Email:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtEmailPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.email}"
-													maxlength="50" size="73"
+													maxlength="50" size="73" onkeyup="this.value = this.value.toUpperCase();"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}" />
 												<p:watermark for="txtEmailPN" value="email@hotmail.com" /></td>
 										</tr>
@@ -415,7 +415,7 @@
 													<p:inputText id="dni"
 														value="#{accionista.personanatural.dni}" required="true"
 														maxlength="8" requiredMessage="DNI (Obligatorio)"
-														validatorMessage="DNI no tiene digitos validos">
+														validatorMessage="DNI no tiene digitos validos" >
 														<f:validateRegex pattern="(^[0-9]{8}$)" />
 														<p:ajax
 															update="apellidoPaterno,apellidoMaterno,nombres,txtSexo,txtFecNac"
@@ -436,7 +436,7 @@
 													<p:inputText id="apellidoPaterno"
 														value="#{accionista.personanatural.apellidopaterno}"
 														required="true" maxlength="50"
-														requiredMessage="Apellido Paterno (Obligatorio)" />
+														requiredMessage="Apellido Paterno (Obligatorio)" onkeyup="this.value = this.value.toUpperCase();"/>
 													<p:watermark for="apellidoPaterno" value="Ap. Paterno" />
 												</f:facet>
 											</p:cellEditor>
@@ -452,7 +452,7 @@
 														<p:inputText id="apellidoMaterno"
 															value="#{accionista.personanatural.apellidomaterno}"
 															required="true" maxlength="50"
-															requiredMessage="Apellido Materno (Obligatorio)" />
+															requiredMessage="Apellido Materno (Obligatorio)" onkeyup="this.value = this.value.toUpperCase();"/>
 														<p:watermark for="apellidoMaterno"
 															value="Ap. Materno" />
 													</f:facet>
@@ -468,7 +468,7 @@
 													<p:inputText id="nombres"
 														value="#{accionista.personanatural.nombres}"
 														required="true" maxlength="50"
-														requiredMessage="Nombres (Obligatorio)" />
+														requiredMessage="Nombres (Obligatorio)" onkeyup="this.value = this.value.toUpperCase();"/>
 													<p:watermark for="nombres" value="Nombres" />
 												</f:facet>
 											</p:cellEditor>
