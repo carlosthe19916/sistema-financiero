@@ -11,17 +11,11 @@
 
 <ui:composition>
 
-	<p:dialog id="dlg-personaNatural" widgetVar="#{componentName}" modal="true" header="Persona Natural" rendered="#{managedBean.personaNatural}">
+	<p:dialog id="dlg-personaNatural" widgetVar="#{componentName}" modal="true" header="Actualizar Datos Socio" rendered="#{managedBean.personaNatural}">
 
 		<h:form id="form-datosPersonanatural">
 		
 			<p:growl id="growl" sticky="true" />
-			<pe:blockUI target=":dlg-personaNatural" widgetVar="blockUIWidget-PersonaNatural">
-				<h:panelGrid columns="2">
-					<p:graphicImage library="images" name="load.gif" width="32" height="32" style="margin-right: 12px; vertical-align: middle;" />
-					<h:outputText value="Please wait..." style="white-space: nowrap;" />
-				</h:panelGrid>
-			</pe:blockUI>
 			
 			<div class="sf-agrupador">
 				<div class="sf-agrupador-content">
@@ -42,7 +36,7 @@
 										requiredMessage="Ingrese Número de DNI"
 										validatorMessage="Número de DNI Invalido">
 										<f:validateRegex pattern="(^[0-9]{8}$)" />
-										<p:ajax update="growl,@form,:form-datosPersonanatural,:form-buttons" event="blur" listener="#{managedBean.personaNaturalMB.buscarPersona()}" onstart="PF('blockUIWidget-PersonaNatural').block()" oncomplete="PF('blockUIWidget-PersonaNatural').unblock()"/>
+										<p:ajax update="growl,:form-datosPersonanatural" event="blur" listener="#{managedBean.personaNaturalMB.buscarPersona()}" onstart="PF('blockUIWidget-PersonaNatural').block()" oncomplete="PF('blockUIWidget-PersonaNatural').unblock()"/>
 									</p:inputText> 
 									<p:watermark for="txtDNIPN" value="DNI" /> 
 									<p:outputLabel for="txtDNIPN" />
@@ -52,19 +46,17 @@
 								<td><p:outputLabel value="Apellido Paterno:" /></td>
 								<td><p:inputText id="txtApPaternoPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.apellidopaterno}"
-										disabled="#{!managedBean.personaNaturalMB.editing}"
 										required="true" maxlength="50"
-										requiredMessage="Ingrese Apellido Paterno" onkeyup="this.value = this.value.toUpperCase();">
-										<p:ajax update="growl,txtApPaternoPN" event="blur" />
+										requiredMessage="Ingrese Apellido Paterno">
+										<p:ajax update="growl" event="blur" />
 									</p:inputText> <p:watermark for="txtApPaternoPN" value="Apellido Paterno" />
 									<p:outputLabel for="txtApPaternoPN" /></td>
 								<td><p:outputLabel value="Apellido Materno:" /></td>
 								<td><p:inputText id="txtApMaternoPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.apellidomaterno}"
 										required="true" maxlength="50"
-										requiredMessage="Ingrese Apellido Materno"
-										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update="growl,txtApMaternoPN" event="blur" onkeyup="this.value = this.value.toUpperCase();"/>
+										requiredMessage="Ingrese Apellido Materno">
+										<p:ajax update="growl" event="blur" />
 									</p:inputText> <p:watermark for="txtApMaternoPN" value="Apellido Materno" />
 									<p:outputLabel for="txtApMaternoPN" /></td>
 							</tr>
@@ -73,9 +65,8 @@
 								<td colspan="3"><p:inputText id="txtNombresPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.nombres}"
 										size="71" required="true" maxlength="60"
-										requiredMessage="Ingrese Nombres"
-										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update="growl,txtNombresPN" event="blur" onkeyup="this.value = this.value.toUpperCase();"/>
+										requiredMessage="Ingrese Nombres">
+										<p:ajax update="growl" event="blur" />
 									</p:inputText> <p:watermark for="txtNombresPN" value="Nombres" /> <p:outputLabel
 										for="txtNombresPN" /></td>
 							</tr>
@@ -87,9 +78,8 @@
 										value="#{managedBean.personaNaturalMB.personaNatural.fechanacimiento}"
 										navigator="true" pattern="dd/MM/yy" required="true"
 										requiredMessage="Ingrese Fecha de Nacimiento"
-										converterMessage="El formato de la fecha de nacimiento no es correcto"
-										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update="growl,txtFecNacPN"/>
+										converterMessage="El formato de la fecha de nacimiento no es correcto">
+										<p:ajax update="growl"/>
 										<f:convertDateTime pattern="dd/MM/yy" />
 									</p:calendar> 
 									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy" /> 
@@ -99,14 +89,13 @@
 									<p:selectOneMenu id="txtSexo"
 										value="#{managedBean.personaNaturalMB.comboSexo.itemSelected}"
 										valueChangeListener="#{managedBean.personaNaturalMB.changeSexo}"
-										required="true" requiredMessage="Seleccione un sexo valido"
-										disabled="#{!managedBean.personaNaturalMB.editing}">
+										required="true" requiredMessage="Seleccione un sexo valido">
 										<f:selectItem id="e" itemLabel="--Seleccione--" itemValue="" />
 										<f:selectItems
 											value="#{managedBean.personaNaturalMB.comboSexo.items.entrySet()}"
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
-										<p:ajax update="growl,txtSexo" />
+										<p:ajax update="growl" />
 									</p:selectOneMenu> 
 									<p:outputLabel for="txtSexo" />
 								</td>
@@ -128,8 +117,7 @@
 								<td>
 									<p:selectOneMenu
 										value="#{managedBean.personaNaturalMB.comboEstadoCivil.itemSelected}"
-										valueChangeListener="#{managedBean.personaNaturalMB.changeEstadoCivil}"
-										disabled="#{!managedBean.personaNaturalMB.editing}">
+										valueChangeListener="#{managedBean.personaNaturalMB.changeEstadoCivil}">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										<f:selectItems
 											value="#{managedBean.personaNaturalMB.comboEstadoCivil.items.entrySet()}"
@@ -144,7 +132,7 @@
 								<td colspan="3"><p:inputText id="txtOcupacionPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.ocupacion}"
 										maxlength="70" size="71"
-										disabled="#{!managedBean.personaNaturalMB.editing}" onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark
+										/> <p:watermark
 										for="txtOcupacionPN" value="Ocupación" /></td>
 							</tr>
 							<tr>
@@ -152,16 +140,16 @@
 								<td colspan="5"><p:inputText id="txtDireccionPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.direccion}"
 										maxlength="200" size="71"
-										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
-										for="txtDireccionPN" value="Dirección" onkeyup="this.value = this.value.toUpperCase();"/></td>
+										/> <p:watermark
+										for="txtDireccionPN" value="Dirección" /></td>
 							</tr>
 							<tr>
 								<td><p:outputLabel>Referencia:</p:outputLabel></td>
 								<td colspan="5"><p:inputText id="txtReferenciaPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.referencia}"
 										maxlength="100" size="71"
-										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
-										for="txtReferenciaPN" value="Referencia" onkeyup="this.value = this.value.toUpperCase();"/></td>
+										/> <p:watermark
+										for="txtReferenciaPN" value="Referencia" /></td>
 							</tr>
 
 							<tr>
@@ -169,13 +157,13 @@
 								<td><p:inputText id="txtTelefonoPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.telefono}"
 										maxlength="30"
-										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
+										/> <p:watermark
 										for="txtTelefonoPN" value="Telefono1/telefono2" /></td>
 								<td><p:outputLabel>Celular:</p:outputLabel></td>
 								<td><p:inputText id="txtCelularPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.celular}"
 										maxlength="30"
-										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
+										/> <p:watermark
 										for="txtCelularPN" value="celular1/celular2/RPM" /></td>
 							</tr>
 							<tr>
@@ -185,7 +173,7 @@
 								<p:inputText id="txtEmailPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.email}"
 										maxlength="50" size="73"
-										disabled="#{!managedBean.personaNaturalMB.editing}" onkeyup="this.value = this.value.toUpperCase();"/> 
+										/> 
 										<p:watermark for="txtEmailPN" value="email@hotmail.com" />					
 								</td>
 							</tr>
@@ -195,31 +183,18 @@
 			</div>		
 			<div class="sf-buttons">
 				<p:commandButton value="Aceptar" 
-					actionListener="#{managedBean.establecerTitularDefecto()}"
-					update="growl,@form,#{componentToUpdated}" 
-					oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()" 
-					rendered="#{managedBean.personaNaturalMB.editing}">
-					<p:ajax onstart="PF('blockUIWidget-PersonaNatural').block()" oncomplete="PF('blockUIWidget-PersonaNatural').unblock()"/>
+					actionListener="#{mostrarDatosSocioPNBean.actualizarDatosSocio()}"
+					update="growl,#{componentToUpdated}" 
+					oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()">
 				</p:commandButton>
 				<p:commandButton value="Cancelar" 
-					onclick="#{componentName}.hide()" 
-					rendered="#{managedBean.personaNaturalMB.editing}"/>
+					onclick="#{componentName}.hide()" />
 			</div>			
 		</h:form>
-		
-		<h:form id="form-buttons">
-			<div class="sf-buttons">
-				<p:commandButton value="Aceptar" 
-					actionListener="#{managedBean.establecerTitularDefecto()}"
-					update="#{componentToUpdated}" 
-					rendered="#{!managedBean.personaNaturalMB.editing}" 
-					onclick="#{componentName}.hide()"/>
-				<p:commandButton value="Cancelar" update="#{componentToUpdated}" rendered="#{!managedBean.personaNaturalMB.editing}" onclick="#{componentName}.hide()"/>
-			</div>
-		</h:form>	
-		
-	</p:dialog>
 
+	</p:dialog>
+	
+	
 </ui:composition>
 </html>
 
