@@ -1,118 +1,112 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:jsf="http://xmlns.jcp.org/jsf">
 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
-	<f:metadata>
-		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
-		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
-	</f:metadata>
-
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
-		<h:outputText value="Apertura Cta. Ahorros" />
+		<h:outputText value="Boveda" />
 	</ui:define>
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-
 		<h:outputStylesheet library="css" name="main.css" />
 
 		<div class="sf-content-cabecera">
-			<h2>Bodevas Por agencia</h2>
+			<h2>Boveda</h2>
+
 		</div>
 
-		<h:panelGrid id="prueba">
-			<div>
-				<div>
-					<h:form id="form-buttons1">
-						<div class="buttons">
-
-							<div class="tiptip">
-								<h:commandLink styleClass="button left" title="Nueva bóveda"
-									onclick="dlgNuevaBoveda.show();return false;">
-									<span class="icon icon3"></span>
-									<span class="label">Nuevo</span>
-								</h:commandLink>
-								<h:commandLink action="#" styleClass="button middle"
-									title="Editar Boveda">
-									<span class="icon icon26"></span>
-									<span class="label">Editar</span>
-								</h:commandLink>
-								<h:commandLink action="#" styleClass="button right"
-									title="Eliminar Boveda">
-									<span class="icon icon186"></span>
-									<span class="label">Eliminar</span>
-								</h:commandLink>
-								<h:commandLink styleClass="button right" title="Eliminar Boveda"
-									onclick="dlgAbrirBoveda.show();return false;">
-									<span class="icon icon123"></span>
-									<span class="label">Abrir Boveda</span>
-								</h:commandLink>
-								<h:commandLink action="#" styleClass="button right"
-									title="Eliminar Boveda">
-									<span class="icon icon122"></span>
-									<span class="label">Cerrar Boveda</span>
-								</h:commandLink>
-							</div>
-
-						</div>
-					</h:form>
+		<div>
+			<h:form>
+				<div class="buttons">
+					<div class="tiptip">
+						<h:commandLink styleClass="button left" title="Nueva bóveda"
+							onclick="dlgNuevaBoveda.show();return false;"
+							actionListener="#{administrarBoveda.preCreateBoveda()}">
+							<span class="icon icon3"></span>
+							<span class="label">Nuevo</span>
+						</h:commandLink>
+						<p:commandLink styleClass="button middle" title="Editar Boveda"
+							oncomplete="dlgUpdateBoveda.show();return false;"
+							update=":formTablaBoveda">
+							<span class="icon icon26"></span>
+							<span class="label">Editar</span>
+						</p:commandLink>
+						<h:commandLink action="#" styleClass="button right"
+							title="Eliminar Boveda">
+							<span class="icon icon186"></span>
+							<span class="label">Eliminar</span>
+						</h:commandLink>
+						<h:commandLink styleClass="button left" title="Nueva bóveda"
+							onclick="dlgOpenBoveda.show();return false;">
+							<span class="icon icon123"></span>
+							<span class="label">Abrir Boveda</span>
+						</h:commandLink>
+						<h:commandLink action="#" styleClass="button right"
+							title="Eliminar Boveda">
+							<span class="icon icon122"></span>
+							<span class="label">Cerrar Boveda</span>
+						</h:commandLink>
+					</div>
 				</div>
+			</h:form>
+			<h:form id="formTablaBoveda">
 				<div>
-					<h:form id="formTblBoveda">
-						<p:dataTable id="tabla" var="boveda"
-							value="#{administrarBoveda.tablaBoveda.rows}"
-							selectionMode="single"
-							selection="#{administrarBoveda.tablaBoveda.selectedRow}"
-							rowKey="#{boveda}" rowIndexVar="row">
+					<p:dataTable var="boveda"
+						value="#{administrarBoveda.tablaBoveda.rows}"
+						selectionMode="single"
+						selection="#{administrarBoveda.tablaBoveda.selectedRow}"
+						rowKey="#{boveda}" rowIndexVar="row">
 
-							<p:column headerText="Nro" width="5%" style="text-align:center;">
-								<h:outputText value="#{row + 1}" />
-							</p:column>
+						<p:ajax event="rowSelect"
+							listener="#{administrarBoveda.preUpdateBoveda()}" />
+						<p:ajax event="rowUnselect"
+							listener="#{administrarBoveda.tablaBoveda.rowUnselect()}" />
 
-							<p:column headerText="Denominacion">
-								<h:outputText value="#{boveda.denominacion}" />
-							</p:column>
-							<p:column headerText="Moneda">
-								<h:outputText value="#{boveda.tipomoneda.denominacion}" />
-							</p:column>
-							<p:column headerText="Saldo">
-								<h:outputText value="#{boveda.saldo}" />
-							</p:column>
-							<p:column headerText="Estado Apertura">
-								<h:outputText value="#{boveda.estadomovimiento.denominacion}" />
-							</p:column>
-						</p:dataTable>
-					</h:form>
+						<p:column headerText="Nro" width="5%" style="text-align:center;">
+							<h:outputText value="#{row + 1}" />
+						</p:column>
+
+						<p:column headerText="Denominacion">
+							<h:outputText value="#{boveda.denominacion}" />
+						</p:column>
+						<p:column headerText="Moneda">
+							<h:outputText value="#{boveda.tipomoneda.denominacion}" />
+						</p:column>
+						<p:column headerText="Saldo">
+							<h:outputText value="#{boveda.saldo}" />
+						</p:column>
+						<p:column headerText="Estado Apertura">
+							<h:outputText value="#{boveda.estadomovimiento.denominacion}" />
+						</p:column>
+					</p:dataTable>
 				</div>
-			</div>
-		</h:panelGrid>
-
-		<h:panelGroup id="panelDatos">
+			</h:form>
+			
+			<ui:include src="/modules/caja/boveda/openBoveda.xhtml">
+				<ui:param name="WidgetVarName" value="dlgOpenBoveda" />
+				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
+			</ui:include>
+			
 			<ui:include src="/modules/caja/boveda/nuevaBoveda.xhtml">
 				<ui:param name="componentName" value="dlgNuevaBoveda" />
-				<ui:param name="componentToUpdated" value=":panelDatos" />
+				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
 			</ui:include>
-		</h:panelGroup>
-
-
-
-
-
-
+			<ui:include src="/modules/caja/boveda/updateBoveda.xhtml">
+				<ui:param name="componentwidgetVar" value="dlgUpdateBoveda" />
+				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
+			</ui:include>
+			
+			
+		</div>
 	</ui:define>
 
 </ui:composition>
 </html>
-
-
-
