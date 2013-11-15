@@ -157,10 +157,8 @@ public class PersonaJuridicaBean implements Serializable {
 			}
 		}
 		if(porcentaje_total != 100.0){
-			FacesContext context = FacesContext.getCurrentInstance();			
-			context.validationFailed();	
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Suma Incorrecta (%)", "Porcentaje de Participacion no suman 100%");
-			context.addMessage(null, message);
+			FacesContext context = FacesContext.getCurrentInstance();  
+	        context.addMessage(null, new FacesMessage("Suma Incorrecta", "Porcentaje de Participacion no Suma 100%"));  
 		}	
 	}
 	
