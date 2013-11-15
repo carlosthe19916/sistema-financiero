@@ -89,7 +89,7 @@
 										requiredMessage="Ingrese Fecha de Nacimiento"
 										converterMessage="El formato de la fecha de nacimiento no es correcto"
 										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update="growl,txtFecNacPN"/>
+										<p:ajax update="growl,txtFecNacPN" listener=""/>
 										<f:convertDateTime pattern="dd/MM/yy" />
 									</p:calendar> 
 									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy" /> 
