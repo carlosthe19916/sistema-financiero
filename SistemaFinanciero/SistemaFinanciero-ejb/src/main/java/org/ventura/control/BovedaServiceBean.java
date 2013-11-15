@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,21 +16,16 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.ventura.boundary.local.PersonajuridicaServiceLocal;
-import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.dao.impl.BovedaDAO;
+import org.ventura.dao.impl.DetallehistorialbovedaDAO;
+import org.ventura.dao.impl.ViewBovedadetalleDAO;
 import org.ventura.entity.schema.caja.Boveda;
-import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
-import org.ventura.entity.schema.persona.Personajuridica;
-import org.ventura.entity.schema.persona.Personanatural;
-import org.ventura.util.exception.IllegalEntityException;
-import org.ventura.util.exception.PreexistingEntityException;
+import org.ventura.entity.schema.caja.Denominacionmoneda;
+import org.ventura.entity.schema.caja.Detallehistorialboveda;
+import org.ventura.entity.schema.caja.ViewBovedadetalle;
 import org.ventura.util.logger.Log;
-import org.ventura.util.validate.Validator;
 
 @Named
 @Stateless
@@ -44,6 +40,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	@EJB
 	private BovedaDAO bovedaDAO;
 
+	@EJB
+	private DetallehistorialbovedaDAO detallehistorialbovedaDAO;
+
+	@EJB
+	private ViewBovedadetalleDAO viewBovedadetalleDAO;
+	
 	@Override
 	public Boveda create(Boveda Boveda) throws Exception {
 		try {
@@ -157,5 +159,35 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 
 		return list;
+	}
+
+	@Override
+	public List<Detallehistorialboveda> getLastDetallehistorialboveda(Boveda oBoveda) throws Exception {
+		List<Detallehistorialboveda> detallehistorialbovedaList = new ArrayList<Detallehistorialboveda>();
+		
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idboveda", oBoveda.getIdboveda());
+		
+		
+		List<ViewBovedadetalle> bovedadetalleList = viewBovedadetalleDAO.findByNamedQuery(ViewBovedadetalle.findLastBovedaDetalleByBoveda, parameters);		
+		for (Iterator<ViewBovedadetalle> iterator = bovedadetalleList.iterator(); iterator.hasNext();) {
+			ViewBovedadetalle viewBovedadetalle = iterator.next();
+			Detallehistorialboveda detallehistorialboveda = new Detallehistorialboveda();
+			detallehistorialboveda.setIddetallehistorialboveda(viewBovedadetalle.getIddetallehistorialboveda());
+			detallehistorialboveda.setCantidad(viewBovedadetalle.getCantidaddetallehistorialboveda());
+			
+			Denominacionmoneda denominacionmoneda = new Denominacionmoneda();
+			denominacionmoneda.setIddenominacionmoneda(viewBovedadetalle.getIddenominacionmoneda());
+			denominacionmoneda.setDenominacion(viewBovedadetalle.getDenominaciondenominacionmoneda());
+			denominacionmoneda.setIddenominacionmoneda(viewBovedadetalle.getIddenominacionmoneda());
+			denominacionmoneda.setIdtipomoneda(viewBovedadetalle.getIdtipomoneda());
+			denominacionmoneda.setValor(viewBovedadetalle.getValordenominacionmoneda());
+			
+			detallehistorialboveda.setDenominacionmoneda(denominacionmoneda);
+			
+			detallehistorialbovedaList.add(detallehistorialboveda);
+		}
+		 
+		return detallehistorialbovedaList;
 	}
 }

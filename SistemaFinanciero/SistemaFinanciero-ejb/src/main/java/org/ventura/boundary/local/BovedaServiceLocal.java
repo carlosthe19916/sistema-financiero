@@ -8,6 +8,7 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.entity.schema.caja.Boveda;
+import org.ventura.entity.schema.caja.Detallehistorialboveda;
 
 @Local
 public interface BovedaServiceLocal extends BovedaServiceRemote{
@@ -27,5 +28,7 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	public List<Boveda> findByNamedQuery(String Boveda, Map<String, Object> parameters) throws Exception;
 	
 	public List<Boveda> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
+	
+	public List<Detallehistorialboveda> getLastDetallehistorialboveda(Boveda oBoveda) throws Exception;
 
 }
