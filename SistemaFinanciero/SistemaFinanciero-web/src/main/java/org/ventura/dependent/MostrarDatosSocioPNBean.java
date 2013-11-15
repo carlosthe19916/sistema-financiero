@@ -50,7 +50,7 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	@ManagedProperty(value = "#{TablaBean}")
 	private TablaBean<ViewCuentas> tablaCuentasPN;
 	
-	@ManagedProperty(value = "#{TablaBean}")
+	@Inject
 	private TablaBean<Beneficiariocuenta> tablaBeneficiarioCAP;
 
 	@ManagedProperty(value = "#{PersonaNaturalBean}")
@@ -74,7 +74,6 @@ public class MostrarDatosSocioPNBean implements Serializable {
 		oPersonaNatural = new Personanatural();
 		oSocio = new Socio();
 		tablaCuentasPN =  new TablaBean<ViewCuentas>();
-		tablaBeneficiarioCAP = new TablaBean<Beneficiariocuenta>();
 		personaNaturalMB = new PersonaNaturalBean();
 		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
@@ -193,13 +192,18 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	}
 	
 	public void addBeneficiario() {
+		System.out.println("Hola");
+		System.out.println(tablaBeneficiarioCAP.getRows().size());
 		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();
 		beneficiariocuenta.setEstado(true);
-		this.tablaBeneficiarioCAP.addRow(beneficiariocuenta);
+		tablaBeneficiarioCAP.addRow(beneficiariocuenta);
+		System.out.println(tablaBeneficiarioCAP.getRows().size());
 	}
 	
 	public void removeBeneficiario() {
+		System.out.println(tablaBeneficiarioCAP.getRows().size());
 		this.tablaBeneficiarioCAP.removeSelectedRow();
+		System.out.println(tablaBeneficiarioCAP.getRows().size());
 	}
 	
 	public void actualizarDatosSocio(){

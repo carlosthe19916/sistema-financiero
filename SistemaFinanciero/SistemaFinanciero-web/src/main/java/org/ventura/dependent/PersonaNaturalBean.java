@@ -92,8 +92,8 @@ public class PersonaNaturalBean implements Serializable {
 		if(anio<18){
 			this.isMayor=true;
 		}
-
 	}
+	
 
 	public boolean isValid() {
 		return personaNatural.isValid() ? true : false;
