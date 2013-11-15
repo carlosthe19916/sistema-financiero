@@ -18,7 +18,7 @@
 			<p:growl id="growl" sticky="true" />
 			<pe:blockUI target=":dlg-personaNatural" widgetVar="blockUIWidget-PersonaNatural">
 				<h:panelGrid columns="2">
-					<p:graphicImage library="images" name="load.gif" width="32" height="32" style="margin-right: 12px; vertical-align: middle;" />
+					<p:graphicImage library="images" name="loader.gif" width="32" height="32" style="margin-right: 12px; vertical-align: middle;" />
 					<h:outputText value="Please wait..." style="white-space: nowrap;" />
 				</h:panelGrid>
 			</pe:blockUI>
@@ -61,10 +61,10 @@
 								<td><p:outputLabel value="Apellido Materno:" /></td>
 								<td><p:inputText id="txtApMaternoPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.apellidomaterno}"
-										required="true" maxlength="50"
+										required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
 										requiredMessage="Ingrese Apellido Materno"
 										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update="growl,txtApMaternoPN" event="blur" onkeyup="this.value = this.value.toUpperCase();"/>
+										<p:ajax update="growl,txtApMaternoPN" event="blur"/>
 									</p:inputText> <p:watermark for="txtApMaternoPN" value="Apellido Materno" />
 									<p:outputLabel for="txtApMaternoPN" /></td>
 							</tr>
@@ -73,7 +73,7 @@
 								<td colspan="3"><p:inputText id="txtNombresPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.nombres}"
 										size="71" required="true" maxlength="60"
-										requiredMessage="Ingrese Nombres"
+										requiredMessage="Ingrese Nombres" onkeyup="this.value = this.value.toUpperCase();"
 										disabled="#{!managedBean.personaNaturalMB.editing}">
 										<p:ajax update="growl,txtNombresPN" event="blur" onkeyup="this.value = this.value.toUpperCase();"/>
 									</p:inputText> <p:watermark for="txtNombresPN" value="Nombres" /> <p:outputLabel
