@@ -10,15 +10,21 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.ViewCuentas;
+import org.ventura.entity.schema.maestro.Estadocivil;
+import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.persona.Tipoempresa;
 import org.ventura.entity.schema.socio.Socio;
 
 @ManagedBean
@@ -29,6 +35,9 @@ public class MostrarDatosSocioPJBean implements Serializable {
 
 	@EJB
 	PersonajuridicaServiceLocal personaJuridicaServiceLocal;
+	
+	@EJB
+	PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	@EJB
 	SocioServiceLocal socioServiceLocal;
@@ -51,6 +60,13 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	private Personajuridica oPersonaJuridica;
 	
 	private Socio oSocio;
+	
+	@Inject
+	private ComboBean<Tipoempresa> comboTipoempresa;
+	@Inject
+	private ComboBean<Sexo> comboSexo;
+	@Inject
+	private ComboBean<Estadocivil> comboEstadocivil;
 
 	public MostrarDatosSocioPJBean() {
 	}
@@ -62,6 +78,9 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		tablaCuentasPJ = new TablaBean<ViewCuentas>();
 		tablaAccionistasCAP = new TablaBean<Accionista>();
 		personaJuridicaMB = new PersonaJuridicaBean();
+		comboTipoempresa.initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
+		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
+		comboEstadocivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
 	}
 
 	public TablaBean<ViewCuentas> getTablaCuentasPJ() {
@@ -104,6 +123,30 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		this.oSocio = oSocio;
 	}
 	
+	public ComboBean<Tipoempresa> getComboTipoempresa() {
+		return comboTipoempresa;
+	}
+
+	public void setComboTipoempresa(ComboBean<Tipoempresa> comboTipoempresa) {
+		this.comboTipoempresa = comboTipoempresa;
+	}
+	
+	public ComboBean<Sexo> getComboSexo() {
+		return comboSexo;
+	}
+
+	public void setComboSexo(ComboBean<Sexo> comboSexo) {
+		this.comboSexo = comboSexo;
+	}
+
+	public ComboBean<Estadocivil> getComboEstadocivil() {
+		return comboEstadocivil;
+	}
+
+	public void setComboEstadocivil(ComboBean<Estadocivil> comboEstadocivil) {
+		this.comboEstadocivil = comboEstadocivil;
+	}
+	
 	public boolean isPersonaJuridica() {
 		return true;
 	}
@@ -113,12 +156,29 @@ public class MostrarDatosSocioPJBean implements Serializable {
 			setoSocio(socioServiceLocal.findByRUC(oSocio.getRuc()));
 			setoPersonaJuridica(personaJuridicaServiceLocal.find(oSocio.getRuc()));
 			personaJuridicaMB.setoPersonajuridica(oPersonaJuridica);
+			cargarTipoEmpresa();
+			personaJuridicaMB.changeEditingState();
+			cargarDatosReprentanteLegal();
+			cargarAccionistas();
 			CargarCuentasPersonales();
-			cargarAccionistasCuentaAporte();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void cargarTipoEmpresa() {
+		personaJuridicaMB.setComboTipoempresa(comboTipoempresa);
+		personaJuridicaMB.getComboTipoempresa().setItemSelected(oPersonaJuridica.getIdtipoempresa());
+	}
+
+	public void cargarDatosReprentanteLegal() {
+		personaJuridicaMB.setComboSexo(comboSexo);
+		personaJuridicaMB.getComboSexo().setItemSelected(oPersonaJuridica.getPersonanatural().getIdsexo());
+		personaJuridicaMB.setComboEstadocivil(comboEstadocivil);
+		personaJuridicaMB.getComboEstadocivil().setItemSelected(oPersonaJuridica.getPersonanatural().getIdestadocivil());
+		
+		personaJuridicaMB.changeEditingPersonanaturalState();
 	}
 
 	public void CargarCuentasPersonales() {
@@ -134,7 +194,7 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		}
 	}
 	
-	public void cargarAccionistasCuentaAporte() {
+	public void cargarAccionistas() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ruc", oSocio.getRuc());
 		List<Accionista> list = null;
@@ -147,4 +207,5 @@ public class MostrarDatosSocioPJBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
 }
