@@ -79,7 +79,8 @@ public class PersonaNaturalBean implements Serializable {
 		}
 	}
 
-	public void verificarEdad() {
+	public boolean verificarEdad() {
+				
 		Date fechaactual = Calendar.getInstance().getTime();
 		Date fechanacimiento = personaNatural.getFechanacimiento();
 		int anio = fechaactual.getYear() - fechanacimiento.getYear();
@@ -88,12 +89,14 @@ public class PersonaNaturalBean implements Serializable {
 		if (mes < 0 || (mes == 0 && dia < 0)) {
 			anio--;
 		}
-		
-		if(anio<18){
-			this.isMayor=true;
+
+		if (anio < 18) {
+			return true;
+		} else {
+			return false;
 		}
+		
 	}
-	
 
 	public boolean isValid() {
 		return personaNatural.isValid() ? true : false;

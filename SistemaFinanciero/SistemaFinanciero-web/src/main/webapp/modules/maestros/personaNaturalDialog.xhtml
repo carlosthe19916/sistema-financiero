@@ -114,7 +114,7 @@
 							
 							<tr>
 								<td>
-									<p:outputLabel value="DNI Apoderado:" rendered="#{managedBean.personaNaturalMB.menorEdad()}"/>
+									<p:outputLabel value="DNI Apoderado:" rendered="#{managedBean.personaNaturalMB.verificarEdad()}"/>
 								</td>
 								<td>
 									<p:inputText id="txtDNIap"
@@ -122,7 +122,7 @@
 										required="true" maxlength="8"
 										requiredMessage="Ingrese DNI del Apoderado"
 										validatorMessage="DNI de Apoderado Invalido"
-										rendered="#{managedBean.personaNaturalMB.mayor}">										
+										rendered="#{managedBean.personaNaturalMB.verificarEdad()}">										
 										<f:validateRegex pattern="(^[0-9]{8}$)" />										
 									</p:inputText> 
 									<p:watermark for="txtDNIPN" value="DNI" /> 									
@@ -131,13 +131,13 @@
 							
 							<tr>
 								<td>
-									<p:outputLabel value="Apoderado:" rendered="#{managedBean.personaNaturalMB.mayor}"/>
+									<p:outputLabel value="Apoderado:" rendered="#{managedBean.personaNaturalMB.verificarEdad()}"/>
 								</td>
 								<td colspan="3"><p:inputText id="txtApoderado"
 										value="#{managedBean.personaNaturalMB.personaNatural.apoderado}"
 										size="71" required="true" maxlength="60"
 										requiredMessage="Ingrese Nombres"
-										rendered="#{managedBean.personaNaturalMB.mayor}">										
+										rendered="#{managedBean.personaNaturalMB.verificarEdad()}">										
 									</p:inputText> <p:watermark for="txtApoderado" value="Apoderado" /> </td>
 							</tr>
 							
