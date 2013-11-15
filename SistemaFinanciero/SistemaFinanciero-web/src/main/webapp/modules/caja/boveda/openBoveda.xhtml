@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<ui:composition>
+
+	<p:dialog widgetVar="#{WidgetVarName}" header="ABRIR BÓVEDA"
+		modal="true">
+		<h:form>
+			<h:commandButton value="Update">
+				<f:ajax render="@form" execute="@form"
+					listener="#{administrarBoveda.loadTablaBovedaDetalle()}"></f:ajax>
+			</h:commandButton>
+
+			<div>
+				<div>
+					<input />
+					<div class="sf-header-td-right">
+						<ul>
+							<li>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">AGENCIA:</div>
+									<h:outputLabel
+										value="#{administrarBoveda.agenciaBean.agencia.denominacion}"
+										styleClass="sf-label-bold" />
+								</div>
+							</li>
+							<li>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">BOVEDA:</div>
+									<h:outputLabel value="#{administrarBoveda.boveda.denominacion}"
+									styleClass="sf-label-bold" />
+								</div>
+							</li>
+							<li><div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">MONEDA:</div>
+									<h:outputLabel
+									value="#{administrarBoveda.boveda.tipomoneda.denominacion}"
+									styleClass="sf-label-bold" />
+								</div> 
+							</li>
+							<li>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">ESTADO:</div>
+									<h:outputLabel
+									value="#{administrarBoveda.boveda.estadomovimiento.denominacion}"
+									styleClass="sf-label-bold" />
+								</div> 
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div>
+					<p:dataTable var="bovedaDetalle"
+						value="#{administrarBoveda.tablaBovedaDetalle.rows}"
+						rowKey="#{bovedaDetalle}" rowIndexVar="row">
+						<p:column headerText="Nro" width="15" style="text-align:center;">
+							<h:outputText value="#{row + 1}" />
+						</p:column>
+						<p:column headerText="Denominacion" width="150"
+							style="text-align:right;">
+							<h:outputText
+								value="#{bovedaDetalle.denominacionmoneda.denominacion}" />
+						</p:column>
+						<p:column headerText="Cantidad" width="150"
+							style="text-align:right;">
+							<h:outputText value="#{bovedaDetalle.cantidad}" />
+						</p:column>
+						<p:column headerText="Total" width="150" style="text-align:right;">
+							<h:outputText value="#{bovedaDetalle.total}" />
+						</p:column>
+
+						<p:columnGroup type="footer">
+							<p:row>
+								<p:column colspan="3" footerText="Total en Bóveda:"
+									style="text-align:right" />
+								<p:column colspan="1"
+									footerText="#{administrarBoveda.boveda.saldo}"
+									style="text-align:right" />
+							</p:row>
+						</p:columnGroup>
+					</p:dataTable>
+				</div>
+				<div>
+					<div class="p6n-api-consent-screen-section">
+						<div class="sf-buttons">
+							<a href="#" class="button left"> <span class="icon icon122"></span>
+								<span class="label">Abrir Boveda</span>
+							</a> <a href="#" class="button right"> <span class="icon icon112"></span>
+								<span class="label">Abrir Boveda con Pendiente</span>
+							</a>
+
+							<button class="action">
+								<span class="label">Cancel</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</p:dialog>
+
+</ui:composition>
+</html>
+
+
+
+
+
+
+
+

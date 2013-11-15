@@ -10,10 +10,38 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 <ui:composition>
+	<script type="text/javascript">
+	    $(document).ready(function () {
+	    	
+	    });
+	    
+	    function clickHtml5(data,form) {
+			var formulario = $("form");
+	    	var status = data.status; // Can be "begin", "complete" or "success".
+	        switch (status) {
+	            case "begin": // Before the ajax request is sent.
+	            	form.checkValidity();
+     	        	alert(isFormValid);
+     	        	if(isFormValid == true){
+     	        		alert("prueba3");
+     		        }else{
+     			        alert("prueba4");
+     			        return false;
+     			    }	     	        
+	                break;
 
-	<p:dialog widgetVar="#{componentName}" header="NUEVA BOVEDA"
-		closeOnEscape="true" closable="false" resizable="false" modal="true">
-		<h:form>
+	            case "complete": // After the ajax response is arrived.
+	                // ...
+	                break;
+
+	            case "success": // After update of HTML DOM based on ajax response..
+	                // ...
+	                break;
+	        }
+	    }
+	</script>
+	<p:dialog widgetVar="#{componentName}" modal="true">
+		<h:form id="formulario">
 			<div>
 				<table class="p6n-api-cred-create-form">
 					<tr>
@@ -56,13 +84,13 @@
 				</table>
 			</div>
 			<div class="sf-buttons">
-				<button jsf:id="btnGuardar" jsf:value="btnGuardar"
-					jsf:actionListener="#{administrarBoveda.createBoveda()}"
-					jsf:update="#{componentToUpdated}" class="action blue">
-					<span class="label">Save</span>
+				<button type="submit" jsf:id="btnGuardar" class="action blue">
+					<span class="label">Guardar</span>
+					<f:ajax listener="#{administrarBoveda.createBoveda()}"
+						execute="@form" render="#{componentToUpdated}" />
 				</button>
-				<button jsf:id="btnCancelar" pt:type="reset"
-					onclick="dlgNuevaAgencia.hide();" class="action">
+				<button type="reset" onclick="#{componentName}.hide();"
+					class="action">
 					<span class="label">Cancel</span>
 				</button>
 			</div>

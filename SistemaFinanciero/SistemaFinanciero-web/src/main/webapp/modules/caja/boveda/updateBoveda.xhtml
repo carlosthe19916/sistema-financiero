@@ -11,8 +11,10 @@
 
 <ui:composition>
 
-	<p:dialog widgetVar="#{componentName}" header="NUEVA BOVEDA"
+
+	<p:dialog widgetVar="#{componentwidgetVar}" header="UPDATE BOVEDA"
 		closeOnEscape="true" closable="false" resizable="false" modal="true">
+
 		<h:form>
 			<div>
 				<table class="p6n-api-cred-create-form">
@@ -55,14 +57,17 @@
 					</tr>
 				</table>
 			</div>
+			<h:commandButton value="update">
+				<f:ajax listener="#{administrarBoveda.imprimir()}" render="@form"></f:ajax>
+			</h:commandButton>
 			<div class="sf-buttons">
-				<button jsf:id="btnGuardar" jsf:value="btnGuardar"
-					jsf:actionListener="#{administrarBoveda.createBoveda()}"
-					jsf:update="#{componentToUpdated}" class="action blue">
-					<span class="label">Save</span>
+				<button type="submit" jsf:id="btnGuardar" class="action blue">
+					<span class="label">Guardar</span>
+					<f:ajax listener="#{administrarBoveda.updateBoveda()}"
+						execute="@form" render="#{componentToUpdated}" />
 				</button>
-				<button jsf:id="btnCancelar" pt:type="reset"
-					onclick="dlgNuevaAgencia.hide();" class="action">
+				<button type="reset" onclick="#{componentwidgetVar}.hide();"
+					class="action">
 					<span class="label">Cancel</span>
 				</button>
 			</div>

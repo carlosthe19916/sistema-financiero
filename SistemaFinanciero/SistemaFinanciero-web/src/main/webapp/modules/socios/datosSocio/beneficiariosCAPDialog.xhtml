@@ -10,9 +10,9 @@
 <ui:composition>
 
 	<p:dialog header="Beneficiarios" widgetVar="#{componentName}"
-		modal="true" height="400" width="750">
+		modal="true" height="300" width="850">
 		
-		<p:growl id="growl" sticky="true" />
+		<p:growl id="growl" sticky="true" showDetail="true"/>
 		
 		<div class="sf-agrupador">
 			<div class="sf-agrupador-content">
@@ -30,8 +30,8 @@
 									<span class="icon icon3"></span>
 									<span class="label">Nuevo</span>
 								</p:commandLink>
-								<p:commandLink onclick="editar" styleClass="button middle"
-									title="Nuevo">
+								<p:commandLink  styleClass="button middle" update=":form-beneficiarios"
+									title="Editar">
 									<span class="icon icon145"></span>
 									<span class="label">Editar</span>
 								</p:commandLink>
@@ -51,19 +51,17 @@
 								value="#{managedBean.tablaBeneficiarioCAP.rows}"
 								var="beneficiario" editable="true" selectionMode="single"
 								selection="#{managedBean.tablaBeneficiarioCAP.selectedRow}"
-								rowKey="#{beneficiario}" scrollable="true" scrollHeight="150"
-								scrollRows="5" rowIndexVar="row"
-								rowStyleClass="#{beneficiario.apellidopaterno == null ? 'sf-table-row-invalid' : null }">
+								rowKey="#{beneficiario}" rowIndexVar="row">
 
 								<p:ajax event="rowEdit" update=":growl,tablaBeneficiarios" />
 								<p:ajax event="rowEditCancel"
 									update=":growl,tablaBeneficiarios" />
 
-								<p:column headerText="Nro" width="10%"
+								<p:column headerText="Nro" width="15px"
 									style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
-								<p:column headerText="DNI(*)" width="15%">
+								<p:column headerText="DNI(*)">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.dni}" />
@@ -71,47 +69,46 @@
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.dni}" maxlength="8"
 												validatorMessage="DNI no tiene digitos validos">
-
 											</p:inputText>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Paterno" width="20%">
+								<p:column headerText="Apellido Paterno">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.apellidopaterno}" />
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.apellidopaterno}"
-												required="true" maxlength="50"
+												required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
 												requiredMessage="Apellido Paterno (Obligatorio)" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Materno" width="20%">
+								<p:column headerText="Apellido Materno">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.apellidomaterno}" />
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.apellidomaterno}"
-												required="true" maxlength="50"
+												required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
 												requiredMessage="Apellido Materno (Obligatorio)" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Nombres" width="20%">
+								<p:column headerText="Nombres">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.nombres}" />
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.nombres}" required="true"
-												maxlength="50" requiredMessage="Nombres (Obligatorio)" />
+												maxlength="50" requiredMessage="Nombres (Obligatorio)" onkeyup="this.value = this.value.toUpperCase();"/>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Porcentaje" width="15%">
+								<p:column headerText="Porcentaje">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.porcentajebeneficio}" />
@@ -121,7 +118,7 @@
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column width="10%">
+								<p:column width="2%">
 									<p:rowEditor />
 								</p:column>
 							</p:dataTable>
@@ -132,13 +129,13 @@
 						<h:form>
 							<p:commandButton 
 								value="Aceptar" 
-								update=":#{componentToUpdated},:form-beneficiarios"
-								oncomplete="#{componentName}.hide()"
+								update=":#{componentToUpdated},:form-beneficiarios, :growl"
+								oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()"
 								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
+								<p:ajax onstart="PF('blockUIWidget-benefificario').block()" oncomplete="PF('blockUIWidget-benefificario').unblock()"/>
 							</p:commandButton>
 							<p:commandButton 
-								value="Cancelar"
-								update=":form-beneficiarios"
+								value="Cancelar" update=":form-beneficiarios"
 								onclick="#{componentName}.hide()"
 								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
 							</p:commandButton>
