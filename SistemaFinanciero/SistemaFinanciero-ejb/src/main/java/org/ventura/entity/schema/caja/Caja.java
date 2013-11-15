@@ -4,41 +4,43 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the caja database table.
  * 
  */
 @Entity
-@Table(name="caja" ,schema="caja")
-@NamedQuery(name="Caja.findAll", query="SELECT c FROM Caja c")
+@Table(name = "caja", schema = "caja")
+@NamedQuery(name = "Caja.findAll", query = "SELECT c FROM Caja c")
 public class Caja implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idcaja;
 
-	@Column(nullable=false, length=30)
+	@Column(nullable = false, length = 30)
 	private String abreviatura;
 
-	@Column(nullable=false, length=100)
+	@Column(nullable = false, length = 100)
 	private String denominacion;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
-	//bi-directional many-to-many association to Boveda
-	@ManyToMany(mappedBy="cajas")
+	@Column(nullable = false)
+	private Integer idestadomovimiento;
+
+	// bi-directional many-to-many association to Boveda
+	@ManyToMany(mappedBy = "cajas")
 	private List<Boveda> bovedas;
 
-	//bi-directional many-to-one association to Estadomovimiento
+	// bi-directional many-to-one association to Estadomovimiento
 	@ManyToOne
-	@JoinColumn(name="idestadomovimiento", nullable=false)
+	@JoinColumn(name = "idestadomovimiento", nullable = false, updatable = false, insertable = false)
 	private Estadomovimiento estadomovimiento;
 
-	//bi-directional many-to-one association to Transaccioncaja
-	@OneToMany(mappedBy="caja")
+	// bi-directional many-to-one association to Transaccioncaja
+	@OneToMany(mappedBy = "caja")
 	private List<Transaccioncaja> transaccioncajas;
 
 	public Caja() {
@@ -112,6 +114,14 @@ public class Caja implements Serializable {
 		transaccioncaja.setCaja(null);
 
 		return transaccioncaja;
+	}
+
+	public Integer getIdestadomovimiento() {
+		return idestadomovimiento;
+	}
+
+	public void setIdestadomovimiento(Integer idestadomovimiento) {
+		this.idestadomovimiento = idestadomovimiento;
 	}
 
 }

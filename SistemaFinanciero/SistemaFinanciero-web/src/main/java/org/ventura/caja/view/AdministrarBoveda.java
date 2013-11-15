@@ -72,7 +72,7 @@ public class AdministrarBoveda implements Serializable {
 
 	public void openBoveda() {
 		try {
-			
+			bovedaServiceLocal.openBoveda(boveda);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
 			RequestContext.getCurrentInstance().showMessageInDialog(message);

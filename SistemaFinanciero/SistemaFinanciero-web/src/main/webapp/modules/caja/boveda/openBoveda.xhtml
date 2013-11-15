@@ -21,39 +21,52 @@
 
 			<div>
 				<div>
-					<input />
 					<div class="sf-header-td-right">
 						<ul>
 							<li>
-								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label">AGENCIA:</div>
+								<div class="p6n-api-consent-screen-input-section"
+									style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 50px;">AGENCIA:</div>
+								</div>
+								<div style="display: inline-block;">
 									<h:outputLabel
 										value="#{administrarBoveda.agenciaBean.agencia.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
 							<li>
-								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label">BOVEDA:</div>
+								<div class="p6n-api-consent-screen-input-section"
+									style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 50px;">BOVEDA:</div>
+								</div>
+								<div style="display: inline-block;">
 									<h:outputLabel value="#{administrarBoveda.boveda.denominacion}"
-									styleClass="sf-label-bold" />
+										styleClass="sf-label-bold" />
 								</div>
 							</li>
-							<li><div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label">MONEDA:</div>
+							<li>
+								<div class="p6n-api-consent-screen-input-section"
+									style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 50px;">MONEDA:</div>
+								</div>
+								<div style="display: inline-block;">
 									<h:outputLabel
-									value="#{administrarBoveda.boveda.tipomoneda.denominacion}"
-									styleClass="sf-label-bold" />
-								</div> 
+										value="#{administrarBoveda.boveda.tipomoneda.denominacion}"
+										styleClass="sf-label-bold" />
+								</div>
 							</li>
 							<li>
-								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label">ESTADO:</div>
+								<div class="p6n-api-consent-screen-input-section"
+									style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 50px;">ESTADO:</div>
+								</div>
+								<div style="display: inline-block;">
 									<h:outputLabel
-									value="#{administrarBoveda.boveda.estadomovimiento.denominacion}"
-									styleClass="sf-label-bold" />
-								</div> 
+										value="#{administrarBoveda.boveda.estadomovimiento.denominacion}"
+										styleClass="sf-label-bold" />
+								</div>
 							</li>
+
 						</ul>
 					</div>
 				</div>
@@ -91,12 +104,14 @@
 				<div>
 					<div class="p6n-api-consent-screen-section">
 						<div class="sf-buttons">
-							<a href="#" class="button left"> <span class="icon icon122"></span>
+							<h:commandLink styleClass="button left" title="Abrir bóveda"
+								actionListener="#{administrarBoveda.openBoveda()}">
+								<span class="icon icon122"></span>
 								<span class="label">Abrir Boveda</span>
-							</a> <a href="#" class="button right"> <span class="icon icon112"></span>
+							</h:commandLink>
+							<a href="#" class="button right"> <span class="icon icon112"></span>
 								<span class="label">Abrir Boveda con Pendiente</span>
 							</a>
-
 							<button class="action">
 								<span class="label">Cancel</span>
 							</button>

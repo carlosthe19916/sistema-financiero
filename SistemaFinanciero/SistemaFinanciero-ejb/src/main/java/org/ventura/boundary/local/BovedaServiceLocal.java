@@ -9,6 +9,7 @@ import javax.ejb.Local;
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
+import org.ventura.entity.schema.caja.Estadomovimiento;
 
 @Local
 public interface BovedaServiceLocal extends BovedaServiceRemote{
@@ -31,4 +32,9 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	
 	public List<Detallehistorialboveda> getLastDetallehistorialboveda(Boveda oBoveda) throws Exception;
 
+	public void openBoveda(Boveda oBoveda) throws Exception;
+	
+	public void closeBoveda(Boveda oBoveda) throws Exception;
+	
+	public void setEstadomovimientoBoveda(Estadomovimiento estadomovimiento, Boveda oBoveda) throws Exception;
 }
