@@ -36,6 +36,11 @@
 										<h:outputText value="#{row + 1}" />
 									</p:column>
 									
+									<p:column sortBy="#{cuentasPJ.idsocio}" width="130"
+										headerText="Código Socio" style="text-align:center;">
+										<h:outputText value="#{cuentasPJ.idsocio}" />
+									</p:column>
+									
 									<p:column sortBy="#{cuentasPJ.numerocuentaahorro}" width="150"
 										headerText="Número de Cuenta" style="text-align:center;">
 										<h:outputText value="#{cuentasPJ.numerocuentaahorro}" />
