@@ -89,7 +89,7 @@
 										requiredMessage="Ingrese Fecha de Nacimiento"
 										converterMessage="El formato de la fecha de nacimiento no es correcto"
 										disabled="#{!managedBean.personaNaturalMB.editing}">
-										<p:ajax update="growl,txtFecNacPN" listener=""/>
+										<p:ajax update="growl,txtFecNacPN"/>
 										<f:convertDateTime pattern="dd/MM/yy" />
 									</p:calendar> 
 									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy" /> 
@@ -111,36 +111,6 @@
 									<p:outputLabel for="txtSexo" />
 								</td>
 							</tr>
-							
-							<tr>
-								<td>
-									<p:outputLabel value="DNI Apoderado:" rendered="#{managedBean.personaNaturalMB.verificarEdad()}"/>
-								</td>
-								<td>
-									<p:inputText id="txtDNIap"
-										value="#{managedBean.personaNaturalMB.personaNatural.dniapoderado}"
-										required="true" maxlength="8"
-										requiredMessage="Ingrese DNI del Apoderado"
-										validatorMessage="DNI de Apoderado Invalido"
-										rendered="#{managedBean.personaNaturalMB.verificarEdad()}">										
-										<f:validateRegex pattern="(^[0-9]{8}$)" />										
-									</p:inputText> 
-									<p:watermark for="txtDNIPN" value="DNI" /> 									
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<p:outputLabel value="Apoderado:" rendered="#{managedBean.personaNaturalMB.verificarEdad()}"/>
-								</td>
-								<td colspan="3"><p:inputText id="txtApoderado"
-										value="#{managedBean.personaNaturalMB.personaNatural.apoderado}"
-										size="71" required="true" maxlength="60"
-										requiredMessage="Ingrese Nombres"
-										rendered="#{managedBean.personaNaturalMB.verificarEdad()}">										
-									</p:inputText> <p:watermark for="txtApoderado" value="Apoderado" /> </td>
-							</tr>
-							
 						</table>
 					</div>
 				</div>
@@ -181,17 +151,17 @@
 								<td><p:outputLabel>Direccion:</p:outputLabel></td>
 								<td colspan="5"><p:inputText id="txtDireccionPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.direccion}"
-										maxlength="200" size="71"
+										maxlength="200" size="71" onkeyup="this.value = this.value.toUpperCase();"
 										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
-										for="txtDireccionPN" value="Dirección" onkeyup="this.value = this.value.toUpperCase();"/></td>
+										for="txtDireccionPN" value="Dirección" /></td>
 							</tr>
 							<tr>
 								<td><p:outputLabel>Referencia:</p:outputLabel></td>
 								<td colspan="5"><p:inputText id="txtReferenciaPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.referencia}"
-										maxlength="100" size="71"
+										maxlength="100" size="71" onkeyup="this.value = this.value.toUpperCase();"
 										disabled="#{!managedBean.personaNaturalMB.editing}" /> <p:watermark
-										for="txtReferenciaPN" value="Referencia" onkeyup="this.value = this.value.toUpperCase();"/></td>
+										for="txtReferenciaPN" value="Referencia"/></td>
 							</tr>
 
 							<tr>
@@ -214,8 +184,8 @@
 								
 								<p:inputText id="txtEmailPN"
 										value="#{managedBean.personaNaturalMB.personaNatural.email}"
-										maxlength="50" size="73"
-										disabled="#{!managedBean.personaNaturalMB.editing}" onkeyup="this.value = this.value.toUpperCase();"/> 
+										maxlength="50" size="73" onkeyup="this.value = this.value.toUpperCase();"
+										disabled="#{!managedBean.personaNaturalMB.editing}"/> 
 										<p:watermark for="txtEmailPN" value="email@hotmail.com" />					
 								</td>
 							</tr>
