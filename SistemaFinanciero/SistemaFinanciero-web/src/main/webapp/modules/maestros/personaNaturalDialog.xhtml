@@ -111,6 +111,36 @@
 									<p:outputLabel for="txtSexo" />
 								</td>
 							</tr>
+							
+							<tr>
+								<td>
+									<p:outputLabel value="DNI Apoderado:" rendered="#{managedBean.personaNaturalMB.mayor}"/>
+								</td>
+								<td>
+									<p:inputText id="txtDNIap"
+										value="#{managedBean.personaNaturalMB.personaNatural.dniapoderado}"
+										required="true" maxlength="8"
+										requiredMessage="Ingrese DNI del Apoderado"
+										validatorMessage="DNI de Apoderado Invalido"
+										rendered="#{managedBean.personaNaturalMB.mayor}">										
+										<f:validateRegex pattern="(^[0-9]{8}$)" />										
+									</p:inputText> 
+									<p:watermark for="txtDNIPN" value="DNI" /> 									
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<p:outputLabel value="Apoderado:" rendered="#{managedBean.personaNaturalMB.mayor}"/>
+								</td>
+								<td colspan="3"><p:inputText id="txtApoderado"
+										value="#{managedBean.personaNaturalMB.personaNatural.apoderado}"
+										size="71" required="true" maxlength="60"
+										requiredMessage="Ingrese Nombres"
+										rendered="#{managedBean.personaNaturalMB.mayor}">										
+									</p:inputText> <p:watermark for="txtApoderado" value="Apoderado" /> </td>
+							</tr>
+							
 						</table>
 					</div>
 				</div>
