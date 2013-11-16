@@ -9,7 +9,7 @@
 
 <ui:composition>
 
-	<p:dialog header="Beneficiarios" widgetVar="#{componentName}"
+	<p:dialog id="dlg-beneficiariosCAP" header="Beneficiarios" widgetVar="#{componentName}"
 		modal="true" height="300" width="850">
 		
 		<p:growl id="growl" sticky="true" showDetail="true"/>
@@ -24,18 +24,18 @@
 					<div class="buttons">
 						<div class="tiptip">
 							<h:form>
-								<p:commandLink update=":form-beneficiarios"
+								<p:commandLink update=":form-beneficiariosCAP"
 									actionListener="#{managedBean.addBeneficiario()}"
 									styleClass="button left" title="Nuevo">
 									<span class="icon icon3"></span>
 									<span class="label">Nuevo</span>
 								</p:commandLink>
-								<p:commandLink onclick="editar" styleClass="button middle" update=":form-beneficiarios"
+								<p:commandLink onclick="editar" styleClass="button middle" update=":form-beneficiariosCAP"
 									title="Editar">
 									<span class="icon icon145"></span>
 									<span class="label">Editar</span>
 								</p:commandLink>
-								<p:commandLink update=":form-beneficiarios"
+								<p:commandLink update=":form-beneficiariosCAP"
 									actionListener="#{managedBean.removeBeneficiario()}"
 									styleClass="button right" title="Eliminar Trabajador">
 									<span class="icon icon186"></span>
@@ -46,7 +46,7 @@
 					</div>
 
 					<div style="padding: 0px 5px;">
-						<h:form id="form-beneficiarios">
+						<h:form id="form-beneficiariosCAP">
 							<p:dataTable id="tablaBeneficiarios"
 								value="#{managedBean.tablaBeneficiarioCAP.rows}"
 								var="beneficiario" editable="true" selectionMode="single"
@@ -129,15 +129,15 @@
 						<h:form>
 							<p:commandButton 
 								value="Aceptar" 
-								update=":#{componentToUpdated},:form-beneficiarios, :growl"
+								update=":#{componentToUpdated},:form-beneficiariosCAP, :growl"
 								oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()"
-								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
+								actionListener="#">
 								<p:ajax onstart="PF('blockUIWidget-benefificario').block()" oncomplete="PF('blockUIWidget-benefificario').unblock()"/>
 							</p:commandButton>
 							<p:commandButton 
-								value="Cancelar" update=":form-beneficiarios"
+								value="Cancelar" update=":form-beneficiariosCAP"
 								onclick="#{componentName}.hide()"
-								actionListener="#{managedBean.beneficiariosMB.validarBeneficiarios()}">
+								actionListener="#">
 							</p:commandButton>
 						</h:form>
 					</div>

@@ -196,7 +196,6 @@ public class MostrarDatosSocioPNBean implements Serializable {
 		System.out.println(tablaBeneficiarioCAP.getRows().size());
 		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();
 		beneficiariocuenta.setEstado(true);
-		tablaBeneficiarioCAP.addRow(beneficiariocuenta);
 		System.out.println(tablaBeneficiarioCAP.getRows().size());
 	}
 	
