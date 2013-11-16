@@ -1,16 +1,17 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
 import org.ventura.boundary.local.BovedaServiceLocal;
@@ -21,19 +22,18 @@ import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.venturabank.managedbean.session.AgenciaBean;
 
-@javax.inject.Named
-@javax.faces.view.ViewScoped
+@Named
+@ViewScoped
 public class AdministrarBoveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@EJB
 	private BovedaServiceLocal bovedaServiceLocal;
-
-	@Inject
-	private TablaBean<Boveda> tablaBoveda;
 	@Inject
 	private AgenciaBean agenciaBean;
+	@Inject
+	private TablaBean<Boveda> tablaBoveda;	
 	@Inject
 	private ComboBean<Tipomoneda> comboTipomoneda;
 	@Inject
@@ -43,31 +43,9 @@ public class AdministrarBoveda implements Serializable {
 
 	@PostConstruct
 	private void initialize() {
-		tablaBovedaDetalle = new TablaBean<Detallehistorialboveda>();
-		comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
+		this.tablaBovedaDetalle = new TablaBean<Detallehistorialboveda>();
+		this.comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		this.refreshTablaBoveda();	
-	}
-
-	public void loadTablaBovedaDetalle(){
-		try {
-			tablaBovedaDetalle.setRows(bovedaServiceLocal.getLastDetallehistorialboveda(boveda));
-		} catch (Exception e) {
-			System.out.println("error");
-		}
-	}
-	
-	public void refreshBoveda() {
-		boveda = new Boveda();
-	}
-
-	public void refreshComboTipomoneda() {
-		comboTipomoneda.setItemSelected(-1);
-	}
-
-	public void refreshTablaBoveda() {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		tablaBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA, parameters);
 	}
 
 	public void openBoveda() {
@@ -81,13 +59,20 @@ public class AdministrarBoveda implements Serializable {
 	
 	public void createBoveda() {
 		try {
+			String denominacionBoveda = boveda.getDenominacion();
+			Integer idTipomoneda= boveda.getIdtipomoneda();		
+			if (denominacionBoveda == null || denominacionBoveda.isEmpty() || denominacionBoveda.trim().isEmpty()) {
+				throw new Exception("Denominación de Bóveda Inválida");
+			}
+			if (idTipomoneda == null) {
+				throw new Exception("Tipo de Moneda Invalida");
+			}	
+			
 			preCreateBoveda();
-			bovedaServiceLocal.create(this.boveda);
-			refreshTablaBoveda();
-			refreshBoveda();
-			refreshComboTipomoneda();
+			this.bovedaServiceLocal.create(this.boveda);
+			refreshBean();
 
-			FacesMessage message = new FacesMessage("Boveda creada correctamente");
+			FacesMessage message = new FacesMessage("Bóveda creada correctamente");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
@@ -97,11 +82,10 @@ public class AdministrarBoveda implements Serializable {
 
 	public void updateBoveda() {
 		try {
-			bovedaServiceLocal.update(this.boveda);
-			refreshTablaBoveda();
-			refreshBoveda();
-			refreshComboTipomoneda();
-			FacesMessage message = new FacesMessage("Boveda actualizada correctamente");
+			this.bovedaServiceLocal.update(this.boveda);
+			refreshBean();
+			
+			FacesMessage message = new FacesMessage("Bóveda actualizada correctamente");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
@@ -111,31 +95,71 @@ public class AdministrarBoveda implements Serializable {
 
 	public void deleteBoveda() {
 		try {
-			bovedaServiceLocal.create(this.boveda);
+			boveda.setEstado(false);
+			bovedaServiceLocal.update(boveda);
+			refreshBean();
+			
+			FacesMessage message = new FacesMessage("Bóveda eliminada correctamente");
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
-
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		}
 	}
 
-	public void preCreateBoveda() {
-		this.boveda.setEstado(true);
+	public void preCreateBoveda() throws Exception {
 		this.boveda.setIdagencia(agenciaBean.getAgencia().getIdagencia());
-		this.boveda.setIdestadomovimiento(1);
 	}
 
-	public void preUpdateBoveda() {
-		Object object = tablaBoveda.getSelectedRow();
-		Boveda boveda = null;
-		if (object instanceof Boveda) {
-			boveda = (Boveda) object;
+	public void loadBoveda() {	
+		try {
+			Object object = tablaBoveda.getSelectedRow();
+			Boveda boveda = new Boveda();
+			if (object instanceof Boveda) {
+				boveda = (Boveda) object;
+			}
+			this.boveda = bovedaServiceLocal.find(boveda.getIdboveda());
+			Tipomoneda tipomoneda = boveda.getTipomoneda();
+			this.comboTipomoneda.setItemSelected(tipomoneda);
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}	
+	}
+
+	public void loadTablaBovedaDetalle(){
+		try {
+			List<Detallehistorialboveda> detallehistorialbovedaList = bovedaServiceLocal.getLastDetallehistorialboveda(boveda);
+			tablaBovedaDetalle.setRows(detallehistorialbovedaList);
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		}
-		this.boveda = boveda;
 	}
-
+	
+	public void refreshBean(){
+		this.refreshTablaBoveda();
+		this.refreshComboTipomoneda();
+		this.cleanBoveda();
+	}
+	
+	public void refreshTablaBoveda() {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
+		tablaBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA, parameters);
+	}
+	
+	public void refreshComboTipomoneda() {
+		this.comboTipomoneda.setItemSelected(-1);
+	}
+	
+	public void cleanBoveda() {
+		this.boveda = new Boveda();
+	}
+	
 	public void changeTipomoneda(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Tipomoneda tipomonedaSelected = comboTipomoneda
-				.getObjectItemSelected(key);
+		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);
 		this.boveda.setTipomoneda(tipomonedaSelected);
 	}
 
@@ -175,8 +199,7 @@ public class AdministrarBoveda implements Serializable {
 		return tablaBovedaDetalle;
 	}
 
-	public void setTablaBovedaDetalle(
-			TablaBean<Detallehistorialboveda> tablaBovedaDetalle) {
+	public void setTablaBovedaDetalle(TablaBean<Detallehistorialboveda> tablaBovedaDetalle) {
 		this.tablaBovedaDetalle = tablaBovedaDetalle;
 	}
 

@@ -15,8 +15,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.EntityExistsException;
+import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.boundary.remote.BovedaServiceRemote;
@@ -29,7 +29,6 @@ import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.ViewBovedadetalle;
-import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadoMovimientoType;
@@ -55,19 +54,42 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	private ViewBovedadetalleDAO viewBovedadetalleDAO;
 
 	@Override
-	public Boveda create(Boveda Boveda) throws Exception {
-		try {
-
-			bovedaDAO.create(Boveda);
-
+	public Boveda create(Boveda boveda) throws Exception {
+		try {			
+			preCreateBoveda(boveda);
+			bovedaDAO.create(boveda);
+		} catch (EntityExistsException|IllegalArgumentException|TransactionRequiredException e) {
+			boveda.setIdboveda(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			throw e;
 		} catch (Exception e) {
-			Boveda.setIdboveda(null);
+			boveda.setIdboveda(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se pudo Crear el Boveda");
 		}
-		return Boveda;
+		return boveda;
+	}
+	
+	public void preCreateBoveda(Boveda boveda) throws Exception {
+		String denominacionBoveda = boveda.getDenominacion();
+		Integer idTipomoneda= boveda.getIdtipomoneda();
+		Integer idAgencia= boveda.getIdagencia();
+		
+		if (denominacionBoveda == null || denominacionBoveda.isEmpty() || denominacionBoveda.trim().isEmpty()) {
+			throw new Exception("Denominación de Bóveda Inválida");
+		}
+		if (idTipomoneda == null) {
+			throw new Exception("Tipo de Moneda Invalida");
+		}	
+		if (idAgencia == null) {
+			throw new Exception("Agencia Invalida");
+		}
+		
+		boveda.setEstado(true);
+		boveda.setIdestadomovimiento(EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO));
 	}
 
 	@Override

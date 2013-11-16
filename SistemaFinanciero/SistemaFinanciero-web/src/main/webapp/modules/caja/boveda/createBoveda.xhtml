@@ -14,7 +14,15 @@
 	    $(document).ready(function () {
 	    	
 	    });
-	    
+
+	    function prueba(){
+		    alert("prueba");
+	    	//var formValidation = form.checkValidity(); 
+	    	//alert(JSON.stringify(formValidationformValidation));
+	    	mojarra.ab(this,event,'action','@form','formTablaBoveda',{'onevent':dlgNuevaBoveda.hide()});
+	    	return false;
+		}
+		
 	    function clickHtml5(data,form) {
 			var formulario = $("form");
 	    	var status = data.status; // Can be "begin", "complete" or "success".
@@ -45,7 +53,8 @@
 			<div>
 				<table class="p6n-api-cred-create-form">
 					<tr>
-						<td class="p6n-api-cred-create-label"><label>Agencia:</label></td>
+						<td class="p6n-api-cred-create-label"><label>Agencia:</label>
+						</td>
 						<td class="p6n-api-no-tooltip"></td>
 						<td class="p6n-api-cred-input-holder"
 							style="vertical-align: middle;"><label
@@ -87,7 +96,8 @@
 				<button type="submit" jsf:id="btnGuardar" class="action blue">
 					<span class="label">Guardar</span>
 					<f:ajax listener="#{administrarBoveda.createBoveda()}"
-						execute="@form" render="#{componentToUpdated}" />
+						onevent="#{componentName}.hide()" execute="@form"
+						render="#{componentToUpdated}" />
 				</button>
 				<button type="reset" onclick="#{componentName}.hide();"
 					class="action">
