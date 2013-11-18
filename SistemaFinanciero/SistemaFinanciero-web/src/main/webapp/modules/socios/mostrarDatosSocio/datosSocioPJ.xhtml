@@ -29,7 +29,7 @@
 
 			<p:outputPanel>
 				<!-- Cuenta de Aporte Persona Juridica-->
-				<ui:include src="/modules/socios/datosSocio/datosCuentaAporte.xhtml">
+				<ui:include src="/modules/socios/mostrarDatosSocio/datosCuentaAporte.xhtml">
 					<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
 					<ui:param name="componentName" value="datosCuentaAporte" />
 				</ui:include>
@@ -43,7 +43,7 @@
 					<ui:param name="componentName" value="personaJuridica" />
 					<ui:param name="editarOutputDialog" value="dlgPersonaJuridica" />
 				</ui:include>
-				<ui:include src="/modules/socios/datosSocio/actualizarPersonaJuridicaDialog.xhtml">
+				<ui:include src="/modules/socios/actualizarDatosSocio/actualizarPersonaJuridicaDialog.xhtml">
 					<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
 					<ui:param name="componentName" value="dlgPersonaJuridica" />
 					<ui:param name="componentToUpdated" value="personaJuridica" />
@@ -54,7 +54,7 @@
 			<p:outputPanel>
 				<!-- Otras Cuentas Persona Juridica-->
 				<ui:include
-					src="/modules/socios/datosSocio/otrasCuentasSocioPJ.xhtml">
+					src="/modules/socios/mostrarDatosSocio/otrasCuentasSocioPJ.xhtml">
 					<ui:param name="managedBean" value="#{mostrarDatosSocioPJBean}" />
 					<ui:param name="componentName" value="otrasCuentas" />
 				</ui:include>

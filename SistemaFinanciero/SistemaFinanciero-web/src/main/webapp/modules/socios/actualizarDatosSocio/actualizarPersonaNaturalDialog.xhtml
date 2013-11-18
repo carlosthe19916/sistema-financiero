@@ -192,7 +192,7 @@
 					actionListener="#{mostrarDatosSocioPNBean.actualizarDatosSocio()}"
 					update="growl,#{componentToUpdated}" 
 					oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()">
-					<p:confirm header="Confirmation" message="Los datos se actualizaron correctamente..." icon="ui-icon-alert" />
+					<p:confirm header="Confirmation" message="Los datos se actualizaron correctamente..." icon="ui-icon-check" />
 				</p:commandButton>
 				<p:commandButton value="Cancelar" 
 					onclick="#{componentName}.hide()" />
