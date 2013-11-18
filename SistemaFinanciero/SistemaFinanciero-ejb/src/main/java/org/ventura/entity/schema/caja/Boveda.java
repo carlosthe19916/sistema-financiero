@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "boveda", schema = "caja")
 @NamedQuery(name = "Boveda.findAll", query = "SELECT b FROM Boveda b")
-@NamedQueries({ @NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia ") })
+@NamedQueries({ @NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true") })
 public class Boveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class Boveda implements Serializable {
 	private Integer idtipomoneda;
 
 	@Column(nullable = false)
-	private double saldo;
+	private Double saldo;
 
 	@Column(nullable = false)
 	private Integer idestadomovimiento;
@@ -64,9 +64,6 @@ public class Boveda implements Serializable {
 
 	@OneToMany(mappedBy = "boveda")
 	private List<Historialboveda> historialbovedas;
-
-	@OneToMany(mappedBy = "boveda")
-	private List<Transaccionboveda> transaccionbovedas;
 
 	public Boveda() {
 	}
@@ -111,11 +108,11 @@ public class Boveda implements Serializable {
 		this.idtipomoneda = idtipomoneda;
 	}
 
-	public double getSaldo() {
+	public Double getSaldo() {
 		return this.saldo;
 	}
 
-	public void setSaldo(double saldo) {
+	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
 	}
 
@@ -155,30 +152,6 @@ public class Boveda implements Serializable {
 		historialboveda.setBoveda(null);
 
 		return historialboveda;
-	}
-
-	public List<Transaccionboveda> getTransaccionbovedas() {
-		return this.transaccionbovedas;
-	}
-
-	public void setTransaccionbovedas(List<Transaccionboveda> transaccionbovedas) {
-		this.transaccionbovedas = transaccionbovedas;
-	}
-
-	public Transaccionboveda addTransaccionboveda(
-			Transaccionboveda transaccionboveda) {
-		getTransaccionbovedas().add(transaccionboveda);
-		transaccionboveda.setBoveda(this);
-
-		return transaccionboveda;
-	}
-
-	public Transaccionboveda removeTransaccionboveda(
-			Transaccionboveda transaccionboveda) {
-		getTransaccionbovedas().remove(transaccionboveda);
-		transaccionboveda.setBoveda(null);
-
-		return transaccionboveda;
 	}
 
 	public Tipomoneda getTipomoneda() {

@@ -48,7 +48,8 @@
 	        }
 	    }
 	</script>
-	<p:dialog widgetVar="#{componentName}" modal="true">
+	<p:dialog widgetVar="#{componentName}" header="Crear Boveda"
+		closeOnEscape="true" modal="true">
 		<h:form id="formulario">
 			<div>
 				<table class="p6n-api-cred-create-form">
@@ -93,16 +94,13 @@
 				</table>
 			</div>
 			<div class="sf-buttons">
-				<button type="submit" jsf:id="btnGuardar" class="action blue">
-					<span class="label">Guardar</span>
-					<f:ajax listener="#{administrarBoveda.createBoveda()}"
-						onevent="#{componentName}.hide()" execute="@form"
-						render="#{componentToUpdated}" />
-				</button>
-				<button type="reset" onclick="#{componentName}.hide();"
-					class="action">
-					<span class="label">Cancel</span>
-				</button>
+				<h:commandButton value="Guardar"
+					actionListener="#{administrarBoveda.createBoveda()}"
+					styleClass="action blue">
+				</h:commandButton>
+				<h:commandButton value="Cancelar" onclick="#{componentName}.hide();"
+					styleClass="action">
+				</h:commandButton>
 			</div>
 		</h:form>
 	</p:dialog>

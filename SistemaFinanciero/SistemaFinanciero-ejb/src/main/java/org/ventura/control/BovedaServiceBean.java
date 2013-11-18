@@ -1,6 +1,7 @@
 package org.ventura.control;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,14 +22,18 @@ import javax.persistence.TransactionRequiredException;
 import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.dao.impl.BovedaDAO;
+import org.ventura.dao.impl.DenominacionmonedaDAO;
 import org.ventura.dao.impl.DetallehistorialbovedaDAO;
+import org.ventura.dao.impl.HistorialbovedaDAO;
 import org.ventura.dao.impl.ViewBovedadetalleDAO;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Estadomovimiento;
+import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.ViewBovedadetalle;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadoMovimientoType;
@@ -48,17 +53,24 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	private BovedaDAO bovedaDAO;
 
 	@EJB
+	private HistorialbovedaDAO historialbovedaDAO;
+	
+	@EJB
 	private DetallehistorialbovedaDAO detallehistorialbovedaDAO;
+	
+	@EJB
+	private DenominacionmonedaDAO denominacionmonedaDAO;
 
 	@EJB
 	private ViewBovedadetalleDAO viewBovedadetalleDAO;
 
 	@Override
 	public Boveda create(Boveda boveda) throws Exception {
-		try {			
+		try {
 			preCreateBoveda(boveda);
 			bovedaDAO.create(boveda);
-		} catch (EntityExistsException|IllegalArgumentException|TransactionRequiredException e) {
+		} catch (EntityExistsException | IllegalArgumentException
+				| TransactionRequiredException e) {
 			boveda.setIdboveda(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -72,24 +84,26 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 		return boveda;
 	}
-	
+
 	public void preCreateBoveda(Boveda boveda) throws Exception {
 		String denominacionBoveda = boveda.getDenominacion();
-		Integer idTipomoneda= boveda.getIdtipomoneda();
-		Integer idAgencia= boveda.getIdagencia();
-		
-		if (denominacionBoveda == null || denominacionBoveda.isEmpty() || denominacionBoveda.trim().isEmpty()) {
+		Integer idTipomoneda = boveda.getIdtipomoneda();
+		Integer idAgencia = boveda.getIdagencia();
+
+		if (denominacionBoveda == null || denominacionBoveda.isEmpty()
+				|| denominacionBoveda.trim().isEmpty()) {
 			throw new Exception("Denominación de Bóveda Inválida");
 		}
 		if (idTipomoneda == null) {
 			throw new Exception("Tipo de Moneda Invalida");
-		}	
+		}
 		if (idAgencia == null) {
 			throw new Exception("Agencia Invalida");
 		}
-		
+
 		boveda.setEstado(true);
-		boveda.setIdestadomovimiento(EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO));
+		boveda.setIdestadomovimiento(EstadoValue
+				.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO));
 	}
 
 	@Override
@@ -262,13 +276,40 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			}
 			log.info("Todas las Cajas verificadas correctamente");
 			log.info("Boveda lista para Abrir");
+
+			
+						
+			Historialboveda historialboveda = new Historialboveda();
+			historialboveda.setFechaapertura(Calendar.getInstance().getTime());
+			historialboveda.setHoraapertura(Calendar.getInstance().getTime());
+			historialboveda.setSaldoinicial(boveda.getSaldo());					
+			
+			
+			Tipomoneda tipomoneda = boveda.getTipomoneda();
+			List<Denominacionmoneda> denominacionmonedas = denominacionmonedaDAO.findAll();
+			
+			List<Detallehistorialboveda> detallehistorialbovedaList = new ArrayList<Detallehistorialboveda>();
+			
+			for (Iterator<Denominacionmoneda> iterator = denominacionmonedas.iterator(); iterator.hasNext();) {
+				Denominacionmoneda denominacionmoneda = iterator.next();
+				
+				Detallehistorialboveda detallehistorialboveda = new Detallehistorialboveda();			
+				detallehistorialboveda.setDenominacionmoneda(denominacionmoneda);
+				detallehistorialboveda.setCantidad(0);
+				
+				detallehistorialbovedaList.add(detallehistorialboveda);
+			}
+			
+			
+			historialboveda.setDetallehistorialbovedas(detallehistorialbovedaList);
+			historialbovedaDAO.create(historialboveda);
 			
 			Integer estadoMovimientoAbierto = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_CONGELADO);
 			boveda.setIdestadomovimiento(estadoMovimientoAbierto);
 			bovedaDAO.update(boveda);
 			
 			log.info("FINISH SUCCESSFULLY: BOVEDA ABIERTA");
-			
+
 		} catch (IllegalArgumentException | NonexistentEntityException e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -284,6 +325,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
+	public void openBovedaWithPendiente(Boveda oBoveda) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void closeBoveda(Boveda oBoveda) throws Exception {
 		// TODO Auto-generated method stub
 
@@ -295,4 +342,5 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		// TODO Auto-generated method stub
 
 	}
+
 }

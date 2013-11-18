@@ -28,32 +28,65 @@
 				<div class="buttons">
 					<div class="tiptip">
 						<h:commandLink styleClass="button left" title="Nueva bóveda"
-							onclick="dlgNuevaBoveda.show();return false;"
-							actionListener="#{administrarBoveda.preCreateBoveda()}">
+							onclick="dlgNuevaBoveda.show();return false;">
 							<span class="icon icon3"></span>
 							<span class="label">Nuevo</span>
 						</h:commandLink>
 						<p:commandLink styleClass="button middle" title="Editar Boveda"
+							actionListener="#{administrarBoveda.loadBoveda()}"
 							oncomplete="dlgUpdateBoveda.show();return false;"
-							update=":formTablaBoveda">
+							update=":idDlgUpdateBoveda">
 							<span class="icon icon26"></span>
 							<span class="label">Editar</span>
 						</p:commandLink>
-						<h:commandLink action="#" styleClass="button right"
+						<p:commandLink
+							actionListener="#{administrarBoveda.deleteBoveda()}"
+							update=":formTablaBoveda" styleClass="button right"
 							title="Eliminar Boveda">
+							<p:confirm header="Confirmation"
+								message="Estas seguro de eliminar la boveda?"
+								icon="ui-icon-alert" />
 							<span class="icon icon186"></span>
 							<span class="label">Eliminar</span>
-						</h:commandLink>
-						<h:commandLink styleClass="button left" title="Nueva bóveda"
-							onclick="dlgOpenBoveda.show();return false;">
-							<span class="icon icon123"></span>
-							<span class="label">Abrir Boveda</span>
-						</h:commandLink>
-						<h:commandLink action="#" styleClass="button right"
-							title="Eliminar Boveda">
-							<span class="icon icon122"></span>
-							<span class="label">Cerrar Boveda</span>
-						</h:commandLink>
+						</p:commandLink>
+						<p:confirmDialog global="true">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</div>
+					<div class="dropdown">
+						<h:outputLink styleClass="button">
+							<span class="icon icon96">&nbsp;</span>
+							<span class="label">Operaciones</span>
+							<span class="toggle">&nbsp;</span>
+						</h:outputLink>
+						<div class="dropdown-slider">
+							<p:commandLink styleClass="ddm"
+								actionListener="#{administrarBoveda.loadTablaBovedaDetalleAfterOpen()}"
+								oncomplete="dlgOpenBoveda.show();return false;"
+								update=":idDlgOpenBoveda">
+								<span class="icon icon123">&nbsp;</span>
+								<span class="label">Abrir Boveda</span>
+							</p:commandLink>
+
+							<p:commandLink styleClass="ddm"
+								oncomplete="dlgOpenBoveda.show();return false;"
+								update=":idDlgOpenBoveda">
+								<span class="icon icon123">&nbsp;</span>
+								<span class="label">Abrir Pendiente</span>
+							</p:commandLink>
+
+							<p:commandLink styleClass="ddm"
+								actionListener="#{administrarBoveda.loadTablaBovedaDetalleAfterClose()}"
+								oncomplete="dlgCloseBoveda.show();return false;"
+								update=":idDlgCloseBoveda">
+								<span class="icon icon123">&nbsp;</span>
+								<span class="label">Cerrar Boveda</span>
+							</p:commandLink>
+						</div>
+						<!-- /.dropdown-slider -->
 					</div>
 				</div>
 			</h:form>
@@ -66,7 +99,7 @@
 						rowKey="#{boveda}" rowIndexVar="row">
 
 						<p:ajax event="rowSelect"
-							listener="#{administrarBoveda.preUpdateBoveda()}" />
+							listener="#{administrarBoveda.tablaBoveda.rowSelect()}" />
 						<p:ajax event="rowUnselect"
 							listener="#{administrarBoveda.tablaBoveda.rowUnselect()}" />
 
@@ -89,9 +122,13 @@
 					</p:dataTable>
 				</div>
 			</h:form>
-			
+
 			<ui:include src="/modules/caja/boveda/openBoveda.xhtml">
 				<ui:param name="WidgetVarName" value="dlgOpenBoveda" />
+				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
+			</ui:include>
+			<ui:include src="/modules/caja/boveda/closeBoveda.xhtml">
+				<ui:param name="WidgetVarName" value="dlgCloseBoveda" />
 				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
 			</ui:include>
 			
@@ -103,8 +140,8 @@
 				<ui:param name="componentwidgetVar" value="dlgUpdateBoveda" />
 				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
 			</ui:include>
-			
-			
+
+
 		</div>
 	</ui:define>
 

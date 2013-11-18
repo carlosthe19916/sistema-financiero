@@ -8,19 +8,19 @@
 	by applicable law or agreed to in writing, software distributed under the 
 	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
 	OF ANY KIND, either express or implied. See the License for the specific 
-	language governing permissions and limitations under the License. 
- This file is not required if you don't need any extra configuration. -->
+	language governing permissions and limitations under the License. This file 
+	is not required if you don't need any extra configuration. -->
 <faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
- xmlns:xi="http://www.w3.org/2001/XInclude"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://java.sun.com/xml/ns/javaee         http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
- <!-- This descriptor activates the JSF 2.0 Servlet 
- Write your navigation rules here. You are encouraged to use CDI for 
-		creating @Named managed beans. -->
- <navigation-rule>
-  <from-view-id>/login.xhtml</from-view-id>
-  <navigation-case>
-   <from-outcome>success</from-outcome>
-   <to-view-id>/index.xhtml</to-view-id>
-  </navigation-case>
- </navigation-rule>
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="         http://java.sun.com/xml/ns/javaee         http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+	<!-- This descriptor activates the JSF 2.0 Servlet Write your navigation 
+		rules here. You are encouraged to use CDI for creating @Named managed beans. -->
+	<navigation-rule>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
 </faces-config>

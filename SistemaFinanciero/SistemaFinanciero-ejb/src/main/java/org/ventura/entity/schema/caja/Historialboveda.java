@@ -1,53 +1,59 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
+
 import java.util.Date;
 import java.util.List;
-
 
 /**
  * The persistent class for the historialboveda database table.
  * 
  */
 @Entity
-@Table(name="historialboveda",schema="caja")
-@NamedQuery(name="Historialboveda.findAll", query="SELECT h FROM Historialboveda h")
+@Table(name = "historialboveda", schema = "caja")
+@NamedQuery(name = "Historialboveda.findAll", query = "SELECT h FROM Historialboveda h")
 public class Historialboveda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
 	private Integer idhistorialboveda;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Date fechaapertura;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Date fechacierre;
 
-	@Column(nullable=false)
-	private Timestamp horaapertura;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
+	private Date horaapertura;
 
-	@Column(nullable=false)
-	private Timestamp horacierre;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
+	private Date horacierre;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer saldofinal;
 
-	@Column(nullable=false)
-	private double saldoinicial;
+	@Column(nullable = false)
+	private Double saldoinicial;
 
-	//bi-directional many-to-one association to Detallehistorialboveda
-	@OneToMany(mappedBy="historialboveda")
+	@Column(nullable=false)
+	private Boolean estado;
+	
+	// bi-directional many-to-one association to Detallehistorialboveda
+	@OneToMany(mappedBy = "historialboveda")
 	private List<Detallehistorialboveda> detallehistorialbovedas;
 
-	//bi-directional many-to-one association to Boveda
+	// bi-directional many-to-one association to Boveda
 	@ManyToOne
-	@JoinColumn(name="idboveda", nullable=false)
+	@JoinColumn(name = "idboveda", nullable = false)
 	private Boveda boveda;
 
 	public Historialboveda() {
@@ -77,19 +83,19 @@ public class Historialboveda implements Serializable {
 		this.fechacierre = fechacierre;
 	}
 
-	public Timestamp getHoraapertura() {
+	public Date getHoraapertura() {
 		return this.horaapertura;
 	}
 
-	public void setHoraapertura(Timestamp horaapertura) {
+	public void setHoraapertura(Date horaapertura) {
 		this.horaapertura = horaapertura;
 	}
 
-	public Timestamp getHoracierre() {
+	public Date getHoracierre() {
 		return this.horacierre;
 	}
 
-	public void setHoracierre(Timestamp horacierre) {
+	public void setHoracierre(Date horacierre) {
 		this.horacierre = horacierre;
 	}
 
@@ -101,11 +107,11 @@ public class Historialboveda implements Serializable {
 		this.saldofinal = saldofinal;
 	}
 
-	public double getSaldoinicial() {
+	public Double getSaldoinicial() {
 		return this.saldoinicial;
 	}
 
-	public void setSaldoinicial(double saldoinicial) {
+	public void setSaldoinicial(Double saldoinicial) {
 		this.saldoinicial = saldoinicial;
 	}
 
@@ -113,18 +119,21 @@ public class Historialboveda implements Serializable {
 		return this.detallehistorialbovedas;
 	}
 
-	public void setDetallehistorialbovedas(List<Detallehistorialboveda> detallehistorialbovedas) {
+	public void setDetallehistorialbovedas(
+			List<Detallehistorialboveda> detallehistorialbovedas) {
 		this.detallehistorialbovedas = detallehistorialbovedas;
 	}
 
-	public Detallehistorialboveda addDetallehistorialboveda(Detallehistorialboveda detallehistorialboveda) {
+	public Detallehistorialboveda addDetallehistorialboveda(
+			Detallehistorialboveda detallehistorialboveda) {
 		getDetallehistorialbovedas().add(detallehistorialboveda);
 		detallehistorialboveda.setHistorialboveda(this);
 
 		return detallehistorialboveda;
 	}
 
-	public Detallehistorialboveda removeDetallehistorialboveda(Detallehistorialboveda detallehistorialboveda) {
+	public Detallehistorialboveda removeDetallehistorialboveda(
+			Detallehistorialboveda detallehistorialboveda) {
 		getDetallehistorialbovedas().remove(detallehistorialboveda);
 		detallehistorialboveda.setHistorialboveda(null);
 
@@ -137,6 +146,14 @@ public class Historialboveda implements Serializable {
 
 	public void setBoveda(Boveda boveda) {
 		this.boveda = boveda;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
 }

@@ -51,13 +51,37 @@ public class AdministrarBoveda implements Serializable {
 	public void openBoveda() {
 		try {
 			bovedaServiceLocal.openBoveda(boveda);
+			refreshBean();
+			
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		}
 	}
 	
-	public void createBoveda() {
+	public void openBovedaWithPendiente() {
+		try {
+			bovedaServiceLocal.openBovedaWithPendiente(boveda);
+			refreshBean();
+			
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}
+	}
+	
+	public void closeBoveda() {
+		try {
+			bovedaServiceLocal.closeBoveda(boveda);
+			refreshBean();
+			
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}
+	}
+	
+	public String createBoveda() {
 		try {
 			String denominacionBoveda = boveda.getDenominacion();
 			Integer idTipomoneda= boveda.getIdtipomoneda();		
@@ -74,10 +98,13 @@ public class AdministrarBoveda implements Serializable {
 
 			FacesMessage message = new FacesMessage("Bóveda creada correctamente");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
+					
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		}
+		
+		return "administrarBoveda.xhtml";
 	}
 
 	public void updateBoveda() {
@@ -95,6 +122,8 @@ public class AdministrarBoveda implements Serializable {
 
 	public void deleteBoveda() {
 		try {
+			loadBoveda();
+			
 			boveda.setEstado(false);
 			bovedaServiceLocal.update(boveda);
 			refreshBean();
@@ -127,8 +156,22 @@ public class AdministrarBoveda implements Serializable {
 		}	
 	}
 
-	public void loadTablaBovedaDetalle(){
+	public void loadTablaBovedaDetalleAfterOpen(){
 		try {
+			loadBoveda();
+			
+			List<Detallehistorialboveda> detallehistorialbovedaList = bovedaServiceLocal.getLastDetallehistorialboveda(boveda);
+			tablaBovedaDetalle.setRows(detallehistorialbovedaList);
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}
+	}
+	
+	public void loadTablaBovedaDetalleAfterClose(){
+		try {
+			loadBoveda();
+			
 			List<Detallehistorialboveda> detallehistorialbovedaList = bovedaServiceLocal.getLastDetallehistorialboveda(boveda);
 			tablaBovedaDetalle.setRows(detallehistorialbovedaList);
 		} catch (Exception e) {

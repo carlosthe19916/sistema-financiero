@@ -6,43 +6,42 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the transaccionboveda database table.
  * 
  */
 @Entity
-@Table(name="transaccionboveda",schema="caja")
-@NamedQuery(name="Transaccionboveda.findAll", query="SELECT t FROM Transaccionboveda t")
+@Table(name = "transaccionboveda", schema = "caja")
+@NamedQuery(name = "Transaccionboveda.findAll", query = "SELECT t FROM Transaccionboveda t")
 public class Transaccionboveda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idtransaccionboveda;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Date fecha;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Timestamp hora;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private double monto;
 
-	//bi-directional many-to-one association to Detalletransaccionboveda
-	@OneToMany(mappedBy="transaccionboveda")
+	// bi-directional many-to-one association to Detalletransaccionboveda
+	@OneToMany(mappedBy = "transaccionboveda")
 	private List<Detalletransaccionboveda> detalletransaccionbovedas;
 
-	//bi-directional many-to-one association to Boveda
+	// bi-directional many-to-one association to Boveda
 	@ManyToOne
-	@JoinColumn(name="idboveda", nullable=false)
-	private Boveda boveda;
+	@JoinColumn(name = "idhistorialboveda", nullable = false)
+	private Historialboveda historialboveda;
 
-	//bi-directional many-to-one association to Tipotransaccion
+	// bi-directional many-to-one association to Tipotransaccion
 	@ManyToOne
-	@JoinColumn(name="idtipotransaccion", nullable=false)
+	@JoinColumn(name = "idtipotransaccion", nullable = false)
 	private Tipotransaccion tipotransaccion;
 
 	public Transaccionboveda() {
@@ -84,30 +83,25 @@ public class Transaccionboveda implements Serializable {
 		return this.detalletransaccionbovedas;
 	}
 
-	public void setDetalletransaccionbovedas(List<Detalletransaccionboveda> detalletransaccionbovedas) {
+	public void setDetalletransaccionbovedas(
+			List<Detalletransaccionboveda> detalletransaccionbovedas) {
 		this.detalletransaccionbovedas = detalletransaccionbovedas;
 	}
 
-	public Detalletransaccionboveda addDetalletransaccionboveda(Detalletransaccionboveda detalletransaccionboveda) {
+	public Detalletransaccionboveda addDetalletransaccionboveda(
+			Detalletransaccionboveda detalletransaccionboveda) {
 		getDetalletransaccionbovedas().add(detalletransaccionboveda);
 		detalletransaccionboveda.setTransaccionboveda(this);
 
 		return detalletransaccionboveda;
 	}
 
-	public Detalletransaccionboveda removeDetalletransaccionboveda(Detalletransaccionboveda detalletransaccionboveda) {
+	public Detalletransaccionboveda removeDetalletransaccionboveda(
+			Detalletransaccionboveda detalletransaccionboveda) {
 		getDetalletransaccionbovedas().remove(detalletransaccionboveda);
 		detalletransaccionboveda.setTransaccionboveda(null);
 
 		return detalletransaccionboveda;
-	}
-
-	public Boveda getBoveda() {
-		return this.boveda;
-	}
-
-	public void setBoveda(Boveda boveda) {
-		this.boveda = boveda;
 	}
 
 	public Tipotransaccion getTipotransaccion() {
@@ -116,6 +110,14 @@ public class Transaccionboveda implements Serializable {
 
 	public void setTipotransaccion(Tipotransaccion tipotransaccion) {
 		this.tipotransaccion = tipotransaccion;
+	}
+
+	public Historialboveda getHistorialboveda() {
+		return historialboveda;
+	}
+
+	public void setHistorialboveda(Historialboveda historialboveda) {
+		this.historialboveda = historialboveda;
 	}
 
 }

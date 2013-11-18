@@ -12,8 +12,9 @@
 <ui:composition>
 
 
-	<p:dialog widgetVar="#{componentwidgetVar}" header="UPDATE BOVEDA"
-		closeOnEscape="true" closable="false" resizable="false" modal="true">
+	<p:dialog id="idDlgUpdateBoveda" widgetVar="#{componentwidgetVar}"
+		header="UPDATE BOVEDA" closeOnEscape="true" closable="false"
+		resizable="false" modal="true">
 
 		<h:form>
 			<div>
@@ -57,15 +58,13 @@
 					</tr>
 				</table>
 			</div>
-			<h:commandButton value="update">
-				<f:ajax listener="#{administrarBoveda.imprimir()}" render="@form"></f:ajax>
-			</h:commandButton>
 			<div class="sf-buttons">
-				<button type="submit" jsf:id="btnGuardar" class="action blue">
-					<span class="label">Guardar</span>
-					<f:ajax listener="#{administrarBoveda.updateBoveda()}"
-						execute="@form" render="#{componentToUpdated}" />
-				</button>
+
+				<h:commandButton value="Guardar"
+					action="#{administrarBoveda.updateBoveda()}"
+					styleClass="action blue">
+				</h:commandButton>
+
 				<button type="reset" onclick="#{componentwidgetVar}.hide();"
 					class="action">
 					<span class="label">Cancel</span>
