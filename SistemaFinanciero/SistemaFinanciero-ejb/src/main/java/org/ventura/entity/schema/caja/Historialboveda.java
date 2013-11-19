@@ -14,20 +14,28 @@ import java.util.List;
 @Entity
 @Table(name = "historialboveda", schema = "caja")
 @NamedQuery(name = "Historialboveda.findAll", query = "SELECT h FROM Historialboveda h")
+@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.estado = true") })
 public class Historialboveda implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
+
+
+	public final static String findHistorialActive = "org.ventura.entity.schema.caja.findHistorialActive";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idhistorialboveda;
 
+	@Column(nullable = false)
+	private Integer idboveda;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fechaapertura;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
+	@Column
 	private Date fechacierre;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -35,25 +43,25 @@ public class Historialboveda implements Serializable {
 	private Date horaapertura;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
+	@Column
 	private Date horacierre;
 
-	@Column(nullable = false)
+	@Column
 	private Integer saldofinal;
 
 	@Column(nullable = false)
 	private Double saldoinicial;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
-	
+
 	// bi-directional many-to-one association to Detallehistorialboveda
 	@OneToMany(mappedBy = "historialboveda")
 	private List<Detallehistorialboveda> detallehistorialbovedas;
 
 	// bi-directional many-to-one association to Boveda
 	@ManyToOne
-	@JoinColumn(name = "idboveda", nullable = false)
+	@JoinColumn(name = "idboveda", nullable = false, insertable = false, updatable = false)
 	private Boveda boveda;
 
 	public Historialboveda() {
@@ -146,6 +154,7 @@ public class Historialboveda implements Serializable {
 
 	public void setBoveda(Boveda boveda) {
 		this.boveda = boveda;
+		this.idboveda = (boveda == null) ? null : boveda.getIdboveda();
 	}
 
 	public Boolean getEstado() {
@@ -154,6 +163,14 @@ public class Historialboveda implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+
+	public Integer getIdboveda() {
+		return idboveda;
+	}
+
+	public void setIdboveda(Integer idboveda) {
+		this.idboveda = idboveda;
 	}
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "denominacionmoneda", schema = "caja")
 @NamedQuery(name = "Denominacionmoneda.findAll", query = "SELECT d FROM Denominacionmoneda d")
-@NamedQueries({ @NamedQuery(name = Denominacionmoneda.findAllByTipoMoneda, query = "Select p From Personanatural p Where p.dni=:dni") })
+@NamedQueries({ @NamedQuery(name = Denominacionmoneda.findAllByTipoMoneda, query = "SELECT d FROM Denominacionmoneda d WHERE d.idtipomoneda = :idtipomoneda AND d.estado = true") })
 public class Denominacionmoneda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -35,10 +35,6 @@ public class Denominacionmoneda implements Serializable {
 
 	@Column(nullable = false)
 	private double valor;
-
-	// bi-directional many-to-one association to Detallehistorialboveda
-	@OneToMany(mappedBy = "denominacionmoneda")
-	private List<Detallehistorialboveda> detallehistorialbovedas;
 
 	// bi-directional many-to-one association to Detalletransaccionboveda
 	@OneToMany(mappedBy = "denominacionmoneda")
@@ -85,31 +81,6 @@ public class Denominacionmoneda implements Serializable {
 
 	public void setValor(double valor) {
 		this.valor = valor;
-	}
-
-	public List<Detallehistorialboveda> getDetallehistorialbovedas() {
-		return this.detallehistorialbovedas;
-	}
-
-	public void setDetallehistorialbovedas(
-			List<Detallehistorialboveda> detallehistorialbovedas) {
-		this.detallehistorialbovedas = detallehistorialbovedas;
-	}
-
-	public Detallehistorialboveda addDetallehistorialboveda(
-			Detallehistorialboveda detallehistorialboveda) {
-		getDetallehistorialbovedas().add(detallehistorialboveda);
-		detallehistorialboveda.setDenominacionmoneda(this);
-
-		return detallehistorialboveda;
-	}
-
-	public Detallehistorialboveda removeDetallehistorialboveda(
-			Detallehistorialboveda detallehistorialboveda) {
-		getDetallehistorialbovedas().remove(detallehistorialboveda);
-		detallehistorialboveda.setDenominacionmoneda(null);
-
-		return detallehistorialboveda;
 	}
 
 	public List<Detalletransaccionboveda> getDetalletransaccionbovedas() {
