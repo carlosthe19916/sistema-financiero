@@ -45,7 +45,7 @@ public class Historialboveda implements Serializable {
 	private Date horacierre;
 
 	@Column
-	private Integer saldofinal;
+	private Double saldofinal;
 
 	@Column(nullable = false)
 	private Double saldoinicial;
@@ -114,11 +114,11 @@ public class Historialboveda implements Serializable {
 		this.horacierre = horacierre;
 	}
 
-	public Integer getSaldofinal() {
+	public Double getSaldofinal() {
 		return this.saldofinal;
 	}
 
-	public void setSaldofinal(Integer saldofinal) {
+	public void setSaldofinal(Double saldofinal) {
 		this.saldofinal = saldofinal;
 	}
 
@@ -159,8 +159,7 @@ public class Historialboveda implements Serializable {
 		return iddetallehistorialbovedainicial;
 	}
 
-	public void setIddetallehistorialbovedainicial(
-			Integer iddetallehistorialbovedainicial) {
+	public void setIddetallehistorialbovedainicial(Integer iddetallehistorialbovedainicial) {
 		this.iddetallehistorialbovedainicial = iddetallehistorialbovedainicial;
 	}
 
@@ -168,8 +167,7 @@ public class Historialboveda implements Serializable {
 		return iddetallehistorialbovedafinal;
 	}
 
-	public void setIddetallehistorialbovedafinal(
-			Integer iddetallehistorialbovedafinal) {
+	public void setIddetallehistorialbovedafinal(Integer iddetallehistorialbovedafinal) {
 		this.iddetallehistorialbovedafinal = iddetallehistorialbovedafinal;
 	}
 
@@ -177,18 +175,31 @@ public class Historialboveda implements Serializable {
 		return detallehistorialbovedainicial;
 	}
 
-	public void setDetallehistorialbovedainicial(
-			Detallehistorialboveda detallehistorialbovedainicial) {
+	public void setDetallehistorialbovedainicial(Detallehistorialboveda detallehistorialbovedainicial) {
 		this.detallehistorialbovedainicial = detallehistorialbovedainicial;
+		this.refreshSaldos();
 	}
 
 	public Detallehistorialboveda getDetallehistorialbovedafinal() {
 		return detallehistorialbovedafinal;
 	}
 
-	public void setDetallehistorialbovedafinal(
-			Detallehistorialboveda detallehistorialbovedafinal) {
+	public void setDetallehistorialbovedafinal(Detallehistorialboveda detallehistorialbovedafinal) {
 		this.detallehistorialbovedafinal = detallehistorialbovedafinal;
+		this.refreshSaldos();
+	}
+	
+	public void refreshSaldos() {
+		this.saldoinicial = new Double(0);
+		this.saldofinal = new Double(0);	
+		Detallehistorialboveda detallehistorialbovedainicial = getDetallehistorialbovedainicial();
+		Detallehistorialboveda detallehistorialbovedafinal = getDetallehistorialbovedafinal();	
+		if (detallehistorialbovedainicial != null) {
+			this.saldoinicial = detallehistorialbovedainicial.getTotal();
+		}
+		if (detallehistorialbovedafinal != null) {
+			this.saldofinal = detallehistorialbovedafinal.getTotal();
+		}
 	}
 
 }

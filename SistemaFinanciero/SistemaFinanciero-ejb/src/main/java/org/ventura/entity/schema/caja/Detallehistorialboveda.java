@@ -1,6 +1,9 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -11,7 +14,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "detallehistorialboveda", schema = "caja")
 @NamedQuery(name = "Detallehistorialboveda.findAll", query = "SELECT d FROM Detallehistorialboveda d")
-
 public class Detallehistorialboveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +27,9 @@ public class Detallehistorialboveda implements Serializable {
 
 	@Column(nullable = false)
 	private Double total;
+
+	@OneToMany(mappedBy = "detallehistorialboveda")
+	private List<Detalleaperturacierreboveda> detalleaperturacierrebovedaList;
 
 	public Detallehistorialboveda() {
 	}
@@ -45,5 +50,39 @@ public class Detallehistorialboveda implements Serializable {
 		this.total = total;
 	}
 
-	
+	public List<Detalleaperturacierreboveda> getDetalleaperturacierrebovedaList() {
+		return detalleaperturacierrebovedaList;
+	}
+
+	public void setDetalleaperturacierrebovedaList(List<Detalleaperturacierreboveda> detalleaperturacierrebovedaList) {
+		this.detalleaperturacierrebovedaList = detalleaperturacierrebovedaList;
+		this.refreshTotal();
+	}
+
+	public Detalleaperturacierreboveda addDetalleaperturacierrebovedaList(Detalleaperturacierreboveda detalleaperturacierreboveda) {
+		if (getDetalleaperturacierrebovedaList() == null) {
+			setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
+		}
+		this.getDetalleaperturacierrebovedaList().add(detalleaperturacierreboveda);
+		this.refreshTotal();
+		return detalleaperturacierreboveda;
+	}
+
+	public Detalleaperturacierreboveda removeDetalleaperturacierrebovedaList(Detalleaperturacierreboveda detalleaperturacierreboveda) {
+		this.getDetalleaperturacierrebovedaList().remove(detalleaperturacierreboveda);
+		this.refreshTotal();
+		return detalleaperturacierreboveda;
+	}
+
+	public void refreshTotal() {
+		List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = getDetalleaperturacierrebovedaList();
+		this.total = new Double(0);
+		if (detalleaperturacierrebovedas != null) {
+			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
+				Detalleaperturacierreboveda detalleaperturacierreboveda = iterator.next();
+				this.total = total + detalleaperturacierreboveda.getSubtotal();
+			}
+		}
+	}
+
 }

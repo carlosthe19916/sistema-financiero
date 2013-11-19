@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import java.util.List;
-
 /**
  * The persistent class for the denominacionmoneda database table.
  * 
@@ -34,11 +32,7 @@ public class Denominacionmoneda implements Serializable {
 	private Integer idtipomoneda;
 
 	@Column(nullable = false)
-	private double valor;
-
-	// bi-directional many-to-one association to Detalletransaccionboveda
-	@OneToMany(mappedBy = "denominacionmoneda")
-	private List<Detalletransaccionboveda> detalletransaccionbovedas;
+	private Double valor;
 
 	public Denominacionmoneda() {
 	}
@@ -75,37 +69,25 @@ public class Denominacionmoneda implements Serializable {
 		this.idtipomoneda = idtipomoneda;
 	}
 
-	public double getValor() {
+	public Double getValor() {
 		return this.valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(Double valor) {
 		this.valor = valor;
 	}
 
-	public List<Detalletransaccionboveda> getDetalletransaccionbovedas() {
-		return this.detalletransaccionbovedas;
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Denominacionmoneda)) {
+			return false;
+		}
+		final Denominacionmoneda other = (Denominacionmoneda) obj;
+		return other.getIddenominacionmoneda() == iddenominacionmoneda ? true : false;
 	}
 
-	public void setDetalletransaccionbovedas(
-			List<Detalletransaccionboveda> detalletransaccionbovedas) {
-		this.detalletransaccionbovedas = detalletransaccionbovedas;
+	@Override
+	public int hashCode() {
+		return iddenominacionmoneda;
 	}
-
-	public Detalletransaccionboveda addDetalletransaccionboveda(
-			Detalletransaccionboveda detalletransaccionboveda) {
-		getDetalletransaccionbovedas().add(detalletransaccionboveda);
-		detalletransaccionboveda.setDenominacionmoneda(this);
-
-		return detalletransaccionboveda;
-	}
-
-	public Detalletransaccionboveda removeDetalletransaccionboveda(
-			Detalletransaccionboveda detalletransaccionboveda) {
-		getDetalletransaccionbovedas().remove(detalletransaccionboveda);
-		detalletransaccionboveda.setDenominacionmoneda(null);
-
-		return detalletransaccionboveda;
-	}
-
 }

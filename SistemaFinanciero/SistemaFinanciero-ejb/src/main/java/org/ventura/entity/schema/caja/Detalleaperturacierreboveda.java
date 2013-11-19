@@ -16,6 +16,7 @@ public class Detalleaperturacierreboveda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer iddetalleaperturacierreboveda;
 
@@ -31,6 +32,14 @@ public class Detalleaperturacierreboveda implements Serializable {
 	@Column(nullable = false)
 	private Integer iddetallehistorialboveda;
 
+	@ManyToOne
+	@JoinColumn(name = "iddenominacionmoneda", nullable = false, insertable = false, updatable = false)
+	private Denominacionmoneda denominacionmoneda;
+	
+	@ManyToOne
+	@JoinColumn(name = "iddetallehistorialboveda", nullable = false, insertable = false, updatable = false)
+	private Detallehistorialboveda detallehistorialboveda;
+	
 	public Detalleaperturacierreboveda() {
 	}
 
@@ -38,8 +47,7 @@ public class Detalleaperturacierreboveda implements Serializable {
 		return this.iddetalleaperturacierreboveda;
 	}
 
-	public void setIddetalleaperturacierreboveda(
-			Integer iddetalleaperturacierreboveda) {
+	public void setIddetalleaperturacierreboveda(Integer iddetalleaperturacierreboveda) {
 		this.iddetalleaperturacierreboveda = iddetalleaperturacierreboveda;
 	}
 
@@ -73,6 +81,30 @@ public class Detalleaperturacierreboveda implements Serializable {
 
 	public void setSubtotal(Double subtotal) {
 		this.subtotal = subtotal;
+	}
+
+	public Denominacionmoneda getDenominacionmoneda() {
+		return denominacionmoneda;
+	}
+
+	public void setDenominacionmoneda(Denominacionmoneda denominacionmoneda) {
+		this.denominacionmoneda = denominacionmoneda;
+		if(denominacionmoneda != null){
+			this.iddenominacionmoneda = denominacionmoneda.getIddenominacionmoneda();
+			this.cantidad = (cantidad == null) ? 0 : this.cantidad;
+			this.subtotal = cantidad * denominacionmoneda.getValor();
+		} else {
+			this.iddenominacionmoneda = null;
+			this.subtotal = null;
+		}
+	}
+
+	public Detallehistorialboveda getDetallehistorialboveda() {
+		return detallehistorialboveda;
+	}
+
+	public void setDetallehistorialboveda(Detallehistorialboveda detallehistorialboveda) {
+		this.detallehistorialboveda = detallehistorialboveda;
 	}
 
 }

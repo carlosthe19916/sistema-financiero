@@ -28,11 +28,13 @@ import org.ventura.dao.impl.HistorialbovedaDAO;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
+import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.exception.NonexistentEntityException;
+import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.EstadoValue;
@@ -67,8 +69,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		try {
 			preCreateBoveda(boveda);
 			bovedaDAO.create(boveda);
-		} catch (EntityExistsException | IllegalArgumentException
-				| TransactionRequiredException e) {
+		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
 			boveda.setIdboveda(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -88,8 +89,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		Integer idTipomoneda = boveda.getIdtipomoneda();
 		Integer idAgencia = boveda.getIdagencia();
 
-		if (denominacionBoveda == null || denominacionBoveda.isEmpty()
-				|| denominacionBoveda.trim().isEmpty()) {
+		if (denominacionBoveda == null || denominacionBoveda.isEmpty() || denominacionBoveda.trim().isEmpty()) {
 			throw new Exception("Denominación de Bóveda Inválida");
 		}
 		if (idTipomoneda == null) {
@@ -100,8 +100,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 
 		boveda.setEstado(true);
-		boveda.setIdestadomovimiento(EstadoValue
-				.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO));
+		boveda.setIdestadomovimiento(EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO));
 	}
 
 	@Override
@@ -235,89 +234,42 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 	@Override
 	public void openBoveda(Boveda boveda) throws Exception {
-		/*try {
+		try {
 			boveda = bovedaDAO.find(boveda.getIdagencia());
-			EstadoMovimientoType estadoBoveda = EstadoValue.getEstadoType(boveda.getIdestadomovimiento());
-			switch (estadoBoveda) {
-			case CERRADO:
-				log.info("ESTADO DE BOVEDA VERIFICADA: CERRADO");
-				break;
-			default:
-				log.error("Estado de Boveda: " + boveda.getDenominacion() + ": ABIERTO");
-				throw new Exception();
+			
+			boolean resultBoveda = verificarBoveda(boveda, EstadoMovimientoType.CERRADO);
+			if(resultBoveda == false){
+				throw new Exception("Boveda Abierta, Imposible Abrirla nuevamente");
 			}
-
-			List<Caja> cajaList = boveda.getCajas();
-			for (Iterator<Caja> iterator = cajaList.iterator(); iterator.hasNext();) {
-				Caja caja = iterator.next();
-				EstadoMovimientoType estadoCaja = EstadoValue.getEstadoType(caja.getIdestadomovimiento());
-				switch (estadoCaja) {
-				case CERRADO:
-					log.info("ESTADO DE CAJA " + caja.getDenominacion() + " VERIFICADA: CERRADO");
-					break;
-				default:
-					log.error("ESTADO DE CAJA " + caja.getDenominacion() + " VERIFICADA: ABIERTO");
-					throw new Exception();
-				}
+			
+			boolean resultCajas= verificarCajas(boveda,EstadoMovimientoType.CERRADO);		
+			if(resultCajas == false){
+				throw new Exception("Cajas de Boveda abiertas, Imposible Abrirlas nuevamente");
 			}
-			log.info("Todas las Cajas verificadas correctamente");
-			log.info("Boveda lista para Abrir");
-					
+			
+			Historialboveda historialbovedaOld = getHistorialActive();;
 			Historialboveda historialbovedaNew = new Historialboveda();
+			
+			copyDetallehistorialOldtoNew(historialbovedaOld,historialbovedaNew);
+			
+			List<Denominacionmoneda> denominacionmonedasTotal = getDenominacionmonedasActive(boveda.getTipomoneda());
+			union(historialbovedaNew.getDetallehistorialbovedainicial(), denominacionmonedasTotal);
+								
 			historialbovedaNew.setBoveda(boveda);
 			historialbovedaNew.setFechaapertura(Calendar.getInstance().getTime());
 			historialbovedaNew.setHoraapertura(Calendar.getInstance().getTime());
 			historialbovedaNew.setSaldoinicial(boveda.getSaldo());
 			historialbovedaNew.setEstado(true);
 			
-			Historialboveda historialbovedaOld = null;		
-			List<Historialboveda> historialbovedaList = historialbovedaDAO.findByNamedQuery(Historialboveda.findHistorialActive);
-			if(historialbovedaList.size() != 0){
-				historialbovedaOld = historialbovedaList.get(0);
+			if(historialbovedaOld == null){
+				historialbovedaNew.setEstado(true);
+				historialbovedaDAO.create(historialbovedaNew);
+			} else {
 				historialbovedaOld.setEstado(false);
-				historialbovedaOld = historialbovedaList.get(0);
+				historialbovedaNew.setEstado(true);			
 				historialbovedaDAO.update(historialbovedaOld);
+				historialbovedaDAO.create(historialbovedaNew);
 			}
-					
-			historialbovedaDAO.create(historialbovedaNew);
-			
-					
-			Tipomoneda tipomoneda = boveda.getTipomoneda();
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());			
-			List<Denominacionmoneda> denominacionmonedas = denominacionmonedaDAO.findByNamedQuery(Denominacionmoneda.findAllByTipoMoneda, parameters);
-				
-			List<Detallehistorialboveda> detallehistorialbovedaListOld = null;
-			if(historialbovedaList.size() != 0){
-				Map<String, Object> parametersDetalleOld = new HashMap<String, Object>();
-				parameters.put("idboveda", boveda.getIdboveda());
-				detallehistorialbovedaListOld = detallehistorialbovedaDAO.findByNamedQuery(Detallehistorialboveda.LAST_ACTIVE_FOR_BOVEDA,parametersDetalleOld);	
-				if(detallehistorialbovedaListOld.size() == 0){
-					detallehistorialbovedaListOld = null;
-				}
-			}
-			
-			for (Iterator<Denominacionmoneda> iterator = denominacionmonedas.iterator(); iterator.hasNext();) {
-				Denominacionmoneda denominacionmoneda = iterator.next();
-				
-				Detallehistorialboveda detallehistorialboveda = new Detallehistorialboveda();		
-				detallehistorialboveda.setHistorialboveda(historialbovedaNew);
-				detallehistorialboveda.setDenominacionmoneda(denominacionmoneda);
-				detallehistorialboveda.setCantidad(0);
-				
-				if(detallehistorialbovedaListOld != null){
-					for (Iterator<Detallehistorialboveda> iterator2 = detallehistorialbovedaListOld.iterator(); iterator2.hasNext();) {
-						Detallehistorialboveda detallehistorialbovedaOld = iterator2.next();
-						Denominacionmoneda denominacionmonedaOld = detallehistorialbovedaOld.getDenominacionmoneda();
-						if(denominacionmoneda.equals(denominacionmonedaOld)){
-							Integer cantidadOld = detallehistorialbovedaOld.getCantidad();
-							detallehistorialboveda.setCantidad(cantidadOld);
-						}
-					}	
-				}
-						
-				//detallehistorialbovedaDAO.create(detallehistorialboveda);			
-			}			
 					
 			Integer estadoMovimientoAbierto = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_CONGELADO);
 			boveda.setIdestadomovimiento(estadoMovimientoAbierto);
@@ -336,9 +288,137 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se pudo Crear el Boveda");
-		}*/
+		}
+	}
+	
+	public boolean verificarBoveda(Boveda boveda, EstadoMovimientoType estadoMovimientoType ) throws Exception{
+		boolean result = true;		
+		Estadomovimiento estadomovimiento = boveda.getEstadomovimiento();
+		EstadoMovimientoType estadoMovimientoTypeBoveda = EstadoValue.getEstadoType(estadomovimiento.getIdestadomovimiento());
+		if (estadoMovimientoTypeBoveda.equals(estadoMovimientoType)) {		
+			log.info("Verificacion de Boveda satisfactoria");
+		} else {
+			result = false;
+			log.info("Verificacion de Boveda incorrecta");
+		}
+		return result;
+	}
+	
+	public boolean verificarCajas(Boveda boveda, EstadoMovimientoType estadoMovimientoType ) throws Exception{
+		boolean result = true;		
+		List<Caja> cajaList = boveda.getCajas();
+		for (Iterator<Caja> iterator = cajaList.iterator(); iterator.hasNext();) {
+			Caja caja = iterator.next();
+			Estadomovimiento estadomovimiento = caja.getEstadomovimiento();
+			EstadoMovimientoType estadoMovimientoTypeCaja = EstadoValue.getEstadoType(estadomovimiento.getIdestadomovimiento());
+			if(estadoMovimientoTypeCaja != estadoMovimientoType){
+				result = false;
+				break;
+			}		
+			log.info("Caja " + caja.getDenominacion() + "en estado " + estadoMovimientoTypeCaja);
+		}	
+		if(result == true){
+			log.info("Verificacion de Cajas satisfactoria");
+		} else {
+			log.info("Verificacion de Cajas incorrecta");
+		}			
+		return result;
+	}
+	
+	public Historialboveda getHistorialActive() throws RollbackFailureException, Exception{
+		Historialboveda historialboveda = null;	
+		List<Historialboveda> historialbovedaList = historialbovedaDAO.findByNamedQuery(Historialboveda.findHistorialActive);	
+		if(historialbovedaList.size() == 0){
+			historialboveda = null;
+		}	
+		if(historialbovedaList.size() == 1){
+			historialboveda = historialbovedaList.get(0);		
+		} 
+		if(historialbovedaList.size() > 1) {
+			throw new Exception("Existe mas de un historial activo");
+		}
+		return historialboveda;
 	}
 
+	public List<Denominacionmoneda> getDenominacionmonedasActive(Tipomoneda tipomoneda) throws RollbackFailureException, Exception{
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());			
+		List<Denominacionmoneda> denominacionmonedas = denominacionmonedaDAO.findByNamedQuery(Denominacionmoneda.findAllByTipoMoneda, parameters);
+		return denominacionmonedas;
+	}
+	
+	public void copyDetallehistorialOldtoNew(Historialboveda historialbovedaOld, Historialboveda historialbovedaNew) throws RollbackFailureException, Exception {		
+		Detallehistorialboveda detallehistorialbovedaFinalOld;	
+		Detallehistorialboveda detallehistorialbovedaInicialNew = new Detallehistorialboveda();
+		Detallehistorialboveda detallehistorialbovedaInicialFinal = null;
+		
+		if(historialbovedaOld == null) {				
+			detallehistorialbovedaInicialNew = new Detallehistorialboveda();				
+			detallehistorialbovedaInicialNew.setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
+		} else {
+			detallehistorialbovedaFinalOld = historialbovedaOld.getDetallehistorialbovedafinal();				
+			detallehistorialbovedaInicialNew = detallehistorialbovedaFinalOld;
+		}
+		
+		historialbovedaNew.setDetallehistorialbovedainicial(detallehistorialbovedaInicialNew);
+		historialbovedaNew.setDetallehistorialbovedafinal(detallehistorialbovedaInicialFinal);	
+	}
+	
+	public void setAllDenominacionMoneda(Detallehistorialboveda detallehistorialboveda, Tipomoneda tipomoneda) throws RollbackFailureException, Exception{
+		List<Denominacionmoneda> denominacionmonedaList = getDenominacionmonedasActive(tipomoneda);
+		
+		for (Iterator<Denominacionmoneda> iterator = denominacionmonedaList.iterator(); iterator.hasNext();) {
+			Denominacionmoneda denominacionmoneda = iterator.next();
+			
+			Detalleaperturacierreboveda detalleaperturacierreboveda = new Detalleaperturacierreboveda();		
+			detalleaperturacierreboveda.setDenominacionmoneda(denominacionmoneda);		
+			detalleaperturacierreboveda.setCantidad(0);
+			
+			detallehistorialboveda.addDetalleaperturacierrebovedaList(detalleaperturacierreboveda);
+		}
+	}
+	
+	public void union(Detallehistorialboveda detallehistorialboveda,List<Denominacionmoneda> denominacionmonedas){
+		List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = detallehistorialboveda.getDetalleaperturacierrebovedaList();
+		
+		for (Iterator<Denominacionmoneda> iterator = denominacionmonedas.iterator(); iterator.hasNext();) {
+			Denominacionmoneda denominacionmoneda = (Denominacionmoneda) iterator.next();
+			if(!containsTipoMoneda(detalleaperturacierrebovedas,denominacionmoneda)){
+				Detalleaperturacierreboveda detalleaperturacierreboveda2 = new Detalleaperturacierreboveda();
+				detalleaperturacierreboveda2.setCantidad(0);
+				detalleaperturacierreboveda2.setDenominacionmoneda(denominacionmoneda);
+							
+				detalleaperturacierrebovedas.add(detalleaperturacierreboveda2);
+			}
+		}
+		
+		/*for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
+			Detalleaperturacierreboveda detalleaperturacierreboveda = iterator.next();
+			Denominacionmoneda denominacionmoneda = detalleaperturacierreboveda.getDenominacionmoneda();
+			
+			if(!denominacionmonedas.contains(denominacionmoneda)){
+				Detalleaperturacierreboveda detalleaperturacierreboveda2 = new Detalleaperturacierreboveda();
+				detalleaperturacierreboveda2.setDenominacionmoneda(denominacionmoneda);
+				detalleaperturacierreboveda2.setCantidad(0);
+				
+				detalleaperturacierrebovedas.add(detalleaperturacierreboveda2);
+			}		
+		}*/
+	}
+	
+	public boolean containsTipoMoneda(List<Detalleaperturacierreboveda> detalleaperturacierrebovedas, Denominacionmoneda denominacionmoneda){
+		boolean result = false;
+		for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
+			Detalleaperturacierreboveda detalleaperturacierreboveda = iterator.next();
+			Denominacionmoneda denominacionmoneda2 = detalleaperturacierreboveda.getDenominacionmoneda();		
+			if(denominacionmoneda2.equals(denominacionmoneda)){
+				result = true;
+				break;
+			}		
+		}
+		return result;
+	} 
+	
 	@Override
 	public void openBovedaWithPendiente(Boveda oBoveda) throws Exception {
 		// TODO Auto-generated method stub
