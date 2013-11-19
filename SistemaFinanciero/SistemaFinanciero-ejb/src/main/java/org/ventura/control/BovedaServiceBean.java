@@ -23,6 +23,7 @@ import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.dao.impl.BovedaDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
+import org.ventura.dao.impl.DetalleaperturacierrebovedaDAO;
 import org.ventura.dao.impl.DetallehistorialbovedaDAO;
 import org.ventura.dao.impl.HistorialbovedaDAO;
 import org.ventura.entity.schema.caja.Boveda;
@@ -59,7 +60,11 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	private DetallehistorialbovedaDAO detallehistorialbovedaDAO;
 	
 	@EJB
+	private DetalleaperturacierrebovedaDAO detalleaperturacierrebovedaDAO;
+	
+	@EJB
 	private DenominacionmonedaDAO denominacionmonedaDAO;
+	
 
 	//@EJB
 	//private ViewBovedadetalleDAO viewBovedadetalleDAO;
@@ -234,25 +239,26 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 	@Override
 	public void openBoveda(Boveda boveda) throws Exception {
-		try {
+		boolean existsOldHistorialboveda;
+		try {		
 			boveda = bovedaDAO.find(boveda.getIdagencia());
 			
 			boolean resultBoveda = verificarBoveda(boveda, EstadoMovimientoType.CERRADO);
 			if(resultBoveda == false){
 				throw new Exception("Boveda Abierta, Imposible Abrirla nuevamente");
-			}
-			
+			}		
 			boolean resultCajas= verificarCajas(boveda,EstadoMovimientoType.CERRADO);		
 			if(resultCajas == false){
 				throw new Exception("Cajas de Boveda abiertas, Imposible Abrirlas nuevamente");
 			}
 			
-			Historialboveda historialbovedaOld = getHistorialActive();;
+			Historialboveda historialbovedaOld = this.getHistorialActive();;
 			Historialboveda historialbovedaNew = new Historialboveda();
-			
-			copyDetallehistorialOldtoNew(historialbovedaOld,historialbovedaNew);
-			
+					
 			List<Denominacionmoneda> denominacionmonedasTotal = getDenominacionmonedasActive(boveda.getTipomoneda());
+			
+			existsOldHistorialboveda = (historialbovedaOld == null) ? false : true;		
+			copyDetallehistorialOldtoNew(historialbovedaOld,historialbovedaNew);		
 			union(historialbovedaNew.getDetallehistorialbovedainicial(), denominacionmonedasTotal);
 								
 			historialbovedaNew.setBoveda(boveda);
@@ -260,21 +266,38 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			historialbovedaNew.setHoraapertura(Calendar.getInstance().getTime());
 			historialbovedaNew.setSaldoinicial(boveda.getSaldo());
 			historialbovedaNew.setEstado(true);
-			
-			if(historialbovedaOld == null){
-				historialbovedaNew.setEstado(true);
-				historialbovedaDAO.create(historialbovedaNew);
-			} else {
+						
+			if(existsOldHistorialboveda){
+				historialbovedaNew.setEstado(true);	
 				historialbovedaOld.setEstado(false);
+			} else {			
 				historialbovedaNew.setEstado(true);			
-				historialbovedaDAO.update(historialbovedaOld);
-				historialbovedaDAO.create(historialbovedaNew);
 			}
-					
 			Integer estadoMovimientoAbierto = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_CONGELADO);
 			boveda.setIdestadomovimiento(estadoMovimientoAbierto);
-			bovedaDAO.update(boveda);
 			
+			//LISTO PARA MODIFICAR LA BASE DE DATOS
+			Detallehistorialboveda detallehistorialboveda = historialbovedaNew.getDetallehistorialbovedainicial();		
+			List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = detallehistorialboveda.getDetalleaperturacierrebovedaList();
+			
+			detallehistorialbovedaDAO.create(detallehistorialboveda);
+				
+			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
+				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator.next();
+				detalleaperturacierreboveda.setDetallehistorialboveda(detallehistorialboveda);
+				detalleaperturacierrebovedaDAO.create(detalleaperturacierreboveda);
+			}
+			
+			historialbovedaNew.setDetallehistorialbovedainicial(detallehistorialboveda);
+			
+			if(existsOldHistorialboveda){
+				historialbovedaDAO.create(historialbovedaNew);
+				historialbovedaDAO.update(historialbovedaOld);
+			} else {
+				historialbovedaDAO.create(historialbovedaNew);				
+			}
+			
+			bovedaDAO.update(boveda);			
 			log.info("FINISH SUCCESSFULLY: BOVEDA ABIERTA");
 
 		} catch (IllegalArgumentException | NonexistentEntityException e) {
@@ -353,11 +376,28 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		Detallehistorialboveda detallehistorialbovedaInicialFinal = null;
 		
 		if(historialbovedaOld == null) {				
-			detallehistorialbovedaInicialNew = new Detallehistorialboveda();				
+			detallehistorialbovedaInicialNew = new Detallehistorialboveda();	
 			detallehistorialbovedaInicialNew.setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
 		} else {
 			detallehistorialbovedaFinalOld = historialbovedaOld.getDetallehistorialbovedafinal();				
-			detallehistorialbovedaInicialNew = detallehistorialbovedaFinalOld;
+			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasOld = detallehistorialbovedaFinalOld.getDetalleaperturacierrebovedaList();
+			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasNew = new ArrayList<Detalleaperturacierreboveda>();
+			
+			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasOld.iterator(); iterator.hasNext();) {
+				Detalleaperturacierreboveda detalleaperturacierrebovedaOld =  iterator.next();
+				Detalleaperturacierreboveda detalleaperturacierrebovedaNew = new Detalleaperturacierreboveda();
+				
+				Integer cantidad = detalleaperturacierrebovedaOld.getCantidad();
+				Denominacionmoneda denominacionmoneda = detalleaperturacierrebovedaOld.getDenominacionmoneda();
+				Double subtotal = detalleaperturacierrebovedaOld.getSubtotal();
+				
+				detalleaperturacierrebovedaNew.setCantidad(cantidad);
+				detalleaperturacierrebovedaNew.setDenominacionmoneda(denominacionmoneda);
+				detalleaperturacierrebovedaNew.setSubtotal(subtotal);
+				
+				detalleaperturacierrebovedasNew.add(detalleaperturacierrebovedaNew);
+			}	
+			detallehistorialbovedaInicialNew.setDetalleaperturacierrebovedaList(detalleaperturacierrebovedasNew);
 		}
 		
 		historialbovedaNew.setDetallehistorialbovedainicial(detallehistorialbovedaInicialNew);

@@ -4,14 +4,20 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.listener.DetalleaerturacierrebovedaListener;
+
 /**
  * The persistent class for the detalleaperturacierreboveda database table.
  * 
  */
 @Entity
-@Table(name = "detalleaperturacierreboveda")
+@Table(name = "detalleaperturacierreboveda", schema = "caja")
+@EntityListeners(DetalleaerturacierrebovedaListener.class)
 @NamedQuery(name = "Detalleaperturacierreboveda.findAll", query = "SELECT d FROM Detalleaperturacierreboveda d")
-//@NamedQueries({ @NamedQuery(name = "Detallehistorialboveda.LAST_ACTIVE_FOR_BOVEDA", query = "SELECT d FROM Detallehistorialboveda d INNER JOIN d.historialboveda h INNER JOIN h.boveda b WHERE b.idboveda = :idboveda AND h.estado = true") })
+// @NamedQueries({ @NamedQuery(name =
+// "Detallehistorialboveda.LAST_ACTIVE_FOR_BOVEDA", query =
+// "SELECT d FROM Detallehistorialboveda d INNER JOIN d.historialboveda h INNER JOIN h.boveda b WHERE b.idboveda = :idboveda AND h.estado = true")
+// })
 public class Detalleaperturacierreboveda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -35,19 +41,21 @@ public class Detalleaperturacierreboveda implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "iddenominacionmoneda", nullable = false, insertable = false, updatable = false)
 	private Denominacionmoneda denominacionmoneda;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "iddetallehistorialboveda", nullable = false, insertable = false, updatable = false)
 	private Detallehistorialboveda detallehistorialboveda;
-	
+
 	public Detalleaperturacierreboveda() {
+		this.cantidad = 0;
 	}
 
 	public Integer getIddetalleaperturacierreboveda() {
 		return this.iddetalleaperturacierreboveda;
 	}
 
-	public void setIddetalleaperturacierreboveda(Integer iddetalleaperturacierreboveda) {
+	public void setIddetalleaperturacierreboveda(
+			Integer iddetalleaperturacierreboveda) {
 		this.iddetalleaperturacierreboveda = iddetalleaperturacierreboveda;
 	}
 
@@ -89,8 +97,9 @@ public class Detalleaperturacierreboveda implements Serializable {
 
 	public void setDenominacionmoneda(Denominacionmoneda denominacionmoneda) {
 		this.denominacionmoneda = denominacionmoneda;
-		if(denominacionmoneda != null){
-			this.iddenominacionmoneda = denominacionmoneda.getIddenominacionmoneda();
+		if (denominacionmoneda != null) {
+			this.iddenominacionmoneda = denominacionmoneda
+					.getIddenominacionmoneda();
 			this.cantidad = (cantidad == null) ? 0 : this.cantidad;
 			this.subtotal = cantidad * denominacionmoneda.getValor();
 		} else {
@@ -105,6 +114,7 @@ public class Detalleaperturacierreboveda implements Serializable {
 
 	public void setDetallehistorialboveda(Detallehistorialboveda detallehistorialboveda) {
 		this.detallehistorialboveda = detallehistorialboveda;
+		this.iddetallehistorialboveda = (detallehistorialboveda == null) ? null : detallehistorialboveda.getIddetallehistorialboveda();
 	}
 
 }

@@ -68,7 +68,7 @@ public class Historialboveda implements Serializable {
 	private Detallehistorialboveda detallehistorialbovedainicial;
 
 	@ManyToOne
-	@JoinColumn(name = "iddetallehistorialbovedafinal", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "iddetallehistorialbovedafinal", insertable = false, updatable = false)
 	private Detallehistorialboveda detallehistorialbovedafinal;
 
 	public Historialboveda() {
@@ -177,6 +177,7 @@ public class Historialboveda implements Serializable {
 
 	public void setDetallehistorialbovedainicial(Detallehistorialboveda detallehistorialbovedainicial) {
 		this.detallehistorialbovedainicial = detallehistorialbovedainicial;
+		this.iddetallehistorialbovedainicial = (detallehistorialbovedainicial == null) ? null : detallehistorialbovedainicial.getIddetallehistorialboveda();
 		this.refreshSaldos();
 	}
 
@@ -186,6 +187,7 @@ public class Historialboveda implements Serializable {
 
 	public void setDetallehistorialbovedafinal(Detallehistorialboveda detallehistorialbovedafinal) {
 		this.detallehistorialbovedafinal = detallehistorialbovedafinal;
+		this.iddetallehistorialbovedafinal = (detallehistorialbovedafinal == null) ? null : detallehistorialbovedafinal.getIddetallehistorialboveda();
 		this.refreshSaldos();
 	}
 	
