@@ -27,7 +27,7 @@ public class Detallehistorialboveda implements Serializable {
 	private Double saldototal;
 
 	@Column(nullable = false)
-	private Double idhistorialboveda;
+	private Integer idhistorialboveda;
 	
 	// bi-directional many-to-one association to Historialboveda
 	@ManyToOne
@@ -53,11 +53,11 @@ public class Detallehistorialboveda implements Serializable {
 		this.saldototal = saldototal;
 	}
 
-	public Double getIdhistorialboveda() {
+	public Integer getIdhistorialboveda() {
 		return idhistorialboveda;
 	}
 
-	public void setIdhistorialboveda(Double idhistorialboveda) {
+	public void setIdhistorialboveda(Integer idhistorialboveda) {
 		this.idhistorialboveda = idhistorialboveda;
 	}
 
