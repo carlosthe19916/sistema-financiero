@@ -24,15 +24,7 @@ public class Detallehistorialboveda implements Serializable {
 	private Integer iddetallehistorialboveda;
 
 	@Column(nullable = false)
-	private Double saldototal;
-
-	@Column(nullable = false)
-	private Integer idhistorialboveda;
-	
-	// bi-directional many-to-one association to Historialboveda
-	@ManyToOne
-	@JoinColumn(name = "idhistorialboveda", nullable = false, insertable = false, updatable = false)
-	private Historialboveda historialboveda;
+	private Double total;
 
 	public Detallehistorialboveda() {
 	}
@@ -45,28 +37,12 @@ public class Detallehistorialboveda implements Serializable {
 		this.iddetallehistorialboveda = iddetallehistorialboveda;
 	}
 
-	public Double getSaldototal() {
-		return saldototal;
+	public Double getTotal() {
+		return total;
 	}
 
-	public void setSaldototal(Double saldototal) {
-		this.saldototal = saldototal;
-	}
-
-	public Integer getIdhistorialboveda() {
-		return idhistorialboveda;
-	}
-
-	public void setIdhistorialboveda(Integer idhistorialboveda) {
-		this.idhistorialboveda = idhistorialboveda;
-	}
-
-	public Historialboveda getHistorialboveda() {
-		return historialboveda;
-	}
-
-	public void setHistorialboveda(Historialboveda historialboveda) {
-		this.historialboveda = historialboveda;
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 
 	

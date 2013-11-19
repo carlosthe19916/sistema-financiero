@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "detalleaperturacierreboveda")
 @NamedQuery(name = "Detalleaperturacierreboveda.findAll", query = "SELECT d FROM Detalleaperturacierreboveda d")
-@NamedQueries({ @NamedQuery(name = "Detallehistorialboveda.LAST_ACTIVE_FOR_BOVEDA", query = "SELECT d FROM Detallehistorialboveda d INNER JOIN d.historialboveda h INNER JOIN h.boveda b WHERE b.idboveda = :idboveda AND h.estado = true") })
+//@NamedQueries({ @NamedQuery(name = "Detallehistorialboveda.LAST_ACTIVE_FOR_BOVEDA", query = "SELECT d FROM Detallehistorialboveda d INNER JOIN d.historialboveda h INNER JOIN h.boveda b WHERE b.idboveda = :idboveda AND h.estado = true") })
 public class Detalleaperturacierreboveda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,13 +23,13 @@ public class Detalleaperturacierreboveda implements Serializable {
 	private Integer cantidad;
 
 	@Column(nullable = false)
+	private Double subtotal;
+
+	@Column(nullable = false)
 	private Integer iddenominacionmoneda;
 
 	@Column(nullable = false)
 	private Integer iddetallehistorialboveda;
-
-	@Column(nullable = false)
-	private double total;
 
 	public Detalleaperturacierreboveda() {
 	}
@@ -67,12 +67,12 @@ public class Detalleaperturacierreboveda implements Serializable {
 		this.iddetallehistorialboveda = iddetallehistorialboveda;
 	}
 
-	public double getTotal() {
-		return this.total;
+	public Double getSubtotal() {
+		return subtotal;
 	}
 
-	public void setTotal(double total) {
-		this.total = total;
+	public void setSubtotal(Double subtotal) {
+		this.subtotal = subtotal;
 	}
 
 }
