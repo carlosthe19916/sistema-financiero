@@ -464,9 +464,65 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
-	public void closeBoveda(Boveda oBoveda) throws Exception {
-		// TODO Auto-generated method stub
+	public void closeBoveda(Boveda boveda) throws Exception {		
+		try {		
+			boveda = bovedaDAO.find(boveda.getIdagencia());
+			
+			
+			boolean resultBovedaCON = verificarBoveda(boveda, EstadoMovimientoType.ABIERTO_CONGELADO);
+			if(resultBovedaCON==false ){
+				throw new Exception("Boveda Cerrada, Imposible Cerrarla nuevamente");
+			}
+			boolean resultCajas= verificarCajas(boveda,EstadoMovimientoType.CERRADO);		
+			if(resultCajas == false){
+				throw new Exception("Cajas de Boveda abiertas, Imposible Cerrar Boveda");
+			}
+			
+			Historialboveda historialboveda = this.getHistorialActive(boveda);
+					
+			List<Denominacionmoneda> denominacionmonedasTotal = getDenominacionmonedasActive(boveda.getTipomoneda());
+			union(historialboveda.getDetallehistorialbovedafinal(), denominacionmonedasTotal);
+								
+			historialboveda.setBoveda(boveda);
+			historialboveda.setFechacierre(Calendar.getInstance().getTime());
+			historialboveda.setHoracierre(Calendar.getInstance().getTime());
+			historialboveda.setSaldofinal(boveda.getSaldo());
+			historialboveda.setEstado(true);
+						
+			
+			Integer estadoMovimientoCerrado = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO);
+			boveda.setIdestadomovimiento(estadoMovimientoCerrado);
+			
+			//LISTO PARA MODIFICAR LA BASE DE DATOS
+			Detallehistorialboveda detallehistorialboveda = historialboveda.getDetallehistorialbovedafinal();		
+			List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = detallehistorialboveda.getDetalleaperturacierrebovedaList();
+			
+			detallehistorialbovedaDAO.create(detallehistorialboveda);
+				
+			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
+				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator.next();
+				detalleaperturacierreboveda.setDetallehistorialboveda(detallehistorialboveda);
+				detalleaperturacierrebovedaDAO.create(detalleaperturacierreboveda);
+			}
+			
+			historialboveda.setDetallehistorialbovedafinal(detallehistorialboveda);
+						
+			historialbovedaDAO.update(historialboveda);			
+			bovedaDAO.update(boveda);			
+			log.info("FINISH SUCCESSFULLY: BOVEDA CERRADA");
 
+		} catch (IllegalArgumentException | NonexistentEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		} catch (Exception e) {
+			boveda.setIdboveda(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Cerrar la Boveda");
+		}
 	}
 
 	@Override
