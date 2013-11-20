@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @Table(name = "historialboveda", schema = "caja")
 @NamedQuery(name = "Historialboveda.findAll", query = "SELECT h FROM Historialboveda h")
-@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.estado = true") })
+@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.estado = true AND h.idboveda = :idboveda") })
 public class Historialboveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;

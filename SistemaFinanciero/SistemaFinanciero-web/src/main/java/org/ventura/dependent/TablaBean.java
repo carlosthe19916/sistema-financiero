@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.NoneScoped;
 import javax.inject.Named;
 
 import org.ventura.dao.CrudService;
@@ -158,6 +156,10 @@ public class TablaBean<E> {
 
 	public void setFrozenRows(List<E> frozenRows) {
 		this.frozenRows = frozenRows;
+	}
+	
+	public boolean hasSelectedRow(){
+		return (this.getEditingRow() != null) ? true : false;
 	}
 
 }
