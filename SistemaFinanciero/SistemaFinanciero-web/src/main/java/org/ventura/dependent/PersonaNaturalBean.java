@@ -52,6 +52,7 @@ public class PersonaNaturalBean implements Serializable {
 	}
 
 	public void buscarPersona() {
+		System.out.println("Holaaaaaaaaaaaa");
 		try {
 			Personanatural personanatural;
 			personanatural = personanaturalServiceLocal.find(personaNatural

@@ -8,8 +8,8 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
@@ -48,13 +48,13 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	@EJB
 	CuentaaporteServiceLocal cuentaAporteServiceLocal;
 
-	@ManagedProperty(value = "#{TablaBean}")
+	@Inject
 	private TablaBean<ViewCuentas> tablaCuentasPJ;
 
-	@ManagedProperty(value = "#{TablaBean}")
+	@Inject
 	private TablaBean<Accionista> tablaAccionistasCAP;
 
-	@ManagedProperty(value = "#{PersonaJuridicaBean}")
+	@Inject
 	private PersonaJuridicaBean personaJuridicaMB;
 
 	private Personajuridica oPersonaJuridica;
@@ -67,6 +67,8 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	private ComboBean<Sexo> comboSexo;
 	@Inject
 	private ComboBean<Estadocivil> comboEstadocivil;
+	@Inject
+	private ComboBean<Sexo> comboSexoAccionista;
 
 	public MostrarDatosSocioPJBean() {
 	}
@@ -75,12 +77,10 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	public void intiValues() {
 		oPersonaJuridica = new Personajuridica();
 		oSocio = new Socio();
-		tablaCuentasPJ = new TablaBean<ViewCuentas>();
-		tablaAccionistasCAP = new TablaBean<Accionista>();
-		personaJuridicaMB = new PersonaJuridicaBean();
 		comboTipoempresa.initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
 		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 		comboEstadocivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
+		comboSexoAccionista.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 	}
 
 	public TablaBean<ViewCuentas> getTablaCuentasPJ() {
@@ -147,23 +147,35 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		this.comboEstadocivil = comboEstadocivil;
 	}
 	
+	public ComboBean<Sexo> getComboSexoAccionista() {
+		return comboSexoAccionista;
+	}
+
+	public void setComboSexoAccionista(ComboBean<Sexo> comboSexoAccionista) {
+		this.comboSexoAccionista = comboSexoAccionista;
+	}
+	
 	public boolean isPersonaJuridica() {
 		return true;
 	}
-
+	
+	int n = 1;
 	public void cargarDatosPersonaJuridica() {
-		try {
-			setoSocio(socioServiceLocal.findByRUC(oSocio.getRuc()));
-			setoPersonaJuridica(personaJuridicaServiceLocal.find(oSocio.getRuc()));
-			personaJuridicaMB.setoPersonajuridica(oPersonaJuridica);
-			cargarTipoEmpresa();
-			personaJuridicaMB.changeEditingState();
-			cargarDatosReprentanteLegal();
-			cargarAccionistas();
-			CargarCuentasPersonales();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (n == 1) {
+			n++;
+			try {
+				setoSocio(socioServiceLocal.findByRUC(oSocio.getRuc()));
+				setoPersonaJuridica(personaJuridicaServiceLocal.find(oSocio.getRuc()));
+				personaJuridicaMB.setoPersonajuridica(oPersonaJuridica);
+				cargarTipoEmpresa();
+				personaJuridicaMB.changeEditingState();
+				cargarDatosReprentanteLegal();
+				cargarAccionistas();
+				CargarCuentasPersonales();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -177,8 +189,6 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		personaJuridicaMB.getComboSexo().setItemSelected(oPersonaJuridica.getPersonanatural().getIdsexo());
 		personaJuridicaMB.setComboEstadocivil(comboEstadocivil);
 		personaJuridicaMB.getComboEstadocivil().setItemSelected(oPersonaJuridica.getPersonanatural().getIdestadocivil());
-		
-		personaJuridicaMB.changeEditingPersonanaturalState();
 	}
 
 	public void CargarCuentasPersonales() {
@@ -208,4 +218,68 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		}
 	}
 	
+	public void buscarPersonanatural(){
+		Personanatural personanatural;
+		try {
+			personanatural = personanaturalServiceLocal.find(oPersonaJuridica.getDnirepresentantelegal());
+			if (personanatural != null) {
+				oPersonaJuridica.setPersonanatural(personanatural);
+				comboSexo.setItemSelected(personanatural.getSexo());
+				comboEstadocivil.setItemSelected(personanatural.getEstadocivil());
+			} else {
+				personanatural = new Personanatural();
+				personanatural.setDni(oPersonaJuridica.getDnirepresentantelegal());
+
+				this.oPersonaJuridica.setPersonanatural(personanatural);
+				this.comboSexo.setItemSelected(-1);
+				this.comboEstadocivil.setItemSelected(-1);
+			}
+		} catch (Exception e) {
+
+		}
+	}
+	
+	public void addAccionista() {
+		Accionista accionista = new Accionista();
+		Personanatural personanatural = new Personanatural();	
+		accionista.setPersonanatural(personanatural);	
+		tablaAccionistasCAP.addRow(accionista);			
+	}
+
+	public void removeAccionista() {
+		this.tablaAccionistasCAP.removeSelectedRow();
+	}
+	
+	public void buscarAccionista(){	
+		try {
+			Accionista accionista = tablaAccionistasCAP.getEditingRow();
+			Personanatural personanatural = accionista.getPersonanatural();
+			personanatural = personanaturalServiceLocal.find(personanatural.getDni());
+			
+			if (personanatural != null) {
+				accionista.setPersonanatural(personanatural);
+				
+				comboSexoAccionista.setItemSelected(personanatural.getIdsexo());
+				tablaAccionistasCAP.setEditingRow(accionista);
+				System.out.println(comboSexoAccionista.getItemSelected());
+			} else {
+				personanatural = new Personanatural();			
+				personanatural.setDni(tablaAccionistasCAP.getSelectedRow().getPersonanatural().getDni());
+				accionista.setPersonanatural(personanatural);		
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+	public void changeSexoAccionista(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		Sexo sexoSelected = comboSexoAccionista.getObjectItemSelected(key);
+		this.tablaAccionistasCAP.getEditingRow().getPersonanatural().setSexo(sexoSelected);		
+	}
+	
+	public void imprimir(){
+						
+	}
 }

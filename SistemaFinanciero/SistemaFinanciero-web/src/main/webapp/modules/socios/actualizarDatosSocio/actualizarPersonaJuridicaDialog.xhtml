@@ -10,26 +10,24 @@
 
 <ui:composition>
 
-	<p:dialog id="dlg-personaJuridica" header="Persona Jurídica" widgetVar="#{componentName}"
-		modal="true" height="550" width="700"
+	<p:dialog id="dlg-personaJuridica" header="Persona Jurídica"
+		widgetVar="#{componentName}" modal="true" height="565" width="780"
 		rendered="#{managedBean.personaJuridica}">
 
+		<p:tabView id="tabView">
 
-		<h:form>
-			<p:tabView id="tabView">
+			<pe:blockUI target=":dlg-personaJuridica"
+				widgetVar="blockUIWidget-personaJuridica">
+				<h:panelGrid columns="2">
+					<p:graphicImage library="images" name="loader.gif" width="32"
+						height="32" style="margin-right: 12px; vertical-align: middle;" />
+					<h:outputText value="Please wait..." style="white-space: nowrap;" />
+				</h:panelGrid>
+			</pe:blockUI>
 
-				<p:growl id="growl" sticky="true" />
-				<pe:blockUI target=":dlg-personaJuridica"
-					widgetVar="blockUIWidget-personaJuridica">
-					<h:panelGrid columns="2">
-						<p:graphicImage library="images" name="load.gif" width="32"
-							height="32" style="margin-right: 12px; vertical-align: middle;" />
-						<h:outputText value="Please wait..." style="white-space: nowrap;" />
-					</h:panelGrid>
-				</pe:blockUI>
-
-
-				<p:tab title="Datos generales">
+			<p:tab id="tab1" title="Datos generales">
+				<h:form id="formTab1">
+					<p:growl id="growl" sticky="true" />
 					<div class="sf-agrupador">
 						<div class="sf-agrupador-content">
 
@@ -46,7 +44,7 @@
 												maxlength="11" requiredMessage="Ingrese Numero de RUC"
 												validatorMessage="El RUC tiene 11 digitos">
 												<f:validateLength minimum="11" />
-												<p:ajax update="growl,@form" event="blur"
+												<p:ajax update="growl" event="blur"
 													listener="#{managedBean.personaJuridicaMB.buscarPersonaJuririca()}"
 													onstart="PF('blockUIWidget-personaJuridica').block()"
 													oncomplete="PF('blockUIWidget-personaJuridica').unblock()" />
@@ -129,9 +127,7 @@
 													itemValue="false" />
 											</p:selectOneRadio></td>
 									</tr>
-
 								</table>
-
 							</div>
 						</div>
 					</div>
@@ -160,14 +156,12 @@
 									<tr>
 										<td><p:outputLabel>Telefono:</p:outputLabel></td>
 										<td><p:inputText id="txtTelefonoPJ"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.telefono}"/> 
-												<p:watermark
-												for="txtTelefonoPJ" value="Telefono1/Telefono2" /></td>
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.telefono}" />
+											<p:watermark for="txtTelefonoPJ" value="Telefono1/Telefono2" /></td>
 										<td><p:outputLabel>Celular:</p:outputLabel></td>
 										<td><p:inputText id="txtCelularPJ"
-												value="#{managedBean.personaJuridicaMB.oPersonajuridica.celular}"/> 
-												<p:watermark
-												for="txtCelularPJ" value="Celular1/Celular2/RPM" /></td>
+												value="#{managedBean.personaJuridicaMB.oPersonajuridica.celular}" />
+											<p:watermark for="txtCelularPJ" value="Celular1/Celular2/RPM" /></td>
 									</tr>
 
 									<tr>
@@ -181,9 +175,12 @@
 							</div>
 						</div>
 					</div>
-				</p:tab>
+				</h:form>
+			</p:tab>
 
-				<p:tab title="Representante Legal">
+			<p:tab id="tab2" title="Representante Legal">
+				<h:form id="formTab2">
+					<p:growl id="growl" sticky="true" />
 					<div>
 						<div class="sf-agrupador">
 							<div class="sf-agrupador-content">
@@ -195,25 +192,21 @@
 										<tr>
 											<td><p:outputLabel value="DNI:" /></td>
 											<td><p:inputText id="txtDNIPN"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.dnirepresentantelegal}"
-													disabled="#{managedBean.personaJuridicaMB.editing}"
+													value="#{managedBean.oPersonaJuridica.dnirepresentantelegal}"
 													required="true" maxlength="8"
 													requiredMessage="Ingrese Número de DNI"
 													validatorMessage="Número de DNI Invalido">
 													<f:validateRegex pattern="(^[0-9]{8}$)" />
-
-													<p:ajax update="growl,@form" event="blur"
-														listener="#{managedBean.personaJuridicaMB.buscarPersonanatural()}"
-														onstart="PF('blockUIWidget-personaJuridica').block()"
-														oncomplete="PF('blockUIWidget-personaJuridica').unblock()" />
+													<p:ajax update="growl,formTab2" event="blur"
+														listener="#{mostrarDatosSocioPJBean.buscarPersonanatural()}" />
 												</p:inputText> <p:watermark for="txtDNIPN" value="DNI" /> <p:outputLabel
 													for="txtDNIPN" /></td>
 										</tr>
+
 										<tr>
 											<td><p:outputLabel value="Apellido Paterno:" /></td>
 											<td><p:inputText id="txtApPaternoPN"
-													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.apellidopaterno}"
-													
+													value="#{managedBean.oPersonaJuridica.personanatural.apellidopaterno}"
 													required="true" maxlength="50"
 													onkeyup="this.value = this.value.toUpperCase();"
 													requiredMessage="Ingrese Apellido Paterno">
@@ -298,39 +291,36 @@
 											<td colspan="3"><p:inputText id="txtOcupacionPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.ocupacion}"
 													maxlength="70" size="71"
-													onkeyup="this.value = this.value.toUpperCase();" />
-												<p:watermark for="txtOcupacionPN" value="Ocupación" /></td>
+													onkeyup="this.value = this.value.toUpperCase();" /> <p:watermark
+													for="txtOcupacionPN" value="Ocupación" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Direccion:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtDireccionPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.direccion}"
 													maxlength="200" size="71"
-													onkeyup="this.value = this.value.toUpperCase();"/>
-												<p:watermark for="txtDireccionPN" value="Dirección" /></td>
+													onkeyup="this.value = this.value.toUpperCase();" /> <p:watermark
+													for="txtDireccionPN" value="Dirección" /></td>
 										</tr>
 										<tr>
 											<td><p:outputLabel>Referencia:</p:outputLabel></td>
 											<td colspan="5"><p:inputText id="txtReferenciaPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.referencia}"
 													maxlength="100" size="71"
-													onkeyup="this.value = this.value.toUpperCase();" />
-												<p:watermark for="txtReferenciaPN" value="Referencia" /></td>
+													onkeyup="this.value = this.value.toUpperCase();" /> <p:watermark
+													for="txtReferenciaPN" value="Referencia" /></td>
 										</tr>
 
 										<tr>
 											<td><p:outputLabel>Telefono:</p:outputLabel></td>
 											<td><p:inputText id="txtTelefonoPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.telefono}"
-													maxlength="30"
-													 />
-												<p:watermark for="txtTelefonoPN" value="Telefono1/telefono2" /></td>
+													maxlength="30" /> <p:watermark for="txtTelefonoPN"
+													value="Telefono1/telefono2" /></td>
 											<td><p:outputLabel>Celular:</p:outputLabel></td>
 											<td><p:inputText id="txtCelularPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.celular}"
-													maxlength="30"
-													 />
-												<p:watermark for="txtCelularPN"
+													maxlength="30" /> <p:watermark for="txtCelularPN"
 													value="celular1/celular2/RPM" /></td>
 										</tr>
 										<tr>
@@ -338,18 +328,20 @@
 											<td colspan="5"><p:inputText id="txtEmailPN"
 													value="#{managedBean.personaJuridicaMB.oPersonajuridica.personanatural.email}"
 													maxlength="50" size="73"
-													onkeyup="this.value = this.value.toUpperCase();"
-													 />
-												<p:watermark for="txtEmailPN" value="email@hotmail.com" /></td>
+													onkeyup="this.value = this.value.toUpperCase();" /> <p:watermark
+													for="txtEmailPN" value="email@hotmail.com" /></td>
 										</tr>
 									</table>
 								</div>
 							</div>
 						</div>
 					</div>
-				</p:tab>
+				</h:form>
+			</p:tab>
 
-				<p:tab title="Accionistas">
+			<p:tab id="tab3" title="Accionistas">
+				<h:form id="formTab3">
+					<p:growl id="growl" sticky="true" />
 					<div class="sf-agrupador">
 						<div class="sf-agrupador-content">
 							<div class="sf-agrupador-content-cabecera">
@@ -360,21 +352,18 @@
 								<div class="buttons">
 									<div class="tiptip">
 										<p:commandLink update="tablaAccionistas"
-											actionListener="#{managedBean.personaJuridicaMB.addAccionista()}"
-											rendered="#{managedBean.personaJuridicaMB.editing}"
+											actionListener="#{managedBean.addAccionista()}"
 											styleClass="button left" title="Nuevo">
 											<span class="icon icon3"></span>
 											<span class="label">Nuevo</span>
 										</p:commandLink>
 										<p:commandLink onclick="editar" styleClass="button middle"
-											rendered="#{managedBean.personaJuridicaMB.editing}"
 											title="Nuevo">
 											<span class="icon icon145"></span>
 											<span class="label">Editar</span>
 										</p:commandLink>
 										<p:commandLink update="tablaAccionistas"
-											actionListener="#{managedBean.personaJuridicaMB.removeAccionista()}"
-											rendered="#{managedBean.personaJuridicaMB.editing}"
+											actionListener="#{managedBean.removeAccionista()}"
 											styleClass="button right" title="Eliminar Trabajador">
 											<span class="icon icon186"></span>
 											<span class="label">Eliminar</span>
@@ -383,26 +372,26 @@
 								</div>
 								<div style="padding: 0px 5px;">
 									<p:dataTable id="tablaAccionistas"
-										value="#{managedBean.personaJuridicaMB.tablaAccionistas.rows}"
+										value="#{managedBean.tablaAccionistasCAP.rows}"
 										var="accionista" editable="true" selectionMode="single"
-										selection="#{managedBean.personaJuridicaMB.tablaAccionistas.selectedRow}"
+										selection="#{managedBean.tablaAccionistasCAP.selectedRow}"
 										rowKey="#{accionista}" scrollable="true" scrollHeight="150"
 										scrollRows="5" rowIndexVar="row"
 										rowStyleClass="#{accionista.personanatural.dni == null ? 'sf-table-row-invalid' : null }">
 
 										<p:ajax event="rowEditInit"
-											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.editRow()}" />
+											listener="#{managedBean.tablaAccionistasCAP.editRow()}" />
 										<p:ajax event="rowEdit" update="tablaAccionistas"
-											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.finishEditRow()}" />
+											listener="#{managedBean.tablaAccionistasCAP.finishEditRow()}" />
 										<p:ajax event="rowEditCancel" update="tablaAccionistas"
-											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowEditCancel()}" />
+											listener="#{managedBean.tablaAccionistasCAP.rowEditCancel()}" />
 
 										<p:ajax event="rowSelect"
-											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowSelect()}" />
+											listener="#{managedBean.tablaAccionistasCAP.rowSelect()}" />
 										<p:ajax event="rowUnselect"
-											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowUnselect()}" />
+											listener="#{managedBean.tablaAccionistasCAP.rowUnselect()}" />
 
-										<p:column headerText="Nro" width="5%"
+										<p:column headerText="Nº" width="4%"
 											style="text-align:center;">
 											<h:outputText value="#{row + 1}" />
 										</p:column>
@@ -418,10 +407,9 @@
 														maxlength="8" requiredMessage="DNI (Obligatorio)"
 														validatorMessage="DNI no tiene digitos validos">
 														<f:validateRegex pattern="(^[0-9]{8}$)" />
-														<p:ajax
-															update="apellidoPaterno,apellidoMaterno,nombres,txtSexo,txtFecNac"
+														<p:ajax update="apellidoPaterno,apellidoMaterno,nombres,txtFecNac,txtSexo"
 															event="blur"
-															listener="#{managedBean.personaJuridicaMB.buscarAccionista()}" />
+															listener="#{managedBean.buscarAccionista()}" />
 													</p:inputText>
 													<p:watermark for="dni" value="DNI" />
 												</f:facet>
@@ -461,7 +449,7 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column headerText="Nombres(*)" width="21%">
+										<p:column headerText="Nombres(*)" width="19%">
 											<p:cellEditor>
 												<f:facet name="output">
 													<h:outputText value="#{accionista.personanatural.nombres}" />
@@ -476,7 +464,7 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column headerText="F.Nac.(*)" width="10%">
+										<p:column headerText="F.Nac.(*)" width="11%">
 											<p:cellEditor>
 												<f:facet name="output">
 													<h:outputText
@@ -496,7 +484,7 @@
 											</p:cellEditor>
 										</p:column>
 
-										<p:column headerText="Sexo(*)" width="9%">
+										<p:column headerText="Sexo(*)" width="10%">
 											<p:cellEditor>
 												<f:facet name="output">
 													<h:outputText
@@ -504,15 +492,15 @@
 												</f:facet>
 												<f:facet name="input">
 													<p:selectOneMenu id="txtSexo"
-														value="#{managedBean.personaJuridicaMB.comboSexoAccionista.itemSelected}"
-														valueChangeListener="#{managedBean.personaJuridicaMB.changeSexoAccionista}"
+														value="#{managedBean.comboSexoAccionista.itemSelected}"
+														valueChangeListener="#{managedBean.changeSexoAccionista}"
 														required="true"
 														requiredMessage="Seleccione un sexo valido"
 														style="width:100%">
 														<f:selectItem id="e" itemLabel="--Seleccione--"
 															itemValue="" />
 														<f:selectItems
-															value="#{managedBean.personaJuridicaMB.comboSexoAccionista.items.entrySet()}"
+															value="#{managedBean.comboSexoAccionista.items.entrySet()}"
 															var="val" itemLabel="#{val.value.denominacion}"
 															itemValue="#{val.key}" />
 													</p:selectOneMenu>
@@ -529,8 +517,7 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column width="7%"
-											rendered="#{managedBean.personaJuridicaMB.editing}">
+										<p:column width="7%">
 											<p:rowEditor />
 										</p:column>
 									</p:dataTable>
@@ -550,9 +537,17 @@
 							</div>
 						</div>
 					</div>
-				</p:tab>
+				</h:form>
+			</p:tab>
+		</p:tabView>
 
-			</p:tabView>
+		<h:form id="buttoms">
+			<p:commandButton value="PasarValor"
+				actionListener="#{managedBean.imprimir()}">
+			</p:commandButton>
+			<p:commandButton value="ImprimirPrueba"
+				actionListener="#{managedBean.imprimirPrueba()}">
+			</p:commandButton>
 		</h:form>
 
 	</p:dialog>
