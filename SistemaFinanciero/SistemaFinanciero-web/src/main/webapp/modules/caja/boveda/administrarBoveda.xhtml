@@ -24,7 +24,7 @@
 		</div>
 
 		<div>
-			<h:form>
+			<h:form id="formToolbar">
 				<div class="buttons">
 					<div class="tiptip">
 						<h:commandLink styleClass="button left" title="Nueva bóveda"
@@ -32,10 +32,10 @@
 							<span class="icon icon3"></span>
 							<span class="label">Nuevo</span>
 						</h:commandLink>
-						<p:commandLink styleClass="button middle" title="Editar Boveda"
-							actionListener="#{administrarBoveda.loadBoveda()}"
+						<p:commandLink actionListener="#{administrarBoveda.loadBoveda()}"
 							oncomplete="dlgUpdateBoveda.show();return false;"
-							update=":idDlgUpdateBoveda">
+							update=":idDlgUpdateBoveda" styleClass="button middle"
+							title="Editar Boveda">
 							<span class="icon icon26"></span>
 							<span class="label">Editar</span>
 						</p:commandLink>
@@ -49,6 +49,8 @@
 							<span class="icon icon186"></span>
 							<span class="label">Eliminar</span>
 						</p:commandLink>
+					</div>
+					<div>
 						<p:confirmDialog global="true">
 							<p:commandButton value="Si" type="button"
 								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -122,7 +124,6 @@
 					</p:dataTable>
 				</div>
 			</h:form>
-
 			<ui:include src="/modules/caja/boveda/openBoveda.xhtml">
 				<ui:param name="WidgetVarName" value="dlgOpenBoveda" />
 				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
@@ -131,7 +132,7 @@
 				<ui:param name="WidgetVarName" value="dlgCloseBoveda" />
 				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
 			</ui:include>
-			
+
 			<ui:include src="/modules/caja/boveda/createBoveda.xhtml">
 				<ui:param name="componentName" value="dlgNuevaBoveda" />
 				<ui:param name="componentToUpdated" value=":formTablaBoveda" />

@@ -18,7 +18,7 @@ import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
-import org.ventura.entity.schema.caja.Detallehistorialboveda;
+import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.venturabank.managedbean.session.AgenciaBean;
 
@@ -39,11 +39,11 @@ public class AdministrarBoveda implements Serializable {
 	@Inject
 	private Boveda boveda;
 	
-	private TablaBean<Detallehistorialboveda> tablaBovedaDetalle;
+	private TablaBean<Detalleaperturacierreboveda> tablaBovedaDetalle;
 
 	@PostConstruct
 	private void initialize() {
-		this.tablaBovedaDetalle = new TablaBean<Detallehistorialboveda>();
+		this.tablaBovedaDetalle = new TablaBean<Detalleaperturacierreboveda>();
 		this.comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		this.refreshTablaBoveda();	
 	}
@@ -158,10 +158,9 @@ public class AdministrarBoveda implements Serializable {
 
 	public void loadTablaBovedaDetalleAfterOpen(){
 		try {
-			loadBoveda();
-			
-			List<Detallehistorialboveda> detallehistorialbovedaList = bovedaServiceLocal.getLastDetallehistorialboveda(boveda);
-			tablaBovedaDetalle.setRows(detallehistorialbovedaList);
+			loadBoveda();		
+			List<Detalleaperturacierreboveda> detalleaperturacierrebovedaList = bovedaServiceLocal.getDetalleforOpenBoveda(boveda);
+			tablaBovedaDetalle.setRows(detalleaperturacierrebovedaList);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
@@ -172,8 +171,8 @@ public class AdministrarBoveda implements Serializable {
 		try {
 			loadBoveda();
 			
-			List<Detallehistorialboveda> detallehistorialbovedaList = bovedaServiceLocal.getLastDetallehistorialboveda(boveda);
-			tablaBovedaDetalle.setRows(detallehistorialbovedaList);
+			//List<Detallehistorialboveda> detallehistorialbovedaList = bovedaServiceLocal.getLastDetallehistorialboveda(boveda);
+			//tablaBovedaDetalle.setRows(detallehistorialbovedaList);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
@@ -238,11 +237,11 @@ public class AdministrarBoveda implements Serializable {
 		this.agenciaBean = agenciaBean;
 	}
 
-	public TablaBean<Detallehistorialboveda> getTablaBovedaDetalle() {
+	public TablaBean<Detalleaperturacierreboveda> getTablaBovedaDetalle() {
 		return tablaBovedaDetalle;
 	}
 
-	public void setTablaBovedaDetalle(TablaBean<Detallehistorialboveda> tablaBovedaDetalle) {
+	public void setTablaBovedaDetalle(TablaBean<Detalleaperturacierreboveda> tablaBovedaDetalle) {
 		this.tablaBovedaDetalle = tablaBovedaDetalle;
 	}
 
