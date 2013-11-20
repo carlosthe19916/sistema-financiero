@@ -33,10 +33,10 @@ public class SocioBean implements Serializable {
 	@EJB
 	private SocioServiceLocal socioServicesLocal;
 
-	@ManagedProperty(value = "#{TablaBean}")
+	@Inject
 	private TablaBean<ViewSocioPN> tablaSociosPN;
 	
-	@ManagedProperty(value = "#{TablaBean}")
+	@Inject
 	private TablaBean<ViewSocioPJ> tablaSociosPJ;
 
 	@Inject
@@ -53,8 +53,6 @@ public class SocioBean implements Serializable {
 	@PostConstruct
 	public void initValues() {
 		this.cargarCombos();
-		tablaSociosPN = new TablaBean<ViewSocioPN>();
-		tablaSociosPJ = new TablaBean<ViewSocioPJ>();
 	}
 
 	public TablaBean<ViewSocioPN> getTablaSociosPN() {

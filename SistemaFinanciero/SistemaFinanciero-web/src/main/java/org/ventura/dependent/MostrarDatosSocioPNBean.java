@@ -47,13 +47,13 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	@EJB
 	CuentaaporteServiceLocal cuentaAporteServiceLocal;
 
-	@ManagedProperty(value = "#{TablaBean}")
+	@Inject
 	private TablaBean<ViewCuentas> tablaCuentasPN;
 	
 	@Inject
 	private TablaBean<Beneficiariocuenta> tablaBeneficiarioCAP;
 
-	@ManagedProperty(value = "#{PersonaNaturalBean}")
+	@Inject
 	private PersonaNaturalBean personaNaturalMB;
 
 	private Personanatural oPersonaNatural;
@@ -73,8 +73,6 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	public void intiValues() {
 		oPersonaNatural = new Personanatural();
 		oSocio = new Socio();
-		tablaCuentasPN =  new TablaBean<ViewCuentas>();
-		personaNaturalMB = new PersonaNaturalBean();
 		comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 		comboEstadoCivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
 	}
@@ -138,19 +136,23 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	public boolean isPersonaNatural() {
 		return true;
 	}
-
+	
+	int n=1;
 	public void cargarDatosPersonaNatural() {
-		try {
-			setoSocio(socioServiceLocal.findByDNI(oSocio.getDni()));
-			setoPersonaNatural(personaNaturalServiceLocal.find(oSocio.getDni()));
-			personaNaturalMB.setPersonaNatural(oPersonaNatural);
-			cargarComboSexo();
-			cargarComboEstadoCivil();
-			personaNaturalMB.changeEditingState();
-			CargarCuentasPersonales();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(n==1){
+			n++;
+			try {
+				setoSocio(socioServiceLocal.findByDNI(oSocio.getDni()));
+				setoPersonaNatural(personaNaturalServiceLocal.find(oSocio.getDni()));
+				personaNaturalMB.setPersonaNatural(oPersonaNatural);
+				cargarComboSexo();
+				cargarComboEstadoCivil();
+				personaNaturalMB.changeEditingState();
+				CargarCuentasPersonales();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
