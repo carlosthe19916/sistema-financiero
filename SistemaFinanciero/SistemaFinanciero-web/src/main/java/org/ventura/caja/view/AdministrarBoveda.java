@@ -165,7 +165,7 @@ public class AdministrarBoveda implements Serializable {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		}
-	}
+ 	}
 	
 	public void loadTablaBovedaDetalleAfterClose(){
 		try {

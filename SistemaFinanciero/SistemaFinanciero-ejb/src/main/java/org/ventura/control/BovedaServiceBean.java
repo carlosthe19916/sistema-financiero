@@ -249,7 +249,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	public void openBoveda(Boveda boveda) throws Exception {
 		boolean existsOldHistorialboveda;
 		try {		
-			boveda = bovedaDAO.find(boveda.getIdagencia());
+			boveda = bovedaDAO.find(boveda.getIdboveda());
 			
 			boolean resultBoveda = verificarBoveda(boveda, EstadoMovimientoType.CERRADO);
 			if(resultBoveda == false){
