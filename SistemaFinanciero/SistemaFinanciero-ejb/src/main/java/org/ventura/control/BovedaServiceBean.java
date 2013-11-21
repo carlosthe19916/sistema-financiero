@@ -93,7 +93,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		String denominacionBoveda = boveda.getDenominacion();
 		Integer idTipomoneda = boveda.getIdtipomoneda();
 		Integer idAgencia = boveda.getIdagencia();
-
+			
 		if (denominacionBoveda == null || denominacionBoveda.isEmpty() || denominacionBoveda.trim().isEmpty()) {
 			throw new Exception("Denominación de Bóveda Inválida");
 		}
@@ -105,6 +105,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 
 		boveda.setEstado(true);
+		boveda.setSaldo(new Double(0));
 		boveda.setIdestadomovimiento(EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO));
 	}
 

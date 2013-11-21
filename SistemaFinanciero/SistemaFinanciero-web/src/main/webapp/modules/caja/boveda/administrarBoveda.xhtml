@@ -2,10 +2,12 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -20,25 +22,28 @@
 
 		<div class="sf-content-cabecera">
 			<h2>Boveda</h2>
-
 		</div>
 
 		<div>
 			<h:form id="formToolbar">
 				<div class="buttons">
 					<div class="tiptip">
-						<h:commandLink styleClass="button left" title="Nueva bóveda"
-							onclick="dlgNuevaBoveda.show();return false;">
+						<a4j:commandLink
+							actionListener="#{administrarBoveda.cleanBoveda()}"
+							oncomplete="#{rich:component('dlgCreateBoveda')}.show(); return false;"
+							render=":dlgCreateBoveda" styleClass="button left"
+							title="Nueva bóveda">
 							<span class="icon icon3"></span>
 							<span class="label">Nuevo</span>
-						</h:commandLink>
-						<p:commandLink actionListener="#{administrarBoveda.loadBoveda()}"
-							oncomplete="dlgUpdateBoveda.show();return false;"
-							update=":idDlgUpdateBoveda" styleClass="button middle"
+						</a4j:commandLink>
+						<a4j:commandLink
+							actionListener="#{administrarBoveda.loadBoveda()}"
+							oncomplete="#{rich:component('dlgUpdateBoveda')}.show(); return false;"
+							render=":dlgUpdateBoveda" styleClass="button middle"
 							title="Editar Boveda">
 							<span class="icon icon26"></span>
 							<span class="label">Editar</span>
-						</p:commandLink>
+						</a4j:commandLink>
 						<p:commandLink
 							actionListener="#{administrarBoveda.deleteBoveda()}"
 							update=":formTablaBoveda" styleClass="button right"
@@ -124,6 +129,7 @@
 					</p:dataTable>
 				</div>
 			</h:form>
+
 			<ui:include src="/modules/caja/boveda/openBoveda.xhtml">
 				<ui:param name="WidgetVarName" value="dlgOpenBoveda" />
 				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
@@ -134,14 +140,11 @@
 			</ui:include>
 
 			<ui:include src="/modules/caja/boveda/createBoveda.xhtml">
-				<ui:param name="componentName" value="dlgNuevaBoveda" />
 				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
 			</ui:include>
 			<ui:include src="/modules/caja/boveda/updateBoveda.xhtml">
-				<ui:param name="componentwidgetVar" value="dlgUpdateBoveda" />
 				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
 			</ui:include>
-
 
 		</div>
 	</ui:define>
