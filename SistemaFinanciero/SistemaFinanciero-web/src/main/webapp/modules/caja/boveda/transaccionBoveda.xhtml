@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Boveda" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+		<h:form>
+			<br />
+			<div style="margin-left: 50px;">
+				<div>
+					<div>
+						<div class="p6n-api-consent-screen-title">Boveda transaccion</div>
+						<div class="p6n-api-consent-screen-inputs">
+							<div class="p6n-api-consent-screen-input-section">
+								<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDA</div>
+								<div>
+									<h:selectOneMenu
+										value="#{transaccionBovedaBean.comboBoveda.itemSelected}"
+										valueChangeListener="#{transaccionBovedaBean.changeBoveda}">
+										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										<f:selectItems
+											value="#{transaccionBovedaBean.comboBoveda.items.entrySet()}"
+											var="val" itemLabel="#{val.value.denominacion}"
+											itemValue="#{val.key}" />
+										<f:ajax render="@form"></f:ajax>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="p6n-api-consent-screen-input-section">
+								<div style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+										TRANSACCION</div>
+									<div>
+										<h:selectOneMenu
+											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}"
+											valueChangeListener="#{administrarBoveda.changeTipomoneda}">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+										ENTIDAD</div>
+									<div>
+										<h:selectOneMenu
+											value="#{transaccionBovedaBean.comboTipoentidad.itemSelected}"
+											valueChangeListener="#{administrarBoveda.changeTipomoneda}">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
+												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">ORIGEN</div>
+
+									<h:selectOneMenu
+										value="#{administrarBoveda.comboTipomoneda.itemSelected}"
+										valueChangeListener="#{administrarBoveda.changeTipomoneda}">
+										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										<f:selectItems
+											value="#{administrarBoveda.comboTipomoneda.items.entrySet()}"
+											var="val" itemLabel="#{val.value.denominacion}"
+											itemValue="#{val.key}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="sf-separator"></div>
+							<div class="p6n-api-consent-screen-input-section">
+								<div>
+									<table>
+										<thead>
+											<tr>
+												<td style="text-align: right;">
+													<div class="p6n-api-consent-screen-label"
+														style="width: 100px;">DENOMINACION</div>
+												</td>
+												<td style="width: 20px;"></td>
+												<td><div class="p6n-api-consent-screen-label"
+														style="width: 150px;">CANTIDAD</div></td>
+												<td style="width: 20px;"></td>
+												<td><div class="p6n-api-consent-screen-label"
+														style="width: 110px;">TOTAL</div></td>
+											</tr>
+										</thead>
+										<tbody>
+											<ui:repeat
+												value="#{transaccionBovedaBean.tablaDetalletransaccionboveda.rows}"
+												var="detalle">
+												<tr>
+													<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+															value="#{detalle.denominacionmoneda.denominacion}" /></td>
+													<td></td>
+													<td><h:inputText value="#{detalle.cantidad}"
+															styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+															style="width:150px;" /></td>
+													<td></td>
+													<td><h:outputLabel value="#{detalle.total}"
+															style="width: 110px; vertical-align: middle;" /></td>
+												</tr>
+											</ui:repeat>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="p6n-api-consent-screen-input-section" style="margin-left: 20px;">
+								<div>
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TOTAL
+										TRANSACCION</div>
+									<div>
+										<h:outputLabel value="ninguno" />
+									</div>
+								</div>
+							</div>
+							<div class="sf-separator"></div>
+							<div class="sf-buttons" style="float: left;">
+								<h:commandButton value="Guardar" styleClass="action blue" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
