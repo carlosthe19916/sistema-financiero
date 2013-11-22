@@ -1,8 +1,8 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.*;
@@ -26,7 +26,7 @@ public class Detallehistorialboveda implements Serializable {
 	private Integer iddetallehistorialboveda;
 
 	@Column(nullable = false)
-	private Double total;
+	private BigDecimal total;
 
 	@OneToMany(mappedBy = "detallehistorialboveda")
 	private List<Detalleaperturacierreboveda> detalleaperturacierrebovedaList;
@@ -42,11 +42,11 @@ public class Detallehistorialboveda implements Serializable {
 		this.iddetallehistorialboveda = iddetallehistorialboveda;
 	}
 
-	public Double getTotal() {
+	public BigDecimal getTotal() {
 		return total;
 	}
 
-	public void setTotal(Double total) {
+	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
 
@@ -75,14 +75,14 @@ public class Detallehistorialboveda implements Serializable {
 	}
 
 	public void refreshTotal() {
-		List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = getDetalleaperturacierrebovedaList();
+		/*List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = getDetalleaperturacierrebovedaList();
 		this.total = new Double(0);
 		if (detalleaperturacierrebovedas != null) {
 			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
 				Detalleaperturacierreboveda detalleaperturacierreboveda = iterator.next();
 				this.total = total + detalleaperturacierreboveda.getSubtotal();
 			}
-		}
+		}*/
 	}
 
 }

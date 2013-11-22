@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -30,7 +31,7 @@ public class Detalleaperturacierreboveda implements Serializable {
 	private Integer cantidad;
 
 	@Column(nullable = false)
-	private Double subtotal;
+	private BigDecimal subtotal;
 
 	@Column(nullable = false)
 	private Integer iddenominacionmoneda;
@@ -83,11 +84,11 @@ public class Detalleaperturacierreboveda implements Serializable {
 		this.iddetallehistorialboveda = iddetallehistorialboveda;
 	}
 
-	public Double getSubtotal() {
+	public BigDecimal getSubtotal() {
 		return subtotal;
 	}
 
-	public void setSubtotal(Double subtotal) {
+	public void setSubtotal(BigDecimal subtotal) {
 		this.subtotal = subtotal;
 	}
 

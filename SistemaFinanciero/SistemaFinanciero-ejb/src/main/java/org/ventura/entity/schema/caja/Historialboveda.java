@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -45,10 +46,10 @@ public class Historialboveda implements Serializable {
 	private Date horacierre;
 
 	@Column
-	private Double saldofinal;
+	private BigDecimal saldofinal;
 
 	@Column(nullable = false)
-	private Double saldoinicial;
+	private BigDecimal saldoinicial;
 
 	@Column
 	private Integer iddetallehistorialbovedainicial;
@@ -114,19 +115,19 @@ public class Historialboveda implements Serializable {
 		this.horacierre = horacierre;
 	}
 
-	public Double getSaldofinal() {
+	public BigDecimal getSaldofinal() {
 		return this.saldofinal;
 	}
 
-	public void setSaldofinal(Double saldofinal) {
+	public void setSaldofinal(BigDecimal saldofinal) {
 		this.saldofinal = saldofinal;
 	}
 
-	public Double getSaldoinicial() {
+	public BigDecimal getSaldoinicial() {
 		return this.saldoinicial;
 	}
 
-	public void setSaldoinicial(Double saldoinicial) {
+	public void setSaldoinicial(BigDecimal saldoinicial) {
 		this.saldoinicial = saldoinicial;
 	}
 
@@ -192,7 +193,7 @@ public class Historialboveda implements Serializable {
 	}
 	
 	public void refreshSaldos() {
-		this.saldoinicial = new Double(0);
+		/*this.saldoinicial = new Double(0);
 		this.saldofinal = new Double(0);	
 		Detallehistorialboveda detallehistorialbovedainicial = getDetallehistorialbovedainicial();
 		Detallehistorialboveda detallehistorialbovedafinal = getDetallehistorialbovedafinal();	
@@ -201,7 +202,7 @@ public class Historialboveda implements Serializable {
 		}
 		if (detallehistorialbovedafinal != null) {
 			this.saldofinal = detallehistorialbovedafinal.getTotal();
-		}
+		}*/
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -41,7 +42,7 @@ public class Boveda implements Serializable {
 	private Integer idtipomoneda;
 
 	@Column(nullable = false)
-	private Double saldo;
+	private BigDecimal saldo;
 
 	@Column(nullable = false)
 	private Integer idestadomovimiento;
@@ -108,11 +109,11 @@ public class Boveda implements Serializable {
 		this.idtipomoneda = idtipomoneda;
 	}
 
-	public Double getSaldo() {
+	public BigDecimal getSaldo() {
 		return this.saldo;
 	}
 
-	public void setSaldo(Double saldo) {
+	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
 
@@ -143,14 +144,12 @@ public class Boveda implements Serializable {
 	public Historialboveda addHistorialboveda(Historialboveda historialboveda) {
 		getHistorialbovedas().add(historialboveda);
 		historialboveda.setBoveda(this);
-
 		return historialboveda;
 	}
 
 	public Historialboveda removeHistorialboveda(Historialboveda historialboveda) {
 		getHistorialbovedas().remove(historialboveda);
 		historialboveda.setBoveda(null);
-
 		return historialboveda;
 	}
 
@@ -160,8 +159,7 @@ public class Boveda implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
-		this.idtipomoneda = (tipomoneda == null) ? null : tipomoneda
-				.getIdtipomoneda();
+		this.idtipomoneda = (tipomoneda == null) ? null : tipomoneda.getIdtipomoneda();
 	}
 
 	public Integer getIdestadomovimiento() {
