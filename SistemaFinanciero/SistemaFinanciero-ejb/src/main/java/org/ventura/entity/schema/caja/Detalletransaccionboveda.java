@@ -54,6 +54,7 @@ public class Detalletransaccionboveda implements Serializable {
 
 	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
+		refreshTotal();
 	}
 
 	public Double getTotal() {
@@ -70,6 +71,12 @@ public class Detalletransaccionboveda implements Serializable {
 
 	public void setDenominacionmoneda(Denominacionmoneda denominacionmoneda) {
 		this.denominacionmoneda = denominacionmoneda;
+		if (denominacionmoneda != null) {
+			this.iddenominacionmoneda = denominacionmoneda.getIddenominacionmoneda();
+		} else {
+			this.iddenominacionmoneda = null;
+		}
+		refreshTotal();
 	}
 
 	public Transaccionboveda getTransaccionboveda() {
@@ -95,5 +102,16 @@ public class Detalletransaccionboveda implements Serializable {
 	public void setIddenominacionmoneda(Integer iddenominacionmoneda) {
 		this.iddenominacionmoneda = iddenominacionmoneda;
 	}
+	
+	public void refreshTotal(){
+		if (denominacionmoneda != null) {
+			this.cantidad = (cantidad == null) ? 0 : this.cantidad;
+			this.total = cantidad * denominacionmoneda.getValor();
+		} else {
+			this.total = null;
+		}
+	}
+	
+	
 
 }

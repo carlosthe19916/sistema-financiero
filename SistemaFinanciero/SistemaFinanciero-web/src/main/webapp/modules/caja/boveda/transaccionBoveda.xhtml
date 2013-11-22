@@ -108,24 +108,28 @@
 													<td style="text-align: right; vertical-align: middle;"><h:outputLabel
 															value="#{detalle.denominacionmoneda.denominacion}" /></td>
 													<td></td>
-													<td><h:inputText value="#{detalle.cantidad}"
+													<td>
+														<h:inputText value="#{detalle.cantidad}" maxlength="6"
 															styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
-															style="width:150px;" /></td>
+															style="width:150px;">
+															<f:ajax event="blur" render="@form"></f:ajax>
+														</h:inputText>
+													</td>
 													<td></td>
-													<td><h:outputLabel value="#{detalle.total}"
-															style="width: 110px; vertical-align: middle;" /></td>
+													<td><h:outputLabel id="txtTotal" value="#{detalle.total}" style="width: 110px; vertical-align: middle;" /></td>
 												</tr>
 											</ui:repeat>
 										</tbody>
 									</table>
 								</div>
 							</div>
-							<div class="p6n-api-consent-screen-input-section" style="margin-left: 20px;">
+							<div class="p6n-api-consent-screen-input-section"
+								style="margin-left: 20px;">
 								<div>
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">TOTAL
 										TRANSACCION</div>
 									<div>
-										<h:outputLabel value="ninguno" />
+										<h:outputLabel id="txtTotaltransaccion" value="#{transaccionBovedaBean.getTotalTransaccion()}" />
 									</div>
 								</div>
 							</div>

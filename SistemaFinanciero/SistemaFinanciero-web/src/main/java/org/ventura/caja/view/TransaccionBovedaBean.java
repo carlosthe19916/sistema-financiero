@@ -2,6 +2,7 @@ package org.ventura.caja.view;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
+import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
@@ -33,7 +35,9 @@ public class TransaccionBovedaBean implements Serializable {
 
 	@Inject
 	private Boveda boveda;
-
+	@Inject
+	private Transaccionboveda transaccionboveda;
+	
 	@Inject
 	private ComboBean<Boveda> comboBoveda;
 	@Inject
@@ -47,15 +51,14 @@ public class TransaccionBovedaBean implements Serializable {
 	private void initialize() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,
-				parameters);
-		comboTipotransaccion
-				.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
+		comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
+		comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 
 		comboTipoentidad.putItem(1, "Caja");
 		comboTipoentidad.putItem(2, "Otro");
 
 		this.tablaDetalletransaccionboveda = new TablaBean<Detalletransaccionboveda>();
+		//transaccionboveda.setDetalletransaccionbovedas(tablaDetalletransaccionboveda.getAllRows());
 	}
 
 	public void loadDetalleTransaccionboveda() {
@@ -117,6 +120,26 @@ public class TransaccionBovedaBean implements Serializable {
 
 	public void setComboTipoentidad(ComboBean<String> comboTipoentidad) {
 		this.comboTipoentidad = comboTipoentidad;
+	}
+
+	public Transaccionboveda getTransaccionboveda() {
+		return transaccionboveda;
+	}
+
+	public void setTransaccionboveda(Transaccionboveda transaccionboveda) {
+		this.transaccionboveda = transaccionboveda;
+	}
+	
+	public Float getTotalTransaccion(){
+		List<Detalletransaccionboveda> detalleaperturacierrebovedas = tablaDetalletransaccionboveda.getAllRows();
+		Float monto = new Float(0);
+		if (detalleaperturacierrebovedas != null) {
+			for (Iterator<Detalletransaccionboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
+				Detalletransaccionboveda detalleaperturacierreboveda = iterator.next();
+				monto = (float) (monto + detalleaperturacierreboveda.getTotal());
+			}
+		}
+		return monto;
 	}
 
 }

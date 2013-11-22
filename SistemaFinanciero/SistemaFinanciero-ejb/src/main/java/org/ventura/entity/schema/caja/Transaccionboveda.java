@@ -1,9 +1,12 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,18 +31,15 @@ public class Transaccionboveda implements Serializable {
 	private Timestamp hora;
 
 	@Column(nullable = false)
-	private double monto;
+	private Double monto;
 
-	// bi-directional many-to-one association to Detalletransaccionboveda
 	@OneToMany(mappedBy = "transaccionboveda")
 	private List<Detalletransaccionboveda> detalletransaccionbovedas;
 
-	// bi-directional many-to-one association to Boveda
 	@ManyToOne
 	@JoinColumn(name = "idhistorialboveda", nullable = false)
 	private Historialboveda historialboveda;
 
-	// bi-directional many-to-one association to Tipotransaccion
 	@ManyToOne
 	@JoinColumn(name = "idtipotransaccion", nullable = false)
 	private Tipotransaccion tipotransaccion;
@@ -71,11 +71,11 @@ public class Transaccionboveda implements Serializable {
 		this.hora = hora;
 	}
 
-	public double getMonto() {
+	public Double getMonto() {
 		return this.monto;
 	}
 
-	public void setMonto(double monto) {
+	public void setMonto(Double monto) {
 		this.monto = monto;
 	}
 
@@ -83,24 +83,22 @@ public class Transaccionboveda implements Serializable {
 		return this.detalletransaccionbovedas;
 	}
 
-	public void setDetalletransaccionbovedas(
-			List<Detalletransaccionboveda> detalletransaccionbovedas) {
+	public void setDetalletransaccionbovedas(List<Detalletransaccionboveda> detalletransaccionbovedas) {
 		this.detalletransaccionbovedas = detalletransaccionbovedas;
+		refreshTotal();
 	}
 
-	public Detalletransaccionboveda addDetalletransaccionboveda(
-			Detalletransaccionboveda detalletransaccionboveda) {
+	public Detalletransaccionboveda addDetalletransaccionboveda(Detalletransaccionboveda detalletransaccionboveda) {
 		getDetalletransaccionbovedas().add(detalletransaccionboveda);
 		detalletransaccionboveda.setTransaccionboveda(this);
-
+		refreshTotal();
 		return detalletransaccionboveda;
 	}
 
-	public Detalletransaccionboveda removeDetalletransaccionboveda(
-			Detalletransaccionboveda detalletransaccionboveda) {
+	public Detalletransaccionboveda removeDetalletransaccionboveda(Detalletransaccionboveda detalletransaccionboveda) {
 		getDetalletransaccionbovedas().remove(detalletransaccionboveda);
 		detalletransaccionboveda.setTransaccionboveda(null);
-
+		refreshTotal();
 		return detalletransaccionboveda;
 	}
 
@@ -118,6 +116,17 @@ public class Transaccionboveda implements Serializable {
 
 	public void setHistorialboveda(Historialboveda historialboveda) {
 		this.historialboveda = historialboveda;
+	}
+	
+	public void refreshTotal() {
+		List<Detalletransaccionboveda> detalleaperturacierrebovedas = getDetalletransaccionbovedas();
+		this.monto = new Double(0);
+		if (detalleaperturacierrebovedas != null) {
+			for (Iterator<Detalletransaccionboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
+				Detalletransaccionboveda detalleaperturacierreboveda = iterator.next();
+				this.monto = monto + detalleaperturacierreboveda.getTotal();
+			}
+		}
 	}
 
 }
