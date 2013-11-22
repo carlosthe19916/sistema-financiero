@@ -6,9 +6,9 @@ public class EstadoValue {
 			throws Exception {
 		switch (value) {
 		case 1:
-			return EstadoMovimientoType.ABIERTO_CONGELADO;
-		case 2:
 			return EstadoMovimientoType.ABIERTO_DESCONGELADO;
+		case 2:			
+			return EstadoMovimientoType.ABIERTO_CONGELADO;
 		case 3:
 			return EstadoMovimientoType.CERRADO;
 		default:
@@ -19,9 +19,9 @@ public class EstadoValue {
 	public static Integer getEstadoMovimientoValue(
 			EstadoMovimientoType estadoMovimientoType) throws Exception {
 		switch (estadoMovimientoType) {
-		case ABIERTO_CONGELADO:
-			return 1;
 		case ABIERTO_DESCONGELADO:
+			return 1;
+		case ABIERTO_CONGELADO:
 			return 2;
 		case CERRADO:
 			return 3;
