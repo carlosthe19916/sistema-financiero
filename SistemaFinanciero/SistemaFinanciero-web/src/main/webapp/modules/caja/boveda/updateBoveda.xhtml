@@ -5,18 +5,19 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
 
 <ui:composition>
 
-
-	<p:dialog id="idDlgUpdateBoveda" widgetVar="#{componentwidgetVar}"
-		header="UPDATE BOVEDA" closeOnEscape="true" closable="false"
-		resizable="false" modal="true">
-
-		<h:form>
+	<h:form>
+		<rich:popupPanel id="dlgUpdateBoveda" modal="true" autosized="true"
+			resizeable="false" domElementAttachment="parent">
+			<f:facet name="header">
+				<h:outputText value="Actualizar Boveda" />
+			</f:facet>
 			<div>
 				<table class="p6n-api-cred-create-form">
 					<tr>
@@ -59,19 +60,19 @@
 				</table>
 			</div>
 			<div class="sf-buttons">
-
-				<h:commandButton value="Guardar"
-					action="#{administrarBoveda.updateBoveda()}"
-					styleClass="action blue">
+				<a4j:commandButton value="Guardar" styleClass="action blue">
+					<a4j:ajax execute="@form"
+						listener="#{administrarBoveda.updateBoveda()}"
+						render="#{componentToUpdated}"
+						oncomplete="#{rich:component('dlgUpdateBoveda')}.hide()" />
+				</a4j:commandButton>
+				<h:commandButton value="Cancelar" styleClass="action">
+					<rich:componentControl target="dlgUpdateBoveda" operation="hide" />
 				</h:commandButton>
-
-				<button type="reset" onclick="#{componentwidgetVar}.hide();"
-					class="action">
-					<span class="label">Cancel</span>
-				</button>
 			</div>
-		</h:form>
-	</p:dialog>
+
+		</rich:popupPanel>
+	</h:form>
 
 </ui:composition>
 </html>

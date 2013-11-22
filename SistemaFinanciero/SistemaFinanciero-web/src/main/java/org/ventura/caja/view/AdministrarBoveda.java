@@ -20,6 +20,7 @@ import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.util.maestro.EstadoMovimientoType;
 import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
@@ -46,42 +47,40 @@ public class AdministrarBoveda implements Serializable {
 		this.tablaBovedaDetalle = new TablaBean<Detalleaperturacierreboveda>();
 		this.comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		this.refreshTablaBoveda();	
+		boveda.setSaldo(new Double(0));
 	}
 
-	public void openBoveda() {
+	public void openBoveda() throws Exception {
 		try {
 			bovedaServiceLocal.openBoveda(boveda);
 			refreshBean();
 			
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			throw e;
 		}
 	}
 	
-	public void openBovedaWithPendiente() {
+	public void openBovedaWithPendiente() throws Exception {
 		try {
 			bovedaServiceLocal.openBovedaWithPendiente(boveda);
 			refreshBean();
 			
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			throw e;
 		}
 	}
 	
-	public void closeBoveda() {
+	public void closeBoveda() throws Exception {
 		try {
 			bovedaServiceLocal.closeBoveda(boveda);
 			refreshBean();
 			
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			throw e;
 		}
 	}
 	
-	public String createBoveda() {
+	public String createBoveda() throws Exception {
 		try {
 			String denominacionBoveda = boveda.getDenominacion();
 			Integer idTipomoneda= boveda.getIdtipomoneda();		
@@ -95,32 +94,32 @@ public class AdministrarBoveda implements Serializable {
 			preCreateBoveda();
 			this.bovedaServiceLocal.create(this.boveda);
 			refreshBean();
-
-			FacesMessage message = new FacesMessage("Bóveda creada correctamente");
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
-					
+			return "administrarBoveda?faces-redirect=true";
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			throw e;
 		}
-		
-		return "administrarBoveda.xhtml";
 	}
 
-	public void updateBoveda() {
-		try {
+	public String updateBoveda() throws Exception {
+		try {		
+			String denominacionBoveda = boveda.getDenominacion();
+			Integer idTipomoneda= boveda.getIdtipomoneda();		
+			if (denominacionBoveda == null || denominacionBoveda.isEmpty() || denominacionBoveda.trim().isEmpty()) {
+				throw new Exception("Denominación de Bóveda Inválida");
+			}
+			if (idTipomoneda == null) {
+				throw new Exception("Tipo de Moneda Invalida");
+			}	
+			
 			this.bovedaServiceLocal.update(this.boveda);
 			refreshBean();
-			
-			FacesMessage message = new FacesMessage("Bóveda actualizada correctamente");
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			return "administrarBoveda?faces-redirect=true";
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			throw e;
 		}
 	}
 
-	public void deleteBoveda() {
+	public void deleteBoveda() throws Exception {
 		try {
 			loadBoveda();
 			
@@ -131,8 +130,7 @@ public class AdministrarBoveda implements Serializable {
 			FacesMessage message = new FacesMessage("Bóveda eliminada correctamente");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			throw e;
 		}
 	}
 
@@ -140,9 +138,9 @@ public class AdministrarBoveda implements Serializable {
 		this.boveda.setIdagencia(agenciaBean.getAgencia().getIdagencia());
 	}
 
-	public void loadBoveda() {	
+	public void loadBoveda() throws Exception {	
 		try {
-			Object object = tablaBoveda.getSelectedRow();
+			Object object = tablaBoveda.getEditingRow();
 			Boveda boveda = new Boveda();
 			if (object instanceof Boveda) {
 				boveda = (Boveda) object;
@@ -151,19 +149,21 @@ public class AdministrarBoveda implements Serializable {
 			Tipomoneda tipomoneda = boveda.getTipomoneda();
 			this.comboTipomoneda.setItemSelected(tipomoneda);
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			throw e;
 		}	
 	}
 
-	public void loadTablaBovedaDetalleAfterOpen(){
+	public void loadTablaBovedaDetalleAfterOpen() throws Exception{
 		try {
-			loadBoveda();		
+			loadBoveda();
+			EstadoMovimientoType estadoMovimientoType = org.ventura.util.maestro.EstadoValue.getEstadoType(boveda.getIdestadomovimiento());
+			if(estadoMovimientoType != EstadoMovimientoType.CERRADO){
+				throw new Exception("Boveda Abierta imposible abrirla nuevamente");
+			}
 			List<Detalleaperturacierreboveda> detalleaperturacierrebovedaList = bovedaServiceLocal.getDetalleforOpenBoveda(boveda);
 			tablaBovedaDetalle.setRows(detalleaperturacierrebovedaList);
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			throw e;
 		}
  	}
 	

@@ -32,6 +32,21 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
 		</license>
 	</licenses>
+	<properties>
+		<org.richfaces.bom.version>4.3.4.Final</org.richfaces.bom.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.richfaces</groupId>
+				<artifactId>richfaces-bom</artifactId>
+				<version>${org.richfaces.bom.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<repositories>
 
 		<!-- Primefaces repositorie -->
@@ -99,11 +114,21 @@
 			<version>1.0.9</version>
 		</dependency>
 
-		<!-- Primefaces extensions-->
+		<!-- Primefaces extensions -->
 		<dependency>
 			<groupId>org.primefaces.extensions</groupId>
 			<artifactId>primefaces-extensions</artifactId>
 			<version>1.0.0</version>
+		</dependency>
+
+		<!-- Richfaces library -->
+		<dependency>
+			<groupId>org.richfaces.ui</groupId>
+			<artifactId>richfaces-components-ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.richfaces.core</groupId>
+			<artifactId>richfaces-core-impl</artifactId>
 		</dependency>
 
 		<dependency>
@@ -111,7 +136,6 @@
 			<artifactId>javaee-api</artifactId>
 			<version>7.0</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>

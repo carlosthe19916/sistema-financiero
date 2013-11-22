@@ -9,6 +9,7 @@ import javax.ejb.Local;
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
+import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialboveda;
 
@@ -40,6 +41,8 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	public void openBovedaWithPendiente(Boveda oBoveda) throws Exception;
 	
 	public void closeBoveda(Boveda oBoveda) throws Exception;
+	
+	public List<Detalletransaccionboveda> getDetalletransaccionboveda(Boveda oBoveda) throws Exception;
 	
 	public void setEstadomovimientoBoveda(Estadomovimiento estadomovimiento, Boveda oBoveda) throws Exception;
 }

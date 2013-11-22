@@ -1,39 +1,44 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
 
+import javax.persistence.*;
+
+import java.util.List;
 
 /**
  * The persistent class for the tipotransaccion database table.
  * 
  */
 @Entity
-@Table(name="tipotransaccion",schema="caja")
-@NamedQuery(name="Tipotransaccion.findAll", query="SELECT t FROM Tipotransaccion t")
+@Table(name = "tipotransaccion", schema = "caja")
+@NamedQuery(name = "Tipotransaccion.findAll", query = "SELECT t FROM Tipotransaccion t")
+@NamedQueries({ @NamedQuery(name = Tipotransaccion.ALL_ACTIVE, query = "SELECT t FROM Tipotransaccion t WHERE t.estado = true") })
 public class Tipotransaccion implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
+	public final static String ALL_ACTIVE = "org.ventura.entity.schema.caja.ALL_ACTIVE";
+
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idtipotransaccion;
 
-	@Column(nullable=false, length=10)
+	@Column(nullable = false, length = 10)
 	private String abreviatura;
 
-	@Column(nullable=false, length=150)
+	@Column(nullable = false, length = 150)
 	private String denominacion;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
-	//bi-directional many-to-one association to Transaccionboveda
-	@OneToMany(mappedBy="tipotransaccion")
+	// bi-directional many-to-one association to Transaccionboveda
+	@OneToMany(mappedBy = "tipotransaccion")
 	private List<Transaccionboveda> transaccionbovedas;
 
-	//bi-directional many-to-one association to Transaccioncaja
-	@OneToMany(mappedBy="tipotransaccion")
+	// bi-directional many-to-one association to Transaccioncaja
+	@OneToMany(mappedBy = "tipotransaccion")
 	private List<Transaccioncaja> transaccioncajas;
 
 	public Tipotransaccion() {
@@ -79,14 +84,16 @@ public class Tipotransaccion implements Serializable {
 		this.transaccionbovedas = transaccionbovedas;
 	}
 
-	public Transaccionboveda addTransaccionboveda(Transaccionboveda transaccionboveda) {
+	public Transaccionboveda addTransaccionboveda(
+			Transaccionboveda transaccionboveda) {
 		getTransaccionbovedas().add(transaccionboveda);
 		transaccionboveda.setTipotransaccion(this);
 
 		return transaccionboveda;
 	}
 
-	public Transaccionboveda removeTransaccionboveda(Transaccionboveda transaccionboveda) {
+	public Transaccionboveda removeTransaccionboveda(
+			Transaccionboveda transaccionboveda) {
 		getTransaccionbovedas().remove(transaccionboveda);
 		transaccionboveda.setTipotransaccion(null);
 
