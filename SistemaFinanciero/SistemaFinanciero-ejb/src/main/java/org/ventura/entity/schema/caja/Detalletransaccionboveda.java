@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.ventura.util.maestro.Moneda;
-
 /**
  * The persistent class for the detalletransaccionboveda database table.
  * 
