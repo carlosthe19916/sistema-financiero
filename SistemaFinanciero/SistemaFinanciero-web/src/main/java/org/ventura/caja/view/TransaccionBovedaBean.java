@@ -19,7 +19,9 @@ import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
+import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.ventura.util.maestro.Moneda;
@@ -48,7 +50,11 @@ public class TransaccionBovedaBean implements Serializable {
 	private ComboBean<Tipotransaccion> comboTipotransaccion;
 	@Inject
 	private ComboBean<String> comboTipoentidad;
-
+	@Inject
+	private ComboBean<Entidadfinanciera> comboEntidadfinanciera;
+	@Inject
+	private ComboBean<Caja> comboCaja;
+	@Inject
 	private TablaBean<DetalleTransaccionBean> tablaDetalletransaccionboveda;
 
 	@PostConstruct
@@ -60,15 +66,12 @@ public class TransaccionBovedaBean implements Serializable {
 
 		comboTipoentidad.putItem(1, "Caja");
 		comboTipoentidad.putItem(2, "Otro");
-
-		this.tablaDetalletransaccionboveda = new TablaBean<DetalleTransaccionBean>();
-		// transaccionboveda.setDetalletransaccionbovedas(tablaDetalletransaccionboveda.getAllRows());
 	}
 
 	public void loadDetalleTransaccionboveda() {
 		try {
 			List<Detalletransaccionboveda> detalletransaccionbovedas = bovedaServiceLocal.getDetalletransaccionboveda(boveda);
-			List<DetalleTransaccionBean> detalletransaccionbovedaBean = new ArrayList<DetalleTransaccionBean>();
+			List<DetalleTransaccionBean> detalleTransaccionBeans = new ArrayList<DetalleTransaccionBean>();
 			for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas.iterator(); iterator.hasNext();) {
 				Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator.next();
 
@@ -76,9 +79,9 @@ public class TransaccionBovedaBean implements Serializable {
 				DetalleTransaccionBean detalleTransaccionBean = new DetalleTransaccionBean();
 				detalleTransaccionBean.setValor(valor);
 				detalleTransaccionBean.setCantidad(0);
-				detalletransaccionbovedaBean.add(detalleTransaccionBean);
+				detalleTransaccionBeans.add(detalleTransaccionBean);
 			}
-			tablaDetalletransaccionboveda.setRows(detalletransaccionbovedaBean);
+			tablaDetalletransaccionboveda.setRows(detalleTransaccionBeans);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,6 +97,51 @@ public class TransaccionBovedaBean implements Serializable {
 		}
 	}
 
+	public void changeTipoentidad(ValueChangeEvent event) throws Exception {
+		Integer key = (Integer) event.getNewValue();
+		if (key == 1) {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idboveda", boveda.getIdboveda());
+			comboCaja.initValuesFromNamedQueryName(Caja.findAllByBovedaAndState, parameters);
+		} else {
+			if (key == 2) {
+				comboEntidadfinanciera.initValuesFromNamedQueryName(Entidadfinanciera.ALL_ACTIVE);				
+			} else {
+				throw new Exception("Tipo de entidad no valida");
+			}
+		}
+	}
+
+	public Moneda getTotalTransaccion() {
+		List<DetalleTransaccionBean> detalleTransaccionBeans = tablaDetalletransaccionboveda.getAllRows();
+		Moneda total = new Moneda();
+
+		if (detalleTransaccionBeans != null) {
+			for (Iterator<DetalleTransaccionBean> iterator = detalleTransaccionBeans.iterator(); iterator.hasNext();) {
+				DetalleTransaccionBean detalleTransaccionBean = iterator.next();
+				Moneda moneda = new Moneda(detalleTransaccionBean.getTotal());
+
+				BigDecimal result = total.add(moneda);
+				total = new Moneda(result);
+			}
+		}
+		return total;
+	}
+
+	public boolean isCaja() {
+		if (comboTipoentidad.getItemSelected() == 1)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean isOtro() {
+		if (comboTipoentidad.getItemSelected() == 2)
+			return true;
+		else
+			return false;
+	}
+	
 	public TablaBean<DetalleTransaccionBean> getTablaDetalletransaccionboveda() {
 		return tablaDetalletransaccionboveda;
 	}
@@ -143,21 +191,22 @@ public class TransaccionBovedaBean implements Serializable {
 	public void setTransaccionboveda(Transaccionboveda transaccionboveda) {
 		this.transaccionboveda = transaccionboveda;
 	}
+	
+	public ComboBean<Entidadfinanciera> getComboEntidadfinanciera() {
+		return comboEntidadfinanciera;
+	}
 
-	public BigDecimal getTotalTransaccion() {
-		List<DetalleTransaccionBean> detalleTransaccionBeans = tablaDetalletransaccionboveda.getAllRows();
-		Moneda total = new Moneda();
+	public void setComboEntidadfinanciera(
+			ComboBean<Entidadfinanciera> comboEntidadfinanciera) {
+		this.comboEntidadfinanciera = comboEntidadfinanciera;
+	}
 
-		if (detalleTransaccionBeans != null) {
-			for (Iterator<DetalleTransaccionBean> iterator = detalleTransaccionBeans.iterator(); iterator.hasNext();) {
-				DetalleTransaccionBean detalleTransaccionBean = iterator.next();
-				Moneda moneda = new Moneda(detalleTransaccionBean.getTotal().getValue());
-				
-				BigDecimal result = total.add(moneda);
-				total = new Moneda(result);	
-			}
-		}
-		return total.getValue();
+	public ComboBean<Caja> getComboCaja() {
+		return comboCaja;
+	}
+
+	public void setComboCaja(ComboBean<Caja> comboCaja) {
+		this.comboCaja = comboCaja;
 	}
 
 }

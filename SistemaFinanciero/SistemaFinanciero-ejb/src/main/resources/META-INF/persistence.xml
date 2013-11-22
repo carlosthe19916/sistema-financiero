@@ -83,6 +83,7 @@
 		<class>org.ventura.entity.schema.caja.Transaccioncaja</class>
 		<class>org.ventura.entity.schema.caja.ViewBovedadetallePK</class>
 		<class>org.ventura.entity.schema.caja.Detalleaperturacierreboveda</class>
+		<class>org.ventura.entity.schema.caja.Entidadfinanciera</class>
 
 		<properties>
 			<!-- Properties for Hibernate -->
