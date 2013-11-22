@@ -101,7 +101,7 @@ public class Detalleaperturacierreboveda implements Serializable {
 			this.iddenominacionmoneda = denominacionmoneda
 					.getIddenominacionmoneda();
 			this.cantidad = (cantidad == null) ? 0 : this.cantidad;
-			this.subtotal = cantidad * denominacionmoneda.getValor();
+			//this.subtotal = cantidad * denominacionmoneda.getValor();
 		} else {
 			this.iddenominacionmoneda = null;
 			this.subtotal = null;

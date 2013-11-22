@@ -233,8 +233,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 				detallehistorialbovedafinal
 						.setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
 			} else {
-				detallehistorialbovedafinal = historialboveda
-						.getDetallehistorialbovedafinal();
+				detallehistorialbovedafinal = historialboveda.getDetallehistorialbovedafinal();
 			}
 			this.union(detallehistorialbovedafinal, denominacionmonedas);
 			return detallehistorialbovedafinal
