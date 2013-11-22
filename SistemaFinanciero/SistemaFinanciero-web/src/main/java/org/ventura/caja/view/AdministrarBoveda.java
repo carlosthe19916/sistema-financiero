@@ -1,6 +1,7 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class AdministrarBoveda implements Serializable {
 		this.tablaBovedaDetalle = new TablaBean<Detalleaperturacierreboveda>();
 		this.comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		this.refreshTablaBoveda();	
-		boveda.setSaldo(new Double(0));
+		boveda.setSaldo(BigDecimal.ZERO);
 	}
 
 	public void openBoveda() throws Exception {

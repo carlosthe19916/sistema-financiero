@@ -55,10 +55,8 @@ public class TransaccionBovedaBean implements Serializable {
 	private void initialize() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,
-				parameters);
-		comboTipotransaccion
-				.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
+		comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
+		comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 
 		comboTipoentidad.putItem(1, "Caja");
 		comboTipoentidad.putItem(2, "Otro");
@@ -69,16 +67,12 @@ public class TransaccionBovedaBean implements Serializable {
 
 	public void loadDetalleTransaccionboveda() {
 		try {
-			List<Detalletransaccionboveda> detalletransaccionbovedas = bovedaServiceLocal
-					.getDetalletransaccionboveda(boveda);
+			List<Detalletransaccionboveda> detalletransaccionbovedas = bovedaServiceLocal.getDetalletransaccionboveda(boveda);
 			List<DetalleTransaccionBean> detalletransaccionbovedaBean = new ArrayList<DetalleTransaccionBean>();
-			for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas
-					.iterator(); iterator.hasNext();) {
-				Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator
-						.next();
+			for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas.iterator(); iterator.hasNext();) {
+				Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator.next();
 
-				Moneda valor = new Moneda(detalletransaccionboveda
-						.getDenominacionmoneda().getValor());
+				Moneda valor = new Moneda(detalletransaccionboveda.getDenominacionmoneda().getValor());
 				DetalleTransaccionBean detalleTransaccionBean = new DetalleTransaccionBean();
 				detalleTransaccionBean.setValor(valor);
 				detalleTransaccionBean.setCantidad(0);
@@ -163,7 +157,6 @@ public class TransaccionBovedaBean implements Serializable {
 				total = new Moneda(result);	
 			}
 		}
-
 		return total.getValue();
 	}
 

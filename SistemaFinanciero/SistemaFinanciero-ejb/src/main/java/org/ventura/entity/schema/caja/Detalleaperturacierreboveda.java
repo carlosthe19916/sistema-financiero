@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.persistence.*;
 
 import org.ventura.entity.listener.DetalleaerturacierrebovedaListener;
+import org.ventura.util.maestro.Moneda;
 
 /**
  * The persistent class for the detalleaperturacierreboveda database table.
@@ -99,10 +100,12 @@ public class Detalleaperturacierreboveda implements Serializable {
 	public void setDenominacionmoneda(Denominacionmoneda denominacionmoneda) {
 		this.denominacionmoneda = denominacionmoneda;
 		if (denominacionmoneda != null) {
-			this.iddenominacionmoneda = denominacionmoneda
-					.getIddenominacionmoneda();
+			this.iddenominacionmoneda = denominacionmoneda.getIddenominacionmoneda();
 			this.cantidad = (cantidad == null) ? 0 : this.cantidad;
-			//this.subtotal = cantidad * denominacionmoneda.getValor();
+					
+			BigDecimal denominacionmonedaValor = denominacionmoneda.getValor();
+			Moneda moneda = new Moneda(denominacionmonedaValor);			
+			this.subtotal  = moneda.multiply(cantidad);
 		} else {
 			this.iddenominacionmoneda = null;
 			this.subtotal = null;
