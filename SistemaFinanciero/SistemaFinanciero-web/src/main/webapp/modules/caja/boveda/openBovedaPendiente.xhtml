@@ -82,7 +82,7 @@
 							<h:outputText value="#{bovedaDetalle.cantidad}" />
 						</p:column>
 						<p:column headerText="Total" width="150" style="text-align:right;">
-							<h:outputText value="#{bovedaDetalle.total}" />
+							<h:outputText value="#{bovedaDetalle.subtotal}" />
 						</p:column>
 
 						<p:columnGroup type="footer">
@@ -112,8 +112,8 @@
 				<div>
 					<div class="p6n-api-consent-screen-section">
 						<div class="sf-buttons">
-							<h:commandLink styleClass="button left" title="Abrir bóveda"
-								actionListener="#{administrarBoveda.openBoveda()}">
+							<h:commandLink styleClass="button left" title="Guardar Cambios"
+								actionListener="#{administrarBoveda.openBovedaWithPendiente()}">
 								<span class="icon icon122"></span>
 								<span class="label">Abrir Boveda</span>
 							</h:commandLink>
