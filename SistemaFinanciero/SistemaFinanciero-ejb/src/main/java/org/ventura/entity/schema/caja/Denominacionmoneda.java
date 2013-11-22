@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -32,7 +33,7 @@ public class Denominacionmoneda implements Serializable {
 	private Integer idtipomoneda;
 
 	@Column(nullable = false)
-	private Double valor;
+	private BigDecimal valor;
 
 	public Denominacionmoneda() {
 	}
@@ -69,11 +70,11 @@ public class Denominacionmoneda implements Serializable {
 		this.idtipomoneda = idtipomoneda;
 	}
 
-	public Double getValor() {
+	public BigDecimal getValor() {
 		return this.valor;
 	}
 
-	public void setValor(Double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

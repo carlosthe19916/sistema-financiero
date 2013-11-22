@@ -1,7 +1,10 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.ventura.util.maestro.Moneda;
 
 /**
  * The persistent class for the detalletransaccionboveda database table.
@@ -19,7 +22,7 @@ public class Detalletransaccionboveda implements Serializable {
 
 	@Column(nullable = false)
 	private Integer cantidad;
-
+	
 	@Column(nullable = false)
 	private Double total;
 
@@ -54,7 +57,7 @@ public class Detalletransaccionboveda implements Serializable {
 
 	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
-		refreshTotal();
+		//refreshTotal();
 	}
 
 	public Double getTotal() {
@@ -76,7 +79,7 @@ public class Detalletransaccionboveda implements Serializable {
 		} else {
 			this.iddenominacionmoneda = null;
 		}
-		refreshTotal();
+		//refreshTotal();
 	}
 
 	public Transaccionboveda getTransaccionboveda() {
@@ -103,15 +106,13 @@ public class Detalletransaccionboveda implements Serializable {
 		this.iddenominacionmoneda = iddenominacionmoneda;
 	}
 	
-	public void refreshTotal(){
+	/*public void refreshTotal(){
 		if (denominacionmoneda != null) {
 			this.cantidad = (cantidad == null) ? 0 : this.cantidad;
-			this.total = cantidad * denominacionmoneda.getValor();
+			this.total = denominacionmoneda.getValor().multiply(new Can);
 		} else {
 			this.total = null;
 		}
-	}
-	
-	
+	}*/
 
 }

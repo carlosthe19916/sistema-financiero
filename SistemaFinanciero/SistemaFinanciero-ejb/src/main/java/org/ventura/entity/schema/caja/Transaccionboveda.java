@@ -5,9 +5,12 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import java.sql.Timestamp;
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * The persistent class for the transaccionboveda database table.
@@ -124,9 +127,19 @@ public class Transaccionboveda implements Serializable {
 		if (detalleaperturacierrebovedas != null) {
 			for (Iterator<Detalletransaccionboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
 				Detalletransaccionboveda detalleaperturacierreboveda = iterator.next();
-				this.monto = monto + detalleaperturacierreboveda.getTotal();
+				this.monto = (monto + detalleaperturacierreboveda.getTotal());
 			}
 		}
+	}
+	
+	static public void displayCurrency(Locale currentLocale) {
+		Double currencyAmount = new Double(9876543.21);
+		Currency currentCurrency = Currency.getInstance(currentLocale);
+		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(currentLocale);
+
+		System.out.println(currentLocale.getDisplayName() + ", "
+				+ currentCurrency.getDisplayName() + ": "
+				+ currencyFormatter.format(currencyAmount));
 	}
 
 }

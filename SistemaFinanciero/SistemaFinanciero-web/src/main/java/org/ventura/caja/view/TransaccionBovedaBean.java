@@ -1,6 +1,8 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +22,9 @@ import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.util.maestro.Moneda;
 import org.venturabank.managedbean.session.AgenciaBean;
+import org.venturabank.util.DetalleTransaccionBean;
 
 @Named
 @ViewScoped
@@ -37,7 +41,7 @@ public class TransaccionBovedaBean implements Serializable {
 	private Boveda boveda;
 	@Inject
 	private Transaccionboveda transaccionboveda;
-	
+
 	@Inject
 	private ComboBean<Boveda> comboBoveda;
 	@Inject
@@ -45,26 +49,42 @@ public class TransaccionBovedaBean implements Serializable {
 	@Inject
 	private ComboBean<String> comboTipoentidad;
 
-	private TablaBean<Detalletransaccionboveda> tablaDetalletransaccionboveda;
+	private TablaBean<DetalleTransaccionBean> tablaDetalletransaccionboveda;
 
 	@PostConstruct
 	private void initialize() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
-		comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
+		comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,
+				parameters);
+		comboTipotransaccion
+				.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 
 		comboTipoentidad.putItem(1, "Caja");
 		comboTipoentidad.putItem(2, "Otro");
 
-		this.tablaDetalletransaccionboveda = new TablaBean<Detalletransaccionboveda>();
-		//transaccionboveda.setDetalletransaccionbovedas(tablaDetalletransaccionboveda.getAllRows());
+		this.tablaDetalletransaccionboveda = new TablaBean<DetalleTransaccionBean>();
+		// transaccionboveda.setDetalletransaccionbovedas(tablaDetalletransaccionboveda.getAllRows());
 	}
 
 	public void loadDetalleTransaccionboveda() {
 		try {
-			List<Detalletransaccionboveda> detalletransaccionbovedas = bovedaServiceLocal.getDetalletransaccionboveda(boveda);
-			tablaDetalletransaccionboveda.setRows(detalletransaccionbovedas);
+			List<Detalletransaccionboveda> detalletransaccionbovedas = bovedaServiceLocal
+					.getDetalletransaccionboveda(boveda);
+			List<DetalleTransaccionBean> detalletransaccionbovedaBean = new ArrayList<DetalleTransaccionBean>();
+			for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas
+					.iterator(); iterator.hasNext();) {
+				Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator
+						.next();
+
+				Moneda valor = new Moneda(detalletransaccionboveda
+						.getDenominacionmoneda().getValor());
+				DetalleTransaccionBean detalleTransaccionBean = new DetalleTransaccionBean();
+				detalleTransaccionBean.setValor(valor);
+				detalleTransaccionBean.setCantidad(0);
+				detalletransaccionbovedaBean.add(detalleTransaccionBean);
+			}
+			tablaDetalletransaccionboveda.setRows(detalletransaccionbovedaBean);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,12 +100,12 @@ public class TransaccionBovedaBean implements Serializable {
 		}
 	}
 
-	public TablaBean<Detalletransaccionboveda> getTablaDetalletransaccionboveda() {
+	public TablaBean<DetalleTransaccionBean> getTablaDetalletransaccionboveda() {
 		return tablaDetalletransaccionboveda;
 	}
 
 	public void setTablaDetalletransaccionboveda(
-			TablaBean<Detalletransaccionboveda> tablaDetalletransaccionboveda) {
+			TablaBean<DetalleTransaccionBean> tablaDetalletransaccionboveda) {
 		this.tablaDetalletransaccionboveda = tablaDetalletransaccionboveda;
 	}
 
@@ -129,17 +149,22 @@ public class TransaccionBovedaBean implements Serializable {
 	public void setTransaccionboveda(Transaccionboveda transaccionboveda) {
 		this.transaccionboveda = transaccionboveda;
 	}
-	
-	public Float getTotalTransaccion(){
-		List<Detalletransaccionboveda> detalleaperturacierrebovedas = tablaDetalletransaccionboveda.getAllRows();
-		Float monto = new Float(0);
-		if (detalleaperturacierrebovedas != null) {
-			for (Iterator<Detalletransaccionboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
-				Detalletransaccionboveda detalleaperturacierreboveda = iterator.next();
-				monto = (float) (monto + detalleaperturacierreboveda.getTotal());
+
+	public BigDecimal getTotalTransaccion() {
+		List<DetalleTransaccionBean> detalleTransaccionBeans = tablaDetalletransaccionboveda.getAllRows();
+		Moneda total = new Moneda();
+
+		if (detalleTransaccionBeans != null) {
+			for (Iterator<DetalleTransaccionBean> iterator = detalleTransaccionBeans.iterator(); iterator.hasNext();) {
+				DetalleTransaccionBean detalleTransaccionBean = iterator.next();
+				Moneda moneda = new Moneda(detalleTransaccionBean.getTotal().getValue());
+				
+				BigDecimal result = total.add(moneda);
+				total = new Moneda(result);	
 			}
 		}
-		return monto;
+
+		return total.getValue();
 	}
 
 }
