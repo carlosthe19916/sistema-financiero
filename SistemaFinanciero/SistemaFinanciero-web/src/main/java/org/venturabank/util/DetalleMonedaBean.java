@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 
 import org.ventura.util.maestro.Moneda;
 
-public class DetalleTransaccionBean {
+public class DetalleMonedaBean {
 
 	private Moneda valor;
 	private int cantidad;
 	private Moneda total;
 
-	public DetalleTransaccionBean() {
+	public DetalleMonedaBean() {
 		valor = new Moneda();
 		total = new Moneda();
 		cantidad = 0;

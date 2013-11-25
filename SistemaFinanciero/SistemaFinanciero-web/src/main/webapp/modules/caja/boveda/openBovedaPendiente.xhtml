@@ -13,7 +13,7 @@
 
 	<p:dialog id="idDlgOpenBovedaPendiente" widgetVar="#{WidgetVarName}"
 		header="ABRIR BÓVEDA" modal="true">
-		<h:form id="form">
+		<h:form >
 			<div>
 				<div>
 					<div class="sf-header-td-right">
@@ -78,19 +78,21 @@
 							<h:outputText
 								value="#{bovedaDetalle.denominacionmoneda.denominacion}" />
 						</p:column>
-						<p:column headerText="Cantidad" width="150">
+						<p:column headerText="Cantidad" width="100">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText
 												value="#{bovedaDetalle.cantidad}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText id="cantidad"
-												value="#{bovedaDetalle.cantidad}"></p:inputText>
-												
+											<p:inputText id="cantidad" 
+												value="#{bovedaDetalle.cantidad}" style="width:100%">
+												<f:ajax event="blur" render="@form"></f:ajax></p:inputText>	
+																																		
 										</f:facet>
-									</p:cellEditor>
+									</p:cellEditor>									
 								</p:column>
+								
 						
 						<p:column headerText="Total" width="150" style="text-align:right;">
 							<h:outputText value="#{bovedaDetalle.subtotal}" />

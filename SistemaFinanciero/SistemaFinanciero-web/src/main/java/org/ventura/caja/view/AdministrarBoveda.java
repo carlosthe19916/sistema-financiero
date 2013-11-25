@@ -2,7 +2,9 @@ package org.ventura.caja.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +22,12 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
+import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.maestro.EstadoMovimientoType;
+import org.ventura.util.maestro.Moneda;
 import org.venturabank.managedbean.session.AgenciaBean;
+import org.venturabank.util.DetalleMonedaBean;
 
 @Named
 @ViewScoped
@@ -40,8 +45,12 @@ public class AdministrarBoveda implements Serializable {
 	private ComboBean<Tipomoneda> comboTipomoneda;
 	@Inject
 	private Boveda boveda;
-	
+	@Inject
 	private TablaBean<Detalleaperturacierreboveda> tablaBovedaDetalle;
+	
+	@Inject
+	private TablaBean<DetalleMonedaBean> tablaDetallemonedaboveda;
+	
 
 	@PostConstruct
 	private void initialize() {
@@ -50,7 +59,16 @@ public class AdministrarBoveda implements Serializable {
 		this.refreshTablaBoveda();	
 		boveda.setSaldo(BigDecimal.ZERO);
 	}
-
+	
+	public void loadDetalleTransaccionboveda() {
+		try {
+			List<DetalleMonedaBean> detalleMonedaBeans = new ArrayList<DetalleMonedaBean>();
+			tablaDetallemonedaboveda.setRows(detalleMonedaBeans);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void openBoveda() throws Exception {
 		try {
 			bovedaServiceLocal.openBoveda(boveda);
