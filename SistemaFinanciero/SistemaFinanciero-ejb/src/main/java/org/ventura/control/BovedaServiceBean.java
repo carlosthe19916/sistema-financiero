@@ -27,6 +27,7 @@ import org.ventura.dao.impl.DenominacionmonedaDAO;
 import org.ventura.dao.impl.DetalleaperturacierrebovedaDAO;
 import org.ventura.dao.impl.DetallehistorialbovedaDAO;
 import org.ventura.dao.impl.HistorialbovedaDAO;
+import org.ventura.dao.impl.TransaccionbovedaDAO;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
@@ -35,6 +36,7 @@ import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialboveda;
+import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.RollbackFailureException;
@@ -54,6 +56,9 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 	@EJB
 	private BovedaDAO bovedaDAO;
+	
+	@EJB
+	private TransaccionbovedaDAO transaccionbovedaDAO;
 
 	@EJB
 	private HistorialbovedaDAO historialbovedaDAO;
@@ -213,8 +218,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
-	public Historialboveda getLastHistorialboveda(Boveda boveda)
-			throws Exception {
+	public Historialboveda getLastHistorialboveda(Boveda boveda) throws Exception {
 		Historialboveda historialboveda = this.getHistorialActive(boveda);
 		return historialboveda;
 	}
@@ -373,15 +377,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		return result;
 	}
 
-	public Historialboveda getHistorialActive(Boveda boveda)
-			throws RollbackFailureException, Exception {
+	public Historialboveda getHistorialActive(Boveda boveda) throws RollbackFailureException, Exception {
 		Historialboveda historialboveda = null;
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idboveda", boveda.getIdboveda());
 
-		List<Historialboveda> historialbovedaList = historialbovedaDAO
-				.findByNamedQuery(Historialboveda.findHistorialActive,
-						parameters);
+		List<Historialboveda> historialbovedaList = historialbovedaDAO.findByNamedQuery(Historialboveda.findHistorialActive,parameters);
 		if (historialbovedaList.size() == 0) {
 			historialboveda = null;
 		}
@@ -578,23 +579,19 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
-	public List<Detalletransaccionboveda> getDetalletransaccionboveda(
-			Boveda boveda) {
+	public List<Detalletransaccionboveda> getDetalletransaccionboveda(Boveda boveda) {
 		List<Detalletransaccionboveda> detalletransaccionbovedas = new ArrayList<Detalletransaccionboveda>();
 		try {
 			Tipomoneda tipomoneda = boveda.getTipomoneda();
 			List<Denominacionmoneda> denominacionmonedaList;
 			denominacionmonedaList = getDenominacionmonedasActive(tipomoneda);
 
-			for (Iterator<Denominacionmoneda> iterator = denominacionmonedaList
-					.iterator(); iterator.hasNext();) {
-				Denominacionmoneda denominacionmoneda = (Denominacionmoneda) iterator
-						.next();
+			for (Iterator<Denominacionmoneda> iterator = denominacionmonedaList.iterator(); iterator.hasNext();) {
+				Denominacionmoneda denominacionmoneda = (Denominacionmoneda) iterator.next();
 				Detalletransaccionboveda detalletransaccionboveda = new Detalletransaccionboveda();
 				detalletransaccionboveda.setCantidad(0);
-				detalletransaccionboveda
-						.setDenominacionmoneda(denominacionmoneda);
-				detalletransaccionboveda.setTotal(new Double(0));
+				detalletransaccionboveda.setDenominacionmoneda(denominacionmoneda);
+				detalletransaccionboveda.setSubtotal(BigDecimal.ZERO);
 
 				detalletransaccionbovedas.add(detalletransaccionboveda);
 
@@ -607,5 +604,19 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			e.printStackTrace();
 		}
 		return detalletransaccionbovedas;
+	}
+
+	@Override
+	public Transaccionboveda createTransaccionboveda(Transaccionboveda transaccionboveda) throws Exception {
+		preCreateTransaccionboveda(transaccionboveda);
+		transaccionbovedaDAO.create(transaccionboveda);
+		return null;
+	}
+	
+	public Transaccionboveda preCreateTransaccionboveda(Transaccionboveda transaccionboveda) {
+		transaccionboveda.setFecha(Calendar.getInstance().getTime());
+		transaccionboveda.setHora(Calendar.getInstance().getTime());
+		
+		return transaccionboveda;
 	}
 }

@@ -61,6 +61,15 @@ public class ComboBean<E> {
 	public E getObjectItemSelected(Integer key) {
 		return this.items.get(key);
 	}
+	
+	public E getObjectItemSelected() {
+		Integer key = this.itemSelected;
+		if(key != null){
+			return this.items.get(key);
+		} else {
+			return null;
+		}	
+	}
 
 	public Map<Integer, E> getItems() {
 		return items;
