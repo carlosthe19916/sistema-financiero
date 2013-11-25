@@ -79,8 +79,8 @@
 							</p:commandLink>
 
 							<p:commandLink styleClass="ddm"
-								oncomplete="dlgOpenBoveda.show();return false;"
-								update=":idDlgOpenBoveda">
+								oncomplete="dlgOpenBovedaPendiente.show();return false;"
+								update=":idDlgOpenBovedaPendiente">
 								<span class="icon icon123">&nbsp;</span>
 								<span class="label">Abrir Pendiente</span>
 							</p:commandLink>
@@ -136,6 +136,11 @@
 			</ui:include>
 			<ui:include src="/modules/caja/boveda/closeBoveda.xhtml">
 				<ui:param name="WidgetVarName" value="dlgCloseBoveda" />
+				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
+			</ui:include>
+			
+			<ui:include src="/modules/caja/boveda/openBovedaPendiente.xhtml">
+				<ui:param name="WidgetVarName" value="dlgOpenBovedaPendiente" />
 				<ui:param name="componentToUpdated" value=":formTablaBoveda" />
 			</ui:include>
 

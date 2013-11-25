@@ -11,9 +11,9 @@
 
 <ui:composition>
 
-	<p:dialog id="idDlgOpenBoveda" widgetVar="#{WidgetVarName}"
+	<p:dialog id="idDlgOpenBovedaPendiente" widgetVar="#{WidgetVarName}"
 		header="ABRIR BÓVEDA" modal="true">
-		<h:form>
+		<h:form id="form">
 			<div>
 				<div>
 					<div class="sf-header-td-right">
@@ -61,14 +61,15 @@
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
-
 						</ul>
 					</div>
 				</div>
+				
 				<div>
-					<p:dataTable var="bovedaDetalle"
-						value="#{administrarBoveda.tablaBovedaDetalle.rows}"
+					<p:dataTable var="bovedaDetalle" editable="true"
+						value="#{administrarBoveda.tablaBovedaDetalle.rows}" editMode="cell"
 						rowKey="#{bovedaDetalle}" rowIndexVar="row">
+						
 						<p:column headerText="Nro" width="15" style="text-align:center;">
 							<h:outputText value="#{row + 1}" />
 						</p:column>
@@ -77,10 +78,20 @@
 							<h:outputText
 								value="#{bovedaDetalle.denominacionmoneda.denominacion}" />
 						</p:column>
-						<p:column headerText="Cantidad" width="150"
-							style="text-align:right;">
-							<h:outputText value="#{bovedaDetalle.cantidad}" />
-						</p:column>
+						<p:column headerText="Cantidad" width="150">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText
+												value="#{bovedaDetalle.cantidad}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText id="cantidad"
+												value="#{bovedaDetalle.cantidad}"></p:inputText>
+												
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+						
 						<p:column headerText="Total" width="150" style="text-align:right;">
 							<h:outputText value="#{bovedaDetalle.subtotal}" />
 						</p:column>
@@ -95,31 +106,16 @@
 							</p:row>
 						</p:columnGroup>
 					</p:dataTable>
-				</div>
-				<div>
-					<table>
-						<tr>
-							<td><label>Saldo Real:</label></td>
-							<td><h:inputText value="" /></td>
-						</tr>
-						<tr>
-							<td><label>Observacion:</label></td>
-							<td style="vertical-align: top;"><h:inputTextarea value=""
-									style="width: 90%;height: 80px;" /></td>
-						</tr>
-					</table>
+					
+					
 				</div>
 				<div>
 					<div class="p6n-api-consent-screen-section">
 						<div class="sf-buttons">
-							<h:commandLink styleClass="button left" title="Guardar Cambios"
-								actionListener="#{administrarBoveda.openBovedaWithPendiente()}">
-								<span class="icon icon122"></span>
-								<span class="label">Abrir Boveda</span>
-							</h:commandLink>
-							<a href="#" class="button right"> <span class="icon icon112"></span>
-								<span class="label">Abrir Boveda con Pendiente</span>
-							</a>
+							<h:commandButton value="Guardar"
+								actionListener="#{administrarBoveda.openBovedaWithPendiente()}"
+								styleClass="action blue">
+							</h:commandButton>
 							<button class="action">
 								<span class="label">Cancel</span>
 							</button>
