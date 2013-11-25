@@ -90,24 +90,15 @@ public class TransaccionBovedaBean implements Serializable {
 			}
 		}
 		
-		List<Detalletransaccionboveda> detalleTransaccionBeans = tablaDetalletransaccionboveda.getAllRows();
-		/*List<Detalletransaccionboveda> detalletransaccionbovedas = new ArrayList<Detalletransaccionboveda>();
-		for (Iterator<DetalleTransaccionBean> iterator = detalleTransaccionBeans.iterator(); iterator.hasNext();) {
-			DetalleTransaccionBean detalleTransaccionBean = (DetalleTransaccionBean) iterator.next();
-			Detalletransaccionboveda detalletransaccionboveda = new Detalletransaccionboveda();
-			
-			detalletransaccionboveda.setCantidad(detalleTransaccionBean.getCantidad());
-			//detalletransaccionboveda.setTotal(detalleTransaccionBean.getTotal().getValue());
-			//detalletransaccionboveda.setDenominacionmoneda(detalleTransaccionBean.get);
-		}*/
+		List<Detalletransaccionboveda> detalletransaccionbovedas = tablaDetalletransaccionboveda.getAllRows();
 		
 		Historialboveda historialboveda = bovedaServiceLocal.getHistorialActive(boveda);		
 		transaccionboveda.setHistorialboveda(historialboveda);
-		//transaccionboveda.setMonto(getTotalTransaccion().getValue());
+		transaccionboveda.refreshMonto();
 		transaccionboveda.setTipotransaccion(tipotransaccion);
 		transaccionboveda.setCaja(caja);
 		transaccionboveda.setEntidadfinanciera(entidadfinanciera);
-		
+		transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
 		bovedaServiceLocal.createTransaccionboveda(transaccionboveda);
 	}
 	

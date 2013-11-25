@@ -36,7 +36,7 @@
 											value="#{transaccionBovedaBean.comboBoveda.items.entrySet()}"
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
-										<f:ajax render="@form"></f:ajax>
+										<a4j:ajax render="@form" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
 									</h:selectOneMenu>
 								</div>
 							</div>
@@ -53,7 +53,7 @@
 												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
-											<f:ajax render="panelOrigen"></f:ajax>
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -68,7 +68,7 @@
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
 												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-											<f:ajax render="panelOrigen"></f:ajax>
+											<a4j:ajax render="panelOrigen" execute="@this" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -87,6 +87,7 @@
 												value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbEntidadfinanciera"
 											value="#{transaccionBovedaBean.comboEntidadfinanciera.itemSelected}"
@@ -96,6 +97,7 @@
 												value="#{transaccionBovedaBean.comboEntidadfinanciera.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
 										</h:selectOneMenu>
 									</h:panelGroup>
 								</div>

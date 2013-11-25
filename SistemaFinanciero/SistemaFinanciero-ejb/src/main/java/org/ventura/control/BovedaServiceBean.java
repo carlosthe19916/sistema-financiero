@@ -26,6 +26,7 @@ import org.ventura.dao.impl.BovedaDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
 import org.ventura.dao.impl.DetalleaperturacierrebovedaDAO;
 import org.ventura.dao.impl.DetallehistorialbovedaDAO;
+import org.ventura.dao.impl.DetalletransaccionbovedaDAO;
 import org.ventura.dao.impl.HistorialbovedaDAO;
 import org.ventura.dao.impl.TransaccionbovedaDAO;
 import org.ventura.entity.schema.caja.Boveda;
@@ -56,10 +57,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 	@EJB
 	private BovedaDAO bovedaDAO;
-	
+
 	@EJB
 	private TransaccionbovedaDAO transaccionbovedaDAO;
-
+	@EJB
+	private DetalletransaccionbovedaDAO detalletransaccionbovedaDAO;
+	
 	@EJB
 	private HistorialbovedaDAO historialbovedaDAO;
 
@@ -608,8 +611,16 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 	@Override
 	public Transaccionboveda createTransaccionboveda(Transaccionboveda transaccionboveda) throws Exception {
+		List<Detalletransaccionboveda> detalletransaccionbovedas =  transaccionboveda.getDetalletransaccionbovedas();
+		
 		preCreateTransaccionboveda(transaccionboveda);
 		transaccionbovedaDAO.create(transaccionboveda);
+		
+		for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas.iterator(); iterator.hasNext();) {
+			Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator.next();
+			detalletransaccionboveda.setTransaccionboveda(transaccionboveda);
+			detalletransaccionbovedaDAO.create(detalletransaccionboveda);
+		}
 		return null;
 	}
 	

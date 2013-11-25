@@ -36,7 +36,7 @@ public class Transaccionboveda implements Serializable {
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "monto")) })
 	private Moneda monto;
 
-	@OneToMany(mappedBy = "transaccionboveda", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "transaccionboveda")
 	private List<Detalletransaccionboveda> detalletransaccionbovedas;
 
 	@ManyToOne
