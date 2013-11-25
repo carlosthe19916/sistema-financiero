@@ -71,7 +71,8 @@
 								<div style="display: inline-block;">
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">ORIGEN</div>
 									<h:panelGroup id="panelOrigen">
-										<h:selectOneMenu rendered="#{transaccionBovedaBean.isCaja()} || #{transaccionBovedaBean.isCaja()}">
+										<h:selectOneMenu
+											rendered="#{!transaccionBovedaBean.isCaja() and !transaccionBovedaBean.isOtro()} ">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbCaja"

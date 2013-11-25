@@ -24,6 +24,8 @@ import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.util.maestro.EstadoMovimientoType;
+import org.ventura.util.maestro.EstadoValue;
 import org.ventura.util.maestro.Moneda;
 import org.venturabank.managedbean.session.AgenciaBean;
 import org.venturabank.util.DetalleTransaccionBean;
@@ -59,13 +61,20 @@ public class TransaccionBovedaBean implements Serializable {
 
 	@PostConstruct
 	private void initialize() {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
-		comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
+			parameters.put("idestadomovimiento",EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_DESCONGELADO));		
+			comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO,parameters);
+			
+			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 
-		comboTipoentidad.putItem(1, "Caja");
-		comboTipoentidad.putItem(2, "Otro");
+			comboTipoentidad.putItem(1, "Caja");
+			comboTipoentidad.putItem(2, "Otro");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 
 	public void loadDetalleTransaccionboveda() {
@@ -92,24 +101,31 @@ public class TransaccionBovedaBean implements Serializable {
 		Integer key = (Integer) event.getNewValue();
 		Boveda bovedaSelected = comboBoveda.getObjectItemSelected(key);
 		this.boveda = bovedaSelected;
-		if (boveda.getIdboveda() != null) {
-			loadDetalleTransaccionboveda();
-		}
+		if(this.boveda != null){
+			this.loadDetalleTransaccionboveda();
+		} else {
+			this.tablaDetalletransaccionboveda.clean();
+		}		
 	}
-
+	
 	public void changeTipoentidad(ValueChangeEvent event) throws Exception {
 		Integer key = (Integer) event.getNewValue();
-		if (key == 1) {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("idboveda", boveda.getIdboveda());
-			comboCaja.initValuesFromNamedQueryName(Caja.findAllByBovedaAndState, parameters);
-		} else {
-			if (key == 2) {
-				comboEntidadfinanciera.initValuesFromNamedQueryName(Entidadfinanciera.ALL_ACTIVE);				
+		if(key != null){
+			if (key == 1) {
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("idboveda", boveda.getIdboveda());
+				comboCaja.initValuesFromNamedQueryName(Caja.findAllByBovedaAndState, parameters);
 			} else {
-				throw new Exception("Tipo de entidad no valida");
+				if (key == 2) {
+					comboEntidadfinanciera.initValuesFromNamedQueryName(Entidadfinanciera.ALL_ACTIVE);
+				} else {
+					throw new Exception("Tipo de entidad no valida");
+				}
 			}
-		}
+		} else {
+			this.comboEntidadfinanciera.clean();
+			this.comboCaja.clean();
+		}		
 	}
 
 	public Moneda getTotalTransaccion() {
@@ -129,17 +145,27 @@ public class TransaccionBovedaBean implements Serializable {
 	}
 
 	public boolean isCaja() {
-		if (comboTipoentidad.getItemSelected() == 1)
-			return true;
-		else
+		Integer key = comboTipoentidad.getItemSelected();
+		if (key != null) {
+			if (key == 1)
+				return true;
+			else
+				return false;
+		} else {
 			return false;
+		}
 	}
 
 	public boolean isOtro() {
-		if (comboTipoentidad.getItemSelected() == 2)
-			return true;
-		else
+		Integer key = comboTipoentidad.getItemSelected();
+		if(key != null){
+			if (key == 2)
+				return true;
+			else
+				return false;
+		} else {
 			return false;
+		}
 	}
 	
 	public TablaBean<DetalleTransaccionBean> getTablaDetalletransaccionboveda() {
@@ -191,7 +217,7 @@ public class TransaccionBovedaBean implements Serializable {
 	public void setTransaccionboveda(Transaccionboveda transaccionboveda) {
 		this.transaccionboveda = transaccionboveda;
 	}
-	
+
 	public ComboBean<Entidadfinanciera> getComboEntidadfinanciera() {
 		return comboEntidadfinanciera;
 	}
