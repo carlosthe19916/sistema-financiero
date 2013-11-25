@@ -263,37 +263,27 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		try {
 			boveda = bovedaDAO.find(boveda.getIdboveda());
 
-			boolean resultBoveda = verificarBoveda(boveda,
-					EstadoMovimientoType.CERRADO);
+			boolean resultBoveda = verificarBoveda(boveda,EstadoMovimientoType.CERRADO);
 			if (resultBoveda == false) {
-				throw new Exception(
-						"Boveda Abierta, Imposible Abrirla nuevamente");
+				throw new Exception("Boveda Abierta, Imposible Abrirla nuevamente");
 			}
-			boolean resultCajas = verificarCajas(boveda,
-					EstadoMovimientoType.CERRADO);
+			boolean resultCajas = verificarCajas(boveda,EstadoMovimientoType.CERRADO);
 			if (resultCajas == false) {
-				throw new Exception(
-						"Cajas de Boveda abiertas, Imposible Abrirlas nuevamente");
+				throw new Exception("Cajas de Boveda abiertas, Imposible Abrirlas nuevamente");
 			}
 
-			Historialboveda historialbovedaOld = this
-					.getHistorialActive(boveda);
+			Historialboveda historialbovedaOld = this.getHistorialActive(boveda);
 			Historialboveda historialbovedaNew = new Historialboveda();
 
-			List<Denominacionmoneda> denominacionmonedasTotal = getDenominacionmonedasActive(boveda
-					.getTipomoneda());
+			List<Denominacionmoneda> denominacionmonedasTotal = getDenominacionmonedasActive(boveda.getTipomoneda());
 
-			existsOldHistorialboveda = (historialbovedaOld == null) ? false
-					: true;
+			existsOldHistorialboveda = (historialbovedaOld == null) ? false : true;
 			copyDetallehistorialOldtoNew(historialbovedaOld, historialbovedaNew);
-			union(historialbovedaNew.getDetallehistorialbovedainicial(),
-					denominacionmonedasTotal);
+			union(historialbovedaNew.getDetallehistorialbovedainicial(),denominacionmonedasTotal);
 
 			historialbovedaNew.setBoveda(boveda);
-			historialbovedaNew.setFechaapertura(Calendar.getInstance()
-					.getTime());
-			historialbovedaNew
-					.setHoraapertura(Calendar.getInstance().getTime());
+			historialbovedaNew.setFechaapertura(Calendar.getInstance().getTime());
+			historialbovedaNew.setHoraapertura(Calendar.getInstance().getTime());
 			historialbovedaNew.setSaldoinicial(boveda.getSaldo());
 			historialbovedaNew.setEstado(true);
 
@@ -303,30 +293,22 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			} else {
 				historialbovedaNew.setEstado(true);
 			}
-			Integer estadoMovimientoAbierto = EstadoValue
-					.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_CONGELADO);
+			Integer estadoMovimientoAbierto = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_CONGELADO);
 			boveda.setIdestadomovimiento(estadoMovimientoAbierto);
 
 			// LISTO PARA MODIFICAR LA BASE DE DATOS
-			Detallehistorialboveda detallehistorialboveda = historialbovedaNew
-					.getDetallehistorialbovedainicial();
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = detallehistorialboveda
-					.getDetalleaperturacierrebovedaList();
+			Detallehistorialboveda detallehistorialboveda = historialbovedaNew.getDetallehistorialbovedainicial();
+			List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = detallehistorialboveda.getDetalleaperturacierrebovedaList();
 
 			detallehistorialbovedaDAO.create(detallehistorialboveda);
 
-			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas
-					.iterator(); iterator.hasNext();) {
-				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator
-						.next();
-				detalleaperturacierreboveda
-						.setDetallehistorialboveda(detallehistorialboveda);
-				detalleaperturacierrebovedaDAO
-						.create(detalleaperturacierreboveda);
+			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
+				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator.next();
+				detalleaperturacierreboveda.setDetallehistorialboveda(detallehistorialboveda);
+				detalleaperturacierrebovedaDAO.create(detalleaperturacierreboveda);
 			}
 
-			historialbovedaNew
-					.setDetallehistorialbovedainicial(detallehistorialboveda);
+			historialbovedaNew.setDetallehistorialbovedainicial(detallehistorialboveda);
 
 			if (existsOldHistorialboveda) {
 				historialbovedaDAO.create(historialbovedaNew);
@@ -489,21 +471,15 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 	}
 
-	public void union(Detallehistorialboveda detallehistorialboveda,
-			List<Denominacionmoneda> denominacionmonedas) {
-		List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = detallehistorialboveda
-				.getDetalleaperturacierrebovedaList();
+	public void union(Detallehistorialboveda detallehistorialboveda,List<Denominacionmoneda> denominacionmonedas) {
+		List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = detallehistorialboveda.getDetalleaperturacierrebovedaList();
 
-		for (Iterator<Denominacionmoneda> iterator = denominacionmonedas
-				.iterator(); iterator.hasNext();) {
-			Denominacionmoneda denominacionmoneda = (Denominacionmoneda) iterator
-					.next();
-			if (!containsTipoMoneda(detalleaperturacierrebovedas,
-					denominacionmoneda)) {
+		for (Iterator<Denominacionmoneda> iterator = denominacionmonedas.iterator(); iterator.hasNext();) {
+			Denominacionmoneda denominacionmoneda = (Denominacionmoneda) iterator.next();
+			if (!containsTipoMoneda(detalleaperturacierrebovedas,denominacionmoneda)) {
 				Detalleaperturacierreboveda detalleaperturacierreboveda2 = new Detalleaperturacierreboveda();
 				detalleaperturacierreboveda2.setCantidad(0);
-				detalleaperturacierreboveda2
-						.setDenominacionmoneda(denominacionmoneda);
+				detalleaperturacierreboveda2.setDenominacionmoneda(denominacionmoneda);
 
 				detalleaperturacierrebovedas.add(detalleaperturacierreboveda2);
 			}

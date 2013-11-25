@@ -1,6 +1,7 @@
 package org.ventura.util.maestro;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 public class Moneda {
 
@@ -130,7 +131,10 @@ public class Moneda {
 
 	@Override
 	public String toString() {
-		if (value == null)
+		String s = NumberFormat.getCurrencyInstance().format(value).toString();
+		s = s.substring(0, s.length() - 1);
+		return s;
+		/*if (value == null)
 			return null;
 		int realScale = value.scale();
 		if (realScale == 2)
@@ -140,7 +144,7 @@ public class Moneda {
 		else if (realScale == 0)
 			return value.toString() + ".00";
 		else
-			throw new RuntimeException("Scale of Money object is > 2, should never happen, Money object is faulty.");
+			throw new RuntimeException("Scale of Money object is > 2, should never happen, Money object is faulty.");*/
 	}
 
 	public int compareTo(Moneda val) {

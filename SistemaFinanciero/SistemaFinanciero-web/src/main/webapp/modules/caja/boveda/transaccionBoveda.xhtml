@@ -44,8 +44,7 @@
 										TRANSACCION</div>
 									<div>
 										<h:selectOneMenu
-											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}"
-											valueChangeListener="#{administrarBoveda.changeTipomoneda}">
+											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
@@ -60,26 +59,40 @@
 									<div>
 										<h:selectOneMenu
 											value="#{transaccionBovedaBean.comboTipoentidad.itemSelected}"
-											valueChangeListener="#{administrarBoveda.changeTipomoneda}">
+											valueChangeListener="#{transaccionBovedaBean.changeTipoentidad}">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
 												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+											<f:ajax render="panelOrigen"></f:ajax>
 										</h:selectOneMenu>
 									</div>
 								</div>
 								<div style="display: inline-block;">
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">ORIGEN</div>
-
-									<h:selectOneMenu
-										value="#{administrarBoveda.comboTipomoneda.itemSelected}"
-										valueChangeListener="#{administrarBoveda.changeTipomoneda}">
-										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems
-											value="#{administrarBoveda.comboTipomoneda.items.entrySet()}"
-											var="val" itemLabel="#{val.value.denominacion}"
-											itemValue="#{val.key}" />
-									</h:selectOneMenu>
+									<h:panelGroup id="panelOrigen">
+										<h:selectOneMenu rendered="#{transaccionBovedaBean.isCaja()} || #{transaccionBovedaBean.isCaja()}">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										</h:selectOneMenu>
+										<h:selectOneMenu id="cmbCaja"
+											value="#{transaccionBovedaBean.comboCaja.itemSelected}"
+											rendered="#{transaccionBovedaBean.isCaja()}">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+										</h:selectOneMenu>
+										<h:selectOneMenu id="cmbEntidadfinanciera"
+											value="#{transaccionBovedaBean.comboEntidadfinanciera.itemSelected}"
+											rendered="#{transaccionBovedaBean.isOtro()}">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionBovedaBean.comboEntidadfinanciera.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+										</h:selectOneMenu>
+									</h:panelGroup>
 								</div>
 							</div>
 							<div class="sf-separator"></div>
@@ -108,15 +121,16 @@
 													<td style="text-align: right; vertical-align: middle;"><h:outputLabel
 															value="#{detalle.valor}" /></td>
 													<td></td>
-													<td>
-														<h:inputText value="#{detalle.cantidad}" maxlength="6"
+													<td><h:inputText value="#{detalle.cantidad}"
+															maxlength="6"
 															styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 															style="width:150px;">
 															<f:ajax event="blur" render="@form"></f:ajax>
-														</h:inputText>
-													</td>
+														</h:inputText></td>
 													<td></td>
-													<td><h:outputLabel id="txtTotal" value="#{detalle.total}" style="width: 110px; vertical-align: middle;" /></td>
+													<td><h:outputLabel id="txtTotal"
+															value="#{detalle.total}"
+															style="width: 110px; vertical-align: middle;" /></td>
 												</tr>
 											</ui:repeat>
 										</tbody>
@@ -129,7 +143,8 @@
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">TOTAL
 										TRANSACCION</div>
 									<div>
-										<h:outputLabel id="txtTotaltransaccion" value="#{transaccionBovedaBean.getTotalTransaccion()}" />
+										<h:outputLabel id="txtTotaltransaccion"
+											value="#{transaccionBovedaBean.getTotalTransaccion()}" />
 									</div>
 								</div>
 							</div>

@@ -3,6 +3,7 @@ package org.ventura.entity.schema.caja;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.*;
@@ -75,14 +76,15 @@ public class Detallehistorialboveda implements Serializable {
 	}
 
 	public void refreshTotal() {
-		/*List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = getDetalleaperturacierrebovedaList();
-		this.total = new Double(0);
+		List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = getDetalleaperturacierrebovedaList();
+		this.total = BigDecimal.ZERO;
 		if (detalleaperturacierrebovedas != null) {
 			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
 				Detalleaperturacierreboveda detalleaperturacierreboveda = iterator.next();
-				this.total = total + detalleaperturacierreboveda.getSubtotal();
+				
+				total = total.add(detalleaperturacierreboveda.getSubtotal());
 			}
-		}*/
+		}
 	}
 
 }

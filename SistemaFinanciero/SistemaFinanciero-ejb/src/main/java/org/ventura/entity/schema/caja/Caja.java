@@ -1,7 +1,9 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 /**
@@ -11,8 +13,12 @@ import java.util.List;
 @Entity
 @Table(name = "caja", schema = "caja")
 @NamedQuery(name = "Caja.findAll", query = "SELECT c FROM Caja c")
+@NamedQueries({ @NamedQuery(name = Caja.findAllByBovedaAndState, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b WHERE b.idboveda = :idboveda") })
 public class Caja implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	public final static String findAllByBovedaAndState = "org.ventura.entity.schema.caja.findAllByBovedaAndState";
 
 	@Id
 	@Column(unique = true, nullable = false)
