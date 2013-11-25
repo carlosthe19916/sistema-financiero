@@ -46,12 +46,14 @@
 										TRANSACCION</div>
 									<div>
 										<h:selectOneMenu
-											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}">
+											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}"
+											valueChangeListener="#{transaccionBovedaBean.changeTipotransaccion}">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
+											<f:ajax render="panelOrigen"></f:ajax>
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -122,17 +124,18 @@
 												var="detalle">
 												<tr>
 													<td style="text-align: right; vertical-align: middle;"><h:outputLabel
-															value="#{detalle.valor}" /></td>
+															value="#{detalle.denominacionmoneda.denominacion}" /></td>
 													<td></td>
 													<td><h:inputText value="#{detalle.cantidad}"
 															maxlength="6"
 															styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 															style="width:150px;">
-															<f:ajax event="blur" render="@form"></f:ajax>
+															<f:ajax event="blur" render="@form"
+																listener="#{detalle.refreshSubtotal()}" />
 														</h:inputText></td>
 													<td></td>
 													<td><h:outputLabel id="txtTotal"
-															value="#{detalle.total}"
+															value="#{detalle.subtotal}"
 															style="width: 110px; vertical-align: middle;" /></td>
 												</tr>
 											</ui:repeat>
@@ -147,7 +150,8 @@
 										TRANSACCION</div>
 									<div>
 										<h:outputLabel id="txtTotaltransaccion"
-											value="#{transaccionBovedaBean.getTotalTransaccion()}" />
+											value="#{transaccionBovedaBean.transaccionboveda.monto}">
+										</h:outputLabel>
 									</div>
 								</div>
 							</div>

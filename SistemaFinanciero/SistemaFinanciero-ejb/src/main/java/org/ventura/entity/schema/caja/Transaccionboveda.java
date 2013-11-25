@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.persistence.*;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,10 +32,11 @@ public class Transaccionboveda implements Serializable {
 	@Column(nullable = false)
 	private Date hora;
 
-	@Column(nullable = false)
-	private BigDecimal monto;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "monto")) })
+	private Moneda monto;
 
-	@OneToMany(mappedBy = "transaccionboveda")
+	@OneToMany(mappedBy = "transaccionboveda", cascade = CascadeType.ALL)
 	private List<Detalletransaccionboveda> detalletransaccionbovedas;
 
 	@ManyToOne
@@ -54,6 +56,7 @@ public class Transaccionboveda implements Serializable {
 	private Entidadfinanciera entidadfinanciera;
 	
 	public Transaccionboveda() {
+		this.monto = new Moneda();
 	}
 
 	public Integer getIdtransaccionboveda() {
@@ -80,32 +83,12 @@ public class Transaccionboveda implements Serializable {
 		this.hora = hora;
 	}
 
-	public BigDecimal getMonto() {
-		return this.monto;
-	}
-
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
-
 	public List<Detalletransaccionboveda> getDetalletransaccionbovedas() {
 		return this.detalletransaccionbovedas;
 	}
 
 	public void setDetalletransaccionbovedas(List<Detalletransaccionboveda> detalletransaccionbovedas) {
 		this.detalletransaccionbovedas = detalletransaccionbovedas;
-	}
-
-	public Detalletransaccionboveda addDetalletransaccionboveda(Detalletransaccionboveda detalletransaccionboveda) {
-		getDetalletransaccionbovedas().add(detalletransaccionboveda);
-		detalletransaccionboveda.setTransaccionboveda(this);
-		return detalletransaccionboveda;
-	}
-
-	public Detalletransaccionboveda removeDetalletransaccionboveda(Detalletransaccionboveda detalletransaccionboveda) {
-		getDetalletransaccionbovedas().remove(detalletransaccionboveda);
-		detalletransaccionboveda.setTransaccionboveda(null);
-		return detalletransaccionboveda;
 	}
 
 	public Tipotransaccion getTipotransaccion() {
@@ -138,5 +121,27 @@ public class Transaccionboveda implements Serializable {
 
 	public void setEntidadfinanciera(Entidadfinanciera entidadfinanciera) {
 		this.entidadfinanciera = entidadfinanciera;
+	}
+
+	public void setMonto(Moneda monto) {
+		this.monto = monto;
+	}
+
+	public Moneda getMonto() {
+		refreshMonto();
+		return monto;
+	}
+	
+	public void refreshMonto(){
+		Moneda result = new Moneda();
+		List<Detalletransaccionboveda> detalletransaccionbovedas = this. detalletransaccionbovedas;
+		if(detalletransaccionbovedas != null){
+			for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas.iterator(); iterator.hasNext();) {
+				Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator.next();
+				BigDecimal aux = result.add(detalletransaccionboveda.getSubtotal());
+				result.setValue(aux);
+			}
+		}
+		this.monto = result;
 	}
 }

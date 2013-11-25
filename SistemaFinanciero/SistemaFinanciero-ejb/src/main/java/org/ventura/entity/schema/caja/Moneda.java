@@ -1,9 +1,18 @@
-package org.venturabank.util;
+package org.ventura.entity.schema.caja;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
-public class Moneda {
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
+@Embeddable
+public class Moneda implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "value")
 	private BigDecimal value;
 
 	private final static int SCALE = 2;
@@ -58,6 +67,12 @@ public class Moneda {
 
 	public BigDecimal multiply(long value) {
 		Moneda moneda = new Moneda(value);
+		return this.value.multiply(moneda.getValue());
+	}
+	
+	public BigDecimal multiply(int value){
+		BigDecimal intValue = new BigDecimal(value);
+		Moneda moneda = new Moneda(intValue);
 		return this.value.multiply(moneda.getValue());
 	}
 
@@ -130,17 +145,17 @@ public class Moneda {
 
 	@Override
 	public String toString() {
-		if (value == null)
-			return null;
-		int realScale = value.scale();
-		if (realScale == 2)
-			return value.toString();
-		else if (realScale == 1)
-			return value.toString() + "0";
-		else if (realScale == 0)
-			return value.toString() + ".00";
-		else
-			throw new RuntimeException("Scale of Money object is > 2, should never happen, Money object is faulty.");
+		String s = NumberFormat.getCurrencyInstance().format(value).toString();
+		s = s.substring(0, s.length() - 1);
+		return s;
+		/*
+		 * if (value == null) return null; int realScale = value.scale(); if
+		 * (realScale == 2) return value.toString(); else if (realScale == 1)
+		 * return value.toString() + "0"; else if (realScale == 0) return
+		 * value.toString() + ".00"; else throw new RuntimeException(
+		 * "Scale of Money object is > 2, should never happen, Money object is faulty."
+		 * );
+		 */
 	}
 
 	public int compareTo(Moneda val) {

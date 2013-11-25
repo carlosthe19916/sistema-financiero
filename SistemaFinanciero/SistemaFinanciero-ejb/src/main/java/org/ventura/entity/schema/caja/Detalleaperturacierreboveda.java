@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import javax.persistence.*;
 
 import org.ventura.entity.listener.DetalleaerturacierrebovedaListener;
-import org.ventura.util.maestro.Moneda;
 
 /**
  * The persistent class for the detalleaperturacierreboveda database table.
@@ -16,10 +15,6 @@ import org.ventura.util.maestro.Moneda;
 @Table(name = "detalleaperturacierreboveda", schema = "caja")
 @EntityListeners(DetalleaerturacierrebovedaListener.class)
 @NamedQuery(name = "Detalleaperturacierreboveda.findAll", query = "SELECT d FROM Detalleaperturacierreboveda d")
-// @NamedQueries({ @NamedQuery(name =
-// "Detallehistorialboveda.LAST_ACTIVE_FOR_BOVEDA", query =
-// "SELECT d FROM Detallehistorialboveda d INNER JOIN d.historialboveda h INNER JOIN h.boveda b WHERE b.idboveda = :idboveda AND h.estado = true")
-// })
 public class Detalleaperturacierreboveda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -103,7 +98,7 @@ public class Detalleaperturacierreboveda implements Serializable {
 			this.iddenominacionmoneda = denominacionmoneda.getIddenominacionmoneda();
 			this.cantidad = (cantidad == null) ? 0 : this.cantidad;
 					
-			BigDecimal denominacionmonedaValor = denominacionmoneda.getValor();
+			Moneda denominacionmonedaValor = denominacionmoneda.getValor();
 			Moneda moneda = new Moneda(denominacionmonedaValor);			
 			this.subtotal  = moneda.multiply(cantidad);
 		} else {

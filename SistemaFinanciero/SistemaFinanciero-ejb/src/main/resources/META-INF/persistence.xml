@@ -84,7 +84,8 @@
 		<class>org.ventura.entity.schema.caja.ViewBovedadetallePK</class>
 		<class>org.ventura.entity.schema.caja.Detalleaperturacierreboveda</class>
 		<class>org.ventura.entity.schema.caja.Entidadfinanciera</class>
-
+		<class>org.ventura.entity.schema.caja.Moneda</class>
+		
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="validate" />

@@ -21,15 +21,10 @@ public class Detalletransaccionboveda implements Serializable {
 
 	@Column(nullable = false)
 	private Integer cantidad;
-	
-	@Column(nullable = false)
-	private BigDecimal subtotal;
 
-	@Column(nullable = false)
-	private Integer idtransaccionboveda;
-
-	@Column(nullable = false)
-	private Integer iddenominacionmoneda;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "subtotal")) })
+	private Moneda subtotal;
 
 	@ManyToOne
 	@JoinColumn(name = "iddenominacionmoneda", nullable = false, insertable = false, updatable = false)
@@ -40,6 +35,7 @@ public class Detalletransaccionboveda implements Serializable {
 	private Transaccionboveda transaccionboveda;
 
 	public Detalletransaccionboveda() {
+		this.subtotal =  new Moneda();
 	}
 
 	public Integer getIddetalletransaccionboveda() {
@@ -55,16 +51,7 @@ public class Detalletransaccionboveda implements Serializable {
 	}
 
 	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
-		//refreshTotal();
-	}
-
-	public BigDecimal getSubtotal() {
-		return this.subtotal;
-	}
-
-	public void setSubtotal(BigDecimal total) {
-		this.subtotal = total;
+		this.cantidad = cantidad;	
 	}
 
 	public Denominacionmoneda getDenominacionmoneda() {
@@ -73,12 +60,6 @@ public class Detalletransaccionboveda implements Serializable {
 
 	public void setDenominacionmoneda(Denominacionmoneda denominacionmoneda) {
 		this.denominacionmoneda = denominacionmoneda;
-		if (denominacionmoneda != null) {
-			this.iddenominacionmoneda = denominacionmoneda.getIddenominacionmoneda();
-		} else {
-			this.iddenominacionmoneda = null;
-		}
-		//refreshTotal();
 	}
 
 	public Transaccionboveda getTransaccionboveda() {
@@ -89,29 +70,19 @@ public class Detalletransaccionboveda implements Serializable {
 		this.transaccionboveda = transaccionboveda;
 	}
 
-	public Integer getIdtransaccionboveda() {
-		return idtransaccionboveda;
+	public Moneda getSubtotal() {
+		return subtotal;
 	}
 
-	public void setIdtransaccionboveda(Integer idtransaccionboveda) {
-		this.idtransaccionboveda = idtransaccionboveda;
-	}
-
-	public Integer getIddenominacionmoneda() {
-		return iddenominacionmoneda;
-	}
-
-	public void setIddenominacionmoneda(Integer iddenominacionmoneda) {
-		this.iddenominacionmoneda = iddenominacionmoneda;
+	public void setSubtotal(Moneda subtotal) {
+		this.subtotal = subtotal;
 	}
 	
-	/*public void refreshTotal(){
-		if (denominacionmoneda != null) {
-			this.cantidad = (cantidad == null) ? 0 : this.cantidad;
-			this.total = denominacionmoneda.getValor().multiply(new Can);
-		} else {
-			this.total = null;
-		}
-	}*/
+	public void refreshSubtotal(){
+		Integer cantidad = this.cantidad;
+		Moneda denominacionMonedaValor = this.denominacionmoneda.getValor();
+		BigDecimal result = denominacionMonedaValor.multiply(cantidad);
+		this.subtotal.setValue(result);
+	}
 
 }

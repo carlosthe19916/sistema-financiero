@@ -591,7 +591,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 				Detalletransaccionboveda detalletransaccionboveda = new Detalletransaccionboveda();
 				detalletransaccionboveda.setCantidad(0);
 				detalletransaccionboveda.setDenominacionmoneda(denominacionmoneda);
-				detalletransaccionboveda.setSubtotal(BigDecimal.ZERO);
+				//detalletransaccionboveda.setSubtotal(BigDecimal.ZERO);
 
 				detalletransaccionbovedas.add(detalletransaccionboveda);
 
