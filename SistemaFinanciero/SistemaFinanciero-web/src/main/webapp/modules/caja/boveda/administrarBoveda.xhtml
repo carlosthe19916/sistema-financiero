@@ -54,6 +54,26 @@
 							<span class="icon icon186"></span>
 							<span class="label">Eliminar</span>
 						</p:commandLink>
+						<p:commandLink
+							actionListener="#{administrarBoveda.activarMovimiento()}"
+							update=":formTablaBoveda" styleClass="button right"
+							title="Activar Boveda">
+							<p:confirm header="Confirmation"
+								message="Estas seguro de Activar la boveda?"
+								icon="ui-icon-alert" />
+							<span class="icon icon186"></span>
+							<span class="label">Activar</span>
+						</p:commandLink>
+						<p:commandLink
+							actionListener="#{administrarBoveda.desactivarMovimiento()}"
+							update=":formTablaBoveda" styleClass="button right"
+							title="Desactivar Boveda">
+							<p:confirm header="Confirmation"
+								message="Estas seguro de Desactivar la boveda?"
+								icon="ui-icon-alert" />
+							<span class="icon icon186"></span>
+							<span class="label">Desactiv</span>
+						</p:commandLink>
 					</div>
 					<div>
 						<p:confirmDialog global="true">

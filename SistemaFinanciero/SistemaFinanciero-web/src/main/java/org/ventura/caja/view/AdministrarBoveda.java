@@ -2,7 +2,9 @@ package org.ventura.caja.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +22,13 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
+import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.maestro.EstadoMovimientoType;
+import org.ventura.util.maestro.EstadoValue;
+import org.ventura.util.maestro.Moneda;
 import org.venturabank.managedbean.session.AgenciaBean;
+import org.venturabank.util.DetalleTransaccionBean;
 
 @Named
 @ViewScoped
@@ -40,8 +46,12 @@ public class AdministrarBoveda implements Serializable {
 	private ComboBean<Tipomoneda> comboTipomoneda;
 	@Inject
 	private Boveda boveda;
-	
+	@Inject
 	private TablaBean<Detalleaperturacierreboveda> tablaBovedaDetalle;
+	
+	@Inject
+	private TablaBean<DetalleTransaccionBean> tablaDetallemonedaboveda;
+	
 
 	@PostConstruct
 	private void initialize() {
@@ -50,7 +60,16 @@ public class AdministrarBoveda implements Serializable {
 		this.refreshTablaBoveda();	
 		boveda.setSaldo(BigDecimal.ZERO);
 	}
-
+	
+	public void loadDetalleTransaccionboveda() {
+		try {
+			List<DetalleTransaccionBean> detalleMonedaBeans = new ArrayList<DetalleTransaccionBean>();
+			tablaDetallemonedaboveda.setRows(detalleMonedaBeans);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void openBoveda() throws Exception {
 		try {
 			bovedaServiceLocal.openBoveda(boveda);
@@ -96,6 +115,49 @@ public class AdministrarBoveda implements Serializable {
 			this.bovedaServiceLocal.create(this.boveda);
 			refreshBean();
 			return "administrarBoveda?faces-redirect=true";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public void activarMovimiento() throws Exception{
+		try {
+			loadBoveda();
+			Integer estadoMovimientoCerrado = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO);
+			Integer estadoMovimientoAbiertoDes = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_DESCONGELADO);
+			if(boveda.getIdestadomovimiento()!=estadoMovimientoCerrado&&boveda.getIdestadomovimiento()!=estadoMovimientoAbiertoDes){
+				boveda.setIdestadomovimiento(estadoMovimientoAbiertoDes);
+				bovedaServiceLocal.update(boveda);
+				refreshBean();			
+				FacesMessage message = new FacesMessage("Bóveda activada correctamente");
+				RequestContext.getCurrentInstance().showMessageInDialog(message);
+			}
+			else{
+				FacesMessage message = new FacesMessage("No se puede realizar esta operacion");
+				RequestContext.getCurrentInstance().showMessageInDialog(message);
+			}
+		} catch (Exception e) {
+			throw e;
+		}	
+		
+	}
+	
+	public void desactivarMovimiento() throws Exception{
+		try {
+			loadBoveda();
+			Integer estadoMovimientoCerrado = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO);
+			Integer estadoMovimientoAbiertoCon = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_CONGELADO);
+			if(boveda.getIdestadomovimiento()!=estadoMovimientoCerrado&&boveda.getIdestadomovimiento()!=estadoMovimientoAbiertoCon){
+				boveda.setIdestadomovimiento(estadoMovimientoAbiertoCon);
+				bovedaServiceLocal.update(boveda);
+				refreshBean();			
+				FacesMessage message = new FacesMessage("Bóveda Desactivada correctamente");
+				RequestContext.getCurrentInstance().showMessageInDialog(message);
+			}
+			else{
+				FacesMessage message = new FacesMessage("No se puede realizar esta operacion");
+				RequestContext.getCurrentInstance().showMessageInDialog(message);
+			}
 		} catch (Exception e) {
 			throw e;
 		}
