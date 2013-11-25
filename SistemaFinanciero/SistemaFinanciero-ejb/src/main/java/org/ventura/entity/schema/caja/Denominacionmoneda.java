@@ -1,7 +1,6 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -32,8 +31,9 @@ public class Denominacionmoneda implements Serializable {
 	@Column(nullable = false)
 	private Integer idtipomoneda;
 
-	@Column(nullable = false)
-	private BigDecimal valor;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "valor")) })
+	private Moneda valor;
 
 	public Denominacionmoneda() {
 	}
@@ -70,12 +70,12 @@ public class Denominacionmoneda implements Serializable {
 		this.idtipomoneda = idtipomoneda;
 	}
 
-	public BigDecimal getValor() {
-		return this.valor;
+	public void setValor(Moneda valor) {
+		this.valor = valor;
 	}
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
+	public Moneda getValor() {
+		return valor;
 	}
 
 	@Override
@@ -84,11 +84,13 @@ public class Denominacionmoneda implements Serializable {
 			return false;
 		}
 		final Denominacionmoneda other = (Denominacionmoneda) obj;
-		return other.getIddenominacionmoneda() == iddenominacionmoneda ? true : false;
+		return other.getIddenominacionmoneda() == iddenominacionmoneda ? true
+				: false;
 	}
 
 	@Override
 	public int hashCode() {
 		return iddenominacionmoneda;
 	}
+
 }
