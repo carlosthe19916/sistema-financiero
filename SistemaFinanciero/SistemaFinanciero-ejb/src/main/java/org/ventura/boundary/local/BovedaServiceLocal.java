@@ -12,12 +12,13 @@ import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialboveda;
+import org.ventura.entity.schema.caja.Transaccionboveda;
 
 @Local
 public interface BovedaServiceLocal extends BovedaServiceRemote{
 	
 	public Boveda create(Boveda oBoveda)throws Exception;
-
+	
 	public Boveda find(Object id)throws Exception;
 
 	public void delete(Boveda oBoveda)throws Exception;
@@ -34,6 +35,8 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	
 	public Historialboveda getLastHistorialboveda(Boveda oBoveda) throws Exception;
 	
+	public Historialboveda getHistorialActive(Boveda oBoveda) throws Exception;
+	
 	public List<Detalleaperturacierreboveda> getDetalleforOpenBoveda(Boveda boveda) throws Exception;
 
 	public void openBoveda(Boveda oBoveda) throws Exception;
@@ -45,4 +48,11 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	public List<Detalletransaccionboveda> getDetalletransaccionboveda(Boveda oBoveda) throws Exception;
 	
 	public void setEstadomovimientoBoveda(Estadomovimiento estadomovimiento, Boveda oBoveda) throws Exception;
+
+	/**
+	 * Transacciones de boveda
+	 */
+
+	public Transaccionboveda createTransaccionboveda(Transaccionboveda oTransaccionboveda) throws Exception;
+
 }

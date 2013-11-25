@@ -17,12 +17,15 @@ import java.util.List;
 @Entity
 @Table(name = "boveda", schema = "caja")
 @NamedQuery(name = "Boveda.findAll", query = "SELECT b FROM Boveda b")
-@NamedQueries({ @NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true") })
+@NamedQueries({
+		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true"),
+		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.idestadomovimiento = :idestadomovimiento AND b.estado = true") })
 public class Boveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.ALL_ACTIVE_BY_AGENCIA";
+	public final static String ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO = "org.ventura.entity.schema.caja.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -159,7 +162,8 @@ public class Boveda implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
-		this.idtipomoneda = (tipomoneda == null) ? null : tipomoneda.getIdtipomoneda();
+		this.idtipomoneda = (tipomoneda == null) ? null : tipomoneda
+				.getIdtipomoneda();
 	}
 
 	public Integer getIdestadomovimiento() {

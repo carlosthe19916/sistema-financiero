@@ -52,9 +52,23 @@ public class ComboBean<E> {
 
 		this.items = map;
 	}
+	
+	public void clean(){
+		this.items.clear();
+		this.itemSelected = new Integer(-1);
+	}
 
 	public E getObjectItemSelected(Integer key) {
 		return this.items.get(key);
+	}
+	
+	public E getObjectItemSelected() {
+		Integer key = this.itemSelected;
+		if(key != null){
+			return this.items.get(key);
+		} else {
+			return null;
+		}	
 	}
 
 	public Map<Integer, E> getItems() {

@@ -1,16 +1,12 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
 
-import java.sql.Timestamp;
-import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * The persistent class for the transaccionboveda database table.
@@ -23,6 +19,7 @@ public class Transaccionboveda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idtransaccionboveda;
 
@@ -30,11 +27,12 @@ public class Transaccionboveda implements Serializable {
 	@Column(nullable = false)
 	private Date fecha;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
-	private Timestamp hora;
+	private Date hora;
 
 	@Column(nullable = false)
-	private Double monto;
+	private BigDecimal monto;
 
 	@OneToMany(mappedBy = "transaccionboveda")
 	private List<Detalletransaccionboveda> detalletransaccionbovedas;
@@ -47,6 +45,14 @@ public class Transaccionboveda implements Serializable {
 	@JoinColumn(name = "idtipotransaccion", nullable = false)
 	private Tipotransaccion tipotransaccion;
 
+	@ManyToOne
+	@JoinColumn(name = "idcaja", nullable = false)
+	private Caja caja;
+	
+	@ManyToOne
+	@JoinColumn(name = "identidadfinanciera", nullable = false)
+	private Entidadfinanciera entidadfinanciera;
+	
 	public Transaccionboveda() {
 	}
 
@@ -66,19 +72,19 @@ public class Transaccionboveda implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public Timestamp getHora() {
+	public Date getHora() {
 		return this.hora;
 	}
 
-	public void setHora(Timestamp hora) {
+	public void setHora(Date hora) {
 		this.hora = hora;
 	}
 
-	public Double getMonto() {
+	public BigDecimal getMonto() {
 		return this.monto;
 	}
 
-	public void setMonto(Double monto) {
+	public void setMonto(BigDecimal monto) {
 		this.monto = monto;
 	}
 
@@ -88,20 +94,17 @@ public class Transaccionboveda implements Serializable {
 
 	public void setDetalletransaccionbovedas(List<Detalletransaccionboveda> detalletransaccionbovedas) {
 		this.detalletransaccionbovedas = detalletransaccionbovedas;
-		refreshTotal();
 	}
 
 	public Detalletransaccionboveda addDetalletransaccionboveda(Detalletransaccionboveda detalletransaccionboveda) {
 		getDetalletransaccionbovedas().add(detalletransaccionboveda);
 		detalletransaccionboveda.setTransaccionboveda(this);
-		refreshTotal();
 		return detalletransaccionboveda;
 	}
 
 	public Detalletransaccionboveda removeDetalletransaccionboveda(Detalletransaccionboveda detalletransaccionboveda) {
 		getDetalletransaccionbovedas().remove(detalletransaccionboveda);
 		detalletransaccionboveda.setTransaccionboveda(null);
-		refreshTotal();
 		return detalletransaccionboveda;
 	}
 
@@ -121,25 +124,19 @@ public class Transaccionboveda implements Serializable {
 		this.historialboveda = historialboveda;
 	}
 	
-	public void refreshTotal() {
-		List<Detalletransaccionboveda> detalleaperturacierrebovedas = getDetalletransaccionbovedas();
-		this.monto = new Double(0);
-		if (detalleaperturacierrebovedas != null) {
-			for (Iterator<Detalletransaccionboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
-				Detalletransaccionboveda detalleaperturacierreboveda = iterator.next();
-				this.monto = (monto + detalleaperturacierreboveda.getTotal());
-			}
-		}
-	}
-	
-	static public void displayCurrency(Locale currentLocale) {
-		Double currencyAmount = new Double(9876543.21);
-		Currency currentCurrency = Currency.getInstance(currentLocale);
-		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(currentLocale);
-
-		System.out.println(currentLocale.getDisplayName() + ", "
-				+ currentCurrency.getDisplayName() + ": "
-				+ currencyFormatter.format(currencyAmount));
+	public Caja getCaja() {
+		return caja;
 	}
 
+	public void setCaja(Caja caja) {
+		this.caja = caja;
+	}
+
+	public Entidadfinanciera getEntidadfinanciera() {
+		return entidadfinanciera;
+	}
+
+	public void setEntidadfinanciera(Entidadfinanciera entidadfinanciera) {
+		this.entidadfinanciera = entidadfinanciera;
+	}
 }

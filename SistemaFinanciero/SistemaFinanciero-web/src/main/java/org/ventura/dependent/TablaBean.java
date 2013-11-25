@@ -52,6 +52,14 @@ public class TablaBean<E> {
 		this.rows = list;
 	}
 
+	public void clean(){
+		this.rows.clear();
+		this.selectedRow = null;
+		this.editingRow = null;
+		this.selectedRows.clear();
+		this.frozenRows.clear();
+	}
+	
 	public void editRow() {
 		this.editingRow = this.selectedRow;
 	}

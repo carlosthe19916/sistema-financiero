@@ -5,7 +5,9 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -71,7 +73,8 @@
 								<div style="display: inline-block;">
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">ORIGEN</div>
 									<h:panelGroup id="panelOrigen">
-										<h:selectOneMenu rendered="#{transaccionBovedaBean.isCaja()} || #{transaccionBovedaBean.isCaja()}">
+										<h:selectOneMenu
+											rendered="#{!transaccionBovedaBean.isCaja() and !transaccionBovedaBean.isOtro()} ">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbCaja"
@@ -150,12 +153,22 @@
 							</div>
 							<div class="sf-separator"></div>
 							<div class="sf-buttons" style="float: left;">
-								<h:commandButton value="Guardar" styleClass="action blue" />
+								<a4j:commandButton value="Guardar" styleClass="action blue">
+									<a4j:ajax execute="@form"
+										listener="#{transaccionBovedaBean.createTransaccionboveda()}"
+										render="#{componentToUpdated}"
+										oncomplete="#{rich:component('panelVoucher')}.show()" />
+								</a4j:commandButton>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</h:form>
+		<h:form>
+			<rich:popupPanel id="panelVoucher">
+				<h3>prueba voucher</h3>
+			</rich:popupPanel>
 		</h:form>
 	</ui:define>
 
