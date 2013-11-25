@@ -6,6 +6,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
@@ -36,7 +37,8 @@
 											value="#{transaccionBovedaBean.comboBoveda.items.entrySet()}"
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
-										<a4j:ajax render="@form" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
+										<a4j:ajax render="panelDetalletransaccion" execute="@this"
+											onbegin="$.blockUI();" oncomplete="$.unblockUI();" />
 									</h:selectOneMenu>
 								</div>
 							</div>
@@ -53,7 +55,9 @@
 												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
-											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
+
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
+												oncomplete="$.unblockUI();" />
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -68,7 +72,9 @@
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
 												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-											<a4j:ajax render="panelOrigen" execute="@this" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
+											<a4j:ajax event="valueChange" render="panelOrigen"
+												execute="@this" onbegin="$.blockUI();"
+												oncomplete="$.unblockUI();" />
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -76,7 +82,7 @@
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">ORIGEN</div>
 									<h:panelGroup id="panelOrigen">
 										<h:selectOneMenu
-											rendered="#{!transaccionBovedaBean.isCaja() and !transaccionBovedaBean.isOtro()} ">
+											rendered="#{(!transaccionBovedaBean.isCaja()) and (!transaccionBovedaBean.isOtro())}">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbCaja"
@@ -87,7 +93,8 @@
 												value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
-											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
+												oncomplete="$.unblockUI();" />
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbEntidadfinanciera"
 											value="#{transaccionBovedaBean.comboEntidadfinanciera.itemSelected}"
@@ -97,7 +104,8 @@
 												value="#{transaccionBovedaBean.comboEntidadfinanciera.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
-											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();" oncomplete="$.unblockUI();"/>
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
+												oncomplete="$.unblockUI();" />
 										</h:selectOneMenu>
 									</h:panelGroup>
 								</div>
@@ -105,44 +113,46 @@
 							<div class="sf-separator"></div>
 							<div class="p6n-api-consent-screen-input-section">
 								<div>
-									<table>
-										<thead>
-											<tr>
-												<td style="text-align: right;">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 100px;">DENOMINACION</div>
-												</td>
-												<td style="width: 20px;"></td>
-												<td><div class="p6n-api-consent-screen-label"
-														style="width: 150px;">CANTIDAD</div></td>
-												<td style="width: 20px;"></td>
-												<td><div class="p6n-api-consent-screen-label"
-														style="width: 110px;">TOTAL</div></td>
-											</tr>
-										</thead>
-										<tbody>
-											<ui:repeat
-												value="#{transaccionBovedaBean.tablaDetalletransaccionboveda.rows}"
-												var="detalle">
+									<h:panelGroup id="panelDetalletransaccion">
+										<table>
+											<thead>
 												<tr>
-													<td style="text-align: right; vertical-align: middle;"><h:outputLabel
-															value="#{detalle.denominacionmoneda.denominacion}" /></td>
-													<td></td>
-													<td><h:inputText value="#{detalle.cantidad}"
-															maxlength="6"
-															styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
-															style="width:150px;">
-															<f:ajax event="blur" render="@form"
-																listener="#{detalle.refreshSubtotal()}" />
-														</h:inputText></td>
-													<td></td>
-													<td><h:outputLabel id="txtTotal"
-															value="#{detalle.subtotal}"
-															style="width: 110px; vertical-align: middle;" /></td>
+													<td style="text-align: right;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 100px;">DENOMINACION</div>
+													</td>
+													<td style="width: 20px;"></td>
+													<td><div class="p6n-api-consent-screen-label"
+															style="width: 150px;">CANTIDAD</div></td>
+													<td style="width: 20px;"></td>
+													<td><div class="p6n-api-consent-screen-label"
+															style="width: 110px;">TOTAL</div></td>
 												</tr>
-											</ui:repeat>
-										</tbody>
-									</table>
+											</thead>
+											<tbody>
+												<ui:repeat
+													value="#{transaccionBovedaBean.tablaDetalletransaccionboveda.rows}"
+													var="detalle">
+													<tr>
+														<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+																value="#{detalle.denominacionmoneda.denominacion}" /></td>
+														<td></td>
+														<td><h:inputText value="#{detalle.cantidad}"
+																maxlength="6"
+																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+																style="width:150px;">
+																<f:ajax event="blur" render="@form"
+																	listener="#{detalle.refreshSubtotal()}" />
+															</h:inputText></td>
+														<td></td>
+														<td><h:outputLabel id="txtTotal"
+																value="#{detalle.subtotal}"
+																style="width: 110px; vertical-align: middle;" /></td>
+													</tr>
+												</ui:repeat>
+											</tbody>
+										</table>
+									</h:panelGroup>
 								</div>
 							</div>
 							<div class="p6n-api-consent-screen-input-section"
