@@ -22,6 +22,7 @@ import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
+import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.ventura.util.maestro.EstadoMovimientoType;
@@ -38,9 +39,9 @@ public class TransaccionBovedaBean implements Serializable {
 
 	@EJB
 	private BovedaServiceLocal bovedaServiceLocal;
+	
 	@Inject
 	private AgenciaBean agenciaBean;
-
 	@Inject
 	private Boveda boveda;
 	@Inject
@@ -77,6 +78,69 @@ public class TransaccionBovedaBean implements Serializable {
 		}		
 	}
 
+	public void createTransaccionboveda() throws Exception {
+		Boveda boveda = this.boveda;
+		Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();
+		Caja caja = null;
+		Entidadfinanciera entidadfinanciera = null;
+		if (isCaja()) {
+			caja = comboCaja.getObjectItemSelected();
+			entidadfinanciera = null;
+		} else {
+			if (isOtro()) {
+				entidadfinanciera = comboEntidadfinanciera.getObjectItemSelected();
+				caja = null;
+			} else {
+				throw new Exception("Tipo de entidad origen no valida");
+			}
+		}
+		
+		List<DetalleTransaccionBean> detalleTransaccionBeans = tablaDetalletransaccionboveda.getAllRows();
+		List<Detalletransaccionboveda> detalletransaccionbovedas = new ArrayList<Detalletransaccionboveda>();
+		for (Iterator<DetalleTransaccionBean> iterator = detalleTransaccionBeans.iterator(); iterator.hasNext();) {
+			DetalleTransaccionBean detalleTransaccionBean = (DetalleTransaccionBean) iterator.next();
+			Detalletransaccionboveda detalletransaccionboveda = new Detalletransaccionboveda();
+			
+			detalletransaccionboveda.setCantidad(detalleTransaccionBean.getCantidad());
+			//detalletransaccionboveda.setTotal(detalleTransaccionBean.getTotal().getValue());
+			//detalletransaccionboveda.setDenominacionmoneda(detalleTransaccionBean.get);
+		}
+		
+		Historialboveda historialboveda = bovedaServiceLocal.getHistorialActive(boveda);		
+		transaccionboveda.setHistorialboveda(historialboveda);
+		transaccionboveda.setMonto(getTotalTransaccion().getValue());
+		transaccionboveda.setTipotransaccion(tipotransaccion);
+		transaccionboveda.setCaja(caja);
+		transaccionboveda.setEntidadfinanciera(entidadfinanciera);
+		
+		bovedaServiceLocal.createTransaccionboveda(transaccionboveda);
+	}
+	
+	public boolean validateBean() throws Exception{
+		boolean result = true;
+		Transaccionboveda transaccionboveda = this.transaccionboveda;
+				
+		Boveda boveda = this.boveda;
+		Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();
+		Caja caja = null;
+		Entidadfinanciera entidadfinanciera = null;
+		if (isCaja()) {
+			caja = comboCaja.getObjectItemSelected();	
+		} else {
+			if (isOtro()) {
+				entidadfinanciera = comboEntidadfinanciera.getObjectItemSelected();
+			} else {
+				throw new Exception("Tipo de entidad origen no valida");
+			}
+		}
+		
+		
+		
+		if(boveda == null)
+		return result;
+		return result;
+	}
+	
 	public void loadDetalleTransaccionboveda() {
 		try {
 			List<Detalletransaccionboveda> detalletransaccionbovedas = bovedaServiceLocal.getDetalletransaccionboveda(boveda);
@@ -131,7 +195,6 @@ public class TransaccionBovedaBean implements Serializable {
 	public Moneda getTotalTransaccion() {
 		List<DetalleTransaccionBean> detalleTransaccionBeans = tablaDetalletransaccionboveda.getAllRows();
 		Moneda total = new Moneda();
-
 		if (detalleTransaccionBeans != null) {
 			for (Iterator<DetalleTransaccionBean> iterator = detalleTransaccionBeans.iterator(); iterator.hasNext();) {
 				DetalleTransaccionBean detalleTransaccionBean = iterator.next();
