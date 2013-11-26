@@ -5,15 +5,18 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
 
-	<p:dialog id="idDlgOpenBoveda" widgetVar="#{WidgetVarName}"
-		header="ABRIR BÓVEDA" modal="true">
-		<h:form>
+	<h:form>
+		<rich:popupPanel id="dlgOpenBoveda" modal="true" autosized="true"
+			resizeable="false" domElementAttachment="form">
+			<f:facet name="header">
+				<h:outputText value="Abrir Boveda" />
+			</f:facet>
 			<div>
 				<div>
 					<div class="sf-header-td-right">
@@ -99,10 +102,15 @@
 				<div>
 					<div class="p6n-api-consent-screen-section">
 						<div class="sf-buttons">
-							<h:commandButton value="Abrir Boveda"
-								actionListener="#{administrarBoveda.openBoveda()}"
-								styleClass="action blue">
+							<h:commandButton value="Abrir Boveda" styleClass="action blue">
+								<f:ajax listener="#{administrarBoveda.openBoveda()}"></f:ajax>
 							</h:commandButton>
+							<a4j:commandButton value="rich" styleClass="action blue">
+								<a4j:ajax execute="@form"
+									listener="#{administrarBoveda.openBoveda()}"
+									render="#{componentToUpdated}"
+									oncomplete="#{rich:component('dlgOpenBoveda')}.hide()" />
+							</a4j:commandButton>
 							<button class="action">
 								<span class="label">Cancel</span>
 							</button>
@@ -110,8 +118,10 @@
 					</div>
 				</div>
 			</div>
-		</h:form>
-	</p:dialog>
+		</rich:popupPanel>
+	</h:form>
+
+
 
 </ui:composition>
 </html>

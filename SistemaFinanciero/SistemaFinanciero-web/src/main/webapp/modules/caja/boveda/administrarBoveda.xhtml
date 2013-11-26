@@ -93,8 +93,8 @@
 								<div class="dropdown-slider">
 									<a4j:commandLink styleClass="ddm"
 										actionListener="#{administrarBoveda.loadTablaBovedaDetalleAfterOpen()}"
-										oncomplete="dlgOpenBoveda.show();return false;"
-										render=":idDlgOpenBoveda">
+										oncomplete="#{rich:component('dlgOpenBoveda')}.show(); return false;"
+										render=":dlgOpenBoveda">
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Abrir Boveda</span>
 									</a4j:commandLink>
@@ -157,7 +157,6 @@
 					</ui:include>
 
 					<ui:include src="/modules/caja/boveda/openBoveda.xhtml">
-						<ui:param name="WidgetVarName" value="dlgOpenBoveda" />
 						<ui:param name="componentToUpdated"
 							value=":formTablaBoveda:tblBoveda" />
 					</ui:include>

@@ -71,7 +71,7 @@ public class AdministrarBoveda implements Serializable {
 		try {
 			bovedaServiceLocal.openBoveda(boveda);
 			refreshBean();
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Boveda Abierta satisfactoriamante");  	          
+			FacesMessage message = new FacesMessage("Info", "Boveda Abierta satisfactoriamante");  	          
 	        RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
@@ -113,7 +113,7 @@ public class AdministrarBoveda implements Serializable {
 			this.bovedaServiceLocal.create(this.boveda);
 			refreshBean();
 			
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Boveda Creada satisfactoriamante");  	          
+			FacesMessage message = new FacesMessage("Info", "Boveda Creada satisfactoriamante");  	          
 	        RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
@@ -134,7 +134,7 @@ public class AdministrarBoveda implements Serializable {
 			this.bovedaServiceLocal.update(this.boveda);
 			refreshBean();
 			
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Boveda Creada satisfactoriamante");  	          
+			FacesMessage message = new FacesMessage("Info", "Boveda Creada satisfactoriamante");  	          
 	        RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
@@ -150,7 +150,7 @@ public class AdministrarBoveda implements Serializable {
 			bovedaServiceLocal.update(boveda);
 			refreshBean();
 
-			FacesMessage message = new FacesMessage("Bóveda eliminada correctamente");
+			FacesMessage message = new FacesMessage("Info", "Bóveda eliminada correctamente");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
@@ -168,7 +168,7 @@ public class AdministrarBoveda implements Serializable {
 			Boveda boveda = this.boveda;
 			bovedaServiceLocal.defrostBoveda(boveda);
 			refreshBean();
-			FacesMessage message = new FacesMessage("Bóveda activada correctamente");
+			FacesMessage message = new FacesMessage("Info", "Bóveda activada correctamente");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
@@ -182,7 +182,7 @@ public class AdministrarBoveda implements Serializable {
 			Boveda boveda = this.boveda;
 			bovedaServiceLocal.freezeBoveda(boveda);
 			refreshBean();
-			FacesMessage message = new FacesMessage("Bóveda activada correctamente");
+			FacesMessage message = new FacesMessage("Info", "Bóveda activada correctamente");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
