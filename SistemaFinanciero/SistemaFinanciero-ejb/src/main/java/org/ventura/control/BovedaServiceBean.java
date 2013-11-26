@@ -610,18 +610,47 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
-	public Transaccionboveda createTransaccionboveda(Transaccionboveda transaccionboveda) throws Exception {
-		List<Detalletransaccionboveda> detalletransaccionbovedas =  transaccionboveda.getDetalletransaccionbovedas();
-		
-		preCreateTransaccionboveda(transaccionboveda);
-		transaccionbovedaDAO.create(transaccionboveda);
-		
-		for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas.iterator(); iterator.hasNext();) {
-			Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator.next();
-			detalletransaccionboveda.setTransaccionboveda(transaccionboveda);
-			detalletransaccionbovedaDAO.create(detalletransaccionboveda);
+	public Transaccionboveda createTransaccionboveda(Boveda boveda,Transaccionboveda transaccionboveda) throws Exception {
+		List<Detalletransaccionboveda> detalletransaccionbovedas = null;
+		try {
+			detalletransaccionbovedas = transaccionboveda.getDetalletransaccionbovedas();
+			Historialboveda historialboveda = getHistorialActive(boveda);
+			if (historialboveda != null) {
+				transaccionboveda.setHistorialboveda(historialboveda);
+				preCreateTransaccionboveda(transaccionboveda);
+				transaccionbovedaDAO.create(transaccionboveda);
+
+				for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas.iterator(); iterator.hasNext();) {
+					Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator.next();
+					detalletransaccionboveda.setTransaccionboveda(transaccionboveda);
+					detalletransaccionbovedaDAO.create(detalletransaccionboveda);
+				}
+				
+			} else {
+				throw new RollbackFailureException("Error: La boveda no tiene un historial activo");
+			}
+		} catch (RollbackFailureException e) {
+			transaccionboveda.setIdtransaccionboveda(null);
+			for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas.iterator(); iterator.hasNext();) {
+				Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator.next();
+				detalletransaccionboveda.setIddetalletransaccionboveda(null);
+			}
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Transaccion no guardada");
+		} catch (Exception e) {
+			transaccionboveda.setIdtransaccionboveda(null);
+			for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas.iterator(); iterator.hasNext();) {
+				Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator.next();
+				detalletransaccionboveda.setIddetalletransaccionboveda(null);
+			}
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
 		}
-		return null;
+		return transaccionboveda;
 	}
 	
 	public Transaccionboveda preCreateTransaccionboveda(Transaccionboveda transaccionboveda) {

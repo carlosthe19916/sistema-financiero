@@ -53,6 +53,6 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	 * Transacciones de boveda
 	 */
 
-	public Transaccionboveda createTransaccionboveda(Transaccionboveda oTransaccionboveda) throws Exception;
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Transaccionboveda oTransaccionboveda) throws Exception;
 
 }
