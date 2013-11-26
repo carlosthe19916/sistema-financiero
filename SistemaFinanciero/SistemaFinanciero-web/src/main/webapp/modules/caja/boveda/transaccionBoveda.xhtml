@@ -25,6 +25,7 @@
 				<div>
 					<div>
 						<div class="p6n-api-consent-screen-title">Boveda transaccion</div>
+						<rich:messages id="messages"></rich:messages>
 						<div class="p6n-api-consent-screen-inputs">
 							<div class="p6n-api-consent-screen-input-section">
 								<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDA</div>
@@ -32,7 +33,7 @@
 									<h:selectOneMenu
 										value="#{transaccionBovedaBean.comboBoveda.itemSelected}"
 										valueChangeListener="#{transaccionBovedaBean.changeBoveda}"
-										required="true">
+										required="true" requiredMessage="Seleccione una Boveda">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										<f:selectItems
 											value="#{transaccionBovedaBean.comboBoveda.items.entrySet()}"
@@ -51,7 +52,8 @@
 										<h:selectOneMenu
 											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}"
 											valueChangeListener="#{transaccionBovedaBean.changeTipotransaccion}"
-											required="true">
+											required="true"
+											requiredMessage="Seleccione un Tipo de Transaccion">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
@@ -70,7 +72,8 @@
 										<h:selectOneMenu
 											value="#{transaccionBovedaBean.comboTipoentidad.itemSelected}"
 											valueChangeListener="#{transaccionBovedaBean.changeTipoentidad}"
-											required="true">
+											required="true"
+											requiredMessage="Seleccione el Tipo de Entidad que realiza la Transaccion">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
@@ -82,15 +85,17 @@
 									</div>
 								</div>
 								<div style="display: inline-block;">
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">ORIGEN</div>
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">ENTIDAD</div>
 									<h:panelGroup id="panelOrigen">
 										<h:selectOneMenu
-											rendered="#{(!transaccionBovedaBean.isCaja()) and (!transaccionBovedaBean.isOtro())}">
+											rendered="#{(!transaccionBovedaBean.isCaja()) and (!transaccionBovedaBean.isOtro())}"
+											required="true" requiredMessage="Seleccione una Entidad">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbCaja"
 											value="#{transaccionBovedaBean.comboCaja.itemSelected}"
-											rendered="#{transaccionBovedaBean.isCaja()}" required="true">
+											rendered="#{transaccionBovedaBean.isCaja()}" required="true"
+											requiredMessage="Seleccione una caja">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
@@ -101,7 +106,8 @@
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbEntidadfinanciera"
 											value="#{transaccionBovedaBean.comboEntidadfinanciera.itemSelected}"
-											rendered="#{transaccionBovedaBean.isOtro()}" required="true">
+											rendered="#{transaccionBovedaBean.isOtro()}" required="true"
+											requiredMessage="Seleccione una Entidad Financiera">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboEntidadfinanciera.items.entrySet()}"
@@ -172,10 +178,6 @@
 							</div>
 							<div class="sf-separator"></div>
 							<div class="sf-buttons" style="float: left;">
-								<p:commandButton value="Show" icon="ui-icon-script"
-									actionListener="#{transaccionBovedaBean.createTransaccionboveda()}"
-									styleClass="action blue" />
-
 								<a4j:commandButton value="Guardar" styleClass="action blue">
 									<a4j:ajax execute="@form"
 										listener="#{transaccionBovedaBean.createTransaccionboveda()}"

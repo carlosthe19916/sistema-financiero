@@ -102,18 +102,15 @@
 				<div>
 					<div class="p6n-api-consent-screen-section">
 						<div class="sf-buttons">
-							<h:commandButton value="Abrir Boveda" styleClass="action blue">
-								<f:ajax listener="#{administrarBoveda.openBoveda()}"></f:ajax>
-							</h:commandButton>
-							<a4j:commandButton value="rich" styleClass="action blue">
+							<a4j:commandButton value="Guardar" styleClass="action blue">
 								<a4j:ajax execute="@form"
 									listener="#{administrarBoveda.openBoveda()}"
 									render="#{componentToUpdated}"
 									oncomplete="#{rich:component('dlgOpenBoveda')}.hide()" />
 							</a4j:commandButton>
-							<button class="action">
-								<span class="label">Cancel</span>
-							</button>
+							<h:commandButton value="Cancelar" styleClass="action">
+								<rich:componentControl target="dlgOpenBoveda" operation="hide" />
+							</h:commandButton>
 						</div>
 					</div>
 				</div>

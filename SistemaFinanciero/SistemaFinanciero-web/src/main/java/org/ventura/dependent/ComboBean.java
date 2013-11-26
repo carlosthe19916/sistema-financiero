@@ -57,6 +57,10 @@ public class ComboBean<E> {
 		this.items.clear();
 		this.itemSelected = new Integer(-1);
 	}
+	
+	public void reset() {
+		this.itemSelected = new Integer(-1);
+	}
 
 	public E getObjectItemSelected(Integer key) {
 		return this.items.get(key);

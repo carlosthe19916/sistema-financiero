@@ -89,12 +89,16 @@ public class TransaccionBovedaBean implements Serializable {
 				transaccionboveda.setEntidadfinanciera(entidadfinanciera);
 				transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
 				bovedaServiceLocal.createTransaccionboveda(boveda,transaccionboveda);
+				
+				refreshBean();
+				FacesMessage message = new FacesMessage("Info", "Bóveda activada correctamente");
+				RequestContext.getCurrentInstance().showMessageInDialog(message);
 			} else {
 				throw new Exception("Datos de Transaccion Invalidos");
 			}
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "What we do in life", "Echoes in eternity.");            
-	        RequestContext.getCurrentInstance().showMessageInDialog(message);  
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message); 
 		}
 	}
 	
@@ -140,6 +144,17 @@ public class TransaccionBovedaBean implements Serializable {
 		}
 	}
 
+	public void refreshBean() {
+		boveda = new Boveda();
+		transaccionboveda = new Transaccionboveda();
+		comboBoveda.reset();
+		comboTipotransaccion.reset();
+		comboTipoentidad.reset();
+		comboEntidadfinanciera.reset();
+		comboCaja.reset();
+		tablaDetalletransaccionboveda.clean();
+	}
+	
 	public void changeBoveda(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Boveda bovedaSelected = comboBoveda.getObjectItemSelected(key);
