@@ -80,6 +80,18 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 		}
 		return oPersonajuridica;		
 	}
+	
+	@Override
+	public void update(Personajuridica oPersonajuridica) throws Exception {
+		try {
+			oPersonajuridicaDAO.update(oPersonajuridica);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+	}
 
 	protected void createAccionista(Accionista accionista) throws Exception{
 		try {
@@ -92,7 +104,60 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 		}
 	}
 	
-	protected Accionista findAccionista(Object id) throws Exception{
+	@Override
+	public void updateAccionista(Personajuridica oPersonaJuridica) throws Exception{
+		try{
+			List<Accionista> accionistas = oPersonaJuridica.getListAccionista();
+			if (accionistas != null) {
+				for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
+					Accionista accionista = (Accionista) iterator.next();
+					accionista.setPersonajuridica(oPersonaJuridica);
+			
+					Personanatural personanatural = accionista.getPersonanatural();
+					if(personanatural != null){
+						Object key = personanatural.getDni();
+						Object result = personanaturalServiceLocal.find(key);
+						if(result == null){
+							createAccionista(accionista);
+						}
+						accionistaDAO.update(accionista);
+						//createAccionista(accionista);				
+					}
+				}
+			}
+		}catch(Exception e){
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+	}
+	
+	@Override
+	public void deleteAccionista(String Personajuridica, String parameters) throws Exception {
+		try {
+			oPersonajuridicaDAO.executeQuerry(Personajuridica, parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+	}
+	
+	@Override
+	public void delete(Personajuridica oPersonajuridica) throws Exception {
+		try {
+			oPersonajuridicaDAO.delete(oPersonajuridica);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+	}
+
+	public Accionista findAccionista(Object id) throws Exception{
 		try {
 			return accionistaDAO.find(id);
 		} catch (Exception e) {
@@ -115,30 +180,6 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return Personajuridica;
-	}
-
-	@Override
-	public void delete(Personajuridica oPersonajuridica) throws Exception {
-		try {
-			oPersonajuridicaDAO.delete(oPersonajuridica);
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-
-	@Override
-	public void update(Personajuridica oPersonajuridica) throws Exception {
-		try {
-			oPersonajuridicaDAO.update(oPersonajuridica);
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
 	}
 
 	@Override
@@ -196,5 +237,4 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 
 		return list;
 	}
-
 }

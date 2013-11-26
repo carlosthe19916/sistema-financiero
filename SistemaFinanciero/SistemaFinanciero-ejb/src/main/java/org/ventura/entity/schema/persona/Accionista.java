@@ -2,7 +2,9 @@ package org.ventura.entity.schema.persona;
 
 import java.io.Serializable;
 
+import javax.inject.Inject;
 import javax.persistence.*;
+
 
 
 /**
@@ -30,11 +32,12 @@ public class Accionista implements Serializable {
 	private Personajuridica personajuridica;
 
 	//bi-directional many-to-one association to Personanatural
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="dni", nullable=false, insertable=false, updatable=false)
 	private Personanatural personanatural;
 
 	public Accionista() {
+		id = new AccionistaPK();
 	}
 
 	public AccionistaPK getId() {
@@ -67,14 +70,23 @@ public class Accionista implements Serializable {
 
 	public void setPersonajuridica(Personajuridica personajuridica) {
 		this.personajuridica = personajuridica;
+		if(personajuridica != null){
+			this.id.setRuc(personajuridica.getRuc());
+		} else {
+			this.id.setRuc(null);
+		}
 	}
 
 	public Personanatural getPersonanatural() {
 		return this.personanatural;
 	}
 
-	public void setPersonanatural(Personanatural personanatural) {
-		this.personanatural = personanatural;
+	public void setPersonanatural(Personanatural oPersonaNatural) {
+		this.personanatural = oPersonaNatural;
+		if(personanatural != null){
+			this.id.setDni(personanatural.getDni());
+		} else {
+			this.id.setDni(null);
+		}
 	}
-
 }

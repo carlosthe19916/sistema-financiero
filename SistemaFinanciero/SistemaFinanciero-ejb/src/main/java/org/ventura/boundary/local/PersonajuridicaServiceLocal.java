@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.PersonajuridicaServiceRemote;
+import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 
 @Local
@@ -19,6 +20,10 @@ public interface PersonajuridicaServiceLocal extends PersonajuridicaServiceRemot
 	public void delete(Personajuridica oPersonajuridica)throws Exception;
 
 	public void update(Personajuridica oPersonajuridica)throws Exception;
+	
+	public void updateAccionista(Personajuridica oPersonaJuridica)throws Exception;
+	
+	public void deleteAccionista(String Personajuridica, String parameters)throws Exception;
 
 	public Collection<Personajuridica> findByNamedQuery(String queryName)throws Exception;
 

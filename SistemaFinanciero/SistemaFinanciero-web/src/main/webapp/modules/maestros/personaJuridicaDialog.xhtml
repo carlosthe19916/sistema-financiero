@@ -50,7 +50,7 @@
 										</td>
 										<td><p:outputLabel>Razon Social:</p:outputLabel></td>
 										<td><p:inputText id="txtRazonsocialPJ" required="true"
-												requiredMessage="Ingrese Razon Social"
+												requiredMessage="Ingrese Razon Social" maxlength="50"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.razonsocial}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}" onkeyup="this.value = this.value.toUpperCase();">
 												<p:ajax update="growl,txtRazonsocialPJ" event="blur" />
@@ -60,7 +60,7 @@
 									</tr>
 									<tr>
 										<td><p:outputLabel>Nombre Comercial:</p:outputLabel></td>
-										<td><p:inputText id="txtNombreComercialPJ"
+										<td><p:inputText id="txtNombreComercialPJ" maxlength="50"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.nombrecomercial}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}" onkeyup="this.value = this.value.toUpperCase();">
 												<p:ajax update="growl,txtNombreComercialPJ" event="blur" />
@@ -68,7 +68,7 @@
 												value="Nombre Comercial" /></td>
 
 										<td><p:outputLabel>Actividad Principal:</p:outputLabel></td>
-										<td><p:inputText id="txtActividadPrincipalPJ"
+										<td><p:inputText id="txtActividadPrincipalPJ" maxlength="50"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.actividadprincipal}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}" onkeyup="this.value = this.value.toUpperCase();">
 												<p:ajax update="growl,txtActividadPrincipalPJ" event="blur" />
@@ -85,9 +85,8 @@
 												disabled="#{!managedBean.personaJuridicaMB.editing}">
 												<p:ajax update="growl,txtFechaconstitucion" />
 												<f:convertDateTime pattern="dd/MM/yy" />
-											</p:calendar> <p:watermark for="txtFechaconstitucion" value="dd/mm/yyyy" /> <p:outputLabel
-												for="txtFechaconstitucion" />
-										</td>
+											</p:calendar> <p:watermark for="txtFechaconstitucion" value="dd/mm/yyyy" />
+											<p:outputLabel for="txtFechaconstitucion" /></td>
 									</tr>
 								</table>
 							</div>
@@ -146,7 +145,7 @@
 								<table>
 									<tr>
 										<td><p:outputLabel>Direccion:</p:outputLabel></td>
-										<td colspan="3"><p:inputText id="txtDireccionPJ"
+										<td colspan="3"><p:inputText id="txtDireccionPJ" maxlength="200"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.direccion}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}"
 												size="75" onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark for="txtDireccionPJ"
@@ -154,7 +153,7 @@
 									</tr>
 									<tr>
 										<td><p:outputLabel>Referencia:</p:outputLabel></td>
-										<td colspan="3"><p:inputText id="txtReferenciaPJ"
+										<td colspan="3"><p:inputText id="txtReferenciaPJ" maxlength="100"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.referencia}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}"
 												size="75" onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark for="txtReferenciaPJ"
@@ -162,12 +161,12 @@
 									</tr>
 									<tr>
 										<td><p:outputLabel>Telefono:</p:outputLabel></td>
-										<td><p:inputText id="txtTelefonoPJ"
+										<td><p:inputText id="txtTelefonoPJ" maxlength="20"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.telefono}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}" /> <p:watermark
 												for="txtTelefonoPJ" value="Telefono1/Telefono2" /></td>
 										<td><p:outputLabel>Celular:</p:outputLabel></td>
-										<td><p:inputText id="txtCelularPJ"
+										<td><p:inputText id="txtCelularPJ" maxlength="30"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.celular}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}" /> <p:watermark
 												for="txtCelularPJ" value="Celular1/Celular2/RPM" /></td>
@@ -175,7 +174,7 @@
 
 									<tr>
 										<td><p:outputLabel>Email:</p:outputLabel></td>
-										<td colspan="3"><p:inputText id="TxtEmailPJ"
+										<td colspan="3"><p:inputText id="TxtEmailPJ" maxlength="50"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.email}"
 												disabled="#{!managedBean.personaJuridicaMB.editing}"
 												size="75" onkeyup="this.value = this.value.toUpperCase();"/> <p:watermark for="TxtEmailPJ"

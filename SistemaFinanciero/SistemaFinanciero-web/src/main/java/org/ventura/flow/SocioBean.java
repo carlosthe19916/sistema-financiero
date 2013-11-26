@@ -122,7 +122,6 @@ public class SocioBean implements Serializable {
 			List<ViewSocioPN> list = null;
 			try {
 				list = socioServicesLocal.findByNamedQueryViewSocioPN(Socio.SOCIOSPN, parameters);
-				//list = viewSocioPNServiceLocal.findByNamedQuery(ViewSocioPN.SOCIOSPN, parameters);
 				getTablaSociosPN().setRows(list);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
