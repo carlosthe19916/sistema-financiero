@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
@@ -122,7 +123,6 @@ public class SocioBean implements Serializable {
 			List<ViewSocioPN> list = null;
 			try {
 				list = socioServicesLocal.findByNamedQueryViewSocioPN(Socio.SOCIOSPN, parameters);
-				//list = viewSocioPNServiceLocal.findByNamedQuery(ViewSocioPN.SOCIOSPN, parameters);
 				getTablaSociosPN().setRows(list);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -157,9 +157,4 @@ public class SocioBean implements Serializable {
 			DNIoRUCTemporal = viewSocioPJ.getRuc();
 		}
 	}
-	
-	public void showMessage() {  
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "What we do in life", "Echoes in eternity.");  
-        RequestContext.getCurrentInstance().showMessageInDialog(message);  
-    } 
 }

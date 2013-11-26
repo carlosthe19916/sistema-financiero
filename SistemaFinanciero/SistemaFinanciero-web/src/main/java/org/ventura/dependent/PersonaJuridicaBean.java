@@ -13,6 +13,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
@@ -24,6 +26,7 @@ import org.ventura.entity.schema.persona.AccionistaPK;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipoempresa;
+import org.ventura.entity.schema.socio.Socio;
 
 @Named
 @Dependent

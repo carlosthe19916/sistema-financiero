@@ -42,26 +42,26 @@
 					<table>
 						<tbody>
 							<tr>
-								<td><h:outputLabel>Buscar:</h:outputLabel></td>
-								<td><p:inputText id="txtBuscarPN"
+								<td width="50"><h:outputLabel>Buscar:</h:outputLabel></td>
+								<td width="1"><p:inputText id="txtBuscarPN"
 										value="#{socioBean.valorBusqueda}" size="80" required="true"
 										requiredMessage="Ingrese un valor de busqueda" rendered="#{socioBean.personaNatural}">
 										<p:ajax update="growl" event="keyup" />
 									</p:inputText> <p:watermark
 										value="Buscar por: Codigo Socio, DNI o Apellidos y Nombres"
 										for="txtBuscarPN" /></td>
-								<td><p:inputText id="txtBuscarPJ"
+								<td width="1"><p:inputText id="txtBuscarPJ"
 										value="#{socioBean.valorBusqueda}" size="80" required="true"
 										requiredMessage="Ingrese un valor de busqueda" rendered="#{socioBean.personaJuridica}">
 										<p:ajax update="growl" event="keyup" />
 									</p:inputText> <p:watermark
 										value="Buscar por: Codigo Socio, RUC o Razon Social"
 										for="txtBuscarPJ" /></td>
-								<td><p:commandButton value="buscar"
+								<td width="350"><p:commandButton value="buscar"
 										actionListener="#{socioBean.buscarSocio()}"
 										update=":panelDatos" /></td>
 								
-								<td><h:outputLabel>Tipo Persona:</h:outputLabel></td>
+								<td width="100"><h:outputLabel>Tipo Persona:</h:outputLabel></td>
 								<td><p:selectOneMenu
 										value="#{socioBean.comboTipoPersona.itemSelected}">
 										<f:selectItems
@@ -79,7 +79,7 @@
 		<div class="buttons">
 			<h:form id="form-buttons">
 				<div class="tiptip">
-					<p:commandLink styleClass="button left" title="Nueva busqueda" actionListener = "#{socioBean.showMessage()}">
+					<p:commandLink styleClass="button left" title="Nueva busqueda">
 						<span class="icon icon3"></span>
 						<span class="label">Nuevo</span>
 					</p:commandLink>
@@ -91,7 +91,7 @@
 						<f:param name="dni" value="#{socioBean.DNIoRUCTemporal}" />
 					</h:link>
 					
-					<h:link styleClass="button middle" title="Editar Socio"
+					<h:link styleClass="button middle" title="Editar Socio" 
 						outcome="/modules/socios/mostrarDatosSocio/datosSocioPJ.xhtml" target="_blank" rendered="#{socioBean.personaJuridica}">
 						<span class="icon icon145"></span>
 						<span class="label">Editar</span>

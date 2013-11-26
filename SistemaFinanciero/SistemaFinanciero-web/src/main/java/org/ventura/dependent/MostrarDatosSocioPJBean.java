@@ -7,8 +7,10 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 
@@ -17,6 +19,7 @@ import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
+import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.ViewCuentas;
 import org.ventura.entity.schema.maestro.Estadocivil;
@@ -56,7 +59,10 @@ public class MostrarDatosSocioPJBean implements Serializable {
 
 	@Inject
 	private PersonaJuridicaBean personaJuridicaMB;
-
+	
+	@EJB
+	private AccionistaDAO accionistaDAO;
+	
 	private Personajuridica oPersonaJuridica;
 	
 	private Socio oSocio;
@@ -161,21 +167,26 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	
 	int n = 1;
 	public void cargarDatosPersonaJuridica() {
-		if (n == 1) {
-			n++;
-			try {
-				setoSocio(socioServiceLocal.findByRUC(oSocio.getRuc()));
-				setoPersonaJuridica(personaJuridicaServiceLocal.find(oSocio.getRuc()));
-				personaJuridicaMB.setoPersonajuridica(oPersonaJuridica);
-				cargarTipoEmpresa();
-				personaJuridicaMB.changeEditingState();
-				cargarDatosReprentanteLegal();
-				cargarAccionistas();
-				CargarCuentasPersonales();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if(oSocio.getRuc() != null){
+			if (n == 1) {
+				n++;
+				try {
+					setoSocio(socioServiceLocal.findByRUC(oSocio.getRuc()));
+					setoPersonaJuridica(personaJuridicaServiceLocal.find(oSocio.getRuc()));
+					personaJuridicaMB.setoPersonajuridica(oPersonaJuridica);
+					cargarTipoEmpresa();
+					personaJuridicaMB.changeEditingState();
+					cargarDatosReprentanteLegal();
+					cargarAccionistas();
+					CargarCuentasPersonales();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+		}else{
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Socio no seleccionado",  "Debe seleccionar un socio...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 
@@ -218,6 +229,7 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		}
 	}
 	
+	//busca el representante legal y carga sus datos
 	public void buscarPersonanatural(){
 		Personanatural personanatural;
 		try {
@@ -239,17 +251,21 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		}
 	}
 	
+	//Agregar accionista a la tabla accionistas
 	public void addAccionista() {
 		Accionista accionista = new Accionista();
-		Personanatural personanatural = new Personanatural();	
-		accionista.setPersonanatural(personanatural);	
-		tablaAccionistasCAP.addRow(accionista);			
+		Personanatural oPersonaNatural = new Personanatural();	
+		accionista.setPersonanatural(oPersonaNatural);
+		accionista.setEstado(true);
+		tablaAccionistasCAP.addRow(accionista);		
 	}
-
+	
+	//elimina accionistas de la tabla
 	public void removeAccionista() {
 		this.tablaAccionistasCAP.removeSelectedRow();
 	}
 	
+	//busca accionistas y carga sus datos
 	public void buscarAccionista(){	
 		try {
 			Accionista accionista = tablaAccionistasCAP.getEditingRow();
@@ -258,10 +274,8 @@ public class MostrarDatosSocioPJBean implements Serializable {
 			
 			if (personanatural != null) {
 				accionista.setPersonanatural(personanatural);
-				
 				comboSexoAccionista.setItemSelected(personanatural.getIdsexo());
 				tablaAccionistasCAP.setEditingRow(accionista);
-				System.out.println(comboSexoAccionista.getItemSelected());
 			} else {
 				personanatural = new Personanatural();			
 				personanatural.setDni(tablaAccionistasCAP.getSelectedRow().getPersonanatural().getDni());
@@ -279,7 +293,39 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		this.tablaAccionistasCAP.getEditingRow().getPersonanatural().setSexo(sexoSelected);		
 	}
 	
-	public void imprimir(){
-						
+	public void updateSocioPersonaJuridica(){
+		updatePersonaJuridica();
+		updateAccionistas();
+	}
+
+	public void updatePersonaJuridica() {
+		try {
+			personaJuridicaServiceLocal.update(oPersonaJuridica);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateAccionistas() {
+		try {
+			deleteAccionista();
+			oPersonaJuridica.setListAccionista(tablaAccionistasCAP.getAllRows());
+			personaJuridicaServiceLocal.updateAccionista(oPersonaJuridica);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// eliminar todos los accionistas de un ruc
+	public void deleteAccionista() {
+		try {
+			personaJuridicaServiceLocal.deleteAccionista(
+					Personajuridica.Delete_Accionista,
+					oPersonaJuridica.getRuc());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

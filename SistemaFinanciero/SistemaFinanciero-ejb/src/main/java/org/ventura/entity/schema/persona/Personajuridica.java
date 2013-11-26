@@ -14,8 +14,12 @@ import java.util.List;
 @Entity
 @Table(name = "personajuridica", schema = "persona")
 @NamedQuery(name = "Personajuridica.findAll", query = "SELECT p FROM Personajuridica p")
+@NamedQueries({
+	@NamedQuery(name = Personajuridica.Delete_Accionista, query = "delete from Accionista d where d.id.ruc = :parametro")})
 public class Personajuridica implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public final static String Delete_Accionista = "org.ventura.model.Personajuridica.Delete_Accionista";
 
 	@Id
 	@Column(unique = true, nullable = false, length = 11)
@@ -63,7 +67,7 @@ public class Personajuridica implements Serializable {
 	private Tipoempresa tipoempresa;
 
 	// bi-directional many-to-one association to Personanatural
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "dnirepresentantelegal", nullable = false, insertable = false, updatable = false)
 	private Personanatural personanatural;
 
