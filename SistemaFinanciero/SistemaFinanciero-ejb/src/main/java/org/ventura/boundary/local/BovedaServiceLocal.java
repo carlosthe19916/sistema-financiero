@@ -45,6 +45,10 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	
 	public void closeBoveda(Boveda oBoveda) throws Exception;
 	
+	public void freezeBoveda(Boveda oBoveda) throws Exception;
+	
+	public void defrostBoveda(Boveda oBoveda) throws Exception;
+	
 	public List<Detalletransaccionboveda> getDetalletransaccionboveda(Boveda oBoveda) throws Exception;
 	
 	public void setEstadomovimientoBoveda(Estadomovimiento estadomovimiento, Boveda oBoveda) throws Exception;

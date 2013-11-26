@@ -12,17 +12,16 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition>
-
 	<h:form>
 		<rich:popupPanel id="dlgCreateBoveda" modal="true" autosized="true"
-			resizeable="false" domElementAttachment="parent">
+			resizeable="false" domElementAttachment="form">
 			<f:facet name="header">
 				<h:outputText value="Crear Boveda" />
 			</f:facet>
 			<div>
 				<table class="p6n-api-cred-create-form">
 					<tr>
-						<td class="p6n-api-cred-create-label"><label>Agencia:</label>
+						<td class="p6n-api-cred-create-label"><label>AGENCIA:</label>
 						</td>
 						<td class="p6n-api-no-tooltip"></td>
 						<td class="p6n-api-cred-input-holder"
@@ -31,19 +30,20 @@
 							class="sf-label-bold" /></td>
 					</tr>
 					<tr>
-						<td class="p6n-api-cred-create-label"><label>Denominacion:</label></td>
+						<td class="p6n-api-cred-create-label"><label>DENOMINACION:</label></td>
 						<td class="p6n-api-no-tooltip"></td>
-						<td class="p6n-api-cred-input-holder"><input type="text"
-							jsf:value="#{administrarBoveda.boveda.denominacion}"
-							placeholder="denominacion" required="required" /></td>
+						<td class="p6n-api-cred-input-holder"><h:inputText
+								value="#{administrarBoveda.boveda.denominacion}" maxlength="150"
+								required="true" pt:placeholder="denominacion"
+								pt:required="required" /></td>
 					</tr>
 					<tr>
-						<td class="p6n-api-cred-create-label"><label>Moneda:</label></td>
+						<td class="p6n-api-cred-create-label"><label>MONEDA:</label></td>
 						<td class="p6n-api-no-tooltip"></td>
 						<td><h:selectOneMenu id="txtTipomoneda"
 								value="#{administrarBoveda.comboTipomoneda.itemSelected}"
 								valueChangeListener="#{administrarBoveda.changeTipomoneda}"
-								pt:required="required">
+								required="true" pt:required="required">
 								<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 								<f:selectItems
 									value="#{administrarBoveda.comboTipomoneda.items.entrySet()}"
@@ -53,7 +53,7 @@
 							</h:selectOneMenu></td>
 					</tr>
 					<tr>
-						<td class="p6n-api-cred-create-label"><label>Saldo:</label></td>
+						<td class="p6n-api-cred-create-label"><label>SALDO:</label></td>
 						<td class="p6n-api-no-tooltip"></td>
 						<td style="vertical-align: middle;"><label
 							class="sf-label-bold">0.00</label></td>

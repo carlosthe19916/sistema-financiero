@@ -408,70 +408,63 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		return denominacionmonedas;
 	}
 
-	public void copyDetallehistorialOldtoNew(
-			Historialboveda historialbovedaOld,
-			Historialboveda historialbovedaNew)
-			throws RollbackFailureException, Exception {
+	public void copyDetallehistorialOldtoNew(Historialboveda historialbovedaOld,Historialboveda historialbovedaNew) throws RollbackFailureException, Exception {
 		Detallehistorialboveda detallehistorialbovedaFinalOld;
 		Detallehistorialboveda detallehistorialbovedaInicialNew = new Detallehistorialboveda();
-		Detallehistorialboveda detallehistorialbovedaInicialFinal = null;
+		Detallehistorialboveda detallehistorialbovedaInicialFinal = new Detallehistorialboveda();
 
 		if (historialbovedaOld == null) {
 			detallehistorialbovedaInicialNew = new Detallehistorialboveda();
-			detallehistorialbovedaInicialNew
-					.setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
+			detallehistorialbovedaInicialFinal = new Detallehistorialboveda();
+			detallehistorialbovedaInicialNew.setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
+			detallehistorialbovedaInicialFinal.setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
 		} else {
-			detallehistorialbovedaFinalOld = historialbovedaOld
-					.getDetallehistorialbovedafinal();
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasOld = detallehistorialbovedaFinalOld
-					.getDetalleaperturacierrebovedaList();
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasNew = new ArrayList<Detalleaperturacierreboveda>();
-
-			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasOld
-					.iterator(); iterator.hasNext();) {
-				Detalleaperturacierreboveda detalleaperturacierrebovedaOld = iterator
-						.next();
-				Detalleaperturacierreboveda detalleaperturacierrebovedaNew = new Detalleaperturacierreboveda();
-
+			detallehistorialbovedaFinalOld = historialbovedaOld.getDetallehistorialbovedafinal();
+			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasOld = detallehistorialbovedaFinalOld.getDetalleaperturacierrebovedaList();
+			
+			List<Detalleaperturacierreboveda> listDetalleaperturacierrebovedainicialNew = new ArrayList<Detalleaperturacierreboveda>();
+			List<Detalleaperturacierreboveda> listDetalleaperturacierrebovedafinalNew = new ArrayList<Detalleaperturacierreboveda>();
+			
+			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasOld.iterator(); iterator.hasNext();) {
+				Detalleaperturacierreboveda detalleaperturacierrebovedaOld = iterator.next();
+				
+				Detalleaperturacierreboveda detalleaperturacierrebovedainicialNew = new Detalleaperturacierreboveda();
+				Detalleaperturacierreboveda detalleaperturacierrebovedafinalNew = new Detalleaperturacierreboveda();
+				
 				Integer cantidad = detalleaperturacierrebovedaOld.getCantidad();
-				Denominacionmoneda denominacionmoneda = detalleaperturacierrebovedaOld
-						.getDenominacionmoneda();
+				Denominacionmoneda denominacionmoneda = detalleaperturacierrebovedaOld.getDenominacionmoneda();
 				BigDecimal subtotal = detalleaperturacierrebovedaOld.getSubtotal();
 
-				detalleaperturacierrebovedaNew.setCantidad(cantidad);
-				detalleaperturacierrebovedaNew
-						.setDenominacionmoneda(denominacionmoneda);
-				detalleaperturacierrebovedaNew.setSubtotal(subtotal);
+				detalleaperturacierrebovedainicialNew.setCantidad(cantidad);
+				detalleaperturacierrebovedainicialNew.setDenominacionmoneda(denominacionmoneda);
+				detalleaperturacierrebovedainicialNew.setSubtotal(subtotal);
+				
+				detalleaperturacierrebovedafinalNew.setCantidad(cantidad);
+				detalleaperturacierrebovedafinalNew.setDenominacionmoneda(denominacionmoneda);
+				detalleaperturacierrebovedafinalNew.setSubtotal(subtotal);
 
-				detalleaperturacierrebovedasNew
-						.add(detalleaperturacierrebovedaNew);
+				listDetalleaperturacierrebovedainicialNew.add(detalleaperturacierrebovedainicialNew);
+				listDetalleaperturacierrebovedafinalNew.add(detalleaperturacierrebovedainicialNew);
 			}
-			detallehistorialbovedaInicialNew
-					.setDetalleaperturacierrebovedaList(detalleaperturacierrebovedasNew);
+			detallehistorialbovedaInicialNew.setDetalleaperturacierrebovedaList(listDetalleaperturacierrebovedainicialNew);
+			detallehistorialbovedaInicialFinal.setDetalleaperturacierrebovedaList(listDetalleaperturacierrebovedafinalNew);
 		}
 
-		historialbovedaNew
-				.setDetallehistorialbovedainicial(detallehistorialbovedaInicialNew);
-		historialbovedaNew
-				.setDetallehistorialbovedafinal(detallehistorialbovedaInicialFinal);
+		historialbovedaNew.setDetallehistorialbovedainicial(detallehistorialbovedaInicialNew);
+		historialbovedaNew.setDetallehistorialbovedafinal(detallehistorialbovedaInicialFinal);
 	}
 
-	public void setAllDenominacionMoneda(
-			Detallehistorialboveda detallehistorialboveda, Tipomoneda tipomoneda)
-			throws RollbackFailureException, Exception {
+	public void setAllDenominacionMoneda(Detallehistorialboveda detallehistorialboveda, Tipomoneda tipomoneda) throws RollbackFailureException, Exception {
 		List<Denominacionmoneda> denominacionmonedaList = getDenominacionmonedasActive(tipomoneda);
 
-		for (Iterator<Denominacionmoneda> iterator = denominacionmonedaList
-				.iterator(); iterator.hasNext();) {
+		for (Iterator<Denominacionmoneda> iterator = denominacionmonedaList.iterator(); iterator.hasNext();) {
 			Denominacionmoneda denominacionmoneda = iterator.next();
 
 			Detalleaperturacierreboveda detalleaperturacierreboveda = new Detalleaperturacierreboveda();
-			detalleaperturacierreboveda
-					.setDenominacionmoneda(denominacionmoneda);
+			detalleaperturacierreboveda.setDenominacionmoneda(denominacionmoneda);
 			detalleaperturacierreboveda.setCantidad(0);
 
-			detallehistorialboveda
-					.addDetalleaperturacierrebovedaList(detalleaperturacierreboveda);
+			detallehistorialboveda.addDetalleaperturacierrebovedaList(detalleaperturacierreboveda);
 		}
 	}
 
@@ -658,5 +651,47 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		transaccionboveda.setHora(Calendar.getInstance().getTime());
 		
 		return transaccionboveda;
+	}
+
+	@Override
+	public void freezeBoveda(Boveda oBoveda) throws Exception  {
+		try {
+			Boveda boveda = find(oBoveda.getIdboveda());
+			Integer idestadomovimientoOld = boveda.getIdestadomovimiento();
+			EstadoMovimientoType estadoMovimientoType = EstadoValue.getEstadoType(idestadomovimientoOld);
+			if(estadoMovimientoType == EstadoMovimientoType.ABIERTO_DESCONGELADO){
+				Integer idestadomovimientoNew = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_CONGELADO);
+				boveda.setIdestadomovimiento(idestadomovimientoNew);
+				bovedaDAO.update(boveda);
+			} else {
+				throw new Exception("No se puede Desactivar movimientos, estado no valido");
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+	}
+
+	@Override
+	public void defrostBoveda(Boveda oBoveda) throws Exception {
+		try {
+			Boveda boveda = find(oBoveda.getIdboveda());
+			Integer idestadomovimientoOld = boveda.getIdestadomovimiento();
+			EstadoMovimientoType estadoMovimientoType = EstadoValue.getEstadoType(idestadomovimientoOld);
+			if(estadoMovimientoType == EstadoMovimientoType.ABIERTO_CONGELADO){
+				Integer idestadomovimientoNew = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_DESCONGELADO);
+				boveda.setIdestadomovimiento(idestadomovimientoNew);
+				bovedaDAO.update(boveda);
+			} else {
+				throw new Exception("No se puede Activar movimientos, estado no valido");
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
 	}
 }

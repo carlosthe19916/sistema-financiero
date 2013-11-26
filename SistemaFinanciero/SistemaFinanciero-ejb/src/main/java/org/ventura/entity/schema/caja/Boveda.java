@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name = "boveda", schema = "caja")
 @NamedQuery(name = "Boveda.findAll", query = "SELECT b FROM Boveda b")
 @NamedQueries({
-		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true"),
+		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true ORDER BY b.idboveda"),
 		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.idestadomovimiento = :idestadomovimiento AND b.estado = true") })
 public class Boveda implements Serializable {
 

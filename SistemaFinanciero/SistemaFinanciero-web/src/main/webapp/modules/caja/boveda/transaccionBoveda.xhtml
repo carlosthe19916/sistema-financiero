@@ -32,7 +32,7 @@
 									<h:selectOneMenu
 										value="#{transaccionBovedaBean.comboBoveda.itemSelected}"
 										valueChangeListener="#{transaccionBovedaBean.changeBoveda}"
-										pt:required="required">
+										required="true">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										<f:selectItems
 											value="#{transaccionBovedaBean.comboBoveda.items.entrySet()}"
@@ -51,7 +51,7 @@
 										<h:selectOneMenu
 											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}"
 											valueChangeListener="#{transaccionBovedaBean.changeTipotransaccion}"
-											pt:required="required">
+											required="true">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
@@ -70,7 +70,7 @@
 										<h:selectOneMenu
 											value="#{transaccionBovedaBean.comboTipoentidad.itemSelected}"
 											valueChangeListener="#{transaccionBovedaBean.changeTipoentidad}"
-											pt:required="required">
+											required="true">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
@@ -90,8 +90,7 @@
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbCaja"
 											value="#{transaccionBovedaBean.comboCaja.itemSelected}"
-											rendered="#{transaccionBovedaBean.isCaja()}"
-											pt:required="required">
+											rendered="#{transaccionBovedaBean.isCaja()}" required="true">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
@@ -102,8 +101,7 @@
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbEntidadfinanciera"
 											value="#{transaccionBovedaBean.comboEntidadfinanciera.itemSelected}"
-											rendered="#{transaccionBovedaBean.isOtro()}"
-											pt:required="required">
+											rendered="#{transaccionBovedaBean.isOtro()}" required="true">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboEntidadfinanciera.items.entrySet()}"
@@ -143,7 +141,7 @@
 																value="#{detalle.denominacionmoneda.denominacion}" /></td>
 														<td></td>
 														<td><h:inputText value="#{detalle.cantidad}"
-																maxlength="6"
+																required="true" maxlength="6"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 																style="width:150px;">
 																<f:ajax event="blur" render="@form"
@@ -175,7 +173,8 @@
 							<div class="sf-separator"></div>
 							<div class="sf-buttons" style="float: left;">
 								<p:commandButton value="Show" icon="ui-icon-script"
-									actionListener="#{transaccionBovedaBean.createTransaccionboveda()}" styleClass="action blue"/>
+									actionListener="#{transaccionBovedaBean.createTransaccionboveda()}"
+									styleClass="action blue" />
 
 								<a4j:commandButton value="Guardar" styleClass="action blue">
 									<a4j:ajax execute="@form"

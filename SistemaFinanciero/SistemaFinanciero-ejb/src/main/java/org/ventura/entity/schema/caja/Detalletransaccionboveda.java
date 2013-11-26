@@ -28,11 +28,11 @@ public class Detalletransaccionboveda implements Serializable {
 	private Moneda subtotal;
 
 	@ManyToOne
-	@JoinColumn(name = "iddenominacionmoneda", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "iddenominacionmoneda", nullable = false)
 	private Denominacionmoneda denominacionmoneda;
 
 	@ManyToOne
-	@JoinColumn(name = "idtransaccionboveda", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idtransaccionboveda", nullable = false)
 	private Transaccionboveda transaccionboveda;
 
 	public Detalletransaccionboveda() {
