@@ -44,8 +44,9 @@ public class Boveda implements Serializable {
 	@Column(nullable = false)
 	private Integer idtipomoneda;
 
-	@Column(nullable = false)
-	private BigDecimal saldo;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldo")) })
+	private Moneda saldo;
 
 	@Column(nullable = false)
 	private Integer idestadomovimiento;
@@ -112,14 +113,6 @@ public class Boveda implements Serializable {
 		this.idtipomoneda = idtipomoneda;
 	}
 
-	public BigDecimal getSaldo() {
-		return this.saldo;
-	}
-
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
-	}
-
 	public Estadomovimiento getEstadomovimiento() {
 		return this.estadomovimiento;
 	}
@@ -180,6 +173,14 @@ public class Boveda implements Serializable {
 
 	public void setAgencia(Agencia agencia) {
 		this.agencia = agencia;
+	}
+
+	public void setSaldo(Moneda saldo) {
+		this.saldo = saldo;
+	}
+
+	public Moneda getSaldo() {
+		return saldo;
 	}
 
 }

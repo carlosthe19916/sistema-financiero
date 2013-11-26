@@ -45,11 +45,13 @@ public class Historialboveda implements Serializable {
 	@Column
 	private Date horacierre;
 
-	@Column
-	private BigDecimal saldofinal;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldofinal")) })
+	private Moneda saldofinal;
 
-	@Column(nullable = false)
-	private BigDecimal saldoinicial;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldoinicial")) })
+	private Moneda saldoinicial;
 
 	@Column
 	private Integer iddetallehistorialbovedainicial;
@@ -113,22 +115,6 @@ public class Historialboveda implements Serializable {
 
 	public void setHoracierre(Date horacierre) {
 		this.horacierre = horacierre;
-	}
-
-	public BigDecimal getSaldofinal() {
-		return this.saldofinal;
-	}
-
-	public void setSaldofinal(BigDecimal saldofinal) {
-		this.saldofinal = saldofinal;
-	}
-
-	public BigDecimal getSaldoinicial() {
-		return this.saldoinicial;
-	}
-
-	public void setSaldoinicial(BigDecimal saldoinicial) {
-		this.saldoinicial = saldoinicial;
 	}
 
 	public Boveda getBoveda() {
@@ -203,6 +189,22 @@ public class Historialboveda implements Serializable {
 		if (detallehistorialbovedafinal != null) {
 			this.saldofinal = detallehistorialbovedafinal.getTotal();
 		}*/
+	}
+
+	public Moneda getSaldofinal() {
+		return saldofinal;
+	}
+
+	public void setSaldofinal(Moneda saldofinal) {
+		this.saldofinal = saldofinal;
+	}
+
+	public Moneda getSaldoinicial() {
+		return saldoinicial;
+	}
+
+	public void setSaldoinicial(Moneda saldoinicial) {
+		this.saldoinicial = saldoinicial;
 	}
 
 }

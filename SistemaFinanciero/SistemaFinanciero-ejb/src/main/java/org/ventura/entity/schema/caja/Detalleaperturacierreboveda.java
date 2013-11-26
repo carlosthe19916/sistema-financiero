@@ -26,8 +26,9 @@ public class Detalleaperturacierreboveda implements Serializable {
 	@Column(nullable = false)
 	private Integer cantidad;
 
-	@Column(nullable = false)
-	private BigDecimal subtotal;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "subtotal")) })
+	private Moneda subtotal;
 
 	@Column(nullable = false)
 	private Integer iddenominacionmoneda;
@@ -80,13 +81,7 @@ public class Detalleaperturacierreboveda implements Serializable {
 		this.iddetallehistorialboveda = iddetallehistorialboveda;
 	}
 
-	public BigDecimal getSubtotal() {
-		return subtotal;
-	}
-
-	public void setSubtotal(BigDecimal subtotal) {
-		this.subtotal = subtotal;
-	}
+	
 
 	public Denominacionmoneda getDenominacionmoneda() {
 		return denominacionmoneda;
@@ -99,11 +94,11 @@ public class Detalleaperturacierreboveda implements Serializable {
 			this.cantidad = (cantidad == null) ? 0 : this.cantidad;
 					
 			Moneda denominacionmonedaValor = denominacionmoneda.getValor();
-			Moneda moneda = new Moneda(denominacionmonedaValor);			
-			this.subtotal  = moneda.multiply(cantidad);
+			BigDecimal result=denominacionmonedaValor.multiply(cantidad);
+			this.getSubtotal().setValue(result);
 		} else {
 			this.iddenominacionmoneda = null;
-			this.subtotal = null;
+			this.setSubtotal(null);
 		}
 	}
 
@@ -114,6 +109,21 @@ public class Detalleaperturacierreboveda implements Serializable {
 	public void setDetallehistorialboveda(Detallehistorialboveda detallehistorialboveda) {
 		this.detallehistorialboveda = detallehistorialboveda;
 		this.iddetallehistorialboveda = (detallehistorialboveda == null) ? null : detallehistorialboveda.getIddetallehistorialboveda();
+	}
+	
+	public void refreshSubtotal(){
+		Integer cantidad = this.cantidad;
+		Moneda denominacionMonedaValor = this.denominacionmoneda.getValor();
+		BigDecimal result = denominacionMonedaValor.multiply(cantidad);
+		this.getSubtotal().setValue(result);
+	}
+
+	public Moneda getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(Moneda subtotal) {
+		this.subtotal = subtotal;
 	}
 
 }
