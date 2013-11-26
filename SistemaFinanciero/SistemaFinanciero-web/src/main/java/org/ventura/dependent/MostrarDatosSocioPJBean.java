@@ -7,10 +7,13 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+
 import org.ventura.boundary.local.CuentaahorroServiceLocal;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
@@ -164,21 +167,26 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	
 	int n = 1;
 	public void cargarDatosPersonaJuridica() {
-		if (n == 1) {
-			n++;
-			try {
-				setoSocio(socioServiceLocal.findByRUC(oSocio.getRuc()));
-				setoPersonaJuridica(personaJuridicaServiceLocal.find(oSocio.getRuc()));
-				personaJuridicaMB.setoPersonajuridica(oPersonaJuridica);
-				cargarTipoEmpresa();
-				personaJuridicaMB.changeEditingState();
-				cargarDatosReprentanteLegal();
-				cargarAccionistas();
-				CargarCuentasPersonales();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if(oSocio.getRuc() != null){
+			if (n == 1) {
+				n++;
+				try {
+					setoSocio(socioServiceLocal.findByRUC(oSocio.getRuc()));
+					setoPersonaJuridica(personaJuridicaServiceLocal.find(oSocio.getRuc()));
+					personaJuridicaMB.setoPersonajuridica(oPersonaJuridica);
+					cargarTipoEmpresa();
+					personaJuridicaMB.changeEditingState();
+					cargarDatosReprentanteLegal();
+					cargarAccionistas();
+					CargarCuentasPersonales();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+		}else{
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Socio no seleccionado",  "Debe seleccionar un socio...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 

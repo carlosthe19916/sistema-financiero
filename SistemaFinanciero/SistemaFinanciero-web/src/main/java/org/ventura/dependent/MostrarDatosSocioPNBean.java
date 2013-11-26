@@ -139,20 +139,25 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	
 	int n=1;
 	public void cargarDatosPersonaNatural() {
-		if(n==1){
-			n++;
-			try {
-				setoSocio(socioServiceLocal.findByDNI(oSocio.getDni()));
-				setoPersonaNatural(personaNaturalServiceLocal.find(oSocio.getDni()));
-				personaNaturalMB.setPersonaNatural(oPersonaNatural);
-				cargarComboSexo();
-				cargarComboEstadoCivil();
-				personaNaturalMB.changeEditingState();
-				CargarCuentasPersonales();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if(oSocio.getDni() != null){
+			if(n==1){
+				n++;
+				try {
+					setoSocio(socioServiceLocal.findByDNI(oSocio.getDni()));
+					setoPersonaNatural(personaNaturalServiceLocal.find(oSocio.getDni()));
+					personaNaturalMB.setPersonaNatural(oPersonaNatural);
+					cargarComboSexo();
+					cargarComboEstadoCivil();
+					personaNaturalMB.changeEditingState();
+					CargarCuentasPersonales();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+		}else{
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Socio no seleccionado",  "Debe seleccionar un socio...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 
@@ -210,9 +215,11 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	public void actualizarDatosSocio(){
 		try {
  			personaNaturalServiceLocal.update(oPersonaNatural);
+ 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Socio Actualizado",  "Datos actualizados correctamente...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
 	        RequestContext.getCurrentInstance().showMessageInDialog(message); 
 		}
-	}  
+	}
 }
