@@ -3,6 +3,7 @@ package org.ventura.control;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.GeneratedValue;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
@@ -27,6 +29,7 @@ import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Accionista;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
@@ -248,5 +251,48 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		}
 		return null;
 	}
+	
+	@Override
+	public void removeBeneficiario(String cuentaAporte, Object parameters) throws Exception {
+		try {
+			cuentaaporteDAO.executeQuerry(cuentaAporte, parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+	}
+	
+	@Override
+	public void updateBeneficiario(Socio oSocio) throws Exception{
+		try{
+			List<Beneficiariocuenta> beneficiarios = oSocio.getCuentaaporte().getBeneficiarios();
+			if(beneficiarios != null){
+				for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+					Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
+					beneficiariocuenta.setIdbeneficiariocuenta(null);
+					beneficiariocuenta.setCuentaaporte(oSocio.getCuentaaporte());
+					
+					createBeneficiario(beneficiariocuenta);
+				}
+			}
+		}catch(Exception e){
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+	}
 
+	private void createBeneficiario(Beneficiariocuenta beneficiariocuenta) throws Exception{
+		try {
+			beneficiariocuentaDAO.create(beneficiariocuenta);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+	}
 }

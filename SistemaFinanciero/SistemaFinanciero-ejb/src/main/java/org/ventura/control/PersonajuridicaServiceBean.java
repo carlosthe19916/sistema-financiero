@@ -120,8 +120,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 						if(result == null){
 							createAccionista(accionista);
 						}
-						accionistaDAO.update(accionista);
-						//createAccionista(accionista);				
+						accionistaDAO.update(accionista);			
 					}
 				}
 			}
@@ -134,7 +133,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	}
 	
 	@Override
-	public void deleteAccionista(String Personajuridica, String parameters) throws Exception {
+	public void deleteAccionista(String Personajuridica, Object parameters) throws Exception {
 		try {
 			oPersonajuridicaDAO.executeQuerry(Personajuridica, parameters);
 		} catch (Exception e) {

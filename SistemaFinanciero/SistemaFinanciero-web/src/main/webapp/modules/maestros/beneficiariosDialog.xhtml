@@ -63,8 +63,13 @@
 
 								<p:ajax event="rowEdit" update=":growl,tablaBeneficiarios" />
 								<p:ajax event="rowEditCancel" update=":growl,tablaBeneficiarios" />
+								
+								<p:ajax event="rowSelect"
+									listener="#{managedBean.beneficiariosMB.tablaBeneficiarios.rowSelect()}" />
+								<p:ajax event="rowUnselect"
+									listener="#{managedBean.beneficiariosMB.tablaBeneficiarios.rowUnselect()}" />
 
-								<p:column headerText="Nro" width="15px"
+								<p:column headerText="Nº" width="15px"
 									style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>

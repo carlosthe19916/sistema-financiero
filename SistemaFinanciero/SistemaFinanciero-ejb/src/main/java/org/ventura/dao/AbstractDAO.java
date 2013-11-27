@@ -191,7 +191,7 @@ public abstract class AbstractDAO<T> {
 		return count;
 	}
 	
-	public int executeQuerry(String namedQueryName, String parameters) throws RollbackFailureException, Exception{
+	public int executeQuerry(String namedQueryName, Object parameters) throws RollbackFailureException, Exception{
 			int deletedData = -1;
 		try {
 			Query query=getEntityManager().createNamedQuery(namedQueryName);

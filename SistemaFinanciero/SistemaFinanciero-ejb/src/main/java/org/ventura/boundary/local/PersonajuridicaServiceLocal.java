@@ -23,7 +23,7 @@ public interface PersonajuridicaServiceLocal extends PersonajuridicaServiceRemot
 	
 	public void updateAccionista(Personajuridica oPersonaJuridica)throws Exception;
 	
-	public void deleteAccionista(String Personajuridica, String parameters)throws Exception;
+	public void deleteAccionista(String Personajuridica, Object parameters)throws Exception;
 
 	public Collection<Personajuridica> findByNamedQuery(String queryName)throws Exception;
 

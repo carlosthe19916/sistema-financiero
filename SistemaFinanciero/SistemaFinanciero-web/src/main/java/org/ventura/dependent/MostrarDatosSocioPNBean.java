@@ -2,6 +2,7 @@ package org.ventura.dependent;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.ViewCuentas;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
+import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.flow.SocioBean;
@@ -199,27 +201,95 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	}
 	
 	public void addBeneficiario() {
-		System.out.println("Hola");
-		System.out.println(tablaBeneficiarioCAP.getRows().size());
 		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();
 		beneficiariocuenta.setEstado(true);
-		System.out.println(tablaBeneficiarioCAP.getRows().size());
+		this.tablaBeneficiarioCAP.addRow(beneficiariocuenta);
 	}
 	
 	public void removeBeneficiario() {
-		System.out.println(tablaBeneficiarioCAP.getRows().size());
 		this.tablaBeneficiarioCAP.removeSelectedRow();
-		System.out.println(tablaBeneficiarioCAP.getRows().size());
 	}
 	
 	public void actualizarDatosSocio(){
 		try {
  			personaNaturalServiceLocal.update(oPersonaNatural);
- 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Socio Actualizado",  "Datos actualizados correctamente...");  
+ 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito",  "Los datos se guardaron correctamente...");  
  		    FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Los datos no se guardaron "+ e.getMessage());  	          
 	        RequestContext.getCurrentInstance().showMessageInDialog(message); 
 		}
+	}
+	
+	public void updateBeneficiario(){
+		try {
+			if(validarPorcentajeBeneficio()){
+				darBajaBeneficiario();
+				oSocio.getCuentaaporte().setBeneficiarios(tablaBeneficiarioCAP.getAllRows());
+				cuentaAporteServiceLocal.updateBeneficiario(oSocio);
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito",  "Los datos se guardaron correctamente...");  
+	 		    FacesContext.getCurrentInstance().addMessage(null, message);
+			}
+			else{
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",  "Los datos no se guardaron...");  
+	 		    FacesContext.getCurrentInstance().addMessage(null, message);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void darBajaBeneficiario() {
+		try {
+			cuentaAporteServiceLocal.removeBeneficiario(Cuentaaporte.BAJA_BENEFICIARIO, oSocio.getCuentaaporte().getIdcuentaaporte());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean validarPorcentajeBeneficio() {
+		boolean valied = true;
+		List<Beneficiariocuenta> beneficiarios = tablaBeneficiarioCAP.getAllRows();
+		Double porcentaje_total = new Double(0.0);
+		if (beneficiarios != null) {
+			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+				Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
+				
+				boolean appellidoPaterno = true;
+				boolean appellidoMaterno = true;
+				boolean nombres= true;
+				
+				porcentaje_total = (beneficiariocuenta.getPorcentajebeneficio() == null) ? porcentaje_total : porcentaje_total + beneficiariocuenta.getPorcentajebeneficio();
+				
+				if(beneficiariocuenta.getPorcentajebeneficio() == null){
+					beneficiariocuenta.setPorcentajebeneficio(new Double(0));
+				}
+				
+				if(beneficiariocuenta.getApellidopaterno()==null||beneficiariocuenta.getApellidopaterno().isEmpty()||beneficiariocuenta.getApellidopaterno().trim().isEmpty()){
+					appellidoPaterno= false;
+				}
+				if(beneficiariocuenta.getApellidomaterno()==null||beneficiariocuenta.getApellidomaterno().isEmpty()||beneficiariocuenta.getApellidomaterno().trim().isEmpty()){
+					appellidoMaterno= false;
+				}
+				if(beneficiariocuenta.getNombres()==null||beneficiariocuenta.getNombres().isEmpty()||beneficiariocuenta.getNombres().trim().isEmpty()){
+					nombres= false;
+				}
+						
+				if(!(appellidoPaterno&&appellidoMaterno&&nombres)){
+					iterator.remove();
+					valied = false;
+				}
+			}
+			if (porcentaje_total != 100.0) {
+				FacesContext context = FacesContext.getCurrentInstance();			
+				context.validationFailed();	
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El porcentaje de beneficio no suma 100%");
+				context.addMessage(null, message);
+				valied = false;
+			}
+		}
+		return valied;
 	}
 }
