@@ -300,47 +300,69 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	
 	//actualiza datos del socio
 	public void updateSocioPersonaJuridica(){
-			updatePersonaJuridica();
-			updateAccionistas();
-			System.out.println("hOlasss");
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito",  "Los datos se guardaron correctamente...");  
+		if (updatePersonaJuridica() && updateAccionistas()) { 
+	        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito",  "Los datos se guardaron correctamente...");  
  		    FacesContext.getCurrentInstance().addMessage(null, message);
+		}else{
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",  "Los datos no se guardaron...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message); 
+		}	 
 	}
 	
 	//actuaiza los datos de la persona juridica y representante
-	public void updatePersonaJuridica() {
+	public boolean updatePersonaJuridica() {
+		boolean updatePJ = true;
 		try {
 			personaJuridicaServiceLocal.update(oPersonaJuridica);
 		} catch (Exception e) {
+			updatePJ = false;
 			e.printStackTrace();
 		}
+		return updatePJ;
 	}
 
 	//actualiza los accionistas
-	public void updateAccionistas() {
+	public boolean updateAccionistas() {
+		boolean updateAcc = true;
 		try {
-			deleteAccionista();
-			oPersonaJuridica.setListAccionista(tablaAccionistasCAP.getAllRows());
-			personaJuridicaServiceLocal.updateAccionista(oPersonaJuridica);
+			if (validarDatosAccionistas()) {
+				if (deleteAccionista()) {
+					oPersonaJuridica.setListAccionista(tablaAccionistasCAP.getAllRows());
+					personaJuridicaServiceLocal.updateAccionista(oPersonaJuridica);
+				}else{
+					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",  "Error al acctualizar los accionistas...");  
+		 		    FacesContext.getCurrentInstance().addMessage(null, message);
+		 		    updateAcc = false;
+				}
+			} else {
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",  "Error al acctualizar los accionistas...");  
+	 		    FacesContext.getCurrentInstance().addMessage(null, message);
+	 		    updateAcc = false;
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			updateAcc = false;
 			e.printStackTrace();
 		}
+		return updateAcc;
 	}
 	
 	// eliminar todos los accionistas de una persona juridica
-	public void deleteAccionista() {
+	public boolean deleteAccionista() {
+		boolean deleteAcc = true;
 		try {
 			personaJuridicaServiceLocal.deleteAccionista(
 					Personajuridica.Delete_Accionista,
 					oPersonaJuridica.getRuc());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			deleteAcc = false;
 			e.printStackTrace();
 		}
+		return deleteAcc;
 	}
-	
-	/*public boolean validarDatosSocio(){
+	/*
+	public boolean validarDatosSocio(){
 		boolean valid = true;
 		if(!validarDatosPeronaJuridica()){
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error",  "Error al guardar datos de la persona juridica...");  
@@ -415,7 +437,7 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		}
 		return validRL;
 	}
-	
+	*/
 	public boolean validarDatosAccionistas(){
 		boolean validAcc = true;
 		
@@ -466,5 +488,5 @@ public class MostrarDatosSocioPJBean implements Serializable {
 			}
 		}
 		return validAcc;
-	}*/
+	}
 }
