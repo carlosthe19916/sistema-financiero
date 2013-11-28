@@ -223,7 +223,7 @@ public class MostrarDatosSocioPNBean implements Serializable {
 	
 	public void updateBeneficiario(){
 		try {
-			if(validarPorcentajeBeneficio()){
+			if(validarDatosBeneficio()){
 				darBajaBeneficiario();
 				oSocio.getCuentaaporte().setBeneficiarios(tablaBeneficiarioCAP.getAllRows());
 				cuentaAporteServiceLocal.updateBeneficiario(oSocio);
@@ -249,7 +249,7 @@ public class MostrarDatosSocioPNBean implements Serializable {
 		}
 	}
 	
-	public boolean validarPorcentajeBeneficio() {
+	public boolean validarDatosBeneficio() {
 		boolean valied = true;
 		List<Beneficiariocuenta> beneficiarios = tablaBeneficiarioCAP.getAllRows();
 		Double porcentaje_total = new Double(0.0);

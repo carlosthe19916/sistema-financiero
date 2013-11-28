@@ -40,7 +40,7 @@
 												for="txtRucPJ" /></td>
 										<td><p:outputLabel>Razon Social:</p:outputLabel></td>
 										<td><p:inputText id="txtRazonsocialPJ" required="true" 
-												requiredMessage="Ingrese Razon Social" maxlength="50"
+												requiredMessage="Razon Social (Obligatorio)" maxlength="50"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.razonsocial}"
 												onkeyup="this.value = this.value.toUpperCase();">
 												<p:ajax update="growl" event="blur" />
@@ -70,7 +70,7 @@
 										<td><p:calendar id="txtFechaconstitucion"
 												value="#{managedBean.personaJuridicaMB.oPersonajuridica.fechaconstitucion}"
 												navigator="true" pattern="dd/MM/yy" required="true"
-												requiredMessage="Ingrese Fecha de Nacimiento"
+												requiredMessage="Fecha de Constitución (Obligaorio)"
 												converterMessage="El formato de la fecha de constitucion no es correcto">
 												<p:ajax update="growl" event="dateSelect"/>
 												<f:convertDateTime pattern="dd/MM/yy" />
