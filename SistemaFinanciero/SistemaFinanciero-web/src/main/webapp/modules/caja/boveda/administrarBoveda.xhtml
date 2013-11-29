@@ -99,15 +99,13 @@
 										<span class="label">Abrir Boveda</span>
 									</a4j:commandLink>
 									<p:commandLink styleClass="ddm"
-										oncomplete="dlgOpenBovedaPendiente.show();return false;"
-										update=":idDlgOpenBovedaPendiente">
+										oncomplete="dlgOpenBovedaPendiente.show();return false;">
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Abrir Pendiente</span>
 									</p:commandLink>
 									<p:commandLink styleClass="ddm"
 										actionListener="#{administrarBoveda.loadTablaBovedaDetalleAfterClose()}"
-										oncomplete="dlgCloseBoveda.show();return false;"
-										update=":idDlgCloseBoveda">
+										oncomplete="dlgCloseBoveda.show();return false;">
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Cerrar Boveda</span>
 									</p:commandLink>
@@ -137,11 +135,8 @@
 								<p:column headerText="Moneda">
 									<h:outputText value="#{boveda.tipomoneda.denominacion}" />
 								</p:column>
-								<p:column headerText="Saldo">
-									<h:outputText value="#{boveda.saldo}" />
-								</p:column>
 								<p:column headerText="Estado Apertura" width="200">
-									<h:outputText value="#{boveda.estadomovimiento.denominacion}" />
+									<h:outputText value="#{boveda.estadoapertura.denominacion}" />
 								</p:column>
 							</p:dataTable>
 						</div>
@@ -160,17 +155,7 @@
 						<ui:param name="componentToUpdated"
 							value=":formTablaBoveda:tblBoveda" />
 					</ui:include>
-					<ui:include src="/modules/caja/boveda/closeBoveda.xhtml">
-						<ui:param name="WidgetVarName" value="dlgCloseBoveda" />
-						<ui:param name="componentToUpdated"
-							value=":formTablaBoveda:tblBoveda" />
-					</ui:include>
 
-					<ui:include src="/modules/caja/boveda/openBovedaPendiente.xhtml">
-						<ui:param name="WidgetVarName" value="dlgOpenBovedaPendiente" />
-						<ui:param name="componentToUpdated"
-							value=":formTablaBoveda:tblBoveda" />
-					</ui:include>
 				</div>
 			</div>
 		</div>

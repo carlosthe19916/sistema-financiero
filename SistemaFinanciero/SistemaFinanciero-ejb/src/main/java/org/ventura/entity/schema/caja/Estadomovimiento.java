@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -59,5 +60,19 @@ public class Estadomovimiento implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Estadomovimiento)) {
+			return false;
+		}
+		final Estadomovimiento other = (Estadomovimiento) obj;
+		return other.getIdestadomovimiento() == this.idestadomovimiento ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idestadomovimiento;
 	}
 }
