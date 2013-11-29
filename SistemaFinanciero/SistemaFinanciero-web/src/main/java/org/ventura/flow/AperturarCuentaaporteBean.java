@@ -3,6 +3,7 @@ package org.ventura.flow;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -262,5 +263,27 @@ public class AperturarCuentaaporteBean implements Serializable {
 		this.socio = socio;
 	}
 
+	// calcula la edad de una persona y da una advertencia
+		public boolean menorEdad(Date date) {
+			boolean menorEdad = false;
+			Date fechaactual = Calendar.getInstance().getTime();
+			Date fechanacimiento;
+			int anio = fechaactual.getYear() - date.getYear();
+			int mes = fechaactual.getMonth() - date.getMonth();
+			int dia = fechaactual.getDay() - date.getDay();
+			if (mes < 0 || (mes == 0 && dia < 0)) {
+				anio--;
+			}
+			if (anio < 18) {
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Advertencia", "Esta persona es menor de edad...");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+				System.out.println("Menor de Edad " + anio);
+				menorEdad = true;
+			} else {
+				System.out.println("Mayor de Edad " + anio);
+			}
+			return menorEdad;
+		}
 }
 

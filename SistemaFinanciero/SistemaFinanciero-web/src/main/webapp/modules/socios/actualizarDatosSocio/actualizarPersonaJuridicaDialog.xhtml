@@ -257,8 +257,8 @@
 													navigator="true" pattern="dd/MM/yy" required="true"
 													requiredMessage="Ingrese Fecha de Nacimiento"
 													converterMessage="El formato de la fecha de nacimiento no es correcto">
-													<p:ajax update="growlTab2" event="dateSelect"/>
-													<p:ajax update="growlTab2" event="blur"/>
+													<p:ajax process="@this" update="growlTab2" event="dateSelect" listener="#{managedBean.menorEdad(managedBean.personaJuridicaMB.oPersonajuridica.personanatural.fechanacimiento)}"/>
+													<p:ajax process="@this" update="growlTab2" event="blur" listener="#{managedBean.menorEdad(managedBean.personaJuridicaMB.oPersonajuridica.personanatural.fechanacimiento)}"/>
 													<f:convertDateTime pattern="dd/MM/yy" />
 												</p:calendar> <p:watermark for="txtFecNacPN" value="dd/mm/yyyy" /> <p:outputLabel
 													for="txtFecNacPN" /></td>
@@ -407,7 +407,7 @@
 							<div style="padding: 0px 5px;">
 								<h:form id="formTab3">
 									<p:growl id="growlTab3" sticky="true" showDetail="true" />
-									<p:dataTable id="tablaAccionistas"
+									<p:dataTable id="tablaAccionistas" 
 										value="#{managedBean.tablaAccionistasCAP.rows}"
 										var="accionista" editable="true" selectionMode="single"
 										selection="#{managedBean.tablaAccionistasCAP.selectedRow}"
@@ -506,7 +506,7 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column headerText="F.Nac.(*)" width="9%">
+										<p:column headerText="F.Nac.(*)" width="10%">
 											<p:cellEditor>
 												<f:facet name="output">
 													<h:outputText
@@ -520,7 +520,8 @@
 														navigator="true" pattern="dd/MM/yy" required="true"
 														requiredMessage="Ingrese Fecha de Nacimiento"
 														converterMessage="El formato de la fecha de nacimiento no es correcto">
-														<p:ajax update=":tabView:formTab3:growlTab3" event="blur" />
+														<p:ajax process="@this" update=":tabView:formTab3:growlTab3" event="dateSelect" listener="#{managedBean.menorEdad(accionista.personanatural.fechanacimiento)}"/>
+														<p:ajax process="@this" update=":tabView:formTab3:growlTab3" event="blur" listener="#{managedBean.menorEdad(accionista.personanatural.fechanacimiento)}"/>
 													</p:calendar>
 													<p:watermark for="txtFecNac" value="dd/mm/yyyy" />
 												</f:facet>
@@ -551,7 +552,7 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column headerText="% (*)" width="4%">
+										<p:column headerText="% (*)" width="8%">
 											<p:cellEditor>
 												<f:facet name="output">
 													<h:outputText value="#{accionista.porcentajeparticipacion}" />
@@ -564,7 +565,7 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column width="9%">
+										<p:column width="8%">
 											<p:rowEditor />
 										</p:column>
 									</p:dataTable>

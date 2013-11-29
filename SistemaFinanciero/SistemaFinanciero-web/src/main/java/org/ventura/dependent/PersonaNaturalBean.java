@@ -79,23 +79,27 @@ public class PersonaNaturalBean implements Serializable {
 		}
 	}
 
-	public boolean verificarEdad() {
-				
+	// calcula la edad de una persona y da una advertencia
+	public boolean menorEdad(Date date) {
+		boolean menorEdad = false;
 		Date fechaactual = Calendar.getInstance().getTime();
-		Date fechanacimiento = personaNatural.getFechanacimiento();
-		int anio = fechaactual.getYear() - fechanacimiento.getYear();
-		int mes = fechaactual.getMonth() - fechanacimiento.getMonth();
-		int dia = fechaactual.getDay() - fechanacimiento.getDay();
+		Date fechanacimiento;
+		int anio = fechaactual.getYear() - date.getYear();
+		int mes = fechaactual.getMonth() - date.getMonth();
+		int dia = fechaactual.getDay() - date.getDay();
 		if (mes < 0 || (mes == 0 && dia < 0)) {
 			anio--;
 		}
-
 		if (anio < 18) {
-			return true;
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Advertencia", "Esta persona es menor de edad...");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			System.out.println("Menor de Edad " + anio);
+			menorEdad = true;
 		} else {
-			return false;
+			System.out.println("Mayor de Edad " + anio);
 		}
-		
+		return menorEdad;
 	}
 
 	public boolean isValid() {
