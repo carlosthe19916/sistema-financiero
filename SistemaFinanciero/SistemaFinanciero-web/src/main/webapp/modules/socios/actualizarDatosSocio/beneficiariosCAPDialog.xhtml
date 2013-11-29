@@ -5,147 +5,165 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:composition>
 
-	<p:dialog id="dlg-beneficiariosCAP" header="Beneficiarios" widgetVar="#{componentName}"
-		modal="true" height="300" width="850">
-		
-		<p:growl id="growl" sticky="true" showDetail="true"/>
-		
-		<div class="sf-agrupador">
-			<div class="sf-agrupador-content">
-				<div class="sf-agrupador-content-cabecera">
-					<h3>Datos de Beneficiarios</h3>
-				</div>
-				<div class="sf-agrupador-content-table">
+	<p:dialog id="dlg-beneficiariosCAP" header="Beneficiarios"
+		widgetVar="#{componentName}" modal="true" height="300" width="850">
+		<h:form id="form-beneficiariosCAP">
 
-					<div class="buttons">
-						<div class="tiptip">
-							<h:form>
-								<p:commandLink update=":form-beneficiariosCAP"
+			<p:growl id="growl" sticky="true" showDetail="true" />
+			<pe:blockUI target=":dlg-beneficiariosCAP"
+				widgetVar="blockUIWidget-benefificario">
+				<h:panelGrid columns="2">
+					<p:graphicImage library="images" name="loader.gif" width="32"
+						height="32" style="margin-right: 12px; vertical-align: middle;" />
+					<h:outputText value="Please wait..." style="white-space: nowrap;" />
+				</h:panelGrid>
+			</pe:blockUI>
+
+			<div class="sf-agrupador">
+				<div class="sf-agrupador-content">
+					<div class="sf-agrupador-content-cabecera">
+						<h3>Datos de Beneficiarios</h3>
+					</div>
+					<div class="sf-agrupador-content-table">
+
+						<div class="buttons">
+							<div class="tiptip">
+								<p:commandLink
+									update=":form-beneficiariosCAP:tablaBeneficiarios"
 									actionListener="#{managedBean.addBeneficiario()}"
-									styleClass="button left" title="Nuevo">
+									styleClass="button left" title="Agregar Beneficiario">
 									<span class="icon icon3"></span>
 									<span class="label">Nuevo</span>
 								</p:commandLink>
-								<p:commandLink onclick="editar" styleClass="button middle" update=":form-beneficiariosCAP"
+								<p:commandLink styleClass="button middle"
+									update=":form-beneficiariosCAP:tablaBeneficiarios"
 									title="Editar">
 									<span class="icon icon145"></span>
 									<span class="label">Editar</span>
 								</p:commandLink>
-								<p:commandLink update=":form-beneficiariosCAP"
+								<p:commandLink
+									update=":form-beneficiariosCAP:tablaBeneficiarios"
 									actionListener="#{managedBean.removeBeneficiario()}"
-									styleClass="button right" title="Eliminar Trabajador">
+									styleClass="button right" title="Eliminar Beneficirio">
 									<span class="icon icon186"></span>
 									<span class="label">Eliminar</span>
 								</p:commandLink>
-							</h:form>
-						</div>
-					</div>
 
-					<div style="padding: 0px 5px;">
-						<h:form id="form-beneficiariosCAP">
+							</div>
+						</div>
+
+						<div style="padding: 0px 5px;">
 							<p:dataTable id="tablaBeneficiarios"
 								value="#{managedBean.tablaBeneficiarioCAP.rows}"
 								var="beneficiario" editable="true" selectionMode="single"
 								selection="#{managedBean.tablaBeneficiarioCAP.selectedRow}"
 								rowKey="#{beneficiario}" rowIndexVar="row">
 
-								<p:ajax event="rowEdit" update=":growl,tablaBeneficiarios" />
+								<p:ajax event="rowEdit"
+									update=":form-beneficiariosCAP:growl, tablaBeneficiarios" />
 								<p:ajax event="rowEditCancel"
-									update=":growl,tablaBeneficiarios" />
+									update=":form-beneficiariosCAP:growl, tablaBeneficiarios" />
 
-								<p:column headerText="Nro" width="15px"
+								<p:ajax event="rowSelect"
+									listener="#{managedBean.tablaBeneficiarioCAP.rowSelect()}" />
+								<p:ajax event="rowUnselect"
+									listener="#{managedBean.tablaBeneficiarioCAP.rowUnselect()}" />
+
+								<p:column headerText="Nº" width="15px"
 									style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
-								<p:column headerText="DNI(*)">
+								<p:column headerText="DNI" width="12">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.dni}" />
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.dni}" maxlength="8"
-												validatorMessage="DNI no tiene digitos validos">
+												size="12" validatorMessage="DNI no tiene digitos validos">
 											</p:inputText>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Paterno">
+								<p:column headerText="Apellido Paterno (*)">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.apellidopaterno}" />
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.apellidopaterno}"
-												required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
-												requiredMessage="Apellido Paterno (Obligatorio)" />
+												required="true" maxlength="50"
+												onkeyup="this.value = this.value.toUpperCase();"
+												requiredMessage="Apellido Paterno (Obligatorio)">
+												<p:ajax update=":form-beneficiariosCAP:growl" event="blur" />
+											</p:inputText>
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Apellido Materno">
+								<p:column headerText="Apellido Materno (*)">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.apellidomaterno}" />
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.apellidomaterno}"
-												required="true" maxlength="50" onkeyup="this.value = this.value.toUpperCase();"
+												required="true" maxlength="50"
+												onkeyup="this.value = this.value.toUpperCase();"
 												requiredMessage="Apellido Materno (Obligatorio)" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Nombres">
+								<p:column headerText="Nombres (*)">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.nombres}" />
 										</f:facet>
 										<f:facet name="input">
 											<p:inputText value="#{beneficiario.nombres}" required="true"
-												maxlength="50" requiredMessage="Nombres (Obligatorio)" onkeyup="this.value = this.value.toUpperCase();"/>
+												maxlength="50" requiredMessage="Nombres (Obligatorio)"
+												onkeyup="this.value = this.value.toUpperCase();" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column headerText="Porcentaje">
+								<p:column headerText="Porcentaje (*)">
 									<p:cellEditor>
 										<f:facet name="output">
 											<h:outputText value="#{beneficiario.porcentajebeneficio}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{beneficiario.porcentajebeneficio}" />
+											<p:inputText value="#{beneficiario.porcentajebeneficio}"
+												required="true"
+												requiredMessage="Porcentaje Beneficio (Obligatorio)" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
-								<p:column width="2%">
+								<p:column width="8%">
 									<p:rowEditor />
 								</p:column>
 							</p:dataTable>
-						</h:form>
-					</div>
+						</div>
 
-					<div class="sf-buttons">
-						<h:form>
-							<p:commandButton 
-								value="Aceptar" 
-								update=":#{componentToUpdated},:form-beneficiariosCAP, :growl"
+						<div class="sf-buttons">
+							<p:commandButton value="Actualizar"
+								update=":#{componentToUpdated},:form-beneficiariosCAP:growl"
 								oncomplete="if (args &amp;&amp; !args.validationFailed) #{componentName}.hide()"
-								actionListener="#">
-								<p:ajax onstart="PF('blockUIWidget-benefificario').block()" oncomplete="PF('blockUIWidget-benefificario').unblock()"/>
+								actionListener="#{managedBean.updateBeneficiario()}">
+								<p:ajax onstart="PF('blockUIWidget-benefificario').block()"
+									oncomplete="PF('blockUIWidget-benefificario').unblock()" />
 							</p:commandButton>
-							<p:commandButton 
-								value="Cancelar" update=":form-beneficiariosCAP"
-								onclick="#{componentName}.hide()"
-								actionListener="#">
+							<p:commandButton value="Cancelar"
+								oncomplete="#{componentName}.hide()">
 							</p:commandButton>
-						</h:form>
+						</div>
 					</div>
-
 				</div>
 			</div>
-		</div>
-	
+		</h:form>
 	</p:dialog>
 </ui:composition>
 </html>

@@ -2,6 +2,7 @@ package org.ventura.dependent;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -166,6 +167,7 @@ public class MostrarDatosSocioPJBean implements Serializable {
 	}
 	
 	int n = 1;
+	//carga los datos de la persona juridica
 	public void cargarDatosPersonaJuridica() {
 		if(oSocio.getRuc() != null){
 			if (n == 1) {
@@ -195,13 +197,15 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		personaJuridicaMB.getComboTipoempresa().setItemSelected(oPersonaJuridica.getIdtipoempresa());
 	}
 
+	//carga datos de representante legal
 	public void cargarDatosReprentanteLegal() {
 		personaJuridicaMB.setComboSexo(comboSexo);
 		personaJuridicaMB.getComboSexo().setItemSelected(oPersonaJuridica.getPersonanatural().getIdsexo());
 		personaJuridicaMB.setComboEstadocivil(comboEstadocivil);
 		personaJuridicaMB.getComboEstadocivil().setItemSelected(oPersonaJuridica.getPersonanatural().getIdestadocivil());
 	}
-
+	
+	//cargar las otras cuentas personales que tiene este socio
 	public void CargarCuentasPersonales() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("codigoSocio", oSocio.getIdsocio());
@@ -215,6 +219,7 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		}
 	}
 	
+	//carga los accionistas de esta persona juridica
 	public void cargarAccionistas() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ruc", oSocio.getRuc());
@@ -265,7 +270,7 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		this.tablaAccionistasCAP.removeSelectedRow();
 	}
 	
-	//busca accionistas y carga sus datos
+	//busca accionistas y carga sus datos en la tabla
 	public void buscarAccionista(){	
 		try {
 			Accionista accionista = tablaAccionistasCAP.getEditingRow();
@@ -293,39 +298,195 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		this.tablaAccionistasCAP.getEditingRow().getPersonanatural().setSexo(sexoSelected);		
 	}
 	
+	//actualiza datos del socio
 	public void updateSocioPersonaJuridica(){
-		updatePersonaJuridica();
-		updateAccionistas();
+		if (updatePersonaJuridica() && updateAccionistas()) { 
+	        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito",  "Los datos se guardaron correctamente...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message);
+		}else{
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",  "Los datos no se guardaron...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message); 
+		}	 
 	}
-
-	public void updatePersonaJuridica() {
+	
+	//actuaiza los datos de la persona juridica y representante
+	public boolean updatePersonaJuridica() {
+		boolean updatePJ = true;
 		try {
 			personaJuridicaServiceLocal.update(oPersonaJuridica);
 		} catch (Exception e) {
+			updatePJ = false;
 			e.printStackTrace();
 		}
+		return updatePJ;
 	}
 
-	public void updateAccionistas() {
+	//actualiza los accionistas
+	public boolean updateAccionistas() {
+		boolean updateAcc = true;
 		try {
-			deleteAccionista();
-			oPersonaJuridica.setListAccionista(tablaAccionistasCAP.getAllRows());
-			personaJuridicaServiceLocal.updateAccionista(oPersonaJuridica);
+			if (validarDatosAccionistas()) {
+				if (deleteAccionista()) {
+					oPersonaJuridica.setListAccionista(tablaAccionistasCAP.getAllRows());
+					personaJuridicaServiceLocal.updateAccionista(oPersonaJuridica);
+				}else{
+					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",  "Error al acctualizar los accionistas...");  
+		 		    FacesContext.getCurrentInstance().addMessage(null, message);
+		 		    updateAcc = false;
+				}
+			} else {
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",  "Error al acctualizar los accionistas...");  
+	 		    FacesContext.getCurrentInstance().addMessage(null, message);
+	 		    updateAcc = false;
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			updateAcc = false;
 			e.printStackTrace();
 		}
+		return updateAcc;
 	}
 	
-	// eliminar todos los accionistas de un ruc
-	public void deleteAccionista() {
+	// eliminar todos los accionistas de una persona juridica
+	public boolean deleteAccionista() {
+		boolean deleteAcc = true;
 		try {
 			personaJuridicaServiceLocal.deleteAccionista(
 					Personajuridica.Delete_Accionista,
 					oPersonaJuridica.getRuc());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			deleteAcc = false;
 			e.printStackTrace();
 		}
+		return deleteAcc;
+	}
+	/*
+	public boolean validarDatosSocio(){
+		boolean valid = true;
+		if(!validarDatosPeronaJuridica()){
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error",  "Error al guardar datos de la persona juridica...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message);
+ 		    valid = false;
+		}
+		if(!validarDatosRepresentanteLegal()){
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error",  "Error al guardar datos del representante legal...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message);
+ 		    valid = false;
+		}
+		if(!validarDatosAccionistas()){
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error",  "Error al guardar datos del accionista...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message);
+ 		    valid = false;
+		}
+		return valid;
+	}
+	
+	public boolean validarDatosPeronaJuridica(){
+		boolean validPJ = true;
+		
+		boolean ruc = true;
+		boolean razonSocial = true;
+		boolean fechaConstitucion = true;
+		
+		if(oPersonaJuridica.getRuc()==null || oPersonaJuridica.getRuc().isEmpty() || oPersonaJuridica.getRuc().trim().isEmpty()){
+			ruc = false;
+		}
+		if(oPersonaJuridica.getRazonsocial()==null||oPersonaJuridica.getRazonsocial().isEmpty()||oPersonaJuridica.getRazonsocial().trim().isEmpty()){
+			razonSocial = false;
+		}
+		if(oPersonaJuridica.getFechaconstitucion()==null){
+			fechaConstitucion = false;
+		}
+		if(!(ruc&razonSocial&fechaConstitucion)){
+			validPJ = false;
+		}
+		return validPJ;
+	}
+	
+	public boolean validarDatosRepresentanteLegal(){
+		boolean validRL = true;
+		
+		boolean dni = true;
+		boolean apPaterno = true;
+		boolean apMaterno = true;
+		boolean nombres = true;
+		boolean fecNacimiento = true;
+		boolean sexo = true;
+		
+		if(oPersonaJuridica.getPersonanatural().getDni()==null || oPersonaJuridica.getPersonanatural().getDni().isEmpty() || oPersonaJuridica.getPersonanatural().getDni().trim().isEmpty()){
+			dni = false;
+		}
+		if(oPersonaJuridica.getPersonanatural().getApellidopaterno()==null||oPersonaJuridica.getPersonanatural().getApellidopaterno().isEmpty()||oPersonaJuridica.getPersonanatural().getApellidopaterno().trim().isEmpty()){
+			apPaterno = false;
+		}
+		if(oPersonaJuridica.getPersonanatural().getApellidomaterno()==null||oPersonaJuridica.getPersonanatural().getApellidomaterno().isEmpty()||oPersonaJuridica.getPersonanatural().getApellidomaterno().trim().isEmpty()){
+			apMaterno = false;
+		}
+		if(oPersonaJuridica.getPersonanatural().getNombres()==null||oPersonaJuridica.getPersonanatural().getNombres().isEmpty()||oPersonaJuridica.getPersonanatural().getNombres().trim().isEmpty()){
+			nombres = false;
+		}
+		if(oPersonaJuridica.getPersonanatural().getFechanacimiento()==null||oPersonaJuridica.getPersonanatural().getFechanacimiento().getDate() == 0){
+			fecNacimiento = false;
+		}
+		if(oPersonaJuridica.getPersonanatural().getSexo() == null||oPersonaJuridica.getPersonanatural().getSexo().getIdsexo()<=0){
+			sexo = false;
+		}
+		if(!(dni&apPaterno&apMaterno&nombres&fecNacimiento&sexo)){
+			validRL = false;
+		}
+		return validRL;
+	}
+	*/
+	public boolean validarDatosAccionistas(){
+		boolean validAcc = true;
+		
+		List<Accionista> acionistas = tablaAccionistasCAP.getAllRows();
+		Double porcentajeTotal = new Double(0.0);
+		if(acionistas != null){
+			for (Iterator<Accionista> iterator = acionistas.iterator(); iterator.hasNext();) {
+				Accionista accionista = (Accionista) iterator.next();
+				
+				boolean dni = true;
+				boolean apPaterno = true;
+				boolean apMaterno = true;
+				boolean nombres = true;
+				boolean fecNacimiento = true;
+				boolean sexo = true;
+				
+				porcentajeTotal = (accionista.getPorcentajeparticipacion() == null) ? porcentajeTotal : porcentajeTotal + accionista.getPorcentajeparticipacion();
+				
+				if(accionista.getPersonanatural().getDni()==null || accionista.getPersonanatural().getDni().isEmpty() || accionista.getPersonanatural().getDni().trim().isEmpty()){
+					dni = false;
+				}
+				if(accionista.getPersonanatural().getApellidopaterno()==null||accionista.getPersonanatural().getApellidopaterno().isEmpty()||accionista.getPersonanatural().getApellidopaterno().trim().isEmpty()){
+					apPaterno = false;
+				}
+				if(accionista.getPersonanatural().getApellidomaterno()==null||accionista.getPersonanatural().getApellidomaterno().isEmpty()||accionista.getPersonanatural().getApellidomaterno().trim().isEmpty()){
+					apMaterno = false;
+				}
+				if(accionista.getPersonanatural().getNombres()==null||accionista.getPersonanatural().getNombres().isEmpty()||accionista.getPersonanatural().getNombres().trim().isEmpty()){
+					nombres = false;
+				}
+				if(accionista.getPersonanatural().getFechanacimiento()==null||accionista.getPersonanatural().getFechanacimiento().getDate() == 0){
+					fecNacimiento = false;
+				}
+				if(accionista.getPersonanatural().getSexo() == null||accionista.getPersonanatural().getSexo().getIdsexo()<=0){
+					sexo = false;
+				}
+				if(!(dni&apPaterno&apMaterno&nombres&fecNacimiento&sexo)){
+					iterator.remove();
+					validAcc = false;
+				}
+			}
+			if (porcentajeTotal != 100.0) {
+				FacesContext context = FacesContext.getCurrentInstance();			
+				context.validationFailed();	
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El porcentaje de participación no suma 100%");
+				context.addMessage(null, message);
+				validAcc = false;
+			}
+		}
+		return validAcc;
 	}
 }

@@ -65,7 +65,7 @@ public class BeneficiariosBean implements Serializable {
 		if(porcentaje_total != 100.0){
 			FacesContext context = FacesContext.getCurrentInstance();			
 			context.validationFailed();	
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Suma Incorrecta (%)", "Porcentaje de Beneficios no suman 100%");
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Suma Incorrecta (%)", "Porcentaje de Beneficios no suma 100%");
 			context.addMessage(null, message);
 		}	
 	}

@@ -26,14 +26,16 @@ import org.ventura.entity.schema.maestro.Tipomoneda;
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
 @NamedQueries({
 				@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c"),
-				@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.idcuentaaporte = :idCuentaAporte"),
+				@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.estado = true and be.idcuentaaporte = :idCuentaAporte"),
+				@NamedQuery(name = Cuentaaporte.BAJA_BENEFICIARIO, query = "update Beneficiariocuenta B set B.estado = false where B.idcuentaaporte = :parametro"),
 				@NamedQuery(name = Cuentaaporte.ACCIONISTAS, query = "select ac from Accionista ac where ac.personajuridica.ruc = :ruc")})
 public class Cuentaaporte implements Serializable {
-
+ 	
 	private static final long serialVersionUID = 1L;
 
 	public final static String BENEFICIARIOS = "org.ventura.model.Cuentaaporte.BENEFICIARIOS";
 	public final static String ACCIONISTAS = "org.ventura.model.Cuentaaporte.ACCIONISTAS";
+	public final static String BAJA_BENEFICIARIO = "org.ventura.model.Cuentaaporte.BAJA_BENEFICIARIO";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

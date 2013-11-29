@@ -54,7 +54,7 @@ public class AdministrarBoveda implements Serializable {
 		this.tablaBovedaDetalle = new TablaBean<Detalleaperturacierreboveda>();
 		this.comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		this.refreshTablaBoveda();
-		boveda.setSaldo(BigDecimal.ZERO);
+		boveda.getSaldo().setValue(BigDecimal.ZERO);
 	}
 
 	public void loadDetalleTransaccionboveda() {
@@ -81,6 +81,8 @@ public class AdministrarBoveda implements Serializable {
 
 	public void openBovedaWithPendiente() throws Exception {
 		try {
+			List<Detalleaperturacierreboveda> detalleaperturacierreboveda = tablaBovedaDetalle.getAllRows();
+			
 			bovedaServiceLocal.openBovedaWithPendiente(boveda);
 			refreshBean();
 

@@ -26,8 +26,9 @@ public class Detallehistorialboveda implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer iddetallehistorialboveda;
 
-	@Column(nullable = false)
-	private BigDecimal total;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "total")) })
+	private Moneda total;
 
 	@OneToMany(mappedBy = "detallehistorialboveda")
 	private List<Detalleaperturacierreboveda> detalleaperturacierrebovedaList;
@@ -43,14 +44,7 @@ public class Detallehistorialboveda implements Serializable {
 		this.iddetallehistorialboveda = iddetallehistorialboveda;
 	}
 
-	public BigDecimal getTotal() {
-		return total;
-	}
-
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
-
+	
 	public List<Detalleaperturacierreboveda> getDetalleaperturacierrebovedaList() {
 		return detalleaperturacierrebovedaList;
 	}
@@ -77,14 +71,22 @@ public class Detallehistorialboveda implements Serializable {
 
 	public void refreshTotal() {
 		List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = getDetalleaperturacierrebovedaList();
-		this.total = BigDecimal.ZERO;
+		this.getTotal().setValue(BigDecimal.ZERO);
 		if (detalleaperturacierrebovedas != null) {
 			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
 				Detalleaperturacierreboveda detalleaperturacierreboveda = iterator.next();
 				
-				total = total.add(detalleaperturacierreboveda.getSubtotal());
+				getTotal().setValue(getTotal().add(detalleaperturacierreboveda.getSubtotal()));
 			}
 		}
+	}
+
+	public Moneda getTotal() {
+		return total;
+	}
+
+	public void setTotal(Moneda total) {
+		this.total = total;
 	}
 
 }
