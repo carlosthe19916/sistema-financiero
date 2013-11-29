@@ -14,7 +14,7 @@
 		modal="true" height="550" width="700"
 		rendered="#{managedBean.personaJuridica}">
 
-		<h:form>
+		<h:form id="form">
 
 			<p:growl id="growl" sticky="true" showDetail="true"/>
 			<pe:blockUI target=":dlg-personaJuridica" widgetVar="blockUIWidget-personaJuridica">
@@ -249,7 +249,11 @@
 													requiredMessage="Ingrese Fecha de Nacimiento"
 													converterMessage="El formato de la fecha de nacimiento no es correcto"
 													disabled="#{!managedBean.personaJuridicaMB.editing or !managedBean.personaJuridicaMB.editingPersonanatural}">
+													
 													<p:ajax update="growl,txtFecNacPN" />
+													<p:ajax process="@this" update="growl" event="dateSelect" listener="#{managedBean.personaJuridicaMB.menorEdad(managedBean.personaJuridicaMB.oPersonajuridica.personanatural.fechanacimiento)}"/>
+													<p:ajax process="@this" update="growl" event="blur" listener="#{managedBean.personaJuridicaMB.menorEdad(managedBean.personaJuridicaMB.oPersonajuridica.personanatural.fechanacimiento)}"/>
+													
 													<f:convertDateTime pattern="dd/MM/yy" />
 												</p:calendar> <p:watermark for="txtFecNacPN" value="dd/mm/yyyy" /> <p:outputLabel
 													for="txtFecNacPN" /></td>
@@ -486,6 +490,7 @@
 														navigator="true" pattern="dd/MM/yy" required="true"
 														requiredMessage="Ingrese Fecha de Nacimiento"
 														converterMessage="El formato de la fecha de nacimiento no es correcto">
+														
 													</p:calendar>
 													<p:watermark for="txtFecNac" value="dd/mm/yyyy" />
 												</f:facet>

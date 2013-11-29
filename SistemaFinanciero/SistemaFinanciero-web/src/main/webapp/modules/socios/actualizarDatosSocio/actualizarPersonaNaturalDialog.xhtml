@@ -85,7 +85,10 @@
 										navigator="true" pattern="dd/MM/yy" required="true"
 										requiredMessage="Ingrese Fecha de Nacimiento"
 										converterMessage="El formato de la fecha de nacimiento no es correcto">
-										<p:ajax update="growl"/>
+										
+										<p:ajax process="@this" update="growl" event="dateSelect" listener="#{managedBean.menorEdad(managedBean.personaNaturalMB.personaNatural.fechanacimiento)}"/>
+										<p:ajax process="@this" update="growl" event="blur" listener="#{managedBean.menorEdad(managedBean.personaNaturalMB.personaNatural.fechanacimiento)}"/>
+										
 										<f:convertDateTime pattern="dd/MM/yy" />
 									</p:calendar> 
 									<p:watermark for="txtFecNacPN" value="dd/mm/yyyy" /> 

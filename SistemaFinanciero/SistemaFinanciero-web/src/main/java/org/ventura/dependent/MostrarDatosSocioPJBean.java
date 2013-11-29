@@ -1,6 +1,10 @@
 package org.ventura.dependent;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -228,12 +232,25 @@ public class MostrarDatosSocioPJBean implements Serializable {
 			list = cuentaAporteServiceLocal.findByNamedQueryAccionista(Cuentaaporte.ACCIONISTAS, parameters);
 			tablaAccionistasCAP.setRows(list);
 			personaJuridicaMB.setTablaAccionistas(tablaAccionistasCAP);
+			cargarSexoAccionistas();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	//carga el sexo para cada uno de los accionistas
+	public void cargarSexoAccionistas() {
+		List<Accionista> acionistas = tablaAccionistasCAP.getAllRows();
+		if(acionistas != null){
+			for (Iterator<Accionista> iterator = acionistas.iterator(); iterator.hasNext();) {
+				Accionista accionista = (Accionista) iterator.next();
+				personaJuridicaMB.setComboSexoAccionista(comboSexoAccionista);
+				personaJuridicaMB.getComboSexoAccionista().setItemSelected(accionista.getPersonanatural().getIdsexo());
+			}
+		}
+	}
+
 	//busca el representante legal y carga sus datos
 	public void buscarPersonanatural(){
 		Personanatural personanatural;
@@ -262,6 +279,7 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		Personanatural oPersonaNatural = new Personanatural();	
 		accionista.setPersonanatural(oPersonaNatural);
 		accionista.setEstado(true);
+		this.comboSexoAccionista.setItemSelected(-1);
 		tablaAccionistasCAP.addRow(accionista);		
 	}
 	
@@ -309,6 +327,28 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		}	 
 	}
 	
+	//calcula la edad de una persona y da una advertencia
+	public boolean menorEdad(Date date) {
+		boolean menorEdad = false;
+		Date fechaactual = Calendar.getInstance().getTime();
+		Date fechanacimiento;
+		int anio = fechaactual.getYear() - date.getYear();
+		int mes = fechaactual.getMonth() - date.getMonth();
+		int dia = fechaactual.getDay() - date.getDay();
+		if (mes < 0 || (mes == 0 && dia < 0)) {
+			anio--;
+		}
+		if (anio < 18) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Advertencia",  "Esta persona es menor de edad...");  
+ 		    FacesContext.getCurrentInstance().addMessage(null, message);
+			System.out.println("Menor de Edad " + anio);
+			menorEdad = true;
+		} else {
+			System.out.println("Mayor de Edad " + anio);
+		}
+		return menorEdad;
+	}
+
 	//actuaiza los datos de la persona juridica y representante
 	public boolean updatePersonaJuridica() {
 		boolean updatePJ = true;
@@ -335,8 +375,6 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		 		    updateAcc = false;
 				}
 			} else {
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",  "Error al acctualizar los accionistas...");  
-	 		    FacesContext.getCurrentInstance().addMessage(null, message);
 	 		    updateAcc = false;
 			}
 		} catch (Exception e) {
@@ -361,83 +399,7 @@ public class MostrarDatosSocioPJBean implements Serializable {
 		}
 		return deleteAcc;
 	}
-	/*
-	public boolean validarDatosSocio(){
-		boolean valid = true;
-		if(!validarDatosPeronaJuridica()){
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error",  "Error al guardar datos de la persona juridica...");  
- 		    FacesContext.getCurrentInstance().addMessage(null, message);
- 		    valid = false;
-		}
-		if(!validarDatosRepresentanteLegal()){
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error",  "Error al guardar datos del representante legal...");  
- 		    FacesContext.getCurrentInstance().addMessage(null, message);
- 		    valid = false;
-		}
-		if(!validarDatosAccionistas()){
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error",  "Error al guardar datos del accionista...");  
- 		    FacesContext.getCurrentInstance().addMessage(null, message);
- 		    valid = false;
-		}
-		return valid;
-	}
-	
-	public boolean validarDatosPeronaJuridica(){
-		boolean validPJ = true;
-		
-		boolean ruc = true;
-		boolean razonSocial = true;
-		boolean fechaConstitucion = true;
-		
-		if(oPersonaJuridica.getRuc()==null || oPersonaJuridica.getRuc().isEmpty() || oPersonaJuridica.getRuc().trim().isEmpty()){
-			ruc = false;
-		}
-		if(oPersonaJuridica.getRazonsocial()==null||oPersonaJuridica.getRazonsocial().isEmpty()||oPersonaJuridica.getRazonsocial().trim().isEmpty()){
-			razonSocial = false;
-		}
-		if(oPersonaJuridica.getFechaconstitucion()==null){
-			fechaConstitucion = false;
-		}
-		if(!(ruc&razonSocial&fechaConstitucion)){
-			validPJ = false;
-		}
-		return validPJ;
-	}
-	
-	public boolean validarDatosRepresentanteLegal(){
-		boolean validRL = true;
-		
-		boolean dni = true;
-		boolean apPaterno = true;
-		boolean apMaterno = true;
-		boolean nombres = true;
-		boolean fecNacimiento = true;
-		boolean sexo = true;
-		
-		if(oPersonaJuridica.getPersonanatural().getDni()==null || oPersonaJuridica.getPersonanatural().getDni().isEmpty() || oPersonaJuridica.getPersonanatural().getDni().trim().isEmpty()){
-			dni = false;
-		}
-		if(oPersonaJuridica.getPersonanatural().getApellidopaterno()==null||oPersonaJuridica.getPersonanatural().getApellidopaterno().isEmpty()||oPersonaJuridica.getPersonanatural().getApellidopaterno().trim().isEmpty()){
-			apPaterno = false;
-		}
-		if(oPersonaJuridica.getPersonanatural().getApellidomaterno()==null||oPersonaJuridica.getPersonanatural().getApellidomaterno().isEmpty()||oPersonaJuridica.getPersonanatural().getApellidomaterno().trim().isEmpty()){
-			apMaterno = false;
-		}
-		if(oPersonaJuridica.getPersonanatural().getNombres()==null||oPersonaJuridica.getPersonanatural().getNombres().isEmpty()||oPersonaJuridica.getPersonanatural().getNombres().trim().isEmpty()){
-			nombres = false;
-		}
-		if(oPersonaJuridica.getPersonanatural().getFechanacimiento()==null||oPersonaJuridica.getPersonanatural().getFechanacimiento().getDate() == 0){
-			fecNacimiento = false;
-		}
-		if(oPersonaJuridica.getPersonanatural().getSexo() == null||oPersonaJuridica.getPersonanatural().getSexo().getIdsexo()<=0){
-			sexo = false;
-		}
-		if(!(dni&apPaterno&apMaterno&nombres&fecNacimiento&sexo)){
-			validRL = false;
-		}
-		return validRL;
-	}
-	*/
+
 	public boolean validarDatosAccionistas(){
 		boolean validAcc = true;
 		
@@ -470,6 +432,10 @@ public class MostrarDatosSocioPJBean implements Serializable {
 				}
 				if(accionista.getPersonanatural().getFechanacimiento()==null||accionista.getPersonanatural().getFechanacimiento().getDate() == 0){
 					fecNacimiento = false;
+					if (!menorEdad(accionista.getPersonanatural().getFechanacimiento())) {
+						FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Advertencia",  "El Accionista es menor de Edad...");  
+			 		    FacesContext.getCurrentInstance().addMessage(null, message);
+					}
 				}
 				if(accionista.getPersonanatural().getSexo() == null||accionista.getPersonanatural().getSexo().getIdsexo()<=0){
 					sexo = false;
