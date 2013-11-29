@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * The persistent class for the historialboveda database table.
@@ -13,7 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name = "historialboveda", schema = "caja")
 @NamedQuery(name = "Historialboveda.findAll", query = "SELECT h FROM Historialboveda h")
-@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.estado = true AND h.boveda.idboveda = :idboveda") })
+@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda.idboveda = :idboveda and h.idhistorialboveda = SELECT MAX(hh.idhistorialboveda) FROM Historialboveda hh") })
 public class Historialboveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,12 +42,16 @@ public class Historialboveda implements Serializable {
 	@Column
 	private Date horacierre;
 
-	@Column(nullable = false)
-	private Boolean estado;
-
 	@ManyToOne
 	@JoinColumn(name = "idboveda", nullable = false)
 	private Boveda boveda;
+
+	@ManyToOne
+	@JoinColumn(name = "idestadomovimiento", nullable = false)
+	private Estadomovimiento estadomovimiento;
+
+	@OneToMany(mappedBy = "historialboveda")
+	private List<Detallehistorialboveda> detallehistorialbovedas;
 
 	public Historialboveda() {
 	}
@@ -99,14 +104,6 @@ public class Historialboveda implements Serializable {
 		this.boveda = boveda;
 	}
 
-	public Boolean getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
-	}
-
 	public void refreshSaldos() {
 		/*
 		 * this.saldoinicial = new Double(0); this.saldofinal = new Double(0);
@@ -118,6 +115,23 @@ public class Historialboveda implements Serializable {
 		 * (detallehistorialbovedafinal != null) { this.saldofinal =
 		 * detallehistorialbovedafinal.getTotal(); }
 		 */
+	}
+
+	public List<Detallehistorialboveda> getDetallehistorialbovedas() {
+		return detallehistorialbovedas;
+	}
+
+	public void setDetallehistorialbovedas(
+			List<Detallehistorialboveda> detallehistorialbovedas) {
+		this.detallehistorialbovedas = detallehistorialbovedas;
+	}
+
+	public Estadomovimiento getEstadomovimiento() {
+		return estadomovimiento;
+	}
+
+	public void setEstadomovimiento(Estadomovimiento estadomovimiento) {
+		this.estadomovimiento = estadomovimiento;
 	}
 
 }

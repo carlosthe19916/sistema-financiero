@@ -3,18 +3,13 @@ package org.ventura.util.maestro;
 public enum EstadoMovimientoType {
 
 	/**
-	 * Objeto Abierto pero no se permiten movimiento de depositos o retiros
+	 * Bobeva congelada
 	 */
-	ABIERTO_CONGELADO,
+	CONGELADO,
 
 	/**
-	 * Objeto Abierto en el que si se permiten movimientos de depositos o
-	 * retiros
+	 * Boveda descongelada
 	 */
-	ABIERTO_DESCONGELADO,
+	DESCONGELADO,
 
-	/**
-	 * Objeto Cerrado en el que no se permiten operaciones de ningun tipo
-	 */
-	CERRADO
 }

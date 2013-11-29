@@ -24,8 +24,6 @@ import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.venturabank.managedbean.session.AgenciaBean;
-import org.venturabank.util.DetalleTransaccionBean;
-import org.ventura.util.maestro.EstadoValue;
 
 @Named
 @ViewScoped
@@ -46,26 +44,13 @@ public class AdministrarBoveda implements Serializable {
 	@Inject
 	private TablaBean<Detallehistorialboveda> tablaBovedaDetalle;
 
-	@Inject
-	private TablaBean<DetalleTransaccionBean> tablaDetallemonedaboveda;
-
 	@PostConstruct
 	private void initialize() {
 		this.tablaBovedaDetalle = new TablaBean<Detallehistorialboveda>();
 		this.comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		this.refreshTablaBoveda();
-		boveda.getSaldo().setValue(BigDecimal.ZERO);
 	}
 
-	public void loadDetalleTransaccionboveda() {
-		try {
-			List<DetalleTransaccionBean> detalleMonedaBeans = new ArrayList<DetalleTransaccionBean>();
-			tablaDetallemonedaboveda.setRows(detalleMonedaBeans);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	public void openBoveda() throws Exception {
 		try {
@@ -104,11 +89,11 @@ public class AdministrarBoveda implements Serializable {
 	public void createBoveda() throws Exception {
 		try {
 			String denominacionBoveda = boveda.getDenominacion();
-			Integer idTipomoneda = boveda.getIdtipomoneda();
+			Tipomoneda tipomoneda = boveda.getTipomoneda();
 			if (denominacionBoveda == null || denominacionBoveda.isEmpty() || denominacionBoveda.trim().isEmpty()) {
 				throw new Exception("Denominación de Bóveda Inválida");
 			}
-			if (idTipomoneda == null) {
+			if (tipomoneda == null) {
 				throw new Exception("Tipo de Moneda Invalida");
 			}
 			preCreateBoveda();
@@ -126,11 +111,11 @@ public class AdministrarBoveda implements Serializable {
 	public void updateBoveda() throws Exception {
 		try {
 			String denominacionBoveda = boveda.getDenominacion();
-			Integer idTipomoneda = boveda.getIdtipomoneda();
+			Tipomoneda tipomoneda = boveda.getTipomoneda();
 			if (denominacionBoveda == null || denominacionBoveda.isEmpty() || denominacionBoveda.trim().isEmpty()) {
 				throw new Exception("Denominación de Bóveda Inválida");
 			}
-			if (idTipomoneda == null) {
+			if (tipomoneda == null) {
 				throw new Exception("Tipo de Moneda Invalida");
 			}
 			this.bovedaServiceLocal.update(this.boveda);
@@ -161,7 +146,7 @@ public class AdministrarBoveda implements Serializable {
 	}
 
 	public void preCreateBoveda() throws Exception {
-		this.boveda.setIdagencia(agenciaBean.getAgencia().getIdagencia());
+		this.boveda.setAgencia(agenciaBean.getAgencia());
 	}
 
 	public void activarMovimiento() throws Exception {
@@ -210,10 +195,10 @@ public class AdministrarBoveda implements Serializable {
 	public void loadTablaBovedaDetalleAfterOpen() throws Exception {
 		try {
 			loadBoveda();
-			EstadoMovimientoType estadoMovimientoType = EstadoValue.getEstadoType(boveda.getIdestadomovimiento());
+			/*EstadoMovimientoType estadoMovimientoType = EstadoValue.getEstadoType(boveda.getIdestadomovimiento());
 			if (estadoMovimientoType != EstadoMovimientoType.CERRADO) {
 				throw new Exception("Boveda Abierta imposible abrirla nuevamente");
-			}
+			}*/
 			List<Detallehistorialboveda> detalleaperturacierrebovedaList = bovedaServiceLocal.getDetalleforOpenBoveda(boveda);
 			tablaBovedaDetalle.setRows(detalleaperturacierrebovedaList);
 		} catch (Exception e) {

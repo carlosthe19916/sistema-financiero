@@ -10,6 +10,7 @@ import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
+import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Transaccionboveda;
@@ -50,13 +51,13 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	public void defrostBoveda(Boveda oBoveda) throws Exception;
 	
 	public List<Detalletransaccionboveda> getDetalletransaccionboveda(Boveda oBoveda) throws Exception;
-	
-	public void setEstadomovimientoBoveda(Estadomovimiento estadomovimiento, Boveda oBoveda) throws Exception;
 
 	/**
 	 * Transacciones de boveda
 	 */
 
 	public Transaccionboveda createTransaccionboveda(Boveda boveda, Transaccionboveda oTransaccionboveda) throws Exception;
+
+	
 
 }

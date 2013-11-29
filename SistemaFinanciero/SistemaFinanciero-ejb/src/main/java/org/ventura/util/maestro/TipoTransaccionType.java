@@ -2,18 +2,13 @@ package org.ventura.util.maestro;
 
 public enum TipoTransaccionType {
 	/**
-	 * Objeto Abierto pero no se permiten movimiento de depositos o retiros
+	 * Deposito representa un ingreso de dinero
 	 */
 	DEPOSITO,
 
 	/**
-	 * Objeto Abierto en el que si se permiten movimientos de depositos o
-	 * retiros
+	 * Retiro representa un egreso de dinero
 	 */
 	RETIRO,
 
-	/**
-	 * Objeto Cerrado en el que no se permiten operaciones de ningun tipo
-	 */
-	TRANSFERENCIA
 }

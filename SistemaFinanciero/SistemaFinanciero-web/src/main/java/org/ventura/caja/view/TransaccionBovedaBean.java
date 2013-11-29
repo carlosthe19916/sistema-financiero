@@ -23,8 +23,9 @@ import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
-import org.ventura.util.maestro.EstadoValue;
+import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
@@ -61,7 +62,7 @@ public class TransaccionBovedaBean implements Serializable {
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-			parameters.put("idestadomovimiento",EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_DESCONGELADO));		
+			parameters.put("idestadomovimiento",ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO).getIdestadoapertura());		
 			
 			comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO,parameters);		
 			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
