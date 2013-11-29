@@ -113,7 +113,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 
 		boveda.setEstado(true);
-		Estadoapertura estadoapertura = new Estadoapertura();
+		Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
 		boveda.setEstadoapertura(estadoapertura);
 	}
 
@@ -364,7 +364,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			Boveda boveda = find(oBoveda.getIdboveda());				
 			Historialboveda historialboveda = getHistorialActive(boveda);
 			Estadomovimiento estadomovimientoNew = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
-			setEstadomovimientoHistorialboveda(historialboveda,estadomovimientoNew);
+			if(historialboveda != null){
+				setEstadomovimientoHistorialboveda(historialboveda,estadomovimientoNew);
+			} else {
+				throw new Exception("No se puede congelar/decongelar boveda");
+			}
+			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -379,7 +384,11 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			Boveda boveda = find(oBoveda.getIdboveda());				
 			Historialboveda historialboveda = getHistorialActive(boveda);
 			Estadomovimiento estadomovimientoNew = ProduceObject.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO);
-			setEstadomovimientoHistorialboveda(historialboveda,estadomovimientoNew);
+			if(historialboveda != null){
+				setEstadomovimientoHistorialboveda(historialboveda,estadomovimientoNew);
+			} else {
+				throw new Exception("No se puede congelar/decongelar boveda");
+			}
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

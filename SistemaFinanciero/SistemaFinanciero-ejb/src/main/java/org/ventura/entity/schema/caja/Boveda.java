@@ -23,8 +23,8 @@ public class Boveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.ALL_ACTIVE_BY_AGENCIA";
-	public final static String ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO = "org.ventura.entity.schema.caja.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO";
+	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.Boveda.ALL_ACTIVE_BY_AGENCIA";
+	public final static String ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO = "org.ventura.entity.schema.caja.Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -202,7 +202,7 @@ public class AdministrarBoveda implements Serializable {
 			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
 			Estadoapertura estadoapertura2 = this.boveda.getEstadoapertura();
 		
-			if (!estadoapertura.equals(estadoapertura2)) {			
+			if (estadoapertura.equals(estadoapertura2)) {			
 				List<Detallehistorialboveda> detalleaperturacierrebovedaList = bovedaServiceLocal.getDetalleforOpenBoveda(boveda);
 				tablaBovedaDetalle.setRows(detalleaperturacierrebovedaList);
 			} else {
