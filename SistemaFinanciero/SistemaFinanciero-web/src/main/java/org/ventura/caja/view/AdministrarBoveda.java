@@ -21,8 +21,12 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
+import org.ventura.entity.schema.caja.Estadoapertura;
+import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
+import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
@@ -195,12 +199,16 @@ public class AdministrarBoveda implements Serializable {
 	public void loadTablaBovedaDetalleAfterOpen() throws Exception {
 		try {
 			loadBoveda();
-			/*EstadoMovimientoType estadoMovimientoType = EstadoValue.getEstadoType(boveda.getIdestadomovimiento());
-			if (estadoMovimientoType != EstadoMovimientoType.CERRADO) {
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+			Estadoapertura estadoapertura2 = this.boveda.getEstadoapertura();
+		
+			if (!estadoapertura.equals(estadoapertura2)) {			
+				List<Detallehistorialboveda> detalleaperturacierrebovedaList = bovedaServiceLocal.getDetalleforOpenBoveda(boveda);
+				tablaBovedaDetalle.setRows(detalleaperturacierrebovedaList);
+			} else {
 				throw new Exception("Boveda Abierta imposible abrirla nuevamente");
-			}*/
-			List<Detallehistorialboveda> detalleaperturacierrebovedaList = bovedaServiceLocal.getDetalleforOpenBoveda(boveda);
-			tablaBovedaDetalle.setRows(detalleaperturacierrebovedaList);
+			}
+			
 		} catch (Exception e) {
 			throw e;
 		}

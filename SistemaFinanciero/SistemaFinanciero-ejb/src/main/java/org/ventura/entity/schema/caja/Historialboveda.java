@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "historialboveda", schema = "caja")
 @NamedQuery(name = "Historialboveda.findAll", query = "SELECT h FROM Historialboveda h")
-@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda.idboveda = :idboveda and h.idhistorialboveda = SELECT MAX(hh.idhistorialboveda) FROM Historialboveda hh") })
+@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda.idboveda = :idboveda") })
 public class Historialboveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
