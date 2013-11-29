@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui" xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Boveda" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+		<h:form>
+			<br />
+			<div style="margin-left: 50px;">
+				<div>
+					<div>
+						<div class="p6n-api-consent-screen-title">Crear Caja</div>
+						<rich:messages id="messages"></rich:messages>
+						<div class="p6n-api-consent-screen-inputs">
+							<div class="p6n-api-consent-screen-input-section">
+								<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDA</div>
+								<div>
+									<h:selectOneMenu
+										value="#{transaccionBovedaBean.comboBoveda.itemSelected}"
+										valueChangeListener="#{transaccionBovedaBean.changeBoveda}"
+										required="true" requiredMessage="Seleccione una Boveda">
+										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										<f:selectItems
+											value="#{transaccionBovedaBean.comboBoveda.items.entrySet()}"
+											var="val" itemLabel="#{val.value.denominacion}"
+											itemValue="#{val.key}" />
+										<a4j:ajax render="panelDetalletransaccion" execute="@this"
+											onbegin="$.blockUI();" oncomplete="$.unblockUI();" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="p6n-api-consent-screen-input-section">
+								<div style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+										TRANSACCION</div>
+									<div>
+										<h:selectOneMenu
+											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}"
+											valueChangeListener="#{transaccionBovedaBean.changeTipotransaccion}"
+											required="true"
+											requiredMessage="Seleccione un Tipo de Transaccion">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
+												oncomplete="$.unblockUI();" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+										ENTIDAD</div>
+									<div>
+										<h:selectOneMenu
+											value="#{transaccionBovedaBean.comboTipoentidad.itemSelected}"
+											valueChangeListener="#{transaccionBovedaBean.changeTipoentidad}"
+											required="true"
+											requiredMessage="Seleccione el Tipo de Entidad que realiza la Transaccion">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
+												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+											<a4j:ajax event="valueChange" render="panelOrigen"
+												execute="@this" onbegin="$.blockUI();"
+												oncomplete="$.unblockUI();" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">ENTIDAD</div>
+									<h:panelGroup id="panelOrigen">
+										<h:selectOneMenu
+											rendered="#{(!transaccionBovedaBean.isCaja()) and (!transaccionBovedaBean.isOtro())}"
+											required="true" requiredMessage="Seleccione una Entidad">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+										</h:selectOneMenu>
+										<h:selectOneMenu id="cmbCaja"
+											value="#{transaccionBovedaBean.comboCaja.itemSelected}"
+											rendered="#{transaccionBovedaBean.isCaja()}" required="true"
+											requiredMessage="Seleccione una caja">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
+												oncomplete="$.unblockUI();" />
+										</h:selectOneMenu>
+										<h:selectOneMenu id="cmbEntidadfinanciera"
+											value="#{transaccionBovedaBean.comboEntidadfinanciera.itemSelected}"
+											rendered="#{transaccionBovedaBean.isOtro()}" required="true"
+											requiredMessage="Seleccione una Entidad Financiera">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionBovedaBean.comboEntidadfinanciera.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
+												oncomplete="$.unblockUI();" />
+										</h:selectOneMenu>
+									</h:panelGroup>
+								</div>
+							</div>
+							<div class="sf-separator"></div>
+							<div class="p6n-api-consent-screen-input-section">
+								<div>
+									<h:panelGroup id="panelDetalletransaccion">
+										<table>
+											<thead>
+												<tr>
+													<td style="text-align: right;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 100px;">DENOMINACION</div>
+													</td>
+													<td style="width: 20px;"></td>
+													<td><div class="p6n-api-consent-screen-label"
+															style="width: 150px;">CANTIDAD</div></td>
+													<td style="width: 20px;"></td>
+													<td><div class="p6n-api-consent-screen-label"
+															style="width: 110px;">TOTAL</div></td>
+												</tr>
+											</thead>
+											<tbody>
+												<ui:repeat
+													value="#{transaccionBovedaBean.tablaDetalletransaccionboveda.rows}"
+													var="detalle">
+													<tr>
+														<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+																value="#{detalle.denominacionmoneda.denominacion}" /></td>
+														<td></td>
+														<td><h:inputText value="#{detalle.cantidad}"
+																required="true" maxlength="6"
+																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+																style="width:150px;">
+																<f:ajax event="blur" render="@form"
+																	listener="#{detalle.refreshSubtotal()}" />
+															</h:inputText></td>
+														<td></td>
+														<td><h:outputLabel id="txtTotal"
+																value="#{detalle.subtotal}"
+																style="width: 110px; vertical-align: middle;" /></td>
+													</tr>
+												</ui:repeat>
+											</tbody>
+										</table>
+									</h:panelGroup>
+								</div>
+							</div>
+							<div class="p6n-api-consent-screen-input-section"
+								style="margin-left: 20px;">
+								<div>
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TOTAL
+										TRANSACCION</div>
+									<div>
+										<h:outputLabel id="txtTotaltransaccion"
+											value="#{transaccionBovedaBean.transaccionboveda.monto}">
+										</h:outputLabel>
+									</div>
+								</div>
+							</div>
+							<div class="sf-separator"></div>
+							<div class="sf-buttons" style="float: left;">
+								<a4j:commandButton value="Guardar" styleClass="action blue">
+									<a4j:ajax execute="@form"
+										listener="#{transaccionBovedaBean.createTransaccionboveda()}"
+										render="messages" />
+								</a4j:commandButton>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+		<h:form>
+			<rich:popupPanel id="panelVoucher">
+				<h3>prueba voucher</h3>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
