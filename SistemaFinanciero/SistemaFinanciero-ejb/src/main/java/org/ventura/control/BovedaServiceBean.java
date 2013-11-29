@@ -32,7 +32,7 @@ import org.ventura.dao.impl.TransaccionbovedaDAO;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
-import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
+import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Estadomovimiento;
@@ -227,7 +227,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
-	public List<Detalleaperturacierreboveda> getDetalleforOpenBoveda(
+	public List<Detallehistorialboveda> getDetalleforOpenBoveda(
 			Boveda boveda) throws Exception {
 		try {
 			Historialboveda historialboveda = getHistorialActive(boveda);
@@ -239,7 +239,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			if (historialboveda == null) {
 				detallehistorialbovedafinal = new Detallehistorialboveda();
 				detallehistorialbovedafinal
-						.setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
+						.setDetalleaperturacierrebovedaList(new ArrayList<Detallehistorialboveda>());
 			} else {
 				detallehistorialbovedafinal = historialboveda
 						.getDetallehistorialbovedafinal();
@@ -309,19 +309,19 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			Detallehistorialboveda detallehistorialbovedainicial = historialbovedaNew.getDetallehistorialbovedainicial();
 			Detallehistorialboveda detallehistorialbovedafinal = historialbovedaNew.getDetallehistorialbovedafinal();
 			
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasinicial = detallehistorialbovedainicial.getDetalleaperturacierrebovedaList();
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasfinal = detallehistorialbovedafinal.getDetalleaperturacierrebovedaList();
+			List<Detallehistorialboveda> detalleaperturacierrebovedasinicial = detallehistorialbovedainicial.getDetalleaperturacierrebovedaList();
+			List<Detallehistorialboveda> detalleaperturacierrebovedasfinal = detallehistorialbovedafinal.getDetalleaperturacierrebovedaList();
 			
 			detallehistorialbovedaDAO.create(detallehistorialbovedainicial);
 			detallehistorialbovedaDAO.create(detallehistorialbovedafinal);
 			
-			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasinicial.iterator(); iterator.hasNext();) {
-				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator.next();
+			for (Iterator<Detallehistorialboveda> iterator = detalleaperturacierrebovedasinicial.iterator(); iterator.hasNext();) {
+				Detallehistorialboveda detalleaperturacierreboveda = (Detallehistorialboveda) iterator.next();
 				detalleaperturacierreboveda.setDetallehistorialboveda(detallehistorialbovedainicial);
 				detalleaperturacierrebovedaDAO.create(detalleaperturacierreboveda);
 			}
-			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasfinal.iterator(); iterator.hasNext();) {
-				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator.next();
+			for (Iterator<Detallehistorialboveda> iterator = detalleaperturacierrebovedasfinal.iterator(); iterator.hasNext();) {
+				Detallehistorialboveda detalleaperturacierreboveda = (Detallehistorialboveda) iterator.next();
 				detalleaperturacierreboveda.setDetallehistorialboveda(detallehistorialbovedafinal);
 				detalleaperturacierrebovedaDAO.create(detalleaperturacierreboveda);
 			}
@@ -424,20 +424,20 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		if (historialbovedaOld == null) {
 			detallehistorialbovedaInicialNew = new Detallehistorialboveda();
 			detallehistorialbovedaFinalNew = new Detallehistorialboveda();
-			detallehistorialbovedaInicialNew.setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
-			detallehistorialbovedaFinalNew.setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
+			detallehistorialbovedaInicialNew.setDetalleaperturacierrebovedaList(new ArrayList<Detallehistorialboveda>());
+			detallehistorialbovedaFinalNew.setDetalleaperturacierrebovedaList(new ArrayList<Detallehistorialboveda>());
 		} else {
 			detallehistorialbovedaFinalOld = historialbovedaOld.getDetallehistorialbovedafinal();
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasOld = detallehistorialbovedaFinalOld.getDetalleaperturacierrebovedaList();
+			List<Detallehistorialboveda> detalleaperturacierrebovedasOld = detallehistorialbovedaFinalOld.getDetalleaperturacierrebovedaList();
 			
-			List<Detalleaperturacierreboveda> listDetalleaperturacierrebovedainicialNew = new ArrayList<Detalleaperturacierreboveda>();
-			List<Detalleaperturacierreboveda> listDetalleaperturacierrebovedafinalNew = new ArrayList<Detalleaperturacierreboveda>();
+			List<Detallehistorialboveda> listDetalleaperturacierrebovedainicialNew = new ArrayList<Detallehistorialboveda>();
+			List<Detallehistorialboveda> listDetalleaperturacierrebovedafinalNew = new ArrayList<Detallehistorialboveda>();
 			
-			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasOld.iterator(); iterator.hasNext();) {
-				Detalleaperturacierreboveda detalleaperturacierrebovedaOld = (Detalleaperturacierreboveda) iterator.next();
+			for (Iterator<Detallehistorialboveda> iterator = detalleaperturacierrebovedasOld.iterator(); iterator.hasNext();) {
+				Detallehistorialboveda detalleaperturacierrebovedaOld = (Detallehistorialboveda) iterator.next();
 				
-				Detalleaperturacierreboveda detalleaperturacierrebovedainicialNew = new Detalleaperturacierreboveda();
-				Detalleaperturacierreboveda detalleaperturacierrebovedafinalNew = new Detalleaperturacierreboveda();
+				Detallehistorialboveda detalleaperturacierrebovedainicialNew = new Detallehistorialboveda();
+				Detallehistorialboveda detalleaperturacierrebovedafinalNew = new Detallehistorialboveda();
 				
 				Integer cantidad = detalleaperturacierrebovedaOld.getCantidad();
 				Denominacionmoneda denominacionmoneda = detalleaperturacierrebovedaOld.getDenominacionmoneda();
@@ -467,7 +467,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		for (Iterator<Denominacionmoneda> iterator = denominacionmonedaList.iterator(); iterator.hasNext();) {
 			Denominacionmoneda denominacionmoneda = iterator.next();
 
-			Detalleaperturacierreboveda detalleaperturacierreboveda = new Detalleaperturacierreboveda();
+			Detallehistorialboveda detalleaperturacierreboveda = new Detallehistorialboveda();
 			detalleaperturacierreboveda.setDenominacionmoneda(denominacionmoneda);
 			detalleaperturacierreboveda.setCantidad(0);
 
@@ -476,12 +476,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	public void union(Detallehistorialboveda detallehistorialboveda,List<Denominacionmoneda> denominacionmonedas) {
-		List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = detallehistorialboveda.getDetalleaperturacierrebovedaList();
+		List<Detallehistorialboveda> detalleaperturacierrebovedas = detallehistorialboveda.getDetalleaperturacierrebovedaList();
 
 		for (Iterator<Denominacionmoneda> iterator = denominacionmonedas.iterator(); iterator.hasNext();) {
 			Denominacionmoneda denominacionmoneda = (Denominacionmoneda) iterator.next();
 			if (!containsTipoMoneda(detalleaperturacierrebovedas,denominacionmoneda)) {
-				Detalleaperturacierreboveda detalleaperturacierreboveda2 = new Detalleaperturacierreboveda();
+				Detallehistorialboveda detalleaperturacierreboveda2 = new Detallehistorialboveda();
 				detalleaperturacierreboveda2.setCantidad(0);
 				detalleaperturacierreboveda2.setDenominacionmoneda(denominacionmoneda);
 
@@ -491,12 +491,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	public boolean containsTipoMoneda(
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedas,
+			List<Detallehistorialboveda> detalleaperturacierrebovedas,
 			Denominacionmoneda denominacionmoneda) {
 		boolean result = false;
-		for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas
+		for (Iterator<Detallehistorialboveda> iterator = detalleaperturacierrebovedas
 				.iterator(); iterator.hasNext();) {
-			Detalleaperturacierreboveda detalleaperturacierreboveda = iterator
+			Detallehistorialboveda detalleaperturacierreboveda = iterator
 					.next();
 			Denominacionmoneda denominacionmoneda2 = detalleaperturacierreboveda
 					.getDenominacionmoneda();
@@ -553,19 +553,19 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			Detallehistorialboveda detallehistorialbovedainicial = historialbovedaNew.getDetallehistorialbovedainicial();
 			Detallehistorialboveda detallehistorialbovedafinal = historialbovedaNew.getDetallehistorialbovedafinal();
 			
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasinicial = detallehistorialbovedainicial.getDetalleaperturacierrebovedaList();
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasfinal = detallehistorialbovedafinal.getDetalleaperturacierrebovedaList();
+			List<Detallehistorialboveda> detalleaperturacierrebovedasinicial = detallehistorialbovedainicial.getDetalleaperturacierrebovedaList();
+			List<Detallehistorialboveda> detalleaperturacierrebovedasfinal = detallehistorialbovedafinal.getDetalleaperturacierrebovedaList();
 			
 			detallehistorialbovedaDAO.create(detallehistorialbovedainicial);
 			detallehistorialbovedaDAO.create(detallehistorialbovedafinal);
 			
-			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasinicial.iterator(); iterator.hasNext();) {
-				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator.next();
+			for (Iterator<Detallehistorialboveda> iterator = detalleaperturacierrebovedasinicial.iterator(); iterator.hasNext();) {
+				Detallehistorialboveda detalleaperturacierreboveda = (Detallehistorialboveda) iterator.next();
 				detalleaperturacierreboveda.setDetallehistorialboveda(detallehistorialbovedainicial);
 				detalleaperturacierrebovedaDAO.create(detalleaperturacierreboveda);
 			}
-			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasfinal.iterator(); iterator.hasNext();) {
-				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator.next();
+			for (Iterator<Detallehistorialboveda> iterator = detalleaperturacierrebovedasfinal.iterator(); iterator.hasNext();) {
+				Detallehistorialboveda detalleaperturacierreboveda = (Detallehistorialboveda) iterator.next();
 				detalleaperturacierreboveda.setDetallehistorialboveda(detallehistorialbovedafinal);
 				detalleaperturacierrebovedaDAO.create(detalleaperturacierreboveda);
 			}

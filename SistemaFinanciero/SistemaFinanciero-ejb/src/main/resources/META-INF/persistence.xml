@@ -73,7 +73,6 @@
 		<class>org.ventura.entity.schema.caja.Boveda</class>
 		<class>org.ventura.entity.schema.caja.Caja</class>
 		<class>org.ventura.entity.schema.caja.Denominacionmoneda</class>
-		<class>org.ventura.entity.schema.caja.Detallehistorialboveda</class>
 		<class>org.ventura.entity.schema.caja.Detalletransaccionboveda</class>
 		<class>org.ventura.entity.schema.caja.Estadoapertura</class>
 		<class>org.ventura.entity.schema.caja.Estadomovimiento</class>
@@ -82,7 +81,7 @@
 		<class>org.ventura.entity.schema.caja.Transaccionboveda</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncaja</class>
 		<class>org.ventura.entity.schema.caja.ViewBovedadetallePK</class>
-		<class>org.ventura.entity.schema.caja.Detalleaperturacierreboveda</class>
+		<class>org.ventura.entity.schema.caja.Detallehistorialboveda</class>
 		<class>org.ventura.entity.schema.caja.Entidadfinanciera</class>
 		<class>org.ventura.entity.schema.caja.Moneda</class>
 		

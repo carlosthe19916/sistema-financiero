@@ -8,12 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ventura.dao.AbstractDAO;
-import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
+import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.util.logger.Log;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class DetalleaperturacierrebovedaDAO extends AbstractDAO<Detalleaperturacierreboveda>{
+public class DetalleaperturacierrebovedaDAO extends AbstractDAO<Detallehistorialboveda>{
 
 	@Inject
 	Log log;
@@ -22,7 +22,7 @@ public class DetalleaperturacierrebovedaDAO extends AbstractDAO<Detalleaperturac
     private EntityManager em;
 
 	public DetalleaperturacierrebovedaDAO() {
-        super(Detalleaperturacierreboveda.class);
+        super(Detallehistorialboveda.class);
     }
 	
     @Override

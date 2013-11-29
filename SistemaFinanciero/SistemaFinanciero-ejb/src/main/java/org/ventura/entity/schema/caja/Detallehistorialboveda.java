@@ -2,14 +2,11 @@ package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.persistence.*;
 
 /**
- * The persistent class for the detallehistorialboveda database table.
+ * The persistent class for the detalleaperturacierreboveda database table.
  * 
  */
 @Entity
@@ -19,21 +16,59 @@ public class Detallehistorialboveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static String LAST_ACTIVE_FOR_BOVEDA = "org.ventura.entity.schema.caja.Detallehistorialboveda";
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer iddetallehistorialboveda;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "total")) })
-	private Moneda total;
+	@Column(nullable = false)
+	private Integer cantidad;
 
-	@OneToMany(mappedBy = "detallehistorialboveda")
-	private List<Detalleaperturacierreboveda> detalleaperturacierrebovedaList;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "subtotal")) })
+	private Moneda subtotal;
+
+	@ManyToOne
+	@JoinColumn(name = "iddenominacionmoneda", nullable = false)
+	private Denominacionmoneda denominacionmoneda;
+
+	@ManyToOne
+	@JoinColumn(name = "idhistorialboveda", nullable = false)
+	private Historialboveda historialboveda;
 
 	public Detallehistorialboveda() {
+		this.cantidad = 0;
+	}
+
+	public Integer getCantidad() {
+		return this.cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public Denominacionmoneda getDenominacionmoneda() {
+		return denominacionmoneda;
+	}
+
+	public void setDenominacionmoneda(Denominacionmoneda denominacionmoneda) {
+		this.denominacionmoneda = denominacionmoneda;
+	}
+
+	public void refreshSubtotal() {
+		Integer cantidad = this.cantidad;
+		Moneda denominacionMonedaValor = this.denominacionmoneda.getValor();
+		BigDecimal result = denominacionMonedaValor.multiply(cantidad);
+		this.getSubtotal().setValue(result);
+	}
+
+	public Moneda getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(Moneda subtotal) {
+		this.subtotal = subtotal;
 	}
 
 	public Integer getIddetallehistorialboveda() {
@@ -44,49 +79,12 @@ public class Detallehistorialboveda implements Serializable {
 		this.iddetallehistorialboveda = iddetallehistorialboveda;
 	}
 
-	
-	public List<Detalleaperturacierreboveda> getDetalleaperturacierrebovedaList() {
-		return detalleaperturacierrebovedaList;
+	public Historialboveda getHistorialboveda() {
+		return historialboveda;
 	}
 
-	public void setDetalleaperturacierrebovedaList(List<Detalleaperturacierreboveda> detalleaperturacierrebovedaList) {
-		this.detalleaperturacierrebovedaList = detalleaperturacierrebovedaList;
-		this.refreshTotal();
-	}
-
-	public Detalleaperturacierreboveda addDetalleaperturacierrebovedaList(Detalleaperturacierreboveda detalleaperturacierreboveda) {
-		if (getDetalleaperturacierrebovedaList() == null) {
-			setDetalleaperturacierrebovedaList(new ArrayList<Detalleaperturacierreboveda>());
-		}
-		this.getDetalleaperturacierrebovedaList().add(detalleaperturacierreboveda);
-		this.refreshTotal();
-		return detalleaperturacierreboveda;
-	}
-
-	public Detalleaperturacierreboveda removeDetalleaperturacierrebovedaList(Detalleaperturacierreboveda detalleaperturacierreboveda) {
-		this.getDetalleaperturacierrebovedaList().remove(detalleaperturacierreboveda);
-		this.refreshTotal();
-		return detalleaperturacierreboveda;
-	}
-
-	public void refreshTotal() {
-		List<Detalleaperturacierreboveda> detalleaperturacierrebovedas = getDetalleaperturacierrebovedaList();
-		this.getTotal().setValue(BigDecimal.ZERO);
-		if (detalleaperturacierrebovedas != null) {
-			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedas.iterator(); iterator.hasNext();) {
-				Detalleaperturacierreboveda detalleaperturacierreboveda = iterator.next();
-				
-				getTotal().setValue(getTotal().add(detalleaperturacierreboveda.getSubtotal()));
-			}
-		}
-	}
-
-	public Moneda getTotal() {
-		return total;
-	}
-
-	public void setTotal(Moneda total) {
-		this.total = total;
+	public void setHistorialboveda(Historialboveda historialboveda) {
+		this.historialboveda = historialboveda;
 	}
 
 }

@@ -20,7 +20,7 @@ import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
-import org.ventura.entity.schema.caja.Detalleaperturacierreboveda;
+import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.venturabank.managedbean.session.AgenciaBean;
@@ -44,14 +44,14 @@ public class AdministrarBoveda implements Serializable {
 	@Inject
 	private Boveda boveda;
 	@Inject
-	private TablaBean<Detalleaperturacierreboveda> tablaBovedaDetalle;
+	private TablaBean<Detallehistorialboveda> tablaBovedaDetalle;
 
 	@Inject
 	private TablaBean<DetalleTransaccionBean> tablaDetallemonedaboveda;
 
 	@PostConstruct
 	private void initialize() {
-		this.tablaBovedaDetalle = new TablaBean<Detalleaperturacierreboveda>();
+		this.tablaBovedaDetalle = new TablaBean<Detallehistorialboveda>();
 		this.comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		this.refreshTablaBoveda();
 		boveda.getSaldo().setValue(BigDecimal.ZERO);
@@ -81,7 +81,7 @@ public class AdministrarBoveda implements Serializable {
 
 	public void openBovedaWithPendiente() throws Exception {
 		try {
-			List<Detalleaperturacierreboveda> detalleaperturacierreboveda = tablaBovedaDetalle.getAllRows();
+			List<Detallehistorialboveda> detalleaperturacierreboveda = tablaBovedaDetalle.getAllRows();
 			
 			bovedaServiceLocal.openBovedaWithPendiente(boveda);
 			refreshBean();
@@ -214,7 +214,7 @@ public class AdministrarBoveda implements Serializable {
 			if (estadoMovimientoType != EstadoMovimientoType.CERRADO) {
 				throw new Exception("Boveda Abierta imposible abrirla nuevamente");
 			}
-			List<Detalleaperturacierreboveda> detalleaperturacierrebovedaList = bovedaServiceLocal.getDetalleforOpenBoveda(boveda);
+			List<Detallehistorialboveda> detalleaperturacierrebovedaList = bovedaServiceLocal.getDetalleforOpenBoveda(boveda);
 			tablaBovedaDetalle.setRows(detalleaperturacierrebovedaList);
 		} catch (Exception e) {
 			throw e;
@@ -292,11 +292,11 @@ public class AdministrarBoveda implements Serializable {
 		this.agenciaBean = agenciaBean;
 	}
 
-	public TablaBean<Detalleaperturacierreboveda> getTablaBovedaDetalle() {
+	public TablaBean<Detallehistorialboveda> getTablaBovedaDetalle() {
 		return tablaBovedaDetalle;
 	}
 
-	public void setTablaBovedaDetalle(TablaBean<Detalleaperturacierreboveda> tablaBovedaDetalle) {
+	public void setTablaBovedaDetalle(TablaBean<Detallehistorialboveda> tablaBovedaDetalle) {
 		this.tablaBovedaDetalle = tablaBovedaDetalle;
 	}
 

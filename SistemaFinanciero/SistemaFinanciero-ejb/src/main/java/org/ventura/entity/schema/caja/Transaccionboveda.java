@@ -32,10 +32,6 @@ public class Transaccionboveda implements Serializable {
 	@Column(nullable = false)
 	private Date hora;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "monto")) })
-	private Moneda monto;
-
 	@OneToMany(mappedBy = "transaccionboveda")
 	private List<Detalletransaccionboveda> detalletransaccionbovedas;
 
@@ -50,13 +46,12 @@ public class Transaccionboveda implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idcaja", nullable = false)
 	private Caja caja;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "identidadfinanciera", nullable = false)
 	private Entidadfinanciera entidadfinanciera;
-	
+
 	public Transaccionboveda() {
-		this.monto = new Moneda();
 	}
 
 	public Integer getIdtransaccionboveda() {
@@ -87,7 +82,8 @@ public class Transaccionboveda implements Serializable {
 		return this.detalletransaccionbovedas;
 	}
 
-	public void setDetalletransaccionbovedas(List<Detalletransaccionboveda> detalletransaccionbovedas) {
+	public void setDetalletransaccionbovedas(
+			List<Detalletransaccionboveda> detalletransaccionbovedas) {
 		this.detalletransaccionbovedas = detalletransaccionbovedas;
 	}
 
@@ -106,7 +102,7 @@ public class Transaccionboveda implements Serializable {
 	public void setHistorialboveda(Historialboveda historialboveda) {
 		this.historialboveda = historialboveda;
 	}
-	
+
 	public Caja getCaja() {
 		return caja;
 	}
@@ -123,25 +119,17 @@ public class Transaccionboveda implements Serializable {
 		this.entidadfinanciera = entidadfinanciera;
 	}
 
-	public void setMonto(Moneda monto) {
-		this.monto = monto;
-	}
-
-	public Moneda getMonto() {
-		refreshMonto();
-		return monto;
-	}
-	
-	public void refreshMonto(){
-		Moneda result = new Moneda();
-		List<Detalletransaccionboveda> detalletransaccionbovedas = this. detalletransaccionbovedas;
-		if(detalletransaccionbovedas != null){
-			for (Iterator<Detalletransaccionboveda> iterator = detalletransaccionbovedas.iterator(); iterator.hasNext();) {
-				Detalletransaccionboveda detalletransaccionboveda = (Detalletransaccionboveda) iterator.next();
-				BigDecimal aux = result.add(detalletransaccionboveda.getSubtotal());
-				result.setValue(aux);
-			}
-		}
-		this.monto = result;
+	public void refreshMonto() {
+		/*
+		 * Moneda result = new Moneda(); List<Detalletransaccionboveda>
+		 * detalletransaccionbovedas = this.detalletransaccionbovedas; if
+		 * (detalletransaccionbovedas != null) { for
+		 * (Iterator<Detalletransaccionboveda> iterator =
+		 * detalletransaccionbovedas .iterator(); iterator.hasNext();) {
+		 * Detalletransaccionboveda detalletransaccionboveda =
+		 * (Detalletransaccionboveda) iterator .next(); BigDecimal aux =
+		 * result.add(detalletransaccionboveda .getSubtotal());
+		 * result.setValue(aux); } } this.monto = result;
+		 */
 	}
 }

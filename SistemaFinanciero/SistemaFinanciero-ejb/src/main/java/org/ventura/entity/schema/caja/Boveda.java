@@ -1,7 +1,6 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -19,7 +18,7 @@ import java.util.List;
 @NamedQuery(name = "Boveda.findAll", query = "SELECT b FROM Boveda b")
 @NamedQueries({
 		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true ORDER BY b.idboveda"),
-		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.idestadomovimiento = :idestadomovimiento AND b.estado = true") })
+		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estadoapertura.idestadoapertura = :idestadoapertura AND b.estado = true") })
 public class Boveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -38,29 +37,16 @@ public class Boveda implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable = false)
-	private Integer idagencia;
-
-	@Column(nullable = false)
-	private Integer idtipomoneda;
-
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldo")) })
-	private Moneda saldo;
-
-	@Column(nullable = false)
-	private Integer idestadomovimiento;
+	@ManyToOne
+	@JoinColumn(name = "idestadoapertura", nullable = false)
+	private Estadoapertura estadoapertura;
 
 	@ManyToOne
-	@JoinColumn(name = "idestadomovimiento", nullable = false, insertable = false, updatable = false)
-	private Estadomovimiento estadomovimiento;
-
-	@ManyToOne
-	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idtipomoneda", nullable = false)
 	private Tipomoneda tipomoneda;
 
 	@ManyToOne
-	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idagencia", nullable = false)
 	private Agencia agencia;
 
 	@ManyToMany
@@ -97,30 +83,6 @@ public class Boveda implements Serializable {
 		this.estado = estado;
 	}
 
-	public Integer getIdagencia() {
-		return this.idagencia;
-	}
-
-	public void setIdagencia(Integer idagencia) {
-		this.idagencia = idagencia;
-	}
-
-	public Integer getIdtipomoneda() {
-		return this.idtipomoneda;
-	}
-
-	public void setIdtipomoneda(Integer idtipomoneda) {
-		this.idtipomoneda = idtipomoneda;
-	}
-
-	public Estadomovimiento getEstadomovimiento() {
-		return this.estadomovimiento;
-	}
-
-	public void setEstadomovimiento(Estadomovimiento estadomovimiento) {
-		this.estadomovimiento = estadomovimiento;
-	}
-
 	public List<Caja> getCajas() {
 		return this.cajas;
 	}
@@ -153,20 +115,6 @@ public class Boveda implements Serializable {
 		return tipomoneda;
 	}
 
-	public void setTipomoneda(Tipomoneda tipomoneda) {
-		this.tipomoneda = tipomoneda;
-		this.idtipomoneda = (tipomoneda == null) ? null : tipomoneda
-				.getIdtipomoneda();
-	}
-
-	public Integer getIdestadomovimiento() {
-		return idestadomovimiento;
-	}
-
-	public void setIdestadomovimiento(Integer idestadomovimiento) {
-		this.idestadomovimiento = idestadomovimiento;
-	}
-
 	public Agencia getAgencia() {
 		return agencia;
 	}
@@ -175,12 +123,16 @@ public class Boveda implements Serializable {
 		this.agencia = agencia;
 	}
 
-	public void setSaldo(Moneda saldo) {
-		this.saldo = saldo;
+	public Estadoapertura getEstadoapertura() {
+		return estadoapertura;
 	}
 
-	public Moneda getSaldo() {
-		return saldo;
+	public void setEstadoapertura(Estadoapertura estadoapertura) {
+		this.estadoapertura = estadoapertura;
+	}
+
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
 	}
 
 }

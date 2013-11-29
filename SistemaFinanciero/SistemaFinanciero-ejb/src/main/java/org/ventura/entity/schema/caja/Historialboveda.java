@@ -1,7 +1,6 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -14,7 +13,7 @@ import java.util.Date;
 @Entity
 @Table(name = "historialboveda", schema = "caja")
 @NamedQuery(name = "Historialboveda.findAll", query = "SELECT h FROM Historialboveda h")
-@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.estado = true AND h.idboveda = :idboveda") })
+@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.estado = true AND h.boveda.idboveda = :idboveda") })
 public class Historialboveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,9 +24,6 @@ public class Historialboveda implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idhistorialboveda;
-
-	@Column(nullable = false)
-	private Integer idboveda;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -45,34 +41,12 @@ public class Historialboveda implements Serializable {
 	@Column
 	private Date horacierre;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldofinal")) })
-	private Moneda saldofinal;
-
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldoinicial")) })
-	private Moneda saldoinicial;
-
-	@Column
-	private Integer iddetallehistorialbovedainicial;
-
-	@Column
-	private Integer iddetallehistorialbovedafinal;
-
 	@Column(nullable = false)
 	private Boolean estado;
 
 	@ManyToOne
-	@JoinColumn(name = "idboveda", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idboveda", nullable = false)
 	private Boveda boveda;
-
-	@ManyToOne
-	@JoinColumn(name = "iddetallehistorialbovedainicial", nullable = false, insertable = false, updatable = false)
-	private Detallehistorialboveda detallehistorialbovedainicial;
-
-	@ManyToOne
-	@JoinColumn(name = "iddetallehistorialbovedafinal", insertable = false, updatable = false)
-	private Detallehistorialboveda detallehistorialbovedafinal;
 
 	public Historialboveda() {
 	}
@@ -123,7 +97,6 @@ public class Historialboveda implements Serializable {
 
 	public void setBoveda(Boveda boveda) {
 		this.boveda = boveda;
-		this.idboveda = (boveda == null) ? null : boveda.getIdboveda();
 	}
 
 	public Boolean getEstado() {
@@ -134,77 +107,17 @@ public class Historialboveda implements Serializable {
 		this.estado = estado;
 	}
 
-	public Integer getIdboveda() {
-		return idboveda;
-	}
-
-	public void setIdboveda(Integer idboveda) {
-		this.idboveda = idboveda;
-	}
-
-	public Integer getIddetallehistorialbovedainicial() {
-		return iddetallehistorialbovedainicial;
-	}
-
-	public void setIddetallehistorialbovedainicial(Integer iddetallehistorialbovedainicial) {
-		this.iddetallehistorialbovedainicial = iddetallehistorialbovedainicial;
-	}
-
-	public Integer getIddetallehistorialbovedafinal() {
-		return iddetallehistorialbovedafinal;
-	}
-
-	public void setIddetallehistorialbovedafinal(Integer iddetallehistorialbovedafinal) {
-		this.iddetallehistorialbovedafinal = iddetallehistorialbovedafinal;
-	}
-
-	public Detallehistorialboveda getDetallehistorialbovedainicial() {
-		return detallehistorialbovedainicial;
-	}
-
-	public void setDetallehistorialbovedainicial(Detallehistorialboveda detallehistorialbovedainicial) {
-		this.detallehistorialbovedainicial = detallehistorialbovedainicial;
-		this.iddetallehistorialbovedainicial = (detallehistorialbovedainicial == null) ? null : detallehistorialbovedainicial.getIddetallehistorialboveda();
-		this.refreshSaldos();
-	}
-
-	public Detallehistorialboveda getDetallehistorialbovedafinal() {
-		return detallehistorialbovedafinal;
-	}
-
-	public void setDetallehistorialbovedafinal(Detallehistorialboveda detallehistorialbovedafinal) {
-		this.detallehistorialbovedafinal = detallehistorialbovedafinal;
-		this.iddetallehistorialbovedafinal = (detallehistorialbovedafinal == null) ? null : detallehistorialbovedafinal.getIddetallehistorialboveda();
-		this.refreshSaldos();
-	}
-	
 	public void refreshSaldos() {
-		/*this.saldoinicial = new Double(0);
-		this.saldofinal = new Double(0);	
-		Detallehistorialboveda detallehistorialbovedainicial = getDetallehistorialbovedainicial();
-		Detallehistorialboveda detallehistorialbovedafinal = getDetallehistorialbovedafinal();	
-		if (detallehistorialbovedainicial != null) {
-			this.saldoinicial = detallehistorialbovedainicial.getTotal();
-		}
-		if (detallehistorialbovedafinal != null) {
-			this.saldofinal = detallehistorialbovedafinal.getTotal();
-		}*/
-	}
-
-	public Moneda getSaldofinal() {
-		return saldofinal;
-	}
-
-	public void setSaldofinal(Moneda saldofinal) {
-		this.saldofinal = saldofinal;
-	}
-
-	public Moneda getSaldoinicial() {
-		return saldoinicial;
-	}
-
-	public void setSaldoinicial(Moneda saldoinicial) {
-		this.saldoinicial = saldoinicial;
+		/*
+		 * this.saldoinicial = new Double(0); this.saldofinal = new Double(0);
+		 * Detallehistorialboveda detallehistorialbovedainicial =
+		 * getDetallehistorialbovedainicial(); Detallehistorialboveda
+		 * detallehistorialbovedafinal = getDetallehistorialbovedafinal(); if
+		 * (detallehistorialbovedainicial != null) { this.saldoinicial =
+		 * detallehistorialbovedainicial.getTotal(); } if
+		 * (detallehistorialbovedafinal != null) { this.saldofinal =
+		 * detallehistorialbovedafinal.getTotal(); }
+		 */
 	}
 
 }
