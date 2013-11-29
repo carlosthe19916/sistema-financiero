@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Caja" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+		<h:outputStylesheet library="css" name="main.css" />
+
+		<br />
+		<div>
+			<div>
+				<div class="p6n-api-consent-screen-title">Administrar Caja</div>
+				<br />
+				<div>
+					<h:form id="formToolbar">
+						<div class="buttons">
+							<div class="tiptip">
+								<a4j:commandLink
+									oncomplete="#{rich:component('dlgCreateCaja')}.show(); return false;"
+									render=":dlgCreateCaja" styleClass="button left"
+									title="Nueva Caja">
+									<span class="icon icon3"></span>
+									<span class="label">Nuevo</span>
+								</a4j:commandLink>
+								<a4j:commandLink
+									styleClass="button middle"
+									title="Editar Boveda">
+									<span class="icon icon26"></span>
+									<span class="label">Editar</span>
+								</a4j:commandLink>
+								<p:commandLink
+									styleClass="button right"
+									title="Eliminar Boveda">
+									<p:confirm header="Confirmation"
+										message="Estas seguro de eliminar la boveda?"
+										icon="ui-icon-alert" />
+									<span class="icon icon186"></span>
+									<span class="label">Eliminar</span>
+								</p:commandLink>
+								<p:commandLink
+									styleClass="button left"
+									title="Congelar Boveda">
+									<p:confirm header="Confirmation"
+										message="¿Estas seguro de Congelar la boveda?"
+										icon="ui-icon-alert" />
+									<span class="icon icon125"></span>
+									<span class="label">Congelar</span>
+								</p:commandLink>
+								<p:commandLink
+									styleClass="button right"
+									title="Descongelar Boveda">
+									<p:confirm header="Confirmation"
+										message="¿Estas seguro de Descongelar la boveda?"
+										icon="ui-icon-alert" />
+									<span class="icon icon126"></span>
+									<span class="label">Descongelar</span>
+								</p:commandLink>
+							</div>
+							<div>
+								<p:confirmDialog global="true">
+									<p:commandButton value="Si" type="button"
+										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button"
+										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+							</div>
+							<div class="dropdown">
+								<h:outputLink styleClass="button">
+									<span class="icon icon96">&nbsp;</span>
+									<span class="label">Operaciones</span>
+									<span class="toggle">&nbsp;</span>
+								</h:outputLink>
+								<div class="dropdown-slider">
+									<a4j:commandLink styleClass="ddm"
+										>
+										<span class="icon icon123">&nbsp;</span>
+										<span class="label">Abrir Boveda</span>
+									</a4j:commandLink>
+									<p:commandLink styleClass="ddm"
+										>
+										<span class="icon icon123">&nbsp;</span>
+										<span class="label">Abrir Pendiente</span>
+									</p:commandLink>
+									<p:commandLink styleClass="ddm"
+										>
+										<span class="icon icon123">&nbsp;</span>
+										<span class="label">Cerrar Boveda</span>
+									</p:commandLink>
+								</div>
+								<!-- /.dropdown-slider -->
+							</div>
+						</div>
+					</h:form>
+					<h:form id="formTablaCaja">
+						<div style="margin: 5px;">
+							<p:dataTable id="tblCaja" var="caja"
+								value="#{administrarCaja.tablaCaja.rows}"
+								selectionMode="single"
+								selection="#{administrarCaja.tablaCaja.selectedRow}"
+								rowKey="#{caja}" rowIndexVar="row">
+
+								<p:ajax event="rowSelect"
+									listener="#{administrarCaja.tablaCaja.rowSelect()}" />
+
+								<p:column headerText="Nro" width="5%" style="text-align:center;">
+									<h:outputText value="#{row + 1}" />
+								</p:column>
+
+								<p:column headerText="Denominacion">
+									<h:outputText value="" />
+								</p:column>
+								<p:column headerText="Abreviatura">
+									<h:outputText value="" />
+								</p:column>
+								<p:column headerText="Estado Apertura" width="200">
+									<h:outputText value="" />
+								</p:column>
+							</p:dataTable>
+						</div>
+					</h:form>
+					
+					<ui:include src="/modules/caja/caja/createCaja.xhtml">
+						<ui:param name="componentToUpdated"
+							value=":formTablaCaja:tblCaja" />
+					</ui:include>
+
+					
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>
