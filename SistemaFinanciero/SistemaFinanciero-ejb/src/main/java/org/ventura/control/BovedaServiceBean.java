@@ -116,7 +116,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 
 		boveda.setEstado(true);
-		boveda.setSaldo(BigDecimal.ZERO);
+		boveda.getSaldo().setValue(BigDecimal.ZERO);
 		boveda.setIdestadomovimiento(EstadoValue
 				.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO));
 	}
@@ -441,15 +441,15 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 				
 				Integer cantidad = detalleaperturacierrebovedaOld.getCantidad();
 				Denominacionmoneda denominacionmoneda = detalleaperturacierrebovedaOld.getDenominacionmoneda();
-				BigDecimal subtotal = detalleaperturacierrebovedaOld.getSubtotal();
+				BigDecimal subtotal = detalleaperturacierrebovedaOld.getSubtotal().getValue();
 
 				detalleaperturacierrebovedainicialNew.setCantidad(cantidad);
 				detalleaperturacierrebovedainicialNew.setDenominacionmoneda(denominacionmoneda);
-				detalleaperturacierrebovedainicialNew.setSubtotal(subtotal);
+				detalleaperturacierrebovedainicialNew.getSubtotal().setValue(subtotal);
 				
 				detalleaperturacierrebovedafinalNew.setCantidad(cantidad);
 				detalleaperturacierrebovedafinalNew.setDenominacionmoneda(denominacionmoneda);
-				detalleaperturacierrebovedafinalNew.setSubtotal(subtotal);
+				detalleaperturacierrebovedafinalNew.getSubtotal().setValue(subtotal);
 
 				listDetalleaperturacierrebovedainicialNew.add(detalleaperturacierrebovedainicialNew);
 				listDetalleaperturacierrebovedafinalNew.add(detalleaperturacierrebovedafinalNew);
@@ -509,8 +509,92 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
-	public void openBovedaWithPendiente(Boveda oBoveda) throws Exception {
-		// TODO Auto-generated method stub
+	public void openBovedaWithPendiente(Boveda boveda) throws Exception {
+		boolean existsOldHistorialboveda;
+		try {
+			boveda = bovedaDAO.find(boveda.getIdboveda());
+
+			boolean resultBoveda = verificarBoveda(boveda,EstadoMovimientoType.CERRADO);
+			if (resultBoveda == false) {
+				throw new Exception("Boveda Abierta, Imposible Abrirla nuevamente");
+			}
+			boolean resultCajas = verificarCajas(boveda,EstadoMovimientoType.CERRADO);
+			if (resultCajas == false) {
+				throw new Exception("Cajas de Boveda abiertas, Imposible Abrirlas nuevamente");
+			}
+
+			Historialboveda historialbovedaOld = this.getHistorialActive(boveda);
+			Historialboveda historialbovedaNew = new Historialboveda();
+
+			List<Denominacionmoneda> denominacionmonedasTotal = getDenominacionmonedasActive(boveda.getTipomoneda());
+
+			existsOldHistorialboveda = (historialbovedaOld == null) ? false : true;
+			copyDetallehistorialOldtoNew(historialbovedaOld, historialbovedaNew);
+			union(historialbovedaNew.getDetallehistorialbovedainicial(),denominacionmonedasTotal);
+			union(historialbovedaNew.getDetallehistorialbovedafinal(),denominacionmonedasTotal);
+			
+			historialbovedaNew.setBoveda(boveda);
+			historialbovedaNew.setFechaapertura(Calendar.getInstance().getTime());
+			historialbovedaNew.setHoraapertura(Calendar.getInstance().getTime());
+			historialbovedaNew.setSaldoinicial(boveda.getSaldo());
+			historialbovedaNew.setSaldofinal(boveda.getSaldo());
+			historialbovedaNew.setEstado(true);
+
+			if (existsOldHistorialboveda) {
+				historialbovedaNew.setEstado(true);
+				historialbovedaOld.setEstado(false);
+			} else {
+				historialbovedaNew.setEstado(true);
+			}
+			Integer estadoMovimientoAbierto = EstadoValue.getEstadoMovimientoValue(EstadoMovimientoType.ABIERTO_CONGELADO);
+			boveda.setIdestadomovimiento(estadoMovimientoAbierto);
+			
+			// LISTO PARA MODIFICAR LA BASE DE DATOS
+			Detallehistorialboveda detallehistorialbovedainicial = historialbovedaNew.getDetallehistorialbovedainicial();
+			Detallehistorialboveda detallehistorialbovedafinal = historialbovedaNew.getDetallehistorialbovedafinal();
+			
+			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasinicial = detallehistorialbovedainicial.getDetalleaperturacierrebovedaList();
+			List<Detalleaperturacierreboveda> detalleaperturacierrebovedasfinal = detallehistorialbovedafinal.getDetalleaperturacierrebovedaList();
+			
+			detallehistorialbovedaDAO.create(detallehistorialbovedainicial);
+			detallehistorialbovedaDAO.create(detallehistorialbovedafinal);
+			
+			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasinicial.iterator(); iterator.hasNext();) {
+				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator.next();
+				detalleaperturacierreboveda.setDetallehistorialboveda(detallehistorialbovedainicial);
+				detalleaperturacierrebovedaDAO.create(detalleaperturacierreboveda);
+			}
+			for (Iterator<Detalleaperturacierreboveda> iterator = detalleaperturacierrebovedasfinal.iterator(); iterator.hasNext();) {
+				Detalleaperturacierreboveda detalleaperturacierreboveda = (Detalleaperturacierreboveda) iterator.next();
+				detalleaperturacierreboveda.setDetallehistorialboveda(detallehistorialbovedafinal);
+				detalleaperturacierrebovedaDAO.create(detalleaperturacierreboveda);
+			}
+			
+			historialbovedaNew.setDetallehistorialbovedainicial(detallehistorialbovedainicial);
+			historialbovedaNew.setDetallehistorialbovedafinal(detallehistorialbovedafinal);
+			
+			if (existsOldHistorialboveda) {
+				historialbovedaDAO.create(historialbovedaNew);
+				historialbovedaDAO.update(historialbovedaOld);
+			} else {
+				historialbovedaDAO.create(historialbovedaNew);
+			}
+
+			bovedaDAO.update(boveda);
+			log.info("FINISH SUCCESSFULLY: BOVEDA ABIERTA");
+
+		} catch (IllegalArgumentException | NonexistentEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		} catch (Exception e) {
+			boveda.setIdboveda(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Abrir la Boveda");
+		}
 
 	}
 
