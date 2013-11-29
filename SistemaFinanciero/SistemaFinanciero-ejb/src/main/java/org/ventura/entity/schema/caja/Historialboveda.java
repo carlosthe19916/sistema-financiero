@@ -22,6 +22,7 @@ public class Historialboveda implements Serializable {
 	public final static String findHistorialActive = "org.ventura.entity.schema.caja.findHistorialActive";
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idhistorialboveda;
 
