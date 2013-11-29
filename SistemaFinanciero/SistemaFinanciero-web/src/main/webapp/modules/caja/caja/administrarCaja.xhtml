@@ -30,8 +30,9 @@
 						<div class="buttons">
 							<div class="tiptip">
 								<a4j:commandLink
-									styleClass="button left"
-									title="Nueva bóveda">
+									oncomplete="#{rich:component('dlgCreateCaja')}.show(); return false;"
+									render=":dlgCreateCaja" styleClass="button left"
+									title="Nueva Caja">
 									<span class="icon icon3"></span>
 									<span class="label">Nuevo</span>
 								</a4j:commandLink>
@@ -131,6 +132,11 @@
 							</p:dataTable>
 						</div>
 					</h:form>
+					
+					<ui:include src="/modules/caja/caja/createCaja.xhtml">
+						<ui:param name="componentToUpdated"
+							value=":formTablaCaja:tblCaja" />
+					</ui:include>
 
 					
 				</div>
