@@ -1,5 +1,9 @@
 package org.ventura.control;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -44,6 +48,33 @@ public class CajaServiveBean implements CajaServiceLocal{
 	public void update(Caja oCaja) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Collection<Caja> findByNamedQuery(String queryName) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<Caja> findByNamedQuery(String queryName, int resultLimit)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Caja> findByNamedQuery(String Boveda,
+			Map<String, Object> parameters) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Caja> findByNamedQuery(String namedQueryName,
+			Map<String, Object> parameters, int resultLimit) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
