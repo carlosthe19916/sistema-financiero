@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "historialboveda", schema = "caja")
 @NamedQuery(name = "Historialboveda.findAll", query = "SELECT h FROM Historialboveda h")
-@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda.idboveda = :idboveda and h.idhistorialboveda = (SELECT MAX(hh.idhistorialboveda) FROM Historialboveda hh)") })
+@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda.idboveda = :idboveda and h.idcreacion = (SELECT MAX(hh.idcreacion) FROM Historialboveda hh WHERE hh.boveda.idboveda = h.boveda.idboveda)") })
 public class Historialboveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +25,9 @@ public class Historialboveda implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idhistorialboveda;
+
+	@Column(unique = true, nullable = false)
+	private Integer idcreacion;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -132,6 +135,14 @@ public class Historialboveda implements Serializable {
 
 	public void setEstadomovimiento(Estadomovimiento estadomovimiento) {
 		this.estadomovimiento = estadomovimiento;
+	}
+
+	public Integer getIdcreacion() {
+		return idcreacion;
+	}
+
+	public void setIdcreacion(Integer idcreacion) {
+		this.idcreacion = idcreacion;
 	}
 
 }

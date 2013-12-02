@@ -1,36 +1,36 @@
 package org.ventura.entity.schema.sucursal;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.*;
 
 /**
  * The persistent class for the agencia database table.
  * 
  */
 @Entity
-@Table(name="agencia",schema="sucursal")
-@NamedQuery(name="Agencia.findAll", query="SELECT a FROM Agencia a")
+@Table(name = "agencia", schema = "sucursal")
+@NamedQuery(name = "Agencia.findAll", query = "SELECT a FROM Agencia a")
 public class Agencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idagencia;
 
-	@Column(length=10)
+	@Column(length = 10)
 	private String abreviatura;
 
-	@Column(nullable=false, length=3)
+	@Column(nullable = false, length = 3)
 	private String codigoagencia;
 
-	@Column(nullable=false, length=150)
+	@Column(nullable = false, length = 150)
 	private String denominacion;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer idsucursal;
 
 	public Agencia() {
@@ -84,4 +84,17 @@ public class Agencia implements Serializable {
 		this.idsucursal = idsucursal;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Agencia)) {
+			return false;
+		}
+		final Agencia other = (Agencia) obj;
+		return other.getIdagencia() == this.idagencia ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idagencia;
+	}
 }

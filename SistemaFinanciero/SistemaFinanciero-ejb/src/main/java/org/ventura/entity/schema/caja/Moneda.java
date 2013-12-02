@@ -52,28 +52,32 @@ public class Moneda implements Serializable {
 		this(moneda.getValue().toString());
 	}
 
-	public BigDecimal add(Moneda moneda) {
-		return this.value.add(moneda.getValue());
+	public Moneda add(Moneda moneda) {
+		BigDecimal result = this.value.add(moneda.getValue());
+		return new Moneda(result);
 	}
 
-	public BigDecimal subtract(Moneda moneda) {
-		return this.value.subtract(moneda.getValue());
+	public Moneda subtract(Moneda moneda) {
+		BigDecimal result = this.value.subtract(moneda.getValue());
+		return new Moneda(result);
 	}
 
-	public BigDecimal multiply(double value) {
+	public Moneda multiply(double value) {		
 		Moneda moneda = new Moneda(value);
-		return this.value.multiply(moneda.getValue());
+		BigDecimal result = this.value.multiply(moneda.getValue());
+		return new Moneda(result);
 	}
 
-	public BigDecimal multiply(long value) {
+	public Moneda multiply(long value) {
 		Moneda moneda = new Moneda(value);
-		return this.value.multiply(moneda.getValue());
+		BigDecimal result = this.value.multiply(moneda.getValue());
+		return new Moneda(result);
 	}
-	
-	public BigDecimal multiply(int value){
-		BigDecimal intValue = new BigDecimal(value);
-		Moneda moneda = new Moneda(intValue);
-		return this.value.multiply(moneda.getValue());
+
+	public Moneda multiply(int value) {
+		Moneda moneda = new Moneda(value);
+		BigDecimal result = this.value.multiply(moneda.getValue());
+		return new Moneda(result);
 	}
 
 	public BigDecimal divide(double value) {

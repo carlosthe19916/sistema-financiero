@@ -21,6 +21,7 @@ import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
+import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.ventura.util.maestro.EstadoAperturaType;
@@ -61,10 +62,11 @@ public class TransaccionBovedaBean implements Serializable {
 	private void initialize() {
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-			parameters.put("idestadomovimiento",ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO).getIdestadoapertura());		
+			parameters.put("agencia", agenciaBean.getAgencia());
+			parameters.put("estadoapertura",ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO));		
+			parameters.put("estadomovimiento",ProduceObject.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO));
 			
-			comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO,parameters);		
+			comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, parameters);		
 			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 
 			comboTipoentidad.putItem(1, "Caja");
@@ -179,9 +181,11 @@ public class TransaccionBovedaBean implements Serializable {
 				Map<String, Object> parameters = new HashMap<String, Object>();
 				parameters.put("idboveda", boveda.getIdboveda());
 				comboCaja.initValuesFromNamedQueryName(Caja.findAllByBovedaAndState, parameters);
+				comboEntidadfinanciera.clean();
 			} else {
 				if (key == 2) {
 					comboEntidadfinanciera.initValuesFromNamedQueryName(Entidadfinanciera.ALL_ACTIVE);
+					comboCaja.clean();
 				} else {
 					throw new Exception("Tipo de entidad no valida");
 				}
@@ -214,6 +218,15 @@ public class TransaccionBovedaBean implements Serializable {
 		} else {
 			return false;
 		}
+	}
+	
+	public Moneda getTotalTransaccion() {
+		Moneda result = new Moneda();
+		for (Detalletransaccionboveda e : tablaDetalletransaccionboveda.getRows()) {
+			Moneda subtotal = e.getSubtotal();
+			result = result.add(subtotal);
+		}
+		return result;
 	}
 	
 	public TablaBean<Detalletransaccionboveda> getTablaDetalletransaccionboveda() {

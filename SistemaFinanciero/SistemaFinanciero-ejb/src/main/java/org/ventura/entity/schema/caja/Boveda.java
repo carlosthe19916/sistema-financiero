@@ -18,7 +18,7 @@ import java.util.List;
 @NamedQuery(name = "Boveda.findAll", query = "SELECT b FROM Boveda b")
 @NamedQueries({
 		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true ORDER BY b.idboveda"),
-		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estadoapertura.idestadoapertura = :idestadoapertura AND b.estado = true") })
+		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, query = "Select b From Boveda b INNER JOIN b.agencia a INNER JOIN b.historialbovedas hb WHERE a = :agencia AND b.estado = true AND b.estadoapertura = :estadoapertura AND b.estado = true AND hb.estadomovimiento = :estadomovimiento AND hb.idcreacion = (SELECT MAX(hh.idcreacion) FROM Historialboveda hh WHERE hh.boveda.idboveda = b.idboveda )") })
 public class Boveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
