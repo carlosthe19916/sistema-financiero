@@ -7,13 +7,11 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.context.RequestContext;
 import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
@@ -75,9 +73,9 @@ public class TransaccionBovedaBean implements Serializable {
 		}		
 	}
 
-	public void createTransaccionboveda() throws Exception {
-		boolean result;
+	public String createTransaccionboveda() {		
 		try {
+			boolean result;
 			result = this.validateBean();
 			if (result == true) {
 				Boveda boveda = this.boveda;
@@ -86,23 +84,19 @@ public class TransaccionBovedaBean implements Serializable {
 				Entidadfinanciera entidadfinanciera = comboEntidadfinanciera.getObjectItemSelected();
 				List<Detalletransaccionboveda> detalletransaccionbovedas = tablaDetalletransaccionboveda.getAllRows();
 
-				transaccionboveda.refreshMonto();
 				transaccionboveda.setTipotransaccion(tipotransaccion);
 				transaccionboveda.setCaja(caja);
 				transaccionboveda.setEntidadfinanciera(entidadfinanciera);
 				transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
-				bovedaServiceLocal.createTransaccionboveda(boveda,transaccionboveda);
-				
-				refreshBean();
-				FacesMessage message = new FacesMessage("Info", "Bóveda activada correctamente");
-				RequestContext.getCurrentInstance().showMessageInDialog(message);
+				Transaccionboveda transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,transaccionboveda);	
+				this.transaccionboveda = transaccionbovedaResult;			
 			} else {
 				throw new Exception("Datos de Transaccion Invalidos");
 			}
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());  	          
-	        RequestContext.getCurrentInstance().showMessageInDialog(message); 
+			return "failure";
 		}
+		return "success";
 	}
 	
 	public boolean validateBean() throws Exception {
