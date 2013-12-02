@@ -627,40 +627,39 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 	@Override
 	public void closeBoveda(Boveda boveda) throws Exception {
-		/*try {
+		try {
 			boveda = bovedaDAO.find(boveda.getIdboveda());
-			boolean resultBovedaDES = verificarBoveda(boveda,
-					EstadoMovimientoType.ABIERTO_DESCONGELADO);
-			boolean resultBovedaCON = verificarBoveda(boveda,
-					EstadoMovimientoType.ABIERTO_CONGELADO);
-			if (resultBovedaCON == false && resultBovedaDES == false) {
-				throw new Exception(
-						"Boveda Cerrada, Imposible Cerrarla nuevamente");
+		
+			boolean resultBoveda = verificarBoveda(boveda,EstadoAperturaType.CERRADO);
+			if (resultBoveda == true) {
+				throw new Exception("Boveda cerrada, Imposible cerrarla nuevamente");
 			}
-			boolean resultCajas = verificarCajas(boveda,
-					EstadoMovimientoType.CERRADO);
+			
+			boolean resultCajas = verificarCajas(boveda, EstadoAperturaType.CERRADO);
 			if (resultCajas == false) {
-				throw new Exception(
-						"Cajas de Boveda abiertas, Imposible Cerrar Boveda");
+				throw new Exception("Cajas de Boveda abiertas, Imposible Cerrar Boveda");
 			}
-
+							
 			Historialboveda historialboveda = this.getHistorialActive(boveda);
-			historialboveda.setBoveda(boveda);
-			boolean resultDetalleHistorialFinal = verificarDetalleHistorialFinal(historialboveda);
-			if (resultDetalleHistorialFinal == false) {
-				throw new Exception(
-						"Detalle historial final Nulo, Imposible Cerrar Boveda");
+			if(historialboveda == null){
+				throw new Exception("No se puede cerrar boveda, no existe HistorialBovedaActivo");
 			}
+			
+			//modificar el detalle historial boveda con transacciones realizadas
+
+			
+			//modificar el historial boveda
 			historialboveda.setFechacierre(Calendar.getInstance().getTime());
-			historialboveda.setHoracierre(Calendar.getInstance().getTime());
-			historialboveda.setSaldofinal(boveda.getSaldo());
-			historialboveda.setEstado(true);
-
-			Integer estadoMovimientoCerrado = EstadoValue
-					.getEstadoMovimientoValue(EstadoMovimientoType.CERRADO);
-			boveda.setIdestadomovimiento(estadoMovimientoCerrado);
-
+			historialboveda.setHoracierre(Calendar.getInstance().getTime());		
+			Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
+			historialboveda.setEstadomovimiento(estadomovimiento);
+			historialbovedaDAO.update(historialboveda);
+			
+			//modificar boveda
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+			boveda.setEstadoapertura(estadoapertura);
 			bovedaDAO.update(boveda);
+			
 			log.info("FINISH SUCCESSFULLY: BOVEDA CERRADA");
 
 		} catch (IllegalArgumentException | NonexistentEntityException e) {
@@ -674,7 +673,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se pudo Cerrar la Boveda");
-		}*/
+		}
 	}
 
 	

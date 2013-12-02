@@ -38,33 +38,33 @@
 								</a4j:commandLink>
 								<a4j:commandLink
 									styleClass="button middle"
-									title="Editar Boveda">
+									title="Editar Caja">
 									<span class="icon icon26"></span>
 									<span class="label">Editar</span>
 								</a4j:commandLink>
 								<p:commandLink
 									styleClass="button right"
-									title="Eliminar Boveda">
+									title="Eliminar Caja">
 									<p:confirm header="Confirmation"
-										message="Estas seguro de eliminar la boveda?"
+										message="Estas seguro de eliminar la Caja?"
 										icon="ui-icon-alert" />
 									<span class="icon icon186"></span>
 									<span class="label">Eliminar</span>
 								</p:commandLink>
 								<p:commandLink
 									styleClass="button left"
-									title="Congelar Boveda">
+									title="Congelar Caja">
 									<p:confirm header="Confirmation"
-										message="¿Estas seguro de Congelar la boveda?"
+										message="¿Estas seguro de Congelar la caja?"
 										icon="ui-icon-alert" />
 									<span class="icon icon125"></span>
 									<span class="label">Congelar</span>
 								</p:commandLink>
 								<p:commandLink
 									styleClass="button right"
-									title="Descongelar Boveda">
+									title="Descongelar Caja">
 									<p:confirm header="Confirmation"
-										message="¿Estas seguro de Descongelar la boveda?"
+										message="¿Estas seguro de Descongelar la caja?"
 										icon="ui-icon-alert" />
 									<span class="icon icon126"></span>
 									<span class="label">Descongelar</span>
@@ -88,7 +88,7 @@
 									<a4j:commandLink styleClass="ddm"
 										>
 										<span class="icon icon123">&nbsp;</span>
-										<span class="label">Abrir Boveda</span>
+										<span class="label">Abrir Caja</span>
 									</a4j:commandLink>
 									<p:commandLink styleClass="ddm"
 										>
@@ -98,7 +98,7 @@
 									<p:commandLink styleClass="ddm"
 										>
 										<span class="icon icon123">&nbsp;</span>
-										<span class="label">Cerrar Boveda</span>
+										<span class="label">Cerrar Caja</span>
 									</p:commandLink>
 								</div>
 								<!-- /.dropdown-slider -->
@@ -121,13 +121,13 @@
 								</p:column>
 
 								<p:column headerText="Denominacion">
-									<h:outputText value="" />
+									<h:outputText value="#{caja.denominacion}" />
 								</p:column>
 								<p:column headerText="Abreviatura">
-									<h:outputText value="" />
+									<h:outputText value="#{caja.abreviatura}" />
 								</p:column>
 								<p:column headerText="Estado Apertura" width="200">
-									<h:outputText value="" />
+									<h:outputText value="#{caja.estadoapertura.denominacion}" />
 								</p:column>
 							</p:dataTable>
 						</div>

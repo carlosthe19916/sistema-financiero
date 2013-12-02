@@ -1,7 +1,6 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -23,10 +22,6 @@ public class Detalletransaccionboveda implements Serializable {
 	@Column(nullable = false)
 	private Integer cantidad;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "subtotal")) })
-	private Moneda subtotal;
-
 	@ManyToOne
 	@JoinColumn(name = "iddenominacionmoneda", nullable = false)
 	private Denominacionmoneda denominacionmoneda;
@@ -36,7 +31,6 @@ public class Detalletransaccionboveda implements Serializable {
 	private Transaccionboveda transaccionboveda;
 
 	public Detalletransaccionboveda() {
-		this.subtotal =  new Moneda();
 	}
 
 	public Integer getIddetalletransaccionboveda() {
@@ -52,7 +46,7 @@ public class Detalletransaccionboveda implements Serializable {
 	}
 
 	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;	
+		this.cantidad = cantidad;
 	}
 
 	public Denominacionmoneda getDenominacionmoneda() {
@@ -72,18 +66,12 @@ public class Detalletransaccionboveda implements Serializable {
 	}
 
 	public Moneda getSubtotal() {
-		return subtotal;
-	}
-
-	public void setSubtotal(Moneda subtotal) {
-		this.subtotal = subtotal;
-	}
-	
-	public void refreshSubtotal(){
-		Integer cantidad = this.cantidad;
-		Moneda denominacionMonedaValor = this.denominacionmoneda.getValor();
-		BigDecimal result = denominacionMonedaValor.multiply(cantidad);
-		this.subtotal.setValue(result);
+		Moneda result = new Moneda();
+		if (this.cantidad != null) {
+			Moneda valor = this.denominacionmoneda.getValor();
+			result = valor.multiply(cantidad);
+		}
+		return result;
 	}
 
 }

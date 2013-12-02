@@ -56,13 +56,6 @@ public class Detallehistorialboveda implements Serializable {
 		this.denominacionmoneda = denominacionmoneda;
 	}
 
-	public void refreshSubtotal() {
-		Integer cantidad = this.cantidad;
-		Moneda denominacionMonedaValor = this.denominacionmoneda.getValor();
-		BigDecimal result = denominacionMonedaValor.multiply(cantidad);
-		this.getSubtotal().setValue(result);
-	}
-
 	public Moneda getSubtotal() {
 		return subtotal;
 	}

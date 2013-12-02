@@ -19,7 +19,7 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
-		<h:form>
+		<h:form id="formTransaccion">
 			<br />
 			<div style="margin-left: 50px;">
 				<div>
@@ -59,7 +59,6 @@
 												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
-
 											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
 												oncomplete="$.unblockUI();" />
 										</h:selectOneMenu>
@@ -78,8 +77,7 @@
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
 												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-											<a4j:ajax event="valueChange" render="panelOrigen"
-												execute="@this" onbegin="$.blockUI();"
+											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
 												oncomplete="$.unblockUI();" />
 										</h:selectOneMenu>
 									</div>
@@ -150,12 +148,12 @@
 																required="true" maxlength="6"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 																style="width:150px;">
-																<f:ajax event="blur" render="@form"
-																	listener="#{detalle.refreshSubtotal()}" />
+																<f:ajax event="blur"
+																	render="txtTotal :formTransaccion:panelTotalTransaccion" />
 															</h:inputText></td>
 														<td></td>
 														<td><h:outputLabel id="txtTotal"
-																value="#{detalle.subtotal}"
+																value="#{detalle.getSubtotal()}"
 																style="width: 110px; vertical-align: middle;" /></td>
 													</tr>
 												</ui:repeat>
@@ -166,22 +164,23 @@
 							</div>
 							<div class="p6n-api-consent-screen-input-section"
 								style="margin-left: 20px;">
-								<div>
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">TOTAL
-										TRANSACCION</div>
+								<h:panelGroup id="panelTotalTransaccion">
 									<div>
-										<h:outputLabel id="txtTotaltransaccion"
-											value="#{transaccionBovedaBean.transaccionboveda.monto}">
-										</h:outputLabel>
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">TOTAL TRANSACCION</div>
+										<div>
+											<h:outputLabel id="txtTotaltransaccion"
+												value="#{transaccionBovedaBean.getTotalTransaccion()}">
+											</h:outputLabel>
+										</div>
 									</div>
-								</div>
+								</h:panelGroup>
 							</div>
 							<div class="sf-separator"></div>
 							<div class="sf-buttons" style="float: left;">
-								<a4j:commandButton value="Guardar" styleClass="action blue">
-									<a4j:ajax execute="@form"
-										listener="#{transaccionBovedaBean.createTransaccionboveda()}"
-										render="messages" />
+								<a4j:commandButton value="Guardar"
+									action="#{transaccionBovedaBean.createTransaccionboveda()}"
+									styleClass="action blue">
 								</a4j:commandButton>
 							</div>
 						</div>

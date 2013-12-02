@@ -84,9 +84,13 @@ public class AdministrarBoveda implements Serializable {
 		try {
 			bovedaServiceLocal.closeBoveda(boveda);
 			refreshBean();
-
+			
+			FacesMessage message = new FacesMessage("Info", "Boveda Cerrada satisfactoriamante");  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+	        
 		} catch (Exception e) {
-			throw e;
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
 		}
 	}
 
