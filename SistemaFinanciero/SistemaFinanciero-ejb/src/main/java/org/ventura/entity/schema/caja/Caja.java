@@ -13,12 +13,14 @@ import java.util.List;
 @Entity
 @Table(name = "caja", schema = "caja")
 @NamedQuery(name = "Caja.findAll", query = "SELECT c FROM Caja c")
-@NamedQueries({ @NamedQuery(name = Caja.findAllByBovedaAndState, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b WHERE b.idboveda = :idboveda") })
+@NamedQueries({ @NamedQuery(name = Caja.findAllByBovedaAndState, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b WHERE b.idboveda = :idboveda"),
+				@NamedQuery(name = Caja.ALL_ACTIVE_BY_AGENCIA, query = "Select c from Caja c inner join c.bovedas b where c.estado = true and b.agencia.idagencia = :idagencia group by c.idcaja")})
 public class Caja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String findAllByBovedaAndState = "org.ventura.entity.schema.caja.findAllByBovedaAndState";
+	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.ALL_ACTIVE_BY_AGENCIA";
 
 	@Id
 	@Column(unique = true, nullable = false)
@@ -33,17 +35,14 @@ public class Caja implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable = false)
-	private Integer idestadomovimiento;
-
 	// bi-directional many-to-many association to Boveda
 	@ManyToMany(mappedBy = "cajas")
 	private List<Boveda> bovedas;
 
 	// bi-directional many-to-one association to Estadomovimiento
 	@ManyToOne
-	@JoinColumn(name = "idestadomovimiento", nullable = false, updatable = false, insertable = false)
-	private Estadomovimiento estadomovimiento;
+	@JoinColumn(name = "idestadoapertura", nullable = false)
+	private Estadoapertura estadoapertura;
 
 	// bi-directional many-to-one association to Transaccioncaja
 	@OneToMany(mappedBy = "caja")
@@ -92,12 +91,12 @@ public class Caja implements Serializable {
 		this.bovedas = bovedas;
 	}
 
-	public Estadomovimiento getEstadomovimiento() {
-		return this.estadomovimiento;
+	public Estadoapertura getEstadoapertura() {
+		return estadoapertura;
 	}
 
-	public void setEstadomovimiento(Estadomovimiento estadomovimiento) {
-		this.estadomovimiento = estadomovimiento;
+	public void setEstadoapertura(Estadoapertura estadoapertura) {
+		this.estadoapertura = estadoapertura;
 	}
 
 	public List<Transaccioncaja> getTransaccioncajas() {
@@ -121,13 +120,4 @@ public class Caja implements Serializable {
 
 		return transaccioncaja;
 	}
-
-	public Integer getIdestadomovimiento() {
-		return idestadomovimiento;
-	}
-
-	public void setIdestadomovimiento(Integer idestadomovimiento) {
-		this.idestadomovimiento = idestadomovimiento;
-	}
-
 }

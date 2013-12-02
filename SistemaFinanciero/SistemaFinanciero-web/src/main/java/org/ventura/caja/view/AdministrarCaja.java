@@ -12,7 +12,6 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.dependent.TablaBean;
-import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.venturabank.managedbean.session.AgenciaBean;
 
@@ -41,8 +40,8 @@ public class AdministrarCaja implements Serializable{
 	
 	public void refreshTablaCaja() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("idagencia", getAgenciaBean().getAgencia().getIdagencia());
-		tablaCaja.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
+		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
+		tablaCaja.initValuesFromNamedQueryName(Caja.ALL_ACTIVE_BY_AGENCIA,parameters);
 	}
 
 	public AgenciaBean getAgenciaBean() {
