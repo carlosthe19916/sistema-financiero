@@ -13,12 +13,14 @@ import java.util.List;
 @Entity
 @Table(name = "caja", schema = "caja")
 @NamedQuery(name = "Caja.findAll", query = "SELECT c FROM Caja c")
-@NamedQueries({ @NamedQuery(name = Caja.findAllByBovedaAndState, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b WHERE b.idboveda = :idboveda") })
+@NamedQueries({ @NamedQuery(name = Caja.findAllByBovedaAndState, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b WHERE b.idboveda = :idboveda"),
+				@NamedQuery(name = Caja.ALL_ACTIVE_BY_AGENCIA, query = "Select c from Caja c inner join c.bovedas b where c.estado = true and b.agencia.idagencia = :idagencia group by c.idcaja")})
 public class Caja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String findAllByBovedaAndState = "org.ventura.entity.schema.caja.findAllByBovedaAndState";
+	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.ALL_ACTIVE_BY_AGENCIA";
 
 	@Id
 	@Column(unique = true, nullable = false)
