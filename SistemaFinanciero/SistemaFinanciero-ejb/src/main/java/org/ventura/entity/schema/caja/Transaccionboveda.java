@@ -1,12 +1,10 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.*;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -119,17 +117,11 @@ public class Transaccionboveda implements Serializable {
 		this.entidadfinanciera = entidadfinanciera;
 	}
 
-	public void refreshMonto() {
-		/*
-		 * Moneda result = new Moneda(); List<Detalletransaccionboveda>
-		 * detalletransaccionbovedas = this.detalletransaccionbovedas; if
-		 * (detalletransaccionbovedas != null) { for
-		 * (Iterator<Detalletransaccionboveda> iterator =
-		 * detalletransaccionbovedas .iterator(); iterator.hasNext();) {
-		 * Detalletransaccionboveda detalletransaccionboveda =
-		 * (Detalletransaccionboveda) iterator .next(); BigDecimal aux =
-		 * result.add(detalletransaccionboveda .getSubtotal());
-		 * result.setValue(aux); } } this.monto = result;
-		 */
+	public Moneda getTotal() {
+		Moneda result = new Moneda();
+		for (Detalletransaccionboveda e : detalletransaccionbovedas) {
+			result = result.add(e.getSubtotal());
+		}
+		return result;
 	}
 }

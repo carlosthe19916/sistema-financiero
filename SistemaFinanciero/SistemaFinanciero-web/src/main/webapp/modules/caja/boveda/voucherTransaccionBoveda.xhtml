@@ -17,7 +17,13 @@
 		<h:outputText value="Boveda" />
 	</ui:define>
 
-	<!-- Definiendo el cuerpo de la pagina -->
+	<f:metadata>
+		<f:viewParam name="idtransaccionboveda"
+			value="#{voucherTransaccionbovedaBean.idtransaccionboveda}" />
+		<f:viewAction
+			action="#{voucherTransaccionbovedaBean.loadTransaccion()}" />
+	</f:metadata>
+
 	<ui:define name="content">
 		<div class="sf-separator">
 			<h3>TRANSACCION</h3>
@@ -26,31 +32,43 @@
 			<table style="width: inherit;">
 				<tr>
 					<td><label>NUMERO TRANSACCION:</label></td>
-					<td><label>Deposito:</label></td>
+					<td><h:outputLabel
+							value="#{voucherTransaccionbovedaBean.transaccionboveda.idtransaccionboveda}" />
+					</td>
 				</tr>
 				<tr>
 					<td><label>TIPO TRANSACCION:</label></td>
-					<td><label>Deposito:</label></td>
+					<td><h:outputLabel
+							value="#{voucherTransaccionbovedaBean.transaccionboveda.tipotransaccion.denominacion}" />
+					</td>
 				</tr>
 				<tr>
 					<td><label>TOTAL:</label></td>
-					<td><label>1257157:</label></td>
+					<td><h:outputLabel
+							value="#{voucherTransaccionbovedaBean.transaccionboveda.getTotal()}" />
+					</td>
 				</tr>
 				<tr>
 					<td><label>FECHA:</label></td>
-					<td><label>12/12/2031</label></td>
-					<td><label>HORA :</label></td>
-					<td><label>00:05:25</label></td>
+					<td><h:outputLabel
+							value="#{voucherTransaccionbovedaBean.transaccionboveda.fecha}" />
+					</td>
+					<td><label>HORA:</label></td>
+					<td><h:outputLabel
+							value="#{voucherTransaccionbovedaBean.transaccionboveda.hora}" />
+					</td>
 				</tr>
 
 			</table>
 		</div>
 		<div class="sf-separator"></div>
-		<div class="sf-buttons" style="float: left;">
-			<h:commandButton value="« Nueva Transaccion"
-				action="transaccionBoveda.xhtml" styleClass="action" />
-			<a4j:commandButton></a4j:commandButton>
-		</div>
+		<h:form>
+			<div class="sf-buttons" style="float: left;">
+				<h:commandButton value="« Nueva Transaccion"
+					action="transaccionBoveda?faces-redirect=true" styleClass="action" />
+				<a4j:commandButton></a4j:commandButton>
+			</div>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

@@ -23,7 +23,6 @@ import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.dao.impl.BovedaDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
-import org.ventura.dao.impl.DetalleaperturacierrebovedaDAO;
 import org.ventura.dao.impl.DetallehistorialbovedaDAO;
 import org.ventura.dao.impl.DetalletransaccionbovedaDAO;
 import org.ventura.dao.impl.HistorialbovedaDAO;
@@ -58,7 +57,6 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 	@EJB
 	private BovedaDAO bovedaDAO;
-
 	@EJB
 	private TransaccionbovedaDAO transaccionbovedaDAO;
 	@EJB
@@ -66,12 +64,8 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 	@EJB
 	private HistorialbovedaDAO historialbovedaDAO;
-
 	@EJB
 	private DetallehistorialbovedaDAO detallehistorialbovedaDAO;
-
-	@EJB
-	private DetalleaperturacierrebovedaDAO detalleaperturacierrebovedaDAO;
 
 	@EJB
 	private DenominacionmonedaDAO denominacionmonedaDAO;
@@ -772,5 +766,22 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 		return transaccionboveda;
 	}
+
+	@Override
+	public Transaccionboveda findTransaccionboveda(Object id) throws Exception {
+		Transaccionboveda transaccionboveda = null;
+		try {
+			transaccionboveda = transaccionbovedaDAO.find(3806);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+		return transaccionboveda;
+	}
+	
+	
+	
 	
 }
