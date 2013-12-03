@@ -1,0 +1,46 @@
+.sf-voucher {
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 5px;
+	font-size: 11px;
+	width: 500px;
+}
+
+.sf-voucher-margin {
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #616161;
+}
+
+.sf-voucher-head {
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 5px;
+	font-size: 13px;
+}
+
+.sf-voucher-footer {
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 5px;
+	font-size: 13px;
+}
+
+.sf-voucher-content {
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 5px;
+}

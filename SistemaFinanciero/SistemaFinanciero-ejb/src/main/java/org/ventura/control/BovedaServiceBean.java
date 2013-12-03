@@ -892,10 +892,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("transaccionboveda", transaccionboveda);
-			List<Detalletransaccionboveda> detalletransaccion = detalletransaccionbovedaDAO
-					.findByNamedQuery(
-							Detalletransaccionboveda.ALL_ACTIVE_BY_TRANSACCION,
-							parameters);
+			List<Detalletransaccionboveda> detalletransaccion = detalletransaccionbovedaDAO.findByNamedQuery(Detalletransaccionboveda.ALL_ACTIVE_BY_TRANSACCION,parameters);
 
 			transaccionboveda.setDetalletransaccionbovedas(detalletransaccion);
 		} catch (Exception e) {

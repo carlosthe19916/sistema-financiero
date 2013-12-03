@@ -18,13 +18,13 @@ public class VoucherTransaccionbovedaBean implements Serializable {
 
 	@EJB
 	private BovedaServiceLocal bovedaServiceLocal;
-
+	
 	private Integer idtransaccionboveda;
 	private Transaccionboveda transaccionboveda;
 
 	public void loadTransaccion() {
 		try {
-			bovedaServiceLocal.findTransaccionboveda(idtransaccionboveda);
+			transaccionboveda = bovedaServiceLocal.findTransaccionboveda(idtransaccionboveda);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

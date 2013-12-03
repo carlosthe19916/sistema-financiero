@@ -20,7 +20,7 @@ public class Transaccionboveda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String FIND = "org.ventura.entity.schema.caja.Transaccionboveda.FIND";
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
@@ -46,18 +46,18 @@ public class Transaccionboveda implements Serializable {
 	private Tipotransaccion tipotransaccion;
 
 	@ManyToOne
-	@JoinColumn(name = "idcaja", nullable = false)
+	@JoinColumn(name = "idcaja")
 	private Caja caja;
 
 	@ManyToOne
-	@JoinColumn(name = "identidadfinanciera", nullable = false)
+	@JoinColumn(name = "identidadfinanciera")
 	private Entidadfinanciera entidadfinanciera;
 
 	public Transaccionboveda() {
 	}
 
 	public Integer getIdtransaccionboveda() {
-		return this.idtransaccionboveda;
+		return idtransaccionboveda;
 	}
 
 	public void setIdtransaccionboveda(Integer idtransaccionboveda) {
@@ -65,7 +65,7 @@ public class Transaccionboveda implements Serializable {
 	}
 
 	public Date getFecha() {
-		return this.fecha;
+		return fecha;
 	}
 
 	public void setFecha(Date fecha) {
@@ -73,7 +73,7 @@ public class Transaccionboveda implements Serializable {
 	}
 
 	public Date getHora() {
-		return this.hora;
+		return hora;
 	}
 
 	public void setHora(Date hora) {
@@ -81,20 +81,12 @@ public class Transaccionboveda implements Serializable {
 	}
 
 	public List<Detalletransaccionboveda> getDetalletransaccionbovedas() {
-		return this.detalletransaccionbovedas;
+		return detalletransaccionbovedas;
 	}
 
 	public void setDetalletransaccionbovedas(
 			List<Detalletransaccionboveda> detalletransaccionbovedas) {
 		this.detalletransaccionbovedas = detalletransaccionbovedas;
-	}
-
-	public Tipotransaccion getTipotransaccion() {
-		return this.tipotransaccion;
-	}
-
-	public void setTipotransaccion(Tipotransaccion tipotransaccion) {
-		this.tipotransaccion = tipotransaccion;
 	}
 
 	public Historialboveda getHistorialboveda() {
@@ -103,6 +95,14 @@ public class Transaccionboveda implements Serializable {
 
 	public void setHistorialboveda(Historialboveda historialboveda) {
 		this.historialboveda = historialboveda;
+	}
+
+	public Tipotransaccion getTipotransaccion() {
+		return tipotransaccion;
+	}
+
+	public void setTipotransaccion(Tipotransaccion tipotransaccion) {
+		this.tipotransaccion = tipotransaccion;
 	}
 
 	public Caja getCaja() {
@@ -128,7 +128,7 @@ public class Transaccionboveda implements Serializable {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Transaccionboveda)) {
@@ -143,4 +143,5 @@ public class Transaccionboveda implements Serializable {
 	public int hashCode() {
 		return idtransaccionboveda;
 	}
+
 }
