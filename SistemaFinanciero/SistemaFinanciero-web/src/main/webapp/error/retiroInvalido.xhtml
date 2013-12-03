@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Error" />
+	</ui:define>
+
+<style type="text/css">
+.text {
+	font-family: 'Open Sans', arial;
+	-webkit-font-smoothing: antialiased;
+	color: #555;
+	font-size: 14px;
+	font-weight: 400;
+}
+</style>
+
+	<ui:define name="content">
+		<div style="display: inline-block; padding: 40px;">
+			<br />
+			<div>
+				<p class="text">
+					<strong>IMPOSIBLE RETIRAR MAS DINERO DEL DISPONIBLE.</strong> Este
+					es un error
+				</p>
+			</div>
+			<div>
+				<p class="text">El servidor encontró que se intenta retirar un
+					monto de dinero invalido.</p>
+			</div>
+			<div>
+				<p class="text">
+					Por favor intentelo nuevamente.<a style="font-size: 14px;">Eso
+						es todo lo que sabemos </a>
+				</p>
+			</div>
+			<div>
+				<br />
+				<h:form>
+					<h:commandButton value="« Volver"
+						action="/modules/caja/boveda/transaccionBoveda?faces-redirect=true"
+						styleClass="action" />
+				</h:form>
+			</div>
+		</div>
+		<div style="display: inline-block;">
+			<h:graphicImage library="images" name="error-logo.jpg" />
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -36,6 +36,7 @@ import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
+import org.ventura.util.exception.InsufficientMoneyForTransactionException;
 import org.ventura.util.exception.InvalidTransactionBovedaException;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.RollbackFailureException;
@@ -767,28 +768,22 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
-	public Transaccionboveda createTransaccionboveda(Boveda boveda,
-			Transaccionboveda transaccionboveda) throws Exception {
+	public Transaccionboveda createTransaccionboveda(Boveda boveda,Transaccionboveda transaccionboveda) throws Exception {
 		List<Detalletransaccionboveda> detalletransaccionbovedas = null;
 		try {
-			detalletransaccionbovedas = transaccionboveda
-					.getDetalletransaccionbovedas();
+			detalletransaccionbovedas = transaccionboveda.getDetalletransaccionbovedas();
 			Historialboveda historialboveda = getHistorialbovedaLastActive(boveda);
 			if (historialboveda != null) {
 
-				TipoTransaccionType tipoTransaccion = ProduceObject
-						.getTipotransaccion(transaccionboveda
-								.getTipotransaccion());
+				TipoTransaccionType tipoTransaccion = ProduceObject.getTipotransaccion(transaccionboveda.getTipotransaccion());
 				boolean isTransaccionvalida = false;
 
 				switch (tipoTransaccion) {
 				case DEPOSITO:
-					isTransaccionvalida = isDepositoValido(boveda,
-							transaccionboveda);
+					isTransaccionvalida = isDepositoValido(boveda,transaccionboveda);
 					break;
 				case RETIRO:
-					isTransaccionvalida = isRetiroValido(boveda,
-							transaccionboveda);
+					isTransaccionvalida = isRetiroValido(boveda,transaccionboveda);
 					break;
 				default:
 					throw new Exception("Tipo de transaccion no valida");
@@ -805,16 +800,13 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 					}
 
 					// ACTUALIZAR DETALLEHISTORIALBOVEDA
-					List<Detallehistorialboveda> detallehistorialbovedas = historialboveda
-							.getDetallehistorialbovedas();
+					List<Detallehistorialboveda> detallehistorialbovedas = historialboveda.getDetallehistorialbovedas();
 
 					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
-						Denominacionmoneda denominacionmoneda = e
-								.getDenominacionmoneda();
+						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
 						Integer cantidad = e.getCantidad();
 						for (Detallehistorialboveda d : detallehistorialbovedas) {
-							if (d.getDenominacionmoneda().equals(
-									denominacionmoneda)) {
+							if (d.getDenominacionmoneda().equals(denominacionmoneda)) {
 								switch (tipoTransaccion) {
 								case DEPOSITO:
 									d.setCantidad(d.getCantidad() + cantidad);
@@ -830,22 +822,16 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 					}
 
 				} else {
-					throw new InvalidTransactionBovedaException(
-							"Transaccion no permitida");
+					switch (tipoTransaccion) {
+					case DEPOSITO:
+						throw new InvalidTransactionBovedaException("Transaccion no permitida");
+					case RETIRO:
+						throw new InsufficientMoneyForTransactionException("Fondos Insuficientes para Retiro");
+					}
 				}
 			} else {
-				throw new RollbackFailureException(
-						"Error: La boveda no tiene un historial activo");
+				throw new RollbackFailureException("Error: La boveda no tiene un historial activo");
 			}
-		} catch (RollbackFailureException e) {
-			transaccionboveda.setIdtransaccionboveda(null);
-			for (Detalletransaccionboveda d : detalletransaccionbovedas) {
-				d.setIddetalletransaccionboveda(null);
-			}
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Transaccion no guardada");
 		} catch (Exception e) {
 			transaccionboveda.setIdtransaccionboveda(null);
 			for (Detalletransaccionboveda d : detalletransaccionbovedas) {

@@ -17,35 +17,32 @@
    ID="rules:#modules#caja#boveda#transaccionBoveda.xhtml:0" NAME="item"
    PATH="/modules/caja/boveda/transaccionBoveda.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="success::#modules#caja#boveda#voucherTransaccionBoveda.xhtml"
+    ID="success::#modules#caja#boveda#voucherTransaccionboveda.xhtml"
     NAME="output"
-    PATH="/modules/caja/boveda/voucherTransaccionBoveda.xhtml"
-    TARGET="rules:#modules#caja#boveda#voucherTransaccionBoveda.xhtml"
+    PATH="/modules/caja/boveda/voucherTransaccionboveda.xhtml"
+    TARGET="rules:#modules#caja#boveda#voucherTransaccionboveda.xhtml"
     TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="retiroInvalido::#error#retiroInvalido.xhtml"
+    NAME="output1" PATH="/error/retiroInvalido.xhtml"
+    TARGET="rules:#error#retiroInvalido.xhtml" TITLE="retiroInvalido" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="invalidTransaction::#modules#caja#boveda#errorInvalidTransaccionBoveda.xhtml"
-    NAME="output1"
-    PATH="/modules/caja/boveda/errorInvalidTransaccionBoveda.xhtml"
-    TARGET="rules:#modules#caja#boveda#errorInvalidTransaccionBoveda.xhtml"
+    ID="invalidTransaction::#error#errorInvalidTransaccionBoveda.xhtml"
+    NAME="output2" PATH="/error/errorInvalidTransaccionBoveda.xhtml"
+    TARGET="rules:#error#errorInvalidTransaccionBoveda.xhtml"
     TITLE="invalidTransaction" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="failure::#modules#caja#boveda#errorTransaccionBovedaException.xhtml"
-    NAME="output2"
-    PATH="/modules/caja/boveda/errorTransaccionBovedaException.xhtml"
-    TARGET="rules:#modules#caja#boveda#errorTransaccionBovedaException.xhtml"
-    TITLE="failure" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="failure::#error#error-page.xhtml"
+    NAME="output3" PATH="/error/error-page.xhtml"
+    TARGET="rules:#error#error-page.xhtml" TITLE="failure" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
-  NAME="rules:#modules#caja#boveda#voucherTransaccionBoveda.xhtml"
-  PATH="/modules/caja/boveda/voucherTransaccionBoveda.xhtml"
+  NAME="rules:#modules#caja#boveda#voucherTransaccionboveda.xhtml"
+  PATH="/modules/caja/boveda/voucherTransaccionboveda.xhtml"
   SHAPE="256,145,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#modules#caja#boveda#errorTransaccionBovedaException.xhtml"
-  PATH="/modules/caja/boveda/errorTransaccionBovedaException.xhtml"
-  SHAPE="256,200,50,25" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#modules#caja#boveda#errorInvalidTransaccionBoveda.xhtml"
-  PATH="/modules/caja/boveda/errorInvalidTransaccionBoveda.xhtml"
-  SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#error#retiroInvalido.xhtml"
+  PATH="/error/retiroInvalido.xhtml" SHAPE="288,465,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#error#errorInvalidTransaccionBoveda.xhtml"
+  PATH="/error/errorInvalidTransaccionBoveda.xhtml" SHAPE="288,353,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#error#error-page.xhtml"
+  PATH="/error/error-page.xhtml" SHAPE="288,353,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

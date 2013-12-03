@@ -22,6 +22,7 @@ import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.util.exception.InsufficientMoneyForTransactionException;
 import org.ventura.util.exception.InvalidTransactionBovedaException;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
@@ -94,6 +95,8 @@ public class TransaccionBovedaBean implements Serializable {
 			} else {
 				throw new Exception("Datos de Transaccion Invalidos");
 			}
+		} catch (InsufficientMoneyForTransactionException e) {
+			return "retiroInvalido";
 		} catch (InvalidTransactionBovedaException e) {
 			return "invalidTransaction";
 		} catch (Exception e) {
