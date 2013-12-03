@@ -32,9 +32,13 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	
 	public List<Boveda> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
 	
-	public Historialboveda getLastHistorialboveda(Boveda oBoveda) throws Exception;
+	public Historialboveda getHistorialbovedaLastActive(Boveda oBoveda) throws Exception;
 	
-	public Historialboveda getHistorialActive(Boveda oBoveda) throws Exception;
+	public Historialboveda getHistorialbovedaLastNoActive(Boveda boveda) throws Exception;
+	
+	public List<Detallehistorialboveda> getDetallehistorialbovedaLastActive(Boveda boveda) throws Exception;
+	
+	public List<Detallehistorialboveda> getDetallehistorialbovedaLastNoActive(Boveda boveda) throws Exception;
 	
 	public List<Detallehistorialboveda> getDetalleforOpenBoveda(Boveda boveda) throws Exception;
 

@@ -1,7 +1,6 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -66,6 +65,15 @@ public class Detallehistorialboveda implements Serializable {
 
 	public void setHistorialboveda(Historialboveda historialboveda) {
 		this.historialboveda = historialboveda;
+	}
+	
+	public Moneda getSubtotal() {
+		Moneda result = new Moneda();
+		if (this.cantidad != null) {
+			Moneda valor = this.denominacionmoneda.getValor();
+			result = valor.multiply(cantidad);
+		}
+		return result;
 	}
 
 }

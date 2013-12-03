@@ -5,19 +5,22 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
 
-	<p:dialog id="idDlgCloseBoveda" widgetVar="#{WidgetVarName}"
-		header="CERRAR BÓVEDA" modal="true">
-		<h:form>
+	<h:form>
+		<rich:popupPanel id="dlgCloseBoveda" modal="true" autosized="true"
+			resizeable="false" domElementAttachment="form">
+			<f:facet name="header">
+				<h:outputText value="Cerrar Boveda" />
+			</f:facet>
 			<div>
 				<div>
 					<div class="sf-header-td-right">
-						<ul>
+						<ul style="float: none;">
 							<li>
 								<div class="p6n-api-consent-screen-input-section"
 									style="display: inline-block;">
@@ -57,11 +60,10 @@
 								</div>
 								<div style="display: inline-block;">
 									<h:outputLabel
-										value="#{administrarBoveda.boveda.estadomovimiento.denominacion}"
+										value="#{administrarBoveda.boveda.estadoapertura.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
-
 						</ul>
 					</div>
 				</div>
@@ -69,7 +71,7 @@
 					<table>
 						<tr>
 							<td><p:dataTable var="bovedaDetalle"
-									value="#{administrarBoveda.tablaBovedaDetalle.rows}"
+									value="#{administrarBoveda.tablaBovedaDetalleYesterday.rows}"
 									rowKey="#{bovedaDetalle}" rowIndexVar="row">
 
 									<f:facet name="header">SALDO INICIAL</f:facet>
@@ -96,8 +98,7 @@
 										<p:row>
 											<p:column colspan="3" footerText="Total en Bóveda:"
 												style="text-align:right" />
-											<p:column colspan="1"
-												footerText="#{administrarBoveda.boveda.saldo}"
+											<p:column colspan="1" footerText="total 01"
 												style="text-align:right" />
 										</p:row>
 									</p:columnGroup>
@@ -131,8 +132,7 @@
 										<p:row>
 											<p:column colspan="3" footerText="Total en Bóveda:"
 												style="text-align:right" />
-											<p:column colspan="1"
-												footerText="#{administrarBoveda.boveda.saldo}"
+											<p:column colspan="1" footerText="saldo 2"
 												style="text-align:right" />
 										</p:row>
 									</p:columnGroup>
@@ -144,21 +144,21 @@
 				<div>
 					<div class="p6n-api-consent-screen-section">
 						<div class="sf-buttons">
-							<h:commandLink styleClass="button left" title="Abrir bóveda"
-								actionListener="#{administrarBoveda.closeBoveda()}">
-								<span class="icon icon122"></span>
-								<span class="label">Cerrar Boveda</span>
-							</h:commandLink>
-							<button class="action">
-								<span class="label">Cancel</span>
-							</button>
+							<a4j:commandButton value="Guardar" styleClass="action blue">
+								<a4j:ajax execute="@form"
+									listener="#{administrarBoveda.closeBoveda()}"
+									render="#{componentToUpdated}"
+									oncomplete="#{rich:component('dlgCloseBoveda')}.hide()" />
+							</a4j:commandButton>
+							<h:commandButton value="Cancelar" styleClass="action">
+								<rich:componentControl target="dlgCloseBoveda" operation="hide" />
+							</h:commandButton>
 						</div>
 					</div>
 				</div>
 			</div>
-		</h:form>
-	</p:dialog>
-
+		</rich:popupPanel>
+	</h:form>
 </ui:composition>
 </html>
 

@@ -98,23 +98,13 @@
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Abrir Boveda</span>
 									</a4j:commandLink>
-									<p:commandLink styleClass="ddm"
-										oncomplete="dlgOpenBovedaPendiente.show();return false;">
-										<span class="icon icon123">&nbsp;</span>
-										<span class="label">Abrir Pendiente</span>
-									</p:commandLink>
-									<p:commandLink styleClass="ddm"
+									<a4j:commandLink styleClass="ddm"
 										actionListener="#{administrarBoveda.loadTablaBovedaDetalleAfterClose()}"
-										oncomplete="dlgCloseBoveda.show();return false;">
-										<span class="icon icon123">&nbsp;</span>
+										oncomplete="#{rich:component('dlgCloseBoveda')}.show(); return false;"
+										render=":dlgCloseBoveda">
+										<span class="icon icon122">&nbsp;</span>
 										<span class="label">Cerrar Boveda</span>
-									</p:commandLink>
-									<p:commandLink styleClass="ddm"
-										actionListener="#{administrarBoveda.closeBoveda()}"
-										oncomplete="dlgCloseBoveda.show();return false;">
-										<span class="icon icon123">&nbsp;</span>
-										<span class="label">prueba Cerrar Boveda</span>
-									</p:commandLink>
+									</a4j:commandLink>
 								</div>
 								<!-- /.dropdown-slider -->
 							</div>
@@ -158,6 +148,11 @@
 					</ui:include>
 
 					<ui:include src="/modules/caja/boveda/openBoveda.xhtml">
+						<ui:param name="componentToUpdated"
+							value=":formTablaBoveda:tblBoveda" />
+					</ui:include>
+
+					<ui:include src="/modules/caja/boveda/closeBoveda.xhtml">
 						<ui:param name="componentToUpdated"
 							value=":formTablaBoveda:tblBoveda" />
 					</ui:include>

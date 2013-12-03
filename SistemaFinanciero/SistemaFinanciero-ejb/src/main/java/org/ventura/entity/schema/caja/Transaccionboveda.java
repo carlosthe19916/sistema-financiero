@@ -128,7 +128,7 @@ public class Transaccionboveda implements Serializable {
 		}
 		return result;
 	}
-/*
+
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Transaccionboveda)) {
@@ -142,5 +142,5 @@ public class Transaccionboveda implements Serializable {
 	@Override
 	public int hashCode() {
 		return idtransaccionboveda;
-	}*/
+	}
 }

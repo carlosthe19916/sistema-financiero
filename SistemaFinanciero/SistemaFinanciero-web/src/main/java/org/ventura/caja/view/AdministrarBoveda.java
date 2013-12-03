@@ -1,8 +1,6 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +20,9 @@ import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Estadoapertura;
-import org.ventura.entity.schema.caja.Estadomovimiento;
+import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.maestro.EstadoAperturaType;
-import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.managedbean.session.AgenciaBean;
 
@@ -47,7 +44,9 @@ public class AdministrarBoveda implements Serializable {
 	private Boveda boveda;
 	@Inject
 	private TablaBean<Detallehistorialboveda> tablaBovedaDetalle;
-
+	@Inject
+	private TablaBean<Detallehistorialboveda> tablaBovedaDetalleLastNoActive;
+	
 	@PostConstruct
 	private void initialize() {
 		this.tablaBovedaDetalle = new TablaBean<Detallehistorialboveda>();
@@ -218,19 +217,33 @@ public class AdministrarBoveda implements Serializable {
 		}
 	}
 
-	public void loadTablaBovedaDetalleAfterClose() {
+	public void loadTablaBovedaDetalleAfterClose() throws Exception {
 		try {
 			loadBoveda();
-
-			// List<Detallehistorialboveda> detallehistorialbovedaList =
-			// bovedaServiceLocal.getLastDetallehistorialboveda(boveda);
-			// tablaBovedaDetalle.setRows(detallehistorialbovedaList);
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+			Estadoapertura estadoapertura2 = this.boveda.getEstadoapertura();
+			if (!estadoapertura.equals(estadoapertura2)) {			
+				 List<Detallehistorialboveda> detallehistorialbovedaInicial = bovedaServiceLocal.getDetallehistorialbovedaLastNoActive(boveda);
+				 List<Detallehistorialboveda> detallehistorialbovedaFinal = bovedaServiceLocal.getDetallehistorialbovedaLastActive(boveda);				 
+				 tablaBovedaDetalleLastNoActive.setRows(detallehistorialbovedaInicial);
+				 tablaBovedaDetalle.setRows(detallehistorialbovedaFinal);
+			} else {
+				throw new Exception("Boveda Cerrada imposible cerrarla nuevamente");
+			}		
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,"Error", e.getMessage());
-			RequestContext.getCurrentInstance().showMessageInDialog(message);
+			throw e;
 		}
 	}
 
+	public Moneda getTotalHistorialboveda() {
+		Moneda result = new Moneda();
+		for (Detallehistorialboveda e : tablaBovedaDetalle.getRows()) {
+			Moneda subtotal = e.getSubtotal();
+			result = result.add(subtotal);
+		}
+		return result;
+	}
+	
 	public void refreshBean() {
 		this.refreshTablaBoveda();
 		this.refreshComboTipomoneda();
@@ -295,6 +308,17 @@ public class AdministrarBoveda implements Serializable {
 
 	public void setTablaBovedaDetalle(TablaBean<Detallehistorialboveda> tablaBovedaDetalle) {
 		this.tablaBovedaDetalle = tablaBovedaDetalle;
+	}
+
+
+	public TablaBean<Detallehistorialboveda> getTablaBovedaDetalleYesterday() {
+		return tablaBovedaDetalleLastNoActive;
+	}
+
+
+	public void setTablaBovedaDetalleYesterday(
+			TablaBean<Detallehistorialboveda> tablaBovedaDetalleYesterday) {
+		this.tablaBovedaDetalleLastNoActive = tablaBovedaDetalleYesterday;
 	}
 
 }

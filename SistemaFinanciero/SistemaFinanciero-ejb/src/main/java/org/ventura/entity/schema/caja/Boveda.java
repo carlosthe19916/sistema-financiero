@@ -134,5 +134,19 @@ public class Boveda implements Serializable {
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Boveda)) {
+			return false;
+		}
+		final Boveda other = (Boveda) obj;
+		return other.getIdboveda() == this.idboveda ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idboveda;
+	}
 
 }

@@ -14,12 +14,15 @@ import java.util.List;
 @Entity
 @Table(name = "historialboveda", schema = "caja")
 @NamedQuery(name = "Historialboveda.findAll", query = "SELECT h FROM Historialboveda h")
-@NamedQueries({ @NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda.idboveda = :idboveda and h.idcreacion = (SELECT MAX(hh.idcreacion) FROM Historialboveda hh WHERE hh.boveda.idboveda = h.boveda.idboveda)") })
+@NamedQueries({
+		@NamedQuery(name = Historialboveda.findHistorialActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda = :boveda and h.idcreacion = (SELECT MAX(hh.idcreacion) FROM Historialboveda hh WHERE hh.boveda= h.boveda)"),
+		@NamedQuery(name = Historialboveda.findLastHistorialNoActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda = :boveda and h.idcreacion = (SELECT (MAX(hh.idcreacion) - 1) FROM Historialboveda hh WHERE hh.boveda = h.boveda)") })
 public class Historialboveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static String findHistorialActive = "org.ventura.entity.schema.caja.findHistorialActive";
+	public final static String findHistorialActive = "org.ventura.entity.schema.caja.Historialboveda.findHistorialActive";
+	public final static String findLastHistorialNoActive = "org.ventura.entity.schema.caja.Historialboveda.findLastHistorialNoActive";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -143,6 +146,28 @@ public class Historialboveda implements Serializable {
 
 	public void setIdcreacion(Integer idcreacion) {
 		this.idcreacion = idcreacion;
+	}
+
+	public Moneda getTotal() {
+		Moneda result = new Moneda();
+		for (Detallehistorialboveda e : detallehistorialbovedas) {
+			result = result.add(e.getSubtotal());
+		}
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Historialboveda)) {
+			return false;
+		}
+		final Historialboveda other = (Historialboveda) obj;
+		return other.getIdhistorialboveda() == this.idhistorialboveda ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idhistorialboveda;
 	}
 
 }

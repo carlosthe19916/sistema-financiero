@@ -85,7 +85,7 @@
 							<h:outputText value="#{bovedaDetalle.cantidad}" />
 						</p:column>
 						<p:column headerText="Total" width="150" style="text-align:right;">
-							<h:outputText value="#{bovedaDetalle.subtotal}" />
+							<h:outputText value="#{bovedaDetalle.getSubtotal()}" />
 						</p:column>
 
 						<p:columnGroup type="footer">
@@ -93,7 +93,7 @@
 								<p:column colspan="3" footerText="Total en Bóveda:"
 									style="text-align:right" />
 								<p:column colspan="1"
-									footerText="prueba"
+									footerText="#{administrarBoveda.getTotalHistorialboveda()}"
 									style="text-align:right" />
 							</p:row>
 						</p:columnGroup>
