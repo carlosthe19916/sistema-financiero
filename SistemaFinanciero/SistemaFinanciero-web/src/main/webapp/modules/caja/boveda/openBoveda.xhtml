@@ -28,7 +28,7 @@
 								</div>
 								<div style="display: inline-block;">
 									<h:outputLabel
-										value="#{administrarBoveda.agenciaBean.agencia.denominacion}"
+										value="#{administrarBovedaBean.agenciaBean.agencia.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -38,7 +38,7 @@
 									<div class="p6n-api-consent-screen-label" style="width: 50px;">BOVEDA:</div>
 								</div>
 								<div style="display: inline-block;">
-									<h:outputLabel value="#{administrarBoveda.boveda.denominacion}"
+									<h:outputLabel value="#{administrarBovedaBean.boveda.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -49,7 +49,7 @@
 								</div>
 								<div style="display: inline-block;">
 									<h:outputLabel
-										value="#{administrarBoveda.boveda.tipomoneda.denominacion}"
+										value="#{administrarBovedaBean.boveda.tipomoneda.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -60,7 +60,7 @@
 								</div>
 								<div style="display: inline-block;">
 									<h:outputLabel
-										value="#{administrarBoveda.boveda.estadoapertura.denominacion}"
+										value="#{administrarBovedaBean.boveda.estadoapertura.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -70,7 +70,7 @@
 				</div>
 				<div>
 					<p:dataTable var="bovedaDetalle"
-						value="#{administrarBoveda.tablaBovedaDetalle.rows}"
+						value="#{administrarBovedaBean.tablaBovedaDetalle.rows}"
 						rowKey="#{bovedaDetalle}" rowIndexVar="row">
 						<p:column headerText="Nro" width="15" style="text-align:center;">
 							<h:outputText value="#{row + 1}" />
@@ -93,7 +93,7 @@
 								<p:column colspan="3" footerText="Total en Bóveda:"
 									style="text-align:right" />
 								<p:column colspan="1"
-									footerText="#{administrarBoveda.getTotalHistorialboveda()}"
+									footerText="#{administrarBovedaBean.getTotalHistorialboveda()}"
 									style="text-align:right" />
 							</p:row>
 						</p:columnGroup>
@@ -104,7 +104,7 @@
 						<div class="sf-buttons">
 							<a4j:commandButton value="Guardar" styleClass="action blue">
 								<a4j:ajax execute="@form"
-									listener="#{administrarBoveda.openBoveda()}"
+									listener="#{administrarBovedaBean.openBoveda()}"
 									render="#{componentToUpdated}"
 									oncomplete="#{rich:component('dlgOpenBoveda')}.hide()" />
 							</a4j:commandButton>

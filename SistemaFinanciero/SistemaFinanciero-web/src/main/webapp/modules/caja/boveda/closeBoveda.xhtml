@@ -28,7 +28,7 @@
 								</div>
 								<div style="display: inline-block;">
 									<h:outputLabel
-										value="#{administrarBoveda.agenciaBean.agencia.denominacion}"
+										value="#{administrarBovedaBean.agenciaBean.agencia.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -38,7 +38,7 @@
 									<div class="p6n-api-consent-screen-label" style="width: 50px;">BOVEDA:</div>
 								</div>
 								<div style="display: inline-block;">
-									<h:outputLabel value="#{administrarBoveda.boveda.denominacion}"
+									<h:outputLabel value="#{administrarBovedaBean.boveda.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -49,7 +49,7 @@
 								</div>
 								<div style="display: inline-block;">
 									<h:outputLabel
-										value="#{administrarBoveda.boveda.tipomoneda.denominacion}"
+										value="#{administrarBovedaBean.boveda.tipomoneda.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -60,7 +60,7 @@
 								</div>
 								<div style="display: inline-block;">
 									<h:outputLabel
-										value="#{administrarBoveda.boveda.estadoapertura.denominacion}"
+										value="#{administrarBovedaBean.boveda.estadoapertura.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -71,7 +71,7 @@
 					<table>
 						<tr>
 							<td><p:dataTable var="bovedaDetalle"
-									value="#{administrarBoveda.tablaBovedaDetalleYesterday.rows}"
+									value="#{administrarBovedaBean.tablaBovedaDetalleYesterday.rows}"
 									rowKey="#{bovedaDetalle}" rowIndexVar="row">
 
 									<f:facet name="header">SALDO INICIAL</f:facet>
@@ -105,7 +105,7 @@
 								</p:dataTable></td>
 
 							<td><p:dataTable var="bovedaDetalle"
-									value="#{administrarBoveda.tablaBovedaDetalle.rows}"
+									value="#{administrarBovedaBean.tablaBovedaDetalle.rows}"
 									rowKey="#{bovedaDetalle}" rowIndexVar="row">
 
 									<f:facet name="header">SALDO FINAL</f:facet>
@@ -146,7 +146,7 @@
 						<div class="sf-buttons">
 							<a4j:commandButton value="Guardar" styleClass="action blue">
 								<a4j:ajax execute="@form"
-									listener="#{administrarBoveda.closeBoveda()}"
+									listener="#{administrarBovedaBean.closeBoveda()}"
 									render="#{componentToUpdated}"
 									oncomplete="#{rich:component('dlgCloseBoveda')}.hide()" />
 							</a4j:commandButton>

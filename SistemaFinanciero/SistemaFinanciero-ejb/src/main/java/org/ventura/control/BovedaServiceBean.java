@@ -174,30 +174,22 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			}
 
 			Historialboveda historialbovedaNew = new Historialboveda();
-			Historialboveda historialbovedaOld = this
-					.getHistorialbovedaLastActive(boveda);
+			Historialboveda historialbovedaOld = this.getHistorialbovedaLastActive(boveda);
 			List<Detallehistorialboveda> detallehistorialbovedasNew = new ArrayList<Detallehistorialboveda>();
+			historialbovedaNew.setDetallehistorialbovedas(detallehistorialbovedasNew);
 
-			historialbovedaNew
-					.setDetallehistorialbovedas(detallehistorialbovedasNew);
-
-			List<Denominacionmoneda> denominacionmonedasAllActive = getDenominacionmonedasActive(boveda
-					.getTipomoneda());
+			List<Denominacionmoneda> denominacionmonedasAllActive = getDenominacionmonedasActive(boveda.getTipomoneda());
 
 			if (historialbovedaOld != null) {
-				copyDetallehistorialOldtoNew(historialbovedaOld,
-						historialbovedaNew);
+				copyDetallehistorialOldtoNew(historialbovedaOld,historialbovedaNew);
 			}
 
 			List<Denominacionmoneda> denominacionmonedasAllFromHistorialNew = new ArrayList<Denominacionmoneda>();
 			for (Detallehistorialboveda e : detallehistorialbovedasNew) {
-				Denominacionmoneda denominacionmoneda = e
-						.getDenominacionmoneda();
+				Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
 				denominacionmonedasAllFromHistorialNew.add(denominacionmoneda);
 			}
-			List<Denominacionmoneda> denominacionmonedas2 = getDiferenceWithoutDuplicates(
-					denominacionmonedasAllActive,
-					denominacionmonedasAllFromHistorialNew);
+			List<Denominacionmoneda> denominacionmonedas2 = getDiferenceWithoutDuplicates(denominacionmonedasAllActive,denominacionmonedasAllFromHistorialNew);
 			for (Denominacionmoneda e : denominacionmonedas2) {
 				Detallehistorialboveda detallehistorialboveda = new Detallehistorialboveda();
 				detallehistorialboveda.setDenominacionmoneda(e);
@@ -207,13 +199,10 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			}
 
 			historialbovedaNew.setBoveda(boveda);
-			historialbovedaNew.setFechaapertura(Calendar.getInstance()
-					.getTime());
-			historialbovedaNew
-					.setHoraapertura(Calendar.getInstance().getTime());
+			historialbovedaNew.setFechaapertura(Calendar.getInstance().getTime());
+			historialbovedaNew.setHoraapertura(Calendar.getInstance().getTime());
 
-			Estadomovimiento estadomovimiento = ProduceObject
-					.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
+			Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
 			historialbovedaNew.setEstadomovimiento(estadomovimiento);
 
 			historialbovedaDAO.create(historialbovedaNew);
@@ -223,8 +212,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 				detallehistorialbovedaDAO.create(e);
 			}
 
-			Estadoapertura estadoapertura = ProduceObject
-					.getEstadoapertura(EstadoAperturaType.ABIERTO);
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO);
 			boveda.setEstadoapertura(estadoapertura);
 			bovedaDAO.update(boveda);
 
@@ -347,15 +335,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 	
 	@Override
-	public Historialboveda getHistorialbovedaLastActive(Boveda boveda)
-			throws RollbackFailureException, Exception {
+	public Historialboveda getHistorialbovedaLastActive(Boveda boveda) throws RollbackFailureException, Exception {
 		Historialboveda historialboveda = null;
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("boveda", boveda);
 
-		List<Historialboveda> historialbovedaList = historialbovedaDAO
-				.findByNamedQuery(Historialboveda.findHistorialActive,
-						parameters);
+		List<Historialboveda> historialbovedaList = historialbovedaDAO.findByNamedQuery(Historialboveda.findHistorialActive,parameters);
 		if (historialbovedaList.size() == 0) {
 			historialboveda = null;
 		}
@@ -620,29 +605,21 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		return denominacionmonedas;
 	}
 
-	public void copyDetallehistorialOldtoNew(
-			Historialboveda historialbovedaOld,
-			Historialboveda historialbovedaNew)
-			throws RollbackFailureException, Exception {
+	public void copyDetallehistorialOldtoNew(Historialboveda historialbovedaOld, Historialboveda historialbovedaNew) throws RollbackFailureException, Exception {
 		if (historialbovedaOld != null) {
-			List<Detallehistorialboveda> detallehistorialbovedasOld = historialbovedaOld
-					.getDetallehistorialbovedas();
-			List<Detallehistorialboveda> detallehistorialbovedasNew = new ArrayList<Detallehistorialboveda>();
+			List<Detallehistorialboveda> detallehistorialbovedasOld = historialbovedaOld.getDetallehistorialbovedas();
+			List<Detallehistorialboveda> detallehistorialbovedasNew = historialbovedaNew.getDetallehistorialbovedas();
 
 			for (Detallehistorialboveda e : detallehistorialbovedasOld) {
-				Denominacionmoneda denominacionmoneda = e
-						.getDenominacionmoneda();
+				Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
 				Integer cantidad = e.getCantidad();
 
 				Detallehistorialboveda detallehistorialbovedaNew = new Detallehistorialboveda();
-				detallehistorialbovedaNew
-						.setDenominacionmoneda(denominacionmoneda);
+				detallehistorialbovedaNew.setDenominacionmoneda(denominacionmoneda);
 				detallehistorialbovedaNew.setCantidad(cantidad);
 
 				detallehistorialbovedasNew.add(detallehistorialbovedaNew);
 			}
-			historialbovedaNew
-					.setDetallehistorialbovedas(detallehistorialbovedasNew);
 		}
 	}
 

@@ -28,7 +28,7 @@ import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
 @ViewScoped
-public class AdministrarBoveda implements Serializable {
+public class AdministrarBovedaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -69,10 +69,10 @@ public class AdministrarBoveda implements Serializable {
 
 	public void openBovedaWithPendiente() throws Exception {
 		try {
-			List<Detallehistorialboveda> detalleaperturacierreboveda = tablaBovedaDetalle.getAllRows();
+			//List<Detallehistorialboveda> detalleaperturacierreboveda = tablaBovedaDetalle.getAllRows();
 			
-			bovedaServiceLocal.openBovedaWithPendiente(boveda);
-			refreshBean();
+			//bovedaServiceLocal.openBovedaWithPendiente(boveda);
+			//refreshBean();
 
 		} catch (Exception e) {
 			throw e;

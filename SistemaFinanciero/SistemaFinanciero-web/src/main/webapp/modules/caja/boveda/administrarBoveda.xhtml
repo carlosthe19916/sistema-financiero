@@ -30,7 +30,7 @@
 						<div class="buttons">
 							<div class="tiptip">
 								<a4j:commandLink
-									actionListener="#{administrarBoveda.cleanBoveda()}"
+									actionListener="#{administrarBovedaBean.cleanBoveda()}"
 									oncomplete="#{rich:component('dlgCreateBoveda')}.show(); return false;"
 									render=":dlgCreateBoveda" styleClass="button left"
 									title="Nueva bóveda">
@@ -38,7 +38,7 @@
 									<span class="label">Nuevo</span>
 								</a4j:commandLink>
 								<a4j:commandLink
-									actionListener="#{administrarBoveda.loadBoveda()}"
+									actionListener="#{administrarBovedaBean.loadBoveda()}"
 									oncomplete="#{rich:component('dlgUpdateBoveda')}.show(); return false;"
 									render=":dlgUpdateBoveda" styleClass="button middle"
 									title="Editar Boveda">
@@ -46,7 +46,7 @@
 									<span class="label">Editar</span>
 								</a4j:commandLink>
 								<p:commandLink
-									actionListener="#{administrarBoveda.deleteBoveda()}"
+									actionListener="#{administrarBovedaBean.deleteBoveda()}"
 									update=":formTablaBoveda" styleClass="button right"
 									title="Eliminar Boveda">
 									<p:confirm header="Confirmation"
@@ -56,7 +56,7 @@
 									<span class="label">Eliminar</span>
 								</p:commandLink>
 								<p:commandLink
-									actionListener="#{administrarBoveda.desactivarMovimiento()}"
+									actionListener="#{administrarBovedaBean.desactivarMovimiento()}"
 									update=":formTablaBoveda:tblBoveda" styleClass="button left"
 									title="Congelar Boveda">
 									<p:confirm header="Confirmation"
@@ -66,7 +66,7 @@
 									<span class="label">Congelar</span>
 								</p:commandLink>
 								<p:commandLink
-									actionListener="#{administrarBoveda.activarMovimiento()}"
+									actionListener="#{administrarBovedaBean.activarMovimiento()}"
 									update=":formTablaBoveda:tblBoveda" styleClass="button right"
 									title="Descongelar Boveda">
 									<p:confirm header="Confirmation"
@@ -92,14 +92,14 @@
 								</h:outputLink>
 								<div class="dropdown-slider">
 									<a4j:commandLink styleClass="ddm"
-										actionListener="#{administrarBoveda.loadTablaBovedaDetalleAfterOpen()}"
+										actionListener="#{administrarBovedaBean.loadTablaBovedaDetalleAfterOpen()}"
 										oncomplete="#{rich:component('dlgOpenBoveda')}.show(); return false;"
 										render=":dlgOpenBoveda">
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Abrir Boveda</span>
 									</a4j:commandLink>
 									<a4j:commandLink styleClass="ddm"
-										actionListener="#{administrarBoveda.loadTablaBovedaDetalleAfterClose()}"
+										actionListener="#{administrarBovedaBean.loadTablaBovedaDetalleAfterClose()}"
 										oncomplete="#{rich:component('dlgCloseBoveda')}.show(); return false;"
 										render=":dlgCloseBoveda">
 										<span class="icon icon122">&nbsp;</span>
@@ -113,13 +113,13 @@
 					<h:form id="formTablaBoveda">
 						<div style="margin: 5px;">
 							<p:dataTable id="tblBoveda" var="boveda"
-								value="#{administrarBoveda.tablaBoveda.rows}"
+								value="#{administrarBovedaBean.tablaBoveda.rows}"
 								selectionMode="single"
-								selection="#{administrarBoveda.tablaBoveda.selectedRow}"
+								selection="#{administrarBovedaBean.tablaBoveda.selectedRow}"
 								rowKey="#{boveda}" rowIndexVar="row">
 
 								<p:ajax event="rowSelect"
-									listener="#{administrarBoveda.tablaBoveda.rowSelect()}" />
+									listener="#{administrarBovedaBean.tablaBoveda.rowSelect()}" />
 
 								<p:column headerText="Nro" width="5%" style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
