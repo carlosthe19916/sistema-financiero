@@ -27,8 +27,14 @@
 							style="vertical-align: middle;"><label
 							jsf:value="#{administrarCaja.agenciaBean.agencia.denominacion}"
 							class="sf-label-bold" /></td>
-					</tr>
+					</tr>										
+					
+				
+					<p:pickList id="pickList" value="#{administrarCaja.pickListBoveda.source}" var="boveda"   
+                		itemLabel="#{boveda.denominacion}" /> 
+					
 										
+								
 				</table>
 			</div>
 			<div class="sf-buttons">
@@ -39,7 +45,7 @@
 						oncomplete="#{rich:component('dlgCreateCaja')}.hide()" />
 				</a4j:commandButton>
 				<h:commandButton value="Cancelar" styleClass="action">
-					<rich:componentControl target="dlgCreateBoveda" operation="hide" />
+					<rich:componentControl target="dlgCreateCaja" operation="hide" />
 				</h:commandButton>
 			</div>
 		</rich:popupPanel>
