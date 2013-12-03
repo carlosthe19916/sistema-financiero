@@ -404,7 +404,7 @@
 										<p:ajax event="rowUnselect"
 											listener="#{managedBean.personaJuridicaMB.tablaAccionistas.rowUnselect()}" />
 
-										<p:column headerText="Nro" width="5%"
+										<p:column headerText="Nº" width="4%"
 											style="text-align:center;">
 											<h:outputText value="#{row + 1}" />
 										</p:column>
@@ -415,7 +415,7 @@
 													<h:outputText value="#{accionista.personanatural.dni}" />
 												</f:facet>
 												<f:facet name="input">
-													<p:inputText id="dni"
+													<p:inputText id="dni" size="6"
 														value="#{accionista.personanatural.dni}" required="true"
 														maxlength="8" requiredMessage="DNI (Obligatorio)"
 														validatorMessage="DNI no tiene digitos validos" >
@@ -436,7 +436,7 @@
 														value="#{accionista.personanatural.apellidopaterno}" />
 												</f:facet>
 												<f:facet name="input">
-													<p:inputText id="apellidoPaterno"
+													<p:inputText id="apellidoPaterno" size="11"
 														value="#{accionista.personanatural.apellidopaterno}"
 														required="true" maxlength="50"
 														requiredMessage="Apellido Paterno (Obligatorio)" onkeyup="this.value = this.value.toUpperCase();"/>
@@ -444,7 +444,7 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column headerText="Ap. Materno(*)" width="15%">
+										<p:column headerText="Ap. Materno(*)" width="16%">
 											<p:cellEditor>
 												<f:facet name="output">
 													<h:outputText
@@ -452,7 +452,7 @@
 												</f:facet>
 												<f:facet name="input">
 													<f:facet name="input">
-														<p:inputText id="apellidoMaterno"
+														<p:inputText id="apellidoMaterno" size="13"
 															value="#{accionista.personanatural.apellidomaterno}"
 															required="true" maxlength="50"
 															requiredMessage="Apellido Materno (Obligatorio)" onkeyup="this.value = this.value.toUpperCase();"/>
@@ -462,13 +462,13 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column headerText="Nombres(*)" width="21%">
+										<p:column headerText="Nombres(*)" width="13%">
 											<p:cellEditor>
 												<f:facet name="output">
 													<h:outputText value="#{accionista.personanatural.nombres}" />
 												</f:facet>
 												<f:facet name="input">
-													<p:inputText id="nombres"
+													<p:inputText id="nombres" size="12"
 														value="#{accionista.personanatural.nombres}"
 														required="true" maxlength="50"
 														requiredMessage="Nombres (Obligatorio)" onkeyup="this.value = this.value.toUpperCase();"/>
@@ -476,7 +476,7 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column headerText="F.Nac.(*)" width="10%">
+										<p:column headerText="F.Nac.(*)" width="11%">
 											<p:cellEditor>
 												<f:facet name="output">
 													<h:outputText
@@ -485,7 +485,7 @@
 													</h:outputText>
 												</f:facet>
 												<f:facet name="input">
-													<p:calendar id="txtFecNac"
+													<p:calendar id="txtFecNac" size="5"
 														value="#{accionista.personanatural.fechanacimiento}"
 														navigator="true" pattern="dd/MM/yy" required="true"
 														requiredMessage="Ingrese Fecha de Nacimiento"
@@ -497,7 +497,7 @@
 											</p:cellEditor>
 										</p:column>
 
-										<p:column headerText="Sexo(*)" width="9%">
+										<p:column headerText="Sexo(*)" width="10%">
 											<p:cellEditor>
 												<f:facet name="output">
 													<h:outputText
@@ -520,17 +520,17 @@
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column headerText="% (*)" width="7%">
+										<p:column headerText="% (*)" width="8%">
 											<p:cellEditor>
 												<f:facet name="output">
-													<h:outputText value="#{accionista.porcentajeparticipacion}" />
+													<h:outputText value="#{accionista.porcentajeparticipacion}"/>
 												</f:facet>
 												<f:facet name="input">
-													<p:inputText value="#{accionista.porcentajeparticipacion}" />
+													<p:inputText value="#{accionista.porcentajeparticipacion}" size="2"/>
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
-										<p:column width="7%"
+										<p:column width="8%"
 											rendered="#{managedBean.personaJuridicaMB.editing}">
 											<p:rowEditor />
 										</p:column>
