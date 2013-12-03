@@ -11,8 +11,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "detalletransaccionboveda", schema = "caja")
 @NamedQuery(name = "Detalletransaccionboveda.findAll", query = "SELECT d FROM Detalletransaccionboveda d")
+@NamedQueries({ @NamedQuery(name = Detalletransaccionboveda.ALL_ACTIVE_BY_TRANSACCION, query = "SELECT d FROM Detalletransaccionboveda d WHERE d.transaccionboveda = :transaccionboveda") })
 public class Detalletransaccionboveda implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
+
+	public final static String ALL_ACTIVE_BY_TRANSACCION = "org.ventura.entity.schema.caja.Detalletransaccionboveda.ALL_ACTIVE_BY_TRANSACCION";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

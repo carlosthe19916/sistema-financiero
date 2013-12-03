@@ -14,9 +14,13 @@ import java.util.List;
 @Entity
 @Table(name = "transaccionboveda", schema = "caja")
 @NamedQuery(name = "Transaccionboveda.findAll", query = "SELECT t FROM Transaccionboveda t")
+@NamedQueries({ @NamedQuery(name = Transaccionboveda.FIND, query = "SELECT t FROM Transaccionboveda t WHERE t.idtransaccionboveda = :idtransaccionboveda") })
 public class Transaccionboveda implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
+	public final static String FIND = "org.ventura.entity.schema.caja.Transaccionboveda.FIND";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
@@ -124,4 +128,19 @@ public class Transaccionboveda implements Serializable {
 		}
 		return result;
 	}
+/*
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Transaccionboveda)) {
+			return false;
+		}
+		final Transaccionboveda other = (Transaccionboveda) obj;
+		return other.getIdtransaccionboveda() == idtransaccionboveda ? true
+				: false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idtransaccionboveda;
+	}*/
 }
