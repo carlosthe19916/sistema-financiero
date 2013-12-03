@@ -35,10 +35,14 @@
 			</redirect>
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>invalidTransaction</from-outcome>
+			<to-view-id>/modules/caja/boveda/errorInvalidTransaccionBoveda.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>failure</from-outcome>
-			<to-view-id>/modules/caja/boveda/errorTransaccionBoveda.xhtml</to-view-id>
+			<to-view-id>/modules/caja/boveda/errorTransaccionBovedaException.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
-
 </faces-config>

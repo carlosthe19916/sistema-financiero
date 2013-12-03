@@ -22,6 +22,7 @@ import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.util.exception.InvalidTransactionBovedaException;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
@@ -73,7 +74,7 @@ public class TransaccionBovedaBean implements Serializable {
 		}		
 	}
 
-	public String createTransaccionboveda() {		
+	public String createTransaccionboveda() {
 		try {
 			boolean result;
 			result = this.validateBean();
@@ -88,11 +89,13 @@ public class TransaccionBovedaBean implements Serializable {
 				transaccionboveda.setCaja(caja);
 				transaccionboveda.setEntidadfinanciera(entidadfinanciera);
 				transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
-				Transaccionboveda transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,transaccionboveda);	
-				this.transaccionboveda = transaccionbovedaResult;			
+				Transaccionboveda transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda, transaccionboveda);
+				this.transaccionboveda = transaccionbovedaResult;
 			} else {
 				throw new Exception("Datos de Transaccion Invalidos");
 			}
+		} catch (InvalidTransactionBovedaException e) {
+			return "invalidTransaction";
 		} catch (Exception e) {
 			return "failure";
 		}

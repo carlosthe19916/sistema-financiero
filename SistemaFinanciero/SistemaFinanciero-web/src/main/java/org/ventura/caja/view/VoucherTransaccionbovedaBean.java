@@ -24,7 +24,7 @@ public class VoucherTransaccionbovedaBean implements Serializable {
 
 	public void loadTransaccion() {
 		try {
-			transaccionboveda = bovedaServiceLocal.findTransaccionboveda(idtransaccionboveda);
+			bovedaServiceLocal.findTransaccionboveda(idtransaccionboveda);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

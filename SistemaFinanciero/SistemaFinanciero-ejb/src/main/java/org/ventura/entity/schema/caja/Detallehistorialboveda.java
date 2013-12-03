@@ -24,10 +24,6 @@ public class Detallehistorialboveda implements Serializable {
 	@Column(nullable = false)
 	private Integer cantidad;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "subtotal")) })
-	private Moneda subtotal;
-
 	@ManyToOne
 	@JoinColumn(name = "iddenominacionmoneda", nullable = false)
 	private Denominacionmoneda denominacionmoneda;
@@ -54,14 +50,6 @@ public class Detallehistorialboveda implements Serializable {
 
 	public void setDenominacionmoneda(Denominacionmoneda denominacionmoneda) {
 		this.denominacionmoneda = denominacionmoneda;
-	}
-
-	public Moneda getSubtotal() {
-		return subtotal;
-	}
-
-	public void setSubtotal(Moneda subtotal) {
-		this.subtotal = subtotal;
 	}
 
 	public Integer getIddetallehistorialboveda() {
