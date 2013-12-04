@@ -44,9 +44,9 @@ public class Caja implements Serializable {
 	@JoinColumn(name = "idestadoapertura", nullable = false)
 	private Estadoapertura estadoapertura;
 
-	// bi-directional many-to-one association to Transaccioncaja
+	// bi-directional many-to-one association to Historialcaja
 	@OneToMany(mappedBy = "caja")
-	private List<Transaccioncaja> transaccioncajas;
+	private List<Historialcaja> hitorialcajas;
 
 	public Caja() {
 	}
@@ -99,25 +99,11 @@ public class Caja implements Serializable {
 		this.estadoapertura = estadoapertura;
 	}
 
-	public List<Transaccioncaja> getTransaccioncajas() {
-		return this.transaccioncajas;
+	public List<Historialcaja> getHitorialcajas() {
+		return hitorialcajas;
 	}
 
-	public void setTransaccioncajas(List<Transaccioncaja> transaccioncajas) {
-		this.transaccioncajas = transaccioncajas;
-	}
-
-	public Transaccioncaja addTransaccioncaja(Transaccioncaja transaccioncaja) {
-		getTransaccioncajas().add(transaccioncaja);
-		transaccioncaja.setCaja(this);
-
-		return transaccioncaja;
-	}
-
-	public Transaccioncaja removeTransaccioncaja(Transaccioncaja transaccioncaja) {
-		getTransaccioncajas().remove(transaccioncaja);
-		transaccioncaja.setCaja(null);
-
-		return transaccioncaja;
+	public void setHitorialcajas(List<Historialcaja> hitorialcajas) {
+		this.hitorialcajas = hitorialcajas;
 	}
 }
