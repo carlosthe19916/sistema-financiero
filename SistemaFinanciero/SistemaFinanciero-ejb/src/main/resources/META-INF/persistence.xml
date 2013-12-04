@@ -84,6 +84,8 @@
 		<class>org.ventura.entity.schema.caja.Detallehistorialboveda</class>
 		<class>org.ventura.entity.schema.caja.Entidadfinanciera</class>
 		<class>org.ventura.entity.schema.caja.Moneda</class>
+		<class>org.ventura.entity.schema.caja.Historialcaja</class>
+		<class>org.ventura.entity.schema.caja.Detallehistorialcaja</class>
 		
 		<properties>
 			<!-- Properties for Hibernate -->

@@ -46,8 +46,8 @@ public class Transaccionboveda implements Serializable {
 	private Tipotransaccion tipotransaccion;
 
 	@ManyToOne
-	@JoinColumn(name = "idcaja")
-	private Caja caja;
+	@JoinColumn(name = "idhistorialcaja")
+	private Historialcaja idhistorialcaja;
 
 	@ManyToOne
 	@JoinColumn(name = "identidadfinanciera")
@@ -105,14 +105,6 @@ public class Transaccionboveda implements Serializable {
 		this.tipotransaccion = tipotransaccion;
 	}
 
-	public Caja getCaja() {
-		return caja;
-	}
-
-	public void setCaja(Caja caja) {
-		this.caja = caja;
-	}
-
 	public Entidadfinanciera getEntidadfinanciera() {
 		return entidadfinanciera;
 	}
@@ -142,6 +134,14 @@ public class Transaccionboveda implements Serializable {
 	@Override
 	public int hashCode() {
 		return idtransaccionboveda;
+	}
+
+	public Historialcaja getIdhistorialcaja() {
+		return idhistorialcaja;
+	}
+
+	public void setIdhistorialcaja(Historialcaja idhistorialcaja) {
+		this.idhistorialcaja = idhistorialcaja;
 	}
 
 }

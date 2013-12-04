@@ -36,10 +36,10 @@ public class Transaccioncaja implements Serializable {
 	@Column(length=250)
 	private String referencia;
 
-	//bi-directional many-to-one association to Caja
+	//bi-directional many-to-one association to Historialcaja
 	@ManyToOne
-	@JoinColumn(name="idcaja", nullable=false)
-	private Caja caja;
+	@JoinColumn(name="idhistorialcaja", nullable=false)
+	private Historialcaja historialcaja;
 
 	//bi-directional many-to-one association to Tipotransaccion
 	@ManyToOne
@@ -97,20 +97,20 @@ public class Transaccioncaja implements Serializable {
 		this.referencia = referencia;
 	}
 
-	public Caja getCaja() {
-		return this.caja;
-	}
-
-	public void setCaja(Caja caja) {
-		this.caja = caja;
-	}
-
 	public Tipotransaccion getTipotransaccion() {
 		return this.tipotransaccion;
 	}
 
 	public void setTipotransaccion(Tipotransaccion tipotransaccion) {
 		this.tipotransaccion = tipotransaccion;
+	}
+
+	public Historialcaja getHistorialcaja() {
+		return historialcaja;
+	}
+
+	public void setHistorialcaja(Historialcaja historialcaja) {
+		this.historialcaja = historialcaja;
 	}
 
 }
