@@ -28,9 +28,6 @@ public class Transaccioncaja implements Serializable {
 	private Timestamp hora;
 
 	@Column(nullable=false)
-	private Integer idtipomoneda;
-
-	@Column(nullable=false)
 	private double monto;
 
 	@Column(length=250)
@@ -71,14 +68,6 @@ public class Transaccioncaja implements Serializable {
 
 	public void setHora(Timestamp hora) {
 		this.hora = hora;
-	}
-
-	public Integer getIdtipomoneda() {
-		return this.idtipomoneda;
-	}
-
-	public void setIdtipomoneda(Integer idtipomoneda) {
-		this.idtipomoneda = idtipomoneda;
 	}
 
 	public double getMonto() {
