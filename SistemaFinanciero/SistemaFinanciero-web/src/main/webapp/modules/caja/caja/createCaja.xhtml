@@ -18,24 +18,36 @@
 				<h:outputText value="Crear Boveda" />
 			</f:facet>
 			<div>
-				<table class="p6n-api-cred-create-form">
-					<tr>
-						<td class="p6n-api-cred-create-label"><label>AGENCIA:</label>
-						</td>
-						<td class="p6n-api-no-tooltip"></td>
-						<td class="p6n-api-cred-input-holder"
-							style="vertical-align: middle;"><label
-							jsf:value="#{administrarCaja.agenciaBean.agencia.denominacion}"
-							class="sf-label-bold" /></td>
-					</tr>										
+				<h:panelGrid columns="2" columnClasses="top, top">
+					<td class="p6n-api-cred-create-label"><label>AGENCIA:</label>
+					</td>
+					<td class="p6n-api-cred-input-holder"
+						style="vertical-align: middle;"><label
+						jsf:value="#{administrarCaja.agenciaBean.agencia.denominacion}"
+						class="sf-label-bold" /></td>
+
+					<td class="p6n-api-cred-create-label"><label>SELECCIONE
+							BOVEDAS:</label></td>
+					<td><p:pickList id="PickList"
+							value="#{administrarCaja.pickListBoveda.result}" var="boveda"
+							itemValue="#{boveda}" itemLabel="#{boveda}" showCheckbox="true">
+						</p:pickList></td>
+					<td class="p6n-api-cred-create-label"><label>DENOMINACION:</label></td>
+
+					<td class="p6n-api-cred-input-holder"><h:inputText
+							value="#{administrarCaja.caja.denominacion}" maxlength="80"
+							required="true" pt:placeholder="denominacion"
+							pt:required="required" /></td>
+
+					<td class="p6n-api-cred-create-label"><label>ABREVIATURA:</label></td>
+
+					<td class="p6n-api-cred-input-holder"><h:inputText
+							value="#{administrarCaja.caja.abreviatura}" maxlength="80"
+							required="true" pt:placeholder="abreviatura"
+							pt:required="required" /></td>
 					
-				
-					<p:pickList id="pickList" value="#{administrarCaja.pickListBoveda.source}" var="boveda"   
-                		itemLabel="#{boveda.denominacion}" /> 
-					
-										
-								
-				</table>
+				</h:panelGrid>
+
 			</div>
 			<div class="sf-buttons">
 				<a4j:commandButton value="Guardar" styleClass="action blue">

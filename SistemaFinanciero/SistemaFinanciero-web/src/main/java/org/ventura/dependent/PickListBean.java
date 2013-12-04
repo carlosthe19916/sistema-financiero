@@ -28,19 +28,20 @@ public class PickListBean<E> {
 	
 
 	public PickListBean() {
-            this.setSource(new ArrayList<E>());
-            this.setTarget(new ArrayList<E>());
-            result = new DualListModel<E>(getSource(), getTarget());
+            this.source = new ArrayList<E>();
+            this.target= new ArrayList<E>();
+            result = new DualListModel<E>(source, target);
     }
 	
 	public void initValuesFromNamedQueryName(String namedQueryName) {
 		List<E> list = crudService.findWithNamedQuery(namedQueryName);
-		this.source = (List<E>) list;
+		this.source =list;
 	}
 
 	public void initValuesFromNamedQueryName(String namedQueryName, Map<String, Object> parameters) {
 		List<E> list = crudService.findWithNamedQuery(namedQueryName, parameters);
-		this.source = (List<E>) list;
+		setSource(list);
+		this.result.setSource(source);
 	}
 	
 	public void onTransfer(TransferEvent event) {  
