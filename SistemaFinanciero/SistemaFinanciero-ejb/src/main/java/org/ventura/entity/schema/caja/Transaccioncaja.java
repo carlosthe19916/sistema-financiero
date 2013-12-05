@@ -31,10 +31,6 @@ public class Transaccioncaja implements Serializable {
 	@JoinColumn(name = "idhistorialcaja", nullable = false)
 	private Historialcaja historialcaja;
 
-	@ManyToOne
-	@JoinColumn(name = "idtipotransaccion", nullable = false)
-	private Tipotransaccion tipotransaccion;
-
 	public Transaccioncaja() {
 	}
 
@@ -60,14 +56,6 @@ public class Transaccioncaja implements Serializable {
 
 	public void setHora(Timestamp hora) {
 		this.hora = hora;
-	}
-
-	public Tipotransaccion getTipotransaccion() {
-		return this.tipotransaccion;
-	}
-
-	public void setTipotransaccion(Tipotransaccion tipotransaccion) {
-		this.tipotransaccion = tipotransaccion;
 	}
 
 	public Historialcaja getHistorialcaja() {

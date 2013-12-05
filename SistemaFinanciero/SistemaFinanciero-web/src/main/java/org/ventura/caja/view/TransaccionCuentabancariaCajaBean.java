@@ -18,6 +18,7 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
+import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 
 @Named
@@ -28,7 +29,10 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 	@EJB
 	private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
-
+	@Inject
+	private Transaccioncuentabancaria transaccioncuentabancaria;
+	
+	//agrupadores pagina principal
 	@Inject
 	private ComboBean<Tipotransaccion> comboTipotransaccion;
 	@Inject
@@ -65,7 +69,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	}
 
 	public void createTransaccioncaja(){
-		
+		//transaccioncuentabancaria.set
 	}
 	
 	public void loadDenominacionmonedaCalculadora() {
