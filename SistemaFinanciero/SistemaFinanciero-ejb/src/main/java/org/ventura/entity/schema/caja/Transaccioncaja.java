@@ -5,42 +5,37 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
-
 /**
  * The persistent class for the transaccioncaja database table.
  * 
  */
 @Entity
-@Table(name="transaccioncaja",schema="caja")
-@NamedQuery(name="Transaccioncaja.findAll", query="SELECT t FROM Transaccioncaja t")
+@Table(name = "transaccioncaja", schema = "caja")
+@NamedQuery(name = "Transaccioncaja.findAll", query = "SELECT t FROM Transaccioncaja t")
 public class Transaccioncaja implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Long idtransaccioncaja;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Date fecha;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Timestamp hora;
 
-	@Column(nullable=false)
-	private double monto;
-
-	@Column(length=250)
+	@Column(length = 250)
 	private String referencia;
 
-	//bi-directional many-to-one association to Historialcaja
 	@ManyToOne
-	@JoinColumn(name="idhistorialcaja", nullable=false)
+	@JoinColumn(name = "idhistorialcaja", nullable = false)
 	private Historialcaja historialcaja;
 
-	//bi-directional many-to-one association to Tipotransaccion
 	@ManyToOne
-	@JoinColumn(name="idtipotransaccion", nullable=false)
+	@JoinColumn(name = "idtipotransaccion", nullable = false)
 	private Tipotransaccion tipotransaccion;
 
 	public Transaccioncaja() {
@@ -68,14 +63,6 @@ public class Transaccioncaja implements Serializable {
 
 	public void setHora(Timestamp hora) {
 		this.hora = hora;
-	}
-
-	public double getMonto() {
-		return this.monto;
-	}
-
-	public void setMonto(double monto) {
-		this.monto = monto;
 	}
 
 	public String getReferencia() {
