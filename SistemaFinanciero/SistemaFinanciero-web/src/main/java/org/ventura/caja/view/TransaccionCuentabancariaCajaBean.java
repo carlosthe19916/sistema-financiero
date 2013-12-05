@@ -56,8 +56,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	@PostConstruct
 	private void initialize() {
 		try {
-			comboTipotransaccion
-					.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
+			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 			comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -65,13 +64,16 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		}
 	}
 
+	public void createTransaccioncaja(){
+		
+	}
+	
 	public void loadDenominacionmonedaCalculadora() {
 		List<Denominacionmoneda> list;
 		try {
 			Tipomoneda tipomoneda = this.tipomoneda;
 			if (tipomoneda != null) {
-				list = denominacionmonedaServiceLocal
-						.getDenominacionmonedasActive(tipomoneda);
+				list = denominacionmonedaServiceLocal.getDenominacionmonedasActive(tipomoneda);
 			} else {
 				list = new ArrayList<Denominacionmoneda>();
 			}
@@ -84,8 +86,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 	public void changeTipotransaccion(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		Tipotransaccion tipotransaccionSelected = comboTipotransaccion
-				.getObjectItemSelected(key);
+		Tipotransaccion tipotransaccionSelected = comboTipotransaccion.getObjectItemSelected(key);
 		this.tipotransaccion = tipotransaccionSelected;
 	}
 
@@ -101,8 +102,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		return denominacionmonedaServiceLocal;
 	}
 
-	public void setDenominacionmonedaServiceLocal(
-			DenominacionmonedaServiceLocal denominacionmonedaServiceLocal) {
+	public void setDenominacionmonedaServiceLocal(DenominacionmonedaServiceLocal denominacionmonedaServiceLocal) {
 		this.denominacionmonedaServiceLocal = denominacionmonedaServiceLocal;
 	}
 
@@ -110,8 +110,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		return comboTipotransaccion;
 	}
 
-	public void setComboTipotransaccion(
-			ComboBean<Tipotransaccion> comboTipotransaccion) {
+	public void setComboTipotransaccion(ComboBean<Tipotransaccion> comboTipotransaccion) {
 		this.comboTipotransaccion = comboTipotransaccion;
 	}
 
@@ -181,8 +180,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		return buscarCuentabancariaBean;
 	}
 
-	public void setBuscarCuentabancariaBean(
-			BuscarCuentabancariaBean buscarCuentabancariaBean) {
+	public void setBuscarCuentabancariaBean(BuscarCuentabancariaBean buscarCuentabancariaBean) {
 		this.buscarCuentabancariaBean = buscarCuentabancariaBean;
 	}
 }
