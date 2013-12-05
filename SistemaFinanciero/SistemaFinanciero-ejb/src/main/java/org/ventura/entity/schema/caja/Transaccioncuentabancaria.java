@@ -1,37 +1,45 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
 
+import javax.persistence.*;
+
+import org.ventura.entity.schema.maestro.Tipomoneda;
+
+import java.math.BigDecimal;
 
 /**
  * The persistent class for the transaccioncuentabancaria database table.
  * 
  */
 @Entity
-@Table(name="transaccioncuentabancaria")
-@NamedQuery(name="Transaccioncuentabancaria.findAll", query="SELECT t FROM Transaccioncuentabancaria t")
+@Table(name = "transaccioncuentabancaria")
+@NamedQuery(name = "Transaccioncuentabancaria.findAll", query = "SELECT t FROM Transaccioncuentabancaria t")
 public class Transaccioncuentabancaria implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idtransaccioncuentabancaria;
 
 	private Integer idcheque;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer idcuentabancaria;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer idtransaccioncaja;
 
-	@Column(nullable=false, precision=18, scale=2)
+	@Column(nullable = false, precision = 18, scale = 2)
 	private BigDecimal monto;
 
-	@Column(length=250)
+	@Column(length = 250)
 	private String referencia;
+
+	@ManyToOne
+	@JoinColumn(name = "idtipotransaccion", nullable = false)
+	private Tipotransaccion tipotransaccion;
 
 	public Transaccioncuentabancaria() {
 	}
@@ -40,7 +48,8 @@ public class Transaccioncuentabancaria implements Serializable {
 		return this.idtransaccioncuentabancaria;
 	}
 
-	public void setIdtransaccioncuentabancaria(Integer idtransaccioncuentabancaria) {
+	public void setIdtransaccioncuentabancaria(
+			Integer idtransaccioncuentabancaria) {
 		this.idtransaccioncuentabancaria = idtransaccioncuentabancaria;
 	}
 
@@ -82,6 +91,14 @@ public class Transaccioncuentabancaria implements Serializable {
 
 	public void setReferencia(String referencia) {
 		this.referencia = referencia;
+	}
+
+	public Tipotransaccion getTipotransaccion() {
+		return tipotransaccion;
+	}
+
+	public void setTipotransaccion(Tipotransaccion tipotransaccion) {
+		this.tipotransaccion = tipotransaccion;
 	}
 
 }

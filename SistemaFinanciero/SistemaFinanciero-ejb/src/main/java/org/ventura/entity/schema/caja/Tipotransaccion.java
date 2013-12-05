@@ -33,14 +33,6 @@ public class Tipotransaccion implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	// bi-directional many-to-one association to Transaccionboveda
-	@OneToMany(mappedBy = "tipotransaccion")
-	private List<Transaccionboveda> transaccionbovedas;
-
-	// bi-directional many-to-one association to Transaccioncaja
-	@OneToMany(mappedBy = "tipotransaccion")
-	private List<Transaccioncaja> transaccioncajas;
-
 	public Tipotransaccion() {
 	}
 
@@ -74,52 +66,6 @@ public class Tipotransaccion implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public List<Transaccionboveda> getTransaccionbovedas() {
-		return this.transaccionbovedas;
-	}
-
-	public void setTransaccionbovedas(List<Transaccionboveda> transaccionbovedas) {
-		this.transaccionbovedas = transaccionbovedas;
-	}
-
-	public Transaccionboveda addTransaccionboveda(
-			Transaccionboveda transaccionboveda) {
-		getTransaccionbovedas().add(transaccionboveda);
-		transaccionboveda.setTipotransaccion(this);
-
-		return transaccionboveda;
-	}
-
-	public Transaccionboveda removeTransaccionboveda(
-			Transaccionboveda transaccionboveda) {
-		getTransaccionbovedas().remove(transaccionboveda);
-		transaccionboveda.setTipotransaccion(null);
-
-		return transaccionboveda;
-	}
-
-	public List<Transaccioncaja> getTransaccioncajas() {
-		return this.transaccioncajas;
-	}
-
-	public void setTransaccioncajas(List<Transaccioncaja> transaccioncajas) {
-		this.transaccioncajas = transaccioncajas;
-	}
-
-	public Transaccioncaja addTransaccioncaja(Transaccioncaja transaccioncaja) {
-		getTransaccioncajas().add(transaccioncaja);
-		transaccioncaja.setTipotransaccion(this);
-
-		return transaccioncaja;
-	}
-
-	public Transaccioncaja removeTransaccioncaja(Transaccioncaja transaccioncaja) {
-		getTransaccioncajas().remove(transaccioncaja);
-		transaccioncaja.setTipotransaccion(null);
-
-		return transaccioncaja;
 	}
 
 }
