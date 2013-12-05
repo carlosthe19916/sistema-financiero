@@ -5,7 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
@@ -40,8 +40,7 @@
 											value="#{transaccionCuentabancariaCajaBean.comboTipotransaccion.items.entrySet()}"
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
-										<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
-											oncomplete="$.unblockUI();" />
+										<a4j:ajax onbegin="$.blockUI();" oncomplete="$.unblockUI();" />
 									</h:selectOneMenu>
 								</div>
 							</div>
@@ -49,13 +48,16 @@
 								<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
 								<div>
 									<div style="float: left;">
-										<h:inputText value="" />
+										<h:inputText
+											value="#{transaccionCuentabancariaCajaBean.numeroCuenta}" />
 									</div>
 									<div style="float: left;">
-										<h:commandLink styleClass="button" style="margin: 0 0 0 1px;">
+										<a4j:commandLink
+											oncomplete="#{rich:component('dlgBuscarCuentabancaria')}.show(); return false;"
+											execute="@this" styleClass="button"
+											style="margin: 0 0 0 1px;">
 											<span class="icon icon198"></span>
-											<span class="label"></span>
-										</h:commandLink>
+										</a4j:commandLink>
 									</div>
 								</div>
 							</div>
@@ -73,7 +75,7 @@
 											value="#{transaccionCuentabancariaCajaBean.comboTipomoneda.items.entrySet()}"
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
-										<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
+										<a4j:ajax render="txtMonto" onbegin="$.blockUI();"
 											oncomplete="$.unblockUI();" />
 									</h:selectOneMenu>
 								</div>
@@ -81,22 +83,29 @@
 							<div class="p6n-api-consent-screen-input-section">
 								<div class="p6n-api-consent-screen-label" style="width: 150px;">MONTO</div>
 								<div style="float: left;">
-									<h:inputText value="" />
+									<h:inputText id="txtMonto"
+										value="#{transaccionCuentabancariaCajaBean.monto}"
+										required="true" pt:pattern="[0-9]*">
+										<f:converter converterId="MonedaConverter"></f:converter>
+										<f:ajax event="blur" render="@this" />
+									</h:inputText>
 								</div>
 								<div style="float: left;">
-									<h:commandLink styleClass="button" style="margin: 0 0 0 1px;">
+									<a4j:commandLink
+										oncomplete="#{rich:component('dlgCalculadora')}.show(); return false;"
+										execute="@this" render=":dlgCalculadora" styleClass="button"
+										style="margin: 0 0 0 1px;">
 										<span class="icon icon32"></span>
-										<span class="label"></span>
-										<rich:componentControl target="dlgCalculadora"
-											operation="show" />
-									</h:commandLink>
+									</a4j:commandLink>
 								</div>
 							</div>
 							<br /> <br />
 							<div class="p6n-api-consent-screen-input-section">
 								<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 								<div>
-									<h:inputText value="" size="30" />
+									<h:inputText
+										value="#{transaccionCuentabancariaCajaBean.referencia}"
+										size="30" maxlenght="200" />
 								</div>
 							</div>
 							<div class="sf-separator"></div>
@@ -110,9 +119,84 @@
 				</div>
 			</div>
 		</h:form>
-		<h:form>
+		<h:form id="formBuscarCuentabancaria">
+			<rich:hotKey key="Esc">
+				<rich:componentControl target="dlgBuscarCuentabancaria"
+					operation="hide" />
+			</rich:hotKey>
+			<rich:popupPanel id="dlgBuscarCuentabancaria" modal="true"
+				autosized="true" resizeable="false" domElementAttachment="form"
+				height="500">
+				<f:facet name="header">
+					<h:outputText value="Crear Boveda" />
+				</f:facet>
+				<div>
+					<div>
+						<div style="float: left;">
+							<div>
+								<h:inputText value="" />
+							</div>
+							<div>
+								<a4j:commandLink execute="@this" styleClass="button"
+									style="margin: 0 0 0 1px;">
+									<span class="icon icon198"></span>
+								</a4j:commandLink>
+							</div>
+						</div>
+						<div style="float: left;">
+							<h:selectOneMenu value="">
+								<f:selectItem />
+							</h:selectOneMenu>
+						</div>
+					</div>
+					<div>
+						<rich:extendedDataTable
+							value="#{transaccionCuentabancariaCajaBean.buscarCuentabancariaBean.tablaCuentabancaria.rows}"
+							var="cuentabancaria"
+							selection="#{transaccionCuentabancariaCajaBean.buscarCuentabancariaBean.tablaCuentabancaria.selectedRow}"
+							style="height:300px; width:500px;" selectionMode="single">
+
+							<rich:column>
+								<f:facet name="NUMERO">
+									<h:outputText value="vendor" />
+								</f:facet>
+								<h:outputText value="#{car.vendor}" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="TIPO">
+									<h:outputText value="Model" />
+								</f:facet>
+								<h:outputText value="#{car.model}" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="MONEDA">
+									<h:outputText value="Model" />
+								</f:facet>
+								<h:outputText value="#{car.model}" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="TITULAR">
+									<h:outputText value="Model" />
+								</f:facet>
+								<h:outputText value="#{car.model}" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="ESTADO CUENTA">
+									<h:outputText value="Model" />
+								</f:facet>
+								<h:outputText value="#{car.model}" />
+							</rich:column>
+						</rich:extendedDataTable>
+					</div>
+				</div>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="formCalculadora">
+			<rich:hotKey key="Esc">
+				<rich:componentControl target="dlgCalculadora" operation="hide" />
+			</rich:hotKey>
 			<rich:popupPanel id="dlgCalculadora" modal="true" autosized="true"
-				resizeable="false" domElementAttachment="form">
+				resizeable="false" domElementAttachment="form" followByScroll="true">
 				<f:facet name="header">
 					<h:outputText value="Crear Boveda" />
 				</f:facet>
@@ -137,14 +221,14 @@
 								var="detalle">
 								<tr>
 									<td style="text-align: right; vertical-align: middle;"><h:outputLabel
-											value="" /></td>
+											value="#{detalle.denominacionmoneda.denominacion}" /></td>
 									<td></td>
-									<td><h:inputText
-											value="#{detalle.denominacionmoneda.denominacion}"
+									<td><h:inputText value="#{detalle.cantidad}"
 											required="true" maxlength="6"
 											styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 											style="width:150px;">
-											<f:ajax event="blur" render="txtSubtotal @form:txtTotal" />
+											<f:ajax event="blur"
+												render="txtSubtotal :formCalculadora:panelTotalTransaccion" />
 										</h:inputText></td>
 									<td></td>
 									<td><h:outputLabel id="txtSubtotal"
@@ -171,12 +255,12 @@
 				<div class="sf-buttons">
 					<a4j:commandButton value="Guardar" styleClass="action blue">
 						<a4j:ajax execute="@form"
-							listener="#{administrarBovedaBean.createBoveda()}"
-							render="#{componentToUpdated}"
-							oncomplete="#{rich:component('dlgCreateBoveda')}.hide()" />
+							listener="#{transaccionCuentabancariaCajaBean.setMontoFromCalculadora()}"
+							render=":formTransaccion:txtMonto"
+							oncomplete="#{rich:component('dlgCalculadora')}.hide()" />
 					</a4j:commandButton>
 					<h:commandButton value="Cancelar" styleClass="action">
-						<rich:componentControl target="dlgCreateBoveda" operation="hide" />
+						<rich:componentControl target="dlgCalculadora" operation="hide" />
 					</h:commandButton>
 				</div>
 			</rich:popupPanel>

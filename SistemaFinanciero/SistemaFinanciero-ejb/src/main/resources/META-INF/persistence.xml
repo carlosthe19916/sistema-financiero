@@ -86,6 +86,9 @@
 		<class>org.ventura.entity.schema.caja.Moneda</class>
 		<class>org.ventura.entity.schema.caja.Historialcaja</class>
 		<class>org.ventura.entity.schema.caja.Detallehistorialcaja</class>
+		<class>org.ventura.entity.schema.cuentapersonal.Cuentabancaria</class>
+		<class>org.ventura.entity.schema.caja.CuentabancariaView</class>
+		<class>org.ventura.entity.schema.caja.Transaccioncuentabancaria</class>
 		
 		<properties>
 			<!-- Properties for Hibernate -->
