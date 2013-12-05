@@ -113,8 +113,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 
 		boveda.setEstado(true);
-		Estadoapertura estadoapertura = ProduceObject
-				.getEstadoapertura(EstadoAperturaType.CERRADO);
+		Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
 		boveda.setEstadoapertura(estadoapertura);
 	}
 
@@ -391,15 +390,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			} else {
 				result = historialboveda.getDetallehistorialbovedas();
 				for (Detallehistorialboveda e : result) {
-					Denominacionmoneda denominacionmoneda = e
-							.getDenominacionmoneda();
+					Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
 					denominacionmonedasAllFromHistorial.add(denominacionmoneda);
 				}
 			}
 
-			List<Denominacionmoneda> denominacionmonedas2 = getDiferenceWithoutDuplicates(
-					denominacionmonedasAllActive,
-					denominacionmonedasAllFromHistorial);
+			List<Denominacionmoneda> denominacionmonedas2 = getDiferenceWithoutDuplicates(denominacionmonedasAllActive,denominacionmonedasAllFromHistorial);
 			for (Denominacionmoneda e : denominacionmonedas2) {
 				Detallehistorialboveda detallehistorialboveda = new Detallehistorialboveda();
 				detallehistorialboveda.setDenominacionmoneda(e);
@@ -413,15 +409,13 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception(
-					"Error Interno: No se obtener el detalle de la boveda");
+			throw new Exception("Error Interno: No se obtener el detalle de la boveda");
 		} catch (Exception e) {
 			boveda.setIdboveda(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception(
-					"Error Interno: No se obtener el detalle de la boveda");
+			throw new Exception("Error Interno: No se obtener el detalle de la boveda");
 		}
 	}
 	
@@ -445,9 +439,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 				}
 			}
 
-			List<Denominacionmoneda> denominacionmonedas2 = getDiferenceWithoutDuplicates(
-					denominacionmonedasAllActive,
-					denominacionmonedasAllFromHistorial);
+			List<Denominacionmoneda> denominacionmonedas2 = getDiferenceWithoutDuplicates(denominacionmonedasAllActive,denominacionmonedasAllFromHistorial);
 			for (Denominacionmoneda e : denominacionmonedas2) {
 				Detallehistorialboveda detallehistorialboveda = new Detallehistorialboveda();
 				detallehistorialboveda.setDenominacionmoneda(e);
@@ -461,15 +453,13 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception(
-					"Error Interno: No se obtener el detalle de la boveda");
+			throw new Exception("Error Interno: No se obtener el detalle de la boveda");
 		} catch (Exception e) {
 			boveda.setIdboveda(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception(
-					"Error Interno: No se obtener el detalle de la boveda");
+			throw new Exception("Error Interno: No se obtener el detalle de la boveda");
 		}
 	}
 	
@@ -489,15 +479,12 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			} else {
 				result = historialboveda.getDetallehistorialbovedas();
 				for (Detallehistorialboveda e : result) {
-					Denominacionmoneda denominacionmoneda = e
-							.getDenominacionmoneda();
+					Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
 					denominacionmonedasAllFromHistorial.add(denominacionmoneda);
 				}
 			}
 
-			List<Denominacionmoneda> denominacionmonedas2 = getDiferenceWithoutDuplicates(
-					denominacionmonedasAllActive,
-					denominacionmonedasAllFromHistorial);
+			List<Denominacionmoneda> denominacionmonedas2 = getDiferenceWithoutDuplicates(denominacionmonedasAllActive,denominacionmonedasAllFromHistorial);
 			for (Denominacionmoneda e : denominacionmonedas2) {
 				Detallehistorialboveda detallehistorialboveda = new Detallehistorialboveda();
 				detallehistorialboveda.setDenominacionmoneda(e);
@@ -511,20 +498,17 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception(
-					"Error Interno: No se obtener el detalle de la boveda");
+			throw new Exception("Error Interno: No se obtener el detalle de la boveda");
 		} catch (Exception e) {
 			boveda.setIdboveda(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception(
-					"Error Interno: No se obtener el detalle de la boveda");
+			throw new Exception("Error Interno: No se obtener el detalle de la boveda");
 		}
 	}
 
-	public List<Denominacionmoneda> getMergeWithoutDuplicates(
-			List<Denominacionmoneda> one, List<Denominacionmoneda> two) {
+	public List<Denominacionmoneda> getMergeWithoutDuplicates(List<Denominacionmoneda> one, List<Denominacionmoneda> two) {
 		List<Denominacionmoneda> resultList = new ArrayList<Denominacionmoneda>();
 		resultList.addAll(one);
 		for (Denominacionmoneda e : two) {
@@ -534,8 +518,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		return resultList;
 	}
 
-	public List<Denominacionmoneda> getDiferenceWithoutDuplicates(
-			List<Denominacionmoneda> one, List<Denominacionmoneda> two) {
+	public List<Denominacionmoneda> getDiferenceWithoutDuplicates(List<Denominacionmoneda> one, List<Denominacionmoneda> two) {
 		List<Denominacionmoneda> resultList = new ArrayList<Denominacionmoneda>();
 		resultList.addAll(one);
 		for (Denominacionmoneda e : two) {
@@ -545,19 +528,15 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		return resultList;
 	}
 
-	public void setEstadomovimientoHistorialboveda(
-			Historialboveda historialboveda, Estadomovimiento estadomovimiento)
-			throws Exception {
+	public void setEstadomovimientoHistorialboveda(Historialboveda historialboveda, Estadomovimiento estadomovimiento) throws Exception {
 		Boveda boveda = historialboveda.getBoveda();
 		Estadoapertura estadoapertura = boveda.getEstadoapertura();
-		Estadoapertura estadoaperturaTocheck = ProduceObject
-				.getEstadoapertura(EstadoAperturaType.CERRADO);
+		Estadoapertura estadoaperturaTocheck = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
 		if (!estadoapertura.equals(estadoaperturaTocheck)) {
 			historialboveda.setEstadomovimiento(estadomovimiento);
 			historialbovedaDAO.update(historialboveda);
 		} else {
-			throw new Exception(
-					"Boveda cerrada, no se pueden activar/desactivar movimientos");
+			throw new Exception("Boveda cerrada, no se pueden activar/desactivar movimientos");
 		}
 	}
 
@@ -576,8 +555,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		return result;
 	}
 
-	public boolean verificarCajas(Boveda boveda,
-			EstadoAperturaType estadoAperturaType) throws Exception {
+	public boolean verificarCajas(Boveda boveda,EstadoAperturaType estadoAperturaType) throws Exception {
 		boolean result = true;
 		/*
 		 * List<Caja> cajaList = boveda.getCajas(); for (Iterator<Caja> iterator
@@ -596,13 +574,10 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		return result;
 	}
 
-	public List<Denominacionmoneda> getDenominacionmonedasActive(
-			Tipomoneda tipomoneda) throws RollbackFailureException, Exception {
+	public List<Denominacionmoneda> getDenominacionmonedasActive(Tipomoneda tipomoneda) throws RollbackFailureException, Exception {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
-		List<Denominacionmoneda> denominacionmonedas = denominacionmonedaDAO
-				.findByNamedQuery(Denominacionmoneda.findAllByTipoMoneda,
-						parameters);
+		List<Denominacionmoneda> denominacionmonedas = denominacionmonedaDAO.findByNamedQuery(Denominacionmoneda.findAllByTipoMoneda,parameters);
 		return denominacionmonedas;
 	}
 
@@ -742,8 +717,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 
 	@Override
-	public List<Detalletransaccionboveda> getDetalletransaccionboveda(
-			Boveda boveda) {
+	public List<Detalletransaccionboveda> getDetalletransaccionboveda(Boveda boveda) {
 		List<Detalletransaccionboveda> detalletransaccionbovedas = new ArrayList<Detalletransaccionboveda>();
 		try {
 			Tipomoneda tipomoneda = boveda.getTipomoneda();
