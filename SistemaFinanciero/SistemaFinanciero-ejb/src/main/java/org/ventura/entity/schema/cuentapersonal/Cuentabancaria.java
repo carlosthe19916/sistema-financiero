@@ -1,7 +1,14 @@
 package org.ventura.entity.schema.cuentapersonal;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.ventura.entity.schema.caja.Historialboveda;
+import org.ventura.entity.schema.caja.Moneda;
+import org.ventura.entity.schema.caja.Tipocuentabancaria;
+import org.ventura.entity.schema.maestro.Tipomoneda;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,9 +19,12 @@ import java.util.Date;
 @Entity
 @Table(name = "cuentabancaria", schema = "cuentapersonal")
 @NamedQuery(name = "Cuentabancaria.findAll", query = "SELECT c FROM Cuentabancaria c")
+@NamedQueries({ @NamedQuery(name = Cuentabancaria.findByNumerocuenta, query = "SELECT c FROM Cuentabancaria c WHERE c.numerocuenta = :numerocuenta") })
 public class Cuentabancaria implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
+
+	public final static String findByNumerocuenta = "org.ventura.entity.schema.cuentapersonal.Cuentabancaria.findByNumerocuenta";
 
 	@Id
 	@Column(unique = true, nullable = false)
@@ -24,31 +34,37 @@ public class Cuentabancaria implements Serializable {
 	@Column(nullable = false)
 	private Date fechaapertura;
 
-	private Integer fechacierre;
-
-	@Column(nullable = false)
-	private Integer idestadocuenta;
+	@Temporal(TemporalType.DATE)
+	@Column
+	private Date fechacierre;
 
 	@Column(nullable = false)
 	private Integer idsocio;
 
-	@Column(nullable = false)
-	private Integer idtipocuentabancaria;
-
-	@Column(nullable = false)
-	private Integer idtipomoneda;
-
 	@Column(nullable = false, length = 14)
 	private String numerocuenta;
 
-	@Column(nullable = false, precision = 18, scale = 2)
-	private BigDecimal saldo;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldo")) })
+	private Moneda saldo;
+
+	@ManyToOne
+	@JoinColumn(name = "idtipocuentabancaria", nullable = false)
+	private Tipocuentabancaria tipocuentabancaria;
+
+	@ManyToOne
+	@JoinColumn(name = "idtipomoneda", nullable = false)
+	private Tipomoneda tipomoneda;
+
+	@ManyToOne
+	@JoinColumn(name = "idestadocuenta", nullable = false)
+	private Estadocuenta estadocuenta;
 
 	public Cuentabancaria() {
 	}
 
 	public Integer getIdcuentabancaria() {
-		return this.idcuentabancaria;
+		return idcuentabancaria;
 	}
 
 	public void setIdcuentabancaria(Integer idcuentabancaria) {
@@ -56,67 +72,67 @@ public class Cuentabancaria implements Serializable {
 	}
 
 	public Date getFechaapertura() {
-		return this.fechaapertura;
+		return fechaapertura;
 	}
 
 	public void setFechaapertura(Date fechaapertura) {
 		this.fechaapertura = fechaapertura;
 	}
 
-	public Integer getFechacierre() {
-		return this.fechacierre;
+	public Date getFechacierre() {
+		return fechacierre;
 	}
 
-	public void setFechacierre(Integer fechacierre) {
+	public void setFechacierre(Date fechacierre) {
 		this.fechacierre = fechacierre;
 	}
 
-	public Integer getIdestadocuenta() {
-		return this.idestadocuenta;
-	}
-
-	public void setIdestadocuenta(Integer idestadocuenta) {
-		this.idestadocuenta = idestadocuenta;
-	}
-
 	public Integer getIdsocio() {
-		return this.idsocio;
+		return idsocio;
 	}
 
 	public void setIdsocio(Integer idsocio) {
 		this.idsocio = idsocio;
 	}
 
-	public Integer getIdtipocuentabancaria() {
-		return this.idtipocuentabancaria;
-	}
-
-	public void setIdtipocuentabancaria(Integer idtipocuentabancaria) {
-		this.idtipocuentabancaria = idtipocuentabancaria;
-	}
-
-	public Integer getIdtipomoneda() {
-		return this.idtipomoneda;
-	}
-
-	public void setIdtipomoneda(Integer idtipomoneda) {
-		this.idtipomoneda = idtipomoneda;
-	}
-
 	public String getNumerocuenta() {
-		return this.numerocuenta;
+		return numerocuenta;
 	}
 
 	public void setNumerocuenta(String numerocuenta) {
 		this.numerocuenta = numerocuenta;
 	}
 
-	public BigDecimal getSaldo() {
-		return this.saldo;
+	public Moneda getSaldo() {
+		return saldo;
 	}
 
-	public void setSaldo(BigDecimal saldo) {
+	public void setSaldo(Moneda saldo) {
 		this.saldo = saldo;
+	}
+
+	public Tipocuentabancaria getTipocuentabancaria() {
+		return tipocuentabancaria;
+	}
+
+	public void setTipocuentabancaria(Tipocuentabancaria tipocuentabancaria) {
+		this.tipocuentabancaria = tipocuentabancaria;
+	}
+
+	public Tipomoneda getTipomoneda() {
+		return tipomoneda;
+	}
+
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
+	}
+
+	public Estadocuenta getEstadocuenta() {
+		return estadocuenta;
+	}
+
+	public void setEstadocuenta(Estadocuenta estadocuenta) {
+		this.estadocuenta = estadocuenta;
 	}
 
 }

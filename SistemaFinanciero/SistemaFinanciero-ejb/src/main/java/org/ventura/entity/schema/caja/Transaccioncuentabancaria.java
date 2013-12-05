@@ -1,19 +1,28 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
-import org.ventura.entity.schema.maestro.Tipomoneda;
-
 import java.math.BigDecimal;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 
 /**
  * The persistent class for the transaccioncuentabancaria database table.
  * 
  */
 @Entity
-@Table(name = "transaccioncuentabancaria")
+@Table(name = "transaccioncuentabancaria", schema = "caja")
 @NamedQuery(name = "Transaccioncuentabancaria.findAll", query = "SELECT t FROM Transaccioncuentabancaria t")
 public class Transaccioncuentabancaria implements Serializable {
 
@@ -26,20 +35,26 @@ public class Transaccioncuentabancaria implements Serializable {
 	private Integer idcheque;
 
 	@Column(nullable = false)
-	private Integer idcuentabancaria;
-
-	@Column(nullable = false)
 	private Integer idtransaccioncaja;
 
-	@Column(nullable = false, precision = 18, scale = 2)
-	private BigDecimal monto;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "monto")) })
+	private Moneda monto;
 
 	@Column(length = 250)
 	private String referencia;
 
 	@ManyToOne
+	@JoinColumn(name = "idcuentabancaria", nullable = false)
+	private Cuentabancaria cuentabancaria;
+
+	@ManyToOne
 	@JoinColumn(name = "idtipotransaccion", nullable = false)
 	private Tipotransaccion tipotransaccion;
+
+	@ManyToOne
+	@JoinColumn(name = "idtipomoneda", nullable = false)
+	private Tipomoneda tipomoneda;
 
 	public Transaccioncuentabancaria() {
 	}
@@ -61,28 +76,12 @@ public class Transaccioncuentabancaria implements Serializable {
 		this.idcheque = idcheque;
 	}
 
-	public Integer getIdcuentabancaria() {
-		return this.idcuentabancaria;
-	}
-
-	public void setIdcuentabancaria(Integer idcuentabancaria) {
-		this.idcuentabancaria = idcuentabancaria;
-	}
-
 	public Integer getIdtransaccioncaja() {
 		return this.idtransaccioncaja;
 	}
 
 	public void setIdtransaccioncaja(Integer idtransaccioncaja) {
 		this.idtransaccioncaja = idtransaccioncaja;
-	}
-
-	public BigDecimal getMonto() {
-		return this.monto;
-	}
-
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
 	}
 
 	public String getReferencia() {
@@ -99,6 +98,30 @@ public class Transaccioncuentabancaria implements Serializable {
 
 	public void setTipotransaccion(Tipotransaccion tipotransaccion) {
 		this.tipotransaccion = tipotransaccion;
+	}
+
+	public Cuentabancaria getCuentabancaria() {
+		return cuentabancaria;
+	}
+
+	public void setCuentabancaria(Cuentabancaria cuentabancaria) {
+		this.cuentabancaria = cuentabancaria;
+	}
+
+	public Moneda getMonto() {
+		return monto;
+	}
+
+	public void setMonto(Moneda monto) {
+		this.monto = monto;
+	}
+
+	public Tipomoneda getTipomoneda() {
+		return tipomoneda;
+	}
+
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
 	}
 
 }
