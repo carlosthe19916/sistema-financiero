@@ -15,11 +15,15 @@ import org.ventura.boundary.local.TransaccioncuentabancariaServiceLocal;
 import org.ventura.boundary.remote.TransaccioncuentabancariaServiceRemote;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
+import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.logger.Log;
+import org.ventura.util.maestro.EstadocuentaType;
+import org.ventura.util.maestro.ProduceObjectPrueba;
+import org.ventura.util.maestro.TipoTransaccionType;
 
 @Stateless
 @Local(TransaccioncuentabancariaServiceLocal.class)
@@ -45,6 +49,15 @@ public class TransaccioncuentabancariaServiceBean implements Transaccioncuentaba
 			Tipomoneda tipomonedaCuentabancaria = cuentabancaria.getTipomoneda();
 			Estadocuenta estadocuentaCuentabancaria = cuentabancaria.getEstadocuenta();
 			Tipocuentabancaria tipocuentabancaria = cuentabancaria.getTipocuentabancaria();
+			
+			
+			
+			
+			ProduceObjectPrueba<Estadocuenta, EstadocuentaType> a = new ProduceObjectPrueba<Estadocuenta,EstadocuentaType>();
+				
+			a.equals(estadocuentaCuentabancaria,EstadocuentaType.ACTIVO);
+			
+			
 			
 			Tipomoneda tipomonedaTransaccionbancaria = transaccioncuentabancaria.getTipomoneda();
 			
