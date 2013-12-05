@@ -14,14 +14,12 @@ import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.TransaccioncuentabancariaServiceLocal;
 import org.ventura.boundary.remote.TransaccioncuentabancariaServiceRemote;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
-import org.ventura.entity.schema.caja.Estadoapertura;
+import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.util.logger.Log;
-import org.ventura.util.maestro.EstadoAperturaType;
-import org.ventura.util.maestro.ProduceObject;
 
 @Stateless
 @Local(TransaccioncuentabancariaServiceLocal.class)
@@ -45,11 +43,19 @@ public class TransaccioncuentabancariaServiceBean implements Transaccioncuentaba
 			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.findByNumerocuenta(numeroCuentabancaria);
 			
 			Tipomoneda tipomonedaCuentabancaria = cuentabancaria.getTipomoneda();
+			Estadocuenta estadocuentaCuentabancaria = cuentabancaria.getEstadocuenta();
+			Tipocuentabancaria tipocuentabancaria = cuentabancaria.getTipocuentabancaria();
+			
 			Tipomoneda tipomonedaTransaccionbancaria = transaccioncuentabancaria.getTipomoneda();
 			
 			if(!tipomonedaCuentabancaria.equals(tipomonedaTransaccionbancaria)){
 				throw new Exception("Tipos de moneda incompatibles");
 			}
+			if(!tipomonedaCuentabancaria.equals(tipomonedaTransaccionbancaria)){
+				throw new Exception("Tipos de moneda incompatibles");
+			}
+			
+			
 			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
 			
 			

@@ -9,10 +9,14 @@ import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 
-public class ProduceObject<T, V extends Enum<V>> {
+public class ProduceObjectPrueba<T, V extends Enum<V>> {
 
 	@EJB
 	private CrudService crudService;
+
+	public boolean equals(T t, V v) {
+		return false;
+	}
 
 	public static Estadoapertura getEstadoapertura(
 			EstadoAperturaType estadoAperturaType) {
@@ -150,7 +154,8 @@ public class ProduceObject<T, V extends Enum<V>> {
 		return tipotransaccion;
 	}
 
-	public static TipocuentabancariaType getTipocuentabancaria(Tipocuentabancaria tipotransaccion) {
+	public static TipocuentabancariaType getTipocuentabancaria(
+			Tipocuentabancaria tipotransaccion) {
 		TipocuentabancariaType transaccionType;
 		Integer id = tipotransaccion.getIdtipocuentabancaria();
 		switch (id) {

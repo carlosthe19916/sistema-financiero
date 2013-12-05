@@ -15,10 +15,7 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.remote.CuentabancariaServiceRemote;
 import org.ventura.dao.impl.CuentabancariaDAO;
-import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
-import org.ventura.util.exception.IllegalEntityException;
-import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.logger.Log;
 
 @Stateless
@@ -55,22 +52,18 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria findByNumerocuenta(String numerocuenta)
-			throws Exception {
+	public Cuentabancaria findByNumerocuenta(String numerocuenta) throws Exception {
 		Cuentabancaria cuentabancaria;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("numerocuenta", numerocuenta);
 
-			List<Cuentabancaria> historialbovedaList = cuentabancariaDAO
-					.findByNamedQuery(Cuentabancaria.findByNumerocuenta,
-							parameters);
+			List<Cuentabancaria> historialbovedaList = cuentabancariaDAO.findByNamedQuery(Cuentabancaria.findByNumerocuenta,parameters);
 			if (historialbovedaList.size() == 1) {
 				cuentabancaria = historialbovedaList.get(0);
 			} else {
-				throw new Exception("Existe mas de un historial activo");
+				throw new Exception("Ejecucion de Query devolvio mas de un resutado");
 			}
-
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
