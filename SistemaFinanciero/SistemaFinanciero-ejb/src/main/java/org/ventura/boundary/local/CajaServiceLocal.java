@@ -7,7 +7,11 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.CajaServiceRemote;
+import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Historialboveda;
+import org.ventura.entity.schema.caja.Historialcaja;
+import org.ventura.util.exception.RollbackFailureException;
 
 @Local
 public interface CajaServiceLocal extends CajaServiceRemote{
@@ -19,12 +23,17 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	public void delete(Caja oCaja)throws Exception;
 
 	public void update(Caja oCaja)throws Exception;
+	
+	public void openCaja(Caja oCaja) throws Exception;
 
 	public Collection<Caja> findByNamedQuery(String queryName) throws Exception;
 
 	public Collection<Caja> findByNamedQuery(String queryName, int resultLimit) throws Exception;
 
-	public List<Caja> findByNamedQuery(String Boveda, Map<String, Object> parameters) throws Exception;
+	public List<Caja> findByNamedQuery(String Caja, Map<String, Object> parameters) throws Exception;
 	
 	public List<Caja> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
+	
+	public Historialcaja getHistorialcajaLastActive(Caja oCaja) throws RollbackFailureException, Exception;
+	
 }
