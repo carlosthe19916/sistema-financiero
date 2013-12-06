@@ -14,9 +14,15 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name = "Historialcaja.findAll", query = "SELECT h FROM Historialcaja h")
+@NamedQueries({
+	@NamedQuery(name = Historialcaja.findHistorialActive, query = "select h from Historialcaja h where h.caja = :caja and h.idcreacion = (select max(hc.idcreacion) from Historialcaja hc where hc.caja = h.caja)")})
+	//@NamedQuery(name = Historialboveda.findLastHistorialNoActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda = :boveda and h.idcreacion = (SELECT (MAX(hh.idcreacion) - 1) FROM Historialboveda hh WHERE hh.boveda = h.boveda)") })
 public class Historialcaja implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	public final static String findHistorialActive = "org.ventura.entity.schema.caja.Historialcaja.findHistorialActive";
+	//public final static String findLastHistorialNoActive = "org.ventura.entity.schema.caja.Historialboveda.findLastHistorialNoActive";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
@@ -28,13 +34,13 @@ public class Historialcaja implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date fechacierre;
 
-	private Timestamp horaapertura;
+	private Date horaapertura;
 
 	private Timestamp horacierre;
 
 	private Integer idcreacion;
 
-	private Integer idestadomovimiento;
+	
 	
 	// bi-directional many-to-one association to Estadomovimiento
 	@ManyToOne
@@ -44,7 +50,11 @@ public class Historialcaja implements Serializable {
 	// bi-directional many-to-one association to Detallehistorialcaja
 	@OneToMany(mappedBy = "historialcaja")
 	private List<Detallehistorialcaja> detallehistorialcajas;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "idestadomovimiento", nullable = false)
+	private Estadomovimiento estadomovimiento;
+	
 	public Historialcaja() {
 	}
 
@@ -72,11 +82,11 @@ public class Historialcaja implements Serializable {
 		this.fechacierre = fechacierre;
 	}
 
-	public Timestamp getHoraapertura() {
-		return this.horaapertura;
+	public Date getHoraapertura() {
+		return horaapertura;
 	}
 
-	public void setHoraapertura(Timestamp horaapertura) {
+	public void setHoraapertura(Date horaapertura) {
 		this.horaapertura = horaapertura;
 	}
 
@@ -94,14 +104,6 @@ public class Historialcaja implements Serializable {
 
 	public void setIdcreacion(Integer idcreacion) {
 		this.idcreacion = idcreacion;
-	}
-
-	public Integer getIdestadomovimiento() {
-		return this.idestadomovimiento;
-	}
-
-	public void setIdestadomovimiento(Integer idestadomovimiento) {
-		this.idestadomovimiento = idestadomovimiento;
 	}
 
 	public List<Detallehistorialcaja> getDetallehistorialcajas() {
@@ -137,4 +139,11 @@ public class Historialcaja implements Serializable {
 		this.caja = caja;
 	}
 
+	public Estadomovimiento getEstadomovimiento() {
+		return estadomovimiento;
+	}
+
+	public void setEstadomovimiento(Estadomovimiento estadomovimiento) {
+		this.estadomovimiento = estadomovimiento;
+	}
 }
