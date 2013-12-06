@@ -13,6 +13,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name = "Historialcaja", schema = "caja")
 @NamedQuery(name = "Historialcaja.findAll", query = "SELECT h FROM Historialcaja h")
 @NamedQueries({
 	@NamedQuery(name = Historialcaja.findHistorialActive, query = "select h from Historialcaja h where h.caja = :caja and h.idcreacion = (select max(hc.idcreacion) from Historialcaja hc where hc.caja = h.caja)")})
