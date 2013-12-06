@@ -87,10 +87,15 @@ public class TransaccionBovedaBean implements Serializable {
 				List<Detalletransaccionboveda> detalletransaccionbovedas = tablaDetalletransaccionboveda.getAllRows();
 
 				transaccionboveda.setTipotransaccion(tipotransaccion);
-				transaccionboveda.setCaja(caja);
-				transaccionboveda.setEntidadfinanciera(entidadfinanciera);
 				transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
-				Transaccionboveda transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda, transaccionboveda);
+				
+				Transaccionboveda transaccionbovedaResult;
+				if(isCaja()){
+					transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,caja, transaccionboveda);
+				} else {
+					transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,entidadfinanciera, transaccionboveda);
+				}
+								
 				this.transaccionboveda = transaccionbovedaResult;
 			} else {
 				throw new Exception("Datos de Transaccion Invalidos");

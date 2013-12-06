@@ -19,6 +19,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.BovedaServiceLocal;
+import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.dao.impl.BovedaDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
@@ -27,9 +28,11 @@ import org.ventura.dao.impl.DetalletransaccionbovedaDAO;
 import org.ventura.dao.impl.HistorialbovedaDAO;
 import org.ventura.dao.impl.TransaccionbovedaDAO;
 import org.ventura.entity.schema.caja.Boveda;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
+import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialboveda;
@@ -56,6 +59,9 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	@Inject
 	private Log log;
 
+	@EJB
+	private CajaServiceLocal cajaServiceLocal;
+	
 	@EJB
 	private BovedaDAO bovedaDAO;
 	@EJB
@@ -742,7 +748,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
-	public Transaccionboveda createTransaccionboveda(Boveda boveda,Transaccionboveda transaccionboveda) throws Exception {
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Caja caja,Transaccionboveda transaccionboveda) throws Exception {
 		List<Detalletransaccionboveda> detalletransaccionbovedas = null;
 		try {
 			detalletransaccionbovedas = transaccionboveda.getDetalletransaccionbovedas();
@@ -766,6 +772,86 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 				if (isTransaccionvalida == true) {
 					transaccionboveda.setHistorialboveda(historialboveda);
 					preCreateTransaccionboveda(transaccionboveda);
+					transaccionboveda.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+					transaccionbovedaDAO.create(transaccionboveda);
+
+					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
+						e.setTransaccionboveda(transaccionboveda);
+						detalletransaccionbovedaDAO.create(e);
+					}
+
+					// ACTUALIZAR DETALLEHISTORIALBOVEDA
+					List<Detallehistorialboveda> detallehistorialbovedas = historialboveda.getDetallehistorialbovedas();
+
+					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
+						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
+						Integer cantidad = e.getCantidad();
+						for (Detallehistorialboveda d : detallehistorialbovedas) {
+							if (d.getDenominacionmoneda().equals(denominacionmoneda)) {
+								switch (tipoTransaccion) {
+								case DEPOSITO:
+									d.setCantidad(d.getCantidad() + cantidad);
+									break;
+								case RETIRO:
+									d.setCantidad(d.getCantidad() - cantidad);
+									break;
+								}
+								detallehistorialbovedaDAO.update(d);
+								break;
+							}
+						}
+					}
+
+				} else {
+					switch (tipoTransaccion) {
+					case DEPOSITO:
+						throw new InvalidTransactionBovedaException("Transaccion no permitida");
+					case RETIRO:
+						throw new InsufficientMoneyForTransactionException("Fondos Insuficientes para Retiro");
+					}
+				}
+			} else {
+				throw new RollbackFailureException("Error: La boveda no tiene un historial activo");
+			}
+		} catch (Exception e) {
+			transaccionboveda.setIdtransaccionboveda(null);
+			for (Detalletransaccionboveda d : detalletransaccionbovedas) {
+				d.setIddetalletransaccionboveda(null);
+			}
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return transaccionboveda;
+	}
+	
+	@Override
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Entidadfinanciera entidadfinanciera,Transaccionboveda transaccionboveda) throws Exception {
+		List<Detalletransaccionboveda> detalletransaccionbovedas = null;
+		try {
+			detalletransaccionbovedas = transaccionboveda.getDetalletransaccionbovedas();
+			Historialboveda historialboveda = getHistorialbovedaLastActive(boveda);
+			if (historialboveda != null) {
+
+				TipoTransaccionType tipoTransaccion = ProduceObject.getTipotransaccion(transaccionboveda.getTipotransaccion());
+				boolean isTransaccionvalida = false;
+
+				switch (tipoTransaccion) {
+				case DEPOSITO:
+					isTransaccionvalida = isDepositoValido(boveda,transaccionboveda);
+					break;
+				case RETIRO:
+					isTransaccionvalida = isRetiroValido(boveda,transaccionboveda);
+					break;
+				default:
+					throw new Exception("Tipo de transaccion no valida");
+				}
+
+				if (isTransaccionvalida == true) {
+					transaccionboveda.setHistorialboveda(historialboveda);
+					preCreateTransaccionboveda(transaccionboveda);
+					transaccionboveda.setEntidadfinanciera(entidadfinanciera);
 					transaccionbovedaDAO.create(transaccionboveda);
 
 					for (Detalletransaccionboveda e : detalletransaccionbovedas) {

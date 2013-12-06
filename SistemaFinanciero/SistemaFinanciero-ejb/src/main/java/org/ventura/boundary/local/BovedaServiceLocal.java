@@ -8,8 +8,10 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.entity.schema.caja.Boveda;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
+import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Transaccionboveda;
 
@@ -58,7 +60,9 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	 * Transacciones de boveda
 	 */
 
-	public Transaccionboveda createTransaccionboveda(Boveda boveda, Transaccionboveda oTransaccionboveda) throws Exception;
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Caja caja, Transaccionboveda oTransaccionboveda) throws Exception;
+	
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Entidadfinanciera entidadfinanciera, Transaccionboveda oTransaccionboveda) throws Exception;
 	
 	public Transaccionboveda findTransaccionboveda(Object id) throws Exception;
 

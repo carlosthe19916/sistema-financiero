@@ -47,7 +47,7 @@ public class Transaccionboveda implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "idhistorialcaja")
-	private Historialcaja idhistorialcaja;
+	private Historialcaja historialcaja;
 
 	@ManyToOne
 	@JoinColumn(name = "identidadfinanciera")
@@ -136,12 +136,12 @@ public class Transaccionboveda implements Serializable {
 		return idtransaccionboveda;
 	}
 
-	public Historialcaja getIdhistorialcaja() {
-		return idhistorialcaja;
+	public Historialcaja getHistorialcaja() {
+		return historialcaja;
 	}
 
-	public void setIdhistorialcaja(Historialcaja idhistorialcaja) {
-		this.idhistorialcaja = idhistorialcaja;
+	public void setHistorialcaja(Historialcaja historialcaja) {
+		this.historialcaja = historialcaja;
 	}
 
 }
