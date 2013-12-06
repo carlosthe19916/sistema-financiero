@@ -62,7 +62,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			if (historialbovedaList.size() == 1) {
 				cuentabancaria = historialbovedaList.get(0);
 			} else {
-				throw new Exception("Ejecucion de Query devolvio mas de un resutado");
+				throw new Exception("No se encontro cuenta bancaria valida");
 			}
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());

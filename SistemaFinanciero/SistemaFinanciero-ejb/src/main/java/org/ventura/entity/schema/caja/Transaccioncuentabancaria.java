@@ -8,6 +8,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,13 +31,11 @@ public class Transaccioncuentabancaria implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idtransaccioncuentabancaria;
 
 	private Integer idcheque;
-
-	@Column(nullable = false)
-	private Integer idtransaccioncaja;
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "monto")) })
@@ -43,6 +43,18 @@ public class Transaccioncuentabancaria implements Serializable {
 
 	@Column(length = 250)
 	private String referencia;
+
+	@ManyToOne
+	@JoinColumn(name = "idtransaccioncaja", nullable = false)
+	private Transaccioncaja transaccioncaja;
+	
+	public Transaccioncaja getTransaccioncaja() {
+		return transaccioncaja;
+	}
+
+	public void setTransaccioncaja(Transaccioncaja transaccioncaja) {
+		this.transaccioncaja = transaccioncaja;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "idcuentabancaria", nullable = false)
@@ -74,14 +86,6 @@ public class Transaccioncuentabancaria implements Serializable {
 
 	public void setIdcheque(Integer idcheque) {
 		this.idcheque = idcheque;
-	}
-
-	public Integer getIdtransaccioncaja() {
-		return this.idtransaccioncaja;
-	}
-
-	public void setIdtransaccioncaja(Integer idtransaccioncaja) {
-		this.idtransaccioncaja = idtransaccioncaja;
 	}
 
 	public String getReferencia() {

@@ -16,6 +16,7 @@ import org.ventura.boundary.local.TransaccioncuentabancariaServiceLocal;
 import org.ventura.caja.dependent.BuscarCuentabancariaBean;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
@@ -34,6 +35,9 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	@EJB
 	private TransaccioncuentabancariaServiceLocal transaccioncuentabancariaServiceLocal;
 
+	@Inject
+	private Caja caja;
+	
 	// agrupadores pagina principal
 	@Inject
 	private ComboBean<Tipotransaccion> comboTipotransaccion;
@@ -62,8 +66,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	@PostConstruct
 	private void initialize() {
 		try {
-			comboTipotransaccion
-					.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
+			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 			comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -84,8 +87,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		transaccioncuentabancaria.setTipomoneda(tipomoneda);
 
 		try {
-			transaccioncuentabancariaServiceLocal
-					.create(transaccioncuentabancaria);
+			transaccioncuentabancariaServiceLocal.create(caja, transaccioncuentabancaria);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

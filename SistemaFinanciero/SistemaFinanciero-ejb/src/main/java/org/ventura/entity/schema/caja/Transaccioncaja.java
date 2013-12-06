@@ -1,7 +1,10 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+
 import javax.persistence.*;
+
 import java.util.Date;
 
 /**
@@ -18,7 +21,7 @@ public class Transaccioncaja implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
-	private Long idtransaccioncaja;
+	private Integer idtransaccioncaja;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -35,11 +38,11 @@ public class Transaccioncaja implements Serializable {
 	public Transaccioncaja() {
 	}
 
-	public Long getIdtransaccioncaja() {
+	public Integer getIdtransaccioncaja() {
 		return this.idtransaccioncaja;
 	}
 
-	public void setIdtransaccioncaja(Long idtransaccioncaja) {
+	public void setIdtransaccioncaja(Integer idtransaccioncaja) {
 		this.idtransaccioncaja = idtransaccioncaja;
 	}
 
