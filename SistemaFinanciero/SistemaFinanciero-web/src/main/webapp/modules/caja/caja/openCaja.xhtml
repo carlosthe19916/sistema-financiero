@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<h:form>
+		<rich:popupPanel id="dlgOpenCaja" modal="true" autosized="true"
+			resizeable="false" domElementAttachment="form">
+			<f:facet name="header">
+				<h:outputText value="Aperturar Cajas" />
+			</f:facet>
+			<div>
+				<div>
+					<rich:dataList var="cajas" 
+						rows="5" type="disc" title="Car Store">
+						<h:outputText value="#{car.make} #{car.model}" />
+						<br />
+						<h:outputText value="Price:" styleClass="label"></h:outputText>
+						<h:outputText value="#{car.price} " />
+						<br />
+						<h:outputText value="Mileage:" styleClass="label"></h:outputText>
+						<h:outputText value="#{car.mileage} " />
+						<br />
+					</rich:dataList>
+				</div>
+				<div>
+					<div class="p6n-api-consent-screen-section">
+						<div class="sf-buttons">
+							<a4j:commandButton value="Guardar" styleClass="action blue">
+								<a4j:ajax execute="@form"
+									listener="#{administrarBovedaBean.openBoveda()}"
+									render="#{componentToUpdated}"
+									oncomplete="#{rich:component('dlgOpenBoveda')}.hide()" />
+							</a4j:commandButton>
+							<h:commandButton value="Cancelar" styleClass="action">
+								<rich:componentControl target="dlgOpenBoveda" operation="hide" />
+							</h:commandButton>
+						</div>
+					</div>
+				</div>
+			</div>
+		</rich:popupPanel>
+	</h:form>
+
+
+
+</ui:composition>
+</html>
+
+
+
+
+
+
+
+
