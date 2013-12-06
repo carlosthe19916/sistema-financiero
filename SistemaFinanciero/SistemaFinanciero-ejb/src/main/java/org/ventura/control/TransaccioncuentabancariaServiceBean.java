@@ -1,5 +1,7 @@
 package org.ventura.control;
 
+import java.util.Calendar;
+
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Remote;
@@ -10,20 +12,21 @@ import javax.inject.Inject;
 import javax.persistence.EntityExistsException;
 import javax.persistence.TransactionRequiredException;
 
+import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.TransaccioncuentabancariaServiceLocal;
 import org.ventura.boundary.remote.TransaccioncuentabancariaServiceRemote;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
-import org.ventura.entity.schema.caja.Tipotransaccion;
+import org.ventura.entity.schema.caja.Transaccioncaja;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadocuentaType;
-import org.ventura.util.maestro.ProduceObjectPrueba;
-import org.ventura.util.maestro.TipoTransaccionType;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipocuentabancariaType;
 
 @Stateless
 @Local(TransaccioncuentabancariaServiceLocal.class)
@@ -38,6 +41,9 @@ public class TransaccioncuentabancariaServiceBean implements Transaccioncuentaba
 	private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	
 	@EJB
+	private CajaServiceLocal cajaServiceLocal;
+	
+	@EJB
 	private TransaccioncuentabancariaDAO transaccioncuentabancariaDAO;
 	
 	@Override
@@ -45,33 +51,37 @@ public class TransaccioncuentabancariaServiceBean implements Transaccioncuentaba
 		try {
 			String numeroCuentabancaria = transaccioncuentabancaria.getCuentabancaria().getNumerocuenta();
 			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.findByNumerocuenta(numeroCuentabancaria);
+			if(cuentabancaria == null){
+				throw new Exception("Cuenta bancaria no encontrada");
+			}
 			
 			Tipomoneda tipomonedaCuentabancaria = cuentabancaria.getTipomoneda();
 			Estadocuenta estadocuentaCuentabancaria = cuentabancaria.getEstadocuenta();
 			Tipocuentabancaria tipocuentabancaria = cuentabancaria.getTipocuentabancaria();
-			
-			
-			
-			
-			ProduceObjectPrueba<Estadocuenta, EstadocuentaType> a = new ProduceObjectPrueba<Estadocuenta,EstadocuentaType>();
-				
-			a.equals(estadocuentaCuentabancaria,EstadocuentaType.ACTIVO);
-			
-			
 			
 			Tipomoneda tipomonedaTransaccionbancaria = transaccioncuentabancaria.getTipomoneda();
 			
 			if(!tipomonedaCuentabancaria.equals(tipomonedaTransaccionbancaria)){
 				throw new Exception("Tipos de moneda incompatibles");
 			}
-			if(!tipomonedaCuentabancaria.equals(tipomonedaTransaccionbancaria)){
-				throw new Exception("Tipos de moneda incompatibles");
+			Estadocuenta estadocuentaActivo = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
+			if(!estadocuentaCuentabancaria.equals(estadocuentaActivo)){
+				throw new Exception("La cuenta no esta ACTIVA y no se puede realizar transacciones");
 			}
-			
+			Tipocuentabancaria tipocuentabancariaActive = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
+			if(tipocuentabancaria.equals(tipocuentabancariaActive)){
+				throw new Exception("No se puede hacer operaciones sobre una cuenta a plazo fijo");
+			}
+
+			//validacion superada
+			Transaccioncaja transaccioncaja = new Transaccioncaja();
+			transaccioncaja.setFecha(Calendar.getInstance().getTime());
+			transaccioncaja.setHora(Calendar.getInstance().getTime());
+			//transaccioncaja.setHistorialcaja(cajaServiceLocal.);
+					
 			
 			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
-			
-			
+				
 			transaccioncuentabancariaDAO.create(transaccioncuentabancaria);
 		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
 			transaccioncuentabancaria.setIdtransaccioncuentabancaria(null);;

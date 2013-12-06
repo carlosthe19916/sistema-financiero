@@ -18,6 +18,7 @@ import java.util.List;
 @NamedQuery(name = "Boveda.findAll", query = "SELECT b FROM Boveda b")
 @NamedQueries({
 		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true ORDER BY b.idboveda"),
+		@NamedQuery(name = Boveda.ALL_ACTIVE_DENOMINACION_BY_AGENCIA, query = "Select b.denominacion From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true ORDER BY b.idboveda"),
 		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, query = "Select b From Boveda b INNER JOIN b.agencia a INNER JOIN b.historialbovedas hb WHERE a = :agencia AND b.estado = true AND b.estadoapertura = :estadoapertura AND b.estado = true AND hb.estadomovimiento = :estadomovimiento AND hb.idcreacion = (SELECT MAX(hh.idcreacion) FROM Historialboveda hh WHERE hh.boveda.idboveda = b.idboveda )") })
 public class Boveda implements Serializable {
 
@@ -25,6 +26,8 @@ public class Boveda implements Serializable {
 
 	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.Boveda.ALL_ACTIVE_BY_AGENCIA";
 	public final static String ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO = "org.ventura.entity.schema.caja.Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO";
+	public final static String ALL_ACTIVE_DENOMINACION_BY_AGENCIA = "org.ventura.entity.schema.caja.Boveda.ALL_ACTIVE_DENOMINACION_BY_AGENCIA";
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -49,7 +52,7 @@ public class Boveda implements Serializable {
 	@JoinColumn(name = "idagencia", nullable = false)
 	private Agencia agencia;
 
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Caja.class)
 	@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idboveda", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idcaja", nullable = false) })
 	private List<Caja> cajas;
 
