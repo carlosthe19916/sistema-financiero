@@ -27,7 +27,7 @@ import org.venturabank.managedbean.session.AgenciaBean;
 
 @Named
 @ViewScoped
-public class AdministrarCaja implements Serializable{
+public class AdministrarCajaBean implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -104,7 +104,7 @@ public class AdministrarCaja implements Serializable{
 	public void initializePickList(){
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		pickListBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_DENOMINACION_BY_AGENCIA, parameters);		
+		//spickListBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_DENOMINACION_BY_AGENCIA, parameters);		
 	}
 	
 	public void updateCaja(){
@@ -139,7 +139,7 @@ public class AdministrarCaja implements Serializable{
 	public void setTablaCaja(TablaBean<Caja> tablaCaja) {
 		this.tablaCaja = tablaCaja;
 	}
-
+/*
 	public PickListBean<Boveda> getPickListBoveda() {
 		return pickListBoveda;
 	}
@@ -147,7 +147,7 @@ public class AdministrarCaja implements Serializable{
 	public void setPickListBoveda(PickListBean<Boveda> pickListBoveda) {
 		this.pickListBoveda = pickListBoveda;
 	}
-
+*/
 	public TablaBean<Boveda> getTablaBoveda() {
 		return tablaBoveda;
 	}
