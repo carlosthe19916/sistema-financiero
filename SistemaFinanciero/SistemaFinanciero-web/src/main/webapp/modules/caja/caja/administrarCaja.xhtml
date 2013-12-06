@@ -86,7 +86,9 @@
 								</h:outputLink>
 								<div class="dropdown-slider">
 									<a4j:commandLink styleClass="ddm"
-										>
+										actionListener="#{administrarBovedaBean.loadTablaBovedaDetalleAfterOpen()}"
+										oncomplete="#{rich:component('dlgOpenBoveda')}.show(); return false;"
+										render=":dlgOpenBoveda">
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Abrir Caja</span>
 									</a4j:commandLink>
@@ -109,13 +111,13 @@
 						<div style="margin: 5px;">
 							<p:dataTable id="tblCaja" var="caja"
 								value="#{administrarCaja.tablaCaja.rows}"
-								selectionMode="single"
-								selection="#{administrarCaja.tablaCaja.selectedRow}"
+								selection="#{administrarCaja.tablaCaja.selectedRows}"
 								rowKey="#{caja}" rowIndexVar="row">
 
 								<p:ajax event="rowSelect"
 									listener="#{administrarCaja.tablaCaja.rowSelect()}" />
-
+								
+								
 								<p:column headerText="Nro" width="5%" style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
@@ -129,6 +131,9 @@
 								<p:column headerText="Estado Apertura" width="200">
 									<h:outputText value="#{caja.estadoapertura.denominacion}" />
 								</p:column>
+								
+								<p:column selectionMode="multiple" style="width:2%" /> 
+								
 							</p:dataTable>
 						</div>
 					</h:form>
@@ -137,7 +142,7 @@
 						<ui:param name="componentToUpdated"
 							value=":formTablaCaja:tblCaja" />
 					</ui:include>
-
+					
 					
 				</div>
 			</div>
