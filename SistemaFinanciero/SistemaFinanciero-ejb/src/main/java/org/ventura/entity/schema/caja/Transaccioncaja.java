@@ -2,7 +2,6 @@ package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -17,6 +16,7 @@ public class Transaccioncaja implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Long idtransaccioncaja;
 
@@ -24,8 +24,9 @@ public class Transaccioncaja implements Serializable {
 	@Column(nullable = false)
 	private Date fecha;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
-	private Timestamp hora;
+	private Date hora;
 
 	@ManyToOne
 	@JoinColumn(name = "idhistorialcaja", nullable = false)
@@ -50,11 +51,11 @@ public class Transaccioncaja implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public Timestamp getHora() {
+	public Date getHora() {
 		return this.hora;
 	}
 
-	public void setHora(Timestamp hora) {
+	public void setHora(Date hora) {
 		this.hora = hora;
 	}
 

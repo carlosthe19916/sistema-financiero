@@ -15,7 +15,7 @@
 		<rich:popupPanel id="dlgCreateCaja" modal="true" autosized="true"
 			resizeable="false" domElementAttachment="form">
 			<f:facet name="header">
-				<h:outputText value="Crear Boveda" />
+				<h:outputText value="Crear Caja" />
 			</f:facet>
 			<div>
 				<h:panelGrid columns="2" columnClasses="top, top">
@@ -26,26 +26,32 @@
 						jsf:value="#{administrarCaja.agenciaBean.agencia.denominacion}"
 						class="sf-label-bold" /></td>
 
-					<td class="p6n-api-cred-create-label"><label>SELECCIONE
-							BOVEDAS:</label></td>
-					<td><p:pickList id="PickList"
-							value="#{administrarCaja.pickListBoveda.result}" var="boveda"
-							itemValue="#{boveda}" itemLabel="#{boveda}" showCheckbox="true">
-						</p:pickList></td>
+					<td class="p6n-api-cred-create-label"><label>SELECCIONE:</label>
+					</td>
+					<td><rich:panel style="width:480px;">
+							
+							<rich:pickList value="#{administrarCaja.listSelectedBean.target}"
+								sourceCaption="Bovedas" targetCaption="Bovedas Seleccionadas"
+								listWidth="165px" listHeight="100px">
+								<f:selectItems
+									value="#{administrarCaja.listSelectedBean.source}" var="boveda"
+									itemValue="#{boveda}" itemLabel="#{boveda.denominacion}" />
+							</rich:pickList>
+							</rich:panel></td>
 					<td class="p6n-api-cred-create-label"><label>DENOMINACION:</label></td>
 
 					<td class="p6n-api-cred-input-holder"><h:inputText
-							value="#{administrarCaja.caja.denominacion}" maxlength="80"
+							value="#{administrarCaja.caja.denominacion}" maxlength="100"
 							required="true" pt:placeholder="denominacion"
 							pt:required="required" /></td>
 
 					<td class="p6n-api-cred-create-label"><label>ABREVIATURA:</label></td>
 
 					<td class="p6n-api-cred-input-holder"><h:inputText
-							value="#{administrarCaja.caja.abreviatura}" maxlength="80"
+							value="#{administrarCaja.caja.abreviatura}" maxlength="100"
 							required="true" pt:placeholder="abreviatura"
 							pt:required="required" /></td>
-					
+
 				</h:panelGrid>
 
 			</div>

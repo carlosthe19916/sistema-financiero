@@ -23,6 +23,7 @@ public class Caja implements Serializable {
 	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.ALL_ACTIVE_BY_AGENCIA";
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(unique = true, nullable = false)
 	private Integer idcaja;
 
@@ -35,10 +36,13 @@ public class Caja implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	// bi-directional many-to-many association to Boveda
-	@ManyToMany(mappedBy = "cajas")
+	// bi-directional many-to-many association to boveda
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Boveda.class)
+	@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idboveda", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idcaja", nullable = false) })
 	private List<Boveda> bovedas;
-
+	
+	 
+	
 	// bi-directional many-to-one association to Estadomovimiento
 	@ManyToOne
 	@JoinColumn(name = "idestadoapertura", nullable = false)
@@ -47,7 +51,7 @@ public class Caja implements Serializable {
 	// bi-directional many-to-one association to Historialcaja
 	@OneToMany(mappedBy = "caja")
 	private List<Historialcaja> hitorialcajas;
-
+	
 	public Caja() {
 	}
 
@@ -82,7 +86,8 @@ public class Caja implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-
+	
+	
 	public List<Boveda> getBovedas() {
 		return this.bovedas;
 	}

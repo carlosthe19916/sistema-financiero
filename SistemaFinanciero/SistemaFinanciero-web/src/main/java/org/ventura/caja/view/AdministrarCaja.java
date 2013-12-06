@@ -16,6 +16,7 @@ import javax.inject.Named;
 import org.primefaces.component.picklist.PickList;
 import org.primefaces.context.RequestContext;
 import org.ventura.boundary.local.CajaServiceLocal;
+import org.ventura.dependent.ListSelectedBean;
 import org.ventura.dependent.PickListBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
@@ -39,23 +40,33 @@ public class AdministrarCaja implements Serializable{
 	private TablaBean<Caja> tablaCaja;
 	@Inject
 	private Caja caja;
+		
 	@Inject
-	private PickListBean<Boveda> pickListBoveda;
+	private ListSelectedBean<Boveda> listSelectedBean;
 	
 	@Inject
 	private TablaBean<Boveda> tablaBoveda;
+		
 	
 	@PostConstruct
 	private void initialize() {
 		this.refreshTablaCaja();
-		this.initializePickList();
+		//this.initializePickList();
+		this.initializeListSelectedBean();
 	}
 	
+	private void initializeListSelectedBean() {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
+		listSelectedBean.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
+		
+	}
+
 	public void createCaja(){
 		try {
 			String denominacionCaja = caja.getDenominacion();
 			String abreviaturaCaja = caja.getAbreviatura();
-			List<Boveda> listBovedas = pickListBoveda.getTarget();
+			List<Boveda> listBovedas = listSelectedBean.getTarget();
 			
 			if (denominacionCaja == null || denominacionCaja.isEmpty() || denominacionCaja.trim().isEmpty()) {
 				throw new Exception("Denominación de Caja Inválida");
@@ -67,8 +78,10 @@ public class AdministrarCaja implements Serializable{
 				throw new Exception("Error: No se selecciono ninguna boveda");
 			}
 			preCreateCaja(listBovedas);
+			
 			this.cajaServiceLocal.create(this.caja);
 			refreshBean();
+			System.out.println("hola"+listBovedas.size());
 			
 			FacesMessage message = new FacesMessage("Info", "Caja Creada satisfactoriamante");  	          
 	        RequestContext.getCurrentInstance().showMessageInDialog(message);
@@ -91,7 +104,15 @@ public class AdministrarCaja implements Serializable{
 	public void initializePickList(){
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		pickListBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA, parameters);		
+		pickListBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_DENOMINACION_BY_AGENCIA, parameters);		
+	}
+	
+	public void updateCaja(){
+		
+	}
+	
+	public void deleteBoveda(){
+		
 	}
 	
 	public void refreshBean() {
@@ -141,6 +162,14 @@ public class AdministrarCaja implements Serializable{
 
 	public void setCaja(Caja caja) {
 		this.caja = caja;
+	}
+
+	public ListSelectedBean<Boveda> getListSelectedBean() {
+		return listSelectedBean;
+	}
+
+	public void setListSelectedBean(ListSelectedBean<Boveda> listSelectedBean) {
+		this.listSelectedBean = listSelectedBean;
 	}
 	
 }
