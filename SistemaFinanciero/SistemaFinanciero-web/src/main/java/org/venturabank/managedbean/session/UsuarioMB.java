@@ -6,7 +6,6 @@ import java.security.Principal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -18,7 +17,6 @@ import org.ventura.entity.schema.seguridad.Usuario;
 
 @Named
 @SessionScoped
-@ManagedBean(name = "usuarioMB")
 public class UsuarioMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;

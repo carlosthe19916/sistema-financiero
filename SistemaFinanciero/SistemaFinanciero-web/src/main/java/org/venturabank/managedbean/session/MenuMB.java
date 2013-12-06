@@ -9,22 +9,24 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.ventura.boundary.local.LoginServiceLocal;
 import org.ventura.entity.schema.seguridad.Menu;
 import org.ventura.entity.schema.seguridad.Modulo;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class MenuMB implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@EJB
 	private LoginServiceLocal loginServiceLocal;
 	
-	@ManagedProperty(value = "#{usuarioMB}")
+	@Inject
 	private UsuarioMB usuarioMB;
 	
 	private Modulo modulo;

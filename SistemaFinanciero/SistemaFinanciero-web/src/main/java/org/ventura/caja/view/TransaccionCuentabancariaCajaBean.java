@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
-import org.ventura.boundary.local.TransaccioncuentabancariaServiceLocal;
+import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.caja.dependent.BuscarCuentabancariaBean;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
@@ -23,6 +23,7 @@ import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.venturabank.managedbean.session.CajaBean;
 
 @Named
 @ViewScoped
@@ -33,10 +34,10 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	@EJB
 	private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
 	@EJB
-	private TransaccioncuentabancariaServiceLocal transaccioncuentabancariaServiceLocal;
+	private TransaccionCajaServiceLocal transaccioncuentabancariaServiceLocal;
 
 	@Inject
-	private Caja caja;
+	private CajaBean cajaBean;
 	
 	// agrupadores pagina principal
 	@Inject
@@ -87,7 +88,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		transaccioncuentabancaria.setTipomoneda(tipomoneda);
 
 		try {
-			transaccioncuentabancariaServiceLocal.create(caja, transaccioncuentabancaria);
+			transaccioncuentabancariaServiceLocal.createTransaccionCuentabancaria(cajaBean.getCaja(), transaccioncuentabancaria);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

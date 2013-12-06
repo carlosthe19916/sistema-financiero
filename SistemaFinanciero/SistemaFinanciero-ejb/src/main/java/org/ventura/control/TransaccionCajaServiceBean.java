@@ -14,15 +14,17 @@ import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
-import org.ventura.boundary.local.TransaccioncuentabancariaServiceLocal;
-import org.ventura.boundary.remote.TransaccioncuentabancariaServiceRemote;
+import org.ventura.boundary.local.TransaccionCajaServiceLocal;
+import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
 import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.TransaccioncajaDAO;
+import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Transaccioncaja;
+import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
@@ -36,10 +38,10 @@ import org.ventura.util.maestro.TipoTransaccionType;
 import org.ventura.util.maestro.TipocuentabancariaType;
 
 @Stateless
-@Local(TransaccioncuentabancariaServiceLocal.class)
-@Remote(TransaccioncuentabancariaServiceRemote.class)
+@Local(TransaccionCajaServiceLocal.class)
+@Remote(TransaccionCajaServiceRemote.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-public class TransaccioncuentabancariaServiceBean implements TransaccioncuentabancariaServiceLocal {
+public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 	@Inject
 	private Log log;
@@ -55,11 +57,13 @@ public class TransaccioncuentabancariaServiceBean implements Transaccioncuentaba
 	@EJB
 	private TransaccioncuentabancariaDAO transaccioncuentabancariaDAO;
 	@EJB
+	private TransaccioncompraventaDAO transaccioncompraventaDAO;
+	@EJB
 	private CuentabancariaDAO cuentabancariaDAO;
 	
 	
 	@Override
-	public Transaccioncuentabancaria create(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria)throws Exception {
+	public Transaccioncuentabancaria createTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria)throws Exception {
 		try {
 			String numeroCuentabancaria = transaccioncuentabancaria.getCuentabancaria().getNumerocuenta();
 			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.findByNumerocuenta(numeroCuentabancaria);
@@ -158,6 +162,28 @@ public class TransaccioncuentabancariaServiceBean implements Transaccioncuentaba
 
 	public boolean isDepositoValido(Cuentabancaria cuentabancaria, Moneda monto) {
 		return true;
+	}
+
+	@Override
+	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception {
+		try {
+			Transaccioncaja transaccioncaja = new Transaccioncaja();
+			transaccioncaja.setFecha(Calendar.getInstance().getTime());
+			transaccioncaja.setHora(Calendar.getInstance().getTime());
+			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncajaDAO.create(transaccioncaja);
+			
+			transaccioncompraventa.setTransaccioncaja(transaccioncaja);
+			transaccioncompraventaDAO.create(transaccioncompraventa);
+		} catch (Exception e) {
+			transaccioncompraventa.setIdtransaccioncompraventa(null);;
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+		}
+			
+		return transaccioncompraventa;
 	}
 
 }

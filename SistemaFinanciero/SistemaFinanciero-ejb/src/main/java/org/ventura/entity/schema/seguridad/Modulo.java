@@ -158,27 +158,29 @@ public class Modulo implements Serializable {
 		for (int i = 0, l = words.length; i < l; ++i) {
 			if (i > 0)
 				result.append(" ");
-			result.append(Character.toUpperCase(words[i].charAt(0))).append(words[i].substring(1));
+			result.append(Character.toUpperCase(words[i].charAt(0))).append(
+					words[i].substring(1));
 		}
-		
-		shortModuleName = shortModuleName.replaceAll("\\s","");
-		shortModuleName= shortModuleName.substring(0, 1).toLowerCase() + shortModuleName.substring(1);
+
+		shortModuleName = shortModuleName.replaceAll("\\s", "");
+		shortModuleName = shortModuleName.substring(0, 1).toLowerCase()
+				+ shortModuleName.substring(1);
 		return shortModuleName;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Modulo)) {
-            return false;
-        }
-        // a room can be uniquely identified by it's number and the building it belongs to
-        final Modulo other = (Modulo) obj;
-        return other.getIdmodulo() == idmodulo ? true:false;
+			return false;
+		}
+
+		final Modulo other = (Modulo) obj;
+		return other.getIdmodulo() == idmodulo ? true : false;
 	}
-	
+
 	@Override
-    public int hashCode() {
-        return idmodulo;
-    }
+	public int hashCode() {
+		return idmodulo;
+	}
 
 }

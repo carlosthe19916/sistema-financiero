@@ -90,6 +90,8 @@
 		<class>org.ventura.entity.schema.caja.CuentabancariaView</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncuentabancaria</class>
 		<class>org.ventura.entity.schema.caja.Tipocuentabancaria</class>
+		<class>org.ventura.entity.schema.caja.Tipotransaccioncompraventa</class>
+		<class>org.ventura.entity.schema.caja.Transaccioncompraventa</class>
 		
 		<properties>
 			<!-- Properties for Hibernate -->

@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.entity.schema.caja.Caja;
-import org.ventura.entity.schema.sucursal.Agencia;
 
 @Named
 @SessionScoped
