@@ -56,7 +56,7 @@ import com.sun.tools.classfile.Annotation.element_value;
 @Local(CajaServiceLocal.class)
 @Remote(CajaServiceRemote.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class CajaServiveBean implements CajaServiceLocal{
+public class CajaServiceBean implements CajaServiceLocal{
 
 	@EJB
 	private CajaServiceLocal cajaServiceLocal;
@@ -73,7 +73,7 @@ public class CajaServiveBean implements CajaServiceLocal{
 	@Inject
 	private Log log;
 	
-	public CajaServiveBean() {
+	public CajaServiceBean() {
 		
 	}
 
