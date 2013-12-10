@@ -138,21 +138,21 @@
 						</div>
 					</h:form>
 
-					<ui:include src="/modules/caja/boveda/createBoveda.xhtml">
+					<ui:include src="/modules/boveda/administracion/createBoveda.xhtml">
 						<ui:param name="componentToUpdated"
 							value=":formTablaBoveda:tblBoveda" />
 					</ui:include>
-					<ui:include src="/modules/caja/boveda/updateBoveda.xhtml">
-						<ui:param name="componentToUpdated"
-							value=":formTablaBoveda:tblBoveda" />
-					</ui:include>
-
-					<ui:include src="/modules/caja/boveda/openBoveda.xhtml">
+					<ui:include src="/modules/boveda/administracion/updateBoveda.xhtml">
 						<ui:param name="componentToUpdated"
 							value=":formTablaBoveda:tblBoveda" />
 					</ui:include>
 
-					<ui:include src="/modules/caja/boveda/closeBoveda.xhtml">
+					<ui:include src="/modules/boveda/operaciones/openBoveda.xhtml">
+						<ui:param name="componentToUpdated"
+							value=":formTablaBoveda:tblBoveda" />
+					</ui:include>
+
+					<ui:include src="/modules/boveda/operaciones/closeBoveda.xhtml">
 						<ui:param name="componentToUpdated"
 							value=":formTablaBoveda:tblBoveda" />
 					</ui:include>
