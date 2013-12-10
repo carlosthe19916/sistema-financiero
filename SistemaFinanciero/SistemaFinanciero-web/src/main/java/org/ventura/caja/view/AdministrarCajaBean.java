@@ -178,8 +178,12 @@ public class AdministrarCajaBean implements Serializable{
 	}
 	
 	public void imprimir(){
+		Object objetc = tablaCaja.getSelectedRow();
 		Caja caja = new Caja();
-		caja = tablaCaja.getSelectedRow();
+		if (objetc instanceof Caja) {
+			caja = (Caja) objetc;
+		}
+		
 		System.out.println(caja.getDenominacion());
 	}
 }
