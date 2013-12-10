@@ -44,8 +44,7 @@ public class AdministrarCajaBean implements Serializable{
 	@Inject
 	private ListSelectedBean<Boveda> listSelectedBean;
 	
-	@Inject
-	private TablaBean<Boveda> tablaBoveda;
+	
 		
 	
 	@PostConstruct
@@ -58,7 +57,7 @@ public class AdministrarCajaBean implements Serializable{
 	private void initializeListSelectedBean() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		listSelectedBean.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
+		listSelectedBean.initValuesFromNamedQueryName(Caja.ALL_ACTIVE_BY_AGENCIA,parameters);
 		
 	}
 
@@ -148,13 +147,7 @@ public class AdministrarCajaBean implements Serializable{
 		this.pickListBoveda = pickListBoveda;
 	}
 */
-	public TablaBean<Boveda> getTablaBoveda() {
-		return tablaBoveda;
-	}
-
-	public void setTablaBoveda(TablaBean<Boveda> tablaBoveda) {
-		this.tablaBoveda = tablaBoveda;
-	}
+	
 
 	public Caja getCaja() {
 		return caja;
@@ -172,4 +165,21 @@ public class AdministrarCajaBean implements Serializable{
 		this.listSelectedBean = listSelectedBean;
 	}
 	
+	public void openCaja() throws Exception {
+		try {
+			cajaServiceLocal.openCaja(caja);
+			refreshBean();
+			FacesMessage message = new FacesMessage("Info", "Caja Abierta Satisfactoriamante");  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}
+	}
+	
+	public void imprimir(){
+		Caja caja = new Caja();
+		caja = tablaCaja.getSelectedRow();
+		System.out.println(caja.getDenominacion());
+	}
 }
