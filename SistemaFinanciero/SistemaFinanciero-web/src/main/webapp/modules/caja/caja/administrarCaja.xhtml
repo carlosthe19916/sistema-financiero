@@ -43,7 +43,8 @@
 									<span class="label">Editar</span>
 								</a4j:commandLink>
 								<p:commandLink
-									styleClass="button right"
+									actionListener="#{administrarCajaBean.deleteCaja()}"
+									update=":formTablaCaja" styleClass="button right"									
 									title="Eliminar Caja">
 									<p:confirm header="Confirmation"
 										message="Estas seguro de eliminar la Caja?"
@@ -85,13 +86,13 @@
 									<span class="toggle">&nbsp;</span>
 								</h:outputLink>
 								<div class="dropdown-slider">
-									<a4j:commandLink styleClass="ddm"
-										actionListener="#{administrarBovedaBean.loadTablaBovedaDetalleAfterOpen()}"
-										oncomplete="#{rich:component('dlgOpenBoveda')}.show(); return false;"
-										render=":dlgOpenBoveda">
+									<p:commandLink styleClass="ddm"
+										actionListener="#{administrarCajaBean.imprimir()}" 
+										oncomplete="PF('DialogOpenCaja').show()"
+										update=":formDialogCajas">
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Abrir Caja</span>
-									</a4j:commandLink>
+									</p:commandLink>
 									<p:commandLink styleClass="ddm"
 										>
 										<span class="icon icon123">&nbsp;</span>
@@ -110,13 +111,12 @@
 					<h:form id="formTablaCaja">
 						<div style="margin: 5px;">
 							<p:dataTable id="tblCaja" var="caja"
-								value="#{administrarCaja.tablaCaja.rows}"
-								selection="#{administrarCaja.tablaCaja.selectedRows}"
+								value="#{administrarCajaBean.tablaCaja.rows}" 
+								selection="#{administrarCajaBean.tablaCaja.selectedRow}"
 								rowKey="#{caja}" rowIndexVar="row">
 
-								<p:ajax event="rowSelect"
-									listener="#{administrarCaja.tablaCaja.rowSelect()}" />
-								
+								<p:ajax event="rowSelectRadio"
+									listener="#{administrarCajaBean.tablaCaja.rowSelect()}" />
 								
 								<p:column headerText="Nro" width="5%" style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
@@ -132,8 +132,7 @@
 									<h:outputText value="#{caja.estadoapertura.denominacion}" />
 								</p:column>
 								
-								<p:column selectionMode="multiple" style="width:2%" /> 
-								
+								<p:column selectionMode="single" style="width:2%" /> 
 							</p:dataTable>
 						</div>
 					</h:form>
@@ -143,11 +142,15 @@
 							value=":formTablaCaja:tblCaja" />
 					</ui:include>
 					
+					<ui:include src="/modules/caja/caja/openCaja.xhtml">
+						<ui:param name="componentToUpdated"
+							value=":formTablaCaja:tblCaja" />
+					</ui:include>
 					
 				</div>
 			</div>
 		</div>
+		
 	</ui:define>
-
 </ui:composition>
 </html>

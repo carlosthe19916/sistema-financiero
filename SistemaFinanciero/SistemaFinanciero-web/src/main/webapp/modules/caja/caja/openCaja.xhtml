@@ -10,55 +10,38 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
-
-	<h:form>
-		<rich:popupPanel id="dlgOpenCaja" modal="true" autosized="true"
-			resizeable="false" domElementAttachment="form">
-			<f:facet name="header">
-				<h:outputText value="Aperturar Cajas" />
-			</f:facet>
+	<p:dialog id="dlgOpenCaja" widgetVar="DialogOpenCaja"
+		header="Abrir Caja" modal="true">
+		<f:facet name="header">
+			<h:outputText value="Apertura De Cajas" />
+		</f:facet>
+		<h:form id="formDialogCajas">
 			<div>
 				<div>
-					<rich:dataList var="cajas" 
-						rows="5" type="disc" title="Car Store">
-						<h:outputText value="#{car.make} #{car.model}" />
-						<br />
-						<h:outputText value="Price:" styleClass="label"></h:outputText>
-						<h:outputText value="#{car.price} " />
-						<br />
-						<h:outputText value="Mileage:" styleClass="label"></h:outputText>
-						<h:outputText value="#{car.mileage} " />
-						<br />
-					</rich:dataList>
+
+					
+
 				</div>
 				<div>
 					<div class="p6n-api-consent-screen-section">
 						<div class="sf-buttons">
 							<a4j:commandButton value="Guardar" styleClass="action blue">
 								<a4j:ajax execute="@form"
-									listener="#{administrarBovedaBean.openBoveda()}"
-									render="#{componentToUpdated}"
-									oncomplete="#{rich:component('dlgOpenBoveda')}.hide()" />
+									listener="#{administrarCajaBean.imprimir()}" />
 							</a4j:commandButton>
 							<h:commandButton value="Cancelar" styleClass="action">
-								<rich:componentControl target="dlgOpenBoveda" operation="hide" />
+								<rich:componentControl target="dlgOpenCaja" operation="hide" />
 							</h:commandButton>
 						</div>
 					</div>
 				</div>
 			</div>
-		</rich:popupPanel>
-	</h:form>
-
-
-
+		</h:form>
+	</p:dialog>
+	
+	<ui:include src="/modules/caja/caja/detalleCaja.xhtml"/>
 </ui:composition>
 </html>
-
-
-
-
-
 
 
 

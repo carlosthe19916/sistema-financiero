@@ -44,8 +44,7 @@ public class AdministrarCajaBean implements Serializable{
 	@Inject
 	private ListSelectedBean<Boveda> listSelectedBean;
 	
-	@Inject
-	private TablaBean<Boveda> tablaBoveda;
+	
 		
 	
 	@PostConstruct
@@ -111,8 +110,33 @@ public class AdministrarCajaBean implements Serializable{
 		
 	}
 	
-	public void deleteBoveda(){
-		
+	public void deleteCaja(){
+		try {
+			loadCaja();
+
+			caja.setEstado(false);
+			cajaServiceLocal.update(caja);
+			refreshBean();
+
+			FacesMessage message = new FacesMessage("Info", "Caja eliminada correctamente");
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}
+	}
+	
+	public void loadCaja() throws Exception{
+		try {
+			Object object = tablaCaja.getEditingRow();
+			Caja caja = new Caja();
+			if (object instanceof Caja) {
+				caja = (Caja) object;
+			}
+			this.caja = cajaServiceLocal.find(caja.getIdcaja());
+			} catch (Exception e) {
+				throw e;
+		}
 	}
 	
 	public void refreshBean() {
@@ -139,22 +163,8 @@ public class AdministrarCajaBean implements Serializable{
 	public void setTablaCaja(TablaBean<Caja> tablaCaja) {
 		this.tablaCaja = tablaCaja;
 	}
-/*
-	public PickListBean<Boveda> getPickListBoveda() {
-		return pickListBoveda;
-	}
 
-	public void setPickListBoveda(PickListBean<Boveda> pickListBoveda) {
-		this.pickListBoveda = pickListBoveda;
-	}
-*/
-	public TablaBean<Boveda> getTablaBoveda() {
-		return tablaBoveda;
-	}
-
-	public void setTablaBoveda(TablaBean<Boveda> tablaBoveda) {
-		this.tablaBoveda = tablaBoveda;
-	}
+	
 
 	public Caja getCaja() {
 		return caja;
@@ -172,4 +182,25 @@ public class AdministrarCajaBean implements Serializable{
 		this.listSelectedBean = listSelectedBean;
 	}
 	
+	public void openCaja() throws Exception {
+		try {
+			cajaServiceLocal.openCaja(caja);
+			refreshBean();
+			FacesMessage message = new FacesMessage("Info", "Caja Abierta Satisfactoriamante");  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}
+	}
+	
+	public void imprimir(){
+		Object objetc = tablaCaja.getSelectedRow();
+		Caja caja = new Caja();
+		if (objetc instanceof Caja) {
+			caja = (Caja) objetc;
+		}
+		
+		System.out.println(caja.getDenominacion());
+	}
 }
