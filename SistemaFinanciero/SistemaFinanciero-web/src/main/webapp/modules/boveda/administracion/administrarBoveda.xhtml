@@ -126,13 +126,16 @@
 								</p:column>
 
 								<p:column headerText="Denominacion">
-									<h:outputText value="#{boveda.denominacion}" />
+									<h:outputText value="#{boveda.denominacionBoveda}" />
 								</p:column>
 								<p:column headerText="Moneda">
-									<h:outputText value="#{boveda.tipomoneda.denominacion}" />
+									<h:outputText value="#{boveda.denominacionTipomoneda}" />
 								</p:column>
 								<p:column headerText="Estado Apertura" width="200">
-									<h:outputText value="#{boveda.estadoapertura.denominacion}" />
+									<h:outputText value="#{boveda.denominacionEstadoapertura}" />
+								</p:column>
+								<p:column headerText="Estado Movimiento" width="200">
+									<h:outputText value="#{boveda.denominacionEstadomovimiento}" />
 								</p:column>
 							</p:dataTable>
 						</div>

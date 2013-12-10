@@ -16,7 +16,6 @@ import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.caja.dependent.BuscarCuentabancariaBean;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
-import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;

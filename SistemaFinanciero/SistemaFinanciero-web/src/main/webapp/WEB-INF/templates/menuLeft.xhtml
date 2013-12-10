@@ -17,7 +17,7 @@
 						<ui:repeat var="submenu" value="#{menu.value}">							
 							<li>
 								<h:outputLink value="#{request.contextPath}/#{submenu.url}">
-									#{submenu.nombre}
+									<h:outputLabel value="#{submenu.nombre}" />
 									<f:param name="module" value="#{menuMB.modulo.idmodulo}"></f:param>
 								</h:outputLink>
 							</li>												

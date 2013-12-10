@@ -80,7 +80,6 @@
 		<class>org.ventura.entity.schema.caja.Tipotransaccion</class>
 		<class>org.ventura.entity.schema.caja.Transaccionboveda</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncaja</class>
-		<class>org.ventura.entity.schema.caja.ViewBovedadetallePK</class>
 		<class>org.ventura.entity.schema.caja.Detallehistorialboveda</class>
 		<class>org.ventura.entity.schema.caja.Entidadfinanciera</class>
 		<class>org.ventura.entity.schema.caja.Moneda</class>
@@ -92,6 +91,7 @@
 		<class>org.ventura.entity.schema.caja.Tipocuentabancaria</class>
 		<class>org.ventura.entity.schema.caja.Tipotransaccioncompraventa</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncompraventa</class>
+		<class>org.ventura.entity.schema.caja.view.BovedaView</class>
 		
 		<properties>
 			<!-- Properties for Hibernate -->

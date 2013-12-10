@@ -14,6 +14,7 @@ import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.entity.schema.caja.view.BovedaView;
 
 @Local
 public interface BovedaServiceLocal extends BovedaServiceRemote{

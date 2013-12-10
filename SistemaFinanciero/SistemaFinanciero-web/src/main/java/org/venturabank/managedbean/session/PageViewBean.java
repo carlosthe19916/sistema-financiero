@@ -1,6 +1,7 @@
 package org.venturabank.managedbean.session;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
@@ -19,8 +20,8 @@ public class PageViewBean implements Serializable {
 	@Inject
 	private Modulo moduloSelected;
 	
-	@Inject
-	private Menu menu;
+	private 
+	List<Menu> menu;
 	
 	@PostConstruct
 	private void initialize(){
@@ -35,11 +36,11 @@ public class PageViewBean implements Serializable {
 		this.moduloSelected = moduloSelected;
 	}
 
-	public Menu getMenu() {
+	public List<Menu> getMenu() {
 		return menu;
 	}
 
-	public void setMenu(Menu menu) {
+	public void setMenu(List<Menu> menu) {
 		this.menu = menu;
 	}
 
