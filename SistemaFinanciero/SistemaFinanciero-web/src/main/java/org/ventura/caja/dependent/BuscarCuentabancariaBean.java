@@ -7,8 +7,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.dependent.TablaBean;
-import org.ventura.entity.schema.caja.CuentabancariaView;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 
 @Named
 @Dependent

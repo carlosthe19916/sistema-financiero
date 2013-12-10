@@ -15,7 +15,9 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.remote.CuentabancariaServiceRemote;
 import org.ventura.dao.impl.CuentabancariaDAO;
+import org.ventura.dao.impl.CuentabancariaViewDAO;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.util.logger.Log;
 
 @Stateless
@@ -29,6 +31,9 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 
 	@EJB
 	private CuentabancariaDAO cuentabancariaDAO;
+
+	@EJB
+	private CuentabancariaViewDAO cuentabancariaViewDAO;
 
 	@Override
 	public Cuentabancaria create(Cuentabancaria cuentabancaria)
@@ -52,13 +57,16 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria findByNumerocuenta(String numerocuenta) throws Exception {
+	public Cuentabancaria findByNumerocuenta(String numerocuenta)
+			throws Exception {
 		Cuentabancaria cuentabancaria;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("numerocuenta", numerocuenta);
 
-			List<Cuentabancaria> historialbovedaList = cuentabancariaDAO.findByNamedQuery(Cuentabancaria.findByNumerocuenta,parameters);
+			List<Cuentabancaria> historialbovedaList = cuentabancariaDAO
+					.findByNamedQuery(Cuentabancaria.findByNumerocuenta,
+							parameters);
 			if (historialbovedaList.size() == 1) {
 				cuentabancaria = historialbovedaList.get(0);
 			} else {
@@ -71,6 +79,24 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			throw e;
 		}
 		return cuentabancaria;
+	}
+
+	@Override
+	public List<CuentabancariaView> findByDni(String dni) throws Exception {
+		List<CuentabancariaView> CuentabancariaView;
+		try {
+			// Map<String, Object> parameters = new HashMap<String, Object>();
+			// parameters.put("numerocuenta", numerocuenta);
+
+			CuentabancariaView = cuentabancariaViewDAO.findByNamedQuery(Cuentabancaria.findByNumerocuenta);
+
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return CuentabancariaView;
 	}
 
 }

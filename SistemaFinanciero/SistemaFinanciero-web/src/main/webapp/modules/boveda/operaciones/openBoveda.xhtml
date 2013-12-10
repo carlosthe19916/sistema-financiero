@@ -38,7 +38,8 @@
 									<div class="p6n-api-consent-screen-label" style="width: 50px;">BOVEDA:</div>
 								</div>
 								<div style="display: inline-block;">
-									<h:outputLabel value="#{administrarBovedaBean.boveda.denominacion}"
+									<h:outputLabel
+										value="#{administrarBovedaBean.boveda.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -69,7 +70,35 @@
 					</div>
 				</div>
 				<div>
-					
+					<p:dataTable var="bovedaDetalle"
+						value="#{administrarBovedaBean.tablaBovedaDetalle.rows}"
+						rowKey="#{bovedaDetalle}" rowIndexVar="row">
+						<p:column headerText="Nro" width="15" style="text-align:center;">
+							<h:outputText value="#{row + 1}" />
+						</p:column>
+						<p:column headerText="Denominacion" width="150"
+							style="text-align:right;">
+							<h:outputText
+								value="#{bovedaDetalle.denominacionmoneda.denominacion}" />
+						</p:column>
+						<p:column headerText="Cantidad" width="150"
+							style="text-align:right;">
+							<h:outputText value="#{bovedaDetalle.cantidad}" />
+						</p:column>
+						<p:column headerText="Total" width="150" style="text-align:right;">
+							<h:outputText value="#{bovedaDetalle.getSubtotal()}" />
+						</p:column>
+
+						<p:columnGroup type="footer">
+							<p:row>
+								<p:column colspan="3" footerText="Total en Bóveda:"
+									style="text-align:right" />
+								<p:column colspan="1"
+									footerText="#{administrarBovedaBean.getTotalHistorialboveda()}"
+									style="text-align:right" />
+							</p:row>
+						</p:columnGroup>
+					</p:dataTable>
 				</div>
 				<div>
 					<div class="p6n-api-consent-screen-section">

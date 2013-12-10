@@ -86,12 +86,12 @@
 		<class>org.ventura.entity.schema.caja.Historialcaja</class>
 		<class>org.ventura.entity.schema.caja.Detallehistorialcaja</class>
 		<class>org.ventura.entity.schema.cuentapersonal.Cuentabancaria</class>
-		<class>org.ventura.entity.schema.caja.CuentabancariaView</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncuentabancaria</class>
 		<class>org.ventura.entity.schema.caja.Tipocuentabancaria</class>
 		<class>org.ventura.entity.schema.caja.Tipotransaccioncompraventa</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncompraventa</class>
 		<class>org.ventura.entity.schema.caja.view.BovedaView</class>
+		<class>org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView</class>
 		
 		<properties>
 			<!-- Properties for Hibernate -->

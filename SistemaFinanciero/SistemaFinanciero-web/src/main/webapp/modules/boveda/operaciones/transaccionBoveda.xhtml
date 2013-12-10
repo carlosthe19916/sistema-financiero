@@ -11,6 +11,8 @@
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
+
+
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
 		<h:outputText value="Boveda" />
@@ -18,6 +20,9 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
+
+		<h:outputStylesheet library="css" name="main.css" />
+
 		<h:form id="formTransaccion">
 			<br />
 			<div style="margin-left: 50px;">

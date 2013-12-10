@@ -11,16 +11,19 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.caja.dependent.BuscarCuentabancariaBean;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
+import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.venturabank.managedbean.session.CajaBean;
 
@@ -34,10 +37,20 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
 	@EJB
 	private TransaccionCajaServiceLocal transaccioncuentabancariaServiceLocal;
-
+	@EJB
+	private CuentabancariaServiceLocal cuentabancariaServiceLocal;
+	
 	@Inject
 	private CajaBean cajaBean;
 	
+	
+	//busqueda de cuentabancaria
+	@Inject
+	private TablaBean<CuentabancariaView> tablaCuentabancaria;
+	@Inject
+	private ComboBean<String> comboTipobusqueda;
+	private String valorBusqueda;
+
 	// agrupadores pagina principal
 	@Inject
 	private ComboBean<Tipotransaccion> comboTipotransaccion;
@@ -68,6 +81,10 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		try {
 			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 			comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
+			comboTipobusqueda.putItem(1, "Dni");
+			comboTipobusqueda.putItem(2, "Ruc");
+			comboTipobusqueda.putItem(3, "Apellidos o Nombres");
+			comboTipobusqueda.putItem(4, "Razon social");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,14 +110,23 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public void findCuentabancaria() {
+		List<CuentabancariaView> cuentabancariaViews;
+		try {
+			cuentabancariaViews = cuentabancariaServiceLocal.findByDni(this.valorBusqueda);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public void loadDenominacionmonedaCalculadora() {
 		List<Denominacionmoneda> list;
 		try {
 			Tipomoneda tipomoneda = this.tipomoneda;
 			if (tipomoneda != null) {
-				list = denominacionmonedaServiceLocal
-						.getDenominacionmonedasActive(tipomoneda);
+				list = denominacionmonedaServiceLocal.getDenominacionmonedasActive(tipomoneda);
 			} else {
 				list = new ArrayList<Denominacionmoneda>();
 			}
@@ -111,6 +137,12 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		}
 	}
 
+	public void changeTipobusqueda(ValueChangeEvent event) {
+		//Integer key = (Integer) event.getNewValue();
+		//Tipotransaccion tipotransaccionSelected = comboTipotransaccion.getObjectItemSelected(key);
+		//this.tipotransaccion = tipotransaccionSelected;
+	}
+	
 	public void changeTipotransaccion(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Tipotransaccion tipotransaccionSelected = comboTipotransaccion
@@ -214,5 +246,38 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	public void setBuscarCuentabancariaBean(
 			BuscarCuentabancariaBean buscarCuentabancariaBean) {
 		this.buscarCuentabancariaBean = buscarCuentabancariaBean;
+	}
+
+	public String getValorBusqueda() {
+		return valorBusqueda;
+	}
+
+	public void setValorBusqueda(String valorBusqueda) {
+		this.valorBusqueda = valorBusqueda;
+	}
+
+	public TablaBean<CuentabancariaView> getTablaCuentabancaria() {
+		return tablaCuentabancaria;
+	}
+
+	public void setTablaCuentabancaria(
+			TablaBean<CuentabancariaView> tablaCuentabancaria) {
+		this.tablaCuentabancaria = tablaCuentabancaria;
+	}
+
+	public String getNumeroCuentabancaria() {
+		return numeroCuentabancaria;
+	}
+
+	public void setNumeroCuentabancaria(String numeroCuentabancaria) {
+		this.numeroCuentabancaria = numeroCuentabancaria;
+	}
+
+	public ComboBean<String> getComboTipobusqueda() {
+		return comboTipobusqueda;
+	}
+
+	public void setComboTipobusqueda(ComboBean<String> comboTipobusqueda) {
+		this.comboTipobusqueda = comboTipobusqueda;
 	}
 }
