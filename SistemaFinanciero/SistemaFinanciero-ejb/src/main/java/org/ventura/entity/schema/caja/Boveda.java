@@ -54,7 +54,7 @@ public class Boveda implements Serializable {
 
 		
 	@ManyToMany
-    @JoinTable(name="boveda_caja",schema="caja", joinColumns={@JoinColumn(name="idboveda")}, inverseJoinColumns={@JoinColumn(name="idcaja")})
+    @JoinTable(name="boveda_caja",schema="caja", joinColumns={@JoinColumn(name="idcaja")}, inverseJoinColumns={@JoinColumn(name="idboveda")})
 	private List<Caja> cajas;
 
 	@OneToMany(mappedBy = "boveda")

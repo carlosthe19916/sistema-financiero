@@ -37,7 +37,9 @@
 									<span class="label">Nuevo</span>
 								</a4j:commandLink>
 								<a4j:commandLink
-									styleClass="button middle"
+									actionListener="#{administrarCajaBean.loadCaja()}"
+									oncomplete="#{rich:component('dlgUpdateCaja')}.show(); return false;"
+									render=":dlgUpdateCaja" styleClass="button middle"
 									title="Editar Caja">
 									<span class="icon icon26"></span>
 									<span class="label">Editar</span>
@@ -110,12 +112,12 @@
 					</h:form>
 					<h:form id="formTablaCaja">
 						<div style="margin: 5px;">
-							<p:dataTable id="tblCaja" var="caja"
+							<p:dataTable id="tblCaja" var="caja" selectionMode="single"
 								value="#{administrarCajaBean.tablaCaja.rows}" 
 								selection="#{administrarCajaBean.tablaCaja.selectedRow}"
 								rowKey="#{caja}" rowIndexVar="row">
 
-								<p:ajax event="rowSelectRadio"
+								<p:ajax event="rowSelect"
 									listener="#{administrarCajaBean.tablaCaja.rowSelect()}" />
 								
 								<p:column headerText="Nro" width="5%" style="text-align:center;">
@@ -130,14 +132,18 @@
 								</p:column>
 								<p:column headerText="Estado Apertura" width="200">
 									<h:outputText value="#{caja.estadoapertura.denominacion}" />
-								</p:column>
+								</p:column>								
 								
-								<p:column selectionMode="single" style="width:2%" /> 
 							</p:dataTable>
 						</div>
 					</h:form>
 					
 					<ui:include src="/modules/caja/caja/createCaja.xhtml">
+						<ui:param name="componentToUpdated"
+							value=":formTablaCaja:tblCaja" />
+					</ui:include>
+					
+					<ui:include src="/modules/caja/caja/updateCaja.xhtml">
 						<ui:param name="componentToUpdated"
 							value=":formTablaCaja:tblCaja" />
 					</ui:include>

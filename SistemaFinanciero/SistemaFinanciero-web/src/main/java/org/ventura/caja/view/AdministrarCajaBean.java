@@ -2,7 +2,6 @@ package org.ventura.caja.view;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,11 +12,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.component.picklist.PickList;
 import org.primefaces.context.RequestContext;
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.dependent.ListSelectedBean;
-import org.ventura.dependent.PickListBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
@@ -49,16 +46,14 @@ public class AdministrarCajaBean implements Serializable{
 	
 	@PostConstruct
 	private void initialize() {
-		this.refreshTablaCaja();
-		//this.initializePickList();
+		this.refreshTablaCaja();	
 		this.initializeListSelectedBean();
 	}
 	
 	private void initializeListSelectedBean() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		listSelectedBean.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
-		
+		listSelectedBean.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);		
 	}
 
 	public void createCaja(){
@@ -100,14 +95,28 @@ public class AdministrarCajaBean implements Serializable{
 		tablaCaja.initValuesFromNamedQueryName(Caja.ALL_ACTIVE_BY_AGENCIA,parameters);
 	}
 	
-	public void initializePickList(){
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		//spickListBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_DENOMINACION_BY_AGENCIA, parameters);		
-	}
-	
-	public void updateCaja(){
 		
+	public void updateCaja(){
+		try {
+			String denominacionCaja = caja.getDenominacion();
+			String abreviaturaCaja = caja.getAbreviatura();
+			
+			if (denominacionCaja == null || denominacionCaja.isEmpty() || denominacionCaja.trim().isEmpty()) {
+				throw new Exception("Denominación de Caja Inválida");
+			}
+			if (abreviaturaCaja == null || abreviaturaCaja.isEmpty() || abreviaturaCaja.trim().isEmpty()) {
+				throw new Exception("Abreviatura de Caja Inválida");
+			}
+			
+			this.cajaServiceLocal.update(this.caja);
+			refreshBean();
+			
+			FacesMessage message = new FacesMessage("Info", "Caja Actualizada satisfactoriamante");  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}
 	}
 	
 	public void deleteCaja(){
@@ -126,6 +135,7 @@ public class AdministrarCajaBean implements Serializable{
 		}
 	}
 	
+		
 	public void loadCaja() throws Exception{
 		try {
 			Object object = tablaCaja.getEditingRow();

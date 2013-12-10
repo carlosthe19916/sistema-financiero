@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition>
+
+	<h:form>
+		<rich:popupPanel id="dlgUpdateCaja" modal="true" autosized="true"
+			resizeable="false" domElementAttachment="parent">
+			<f:facet name="header">
+				<h:outputText value="Actualizar Caja" />
+			</f:facet>
+			<div>
+				<table class="p6n-api-cred-create-form">
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Agencia:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						<td class="p6n-api-cred-input-holder"
+							style="vertical-align: middle;"><label
+							jsf:value="#{administrarCajaBean.agenciaBean.agencia.denominacion}"
+							class="sf-label-bold" /></td>
+					</tr>
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Denominacion:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						<td class="p6n-api-cred-input-holder"><input type="text"
+							jsf:value="#{administrarCajaBean.caja.denominacion}"
+							placeholder="denominacion" required="required" /></td>
+					</tr>
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Abreviatura:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						<td class="p6n-api-cred-input-holder"><input type="text"
+							jsf:value="#{administrarCajaBean.caja.abreviatura}"
+							placeholder="abreviatura" required="required" /></td>
+					</tr>				
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Moneda:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						<td><h:selectOneMenu id="txtTipomoneda"
+								value="#{administrarBovedaBean.comboTipomoneda.itemSelected}"
+								valueChangeListener="#{administrarBovedaBean.changeTipomoneda}"
+								pt:required="required">
+								<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+								<f:selectItems
+									value="#{administrarBovedaBean.comboTipomoneda.items.entrySet()}"
+									var="val" itemLabel="#{val.value.denominacion}"
+									itemValue="#{val.key}" />
+								<f:ajax update="txtTipomoneda" />
+							</h:selectOneMenu></td>
+					</tr>
+					
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Bovedas:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						
+					</tr>
+					
+				</table>
+			</div>
+			<div class="sf-buttons">
+				<a4j:commandButton value="Guardar" styleClass="action blue">
+					<a4j:ajax execute="@form"
+						listener="#{administrarCajaBean.updateCaja()}"
+						render="#{componentToUpdated}"
+						oncomplete="#{rich:component('dlgUpdateCaja')}.hide()" />
+				</a4j:commandButton>
+				<h:commandButton value="Cancelar" styleClass="action">
+					<rich:componentControl target="dlgUpdateCaja" operation="hide" />
+				</h:commandButton>
+			</div>
+
+		</rich:popupPanel>
+	</h:form>
+
+</ui:composition>
+</html>
