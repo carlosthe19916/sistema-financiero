@@ -122,8 +122,16 @@ public class CajaServiceBean implements CajaServiceLocal{
 
 	@Override
 	public Caja find(Object id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Caja caja = null;
+		try {
+			caja = cajaDAO.find(id);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+		return caja;
 	}
 
 	@Override
@@ -134,7 +142,14 @@ public class CajaServiceBean implements CajaServiceLocal{
 
 	@Override
 	public void update(Caja oCaja) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			cajaDAO.update(oCaja);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
 		
 	}
 

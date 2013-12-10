@@ -43,7 +43,8 @@
 									<span class="label">Editar</span>
 								</a4j:commandLink>
 								<p:commandLink
-									styleClass="button right"
+									actionListener="#{administrarCajaBean.deleteCaja()}"
+									update=":formTablaCaja" styleClass="button right"									
 									title="Eliminar Caja">
 									<p:confirm header="Confirmation"
 										message="Estas seguro de eliminar la Caja?"
@@ -114,7 +115,7 @@
 								selection="#{administrarCajaBean.tablaCaja.selectedRow}"
 								rowKey="#{caja}" rowIndexVar="row">
 
-								<p:ajax event="rowSelect"
+								<p:ajax event="rowSelectRadio"
 									listener="#{administrarCajaBean.tablaCaja.rowSelect()}" />
 								
 								<p:column headerText="Nro" width="5%" style="text-align:center;">

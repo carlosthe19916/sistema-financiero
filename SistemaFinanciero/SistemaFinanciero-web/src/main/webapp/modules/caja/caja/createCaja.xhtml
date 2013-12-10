@@ -23,32 +23,32 @@
 					</td>
 					<td class="p6n-api-cred-input-holder"
 						style="vertical-align: middle;"><label
-						jsf:value="#{administrarCaja.agenciaBean.agencia.denominacion}"
+						jsf:value="#{administrarCajaBean.agenciaBean.agencia.denominacion}"
 						class="sf-label-bold" /></td>
-
+				
 					<td class="p6n-api-cred-create-label"><label>SELECCIONE:</label>
 					</td>
 					<td><rich:panel style="width:480px;">
 							
-							<rich:pickList value="#{administrarCaja.listSelectedBean.target}"
+							<rich:pickList value="#{administrarCajaBean.listSelectedBean.target}"
 								sourceCaption="Bovedas" targetCaption="Bovedas Seleccionadas"
 								listWidth="165px" listHeight="100px">
 								<f:selectItems
-									value="#{administrarCaja.listSelectedBean.source}" var="boveda"
+									value="#{administrarCajaBean.listSelectedBean.source}" var="boveda"
 									itemValue="#{boveda}" itemLabel="#{boveda.denominacion}" />
 							</rich:pickList>
 							</rich:panel></td>
 					<td class="p6n-api-cred-create-label"><label>DENOMINACION:</label></td>
 
 					<td class="p6n-api-cred-input-holder"><h:inputText
-							value="#{administrarCaja.caja.denominacion}" maxlength="100"
+							value="#{administrarCajaBean.caja.denominacion}" maxlength="100"
 							required="true" pt:placeholder="denominacion"
 							pt:required="required" /></td>
 
 					<td class="p6n-api-cred-create-label"><label>ABREVIATURA:</label></td>
 
 					<td class="p6n-api-cred-input-holder"><h:inputText
-							value="#{administrarCaja.caja.abreviatura}" maxlength="100"
+							value="#{administrarCajaBean.caja.abreviatura}" maxlength="100"
 							required="true" pt:placeholder="abreviatura"
 							pt:required="required" /></td>
 
@@ -58,7 +58,7 @@
 			<div class="sf-buttons">
 				<a4j:commandButton value="Guardar" styleClass="action blue">
 					<a4j:ajax execute="@form"
-						listener="#{administrarCaja.createCaja()}"
+						listener="#{administrarCajaBean.createCaja()}"
 						render="#{componentToUpdated}"
 						oncomplete="#{rich:component('dlgCreateCaja')}.hide()" />
 				</a4j:commandButton>

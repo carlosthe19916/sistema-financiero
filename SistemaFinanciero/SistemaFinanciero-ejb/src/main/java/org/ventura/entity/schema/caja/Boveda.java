@@ -52,8 +52,9 @@ public class Boveda implements Serializable {
 	@JoinColumn(name = "idagencia", nullable = false)
 	private Agencia agencia;
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Caja.class)
-	@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idboveda", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idcaja", nullable = false) })
+		
+	@ManyToMany
+    @JoinTable(name="boveda_caja",schema="caja", joinColumns={@JoinColumn(name="idboveda")}, inverseJoinColumns={@JoinColumn(name="idcaja")})
 	private List<Caja> cajas;
 
 	@OneToMany(mappedBy = "boveda")

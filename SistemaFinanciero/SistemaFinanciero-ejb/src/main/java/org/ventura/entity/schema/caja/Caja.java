@@ -19,8 +19,8 @@ public class Caja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static String findAllByBovedaAndState = "org.ventura.entity.schema.caja.findAllByBovedaAndState";
-	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.ALL_ACTIVE_BY_AGENCIA";
+	public final static String findAllByBovedaAndState = "org.ventura.entity.schema.caja.Caja.findAllByBovedaAndState";
+	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.Caja.ALL_ACTIVE_BY_AGENCIA";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -37,8 +37,7 @@ public class Caja implements Serializable {
 	private Boolean estado;
 
 	// bi-directional many-to-many association to boveda
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Boveda.class)
-	@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idboveda", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idcaja", nullable = false) })
+	@ManyToMany(mappedBy="cajas")
 	private List<Boveda> bovedas;
 	
 	 
