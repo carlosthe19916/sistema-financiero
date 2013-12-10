@@ -57,7 +57,7 @@ public class AdministrarCajaBean implements Serializable{
 	private void initializeListSelectedBean() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agenciaBean.getAgencia().getIdagencia());
-		listSelectedBean.initValuesFromNamedQueryName(Caja.ALL_ACTIVE_BY_AGENCIA,parameters);
+		listSelectedBean.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA,parameters);
 		
 	}
 
@@ -110,8 +110,33 @@ public class AdministrarCajaBean implements Serializable{
 		
 	}
 	
-	public void deleteBoveda(){
-		
+	public void deleteCaja(){
+		try {
+			loadCaja();
+
+			caja.setEstado(false);
+			cajaServiceLocal.update(caja);
+			refreshBean();
+
+			FacesMessage message = new FacesMessage("Info", "Caja eliminada correctamente");
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", e.getMessage());  	          
+	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}
+	}
+	
+	public void loadCaja() throws Exception{
+		try {
+			Object object = tablaCaja.getEditingRow();
+			Caja caja = new Caja();
+			if (object instanceof Caja) {
+				caja = (Caja) object;
+			}
+			this.caja = cajaServiceLocal.find(caja.getIdcaja());
+			} catch (Exception e) {
+				throw e;
+		}
 	}
 	
 	public void refreshBean() {
@@ -138,15 +163,7 @@ public class AdministrarCajaBean implements Serializable{
 	public void setTablaCaja(TablaBean<Caja> tablaCaja) {
 		this.tablaCaja = tablaCaja;
 	}
-/*
-	public PickListBean<Boveda> getPickListBoveda() {
-		return pickListBoveda;
-	}
 
-	public void setPickListBoveda(PickListBean<Boveda> pickListBoveda) {
-		this.pickListBoveda = pickListBoveda;
-	}
-*/
 	
 
 	public Caja getCaja() {
