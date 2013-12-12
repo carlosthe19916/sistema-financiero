@@ -21,35 +21,24 @@ import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.remote.CajaServiceRemote;
-import org.ventura.dao.impl.BovedaDAO;
 import org.ventura.dao.impl.CajaDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
-import org.ventura.dao.impl.DetallehistorialbovedaDAO;
 import org.ventura.dao.impl.DetallehistorialcajaDAO;
-import org.ventura.dao.impl.HistorialbovedaDAO;
 import org.ventura.dao.impl.HistorialcajaDAO;
-import org.ventura.entity.GeneratedEstadocuenta.EstadocuentaType;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
-import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
-import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.entity.schema.persona.Accionista;
-import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
-
-import com.beust.jcommander.Parameters;
-import com.sun.tools.classfile.Annotation.element_value;
 
 @Named
 @Stateless
@@ -63,6 +52,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 	
 	@EJB
 	private CajaDAO cajaDAO;
+
 	@EJB
 	private HistorialcajaDAO historialcajaDAO;
 	@EJB
@@ -101,13 +91,11 @@ public class CajaServiceBean implements CajaServiceLocal{
 		String denominacionCaja = oCaja.getDenominacion();
 		String abreviaturaCaja = oCaja.getAbreviatura();
 		
-		if (denominacionCaja == null || denominacionCaja.isEmpty()
-				|| denominacionCaja.trim().isEmpty()) {
+		if (denominacionCaja == null || denominacionCaja.isEmpty() || denominacionCaja.trim().isEmpty()) {
 			throw new Exception("Denominación de Caja Inválida");
 		}
 		
-		if (abreviaturaCaja == null || abreviaturaCaja.isEmpty()
-				|| abreviaturaCaja.trim().isEmpty()) {
+		if (abreviaturaCaja == null || abreviaturaCaja.isEmpty() || abreviaturaCaja.trim().isEmpty()) {
 			throw new Exception("Abreviatura de Caja Inválida");
 		}
 		

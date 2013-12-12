@@ -52,7 +52,11 @@
 								<div>
 									<div style="float: left;">
 										<h:inputText
-											value="#{transaccionCuentabancariaCajaBean.numeroCuenta}" />
+											value="#{transaccionCuentabancariaCajaBean.numeroCuenta}">
+											<a4j:ajax event="blur"
+												execute="#{transaccionCuentabancariaCajaBean.findCuentabancariaByNumerocuenta()}"
+												render="cuentabancariaResultadobusqueda" />
+										</h:inputText>
 									</div>
 									<div style="float: left;">
 										<a4j:commandLink
@@ -121,27 +125,36 @@
 							</div>
 						</div>
 
-						<div
-							style="float: right; margin-right: 450px; margin-top: 105px; border: 1px solid #ddd;">
-							<table>
-								<tr>
-									<td><label>Nro Cuenta</label></td>
-									<td><label>125874874547854</label></td>
-								</tr>
-								<tr>
-									<td><label>Tipo cuenta</label></td>
-									<td><label>Cta. Ahorro:</label></td>
-								</tr>
-								<tr>
-									<td><label>Moneda</label></td>
-									<td><label>Nuevos soles</label></td>
-								</tr>
-								<tr>
-									<td><label>titular</label></td>
-									<td><label>Jhon Flores Huertas:</label></td>
-								</tr>
-							</table>
-						</div>
+						<h:panelGroup id="cuentabancariaResultadobusqueda">
+							<div
+								style="float: right; margin-right: 450px; margin-top: 105px; border: 1px solid #ddd;">
+								<table>
+									<tr>
+										<td><label>Nro. Cuenta:</label></td>
+										<td><h:outputLabel
+												value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.numerocuenta}" />
+										</td>
+									</tr>
+									<tr>
+										<td><label>Tipo cuenta:</label></td>
+										<td><h:outputLabel
+												value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipocuentabancaria}" />
+										</td>
+									</tr>
+									<tr>
+										<td><label>Moneda:</label></td>
+										<td><h:outputLabel
+												value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipomoneda}" />
+										</td>
+									</tr>
+									<tr>
+										<td><label>Titular:</label></td>
+										<td><h:outputLabel
+												value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.titular}" /></td>
+									</tr>
+								</table>
+							</div>
+						</h:panelGroup>
 					</div>
 				</div>
 			</div>

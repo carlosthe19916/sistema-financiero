@@ -41,9 +41,6 @@ public class AdministrarCajaBean implements Serializable{
 	@Inject
 	private ListSelectedBean<Boveda> listSelectedBean;
 	
-	
-		
-	
 	@PostConstruct
 	private void initialize() {
 		this.refreshTablaCaja();	

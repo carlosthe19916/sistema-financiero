@@ -50,6 +50,8 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	@Inject
 	private ComboBean<String> comboTipobusqueda;
 	private String valorBusqueda;
+	@Inject
+	private CuentabancariaView cuentabancariaView;
 
 	// agrupadores pagina principal
 	@Inject
@@ -117,6 +119,20 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 			cuentabancariaViews = cuentabancariaServiceLocal.findByDni(this.valorBusqueda);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void findCuentabancariaByNumerocuenta() {
+		CuentabancariaView cuentabancariaView;
+		try {
+			cuentabancariaView = cuentabancariaServiceLocal.findCuentabancariaViewByNumerocuenta(this.numeroCuentabancaria);
+			if(cuentabancariaView != null){
+				this.cuentabancariaView = cuentabancariaView;
+			} else {
+				this.cuentabancariaView = new CuentabancariaView();
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -279,5 +295,13 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 	public void setComboTipobusqueda(ComboBean<String> comboTipobusqueda) {
 		this.comboTipobusqueda = comboTipobusqueda;
+	}
+
+	public CuentabancariaView getCuentabancariaView() {
+		return cuentabancariaView;
+	}
+
+	public void setCuentabancariaView(CuentabancariaView cuentabancariaView) {
+		this.cuentabancariaView = cuentabancariaView;
 	}
 }

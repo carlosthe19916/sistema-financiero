@@ -139,6 +139,11 @@ public class Boveda implements Serializable {
 		this.tipomoneda = tipomoneda;
 	}
 	
+	/*@Override
+	public String toString() {
+		return this.denominacion;
+	}*/
+	
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Boveda)) {

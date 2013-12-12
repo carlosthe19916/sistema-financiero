@@ -1,7 +1,11 @@
 package org.ventura.entity.schema.cuentapersonal.view;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,9 +17,12 @@ import java.util.Date;
 @Entity
 @Table(name="cuentabancaria_view" , schema ="cuentapersonal")
 @NamedQuery(name="CuentabancariaView.findAll", query="SELECT c FROM CuentabancariaView c")
+@NamedQueries({ @NamedQuery(name = CuentabancariaView.findByNumerocuenta, query = "SELECT c FROM CuentabancariaView c WHERE c.numerocuenta = :numerocuenta") })
 public class CuentabancariaView implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+
+	public final static String findByNumerocuenta = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByNumerocuenta";
 
 	@Id
 	@Column(name="id_cuentabancaria")
