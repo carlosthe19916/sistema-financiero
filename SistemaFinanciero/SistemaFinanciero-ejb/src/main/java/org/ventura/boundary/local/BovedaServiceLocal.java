@@ -14,7 +14,6 @@ import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Transaccionboveda;
-import org.ventura.entity.schema.caja.view.BovedaView;
 
 @Local
 public interface BovedaServiceLocal extends BovedaServiceRemote{
@@ -26,6 +25,8 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	public void delete(Boveda oBoveda)throws Exception;
 
 	public void update(Boveda oBoveda)throws Exception;
+	
+	public void inactive(Boveda oBoveda)throws Exception;
 
 	public Collection<Boveda> findByNamedQuery(String queryName) throws Exception;
 

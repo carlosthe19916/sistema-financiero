@@ -92,6 +92,7 @@
 		<class>org.ventura.entity.schema.caja.Transaccioncompraventa</class>
 		<class>org.ventura.entity.schema.caja.view.BovedaView</class>
 		<class>org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView</class>
+		<class>org.ventura.entity.schema.caja.view.CajaView</class>
 		
 		<properties>
 			<!-- Properties for Hibernate -->

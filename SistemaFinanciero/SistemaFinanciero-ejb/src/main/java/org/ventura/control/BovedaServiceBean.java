@@ -161,6 +161,33 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 	}
 
+	public void inactive(Boveda boveda) throws Exception{
+		try {
+			Object id = boveda.getIdboveda();
+			boveda = bovedaDAO.find(id);
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);		
+			
+			if(!boveda.getEstadoapertura().equals(estadoapertura)){
+				throw new Exception("Boveda no esta Cerrada, intentelo nuevamente");
+			}
+			Historialboveda historialboveda = getHistorialbovedaLastActive(boveda);
+			if(historialboveda != null){
+				Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
+				historialboveda.setEstadomovimiento(estadomovimiento);
+				historialbovedaDAO.update(historialboveda);
+			}
+			
+			boveda.setEstado(false);
+			boveda.setEstadoapertura(estadoapertura);		
+			bovedaDAO.update(boveda);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error al desactivar Boveda");
+		}
+	}
+	
 	@Override
 	public void openBoveda(Boveda boveda) throws Exception {
 		try {
