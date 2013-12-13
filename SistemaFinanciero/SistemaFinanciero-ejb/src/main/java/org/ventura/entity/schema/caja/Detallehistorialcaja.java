@@ -64,5 +64,14 @@ public class Detallehistorialcaja implements Serializable {
 	public void setHistorialcaja(Historialcaja historialcaja) {
 		this.historialcaja = historialcaja;
 	}
+	
+	public Moneda getSubtotal() {
+		Moneda result = new Moneda();
+		if (this.cantidad != null) {
+			Moneda valor = this.denominacionmoneda.getValor();
+			result = valor.multiply(cantidad);
+		}
+		return result;
+	}
 
 }

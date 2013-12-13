@@ -13,8 +13,9 @@ import java.util.List;
 @Entity
 @Table(name = "caja", schema = "caja")
 @NamedQuery(name = "Caja.findAll", query = "SELECT c FROM Caja c")
-@NamedQueries({ @NamedQuery(name = Caja.findAllByBovedaAndState, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b WHERE b.idboveda = :idboveda"),
-				@NamedQuery(name = Caja.ALL_ACTIVE_BY_AGENCIA, query = "Select c from Caja c inner join c.bovedas b where c.estado = true and b.agencia.idagencia = :idagencia group by c.idcaja")})
+@NamedQueries({
+		@NamedQuery(name = Caja.findAllByBovedaAndState, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b WHERE b.idboveda = :idboveda"),
+		@NamedQuery(name = Caja.ALL_ACTIVE_BY_AGENCIA, query = "Select c from Caja c inner join c.bovedas b where c.estado = true and b.agencia.idagencia = :idagencia group by c.idcaja") })
 public class Caja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,21 +37,20 @@ public class Caja implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	// bi-directional many-to-many association to boveda
-	@ManyToMany(mappedBy="cajas")
+	@ManyToMany
+	@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idcaja") }, inverseJoinColumns = { @JoinColumn(name = "idboveda") })
 	private List<Boveda> bovedas;
+
+	//@ManyToMany(mappedBy="cajas")
+	//private List<Boveda> bovedas;
 	
-	 
-	
-	// bi-directional many-to-one association to Estadomovimiento
 	@ManyToOne
 	@JoinColumn(name = "idestadoapertura", nullable = false)
 	private Estadoapertura estadoapertura;
 
-	// bi-directional many-to-one association to Historialcaja
 	@OneToMany(mappedBy = "caja")
 	private List<Historialcaja> hitorialcajas;
-	
+
 	public Caja() {
 	}
 
@@ -85,8 +85,7 @@ public class Caja implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-	
-	
+
 	public List<Boveda> getBovedas() {
 		return this.bovedas;
 	}

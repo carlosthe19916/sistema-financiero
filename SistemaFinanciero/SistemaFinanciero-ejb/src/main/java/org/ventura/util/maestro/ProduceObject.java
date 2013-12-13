@@ -2,12 +2,15 @@ package org.ventura.util.maestro;
 
 import javax.ejb.EJB;
 
+import org.omg.CORBA.TIMEOUT;
 import org.ventura.dao.CrudService;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 
 public class ProduceObject<T, V extends Enum<V>> {
 
@@ -168,6 +171,45 @@ public class ProduceObject<T, V extends Enum<V>> {
 			break;
 		}
 		return transaccionType;
+	}
+	
+	public static TipomonedaType getTipomoneda(Tipomoneda tipomoneda) {
+		TipomonedaType tipomonedaType;
+		Integer id = tipomoneda.getIdtipomoneda();
+		switch (id) {
+		case 0:
+			tipomonedaType = TipomonedaType.DOLAR;
+			break;
+		case 1:
+			tipomonedaType = TipomonedaType.NUEVO_SOL;
+			break;
+		case 2:
+			tipomonedaType = TipomonedaType.EURO;
+			break;
+		default:
+			tipomonedaType = null;
+			break;
+		}
+		return tipomonedaType;
+	}
+	
+	public static Tipomoneda getTipomoneda(TipomonedaType tipomonedaType) {
+		Tipomoneda tipomoneda = new Tipomoneda();
+		switch (tipomonedaType) {
+		case DOLAR:
+			tipomoneda.setIdtipomoneda(0);
+			break;
+		case NUEVO_SOL:
+			tipomoneda.setIdtipomoneda(1);
+			break;
+		case EURO:
+			tipomoneda.setIdtipomoneda(2);
+			break;
+		default:
+			tipomoneda.setIdtipomoneda(null);
+			break;
+		}
+		return tipomoneda;
 	}
 
 	public T getObject(Enum<V> e) {

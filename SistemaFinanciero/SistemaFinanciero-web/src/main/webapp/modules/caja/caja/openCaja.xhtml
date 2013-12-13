@@ -10,38 +10,211 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
-	<p:dialog id="dlgOpenCaja" widgetVar="DialogOpenCaja"
+
+	<p:dialog id="dlgOpenCaja" widgetVar="DialogOpenCaja" height="580" width="535"
 		header="Abrir Caja" modal="true">
 		<f:facet name="header">
-			<h:outputText value="Apertura De Cajas" />
+			<h:outputText value="Apertura De Caja" />
 		</f:facet>
-		<h:form id="formDialogCajas">
+		<h:form id="formDialogOpenCaja">
 			<div>
 				<div>
+					<div class="sf-header-td-right">
+						<ul style="float: none;">
+							<li>
+								<div class="p6n-api-consent-screen-input-section"
+									style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 50px;">AGENCIA:</div>
+								</div>
+								<div style="display: inline-block;">
+									<h:outputLabel
+										value="#{administrarCajaBean.agenciaBean.agencia.denominacion}"
+										styleClass="sf-label-bold" />
+								</div>
+							</li>
+							<li>
+								<div class="p6n-api-consent-screen-input-section"
+									style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 50px;">CAJA:</div>
+								</div>
+								<div style="display: inline-block;">
+									<h:outputLabel value="#{administrarCajaBean.caja.denominacion}"
+										styleClass="sf-label-bold" />
+								</div>
+							</li>
+							<li>
+								<div class="p6n-api-consent-screen-input-section"
+									style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 50px;">ESTADO:</div>
+								</div>
+								<div style="display: inline-block;">
+									<h:outputLabel
+										value="#{administrarCajaBean.caja.estadoapertura.denominacion}"
+										styleClass="sf-label-bold" />
+								</div>
+							</li>
 
-					
-
+						</ul>
+					</div>
 				</div>
+
+				<div>
+					<p:accordionPanel>
+						<p:tab title="MONEDA NUEVO SOL" rendered="#{administrarCajaBean.caja_Boveda_Nuevo_Sol()}">
+							<p:scrollPanel style="height:330px;">
+								<h:panelGrid>
+									<p:dataTable var="cajaDetalleSoles"
+										value="#{administrarCajaBean.tablaCajaDetalleSoles.rows}"
+										rowKey="#{cajaDetalleSoles}" rowIndexVar="row">
+
+										<f:facet name="header">
+											<h:outputText value="MONEDA: " style="text-align:right;" />
+											<h:outputText value="NUEVO SOL" />
+										</f:facet>
+
+										<p:column headerText="Nro" width="15"
+											style="text-align:center;">
+											<h:outputText value="#{row + 1}" />
+										</p:column>
+										<p:column headerText="Denominacion" width="40"
+											style="text-align:right;">
+											<h:outputText
+												value="#{cajaDetalleSoles.denominacionmoneda.denominacion}" />
+										</p:column>
+										<p:column headerText="Cantidad" width="100"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleSoles.cantidad}" />
+										</p:column>
+										<p:column headerText="Total" width="150"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleSoles.subtotal}" />
+										</p:column>
+
+										<p:columnGroup type="footer">
+											<p:row>
+												<p:column colspan="3" footerText="Total en Caja:"
+													style="text-align:right" />
+												<p:column colspan="1"
+													footerText="#{administrarCajaBean.totalHistorialCajaSoles}"
+													style="text-align:right" />
+											</p:row>
+										</p:columnGroup>
+									</p:dataTable>
+								</h:panelGrid>
+							</p:scrollPanel>
+						</p:tab>
+
+						<p:tab title="MONEDA DOLARES" rendered="#{administrarCajaBean.caja_Boveda_Dolar()}">
+							<p:scrollPanel style="height:330px;">
+								<h:panelGrid>
+									<p:dataTable var="cajaDetalleDolares"
+										value="#{administrarCajaBean.tablaCajaDetalleDolares.rows}"
+										rowKey="#{cajaDetalleDolares}" rowIndexVar="row">
+
+										<f:facet name="header">
+											<h:outputText value="MONEDA: " style="text-align:right;" />
+											<h:outputText value="DOLARES" />
+										</f:facet>
+
+										<p:column headerText="Nro" width="15"
+											style="text-align:center;">
+											<h:outputText value="#{row + 1}" />
+										</p:column>
+										<p:column headerText="Denominacion" width="40"
+											style="text-align:right;">
+											<h:outputText
+												value="#{cajaDetalleDolares.denominacionmoneda.denominacion}" />
+										</p:column>
+										<p:column headerText="Cantidad" width="100"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleDolares.cantidad}" />
+										</p:column>
+										<p:column headerText="Total" width="150"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleDolares.subtotal}" />
+										</p:column>
+
+										<p:columnGroup type="footer">
+											<p:row>
+												<p:column colspan="3" footerText="Total en Caja:"
+													style="text-align:right" />
+												<p:column colspan="1"
+													footerText="#{administrarCajaBean.totalHistorialCajaDolares}"
+													style="text-align:right" />
+											</p:row>
+										</p:columnGroup>
+									</p:dataTable>
+								</h:panelGrid>
+							</p:scrollPanel>
+						</p:tab>
+
+						<p:tab title="MONEDA EUROS" rendered="#{administrarCajaBean.caja_Boveda_Euro()}">
+							<p:scrollPanel style="height:330px;">
+								<h:panelGrid>
+									<p:dataTable var="cajaDetalleEuros"
+										value="#{administrarCajaBean.tablaCajaDetalleEuros.rows}"
+										rowKey="#{cajaDetalleEuros}" rowIndexVar="row">
+
+										<f:facet name="header">
+											<h:outputText value="MONEDA: " style="text-align:right;" />
+											<h:outputText value="EUROS" />
+										</f:facet>
+
+										<p:column headerText="Nro" width="15"
+											style="text-align:center;">
+											<h:outputText value="#{row + 1}" />
+										</p:column>
+										<p:column headerText="Denominacion" width="40"
+											style="text-align:right;">
+											<h:outputText
+												value="#{cajaDetalleEuros.denominacionmoneda.denominacion}" />
+										</p:column>
+										<p:column headerText="Cantidad" width="100"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleEuros.cantidad}" />
+										</p:column>
+										<p:column headerText="Total" width="150"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleEuros.subtotal}" />
+										</p:column>
+
+										<p:columnGroup type="footer">
+											<p:row>
+												<p:column colspan="3" footerText="Total en Caja:"
+													style="text-align:right" />
+												<p:column colspan="1"
+													footerText="#{administrarCajaBean.totalHistorialCajaEuros}"
+													style="text-align:right" />
+											</p:row>
+										</p:columnGroup>
+									</p:dataTable>
+
+								</h:panelGrid>
+							</p:scrollPanel>
+						</p:tab>
+					</p:accordionPanel>
+				</div>
+
 				<div>
 					<div class="p6n-api-consent-screen-section">
 						<div class="sf-buttons">
-							<a4j:commandButton value="Guardar" styleClass="action blue">
+							<a4j:commandButton value="Aperturar" styleClass="action blue">
 								<a4j:ajax execute="@form"
-									listener="#{administrarCajaBean.imprimir()}" />
+									listener="#{administrarCajaBean.openCaja()}"
+									render="#{componentToUpdated}"
+									oncomplete="#{rich:component('dlgOpenCaja')}.hide()" />
 							</a4j:commandButton>
+
 							<h:commandButton value="Cancelar" styleClass="action">
-								<rich:componentControl target="dlgOpenCaja" operation="hide" />
+								<rich:componentControl target="dlgOpenBoveda" operation="hide" />
 							</h:commandButton>
+
 						</div>
 					</div>
 				</div>
 			</div>
 		</h:form>
 	</p:dialog>
-	
-	<ui:include src="/modules/caja/caja/detalleCaja.xhtml"/>
 </ui:composition>
 </html>
-
-
 
