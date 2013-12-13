@@ -5,9 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -29,12 +27,11 @@
 				<div>
 					<div>
 						<div class="p6n-api-consent-screen-title">Boveda transaccion</div>
-						<rich:messages id="messages"></rich:messages>
 						<div class="p6n-api-consent-screen-inputs">
 							<div class="p6n-api-consent-screen-input-section">
 								<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDA</div>
 								<div>
-									<h:selectOneMenu
+									<h:selectOneMenu id="cmbBoveda"
 										value="#{transaccionBovedaBean.comboBoveda.itemSelected}"
 										valueChangeListener="#{transaccionBovedaBean.changeBoveda}"
 										required="true" requiredMessage="Seleccione una Boveda">
@@ -43,17 +40,20 @@
 											value="#{transaccionBovedaBean.comboBoveda.items.entrySet()}"
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
-										<a4j:ajax render="panelDetalletransaccion" execute="@this"
-											onbegin="$.blockUI();" oncomplete="$.unblockUI();" />
+										<f:ajax render="panelDetalletransaccion" execute="@this" />
 									</h:selectOneMenu>
 								</div>
+							</div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbBoveda" />
 							</div>
 							<div class="p6n-api-consent-screen-input-section">
 								<div style="display: inline-block;">
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
 										TRANSACCION</div>
 									<div>
-										<h:selectOneMenu
+										<h:selectOneMenu id="cmbTipoTransaccion"
 											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}"
 											valueChangeListener="#{transaccionBovedaBean.changeTipotransaccion}"
 											required="true"
@@ -63,8 +63,7 @@
 												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
-											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
-												oncomplete="$.unblockUI();" />
+											<f:ajax render="panelOrigen" execute="@this" />
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -72,7 +71,7 @@
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
 										ENTIDAD</div>
 									<div>
-										<h:selectOneMenu
+										<h:selectOneMenu id="cmbTipoEntidad"
 											value="#{transaccionBovedaBean.comboTipoentidad.itemSelected}"
 											valueChangeListener="#{transaccionBovedaBean.changeTipoentidad}"
 											required="true"
@@ -81,15 +80,14 @@
 											<f:selectItems
 												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
 												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
-												oncomplete="$.unblockUI();" />
+											<f:ajax render="panelOrigen" execute="@this" />
 										</h:selectOneMenu>
 									</div>
 								</div>
 								<div style="display: inline-block;">
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">ENTIDAD</div>
 									<h:panelGroup id="panelOrigen">
-										<h:selectOneMenu
+										<h:selectOneMenu id="cmbEntidad"
 											rendered="#{(!transaccionBovedaBean.isCaja()) and (!transaccionBovedaBean.isOtro())}"
 											required="true" requiredMessage="Seleccione una Entidad">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
@@ -103,8 +101,7 @@
 												value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
-											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
-												oncomplete="$.unblockUI();" />
+											<f:ajax render="panelOrigen" execute="@this" />
 										</h:selectOneMenu>
 										<h:selectOneMenu id="cmbEntidadfinanciera"
 											value="#{transaccionBovedaBean.comboEntidadfinanciera.itemSelected}"
@@ -115,12 +112,32 @@
 												value="#{transaccionBovedaBean.comboEntidadfinanciera.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
-											<a4j:ajax render="panelOrigen" onbegin="$.blockUI();"
-												oncomplete="$.unblockUI();" />
+											<f:ajax render="panelOrigen" execute="@this" />
 										</h:selectOneMenu>
 									</h:panelGroup>
 								</div>
 							</div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbTipoTransaccion" />
+							</div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbTipoEntidad" />
+							</div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbEntidad" />
+							</div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbCaja" />
+							</div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbEntidadfinanciera" />
+							</div>
+
 							<div class="sf-separator"></div>
 							<div class="p6n-api-consent-screen-input-section">
 								<div>
@@ -182,11 +199,10 @@
 							</div>
 							<div class="sf-separator"></div>
 							<div class="sf-buttons" style="float: left;">
-								<a4j:commandButton value="Guardar"
+
+								<h:commandButton
 									action="#{transaccionBovedaBean.createTransaccionboveda()}"
-									onbegin="$.blockUI();" oncomplete="$.unblockUI();"
-									styleClass="action blue">
-								</a4j:commandButton>
+									value="Guardar" styleClass="action blue" />
 							</div>
 						</div>
 					</div>

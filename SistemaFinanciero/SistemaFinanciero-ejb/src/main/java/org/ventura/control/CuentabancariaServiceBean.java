@@ -99,4 +99,30 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		return CuentabancariaView;
 	}
 
+	@Override
+	public CuentabancariaView findCuentabancariaViewByNumerocuenta(String numerocuenta) throws Exception {
+		CuentabancariaView cuentabancaria;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("numerocuenta", numerocuenta);
+
+			List<CuentabancariaView> historialbovedaList = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByNumerocuenta,parameters);
+			if (historialbovedaList.size() == 1) {
+				cuentabancaria = historialbovedaList.get(0);
+			} else {
+				if (historialbovedaList.size() == 0){
+					cuentabancaria = null;
+				} else {
+					throw new Exception("No se encontro cuenta bancaria valida");
+				}		
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentabancaria;
+	}
+
 }

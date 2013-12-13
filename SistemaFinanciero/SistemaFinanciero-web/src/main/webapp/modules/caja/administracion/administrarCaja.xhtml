@@ -11,7 +11,7 @@
 
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
-		<h:outputText value="Boveda" />
+		<h:outputText value="Caja" />
 	</ui:define>
 
 	<!-- Definiendo el cuerpo de la pagina -->
@@ -21,48 +21,49 @@
 		<br />
 		<div>
 			<div>
-				<div class="p6n-api-consent-screen-title">Administrar Boveda</div>
+				<div class="p6n-api-consent-screen-title">Administrar Caja</div>
+				<h:messages />
 				<br />
 				<div>
 					<h:form id="formToolbar">
 						<div class="buttons">
 							<div class="tiptip">
 								<p:commandLink action="create" styleClass="button left"
-									title="Nueva bóveda">
+									title="Nueva Caja">
 									<span class="icon icon3"></span>
 									<span class="label">Nuevo</span>
 								</p:commandLink>
 								<p:commandLink action="update" styleClass="button middle"
-									title="Editar bóveda">
+									title="Editar Caja">
 									<span class="icon icon3"></span>
 									<span class="label">Editar</span>
 								</p:commandLink>
 								<p:commandLink
-									actionListener="#{administrarBovedaBean.deleteBoveda()}"
-									update=":formTablaBoveda" styleClass="button right"
-									title="Eliminar Boveda">
+									actionListener="#{administrarCajaBeanReplace.deleteCaja()}"
+									update=":formTablaCaja" styleClass="button right"
+									title="Eliminar Caja">
 									<p:confirm header="Confirmation"
-										message="Estas seguro de eliminar la boveda?"
+										message="¿Estas seguro de eliminar la Caja?"
 										icon="ui-icon-alert" />
 									<span class="icon icon186"></span>
 									<span class="label">Eliminar</span>
 								</p:commandLink>
 								<p:commandLink
-									actionListener="#{administrarBovedaBean.desactivarMovimiento()}"
-									update=":formTablaBoveda:tblBoveda" styleClass="button left"
+									actionListener="#{administrarCajaBeanReplace.desactivarMovimiento()}"
+									update=":formTablaCaja:tblCaja" styleClass="button left"
 									title="Congelar Boveda">
 									<p:confirm header="Confirmation"
-										message="¿Estas seguro de Congelar la boveda?"
+										message="¿Estas seguro de Congelar la Caja?"
 										icon="ui-icon-alert" />
 									<span class="icon icon125"></span>
 									<span class="label">Congelar</span>
 								</p:commandLink>
 								<p:commandLink
-									actionListener="#{administrarBovedaBean.activarMovimiento()}"
-									update=":formTablaBoveda:tblBoveda" styleClass="button right"
-									title="Descongelar Boveda">
+									actionListener="#{administrarCajaBeanReplace.activarMovimiento()}"
+									update=":formTablaCaja:tblCaja" styleClass="button right"
+									title="Descongelar Caja">
 									<p:confirm header="Confirmation"
-										message="¿Estas seguro de Descongelar la boveda?"
+										message="¿Estas seguro de Descongelar la Caja?"
 										icon="ui-icon-alert" />
 									<span class="icon icon126"></span>
 									<span class="label">Descongelar</span>
@@ -85,43 +86,40 @@
 								<div class="dropdown-slider">
 									<h:commandLink action="open" styleClass="ddm">
 										<span class="icon icon123">&nbsp;</span>
-										<span class="label">Abrir Boveda</span>
+										<span class="label">Abrir Caja</span>
 									</h:commandLink>
 									<h:commandLink action="close" styleClass="ddm">
 										<span class="icon icon122">&nbsp;</span>
-										<span class="label">Cerrar Boveda</span>
+										<span class="label">Cerrar Caja</span>
 									</h:commandLink>
 								</div>
 								<!-- /.dropdown-slider -->
 							</div>
 						</div>
 					</h:form>
-					<h:form id="formTablaBoveda">
+					<h:form id="formTablaCaja">
 						<div style="margin: 5px;">
-							<p:dataTable id="tblBoveda" var="boveda"
-								value="#{administrarBovedaBean.tablaBoveda.rows}"
+							<p:dataTable id="tblCaja" var="caja"
+								value="#{administrarCajaBeanReplace.tablaCaja.rows}"
 								selectionMode="single"
-								selection="#{administrarBovedaBean.tablaBoveda.selectedRow}"
-								rowKey="#{boveda}" rowIndexVar="row">
+								selection="#{administrarCajaBeanReplace.tablaCaja.selectedRow}"
+								rowKey="#{caja}" rowIndexVar="row">
 
 								<p:ajax event="rowSelect"
-									listener="#{administrarBovedaBean.setRowSelect()}" />
+									listener="#{administrarCajaBeanReplace.setRowSelect()}" />
 
 								<p:column headerText="Nro" width="5%" style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
 
 								<p:column headerText="Denominacion">
-									<h:outputText value="#{boveda.denominacionBoveda}" />
-								</p:column>
-								<p:column headerText="Moneda">
-									<h:outputText value="#{boveda.denominacionTipomoneda}" />
+									<h:outputText value="#{caja.denominacionCaja}" />
 								</p:column>
 								<p:column headerText="Estado Apertura" width="200">
-									<h:outputText value="#{boveda.denominacionEstadoapertura}" />
+									<h:outputText value="#{caja.denominacionEstadoapertura}" />
 								</p:column>
 								<p:column headerText="Estado Movimiento" width="200">
-									<h:outputText value="#{boveda.denominacionEstadomovimiento}" />
+									<h:outputText value="#{caja.denominacionEstadomovimiento}" />
 								</p:column>
 							</p:dataTable>
 						</div>

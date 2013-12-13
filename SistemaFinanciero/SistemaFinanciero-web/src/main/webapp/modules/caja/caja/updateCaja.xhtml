@@ -13,10 +13,10 @@
 <ui:composition>
 
 	<h:form>
-		<rich:popupPanel id="dlgUpdateBoveda" modal="true" autosized="true"
+		<rich:popupPanel id="dlgUpdateCaja" modal="true" autosized="true"
 			resizeable="false" domElementAttachment="parent">
 			<f:facet name="header">
-				<h:outputText value="Actualizar Boveda" />
+				<h:outputText value="Actualizar Caja" />
 			</f:facet>
 			<div>
 				<table class="p6n-api-cred-create-form">
@@ -25,16 +25,23 @@
 						<td class="p6n-api-no-tooltip"></td>
 						<td class="p6n-api-cred-input-holder"
 							style="vertical-align: middle;"><label
-							jsf:value="#{administrarBovedaBean.agenciaBean.agencia.denominacion}"
+							jsf:value="#{administrarCajaBean.agenciaBean.agencia.denominacion}"
 							class="sf-label-bold" /></td>
 					</tr>
 					<tr>
 						<td class="p6n-api-cred-create-label"><label>Denominacion:</label></td>
 						<td class="p6n-api-no-tooltip"></td>
 						<td class="p6n-api-cred-input-holder"><input type="text"
-							jsf:value="#{administrarBovedaBean.boveda.denominacion}"
+							jsf:value="#{administrarCajaBean.caja.denominacion}"
 							placeholder="denominacion" required="required" /></td>
 					</tr>
+					<tr>
+						<td class="p6n-api-cred-create-label"><label>Abreviatura:</label></td>
+						<td class="p6n-api-no-tooltip"></td>
+						<td class="p6n-api-cred-input-holder"><input type="text"
+							jsf:value="#{administrarCajaBean.caja.abreviatura}"
+							placeholder="abreviatura" required="required" /></td>
+					</tr>				
 					<tr>
 						<td class="p6n-api-cred-create-label"><label>Moneda:</label></td>
 						<td class="p6n-api-no-tooltip"></td>
@@ -50,24 +57,24 @@
 								<f:ajax update="txtTipomoneda" />
 							</h:selectOneMenu></td>
 					</tr>
+					
 					<tr>
-						<td class="p6n-api-cred-create-label"><label>Saldo:</label></td>
+						<td class="p6n-api-cred-create-label"><label>Bovedas:</label></td>
 						<td class="p6n-api-no-tooltip"></td>
-						<td style="vertical-align: middle;"><label
-							jsf:value="0.00"
-							class="sf-label-bold" /></td>
+						
 					</tr>
+					
 				</table>
 			</div>
 			<div class="sf-buttons">
 				<a4j:commandButton value="Guardar" styleClass="action blue">
 					<a4j:ajax execute="@form"
-						listener="#{administrarBovedaBean.updateBoveda()}"
+						listener="#{administrarCajaBean.updateCaja()}"
 						render="#{componentToUpdated}"
-						oncomplete="#{rich:component('dlgUpdateBoveda')}.hide()" />
+						oncomplete="#{rich:component('dlgUpdateCaja')}.hide()" />
 				</a4j:commandButton>
 				<h:commandButton value="Cancelar" styleClass="action">
-					<rich:componentControl target="dlgUpdateBoveda" operation="hide" />
+					<rich:componentControl target="dlgUpdateCaja" operation="hide" />
 				</h:commandButton>
 			</div>
 
@@ -76,11 +83,3 @@
 
 </ui:composition>
 </html>
-
-
-
-
-
-
-
-

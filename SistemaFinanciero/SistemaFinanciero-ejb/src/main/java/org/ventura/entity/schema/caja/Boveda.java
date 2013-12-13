@@ -19,7 +19,9 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA, query = "Select b From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true ORDER BY b.idboveda"),
 		@NamedQuery(name = Boveda.ALL_ACTIVE_DENOMINACION_BY_AGENCIA, query = "Select b.denominacion From Boveda b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND b.estado = true ORDER BY b.idboveda"),
-		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, query = "Select b From Boveda b INNER JOIN b.agencia a INNER JOIN b.historialbovedas hb WHERE a = :agencia AND b.estado = true AND b.estadoapertura = :estadoapertura AND b.estado = true AND hb.estadomovimiento = :estadomovimiento AND hb.idcreacion = (SELECT MAX(hh.idcreacion) FROM Historialboveda hh WHERE hh.boveda.idboveda = b.idboveda )") })
+		@NamedQuery(name = Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, query = "Select b From Boveda b INNER JOIN b.agencia a INNER JOIN b.historialbovedas hb WHERE a = :agencia AND b.estado = true AND b.estadoapertura = :estadoapertura AND b.estado = true AND hb.estadomovimiento = :estadomovimiento AND hb.idcreacion = (SELECT MAX(hh.idcreacion) FROM Historialboveda hh WHERE hh.boveda.idboveda = b.idboveda )"),
+		@NamedQuery(name = Boveda.ALL_FOR_CAJA, query = "SELECT b FROM Boveda b JOIN b.cajas c WHERE c.idcaja = :idcaja")})
+
 public class Boveda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -27,7 +29,8 @@ public class Boveda implements Serializable {
 	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.Boveda.ALL_ACTIVE_BY_AGENCIA";
 	public final static String ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO = "org.ventura.entity.schema.caja.Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO";
 	public final static String ALL_ACTIVE_DENOMINACION_BY_AGENCIA = "org.ventura.entity.schema.caja.Boveda.ALL_ACTIVE_DENOMINACION_BY_AGENCIA";
-	
+	public final static String ALL_FOR_CAJA = "org.ventura.entity.schema.caja.Boveda.ALL_FOR_CAJA";
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -53,8 +56,8 @@ public class Boveda implements Serializable {
 	private Agencia agencia;
 
 		
-	@ManyToMany
-    @JoinTable(name="boveda_caja",schema="caja", joinColumns={@JoinColumn(name="idboveda")}, inverseJoinColumns={@JoinColumn(name="idcaja")})
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy="bovedas")
+	//@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idcaja") }, inverseJoinColumns = { @JoinColumn(name = "idboveda") })
 	private List<Caja> cajas;
 
 	@OneToMany(mappedBy = "boveda")
@@ -137,6 +140,11 @@ public class Boveda implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
+	}
+	
+	@Override
+	public String toString() {
+		return this.denominacion;
 	}
 	
 	@Override
