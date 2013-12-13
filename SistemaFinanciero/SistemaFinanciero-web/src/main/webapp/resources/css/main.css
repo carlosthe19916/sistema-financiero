@@ -1040,7 +1040,8 @@ th,td {
 	font-weight: inherit;
 	margin: 0;
 	outline: 0;
-	vertical-align: baseline
+	vertical-align: top;
+	/*vertical-align: baseline;*/
 }
 
 body {
@@ -1085,7 +1086,7 @@ td,th {
 	padding: 5px 16px;
 	position: fixed;
 	text-align: left;
-	top: 55px;
+	top: 90px;
 	transition: opacity 0.130s;
 	z-index: 9999;
 	background: #f9edbe;

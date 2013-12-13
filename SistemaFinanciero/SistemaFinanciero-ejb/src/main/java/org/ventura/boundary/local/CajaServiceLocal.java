@@ -35,5 +35,7 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	public List<Caja> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
 	
 	public Historialcaja getHistorialcajaLastActive(Caja oCaja) throws RollbackFailureException, Exception;
+
+	public List<Boveda> getBovedas(Caja oCaja) throws Exception;
 	
 }

@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+
+	<f:metadata>
+		<f:viewParam name="idboveda" value="#{openCloseBovedaBean.idboveda}" />
+		<f:viewAction action="#{openCloseBovedaBean.loadBovedaForOpen()}" />
+	</f:metadata>
+
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Editar" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+			<h:outputStylesheet library="css" name="main.css" />
+			<br />
+			<h:form>
+
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">Abrir Boveda</div>
+							<h:panelGroup rendered="#{!openCloseBovedaBean.validBean}">
+								<div class="p6n-butterbar" id="p6n-manualbutterbar0"
+									style="left: 514.5px;">
+									<div>
+										<div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:messages />
+											</div>
+										</div>
+										<div style="text-align: center;">
+											<h:commandLink value="Cerrar" />
+											&nbsp;|&nbsp;
+											<h:commandLink value="Volver" action="cancel" />
+										</div>
+
+									</div>
+								</div>
+								<div class="modal-dialog-bg"
+									style="opacity: 0.4; width: 1366px; height: 602px;"
+									aria-hidden="true"></div>
+							</h:panelGroup>
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">
+										AGENCIA</div>
+									<div>
+										<h:outputLabel
+											value="#{openCloseBovedaBean.agencia.denominacion}" />
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">BOVEDA</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{openCloseBovedaBean.boveda.denominacion}" />
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">TIPO MONEDA</div>
+										<div>
+											<h:outputLabel
+												value="#{openCloseBovedaBean.boveda.tipomoneda.denominacion}" />
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">ESTADO</div>
+										<div>
+											<h:outputLabel
+												value="#{openCloseBovedaBean.boveda.estadoapertura.denominacion}" />
+										</div>
+									</div>
+								</div>
+
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">DETALLE
+										BOVEDA</div>
+									<div>
+										<p:dataTable var="bovedaDetalle"
+											value="#{openCloseBovedaBean.tablaBovedaDetalle.rows}"
+											rowKey="#{bovedaDetalle}" rowIndexVar="row">
+											<p:column headerText="Nro" width="15"
+												style="text-align:center;">
+												<h:outputText value="#{row + 1}" />
+											</p:column>
+											<p:column headerText="Denominacion" width="150"
+												style="text-align:right;">
+												<h:outputText
+													value="#{bovedaDetalle.denominacionmoneda.denominacion}" />
+											</p:column>
+											<p:column headerText="Cantidad" width="150"
+												style="text-align:right;">
+												<h:outputText value="#{bovedaDetalle.cantidad}" />
+											</p:column>
+											<p:column headerText="Total" width="150"
+												style="text-align:right;">
+												<h:outputText value="#{bovedaDetalle.getSubtotal()}" />
+											</p:column>
+
+											<p:columnGroup type="footer">
+												<p:row>
+													<p:column colspan="3" footerText="Total en Bóveda:"
+														style="text-align:right" />
+													<p:column colspan="1"
+														footerText="#{openCloseBovedaBean.getTotalHistorialboveda()}"
+														style="text-align:right" />
+												</p:row>
+											</p:columnGroup>
+										</p:dataTable>
+									</div>
+								</div>
+								<br /> <br />
+
+								<div class="sf-buttons" style="float: left;">
+									<h:commandButton action="#{openCloseBovedaBean.openBoveda()}"
+										value="Guardar" styleClass="action blue" />
+
+									<h:commandButton action="cancel" value="Cancelar"
+										styleClass="action" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>
+
+
+
+
+
+
+
+

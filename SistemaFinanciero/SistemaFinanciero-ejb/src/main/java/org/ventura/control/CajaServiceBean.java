@@ -21,6 +21,7 @@ import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.remote.CajaServiceRemote;
+import org.ventura.dao.impl.BovedaDAO;
 import org.ventura.dao.impl.CajaDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
 import org.ventura.dao.impl.DetallehistorialcajaDAO;
@@ -53,6 +54,9 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@EJB
 	private CajaDAO cajaDAO;
 
+	@EJB
+	private BovedaDAO bovedaDAO;
+	
 	@EJB
 	private HistorialcajaDAO historialcajaDAO;
 	@EJB
@@ -356,5 +360,20 @@ public class CajaServiceBean implements CajaServiceLocal{
 			log.info("Verificacion de caja incorrecta");
 		}
 		return result;
+	}
+	
+	@Override
+	public List<Boveda> getBovedas(Caja oCaja) throws Exception{
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idcaja", oCaja.getIdcaja());
+		
+		List<Boveda> bovedas = null;
+		try {
+			bovedas = bovedaDAO.findByNamedQuery(Boveda.ALL_FOR_CAJA,parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bovedas;
 	}
 }
