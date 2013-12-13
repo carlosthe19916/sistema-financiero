@@ -151,7 +151,7 @@
 								<div style="float: left;">
 									<h:inputText id="txtMonto"
 										value="#{transaccionCuentabancariaCajaBean.monto}"
-										required="true" pt:pattern="[0-9]*">
+										required="true">
 										<f:converter converterId="MonedaConverter"></f:converter>
 										<f:ajax event="blur" render="@this" />
 									</h:inputText>
@@ -239,7 +239,7 @@
 				</div>
 			</div>
 		</h:form>
-		
+
 		<h:form id="formCalculadora">
 			<h:panelGroup id="divCalculadora"
 				rendered="#{transaccionCuentabancariaCajaBean.calculadoraEnable}">
@@ -251,13 +251,7 @@
 				<div class="modal-dialog-bg"
 					style="opacity: 0.4; width: 1366px; height: 802px;"></div>
 				<div id="prueba" class="modal-dialog p6n-popup"
-					style="left: 412.5px; top: 100px;">
-					<div class="p6n-popup-title">Calculadora</div>
-					<div class="modal-dialog-title modal-dialog-title-draggable"
-						id=":t">
-						<span class="modal-dialog-title-text"></span><span
-							class="modal-dialog-title-close" style="display: none;"></span>
-					</div>
+					style="left: 412.5px; top: 5px;">
 					<div class="modal-dialog-content">
 						<div>
 							<div>
