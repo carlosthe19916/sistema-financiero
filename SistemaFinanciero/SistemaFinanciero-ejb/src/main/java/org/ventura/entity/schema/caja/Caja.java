@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.seguridad.Usuario;
+
 import java.util.List;
 
 /**
@@ -15,13 +17,15 @@ import java.util.List;
 @NamedQuery(name = "Caja.findAll", query = "SELECT c FROM Caja c")
 @NamedQueries({
 		@NamedQuery(name = Caja.findAllByBovedaAndState, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b WHERE b.idboveda = :idboveda"),
-		@NamedQuery(name = Caja.ALL_ACTIVE_BY_AGENCIA, query = "Select c from Caja c inner join c.bovedas b where c.estado = true and b.agencia.idagencia = :idagencia group by c.idcaja") })
+		@NamedQuery(name = Caja.ALL_ACTIVE_BY_AGENCIA, query = "Select c from Caja c inner join c.bovedas b where c.estado = true and b.agencia.idagencia = :idagencia group by c.idcaja"),
+		@NamedQuery(name = Caja.ALL_FOR_USUARIO, query = "SELECT c FROM Caja c INNER JOIN c.usuarios u WHERE u.idusuario = :idusuario") })
 public class Caja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String findAllByBovedaAndState = "org.ventura.entity.schema.caja.Caja.findAllByBovedaAndState";
 	public final static String ALL_ACTIVE_BY_AGENCIA = "org.ventura.entity.schema.caja.Caja.ALL_ACTIVE_BY_AGENCIA";
+	public final static String ALL_FOR_USUARIO = "org.ventura.entity.schema.caja.caja.ALL_FOR_USUARIO";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -41,9 +45,13 @@ public class Caja implements Serializable {
 	@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idcaja") }, inverseJoinColumns = { @JoinColumn(name = "idboveda") })
 	private List<Boveda> bovedas;
 
-	//@ManyToMany(mappedBy="cajas")
-	//private List<Boveda> bovedas;
-	
+	@ManyToMany
+	@JoinTable(name = "caja_usuario", schema = "caja", joinColumns = { @JoinColumn(name = "idcaja") }, inverseJoinColumns = { @JoinColumn(name = "idusuario") })
+	private List<Usuario> usuarios;
+
+	// @ManyToMany(mappedBy="cajas")
+	// private List<Boveda> bovedas;
+
 	@ManyToOne
 	@JoinColumn(name = "idestadoapertura", nullable = false)
 	private Estadoapertura estadoapertura;
@@ -108,5 +116,13 @@ public class Caja implements Serializable {
 
 	public void setHitorialcajas(List<Historialcaja> hitorialcajas) {
 		this.hitorialcajas = hitorialcajas;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 }

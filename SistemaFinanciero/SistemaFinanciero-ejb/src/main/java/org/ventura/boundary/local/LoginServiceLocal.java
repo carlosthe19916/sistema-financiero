@@ -1,10 +1,12 @@
 package org.ventura.boundary.local;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.LoginServiceRemote;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.seguridad.Menu;
 import org.ventura.entity.schema.seguridad.Modulo;
 import org.ventura.entity.schema.seguridad.Rol;
@@ -21,5 +23,7 @@ public interface LoginServiceLocal extends LoginServiceRemote {
 	
 	public Collection<Menu> getMenu(Usuario usuario);
 
-	Collection<Modulo> getModule(Usuario usuario);
+	public Collection<Modulo> getModule(Usuario usuario);
+	
+	public List<Caja> getCajas(Usuario usuario) throws Exception;
 }

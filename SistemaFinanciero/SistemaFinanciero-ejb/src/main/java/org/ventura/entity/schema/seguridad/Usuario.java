@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.rrhh.Trabajador;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 		@NamedQuery(name = Usuario.ALL_ACTIVE, query = "SELECT u FROM Usuario u WHERE u.estado=true"),
 		@NamedQuery(name = Usuario.FIND_USER, query = "Select u From Usuario u LEFT OUTER JOIN u.trabajador t LEFT OUTER JOIN t.personanatural p LEFT OUTER JOIN t.agencia s WHERE u.estado = true AND u.username = :username") })
 public class Usuario implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public final static String ALL = "org.ventura.model.Usuario.ALL";
@@ -51,6 +52,10 @@ public class Usuario implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "usuario_grupo", schema = "seguridad", joinColumns = { @JoinColumn(name = "idusuario", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idgrupo", nullable = false) })
 	private List<Grupo> grupos;
+
+	@ManyToMany
+	@JoinTable(name = "caja_usuario", schema = "caja", joinColumns = { @JoinColumn(name = "idusuario") }, inverseJoinColumns = { @JoinColumn(name = "idcaja") })
+	private List<Caja> cajas;
 
 	public Usuario() {
 	}
@@ -109,6 +114,14 @@ public class Usuario implements Serializable {
 
 	public void setTrabajador(Trabajador trabajador) {
 		this.trabajador = trabajador;
+	}
+
+	public List<Caja> getCajas() {
+		return cajas;
+	}
+
+	public void setCajas(List<Caja> cajas) {
+		this.cajas = cajas;
 	}
 
 }

@@ -20,6 +20,10 @@
 	<h:outputStylesheet library="css" name="css3-inputs.css" />
 	<h:outputStylesheet library="css" name="tiptip.css" />
 
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 	<h:outputScript library="js" name="jquery.blockUI.js" />
 	<h:outputScript library="js" name="jquery.tiptip.js"></h:outputScript>
 	<h:outputScript library="js" name="helper.js"></h:outputScript>
@@ -51,7 +55,7 @@
 </h:head>
 
 <h:body>
-	
+
 	<!-- header -->
 	<ui:include src="header.xhtml" />
 
@@ -61,13 +65,11 @@
 				<tr>
 					<td class="sf-layout-sidebar-widget sf-wide-layout-sidebar-widget">
 
-						<!-- Menu --> 
-						<ui:include src="menuLeft.xhtml" />
+						<!-- Menu --> <ui:include src="menuLeft.xhtml" />
 
 					</td>
 					<td>
-						<!-- content --> 
-						<ui:insert name="content">
+						<!-- content --> <ui:insert name="content">
 							<span>Pagina en construccion</span>
 						</ui:insert>
 					</td>

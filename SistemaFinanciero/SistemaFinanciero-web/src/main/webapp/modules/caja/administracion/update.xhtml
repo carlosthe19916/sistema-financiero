@@ -29,21 +29,20 @@
 						<div>
 							<div class="p6n-api-consent-screen-title">Editar Caja</div>
 							<h:panelGroup rendered="#{!cajaCRUDBean.isValidBean()}">
-								<div class="p6n-butterbar" id="p6n-manualbutterbar0"
-									style="left: 514.5px;">
+								<div class="p6n-api-access-in-page-error" style="left: 516px;">
 									<div>
 										<div>
-											<div
-												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<p>
 												<h:messages />
-											</div>
+											</p>
 										</div>
 										<div style="text-align: center;">
-											<h:commandLink value="Cerrar" />
+											<h:commandLink value="Cerrar"
+												styleClass="p6n-api-access-in-page-error-link" />
 											&nbsp;|&nbsp;
-											<h:commandLink value="Volver" action="cancel" />
+											<h:commandLink value="Volver" action="cancel"
+												styleClass="p6n-api-access-in-page-error-link" />
 										</div>
-
 									</div>
 								</div>
 								<div class="modal-dialog-bg"
