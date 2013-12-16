@@ -41,7 +41,7 @@ public class Caja implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idcaja") }, inverseJoinColumns = { @JoinColumn(name = "idboveda") })
 	private List<Boveda> bovedas;
 

@@ -175,81 +175,70 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@Override
 	public void openCaja(Caja caja) throws Exception {
 		try {
+			// son varias cajas hacer for
 			caja = cajaDAO.find(caja.getIdcaja());
 			boolean resultCaja = verificarCaja(caja, EstadoAperturaType.CERRADO);
 			if (resultCaja == false) {
 				throw new Exception(
 						"Caja Abierta, Imposible Abrirla nuevamente");
 			}
-			boolean resultBovedas = verificarBovedas(caja, EstadoAperturaType.ABIERTO);
+			boolean resultBovedas = verificarBovedas(caja,
+					EstadoAperturaType.ABIERTO);
 			if (resultBovedas == false) {
-				throw new Exception(
-						"Bovedas Cerradas, Imposible Abrir la Caja");
+				throw new Exception("Bovedas Cerradas, Imposible Abrir la Caja");
 			}
-			
+
 			Historialcaja historialCajaNew = new Historialcaja();
-			Historialcaja historialCajaOld = this.getHistorialcajaLastActive(caja);
+			Historialcaja historialCajaOld = this
+					.getHistorialcajaLastActive(caja);
 			List<Detallehistorialcaja> detallehistorialcajasNew = new ArrayList<Detallehistorialcaja>();
 			historialCajaNew.setDetallehistorialcajas(detallehistorialcajasNew);
-			
-			
-			
-			
-			
+
 			if (historialCajaOld != null) {
 				copyDetallehistorialOldtoNew(historialCajaOld, historialCajaNew);
 			}
-			
-			
-			
-			//hacer for para cada tipo de moneda
-			//esto solo es para un tipo de moneda
-			List<Denominacionmoneda> denominacionmonedasAllActive = getDenominacionmonedasActive(caja.getBovedas().get(0).getTipomoneda());
-			
-			List<Denominacionmoneda> denominacionmonedasAllFromHistorialNew = new ArrayList<Denominacionmoneda>();
-			for(Detallehistorialcaja e : detallehistorialcajasNew){
-				Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
-				denominacionmonedasAllFromHistorialNew.add(denominacionmoneda);
+
+			// hacer for para cada tipo de moneda
+			for (int i = 0; i < caja.getBovedas().size(); i++) {
+				List<Denominacionmoneda> denominacionmonedasAllActive = getDenominacionmonedasActive(caja
+						.getBovedas().get(i).getTipomoneda());
+
+				List<Denominacionmoneda> denominacionmonedasAllFromHistorialNew = new ArrayList<Denominacionmoneda>();
+				for (Detallehistorialcaja e : detallehistorialcajasNew) {
+					Denominacionmoneda denominacionmoneda = e
+							.getDenominacionmoneda();
+					denominacionmonedasAllFromHistorialNew
+							.add(denominacionmoneda);
+				}
+
+				List<Denominacionmoneda> denominacionmoneda2 = getDiferenceWithoutDuplicates(
+						denominacionmonedasAllActive,
+						denominacionmonedasAllFromHistorialNew);
+				for (Denominacionmoneda e : denominacionmoneda2) {
+					Detallehistorialcaja detallehistorialcaja = new Detallehistorialcaja();
+					detallehistorialcaja.setDenominacionmoneda(e);
+					detallehistorialcaja.setCantidad(0);
+					detallehistorialcajasNew.add(detallehistorialcaja);
+				}
 			}
-			
-			List<Denominacionmoneda> denominacionmoneda2 = getDiferenceWithoutDuplicates(denominacionmonedasAllActive, denominacionmonedasAllFromHistorialNew);
-			for(Denominacionmoneda e : denominacionmoneda2){
-				Detallehistorialcaja detallehistorialcaja = new Detallehistorialcaja();
-				detallehistorialcaja.setDenominacionmoneda(e);
-				detallehistorialcaja.setCantidad(0);
-				
-				detallehistorialcajasNew.add(detallehistorialcaja);
-			}
-			
-			
-			
-			
-			
+
 			historialCajaNew.setCaja(caja);
 			historialCajaNew.setFechaapertura(Calendar.getInstance().getTime());
 			historialCajaNew.setHoraapertura(Calendar.getInstance().getTime());
-			
-			Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);	
+
+			Estadomovimiento estadomovimiento = ProduceObject
+					.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
 			historialCajaNew.setEstadomovimiento(estadomovimiento);
-			
+
 			historialcajaDAO.create(historialCajaNew);
-			
-			
-		
-			
-			
-			
+
 			for (Detallehistorialcaja e : detallehistorialcajasNew) {
 				e.setHistorialcaja(historialCajaNew);
 				detallehistorialcajaDAO.create(e);
 			}
-			
-			
-			
-			
-			
-			
-			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO);
+
+			Estadoapertura estadoapertura = ProduceObject
+					.getEstadoapertura(EstadoAperturaType.ABIERTO);
 			caja.setEstadoapertura(estadoapertura);
 			cajaDAO.update(caja);
 
@@ -326,17 +315,16 @@ public class CajaServiceBean implements CajaServiceLocal{
 	
 	public boolean verificarBovedas(Caja caja, EstadoAperturaType estadoAperturaType) throws Exception{
 		boolean result = true;
-		//Estadoapertura estadoApertura2 = ProduceObject.getEstadoapertura(estadoAperturaType);
 		List<Boveda> listBovedas = caja.getBovedas();
-		for (Iterator iterator = listBovedas.iterator(); iterator.hasNext();) {
+		for (Iterator<Boveda> iterator = listBovedas.iterator(); iterator.hasNext();) {
 			Boveda boveda = (Boveda) iterator.next();
 			Estadoapertura estadoapertura1 = boveda.getEstadoapertura();
 			Estadoapertura estadoAperturaBoveda = ProduceObject.getEstadoapertura(estadoAperturaType);
 			if (estadoapertura1.equals(estadoAperturaBoveda)) {
-				log.info("Verificacion de boveda satisfactoria: Boveda " + boveda.getDenominacion() + " " + estadoapertura1);
+				log.info("Verificacion de boveda satisfactoria: " + boveda.getDenominacion() + " " + estadoapertura1.getDenominacion());
 			}else {
 				result = false;
-				log.info("Verificacion de boveda fallida: Boveda " + boveda.getDenominacion() + " " + estadoapertura1);
+				log.info("Verificacion de boveda fallida: Boveda " + boveda.getDenominacion() + " " + estadoapertura1.getDenominacion());
 				break;
 			}
 		}
@@ -376,4 +364,52 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 		return bovedas;
 	}
+	
+	@Override
+	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetalleforOpenCaja(Caja caja) throws Exception {
+		try {
+			Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+			List<Detallehistorialcaja> result = null;
+			HashMap<Tipomoneda, List<Detallehistorialcaja>> colecctionDetealleHistorialCaja = new HashMap<>();
+			
+			for (int i = 0; i < caja.getBovedas().size(); i++) {
+				Tipomoneda tipomoneda = caja.getBovedas().get(i).getTipomoneda();	
+				List<Denominacionmoneda> denominacionmoedaAllActive = getDenominacionmonedasActive(tipomoneda);
+				List<Denominacionmoneda> denominacionmonedasAllFromHistorial = new ArrayList<Denominacionmoneda>();
+				
+				if (historialcaja == null) {
+					result = new ArrayList<Detallehistorialcaja>();
+				}else{
+					result = historialcaja.getDetallehistorialcajas();
+					for (Detallehistorialcaja e : historialcaja.getDetallehistorialcajas()) {
+						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
+						denominacionmonedasAllFromHistorial.add(denominacionmoneda);
+					}
+				}
+				
+				List<Denominacionmoneda> denominacionmoneda2 = getDiferenceWithoutDuplicates(denominacionmoedaAllActive, denominacionmonedasAllFromHistorial);
+				for (Denominacionmoneda e : denominacionmoneda2) {
+					Detallehistorialcaja detallehistorialcaja = new Detallehistorialcaja();
+					detallehistorialcaja.setDenominacionmoneda(e);
+					detallehistorialcaja.setCantidad(0);
+					
+					result.add(detallehistorialcaja);
+				}
+				colecctionDetealleHistorialCaja.put(tipomoneda, result);
+			}
+			return colecctionDetealleHistorialCaja;
+		} catch (RollbackFailureException e) {
+			caja.setIdcaja(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se obtener el detalle de la caja");
+		} catch (Exception e) {
+			caja.setIdcaja(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se puede obtener el detalle de la caja");
+		}
+	}	
 }

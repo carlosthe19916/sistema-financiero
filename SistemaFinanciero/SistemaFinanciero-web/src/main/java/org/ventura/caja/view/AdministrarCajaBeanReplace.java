@@ -3,7 +3,6 @@ package org.ventura.caja.view;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -30,11 +29,11 @@ public class AdministrarCajaBeanReplace implements Serializable {
 	@Inject
 	private AgenciaBean agenciaBean;
 	@Inject
-	private Agencia agencia;
+    private Agencia agencia;
 
 	@Inject
 	private TablaBean<CajaView> tablaCaja;
-
+	
 	private Integer idcaja;
 
 	public AdministrarCajaBeanReplace() {
@@ -43,7 +42,7 @@ public class AdministrarCajaBeanReplace implements Serializable {
 
 	@PostConstruct
 	private void initialize() {
-		this.agencia = agenciaBean.getAgencia();
+		this.agencia = getAgenciaBean().getAgencia();
 		this.refreshTablaCaja();
 	}
 
@@ -130,4 +129,11 @@ public class AdministrarCajaBeanReplace implements Serializable {
 		this.idcaja = idcaja;
 	}
 
+	public AgenciaBean getAgenciaBean() {
+		return agenciaBean;
+	}
+
+	public void setAgenciaBean(AgenciaBean agenciaBean) {
+		this.agenciaBean = agenciaBean;
+	}
 }

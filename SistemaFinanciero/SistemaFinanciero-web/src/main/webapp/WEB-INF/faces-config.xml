@@ -147,6 +147,16 @@
 				</view-param>
 			</redirect>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>open</from-outcome>
+			<to-view-id>/modules/caja/operaciones/open.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>idcaja</name>
+					<value>#{administrarCajaBeanReplace.idcaja}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<from-view-id>/modules/caja/administracion/create.xhtml</from-view-id>
@@ -163,6 +173,19 @@
 	</navigation-rule>
 	<navigation-rule>
 		<from-view-id>/modules/caja/administracion/update.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/modules/caja/operaciones/open.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>success</from-outcome>
 			<to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>

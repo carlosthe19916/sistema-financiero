@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+
+	<f:metadata>
+		<f:viewParam name="idcaja" value="#{openCloseCajaBean.idcaja}" />
+		<f:viewAction action="#{openCloseCajaBean.loadCajaForOpen()}" />
+	</f:metadata>
+
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Open" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+			<h:outputStylesheet library="css" name="main.css" />
+			<br />
+			<h:form id="formDialogOpenCaja">
+				<div style="margin-left: 50px;">
+					<div class="p6n-api-consent-screen-title">Abrir Caja</div>
+					<h:panelGroup rendered="#{!openCloseBovedaBean.validBean}">
+						<div class="p6n-api-access-in-page-error" style="left: 516px;">
+							<div>
+								<div>
+									<p>
+										<h:messages />
+									</p>
+								</div>
+								<div style="text-align: center;">
+									<h:commandLink value="Cerrar"
+										styleClass="p6n-api-access-in-page-error-link" />
+									&nbsp;|&nbsp;
+									<h:commandLink value="Volver" action="cancel"
+										styleClass="p6n-api-access-in-page-error-link" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 602px;"
+							aria-hidden="true"></div>
+					</h:panelGroup>
+					
+					<div class="p6n-api-consent-screen-inputs">
+						<div class="p6n-api-consent-screen-input-section">
+							<div class="p6n-api-consent-screen-label" style="width: 150px;">
+								AGENCIA</div>
+							<div>
+								<h:outputLabel value="#{openCloseCajaBean.agencia.denominacion}" />
+							</div>
+						</div>
+						<div class="p6n-api-consent-screen-input-section">
+							<div style="display: inline-block;">
+								<div class="p6n-api-consent-screen-label" style="width: 150px;">CAJA</div>
+								<div>
+									<div>
+										<h:outputLabel value="#{openCloseCajaBean.caja.denominacion}" />
+									</div>
+								</div>
+							</div>
+							<div style="display: inline-block;">
+								<div class="p6n-api-consent-screen-label" style="width: 150px;">ABREVIATURA</div>
+								<div>
+									<h:outputLabel value="#{openCloseCajaBean.caja.abreviatura}" />
+								</div>
+							</div>
+							<div style="display: inline-block;">
+								<div class="p6n-api-consent-screen-label" style="width: 150px;">ESTADO</div>
+								<div>
+									<h:outputLabel
+										value="#{openCloseCajaBean.caja.estadoapertura.denominacion}" />
+								</div>
+							</div>
+						</div>
+						<br />
+						<div>
+							<p:accordionPanel >
+								<p:tab title="MONEDA NUEVO SOL"
+									rendered="#{openCloseCajaBean.caja_Boveda_Nuevo_Sol()}">
+									<p:dataTable var="cajaDetalleSoles"
+										value="#{openCloseCajaBean.tablaCajaDetalleSoles.rows}"
+										rowKey="#{cajaDetalleSoles}" rowIndexVar="row">
+
+										<f:facet name="header">
+											<h:outputText value="MONEDA: " style="text-align:right;" />
+											<h:outputText value="NUEVO SOL" />
+										</f:facet>
+
+										<p:column headerText="Nro" width="15"
+											style="text-align:center;">
+											<h:outputText value="#{row + 1}" />
+										</p:column>
+										<p:column headerText="Denominacion" width="40"
+											style="text-align:right;">
+											<h:outputText
+												value="#{cajaDetalleSoles.denominacionmoneda.denominacion}" />
+										</p:column>
+										<p:column headerText="Cantidad" width="100"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleSoles.cantidad}" />
+										</p:column>
+										<p:column headerText="Total" width="150"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleSoles.subtotal}" />
+										</p:column>
+
+										<p:columnGroup type="footer">
+											<p:row>
+												<p:column colspan="3" footerText="Total en Caja:"
+													style="text-align:right" />
+												<p:column colspan="1"
+													footerText="#{openCloseCajaBean.totalHistorialCajaSoles}"
+													style="text-align:right" />
+											</p:row>
+										</p:columnGroup>
+									</p:dataTable>
+								</p:tab>
+
+								<p:tab title="MONEDA DOLARES"
+									rendered="#{openCloseCajaBean.caja_Boveda_Dolar()}">
+									<p:dataTable var="cajaDetalleDolares"
+										value="#{openCloseCajaBean.tablaCajaDetalleDolares.rows}"
+										rowKey="#{cajaDetalleDolares}" rowIndexVar="row">
+
+										<f:facet name="header">
+											<h:outputText value="MONEDA: " style="text-align:right;" />
+											<h:outputText value="DOLARES" />
+										</f:facet>
+
+										<p:column headerText="Nro" width="15"
+											style="text-align:center;">
+											<h:outputText value="#{row + 1}" />
+										</p:column>
+										<p:column headerText="Denominacion" width="40"
+											style="text-align:right;">
+											<h:outputText
+												value="#{cajaDetalleDolares.denominacionmoneda.denominacion}" />
+										</p:column>
+										<p:column headerText="Cantidad" width="100"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleDolares.cantidad}" />
+										</p:column>
+										<p:column headerText="Total" width="150"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleDolares.subtotal}" />
+										</p:column>
+
+										<p:columnGroup type="footer">
+											<p:row>
+												<p:column colspan="3" footerText="Total en Caja:"
+													style="text-align:right" />
+												<p:column colspan="1"
+													footerText="#{openCloseCajaBean.totalHistorialCajaDolares}"
+													style="text-align:right" />
+											</p:row>
+										</p:columnGroup>
+									</p:dataTable>
+								</p:tab>
+
+								<p:tab title="MONEDA EUROS"
+									rendered="#{openCloseCajaBean.caja_Boveda_Euro()}">
+									<p:dataTable var="cajaDetalleEuros"
+										value="#{openCloseCajaBean.tablaCajaDetalleEuros.rows}"
+										rowKey="#{cajaDetalleEuros}" rowIndexVar="row">
+
+										<f:facet name="header">
+											<h:outputText value="MONEDA: " style="text-align:right;" />
+											<h:outputText value="EUROS" />
+										</f:facet>
+
+										<p:column headerText="Nro" width="15"
+											style="text-align:center;">
+											<h:outputText value="#{row + 1}" />
+										</p:column>
+										<p:column headerText="Denominacion" width="40"
+											style="text-align:right;">
+											<h:outputText
+												value="#{cajaDetalleEuros.denominacionmoneda.denominacion}" />
+										</p:column>
+										<p:column headerText="Cantidad" width="100"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleEuros.cantidad}" />
+										</p:column>
+										<p:column headerText="Total" width="150"
+											style="text-align:right;">
+											<h:outputText value="#{cajaDetalleEuros.subtotal}" />
+										</p:column>
+
+										<p:columnGroup type="footer">
+											<p:row>
+												<p:column colspan="3" footerText="Total en Caja:"
+													style="text-align:right" />
+												<p:column colspan="1"
+													footerText="#{openCloseCajaBean.totalHistorialCajaEuros}"
+													style="text-align:right" />
+											</p:row>
+										</p:columnGroup>
+									</p:dataTable>
+								</p:tab>
+							</p:accordionPanel>
+						</div>
+						
+
+						<div class="sf-buttons" style="float: left;">
+							<h:commandButton action="#{openCloseCajaBean.openCaja()}"
+								value="Aperturar" styleClass="action blue" />
+
+							<h:commandButton action="cancel" value="Cancelar"
+								styleClass="action" />
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>

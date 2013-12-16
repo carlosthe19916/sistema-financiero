@@ -159,6 +159,9 @@
     NAME="output1" PATH="/modules/caja/administracion/update.xhtml"
     TARGET="rules:#modules#caja#administracion#update.xhtml"
     TITLE="update" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="open::#modules#caja#operaciones#open.xhtml"
+    NAME="output2" PATH="/modules/caja/operaciones/open.xhtml"
+    TARGET="rules:#modules#caja#operaciones#open.xhtml" TITLE="open" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#modules#caja#administracion#create.xhtml"
@@ -201,4 +204,22 @@
   NAME="rules:#modules#boveda#operaciones#voucherTransaccion.xhtml"
   PATH="/modules/boveda/operaciones/voucherTransaccion.xhtml"
   SHAPE="288,353,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#modules#caja#operaciones#open.xhtml"
+  PATH="/modules/caja/operaciones/open.xhtml" SHAPE="528,1681,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#modules#caja#operaciones#open.xhtml:0"
+   NAME="item" PATH="/modules/caja/operaciones/open.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancel::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output1"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="cancel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>
