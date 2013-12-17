@@ -81,17 +81,12 @@
 						</div>
 						<br />
 						<div>
-							<p:accordionPanel >
+							<p:accordionPanel multiple="true">
 								<p:tab title="MONEDA NUEVO SOL"
 									rendered="#{openCloseCajaBean.caja_Boveda_Nuevo_Sol()}">
 									<p:dataTable var="cajaDetalleSoles"
 										value="#{openCloseCajaBean.tablaCajaDetalleSoles.rows}"
 										rowKey="#{cajaDetalleSoles}" rowIndexVar="row">
-
-										<f:facet name="header">
-											<h:outputText value="MONEDA: " style="text-align:right;" />
-											<h:outputText value="NUEVO SOL" />
-										</f:facet>
 
 										<p:column headerText="Nro" width="15"
 											style="text-align:center;">
@@ -129,11 +124,6 @@
 										value="#{openCloseCajaBean.tablaCajaDetalleDolares.rows}"
 										rowKey="#{cajaDetalleDolares}" rowIndexVar="row">
 
-										<f:facet name="header">
-											<h:outputText value="MONEDA: " style="text-align:right;" />
-											<h:outputText value="DOLARES" />
-										</f:facet>
-
 										<p:column headerText="Nro" width="15"
 											style="text-align:center;">
 											<h:outputText value="#{row + 1}" />
@@ -170,11 +160,6 @@
 										value="#{openCloseCajaBean.tablaCajaDetalleEuros.rows}"
 										rowKey="#{cajaDetalleEuros}" rowIndexVar="row">
 
-										<f:facet name="header">
-											<h:outputText value="MONEDA: " style="text-align:right;" />
-											<h:outputText value="EUROS" />
-										</f:facet>
-
 										<p:column headerText="Nro" width="15"
 											style="text-align:center;">
 											<h:outputText value="#{row + 1}" />
@@ -210,7 +195,7 @@
 
 						<div class="sf-buttons" style="float: left;">
 							<h:commandButton action="#{openCloseCajaBean.openCaja()}"
-								value="Aperturar" styleClass="action blue" />
+								value="Abrir" styleClass="action blue" />
 
 							<h:commandButton action="cancel" value="Cancelar"
 								styleClass="action" />

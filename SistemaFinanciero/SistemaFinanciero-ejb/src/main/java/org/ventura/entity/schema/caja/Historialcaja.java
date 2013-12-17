@@ -16,13 +16,13 @@ import java.util.List;
 @Table(name = "Historialcaja", schema = "caja")
 @NamedQuery(name = "Historialcaja.findAll", query = "SELECT h FROM Historialcaja h")
 @NamedQueries({
-	@NamedQuery(name = Historialcaja.findHistorialActive, query = "select h from Historialcaja h where h.caja = :caja and h.idcreacion = (select max(hc.idcreacion) from Historialcaja hc where hc.caja = h.caja)")})
-	//@NamedQuery(name = Historialboveda.findLastHistorialNoActive, query = "SELECT h FROM Historialboveda h WHERE h.boveda = :boveda and h.idcreacion = (SELECT (MAX(hh.idcreacion) - 1) FROM Historialboveda hh WHERE hh.boveda = h.boveda)") })
+	@NamedQuery(name = Historialcaja.findHistorialActive, query = "select h from Historialcaja h where h.caja = :caja and h.idcreacion = (select max(hc.idcreacion) from Historialcaja hc where hc.caja = h.caja)"),
+	@NamedQuery(name = Historialcaja.findLastHistorialNoActive, query = "SELECT h FROM Historialcaja h WHERE h.caja = :caja and h.idcreacion = (SELECT (MAX(hh.idcreacion) - 1) FROM Historialcaja hh WHERE hh.caja = h.caja)") })
 public class Historialcaja implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public final static String findHistorialActive = "org.ventura.entity.schema.caja.Historialcaja.findHistorialActive";
-	//public final static String findLastHistorialNoActive = "org.ventura.entity.schema.caja.Historialboveda.findLastHistorialNoActive";
+	public final static String findLastHistorialNoActive = "org.ventura.entity.schema.caja.Historialcaja.findLastHistorialNoActive";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,7 +37,7 @@ public class Historialcaja implements Serializable {
 
 	private Date horaapertura;
 
-	private Timestamp horacierre;
+	private Date horacierre;
 
 	private Integer idcreacion;
 
@@ -91,11 +91,11 @@ public class Historialcaja implements Serializable {
 		this.horaapertura = horaapertura;
 	}
 
-	public Timestamp getHoracierre() {
+	public Date getHoracierre() {
 		return this.horacierre;
 	}
 
-	public void setHoracierre(Timestamp horacierre) {
+	public void setHoracierre(Date horacierre) {
 		this.horacierre = horacierre;
 	}
 
