@@ -8,13 +8,13 @@ public enum TipocuentabancariaType {
 	CUENTA_AHORRO,
 
 	/**
-	 * Cuenta activa para realizar todo tipo de movimientos
-	 */
-	CUENTA_PLAZO_FIJO,
-
-	/**
 	 * Cuenta activa pero no se puede realizar ningun tipo de movimiento
 	 */
-	CUENTA_CORRIENTE
+	CUENTA_CORRIENTE,
+
+	/**
+	 * Cuenta activa para realizar todo tipo de movimientos
+	 */
+	CUENTA_PLAZO_FIJO
 
 }

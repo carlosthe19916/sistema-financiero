@@ -19,6 +19,14 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public CuentabancariaView findCuentabancariaViewByNumerocuenta(String numerocuenta) throws Exception;
 	
+	public List<CuentabancariaView> findCuentabancariaViewByDni(String dni) throws Exception;
+	
+	public List<CuentabancariaView> findCuentabancariaViewByRuc(String ruc) throws Exception;
+	
+	public List<CuentabancariaView> findCuentabancariaViewByNombre(String nombre) throws Exception;
+	
+	public List<CuentabancariaView> findCuentabancariaViewByRazonsocial(String razonsocial) throws Exception;
+	
 	public List<CuentabancariaView> findByDni(String dni) throws Exception;
 	
 }

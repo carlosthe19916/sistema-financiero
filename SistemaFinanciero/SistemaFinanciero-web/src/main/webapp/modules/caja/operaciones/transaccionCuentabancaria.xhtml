@@ -18,6 +18,33 @@
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
 
+		<script type="text/javascript">
+		    $(document).ready(function () {
+			    $("#modal-dialog-bg").hide();
+			    $("#dlgCalculadora").hide();
+		    	$("#dlbBuscarCuentabancaria").hide();
+			 	$("#dlgCalculadora").draggable();
+			 	$("#dlbBuscarCuentabancaria").draggable();
+			 	
+		    	$("#formTransaccion\\:btnBuscarCuentabancaria").click(function(){
+		    		$("#modal-dialog-bg").show();
+		    		$("#dlbBuscarCuentabancaria").show();  		
+		        });
+		    	$("#formTransaccion\\:btnCalculadora").click(function(){
+		    		$("#modal-dialog-bg").show();
+		    		$("#dlgCalculadora").show();  		
+		        });		        
+		    });
+
+		    function closeDlgCalculadora(){
+		    	$("#modal-dialog-bg").hide();
+	    		$("#dlgCalculadora").hide();  
+			}
+		    function closeDlgBuscarCuentabancaria(){
+		    	$("#modal-dialog-bg").hide();
+	    		$("#dlbBuscarCuentabancaria").hide();  
+			}
+		</script>
 
 		<h:outputStylesheet library="css" name="main.css" />
 
@@ -74,8 +101,7 @@
 								</div>
 							</div>
 							<div class="modal-dialog-bg"
-								style="opacity: 0.4; width: 1366px; height: 802px;"
-								aria-hidden="true"></div>
+								style="opacity: 0.4; width: 1366px; height: 802px;"></div>
 						</h:panelGroup>
 
 						<br /> <br />
@@ -89,7 +115,7 @@
 										value="#{transaccionCuentabancariaCajaBean.comboTipotransaccion.itemSelected}"
 										valueChangeListener="#{transaccionCuentabancariaCajaBean.changeTipotransaccion}"
 										required="true"
-										requiredMessage="Seleccione un Tipo de Transaccion">
+										requiredMessage="Seleccione un tipo de transaccion">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 										<f:selectItems
 											value="#{transaccionCuentabancariaCajaBean.comboTipotransaccion.items.entrySet()}"
@@ -109,23 +135,27 @@
 									<div style="float: left;">
 										<h:inputText id="txtNumerocuenta"
 											value="#{transaccionCuentabancariaCajaBean.numeroCuenta}"
+											required="true" requiredMessage="Ingrese un numero de cuenta"
+											validatorMessage="Numero de cuenta no valida" maxlength="14"
 											onkeypress="if (event.keyCode == 13) { onchange(); return false; }">
+											<f:validateRegex pattern="(^[0-9]{14}$)" />
 											<f:ajax
 												listener="#{transaccionCuentabancariaCajaBean.findCuentabancariaByNumerocuenta()}"
 												execute="@this"
 												render="divCuentabancariaValid cuentabancariaResultadobusqueda" />
 										</h:inputText>
-
 									</div>
 									<div style="float: left;">
-										<h:commandLink styleClass="button" style="margin: 0 0 0 1px;">
+										<h:outputLink id="btnBuscarCuentabancaria" value="#"
+											styleClass="button" style="margin: 0 0 0 1px;">
 											<span class="icon icon198"></span>
-										</h:commandLink>
+										</h:outputLink>
 									</div>
 								</div>
 							</div>
 							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+								style="float: inherit;">
 								<h:message for="txtNumerocuenta" />
 							</div>
 							<br /> <br />
@@ -133,7 +163,7 @@
 								<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
 									MONEDA</div>
 								<div>
-									<h:selectOneMenu
+									<h:selectOneMenu id="cmbTipomoneda"
 										value="#{transaccionCuentabancariaCajaBean.comboTipomoneda.itemSelected}"
 										valueChangeListener="#{transaccionCuentabancariaCajaBean.changeTipomoneda}"
 										required="true" requiredMessage="Seleccione una moneda">
@@ -142,9 +172,13 @@
 											value="#{transaccionCuentabancariaCajaBean.comboTipomoneda.items.entrySet()}"
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
-										<f:ajax render="txtMonto" />
+										<f:ajax render="txtMonto :formCalculadora" />
 									</h:selectOneMenu>
 								</div>
+							</div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbTipomoneda" />
 							</div>
 							<div class="p6n-api-consent-screen-input-section">
 								<div class="p6n-api-consent-screen-label" style="width: 150px;">MONTO</div>
@@ -157,11 +191,10 @@
 									</h:inputText>
 								</div>
 								<div style="float: left;">
-									<h:commandLink styleClass="button" style="margin: 0 0 0 1px;">
+									<h:outputLink id="btnCalculadora" value="#" styleClass="button"
+										style="margin: 0 0 0 1px;">
 										<span class="icon icon32"></span>
-										<f:ajax execute="@this" render=":formCalculadora"
-											listener="#{transaccionCuentabancariaCajaBean.enableForShowCalculadora()}" />
-									</h:commandLink>
+									</h:outputLink>
 								</div>
 							</div>
 							<br /> <br />
@@ -227,11 +260,7 @@
 													value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.titular}" />
 											</div>
 										</div>
-
 									</div>
-
-
-
 								</div>
 							</div>
 						</h:panelGroup>
@@ -240,93 +269,166 @@
 			</div>
 		</h:form>
 
-		<h:form id="formCalculadora">
-			<h:panelGroup id="divCalculadora"
-				rendered="#{transaccionCuentabancariaCajaBean.calculadoraEnable}">
-				<script>
-				  $(function() {
-				    $( "#prueba").draggable();
-				  });
-				</script>
-				<div class="modal-dialog-bg"
-					style="opacity: 0.4; width: 1366px; height: 802px;"></div>
-				<div id="prueba" class="modal-dialog p6n-popup"
-					style="left: 412.5px; top: 5px;">
-					<div class="modal-dialog-content">
+		<div id="dlbBuscarCuentabancaria" class="modal-dialog p6n-popup"
+			style="left: 412.5px; top: 10x;">
+			<h:form>
+				<div class="modal-dialog-content">
+					<div id="p6n-cloudsql-content">
 						<div>
 							<div>
-								<table>
-									<thead>
-										<tr>
-											<td style="text-align: right;">
-												<div class="p6n-api-consent-screen-label"
-													style="width: 100px;">DENOMINACION</div>
-											</td>
-											<td style="width: 20px;"></td>
-											<td><div class="p6n-api-consent-screen-label"
-													style="width: 150px;">CANTIDAD</div></td>
-											<td style="width: 20px;"></td>
-											<td><div class="p6n-api-consent-screen-label"
-													style="width: 110px;">TOTAL</div></td>
-										</tr>
-									</thead>
-									<tbody>
-										<ui:repeat
-											value="#{transaccionCuentabancariaCajaBean.calculadoraBean.list}"
-											var="detalle">
-											<tr>
-												<td style="text-align: right; vertical-align: middle;"><h:outputLabel
-														value="#{detalle.denominacionmoneda.denominacion}" /></td>
-												<td></td>
-												<td><h:inputText value="#{detalle.cantidad}"
-														required="true" maxlength="6"
-														styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
-														style="width:150px;">
-														<f:ajax event="blur"
-															render="txtSubtotal :formCalculadora:panelTotalTransaccion" />
-													</h:inputText></td>
-												<td></td>
-												<td><h:outputLabel id="txtSubtotal"
-														value="#{detalle.getSubtotal()}"
-														style="width: 110px; vertical-align: middle;" /></td>
-											</tr>
-										</ui:repeat>
-									</tbody>
-								</table>
-							</div>
-							<div class="p6n-api-consent-screen-input-section"
-								style="margin-left: 20px;">
-								<h:panelGroup id="panelTotalTransaccion">
+								<div>
 									<div>
-										<div class="p6n-api-consent-screen-label"
-											style="width: 150px;">TOTAL</div>
-										<div>
-											<h:outputLabel id="txtTotal"
-												value="#{transaccionCuentabancariaCajaBean.calculadoraBean.getTotal()}">
-											</h:outputLabel>
-										</div>
+										<h:inputText value="" style="width: 250px;float: left;" />
+										&nbsp;
+										<h:commandLink styleClass="button"
+											style="margin: 0px;float: left;">
+											<span class="icon icon198"></span>
+											<span class="label"></span>
+											<f:ajax
+												listener="#{transaccionCuentabancariaCajaBean.searchCuentabancaria()}"
+												render="tblResultadoBusqueda" />
+										</h:commandLink>
+										<h:selectOneMenu id="cmbTipoBusqueda"
+											value="#{transaccionCuentabancariaCajaBean.comboTipobusqueda.itemSelected}"
+											valueChangeListener="#{transaccionCuentabancariaCajaBean.changeTipobusqueda}"
+											required="true"
+											requiredMessage="Seleccione un Tipo de Busueda">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionCuentabancariaCajaBean.comboTipobusqueda.items.entrySet()}"
+												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+											<f:ajax execute="@this" />
+										</h:selectOneMenu>
 									</div>
-								</h:panelGroup>
+									<div
+										class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+										<h:messages />
+									</div>
+								</div>
 							</div>
+						</div>
+						<hr />
+						<div class="p6n-cloudsql-form">
+							<div
+								class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
+								<div class="p6n-cloudsql-name-input ">
+									<div class="p6n-input-prepend">
+										<p:dataTable id="tblResultadoBusqueda" var="cuenta"
+											value="#{transaccionCuentabancariaCajaBean.tablaCuentabancaria.rows}"
+											selectionMode="single"
+											selection="#{transaccionCuentabancariaCajaBean.tablaCuentabancaria.selectedRow}"
+											rowKey="#{cuenta}" rowIndexVar="row">
 
+											<p:ajax event="rowSelect"
+												listener="#{transaccionCuentabancariaCajaBean.setRowSelect()}" />
+
+											<p:column headerText="Nro" style="text-align:center;">
+												<h:outputText value="#{row + 1}" />
+											</p:column>
+											<p:column headerText="Nro Cuenta">
+												<h:outputText value="#{cuenta.numerocuenta}" />
+											</p:column>
+											<p:column headerText="Tipo Cta">
+												<h:outputText
+													value="#{cuenta.denominacionTipocuentabancaria}" />
+											</p:column>
+											<p:column headerText="Moneda">
+												<h:outputText value="#{cuenta.denominacionTipomoneda}" />
+											</p:column>
+											<p:column headerText="Titular">
+												<h:outputText value="#{cuenta.titular}" />
+											</p:column>
+										</p:dataTable>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="modal-dialog-buttons">
-						<h:commandButton value="Guardar" styleClass="action blue">
-							<f:ajax execute="@form"
-								listener="#{transaccionCuentabancariaCajaBean.setMontoFromCalculadora()}"
-								render="formCalculadora :formTransaccion:txtMonto">
-							</f:ajax>
-						</h:commandButton>
-						<h:commandButton value="Cancelar" styleClass="action">
-							<f:ajax render="formCalculadora"
-								listener="#{transaccionCuentabancariaCajaBean.disableForHileCalculadora()}" />
-						</h:commandButton>
+				</div>
+				<div class="modal-dialog-buttons">
+					<h:commandButton value="Aceptar" styleClass="action blue">
+						<f:ajax
+							listener="#{transaccionCuentabancariaCajaBean.setRowSelectToTransaccion()}"
+							render=":formTransaccion:txtNumerocuenta :formTransaccion:cuentabancariaResultadobusqueda"
+							onevent="closeDlgBuscarCuentabancaria" />
+					</h:commandButton>
+					<input type="button" value="Cancelar" class="action"
+						onclick="closeDlgBuscarCuentabancaria()" />
+				</div>
+			</h:form>
+		</div>
+
+		<div id="dlgCalculadora" class="modal-dialog p6n-popup"
+			style="left: 412.5px; top: 5px;">
+			<h:form id="formCalculadora">
+				<div class="modal-dialog-content">
+					<div>
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<td style="text-align: right;">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 100px;">DENOMINACION</div>
+										</td>
+										<td style="width: 20px;"></td>
+										<td><div class="p6n-api-consent-screen-label"
+												style="width: 150px;">CANTIDAD</div></td>
+										<td style="width: 20px;"></td>
+										<td><div class="p6n-api-consent-screen-label"
+												style="width: 110px;">TOTAL</div></td>
+									</tr>
+								</thead>
+								<tbody>
+									<ui:repeat
+										value="#{transaccionCuentabancariaCajaBean.calculadoraBean.list}"
+										var="detalle">
+										<tr>
+											<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+													value="#{detalle.denominacionmoneda.denominacion}" /></td>
+											<td></td>
+											<td style="padding: 0px;"><h:inputText
+													value="#{detalle.cantidad}" required="true" maxlength="6"
+													styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+													style="width:150px;">
+													<f:ajax event="blur"
+														render="txtSubtotal :formCalculadora:panelTotalTransaccion" />
+												</h:inputText></td>
+											<td></td>
+											<td><h:outputLabel id="txtSubtotal"
+													value="#{detalle.getSubtotal()}"
+													style="width: 110px; vertical-align: middle;" /></td>
+										</tr>
+									</ui:repeat>
+								</tbody>
+							</table>
+						</div>
+						<h:panelGroup id="panelTotalTransaccion">
+							<div style="margin-left: 250px;">
+								<label>TOTAL:</label>
+								<h:outputLabel id="txtTotal"
+									value="#{transaccionCuentabancariaCajaBean.calculadoraBean.getTotal()}">
+								</h:outputLabel>
+							</div>
+						</h:panelGroup>
 					</div>
 				</div>
+				<div class="modal-dialog-buttons">
+					<h:commandButton value="Guardar" styleClass="action blue">
+						<f:ajax execute="@form"
+							listener="#{transaccionCuentabancariaCajaBean.setMontoFromCalculadora()}"
+							render="formCalculadora :formTransaccion:txtMonto"
+							onevent="closeDlgCalculadora">
+						</f:ajax>
+					</h:commandButton>
+					<input type="button" value="Cancelar" class="action"
+						onclick="closeDlgCalculadora()" />
+				</div>
+			</h:form>
+		</div>
+		<div id="modal-dialog-bg" class="modal-dialog-bg"
+			style="opacity: 0.4; width: 1366px; height: 802px;"></div>
 
-			</h:panelGroup>
-		</h:form>
 	</ui:define>
 </ui:composition>
 </html>

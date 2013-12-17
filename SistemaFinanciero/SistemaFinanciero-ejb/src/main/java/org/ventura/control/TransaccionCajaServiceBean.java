@@ -153,6 +153,136 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		return transaccioncuentabancaria;
 	}
 	
+	public Transaccioncuentabancaria createDepositoCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria)throws Exception {
+		try {
+			String numeroCuentabancaria = transaccioncuentabancaria.getCuentabancaria().getNumerocuenta();
+			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.findByNumerocuenta(numeroCuentabancaria);
+			if(cuentabancaria == null){
+				throw new Exception("Cuenta bancaria no encontrada");
+			}
+			
+			Tipomoneda tipomonedaCuentabancaria = cuentabancaria.getTipomoneda();
+			Estadocuenta estadocuentaCuentabancaria = cuentabancaria.getEstadocuenta();
+			Tipocuentabancaria tipocuentabancaria = cuentabancaria.getTipocuentabancaria();
+			
+			Tipomoneda tipomonedaTransaccionbancaria = transaccioncuentabancaria.getTipomoneda();
+			
+			if(!tipomonedaCuentabancaria.equals(tipomonedaTransaccionbancaria)){
+				throw new Exception("Tipos de moneda incompatibles");
+			}
+			Estadocuenta estadocuentaActivo = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
+			if(!estadocuentaCuentabancaria.equals(estadocuentaActivo)){
+				throw new Exception("La cuenta no esta ACTIVA y no se puede realizar transacciones");
+			}
+			Tipocuentabancaria tipocuentabancariaActive = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
+			if(tipocuentabancaria.equals(tipocuentabancariaActive)){
+				throw new Exception("No se puede hacer operaciones sobre una cuenta a plazo fijo");
+			}
+			
+			//validacion superada
+			Transaccioncaja transaccioncaja = new Transaccioncaja();
+			transaccioncaja.setFecha(Calendar.getInstance().getTime());
+			transaccioncaja.setHora(Calendar.getInstance().getTime());
+			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncajaDAO.create(transaccioncaja);
+			
+			transaccioncuentabancaria.setTransaccioncaja(transaccioncaja);
+			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
+			transaccioncuentabancariaDAO.create(transaccioncuentabancaria);
+				
+			Moneda saldoFinal = cuentabancaria.getSaldo();
+			Moneda montoTransaccion = transaccioncuentabancaria.getMonto();
+			
+			//actualizando saldo final
+			saldoFinal = saldoFinal.add(montoTransaccion);
+				
+			cuentabancaria.setSaldo(saldoFinal);
+			cuentabancariaDAO.update(cuentabancaria);
+			
+		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+			transaccioncuentabancaria.setIdtransaccioncuentabancaria(null);;
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			transaccioncuentabancaria.setIdtransaccioncuentabancaria(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+		}
+		return transaccioncuentabancaria;
+	}
+	
+	public Transaccioncuentabancaria createRetiroCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria)throws Exception {
+		try {
+			String numeroCuentabancaria = transaccioncuentabancaria.getCuentabancaria().getNumerocuenta();
+			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.findByNumerocuenta(numeroCuentabancaria);
+			if(cuentabancaria == null){
+				throw new Exception("Cuenta bancaria no encontrada");
+			}
+			
+			Tipomoneda tipomonedaCuentabancaria = cuentabancaria.getTipomoneda();
+			Estadocuenta estadocuentaCuentabancaria = cuentabancaria.getEstadocuenta();
+			Tipocuentabancaria tipocuentabancaria = cuentabancaria.getTipocuentabancaria();
+			
+			Tipomoneda tipomonedaTransaccionbancaria = transaccioncuentabancaria.getTipomoneda();
+			
+			if(!tipomonedaCuentabancaria.equals(tipomonedaTransaccionbancaria)){
+				throw new Exception("Tipos de moneda incompatibles");
+			}
+			Estadocuenta estadocuentaActivo = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
+			if(!estadocuentaCuentabancaria.equals(estadocuentaActivo)){
+				throw new Exception("La cuenta no esta ACTIVA y no se puede realizar transacciones");
+			}
+			Tipocuentabancaria tipocuentabancariaActive = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
+			if(tipocuentabancaria.equals(tipocuentabancariaActive)){
+				throw new Exception("No se puede hacer operaciones sobre una cuenta a plazo fijo");
+			}
+
+			TipoTransaccionType tipoTransaccion = ProduceObject.getTipotransaccion(transaccioncuentabancaria.getTipotransaccion());
+			boolean isTransaccionvalida = false;
+
+			isTransaccionvalida = isRetiroValido(cuentabancaria,transaccioncuentabancaria.getMonto());
+					
+			if(isTransaccionvalida == false) {
+				throw new InsufficientMoneyForTransactionException("Fondos Insuficientes para Retiro");	
+			}
+			
+			//validacion superada
+			Transaccioncaja transaccioncaja = new Transaccioncaja();
+			transaccioncaja.setFecha(Calendar.getInstance().getTime());
+			transaccioncaja.setHora(Calendar.getInstance().getTime());
+			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncajaDAO.create(transaccioncaja);
+			
+			transaccioncuentabancaria.setTransaccioncaja(transaccioncaja);
+			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
+			transaccioncuentabancariaDAO.create(transaccioncuentabancaria);
+				
+			Moneda saldoFinal = cuentabancaria.getSaldo();
+			Moneda montoTransaccion = transaccioncuentabancaria.getMonto();
+			
+			//actualizando saldo final
+			saldoFinal = saldoFinal.subtract(montoTransaccion);
+			cuentabancaria.setSaldo(saldoFinal);
+			cuentabancariaDAO.update(cuentabancaria);
+			
+		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+			transaccioncuentabancaria.setIdtransaccioncuentabancaria(null);;
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			transaccioncuentabancaria.setIdtransaccioncuentabancaria(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+		}
+		return transaccioncuentabancaria;
+	}
+	
 	public boolean isRetiroValido(Cuentabancaria cuentabancaria, Moneda monto) throws Exception {
 		if(cuentabancaria.getSaldo().isLessThan(monto))
 			return false;

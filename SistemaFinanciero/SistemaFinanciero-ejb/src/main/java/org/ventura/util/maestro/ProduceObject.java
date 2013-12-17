@@ -1,9 +1,5 @@
 package org.ventura.util.maestro;
 
-import javax.ejb.EJB;
-
-import org.omg.CORBA.TIMEOUT;
-import org.ventura.dao.CrudService;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
@@ -12,10 +8,7 @@ import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 
-public class ProduceObject<T, V extends Enum<V>> {
-
-	@EJB
-	private CrudService crudService;
+public class ProduceObject {
 
 	public static Estadoapertura getEstadoapertura(
 			EstadoAperturaType estadoAperturaType) {
@@ -103,7 +96,7 @@ public class ProduceObject<T, V extends Enum<V>> {
 			tipotransaccion.setIdestadocuenta(4);
 			break;
 		default:
-			tipotransaccion.setIdestadocuenta(5);
+			tipotransaccion.setIdestadocuenta(null);
 			break;
 		}
 		return tipotransaccion;
@@ -153,7 +146,8 @@ public class ProduceObject<T, V extends Enum<V>> {
 		return tipotransaccion;
 	}
 
-	public static TipocuentabancariaType getTipocuentabancaria(Tipocuentabancaria tipotransaccion) {
+	public static TipocuentabancariaType getTipocuentabancaria(
+			Tipocuentabancaria tipotransaccion) {
 		TipocuentabancariaType transaccionType;
 		Integer id = tipotransaccion.getIdtipocuentabancaria();
 		switch (id) {
@@ -172,7 +166,7 @@ public class ProduceObject<T, V extends Enum<V>> {
 		}
 		return transaccionType;
 	}
-	
+
 	public static TipomonedaType getTipomoneda(Tipomoneda tipomoneda) {
 		TipomonedaType tipomonedaType;
 		Integer id = tipomoneda.getIdtipomoneda();
@@ -192,7 +186,7 @@ public class ProduceObject<T, V extends Enum<V>> {
 		}
 		return tipomonedaType;
 	}
-	
+
 	public static Tipomoneda getTipomoneda(TipomonedaType tipomonedaType) {
 		Tipomoneda tipomoneda = new Tipomoneda();
 		switch (tipomonedaType) {
@@ -210,28 +204,5 @@ public class ProduceObject<T, V extends Enum<V>> {
 			break;
 		}
 		return tipomoneda;
-	}
-
-	public T getObject(Enum<V> e) {
-		T obj = (T) new Object();
-
-		Class<V> enumType = null;
-
-		Integer id = new Integer(0);
-
-		for (V c : enumType.getEnumConstants()) {
-			if (c.equals(e))
-				obj = (T) crudService.find(obj.getClass(), id);
-			else
-				id++;
-		}
-
-		return obj;
-	}
-
-	public <T extends Enum<T>> void enumValues(Class<T> enumType) {
-		for (T c : enumType.getEnumConstants()) {
-			System.out.println(c.name());
-		}
 	}
 }

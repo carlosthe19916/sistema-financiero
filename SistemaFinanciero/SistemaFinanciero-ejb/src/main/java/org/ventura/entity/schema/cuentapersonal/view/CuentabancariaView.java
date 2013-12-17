@@ -4,76 +4,85 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
-
 import java.math.BigDecimal;
 import java.util.Date;
-
 
 /**
  * The persistent class for the cuentabancaria_view database table.
  * 
  */
 @Entity
-@Table(name="cuentabancaria_view" , schema ="cuentapersonal")
-@NamedQuery(name="CuentabancariaView.findAll", query="SELECT c FROM CuentabancariaView c")
-@NamedQueries({ @NamedQuery(name = CuentabancariaView.findByNumerocuenta, query = "SELECT c FROM CuentabancariaView c WHERE c.numerocuenta = :numerocuenta") })
+@Table(name = "cuentabancaria_view", schema = "cuentapersonal")
+@NamedQuery(name = "CuentabancariaView.findAll", query = "SELECT c FROM CuentabancariaView c")
+@NamedQueries({
+		@NamedQuery(name = CuentabancariaView.findByNumerocuenta, query = "SELECT c FROM CuentabancariaView c WHERE c.numerocuenta = :numerocuenta"),
+		@NamedQuery(name = CuentabancariaView.findByLikeDni, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.numeroDocumento LIKE :dni"),
+		@NamedQuery(name = CuentabancariaView.findByLikeRuc, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.numeroDocumento LIKE :ruc"),
+		@NamedQuery(name = CuentabancariaView.findByLikeNombre, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
+		@NamedQuery(name = CuentabancariaView.findByLikeRazonsocial, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial") })
 public class CuentabancariaView implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public final static String findByNumerocuenta = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByNumerocuenta";
+	public final static String findByLikeDni = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByLikeDni";
+	public final static String findByLikeRuc = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByLikeRuc";
+	public final static String findByLikeNombre = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByLikeNombre";
+	public final static String findByLikeRazonsocial = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByLikeRazonsocial";
 
 	@Id
-	@Column(name="id_cuentabancaria")
+	@Column(name = "id_cuentabancaria")
 	private Integer idCuentabancaria;
-	
-	@Column(name="abreviatura_estadocuenta", length=3)
+
+	@Column(name = "abreviatura_estadocuenta", length = 3)
 	private String abreviaturaEstadocuenta;
 
-	@Column(name="abreviatura_tipocuentabancaria", length=30)
+	@Column(name = "abreviatura_tipocuentabancaria", length = 30)
 	private String abreviaturaTipocuentabancaria;
 
-	@Column(name="abreviatura_tipomomeda", length=3)
+	@Column(name = "abreviatura_tipomomeda", length = 3)
 	private String abreviaturaTipomomeda;
 
-	@Column(name="denominacion_estadocuenta", length=20)
+	@Column(name = "denominacion_estadocuenta", length = 20)
 	private String denominacionEstadocuenta;
 
-	@Column(name="denominacion_tipocuentabancaria", length=100)
+	@Column(name = "denominacion_tipocuentabancaria", length = 100)
 	private String denominacionTipocuentabancaria;
 
-	@Column(name="denominacion_tipomoneda", length=35)
+	@Column(name = "denominacion_tipomoneda", length = 35)
 	private String denominacionTipomoneda;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fechaapertura_cuentabancaria")
+	@Column(name = "fechaapertura_cuentabancaria")
 	private Date fechaaperturaCuentabancaria;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fechacierre_cuentabancaria")
+	@Column(name = "fechacierre_cuentabancaria")
 	private Date fechacierreCuentabancaria;
 
-	@Column(name="id_estadocuenta")
+	@Column(name = "id_estadocuenta")
 	private Integer idEstadocuenta;
 
-	@Column(name="id_tipocuentabancaria")
+	@Column(name = "id_tipocuentabancaria")
 	private Integer idTipocuentabancaria;
 
-	@Column(name="id_tipomoneda")
+	@Column(name = "id_tipomoneda")
 	private Integer idTipomoneda;
 
-	@Column(name="numero_documento", length=2147483647)
+	@Column(name = "numero_documento", length = 2147483647)
 	private String numeroDocumento;
 
-	@Column(length=14)
+	@Column(length = 14)
 	private String numerocuenta;
 
-	@Column(name="saldo_cuentabancaria", precision=18, scale=2)
+	@Column(name = "saldo_cuentabancaria", precision = 18, scale = 2)
 	private BigDecimal saldoCuentabancaria;
 
-	@Column(length=2147483647)
+	@Column(length = 2147483647)
 	private String titular;
+
+	@Column(name = "tipo_persona")
+	private String tipoPersona;
 
 	public CuentabancariaView() {
 	}
@@ -90,7 +99,8 @@ public class CuentabancariaView implements Serializable {
 		return this.abreviaturaTipocuentabancaria;
 	}
 
-	public void setAbreviaturaTipocuentabancaria(String abreviaturaTipocuentabancaria) {
+	public void setAbreviaturaTipocuentabancaria(
+			String abreviaturaTipocuentabancaria) {
 		this.abreviaturaTipocuentabancaria = abreviaturaTipocuentabancaria;
 	}
 
@@ -114,7 +124,8 @@ public class CuentabancariaView implements Serializable {
 		return this.denominacionTipocuentabancaria;
 	}
 
-	public void setDenominacionTipocuentabancaria(String denominacionTipocuentabancaria) {
+	public void setDenominacionTipocuentabancaria(
+			String denominacionTipocuentabancaria) {
 		this.denominacionTipocuentabancaria = denominacionTipocuentabancaria;
 	}
 
@@ -204,6 +215,14 @@ public class CuentabancariaView implements Serializable {
 
 	public void setTitular(String titular) {
 		this.titular = titular;
+	}
+
+	public String getTipoPersona() {
+		return tipoPersona;
+	}
+
+	public void setTipoPersona(String tipoPersona) {
+		this.tipoPersona = tipoPersona;
 	}
 
 }

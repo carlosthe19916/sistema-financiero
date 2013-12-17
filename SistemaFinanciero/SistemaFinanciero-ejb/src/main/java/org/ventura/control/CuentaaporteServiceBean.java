@@ -15,7 +15,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.GeneratedValue;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
@@ -25,11 +24,11 @@ import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
+import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Accionista;
-import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
@@ -135,7 +134,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		cuentaaporte.setTipomoneda(tipomoneda);
 		
 		cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
-		cuentaaporte.setSaldo(0);		
+		cuentaaporte.setSaldo(new Moneda());		
 	}
 
 	@Override

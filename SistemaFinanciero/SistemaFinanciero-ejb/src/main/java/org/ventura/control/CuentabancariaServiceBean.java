@@ -106,11 +106,11 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("numerocuenta", numerocuenta);
 
-			List<CuentabancariaView> historialbovedaList = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByNumerocuenta,parameters);
-			if (historialbovedaList.size() == 1) {
-				cuentabancaria = historialbovedaList.get(0);
+			List<CuentabancariaView> cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByNumerocuenta,parameters);
+			if (cuentabancariaViews.size() == 1) {
+				cuentabancaria = cuentabancariaViews.get(0);
 			} else {
-				if (historialbovedaList.size() == 0){
+				if (cuentabancariaViews.size() == 0){
 					cuentabancaria = null;
 				} else {
 					throw new Exception("No se encontro cuenta bancaria valida");
@@ -123,6 +123,78 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			throw e;
 		}
 		return cuentabancaria;
+	}
+
+	@Override
+	public List<CuentabancariaView> findCuentabancariaViewByDni(String dni) throws Exception {
+		List<CuentabancariaView> cuentabancariaViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("dni", dni);
+
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeDni,parameters,100);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentabancariaViews;
+	}
+
+	@Override
+	public List<CuentabancariaView> findCuentabancariaViewByRuc(String ruc) throws Exception {
+		List<CuentabancariaView> cuentabancariaViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("ruc", ruc);
+
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeRuc,parameters,100);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentabancariaViews;
+	}
+
+	@Override
+	public List<CuentabancariaView> findCuentabancariaViewByNombre(String nombre) throws Exception {
+		List<CuentabancariaView> cuentabancariaViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("nombres", nombre);
+
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeNombre,parameters,100);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentabancariaViews;
+	}
+
+	@Override
+	public List<CuentabancariaView> findCuentabancariaViewByRazonsocial(String razonsocial) throws Exception {
+		List<CuentabancariaView> cuentabancariaViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("razonsocial", razonsocial);
+
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeRazonsocial,parameters,100);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentabancariaViews;
 	}
 
 }

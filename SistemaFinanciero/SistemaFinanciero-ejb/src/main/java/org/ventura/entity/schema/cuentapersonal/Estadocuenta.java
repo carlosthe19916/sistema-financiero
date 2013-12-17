@@ -1,7 +1,10 @@
 package org.ventura.entity.schema.cuentapersonal;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.ventura.entity.schema.caja.Boveda;
 
 
 /**
@@ -62,5 +65,19 @@ public class Estadocuenta implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Estadocuenta)) {
+			return false;
+		}
+		final Estadocuenta other = (Estadocuenta) obj;
+		return other.getIdestadocuenta()== this.idestadocuenta ? true : false;
+	}
 
+	@Override
+	public int hashCode() {
+		return idestadocuenta;
+	}
+	
 }

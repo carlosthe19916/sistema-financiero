@@ -9,6 +9,6 @@ public enum TipoTransaccionType {
 	/**
 	 * Retiro representa un egreso de dinero
 	 */
-	RETIRO,
+	RETIRO
 
 }
