@@ -11,8 +11,7 @@ import org.ventura.entity.schema.caja.Moneda;
 public class MonedaConverter implements Converter {
 
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component,
-			String value) {
+	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		Moneda moneda = null;
 		try {
 			moneda = new Moneda(value);
@@ -24,8 +23,7 @@ public class MonedaConverter implements Converter {
 	}
 
 	@Override
-	public String getAsString(FacesContext context, UIComponent component,
-			Object value) {
+	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		return value.toString();
 	}
 

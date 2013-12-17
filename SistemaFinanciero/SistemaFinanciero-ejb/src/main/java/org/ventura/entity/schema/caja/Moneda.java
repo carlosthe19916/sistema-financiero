@@ -2,10 +2,11 @@ package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
+import java.math.RoundingMode;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
 
 @Embeddable
 public class Moneda implements Serializable {
@@ -38,6 +39,14 @@ public class Moneda implements Serializable {
 	}
 
 	public Moneda(String value) {
+		if (value.contains(",")) {
+			String r = "";
+			for (int i = 0; i < value.length(); i++) {
+				if (value.charAt(i) != ',')
+					r += value.charAt(i);
+			}
+			value = r;
+		}
 		this.value = new BigDecimal(value);
 		if (this.value.scale() > SCALE)
 			throw new IllegalArgumentException("Money can't have scale > 2");
@@ -62,7 +71,7 @@ public class Moneda implements Serializable {
 		return new Moneda(result);
 	}
 
-	public Moneda multiply(double value) {		
+	public Moneda multiply(double value) {
 		Moneda moneda = new Moneda(value);
 		BigDecimal result = this.value.multiply(moneda.getValue());
 		return new Moneda(result);
@@ -138,6 +147,13 @@ public class Moneda implements Serializable {
 		return this.value.intValue();
 	}
 
+	public int getDecimalValue() {
+		BigDecimal d = value;
+		BigDecimal result = d.subtract(d.setScale(0, RoundingMode.FLOOR))
+				.movePointRight(d.scale());
+		return result.intValue();
+	}
+
 	public void setValue(BigDecimal value) {
 		this.value = value;
 	}
@@ -149,17 +165,96 @@ public class Moneda implements Serializable {
 
 	@Override
 	public String toString() {
-		String s = NumberFormat.getCurrencyInstance().format(value).toString();
-		s = s.substring(0, s.length() - 1);
-		return s;
 		/*
-		 * if (value == null) return null; int realScale = value.scale(); if
-		 * (realScale == 2) return value.toString(); else if (realScale == 1)
-		 * return value.toString() + "0"; else if (realScale == 0) return
-		 * value.toString() + ".00"; else throw new RuntimeException(
-		 * "Scale of Money object is > 2, should never happen, Money object is faulty."
-		 * );
+		 * String s =
+		 * NumberFormat.getCurrencyInstance().format(value).toString(); s =
+		 * s.substring(0, s.length() - 1); return s;
 		 */
+
+		String stringValue = "";
+
+		if (value == null)
+			return null;
+		int realScale = value.scale();
+		if (realScale == 2) {
+			int doubleValue = getDecimalValue();
+
+			if (doubleValue % 10 == 0) {
+				stringValue = "." + doubleValue + stringValue + "0";
+			} else {
+				stringValue = "." + doubleValue + stringValue;
+			}
+
+			int intValue = getIntValue();
+			if (intValue == 0) {
+				stringValue = "0" + stringValue;
+			}
+
+			int contador = 0;
+			while (intValue != 0) {
+				int q = intValue / 10;
+				int r = intValue % 10;
+				intValue = q;
+				stringValue = r + stringValue;
+				contador++;
+				if (contador == 3 && intValue != 0) {
+					stringValue = "," + stringValue;
+					contador = 0;
+				}
+			}
+			return stringValue;
+		} else {
+			if (realScale == 1) {
+				int doubleValue = getDecimalValue();
+
+				stringValue = "." + doubleValue + stringValue + "0";
+
+				int intValue = getIntValue();
+				if (intValue == 0) {
+					stringValue = "0" + stringValue;
+				}
+				
+				int contador = 0;
+				while (intValue != 0) {
+					int q = intValue / 10;
+					int r = intValue % 10;
+					intValue = q;
+					stringValue = r + stringValue;
+					contador++;
+					if (contador == 3 && intValue != 0) {
+						stringValue = "," + stringValue;
+						contador = 0;
+					}
+				}
+				return stringValue;
+			} else {
+				if (realScale == 0) {
+					stringValue = "." + stringValue + "00";
+
+					int intValue = getIntValue();
+					if (intValue == 0) {
+						stringValue = "0" + stringValue;
+					}
+					
+					int contador = 0;
+					while (intValue != 0) {
+						int q = intValue / 10;
+						int r = intValue % 10;
+						intValue = q;
+						stringValue = r + stringValue;
+						contador++;
+						if (contador == 3 && intValue != 0) {
+							stringValue = "," + stringValue;
+							contador = 0;
+						}
+					}
+					return stringValue;
+				} else {
+					throw new RuntimeException(
+							"Scale of Money object is > 2, should never happen, Money object is faulty.");
+				}
+			}
+		}
 	}
 
 	public int compareTo(Moneda val) {

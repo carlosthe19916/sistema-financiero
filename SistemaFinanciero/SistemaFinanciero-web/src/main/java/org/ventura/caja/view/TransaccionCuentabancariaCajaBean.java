@@ -167,6 +167,9 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 					transaccioncuentabancaria.setReferencia(referencia);
 					transaccioncuentabancaria.setTipomoneda(tipomoneda);
 
+					System.out.println(monto.getValue());
+					System.out.println(monto.getIntValue());
+					
 					try {
 						transaccioncuentabancariaServiceLocal.createTransaccionCuentabancaria(cajaBean.getCaja(),transaccioncuentabancaria);
 					} catch (Exception e) {
