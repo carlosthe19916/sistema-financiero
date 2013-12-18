@@ -5,6 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
 
@@ -16,7 +17,7 @@
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
-			<h:outputText value="Editar" />
+			<h:outputText value="Close Caja" />
 		</ui:define>
 
 		<!-- Definiendo el cuerpo de la pagina -->
@@ -169,7 +170,7 @@
 								</div>
 								<div class="sf-buttons" style="float: left;">
 									<h:commandButton action="#{openCloseBovedaBean.closeBoveda()}"
-										value="Guardar" styleClass="action blue" />
+										value="Cerrar" styleClass="action blue" />
 
 									<h:commandButton action="cancel" value="Cancelar"
 										styleClass="action" />

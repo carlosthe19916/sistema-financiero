@@ -30,7 +30,6 @@ public class AdministrarCajaBeanReplace implements Serializable {
 	private AgenciaBean agenciaBean;
 	@Inject
     private Agencia agencia;
-
 	@Inject
 	private TablaBean<CajaView> tablaCaja;
 	

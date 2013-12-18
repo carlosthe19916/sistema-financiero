@@ -28,7 +28,7 @@
 								</div>
 								<div style="display: inline-block;">
 									<h:outputLabel
-										value="#{administrarCajaBean.agenciaBean.agencia.denominacion}"
+										value="#{administrarCajaBeanReplace.agenciaBean.agencia.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -38,7 +38,7 @@
 									<div class="p6n-api-consent-screen-label" style="width: 50px;">CAJA:</div>
 								</div>
 								<div style="display: inline-block;">
-									<h:outputLabel value="#{administrarCajaBean.caja.denominacion}"
+									<h:outputLabel value="#{administrarCajaBeanReplace.caja.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -49,7 +49,7 @@
 								</div>
 								<div style="display: inline-block;">
 									<h:outputLabel
-										value="#{administrarCajaBean.caja.estadoapertura.denominacion}"
+										value="#{administrarCajaBeanReplace.caja.estadoapertura.denominacion}"
 										styleClass="sf-label-bold" />
 								</div>
 							</li>
@@ -60,11 +60,11 @@
 
 				<div>
 					<p:accordionPanel>
-						<p:tab title="MONEDA NUEVO SOL" rendered="#{administrarCajaBean.caja_Boveda_Nuevo_Sol()}">
+						<p:tab title="MONEDA NUEVO SOL" rendered="#{administrarCajaBeanReplace.caja_Boveda_Nuevo_Sol()}">
 							<p:scrollPanel style="height:330px;">
 								<h:panelGrid>
 									<p:dataTable var="cajaDetalleSoles"
-										value="#{administrarCajaBean.tablaCajaDetalleSoles.rows}"
+										value="#{administrarCajaBeanReplacean.tablaCajaDetalleSoles.rows}"
 										rowKey="#{cajaDetalleSoles}" rowIndexVar="row">
 
 										<f:facet name="header">
@@ -95,7 +95,7 @@
 												<p:column colspan="3" footerText="Total en Caja:"
 													style="text-align:right" />
 												<p:column colspan="1"
-													footerText="#{administrarCajaBean.totalHistorialCajaSoles}"
+													footerText="#{administrarCajaBeanReplace.totalHistorialCajaSoles}"
 													style="text-align:right" />
 											</p:row>
 										</p:columnGroup>
@@ -104,11 +104,11 @@
 							</p:scrollPanel>
 						</p:tab>
 
-						<p:tab title="MONEDA DOLARES" rendered="#{administrarCajaBean.caja_Boveda_Dolar()}">
+						<p:tab title="MONEDA DOLARES" rendered="#{administrarCajaBeanReplace.caja_Boveda_Dolar()}">
 							<p:scrollPanel style="height:330px;">
 								<h:panelGrid>
 									<p:dataTable var="cajaDetalleDolares"
-										value="#{administrarCajaBean.tablaCajaDetalleDolares.rows}"
+										value="#{administrarCajaBeanReplace.tablaCajaDetalleDolares.rows}"
 										rowKey="#{cajaDetalleDolares}" rowIndexVar="row">
 
 										<f:facet name="header">
@@ -139,7 +139,7 @@
 												<p:column colspan="3" footerText="Total en Caja:"
 													style="text-align:right" />
 												<p:column colspan="1"
-													footerText="#{administrarCajaBean.totalHistorialCajaDolares}"
+													footerText="#{administrarCajaBeanReplace.totalHistorialCajaDolares}"
 													style="text-align:right" />
 											</p:row>
 										</p:columnGroup>
@@ -148,11 +148,11 @@
 							</p:scrollPanel>
 						</p:tab>
 
-						<p:tab title="MONEDA EUROS" rendered="#{administrarCajaBean.caja_Boveda_Euro()}">
+						<p:tab title="MONEDA EUROS" rendered="#{administrarCajaBeanReplace.caja_Boveda_Euro()}">
 							<p:scrollPanel style="height:330px;">
 								<h:panelGrid>
 									<p:dataTable var="cajaDetalleEuros"
-										value="#{administrarCajaBean.tablaCajaDetalleEuros.rows}"
+										value="#{administrarCajaBeanReplace.tablaCajaDetalleEuros.rows}"
 										rowKey="#{cajaDetalleEuros}" rowIndexVar="row">
 
 										<f:facet name="header">
@@ -183,7 +183,7 @@
 												<p:column colspan="3" footerText="Total en Caja:"
 													style="text-align:right" />
 												<p:column colspan="1"
-													footerText="#{administrarCajaBean.totalHistorialCajaEuros}"
+													footerText="#{administrarCajaBeanReplace.totalHistorialCajaEuros}"
 													style="text-align:right" />
 											</p:row>
 										</p:columnGroup>
@@ -200,7 +200,7 @@
 						<div class="sf-buttons">
 							<a4j:commandButton value="Aperturar" styleClass="action blue">
 								<a4j:ajax execute="@form"
-									listener="#{administrarCajaBean.openCaja()}"
+									listener="#{administrarCajaBeanReplace.openCaja()}"
 									render="#{componentToUpdated}"
 									oncomplete="#{rich:component('dlgOpenCaja')}.hide()" />
 							</a4j:commandButton>

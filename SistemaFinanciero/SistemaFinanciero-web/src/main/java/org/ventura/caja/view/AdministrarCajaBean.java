@@ -2,8 +2,10 @@ package org.ventura.caja.view;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,10 +18,17 @@ import org.primefaces.context.RequestContext;
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.dependent.ListSelectedBean;
 import org.ventura.dependent.TablaBean;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Detallehistorialcaja;
+import org.ventura.entity.schema.caja.Estadoapertura;
+import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.util.maestro.EstadoAperturaType;
+import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.managedbean.session.AgenciaBean;
+import org.venturabank.util.JsfUtil;
 
 
 @Named
@@ -35,6 +44,12 @@ public class AdministrarCajaBean implements Serializable{
 
 	@Inject
 	private TablaBean<Caja> tablaCaja;
+	private TablaBean<Detallehistorialcaja> tablaCajaDetalleSoles;
+	@Inject
+	private TablaBean<Detallehistorialcaja> tablaCajaDetalleDolares;
+	@Inject
+	private TablaBean<Detallehistorialcaja> tablaCajaDetalleEuros;
+
 	@Inject
 	private Caja caja;
 		
@@ -92,7 +107,6 @@ public class AdministrarCajaBean implements Serializable{
 		tablaCaja.initValuesFromNamedQueryName(Caja.ALL_ACTIVE_BY_AGENCIA,parameters);
 	}
 	
-		
 	public void updateCaja(){
 		try {
 			String denominacionCaja = caja.getDenominacion();
@@ -133,16 +147,16 @@ public class AdministrarCajaBean implements Serializable{
 	}
 	
 		
-	public void loadCaja() throws Exception{
+	public void loadCaja() throws Exception {
 		try {
 			Object object = tablaCaja.getEditingRow();
 			Caja caja = new Caja();
 			if (object instanceof Caja) {
 				caja = (Caja) object;
+				this.caja = cajaServiceLocal.find(caja.getIdcaja());
 			}
-			this.caja = cajaServiceLocal.find(caja.getIdcaja());
-			} catch (Exception e) {
-				throw e;
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 	
@@ -189,6 +203,31 @@ public class AdministrarCajaBean implements Serializable{
 		this.listSelectedBean = listSelectedBean;
 	}
 	
+	public TablaBean<Detallehistorialcaja> getTablaCajaDetalleSoles() {
+		return tablaCajaDetalleSoles;
+	}
+
+	public void setTablaCajaDetalleSoles(TablaBean<Detallehistorialcaja> tablaCajaDetalleSoles) {
+		this.tablaCajaDetalleSoles = tablaCajaDetalleSoles;
+	}
+
+	public TablaBean<Detallehistorialcaja> getTablaCajaDetalleDolares() {
+		return tablaCajaDetalleDolares;
+	}
+
+	public void setTablaCajaDetalleDolares(TablaBean<Detallehistorialcaja> tablaCajaDetalleDolares) {
+		this.tablaCajaDetalleDolares = tablaCajaDetalleDolares;
+	}
+
+	public TablaBean<Detallehistorialcaja> getTablaCajaDetalleEuros() {
+		return tablaCajaDetalleEuros;
+	}
+
+	public void setTablaCajaDetalleEuros(TablaBean<Detallehistorialcaja> tablaCajaDetalleEuros) {
+		this.tablaCajaDetalleEuros = tablaCajaDetalleEuros;
+	}
+
+	
 	public void openCaja() throws Exception {
 		try {
 			cajaServiceLocal.openCaja(caja);
@@ -201,13 +240,135 @@ public class AdministrarCajaBean implements Serializable{
 		}
 	}
 	
-	public void imprimir(){
-		Object objetc = tablaCaja.getSelectedRow();
-		Caja caja = new Caja();
-		if (objetc instanceof Caja) {
-			caja = (Caja) objetc;
+	public void loadTablaCajaDetalleAfterOpen() throws Exception {
+		try {
+			loadCaja();
+			Tipomoneda tipomonedaSoles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			Tipomoneda tipomonedaDolar = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+			Tipomoneda tipomonedaEuro = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+			
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
+			
+			if (estadoapertura.equals(estadoapertura2)) {
+				HashMap<Tipomoneda, List<Detallehistorialcaja>> detalleaperturacierrecajaList = cajaServiceLocal.getDetalleforOpenCaja(caja);
+				
+				Set<Tipomoneda> a= detalleaperturacierrecajaList.keySet();
+				for (Tipomoneda tipomoneda : a) {
+					if (tipomoneda.equals(tipomonedaSoles)) {
+						tablaCajaDetalleSoles.setRows(detalleaperturacierrecajaList.get(tipomoneda));
+					}
+					if (tipomoneda.equals(tipomonedaDolar)) {
+						tablaCajaDetalleDolares.setRows(detalleaperturacierrecajaList.get(tipomoneda));
+					}
+					if (tipomoneda.equals(tipomonedaEuro)) {
+						tablaCajaDetalleEuros.setRows(detalleaperturacierrecajaList.get(tipomoneda));
+					}
+				}
+			} else {
+				throw new Exception("Caja Abierta imposible abrirla nuevamente");
+			}
+		} catch (Exception e) {
+			throw e;
 		}
-		
-		System.out.println(caja.getDenominacion());
 	}
+
+	// verifica si la caja se relaciona con la boveda soles
+	public boolean caja_Boveda_Nuevo_Sol() {
+		boolean result = false;
+		if (caja.getIdcaja() != null) {
+			Tipomoneda tipomoneda = ProduceObject
+					.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			for (Iterator<Boveda> iterator = caja.getBovedas().iterator(); iterator
+					.hasNext();) {
+				Boveda boveda = (Boveda) iterator.next();
+				if (boveda.getTipomoneda().equals(tipomoneda)) {
+					result = true;
+				}
+			}
+		}
+		return result;
+	}
+
+	// verifica si la caja se relaciona con la boveda dolar
+	public boolean caja_Boveda_Dolar() {
+		boolean result = false;
+		if (caja.getIdcaja() != null) {
+			Tipomoneda tipomoneda = ProduceObject
+					.getTipomoneda(TipomonedaType.DOLAR);
+			for (Iterator<Boveda> iterator = caja.getBovedas().iterator(); iterator
+					.hasNext();) {
+				Boveda boveda = (Boveda) iterator.next();
+				if (boveda.getTipomoneda().equals(tipomoneda)) {
+					result = true;
+				}
+			}
+		}
+		return result;
+	}
+
+	// verifica si la caja se relaciona con la boveda euros
+	public boolean caja_Boveda_Euro() {
+		boolean result = false;
+		if (caja.getIdcaja() != null) {
+			Tipomoneda tipomoneda = ProduceObject
+					.getTipomoneda(TipomonedaType.EURO);
+			for (Iterator<Boveda> iterator = caja.getBovedas().iterator(); iterator
+					.hasNext();) {
+				Boveda boveda = (Boveda) iterator.next();
+				if (boveda.getTipomoneda().equals(tipomoneda)) {
+					result = true;
+				}
+			}
+		}
+		return result;
+	}
+
+	// total en soles
+	public Moneda getTotalHistorialCajaSoles() {
+		Moneda result = new Moneda();
+		for (Detallehistorialcaja e : tablaCajaDetalleSoles.getRows()) {
+			Moneda subtotal = e.getSubtotal();
+			result = result.add(subtotal);
+		}
+		return result;
+	}
+
+	// total en dolares
+	public Moneda getTotalHistorialCajaDolares() {
+		Moneda result = new Moneda();
+		for (Detallehistorialcaja e : tablaCajaDetalleDolares.getRows()) {
+			Moneda subtotal = e.getSubtotal();
+			result = result.add(subtotal);
+		}
+		return result;
+	}
+
+	// total en en euros
+	public Moneda getTotalHistorialCajaEuros() {
+		Moneda result = new Moneda();
+		for (Detallehistorialcaja e : tablaCajaDetalleEuros.getRows()) {
+			Moneda subtotal = e.getSubtotal();
+			result = result.add(subtotal);
+		}
+		return result;
+	}
+/*	
+	public void activarMovimiento() throws Exception {
+		try {
+			Caja caja = new Caja();
+			caja.setIdcaja(idcaja);
+			
+			
+			
+			Boveda boveda =  new Boveda();
+			boveda.setIdboveda(idboveda);
+		
+			bovedaServiceLocal.defrostBoveda(boveda);
+			refreshBean();
+			JsfUtil.addSuccessMessage("Boveda Descongelada");
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, "Error al Descongelar Boveda");
+		}
+	}*/
 }

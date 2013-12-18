@@ -89,9 +89,8 @@
 								</h:outputLink>
 								<div class="dropdown-slider">
 									<p:commandLink styleClass="ddm"
-										actionListener="#{administrarCajaBean.imprimir()}" 
-										oncomplete="PF('DialogOpenCaja').show()"
-										update=":formDialogCajas">
+										actionListener="#{administrarCajaBean.loadTablaCajaDetalleAfterOpen()}" 
+										oncomplete="PF('DialogOpenCaja').show()" update=":dlgOpenCaja">
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Abrir Caja</span>
 									</p:commandLink>
@@ -133,7 +132,9 @@
 								<p:column headerText="Estado Apertura" width="200">
 									<h:outputText value="#{caja.estadoapertura.denominacion}" />
 								</p:column>								
-								
+								<p:column headerText="Estado Movimiento" width="200">
+									<h:outputText value="#{caja.estadoapertura.denominacion}" />
+								</p:column>	
 							</p:dataTable>
 						</div>
 					</h:form>

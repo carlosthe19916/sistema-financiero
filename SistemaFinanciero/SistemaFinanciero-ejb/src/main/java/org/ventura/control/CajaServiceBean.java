@@ -32,6 +32,7 @@ import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
+import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.exception.NonexistentEntityException;
@@ -129,7 +130,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@Override
 	public void delete(Caja oCaja) throws Exception {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -258,6 +258,54 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 	}
 	
+	@Override
+	public void closeCaja(Caja caja) throws Exception {
+		try {
+			caja = cajaDAO.find(caja.getIdcaja());
+			
+			boolean resultCaja = verificarCaja(caja, EstadoAperturaType.CERRADO);
+			if (resultCaja == true) {
+				throw new Exception("Caja cerrada, Imposible cerrarla nuevamente");
+			}
+			
+			boolean resultBovedas = verificarBovedas(caja,
+					EstadoAperturaType.ABIERTO);
+			if (resultBovedas == false) {
+				throw new Exception("Bovedas Cerradas, Imposible cerrar la Caja");
+			}
+			
+			Historialcaja historialcaja = this.getHistorialcajaLastActive(caja);
+			if (historialcaja == null) {
+				throw new Exception("No se puede cerrar caja, no existe HistorialCajaActivo");
+			}
+			
+			
+			historialcaja.setFechacierre(Calendar.getInstance().getTime());
+			historialcaja.setHoracierre(Calendar.getInstance().getTime());
+			Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
+			historialcaja.setEstadomovimiento(estadomovimiento);
+			historialcajaDAO.update(historialcaja);
+			
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+			caja.setEstadoapertura(estadoapertura);
+			cajaDAO.update(caja);
+			
+			log.info("FINISH SUCCESSFULLY: CAJA CERRADA");
+
+		} catch (IllegalArgumentException | NonexistentEntityException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		} catch (Exception e) {
+			caja.setIdcaja(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Cerrar la Caja");
+		}
+	}
+	
 	public List<Denominacionmoneda> getDiferenceWithoutDuplicates(List<Denominacionmoneda> one, List<Denominacionmoneda> two) {
 		List<Denominacionmoneda> resultList = new ArrayList<Denominacionmoneda>();
 		resultList.addAll(one);
@@ -310,6 +358,25 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw new Exception("Existe más de un historial caja activo");
 		}
 		
+		return historialcaja;
+	}
+	
+	@Override
+	public Historialcaja getHistorialcajaLastNoActive(Caja caja) throws Exception {
+		Historialcaja historialcaja = null;
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("caja", caja);
+
+		List<Historialcaja> historialcajaList = historialcajaDAO.findByNamedQuery(Historialcaja.findLastHistorialNoActive, parameters);
+		if (historialcajaList.size() == 0) {
+			historialcaja = null;
+		}
+		if (historialcajaList.size() == 1) {
+			historialcaja = historialcajaList.get(0);
+		}
+		if (historialcajaList.size() > 1) {
+			throw new Exception("Existe mas de un historial activo");
+		}
 		return historialcaja;
 	}
 	
@@ -411,5 +478,140 @@ public class CajaServiceBean implements CajaServiceLocal{
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se puede obtener el detalle de la caja");
 		}
+	}
+	
+	public List<Detallehistorialcaja> getDetalleHistorialCajaByTipoMoneda(Tipomoneda tipomoneda, Historialcaja historialcaja) throws RollbackFailureException, Exception {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
+		parameters.put("idhistorialcaja", historialcaja.getIdhistorialcaja());
+		List<Detallehistorialcaja> detalleHCByTipoMoneda = detallehistorialcajaDAO.findByNamedQuery(Detallehistorialcaja.detalleHistorialCajaByTipoMoneda, parameters); //modificar---------
+		return detalleHCByTipoMoneda;
+	}
+	
+	@Override
+	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaLastActive(Caja caja) throws Exception {
+		try {
+			Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+			List<Detallehistorialcaja> result = null;
+			HashMap<Tipomoneda, List<Detallehistorialcaja>> colecctionDetealleHistorialCaja = new HashMap<>();
+			
+			for (int i = 0; i < caja.getBovedas().size(); i++) {
+				Tipomoneda tipomoneda = caja.getBovedas().get(i).getTipomoneda();	
+				List<Denominacionmoneda> denominacionmoedaAllActive = getDenominacionmonedasActive(tipomoneda);
+				List<Denominacionmoneda> denominacionmonedasAllFromHistorial = new ArrayList<Denominacionmoneda>();
+				
+				if (historialcaja == null) {
+					result = new ArrayList<Detallehistorialcaja>();
+				}else{
+					result = getDetalleHistorialCajaByTipoMoneda(tipomoneda, historialcaja);
+					for (Detallehistorialcaja e : result) {
+						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
+						denominacionmonedasAllFromHistorial.add(denominacionmoneda);
+					}
+				}
+				
+				List<Denominacionmoneda> denominacionmoneda2 = getDiferenceWithoutDuplicates(denominacionmoedaAllActive, denominacionmonedasAllFromHistorial);
+				for (Denominacionmoneda e : denominacionmoneda2) {
+					Detallehistorialcaja detallehistorialcaja = new Detallehistorialcaja();
+					detallehistorialcaja.setDenominacionmoneda(e);
+					detallehistorialcaja.setCantidad(0);
+					
+					result.add(detallehistorialcaja);
+				}
+				colecctionDetealleHistorialCaja.put(tipomoneda, result);
+			}
+			return colecctionDetealleHistorialCaja;
+		} catch (RollbackFailureException e) {
+			caja.setIdcaja(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se obtener el detalle de la caja");
+		} catch (Exception e) {
+			caja.setIdcaja(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se puede obtener el detalle de la caja");
+		}
 	}	
+	
+	@Override
+	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaLastNoActive(Caja caja) throws Exception {
+		try {
+			Historialcaja historialcaja = getHistorialcajaLastNoActive(caja);
+			List<Detallehistorialcaja> result = null;
+			HashMap<Tipomoneda, List<Detallehistorialcaja>> colecctionDetealleHistorialCaja = new HashMap<>();
+			
+			for (int i = 0; i < caja.getBovedas().size(); i++) {
+				Tipomoneda tipomoneda = caja.getBovedas().get(i).getTipomoneda();	
+				List<Denominacionmoneda> denominacionmoedaAllActive = getDenominacionmonedasActive(tipomoneda);
+				List<Denominacionmoneda> denominacionmonedasAllFromHistorial = new ArrayList<Denominacionmoneda>();
+				
+				if (historialcaja == null) {
+					result = new ArrayList<Detallehistorialcaja>();
+				}else{
+					result = historialcaja.getDetallehistorialcajas();
+					for (Detallehistorialcaja e : historialcaja.getDetallehistorialcajas()) {
+						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
+						denominacionmonedasAllFromHistorial.add(denominacionmoneda);
+					}
+				}
+				
+				List<Denominacionmoneda> denominacionmoneda2 = getDiferenceWithoutDuplicates(denominacionmoedaAllActive, denominacionmonedasAllFromHistorial);
+				for (Denominacionmoneda e : denominacionmoneda2) {
+					Detallehistorialcaja detallehistorialcaja = new Detallehistorialcaja();
+					detallehistorialcaja.setDenominacionmoneda(e);
+					detallehistorialcaja.setCantidad(0);
+					
+					result.add(detallehistorialcaja);
+				}
+				colecctionDetealleHistorialCaja.put(tipomoneda, result);
+			}
+			return colecctionDetealleHistorialCaja;
+		} catch (RollbackFailureException e) {
+			caja.setIdcaja(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se obtener el detalle de la caja");
+		} catch (Exception e) {
+			caja.setIdcaja(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se puede obtener el detalle de la caja");
+		}
+	}	
+	
+	@Override
+	public void defrostCaja(Caja oCaja) throws Exception {
+		try {
+			Caja caja = find(oCaja.getIdcaja());
+			Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+			Estadomovimiento estadomovimientoNew = ProduceObject.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO);
+			if (historialcaja != null) {
+				setEstadomovimientoHistorialcaja(historialcaja, estadomovimientoNew);
+			}else{
+				throw new Exception("No se puede Congelar/Decongelar caja");
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+	}
+	
+	public void setEstadomovimientoHistorialcaja(Historialcaja historialcaja, Estadomovimiento estadomovimiento) throws Exception {
+		Caja caja = historialcaja.getCaja();
+		Estadoapertura estadoapertura = caja.getEstadoapertura();
+		Estadoapertura estadoaperturatocheck = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+		if (!estadoapertura.equals(estadoaperturatocheck)) {
+			historialcaja.setEstadomovimiento(estadomovimiento);
+			historialcajaDAO.update(historialcaja);
+		}else{
+			throw new Exception("Caja cerrada, no se pueden Congelar/Descongelar caja");
+		}
+	}
 }
