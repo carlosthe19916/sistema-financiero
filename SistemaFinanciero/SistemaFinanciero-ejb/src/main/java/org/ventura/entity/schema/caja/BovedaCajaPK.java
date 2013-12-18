@@ -9,10 +9,10 @@ import javax.persistence.Embeddable;
 public class BovedaCajaPK implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@Column(nullable = false)
+	@Column(unique = false, nullable = false)
 	private Integer idboveda;
 
-	@Column(nullable = false)
+	@Column(unique = true, nullable = false)
 	private Integer idcaja;
 
 	public Integer getIdboveda() {

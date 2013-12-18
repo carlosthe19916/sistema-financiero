@@ -27,11 +27,11 @@ public class BovedaCaja implements Serializable {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "idcaja", nullable = false)
+	@JoinColumn(name = "idcaja", nullable = false, insertable = false, updatable = false)
 	private Caja caja;
 	
 	@ManyToOne
-	@JoinColumn(name = "idboveda", nullable = false)
+	@JoinColumn(name = "idboveda", nullable = false, insertable = false, updatable = false)
 	private Boveda boveda;
 	
 	public BovedaCajaPK getId() {
