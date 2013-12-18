@@ -56,21 +56,6 @@ public class CajaBean implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		/*Usuario usuario = usuarioMB.getUsuario();
-		Rol rolUsuario;
-		List<Grupo> grupos = usuario.getGrupos();
-		for (Grupo grupo : grupos) {
-			List<Rol> rols = grupo.getRols();
-			for (Rol rol : rols) {
-				Rol aux = new Rol();
-				aux.setIdrol(2);
-				aux.setDescripcion("Cajero");
-				if(rol.equals(aux)){
-					rolUsuario = rol;
-				}
-			}
-		}*/
 	}
 	
 	public Caja getCaja() {

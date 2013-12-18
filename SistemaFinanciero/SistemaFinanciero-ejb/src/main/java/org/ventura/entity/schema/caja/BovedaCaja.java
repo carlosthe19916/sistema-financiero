@@ -6,14 +6,13 @@ import javax.persistence.*;
 
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the boveda_caja database table.
  * 
  */
 @Entity
-@Table(name="boveda_caja")
-@NamedQuery(name="BovedaCaja.findAll", query="SELECT b FROM BovedaCaja b")
+@Table(name = "boveda_caja")
+@NamedQuery(name = "BovedaCaja.findAll", query = "SELECT b FROM BovedaCaja b")
 public class BovedaCaja implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -25,15 +24,15 @@ public class BovedaCaja implements Serializable {
 
 	public BovedaCaja() {
 	}
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idcaja", nullable = false, insertable = false, updatable = false)
 	private Caja caja;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idboveda", nullable = false, insertable = false, updatable = false)
 	private Boveda boveda;
-	
+
 	public BovedaCajaPK getId() {
 		return id;
 	}

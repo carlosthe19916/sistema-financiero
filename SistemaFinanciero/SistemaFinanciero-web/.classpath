@@ -18,10 +18,19 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/WildFly 8.0 Runtime">
 		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="owner.project.facets" value="jst.jsf;jst.web"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_25">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/TOSHIBA/Videos/lib/jasperreports-5.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/TOSHIBA/Videos/lib/jasperreports-chart-themes-5.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/TOSHIBA/Videos/lib/jasperreports-fonts-5.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/TOSHIBA/Videos/lib/jasperreports-functions-5.5.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
