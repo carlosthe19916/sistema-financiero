@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <PROCESS model-entity="JSFProcess">
  <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
@@ -246,6 +247,255 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
 </PROCESS>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
+  SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login.xhtml:0" NAME="item"
+   PATH="/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="success::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="success" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#error#retiroInvalido.xhtml"
+  PATH="/error/retiroInvalido.xhtml" SHAPE="288,465,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#error#errorInvalidTransaccionBoveda.xhtml"
+  PATH="/error/errorInvalidTransaccionBoveda.xhtml" SHAPE="288,353,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#error#error-page.xhtml"
+  PATH="/error/error-page.xhtml" SHAPE="288,353,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#modules#boveda#administracion#administrarBoveda.xhtml"
+  PATH="/modules/boveda/administracion/administrarBoveda.xhtml"
+  SHAPE="304,785,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#modules#boveda#administracion#administrarBoveda.xhtml:0"
+   NAME="item"
+   PATH="/modules/boveda/administracion/administrarBoveda.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="create::#modules#boveda#administracion#create.xhtml"
+    NAME="output" PATH="/modules/boveda/administracion/create.xhtml"
+    TARGET="rules:#modules#boveda#administracion#create.xhtml"
+    TITLE="create" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="update::#modules#boveda#administracion#update.xhtml"
+    NAME="output1" PATH="/modules/boveda/administracion/update.xhtml"
+    TARGET="rules:#modules#boveda#administracion#update.xhtml"
+    TITLE="update" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="open::#modules#boveda#operaciones#open.xhtml" NAME="output2"
+    PATH="/modules/boveda/operaciones/open.xhtml"
+    TARGET="rules:#modules#boveda#operaciones#open.xhtml" TITLE="open" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="close::#modules#boveda#operaciones#close.xhtml" NAME="output3"
+    PATH="/modules/boveda/operaciones/close.xhtml"
+    TARGET="rules:#modules#boveda#operaciones#close.xhtml" TITLE="close" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#modules#boveda#administracion#create.xhtml"
+  PATH="/modules/boveda/administracion/create.xhtml" SHAPE="32,769,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#modules#boveda#administracion#create.xhtml:0"
+   NAME="item" PATH="/modules/boveda/administracion/create.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#boveda#administracion#administrarBoveda.xhtml"
+    NAME="output"
+    PATH="/modules/boveda/administracion/administrarBoveda.xhtml"
+    TARGET="rules:#modules#boveda#administracion#administrarBoveda.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancel::#modules#boveda#administracion#administrarBoveda.xhtml"
+    NAME="output1"
+    PATH="/modules/boveda/administracion/administrarBoveda.xhtml"
+    TARGET="rules:#modules#boveda#administracion#administrarBoveda.xhtml"
+    TITLE="cancel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#modules#boveda#administracion#update.xhtml"
+  PATH="/modules/boveda/administracion/update.xhtml" SHAPE="32,977,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#modules#boveda#administracion#update.xhtml:0"
+   NAME="item" PATH="/modules/boveda/administracion/update.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#boveda#administracion#administrarBoveda.xhtml"
+    NAME="output"
+    PATH="/modules/boveda/administracion/administrarBoveda.xhtml"
+    TARGET="rules:#modules#boveda#administracion#administrarBoveda.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancel::#modules#boveda#administracion#administrarBoveda.xhtml"
+    NAME="output1"
+    PATH="/modules/boveda/administracion/administrarBoveda.xhtml"
+    TARGET="rules:#modules#boveda#administracion#administrarBoveda.xhtml"
+    TITLE="cancel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#modules#boveda#operaciones#open.xhtml"
+  PATH="/modules/boveda/operaciones/open.xhtml" SHAPE="32,1121,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#modules#boveda#operaciones#open.xhtml:0"
+   NAME="item" PATH="/modules/boveda/operaciones/open.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#boveda#administracion#administrarBoveda.xhtml"
+    NAME="output"
+    PATH="/modules/boveda/administracion/administrarBoveda.xhtml"
+    TARGET="rules:#modules#boveda#administracion#administrarBoveda.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancel::#modules#boveda#administracion#administrarBoveda.xhtml"
+    NAME="output1"
+    PATH="/modules/boveda/administracion/administrarBoveda.xhtml"
+    TARGET="rules:#modules#boveda#administracion#administrarBoveda.xhtml"
+    TITLE="cancel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#modules#boveda#operaciones#close.xhtml"
+  PATH="/modules/boveda/operaciones/close.xhtml" SHAPE="32,1265,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#modules#boveda#operaciones#close.xhtml:0"
+   NAME="item" PATH="/modules/boveda/operaciones/close.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#boveda#administracion#administrarBoveda.xhtml"
+    NAME="output"
+    PATH="/modules/boveda/administracion/administrarBoveda.xhtml"
+    TARGET="rules:#modules#boveda#administracion#administrarBoveda.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancel::#modules#boveda#administracion#administrarBoveda.xhtml"
+    NAME="output1"
+    PATH="/modules/boveda/administracion/administrarBoveda.xhtml"
+    TARGET="rules:#modules#boveda#administracion#administrarBoveda.xhtml"
+    TITLE="cancel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#modules#boveda#operaciones#transaccion.xhtml"
+  PATH="/modules/boveda/operaciones/transaccion.xhtml"
+  SHAPE="32,449,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#modules#boveda#operaciones#transaccion.xhtml:0"
+   NAME="item" PATH="/modules/boveda/operaciones/transaccion.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#boveda#operaciones#voucherTransaccion.xhtml"
+    NAME="output"
+    PATH="/modules/boveda/operaciones/voucherTransaccion.xhtml"
+    TARGET="rules:#modules#boveda#operaciones#voucherTransaccion.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="retiroInvalido::#error#retiroInvalido.xhtml"
+    NAME="output1" PATH="/error/retiroInvalido.xhtml"
+    TARGET="rules:#error#retiroInvalido.xhtml" TITLE="retiroInvalido" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="invalidTransaction::#error#errorInvalidTransaccionBoveda.xhtml"
+    NAME="output2" PATH="/error/errorInvalidTransaccionBoveda.xhtml"
+    TARGET="rules:#error#errorInvalidTransaccionBoveda.xhtml"
+    TITLE="invalidTransaction" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="failure::#error#error-page.xhtml"
+    NAME="output3" PATH="/error/error-page.xhtml"
+    TARGET="rules:#error#error-page.xhtml" TITLE="failure" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#modules#caja#administracion#administrarCaja.xhtml"
+  PATH="/modules/caja/administracion/administrarCaja.xhtml"
+  SHAPE="288,1425,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#modules#caja#administracion#administrarCaja.xhtml:0"
+   NAME="item" PATH="/modules/caja/administracion/administrarCaja.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="create::#modules#caja#administracion#create.xhtml" NAME="output"
+    PATH="/modules/caja/administracion/create.xhtml"
+    TARGET="rules:#modules#caja#administracion#create.xhtml"
+    TITLE="create" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="update::#modules#caja#administracion#update.xhtml"
+    NAME="output1" PATH="/modules/caja/administracion/update.xhtml"
+    TARGET="rules:#modules#caja#administracion#update.xhtml"
+    TITLE="update" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="open::#modules#caja#operaciones#open.xhtml"
+    NAME="output2" PATH="/modules/caja/operaciones/open.xhtml"
+    TARGET="rules:#modules#caja#operaciones#open.xhtml" TITLE="open" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="close::#modules#caja#operaciones#close.xhtml" NAME="output3"
+    PATH="/modules/caja/operaciones/close.xhtml"
+    TARGET="rules:#modules#caja#operaciones#close.xhtml" TITLE="close" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#modules#caja#administracion#create.xhtml"
+  PATH="/modules/caja/administracion/create.xhtml" SHAPE="32,1409,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#modules#caja#administracion#create.xhtml:0"
+   NAME="item" PATH="/modules/caja/administracion/create.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancel::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output1"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="cancel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#modules#caja#administracion#update.xhtml"
+  PATH="/modules/caja/administracion/update.xhtml" SHAPE="32,1553,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#modules#caja#administracion#update.xhtml:0"
+   NAME="item" PATH="/modules/caja/administracion/update.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancel::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output1"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="cancel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#modules#boveda#operaciones#voucherTransaccion.xhtml"
+  PATH="/modules/boveda/operaciones/voucherTransaccion.xhtml"
+  SHAPE="288,353,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#modules#caja#operaciones#open.xhtml"
+  PATH="/modules/caja/operaciones/open.xhtml" SHAPE="528,1681,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#modules#caja#operaciones#open.xhtml:0"
+   NAME="item" PATH="/modules/caja/operaciones/open.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancel::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output1"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="cancel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#modules#caja#operaciones#close.xhtml"
+  PATH="/modules/caja/operaciones/close.xhtml" SHAPE="560,1681,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#modules#caja#operaciones#close.xhtml:0"
+   NAME="item" PATH="/modules/caja/operaciones/close.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancel::#modules#caja#administracion#administrarCaja.xhtml"
+    NAME="output1"
+    PATH="/modules/caja/administracion/administrarCaja.xhtml"
+    TARGET="rules:#modules#caja#administracion#administrarCaja.xhtml"
+    TITLE="cancel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>
+>>>>>>> branch 'master' of https://code.google.com/p/sistema-financiero/
 =======
 <?xml version="1.0" encoding="UTF-8"?>
 <PROCESS model-entity="JSFProcess">
