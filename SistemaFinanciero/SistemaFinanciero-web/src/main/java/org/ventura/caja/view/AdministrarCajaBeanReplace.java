@@ -64,8 +64,7 @@ public class AdministrarCajaBeanReplace implements Serializable {
 		try {
 			Caja caja =  new Caja();
 			caja.setIdcaja(idcaja);
-		
-			//bovedaServiceLocal.defrostBoveda(boveda);
+			cajaServiceLocal.defrostCaja(caja);
 			refreshBean();
 			JsfUtil.addSuccessMessage("Caja Descongelada");
 		} catch (Exception e) {
@@ -77,8 +76,7 @@ public class AdministrarCajaBeanReplace implements Serializable {
 		try {
 			Caja caja =  new Caja();
 			caja.setIdcaja(idcaja);
-			
-			//bovedaServiceLocal.freezeBoveda(boveda);
+			cajaServiceLocal.freezeCaja(caja);
 			refreshBean();
 			JsfUtil.addSuccessMessage("Caja Congelada");
 		} catch (Exception e) {

@@ -585,6 +585,25 @@ public class CajaServiceBean implements CajaServiceLocal{
 	}	
 	
 	@Override
+	public void freezeCaja(Caja oCaja) throws Exception {
+		try {
+			Caja caja = find(oCaja.getIdcaja());
+			Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+			Estadomovimiento estadomovimientoNew = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
+			if (historialcaja != null) {
+				setEstadomovimientoHistorialcaja(historialcaja, estadomovimientoNew);
+			}else {
+				throw new Exception("No se puede Congelar/Decongelar caja");
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+	}
+	
+	@Override
 	public void defrostCaja(Caja oCaja) throws Exception {
 		try {
 			Caja caja = find(oCaja.getIdcaja());

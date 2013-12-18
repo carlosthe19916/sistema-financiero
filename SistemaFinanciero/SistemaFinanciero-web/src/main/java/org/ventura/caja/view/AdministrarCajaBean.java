@@ -353,22 +353,4 @@ public class AdministrarCajaBean implements Serializable{
 		}
 		return result;
 	}
-/*	
-	public void activarMovimiento() throws Exception {
-		try {
-			Caja caja = new Caja();
-			caja.setIdcaja(idcaja);
-			
-			
-			
-			Boveda boveda =  new Boveda();
-			boveda.setIdboveda(idboveda);
-		
-			bovedaServiceLocal.defrostBoveda(boveda);
-			refreshBean();
-			JsfUtil.addSuccessMessage("Boveda Descongelada");
-		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, "Error al Descongelar Boveda");
-		}
-	}*/
 }
