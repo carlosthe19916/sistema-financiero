@@ -43,7 +43,7 @@ public class Historialcaja implements Serializable {
 
 	
 	
-	// bi-directional many-to-one association to Estadomovimiento
+	// bi-directional many-to-one association to caja
 	@ManyToOne
 	@JoinColumn(name = "idcaja", nullable = false)
 	private Caja caja;

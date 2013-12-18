@@ -70,13 +70,13 @@ public class OpenCloseCajaBean implements Serializable {
 
 	public void loadCajaForOpen() {
 		try {
-			if(idcaja != null && idcaja != -1){
+			if (idcaja != null && idcaja != -1) {
 				caja = cajaServiceLocal.find(idcaja);
 				loadTablaCajaDetalleForOpen();
 			} else {
 				JsfUtil.addErrorMessage("Caja no encontrada");
 				setInvalidBean();
-			}		
+			}
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, "No se pudo cargar la Caja");
 			setInvalidBean();
@@ -162,7 +162,7 @@ public class OpenCloseCajaBean implements Serializable {
 					}
 				}
 			} else {
-				JsfUtil.addErrorMessage("Caja Cerrada, no se puede Cerrar");
+				JsfUtil.addErrorMessage("Caja Cerrada, no se puede volver a cerrar");
 				setInvalidBean();
 			}	
 		} catch (Exception e) {
@@ -288,9 +288,6 @@ public class OpenCloseCajaBean implements Serializable {
 					result = true;
 				}
 			}
-		}else {
-			JsfUtil.addErrorMessage("Caja no encontrada");
-			setInvalidBean();
 		}
 		return result;
 	}
@@ -308,9 +305,6 @@ public class OpenCloseCajaBean implements Serializable {
 					result = true;
 				}
 			}
-		}else {
-			JsfUtil.addErrorMessage("Caja no encontrada");
-			setInvalidBean();
 		}
 		return result;
 	}
@@ -328,9 +322,6 @@ public class OpenCloseCajaBean implements Serializable {
 					result = true;
 				}
 			}
-		}else {
-			JsfUtil.addErrorMessage("Caja no encontrada");
-			setInvalidBean();
 		}
 		return result;
 	}
