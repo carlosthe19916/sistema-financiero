@@ -12,7 +12,7 @@ public class BovedaCajaPK implements Serializable{
 	@Column(unique = false, nullable = false)
 	private Integer idboveda;
 
-	@Column(unique = true, nullable = false)
+	@Column(unique = false, nullable = false)
 	private Integer idcaja;
 
 	public Integer getIdboveda() {

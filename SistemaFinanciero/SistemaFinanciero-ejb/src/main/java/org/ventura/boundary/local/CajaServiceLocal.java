@@ -30,6 +30,8 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	public void openCaja(Caja oCaja) throws Exception;
 	
 	public void closeCaja(Caja caja) throws Exception;
+	
+	public void defrostCaja(Caja oCaja) throws Exception;
 
 	public Collection<Caja> findByNamedQuery(String queryName) throws Exception;
 

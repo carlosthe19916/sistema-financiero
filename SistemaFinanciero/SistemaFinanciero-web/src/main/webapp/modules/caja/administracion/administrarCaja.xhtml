@@ -113,14 +113,19 @@
 									<h:outputText value="#{row + 1}" />
 								</p:column>
 
-								<p:column headerText="Denominacion">
+								<p:column headerText="Denominacion" sortBy="#{caja.denominacionCaja}">
 									<h:outputText value="#{caja.denominacionCaja}" />
 								</p:column>
-								<p:column headerText="Estado Apertura" width="200">
+								
+								<p:column headerText="Abreviatura" sortBy="#{caja.abreviaturaCaja}">
+									<h:outputText value="#{caja.abreviaturaCaja}" />
+								</p:column>
+								
+								<p:column headerText="Estado Apertura" width="200" sortBy="#{caja.denominacionEstadoapertura}">
 									<h:outputText value="#{caja.denominacionEstadoapertura}" />
 								</p:column>
-								<p:column headerText="Estado Movimiento" width="200">
-									<h:outputText value="#{caja.denominacionEstadomovimiento}" />
+								<p:column headerText="Estado Movimiento" width="200" sortBy="#{caja.denominacionEstadomovimiento}">
+									<h:outputText value="#{caja.denominacionEstadomovimiento}"/>
 								</p:column>
 							</p:dataTable>
 						</div>

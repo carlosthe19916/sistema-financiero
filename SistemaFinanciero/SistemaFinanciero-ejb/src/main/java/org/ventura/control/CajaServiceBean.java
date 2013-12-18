@@ -32,6 +32,7 @@ import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
+import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.exception.NonexistentEntityException;
@@ -129,7 +130,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@Override
 	public void delete(Caja oCaja) throws Exception {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -583,4 +583,35 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw new Exception("Error Interno: No se puede obtener el detalle de la caja");
 		}
 	}	
+	
+	@Override
+	public void defrostCaja(Caja oCaja) throws Exception {
+		try {
+			Caja caja = find(oCaja.getIdcaja());
+			Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+			Estadomovimiento estadomovimientoNew = ProduceObject.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO);
+			if (historialcaja != null) {
+				setEstadomovimientoHistorialcaja(historialcaja, estadomovimientoNew);
+			}else{
+				throw new Exception("No se puede Congelar/Decongelar caja");
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+	}
+	
+	public void setEstadomovimientoHistorialcaja(Historialcaja historialcaja, Estadomovimiento estadomovimiento) throws Exception {
+		Caja caja = historialcaja.getCaja();
+		Estadoapertura estadoapertura = caja.getEstadoapertura();
+		Estadoapertura estadoaperturatocheck = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+		if (!estadoapertura.equals(estadoaperturatocheck)) {
+			historialcaja.setEstadomovimiento(estadomovimiento);
+			historialcajaDAO.update(historialcaja);
+		}else{
+			throw new Exception("Caja cerrada, no se pueden Congelar/Descongelar caja");
+		}
+	}
 }
