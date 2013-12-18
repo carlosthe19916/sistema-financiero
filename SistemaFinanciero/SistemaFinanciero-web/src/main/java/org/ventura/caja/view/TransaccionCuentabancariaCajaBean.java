@@ -1,8 +1,13 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -12,6 +17,13 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
@@ -167,11 +179,10 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 					transaccioncuentabancaria.setReferencia(referencia);
 					transaccioncuentabancaria.setTipomoneda(tipomoneda);
 
-					System.out.println(monto.getValue());
-					System.out.println(monto.getIntValue());
 					
 					try {
 						transaccioncuentabancariaServiceLocal.createTransaccionCuentabancaria(cajaBean.getCaja(),transaccioncuentabancaria);
+						imprimirVoucher();
 					} catch (Exception e) {
 						JsfUtil.addErrorMessage(e, "Error al actualizar Caja");
 						return "failure";
@@ -191,6 +202,33 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 			JsfUtil.addErrorMessage("La cuenta bancaria no es valida");
 			return null;
 		}		
+	}
+	
+	public void imprimirVoucher(){
+		JasperReport jr = null;
+        String archivo = "C:\\Users\\TOSHIBA\\JaspersoftWorkspace\\SistemaFinanciero-reports\\Voucher.jasper";
+        Map parametro = new HashMap();
+        
+        Integer id = 5318;
+        parametro.put("idtransaccioncaja", id);
+             
+        try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://192.168.1.10:5432/BDVenturaBank","ventura", "123456");
+                  
+            jr = (JasperReport) JRLoader.loadObjectFromFile(archivo);
+            JasperPrint jp = JasperFillManager.fillReport(jr,parametro,connection);
+            JasperViewer jv= new JasperViewer(jp);
+            jv.setVisible(true);
+            
+        } catch(ClassNotFoundException e){
+        	
+        } catch(SQLException e){
+        	
+        } catch (JRException ex) {
+           
+        }
 	}
 
 	public void searchCuentabancaria() {
