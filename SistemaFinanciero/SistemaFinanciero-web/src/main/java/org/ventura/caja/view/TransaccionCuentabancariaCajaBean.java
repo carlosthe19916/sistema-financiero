@@ -1,5 +1,8 @@
 package org.ventura.caja.view;
 
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,12 +20,27 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.HashPrintServiceAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.PrintServiceAttributeSet;
+import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.MediaSize;
+import javax.print.attribute.standard.MediaSizeName;
+import javax.print.attribute.standard.OrientationRequested;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.view.JasperViewer;
 
 import org.ventura.boundary.local.CajaServiceLocal;
@@ -41,6 +59,7 @@ import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
@@ -59,7 +78,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	@EJB
 	private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
 	@EJB
-	private TransaccionCajaServiceLocal transaccioncuentabancariaServiceLocal;
+	private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
 	@EJB
 	private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB
@@ -178,11 +197,11 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 					transaccioncuentabancaria.setMonto(monto);
 					transaccioncuentabancaria.setReferencia(referencia);
 					transaccioncuentabancaria.setTipomoneda(tipomoneda);
-
-					
+	
 					try {
-						transaccioncuentabancariaServiceLocal.createTransaccionCuentabancaria(cajaBean.getCaja(),transaccioncuentabancaria);
-						imprimirVoucher();
+						transaccioncuentabancaria = transaccionCajaServiceLocal.createTransaccionCuentabancaria(cajaBean.getCaja(),transaccioncuentabancaria);
+						VouchercajaView vouchercajaView = transaccionCajaServiceLocal.getVoucherTransaccionBancaria(transaccioncuentabancaria);
+						imprimirVoucher(vouchercajaView);
 					} catch (Exception e) {
 						JsfUtil.addErrorMessage(e, "Error al actualizar Caja");
 						return "failure";
@@ -204,31 +223,140 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		}		
 	}
 	
-	public void imprimirVoucher(){
+	public void imprimirVoucher(VouchercajaView voucher){
 		JasperReport jr = null;
-        String archivo = "C:\\Users\\TOSHIBA\\JaspersoftWorkspace\\SistemaFinanciero-reports\\Voucher.jasper";
-        Map parametro = new HashMap();
+        String archivo = "C:\\Users\\TOSHIBA\\git\\sistema-financiero\\SistemaFinanciero\\SistemaFinanciero-web\\src\\main\\java\\org\\ventura\\reports\\Voucher.jasper";
+       
+        Map<String, Object> parameters = new HashMap<String, Object>();
         
-        Integer id = 5318;
-        parametro.put("idtransaccioncaja", id);
+        parameters.put("numeroOperacion", voucher.getNumeroOperacion());
+        parameters.put("fecha", voucher.getFecha());
+        parameters.put("hora", voucher.getHora());
+        parameters.put("title", voucher.getDenominacionTipotransaccion() + "EN CTA BANCARIA");
+        parameters.put("tipoCuenta", voucher.getDenominacionTipocuentabancaria());
+        parameters.put("numeroCuenta", voucher.getNumeroCuenta());
+        parameters.put("titular", voucher.getTitular());
+        parameters.put("referencia", voucher.getReferencia());
+        parameters.put("moneda", voucher.getDenominacionMoneda());
+        parameters.put("importe", voucher.getMonto().toString());
+        parameters.put("itf", "todavia");
+        parameters.put("codigoAgenciaCaja", voucher.getCodigoAgencia()+"|"+ voucher.getAbreviaturaCaja());
              
-        try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://192.168.1.10:5432/BDVenturaBank","ventura", "123456");
-                  
+        try {	
             jr = (JasperReport) JRLoader.loadObjectFromFile(archivo);
-            JasperPrint jp = JasperFillManager.fillReport(jr,parametro,connection);
-            JasperViewer jv= new JasperViewer(jp);
-            jv.setVisible(true);
+            //JasperReport jr = (JasperReport)JRLoader.loadObject(new File("filename.jasper"));
             
-        } catch(ClassNotFoundException e){
-        	
-        } catch(SQLException e){
-        	
-        } catch (JRException ex) {
+            JasperPrint jp = JasperFillManager.fillReport(jr,parameters);
+            //JasperPrintManager.printReport("archivo", false);
+
+            //JasperViewer.viewReport(jp);
+            /*PrinterJob job = PrinterJob.getPrinterJob();
+            int selectedService = 0;
+            selectedService = 0;
+            PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+            printRequestAttributeSet.add(OrientationRequested.PORTRAIT);
+            printRequestAttributeSet.add(MediaSizeName.ISO_A4); 
+            MediaSizeName mediaSizeName = MediaSize.findMedia(64,25,MediaPrintableArea.MM);
+            printRequestAttributeSet.add(mediaSizeName);
+            printRequestAttributeSet.add(new Copies(1));
+            JRPrintServiceExporter exporter;
+            exporter = new JRPrintServiceExporter();
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
+            exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet);
+            exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
+            exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.TRUE);
+            exporter.exportReport();
            
-        }
+            job.print(printRequestAttributeSet);
+			*/
+            JasperPrint jasperPrint = getJasperPrint(voucher);
+            JRSaver.saveObject(jasperPrint, "C:\\Users\\TOSHIBA\\git\\sistema-financiero\\SistemaFinanciero\\SistemaFinanciero-web\\src\\main\\java\\org\\ventura\\reports\\PrintServiceReport.jrprint");
+            
+            PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+            printRequestAttributeSet.add(MediaSizeName.ISO_A4);
+
+            PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet();
+            //printServiceAttributeSet.add(new PrinterName("Epson Stylus 820 ESC/P 2", null));
+            //printServiceAttributeSet.add(new PrinterName("hp LaserJet 1320 PCL 6", null));
+            //printServiceAttributeSet.add(new PrinterName("PDFCreator", null));
+            
+            JRPrintServiceExporter exporter = new JRPrintServiceExporter();
+            
+            exporter.setParameter(JRExporterParameter.INPUT_FILE_NAME, "C:\\Users\\TOSHIBA\\git\\sistema-financiero\\SistemaFinanciero\\SistemaFinanciero-web\\src\\main\\java\\org\\ventura\\reports\\PrintServiceReport.jrprint");
+            exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet);
+            exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printServiceAttributeSet);
+            exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
+            exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.TRUE);
+            
+            exporter.exportReport();
+    	    
+        } catch (JRException ex) {
+        	// TODO Auto-generated catch block
+			ex.printStackTrace();
+        } catch (Exception e) {
+			// TODO: handle exception
+        	e.printStackTrace();
+		}
+	}
+	
+	private static JasperPrint getJasperPrint(VouchercajaView voucher) throws JRException
+	  {
+	   JasperPrint jp = null;
+	   
+	   JasperReport jr = null;
+       String archivo = "C:\\Users\\TOSHIBA\\git\\sistema-financiero\\SistemaFinanciero\\SistemaFinanciero-web\\src\\main\\java\\org\\ventura\\reports\\Voucher.jasper";
+      
+       Map<String, Object> parameters = new HashMap<String, Object>();
+       
+       parameters.put("numeroOperacion", voucher.getNumeroOperacion());
+       parameters.put("fecha", voucher.getFecha());
+       parameters.put("hora", voucher.getHora());
+       parameters.put("title", voucher.getDenominacionTipotransaccion() + "EN CTA BANCARIA");
+       parameters.put("tipoCuenta", voucher.getDenominacionTipocuentabancaria());
+       parameters.put("numeroCuenta", voucher.getNumeroCuenta());
+       parameters.put("titular", voucher.getTitular());
+       parameters.put("referencia", voucher.getReferencia());
+       parameters.put("moneda", voucher.getDenominacionMoneda());
+       parameters.put("importe", voucher.getMonto().toString());
+       parameters.put("itf", "todavia");
+       parameters.put("codigoAgenciaCaja", voucher.getCodigoAgencia()+"|"+ voucher.getAbreviaturaCaja());
+            
+       try {	
+			jr = (JasperReport) JRLoader.loadObjectFromFile(archivo);
+			jp = JasperFillManager.fillReport(jr, parameters);
+			return jp;
+		} catch (Exception e) {
+
+		}
+	return jp;
+	}
+	
+	public void print(){
+		long start = System.currentTimeMillis();
+	    PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+	    printRequestAttributeSet.add(MediaSizeName.ISO_A4);
+
+	    PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet();
+	    //printServiceAttributeSet.add(new PrinterName("Epson Stylus 820 ESC/P 2", null));
+	    //printServiceAttributeSet.add(new PrinterName("hp LaserJet 1320 PCL 6", null));
+	    //printServiceAttributeSet.add(new PrinterName("PDFCreator", null));
+	    
+	    JRPrintServiceExporter exporter = new JRPrintServiceExporter();
+	    
+	    exporter.setParameter(JRExporterParameter.INPUT_FILE_NAME, "build/reports/PrintServiceReport.jrprint");
+	    exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet);
+	    exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printServiceAttributeSet);
+	    exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
+	    exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.TRUE);
+	    
+	    try {
+			exporter.exportReport();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	    System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 
 	public void searchCuentabancaria() {

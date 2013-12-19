@@ -11,8 +11,9 @@ import org.ventura.boundary.remote.CajaServiceRemote;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
-import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Historialcaja;
+import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.exception.RollbackFailureException;
 
@@ -54,4 +55,5 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaLastActive(Caja caja) throws Exception;
 	
 	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaLastNoActive(Caja caja) throws Exception;
+	
 }

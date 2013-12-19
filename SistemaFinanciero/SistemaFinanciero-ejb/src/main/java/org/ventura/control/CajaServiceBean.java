@@ -34,6 +34,8 @@ import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Historialcaja;
+import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.RollbackFailureException;
@@ -633,4 +635,5 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw new Exception("Caja cerrada, no se pueden Congelar/Descongelar caja");
 		}
 	}
+
 }

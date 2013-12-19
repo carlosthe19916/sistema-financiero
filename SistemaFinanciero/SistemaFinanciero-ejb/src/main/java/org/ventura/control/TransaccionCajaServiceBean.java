@@ -1,6 +1,9 @@
 package org.ventura.control;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -20,12 +23,14 @@ import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.TransaccioncajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
+import org.ventura.dao.impl.VouchercajaViewDAO;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Transaccioncaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
@@ -60,7 +65,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	private TransaccioncompraventaDAO transaccioncompraventaDAO;
 	@EJB
 	private CuentabancariaDAO cuentabancariaDAO;
-	
+	@EJB
+	private VouchercajaViewDAO vouchercajaViewDAO;
 	
 	@Override
 	public Transaccioncuentabancaria createTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria)throws Exception {
@@ -314,6 +320,32 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		}
 			
 		return transaccioncompraventa;
+	}
+	
+	@Override
+	public VouchercajaView getVoucherTransaccionBancaria(Transaccioncuentabancaria transaccioncuentabancaria) throws Exception {
+		VouchercajaView vouchercajaView = null;
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idtransaccioncuentabancaria", transaccioncuentabancaria.getIdtransaccioncuentabancaria());
+		List<VouchercajaView> list;
+		try {
+			list = vouchercajaViewDAO.findByNamedQuery(VouchercajaView.FindByIdTransaccioncuentabancaria, parameters);
+			if(list.size() == 1){
+				vouchercajaView = list.get(0);
+			} else {
+				if(list.size() == 0){
+					vouchercajaView = null;
+				} else {
+					throw new Exception("Error: Query resultado >= 2");
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return vouchercajaView;		
 	}
 
 }
