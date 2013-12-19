@@ -4,14 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import java.math.BigDecimal;
-
 /**
  * The persistent class for the boveda_caja database table.
  * 
  */
 @Entity
-@Table(name = "boveda_caja")
+@Table(name = "boveda_caja", schema = "caja")
 @NamedQuery(name = "BovedaCaja.findAll", query = "SELECT b FROM BovedaCaja b")
 public class BovedaCaja implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,8 +17,9 @@ public class BovedaCaja implements Serializable {
 	@EmbeddedId
 	private BovedaCajaPK id;
 
-	@Column(nullable = false)
-	private BigDecimal saldototal;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldototal")) })
+	private Moneda saldototal;
 
 	public BovedaCaja() {
 	}
@@ -41,11 +40,11 @@ public class BovedaCaja implements Serializable {
 		this.id = id;
 	}
 
-	public BigDecimal getSaldototal() {
-		return this.saldototal;
+	public void setSaldototal(Moneda saldototal) {
+		this.saldototal = saldototal;
 	}
 
-	public void setSaldototal(BigDecimal saldototal) {
-		this.saldototal = saldototal;
+	public Moneda getSaldototal() {
+		return saldototal;
 	}
 }
