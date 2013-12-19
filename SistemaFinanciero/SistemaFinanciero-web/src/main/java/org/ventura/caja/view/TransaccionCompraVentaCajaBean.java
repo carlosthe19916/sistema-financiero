@@ -19,7 +19,7 @@ import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.venturabank.managedbean.session.CajaBean;
+import org.ventura.managedbean.session.CajaBean;
 
 @Named
 @ViewScoped

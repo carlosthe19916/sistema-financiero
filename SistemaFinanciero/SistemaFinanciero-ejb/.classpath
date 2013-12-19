@@ -39,9 +39,5 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/TOSHIBA/Videos/lib/jasperreports-5.5.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/TOSHIBA/Videos/lib/jasperreports-chart-themes-5.5.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/TOSHIBA/Videos/lib/jasperreports-fonts-5.5.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/TOSHIBA/Videos/lib/jasperreports-functions-5.5.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

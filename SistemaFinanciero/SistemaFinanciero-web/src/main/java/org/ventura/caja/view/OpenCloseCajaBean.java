@@ -22,9 +22,9 @@ import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
+import org.ventura.managedbean.session.AgenciaBean;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.ProduceObject;
-import org.venturabank.managedbean.session.AgenciaBean;
 import org.venturabank.util.JsfUtil;
 
 @Named

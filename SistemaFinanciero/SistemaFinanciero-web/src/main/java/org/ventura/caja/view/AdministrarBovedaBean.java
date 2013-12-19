@@ -14,7 +14,7 @@ import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.view.BovedaView;
-import org.venturabank.managedbean.session.AgenciaBean;
+import org.ventura.managedbean.session.AgenciaBean;
 import org.venturabank.util.JsfUtil;
 
 @Named

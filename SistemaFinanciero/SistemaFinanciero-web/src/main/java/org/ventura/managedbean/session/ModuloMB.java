@@ -1,4 +1,4 @@
-package org.venturabank.managedbean.session;
+package org.ventura.managedbean.session;
 
 import java.io.Serializable;
 import java.security.Principal;

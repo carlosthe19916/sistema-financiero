@@ -29,7 +29,7 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.sucursal.Agencia;
-import org.venturabank.managedbean.session.AgenciaBean;
+import org.ventura.managedbean.session.AgenciaBean;
 
 @Named
 @FlowScoped("aperturarCuentaaporte-flow")

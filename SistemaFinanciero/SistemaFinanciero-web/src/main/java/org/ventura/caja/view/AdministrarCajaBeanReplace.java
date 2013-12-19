@@ -3,6 +3,7 @@ package org.ventura.caja.view;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -14,7 +15,7 @@ import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.view.CajaView;
 import org.ventura.entity.schema.sucursal.Agencia;
-import org.venturabank.managedbean.session.AgenciaBean;
+import org.ventura.managedbean.session.AgenciaBean;
 import org.venturabank.util.JsfUtil;
 
 @Named
