@@ -13,13 +13,15 @@ import javax.persistence.*;
 @NamedQuery(name = "Tipomoneda.findAll", query = "SELECT t FROM Tipomoneda t")
 @NamedQueries({
 		@NamedQuery(name = Tipomoneda.ALL, query = "Select t From Tipomoneda t"),
-		@NamedQuery(name = Tipomoneda.ALL_ACTIVE, query = "Select t From Tipomoneda t WHERE t.estado=true") })
+		@NamedQuery(name = Tipomoneda.ALL_ACTIVE, query = "Select t From Tipomoneda t WHERE t.estado=true"),
+		@NamedQuery(name = Tipomoneda.ALL_ACTIVE_BY_CAJA, query = "select tm from BovedaCaja bc inner join bc.boveda b inner join b.tipomoneda tm where  bc.caja.idcaja = :idcaja and tm.estado = true")})
 public class Tipomoneda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String ALL = "org.ventura.model.Tipomoneda.ALL";
 	public final static String ALL_ACTIVE = "org.ventura.model.Tipomoneda.ALL_ACTIVE";
+	public final static String ALL_ACTIVE_BY_CAJA = "org.ventura.model.Tipomoneda.ALL_ACTIVE_BY_CAJA";
 
 	@Id
 	@Column(unique = true, nullable = false)

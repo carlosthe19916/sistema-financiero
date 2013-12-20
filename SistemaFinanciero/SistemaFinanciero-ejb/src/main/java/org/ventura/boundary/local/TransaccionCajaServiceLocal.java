@@ -17,4 +17,6 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 
 	public VouchercajaView getVoucherTransaccionBancaria(Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
 	
+	public VouchercajaView getVoucherTransaccionCompraVentaMoneda(Transaccioncompraventa transaccioncompraventa) throws Exception;
+	
 }
