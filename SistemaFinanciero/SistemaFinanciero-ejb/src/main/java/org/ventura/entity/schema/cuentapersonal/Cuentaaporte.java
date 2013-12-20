@@ -31,7 +31,8 @@ import org.ventura.entity.schema.maestro.Tipomoneda;
 		@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c"),
 		@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.estado = true and be.idcuentaaporte = :idCuentaAporte"),
 		@NamedQuery(name = Cuentaaporte.BAJA_BENEFICIARIO, query = "update Beneficiariocuenta B set B.estado = false where B.idcuentaaporte = :parametro"),
-		@NamedQuery(name = Cuentaaporte.ACCIONISTAS, query = "select ac from Accionista ac where ac.personajuridica.ruc = :ruc") })
+		@NamedQuery(name = Cuentaaporte.ACCIONISTAS, query = "select ac from Accionista ac where ac.personajuridica.ruc = :ruc"), 
+		@NamedQuery(name = Cuentaaporte.findByNumerocuenta, query = "SELECT c FROM Cuentaaporte c WHERE c.numerocuentaaporte = :numerocuentaaporte")})
 public class Cuentaaporte implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -39,6 +40,7 @@ public class Cuentaaporte implements Serializable {
 	public final static String BENEFICIARIOS = "org.ventura.model.Cuentaaporte.BENEFICIARIOS";
 	public final static String ACCIONISTAS = "org.ventura.model.Cuentaaporte.ACCIONISTAS";
 	public final static String BAJA_BENEFICIARIO = "org.ventura.model.Cuentaaporte.BAJA_BENEFICIARIO";
+	public final static String findByNumerocuenta = "org.ventura.model.Cuentaaporte.findByNumerocuenta";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,6 +53,10 @@ public class Cuentaaporte implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fechaapertura;
+
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
+	private Date fechacierre;
 
 	@Column(nullable = false)
 	private Integer idtipomoneda;
@@ -155,6 +161,18 @@ public class Cuentaaporte implements Serializable {
 
 	public void setSaldo(Moneda saldo) {
 		this.saldo = saldo;
+	}
+
+	public Date getFechacierre() {
+		return fechacierre;
+	}
+
+	public void setFechacierre(Date fechacierre) {
+		this.fechacierre = fechacierre;
+	}
+
+	public Moneda getSaldo() {
+		return saldo;
 	}
 
 }

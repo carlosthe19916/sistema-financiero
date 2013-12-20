@@ -1,12 +1,16 @@
 package org.ventura.boundary.local;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
+import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.socio.Socio;
 
@@ -37,5 +41,20 @@ public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 		public List<Accionista> findByNamedQueryAccionista(String accionista, Map<String, Object> parameters) throws Exception;
 
 		public List<Cuentaaporte> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
+		
+		
+		public Cuentaaporte findByNumerocuenta(String numerocuenta) throws Exception;
+
+		public List<CuentaaporteView> findByDni(String dni) throws Exception;
+
+		public CuentaaporteView findCuentaaporteViewByNumerocuenta(String numerocuenta) throws Exception;
+
+		public List<CuentaaporteView> findCuentaaporteViewByDni(String dni) throws Exception;
+
+		public List<CuentaaporteView> findCuentaaporteViewByRuc(String ruc) throws Exception;
+	
+		public List<CuentaaporteView> findCuentaaporteViewByNombre(String nombre) throws Exception;
+	
+		public List<CuentaaporteView> findCuentaaporteViewByRazonsocial(String razonsocial) throws Exception;
 
 }

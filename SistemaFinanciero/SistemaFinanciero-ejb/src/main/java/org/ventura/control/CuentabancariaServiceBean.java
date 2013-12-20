@@ -57,16 +57,13 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria findByNumerocuenta(String numerocuenta)
-			throws Exception {
+	public Cuentabancaria findByNumerocuenta(String numerocuenta) throws Exception {
 		Cuentabancaria cuentabancaria;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("numerocuenta", numerocuenta);
 
-			List<Cuentabancaria> historialbovedaList = cuentabancariaDAO
-					.findByNamedQuery(Cuentabancaria.findByNumerocuenta,
-							parameters);
+			List<Cuentabancaria> historialbovedaList = cuentabancariaDAO.findByNamedQuery(Cuentabancaria.findByNumerocuenta,parameters);
 			if (historialbovedaList.size() == 1) {
 				cuentabancaria = historialbovedaList.get(0);
 			} else {
@@ -83,12 +80,12 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 
 	@Override
 	public List<CuentabancariaView> findByDni(String dni) throws Exception {
-		List<CuentabancariaView> CuentabancariaView;
+		List<CuentabancariaView> cuentabancariaViews;
 		try {
-			// Map<String, Object> parameters = new HashMap<String, Object>();
-			// parameters.put("numerocuenta", numerocuenta);
+			 Map<String, Object> parameters = new HashMap<String, Object>();
+			 parameters.put("dni", "%" + dni + "%");
 
-			CuentabancariaView = cuentabancariaViewDAO.findByNamedQuery(Cuentabancaria.findByNumerocuenta);
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeDni,parameters,100);
 
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
@@ -96,7 +93,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw e;
 		}
-		return CuentabancariaView;
+		return cuentabancariaViews;
 	}
 
 	@Override
@@ -132,7 +129,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni","%" +dni+ "%" );
 
-			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeDni,parameters);
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeDni,parameters,100);
 			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
@@ -148,7 +145,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		List<CuentabancariaView> cuentabancariaViews = null;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("ruc", ruc);
+			parameters.put("ruc", "%" + ruc + "%");
 
 			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeRuc,parameters,100);
 			
@@ -166,7 +163,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		List<CuentabancariaView> cuentabancariaViews = null;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("nombres", nombre);
+			parameters.put("nombres", "%" + nombre + "%");
 
 			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeNombre,parameters,100);
 			
@@ -184,7 +181,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		List<CuentabancariaView> cuentabancariaViews = null;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("razonsocial", razonsocial);
+			parameters.put("razonsocial", "%" + razonsocial + "%");
 
 			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeRazonsocial,parameters,100);
 			

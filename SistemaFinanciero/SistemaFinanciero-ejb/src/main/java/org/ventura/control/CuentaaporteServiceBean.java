@@ -24,9 +24,11 @@ import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
+import org.ventura.dao.impl.CuentaaporteViewDAO;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.socio.Socio;
@@ -52,6 +54,9 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	private AccionistaDAO accionistaDAO;
 	@EJB
 	private CuentaaporteDAO cuentaaporteDAO;
+	
+	@EJB
+	private CuentaaporteViewDAO cuentaaporteViewDAO;
 	
 	@Inject
 	private Log log;
@@ -294,4 +299,142 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 	}
+	
+	
+	@Override
+	public Cuentaaporte findByNumerocuenta(String numerocuenta) throws Exception {
+		Cuentaaporte cuentaaporte;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("numerocuentaaporte", numerocuenta);
+
+			List<Cuentaaporte> cuentaaportes = cuentaaporteDAO.findByNamedQuery(Cuentaaporte.findByNumerocuenta,parameters);
+			if (cuentaaportes.size() == 1) {
+				cuentaaporte = cuentaaportes.get(0);
+			} else {
+				throw new Exception("No se encontro cuenta aportes valida");
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporte;
+	}
+
+	@Override
+	public List<CuentaaporteView> findByDni(String dni) throws Exception {
+		List<CuentaaporteView> cuentaaporteViews;
+		try {
+			 Map<String, Object> parameters = new HashMap<String, Object>();
+			 parameters.put("dni", "%" + dni + "%");
+			 cuentaaporteViews = cuentaaporteViewDAO.findByNamedQuery(CuentaaporteView.findByNumerocuenta,parameters,100);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporteViews;
+	}
+
+	@Override
+	public CuentaaporteView findCuentaaporteViewByNumerocuenta(String numerocuenta) throws Exception {
+		CuentaaporteView cuentaaporteView;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("numerocuenta", numerocuenta);
+
+			List<CuentaaporteView> cuentaaporteViews = cuentaaporteViewDAO.findByNamedQuery(CuentaaporteView.findByNumerocuenta,parameters,100);
+			if (cuentaaporteViews.size() == 1) {
+				cuentaaporteView = cuentaaporteViews.get(0);
+			} else {
+				if (cuentaaporteViews.size() == 0){
+					cuentaaporteView = null;
+				} else {
+					throw new Exception("No se encontro cuenta aporte valida");
+				}		
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporteView;
+	}
+
+	@Override
+	public List<CuentaaporteView> findCuentaaporteViewByDni(String dni) throws Exception {
+		List<CuentaaporteView> cuentaaporteViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("dni","%" +dni+ "%" );
+
+			cuentaaporteViews = cuentaaporteViewDAO.findByNamedQuery(CuentaaporteView.findByLikeDni,parameters,100);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporteViews;
+	}
+
+	@Override
+	public List<CuentaaporteView> findCuentaaporteViewByRuc(String ruc) throws Exception {
+		List<CuentaaporteView> cuentaaporteViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("ruc", "%"+ruc+"%");
+
+			cuentaaporteViews = cuentaaporteViewDAO.findByNamedQuery(CuentaaporteView.findByLikeRuc,parameters,100);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporteViews;
+	}
+
+	@Override
+	public List<CuentaaporteView> findCuentaaporteViewByNombre(String nombre) throws Exception {
+		List<CuentaaporteView> cuentaaporteViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("nombres", "%" + nombre + "%");
+
+			cuentaaporteViews = cuentaaporteViewDAO.findByNamedQuery(CuentaaporteView.findByLikeNombre,parameters,100);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporteViews;
+	}
+
+	@Override
+	public List<CuentaaporteView> findCuentaaporteViewByRazonsocial(String razonsocial) throws Exception {
+		List<CuentaaporteView> cuentaaporteViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("razonsocial", "%" + razonsocial + "%");
+
+			cuentaaporteViews = cuentaaporteViewDAO.findByNamedQuery(CuentaaporteView.findByLikeRazonsocial,parameters,100);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporteViews;
+	}
+
 }
