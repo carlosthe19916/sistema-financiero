@@ -22,7 +22,7 @@ import net.sf.jasperreports.engine.util.JRSaver;
 
 public class PrintUtil {
 
-	public JasperReport getJasperReport(String url){
+	public static JasperReport getJasperReport(String url){
 		JasperReport jr = null;
 		try {
 			jr = (JasperReport) JRLoader.loadObjectFromFile(url);
@@ -33,7 +33,7 @@ public class PrintUtil {
 		return jr;
 	}
 	
-	public JasperPrint getJasperPrint(JasperReport jr, Map<String,Object> parameters){
+	public static JasperPrint getJasperPrint(JasperReport jr, Map<String,Object> parameters){
 		JasperPrint jp = null;
 		try {
 			jp = JasperFillManager.fillReport(jr, parameters, new JREmptyDataSource());
@@ -44,7 +44,7 @@ public class PrintUtil {
 		return jp;
 	}
 	
-	public void print() {
+	public static void print() {
 		           
         JasperReport jasperReport = getJasperReport(null);
         JasperPrint jasperPrint = getJasperPrint(jasperReport, null);
@@ -69,7 +69,7 @@ public class PrintUtil {
 		}
 	}
 	
-	public void saveJRPrint(JasperPrint jp, String url){
+	public static void saveJRPrint(JasperPrint jp, String url){
 		try {
 			JRSaver.saveObject(jp, url);
 		} catch (JRException e) {
@@ -79,7 +79,7 @@ public class PrintUtil {
 
 	}
 	
-	public PrintRequestAttributeSet getPrintRequest(){
+	public static PrintRequestAttributeSet getPrintRequest(){
 		PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
 		
         printRequestAttributeSet.add(MediaSizeName.ISO_A7);
@@ -87,7 +87,7 @@ public class PrintUtil {
         return printRequestAttributeSet;
 	}
 	
-	public PrintServiceAttributeSet getPrintService(){
+	public static PrintServiceAttributeSet getPrintService(){
 		PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet();
         printServiceAttributeSet.add(new PrinterName("HP LaserJet 1020", null));
         

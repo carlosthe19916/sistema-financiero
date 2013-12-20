@@ -19,6 +19,8 @@ import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
+import org.ventura.entity.schema.caja.Estadoapertura;
+import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
@@ -94,8 +96,7 @@ public class TransaccionBovedaBean implements Serializable {
 					transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,caja, transaccionboveda);
 				} else {
 					transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,entidadfinanciera, transaccionboveda);
-				}
-								
+				}							
 				this.transaccionboveda = transaccionbovedaResult;
 			} else {
 				throw new Exception("Datos de Transaccion Invalidos");
@@ -168,8 +169,14 @@ public class TransaccionBovedaBean implements Serializable {
 		Boveda bovedaSelected = comboBoveda.getObjectItemSelected(key);
 		this.boveda = bovedaSelected;
 		if(this.boveda != null){
+			this.comboTipoentidad.setItemSelected(-1);
+			this.comboCaja.clean();
+			this.comboEntidadfinanciera.clean();
 			this.loadDetalleTransaccionboveda();
 		} else {
+			this.comboTipoentidad.setItemSelected(-1);
+			this.comboCaja.clean();
+			this.comboEntidadfinanciera.clean();
 			this.tablaDetalletransaccionboveda.clean();
 		}		
 	}
@@ -183,8 +190,12 @@ public class TransaccionBovedaBean implements Serializable {
 		Integer key = (Integer) event.getNewValue();
 		if(key != null){
 			if (key == 1) {
+				Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO);
+				Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO);
 				Map<String, Object> parameters = new HashMap<String, Object>();
 				parameters.put("idboveda", boveda.getIdboveda());
+				parameters.put("estadoapertura", estadoapertura);
+				parameters.put("estadomovimiento", estadomovimiento);
 				comboCaja.initValuesFromNamedQueryName(Caja.findAllByBovedaAndState, parameters);
 				comboEntidadfinanciera.clean();
 			} else {

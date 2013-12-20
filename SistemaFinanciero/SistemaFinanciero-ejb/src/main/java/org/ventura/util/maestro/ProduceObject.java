@@ -26,6 +26,23 @@ public class ProduceObject {
 		}
 		return estadoapertura;
 	}
+	
+	public static EstadoAperturaType getEstadoaperturaType(Estadoapertura estadoapertura) {
+		EstadoAperturaType estadoAperturaType;
+		Integer id = estadoapertura.getIdestadoapertura();
+		switch (id) {
+		case 1:
+			estadoAperturaType = EstadoAperturaType.ABIERTO;
+			break;
+		case 2:
+			estadoAperturaType = EstadoAperturaType.CERRADO;
+			break;
+		default:
+			estadoAperturaType = null;
+			break;
+		}
+		return estadoAperturaType;
+	}
 
 	public static Estadomovimiento getEstadomovimiento(
 			EstadoMovimientoType estadoMovimientoType) {

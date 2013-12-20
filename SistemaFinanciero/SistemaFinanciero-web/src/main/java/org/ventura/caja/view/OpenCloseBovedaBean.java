@@ -173,9 +173,9 @@ public class OpenCloseBovedaBean implements Serializable {
 				setInvalidBean();
 			}
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, "Error al cerrar Boveda");
+			JsfUtil.addErrorMessage(e, e.getMessage());
 			setInvalidBean();
-			return "failure";
+			return null;
 		}
 		return "success";
 	}

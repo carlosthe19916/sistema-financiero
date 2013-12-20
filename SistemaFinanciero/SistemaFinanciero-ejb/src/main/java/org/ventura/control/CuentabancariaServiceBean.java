@@ -130,9 +130,9 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		List<CuentabancariaView> cuentabancariaViews = null;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("dni", dni);
+			parameters.put("dni","%" +dni+ "%" );
 
-			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeDni,parameters,100);
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeDni,parameters);
 			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());

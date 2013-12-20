@@ -1,86 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
-  <display-name>Sistema Financiero</display-name>
-  <welcome-file-list>
-    <welcome-file>index.xhtml</welcome-file>
-  </welcome-file-list>
-  <error-page>
-    <error-code>502</error-code>
-    <location>/error/error-page.xhtml</location>
-  </error-page>
-  <servlet>
-    <servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.xhtml</url-pattern>
-  </servlet-mapping>
-  <context-param>
-    <param-name>javax.faces.PROJECT_STAGE</param-name>
-    <param-value>Development</param-value>
-  </context-param>
-  <context-param>
-    <param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
-    <param-value>/resources</param-value>
-  </context-param>
-  <context-param>
-    <param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
-    <param-value>url</param-value>
-  </context-param>
-  <security-constraint>
-    <display-name>constraint protected</display-name>
-    <web-resource-collection>
-      <web-resource-name>administrator</web-resource-name>
-      <description></description>
-      <url-pattern>/*</url-pattern>
-      <http-method>GET</http-method>
-      <http-method>PUT</http-method>
-      <http-method>POST</http-method>
-      <http-method>DELETE</http-method>
-    </web-resource-collection>
-    <auth-constraint>
-      <description>Tiene acceso</description>
-      <role-name>administrator</role-name>
-    </auth-constraint>
-  </security-constraint>
-  <security-constraint>
-    <display-name>constraint protected</display-name>
-    <web-resource-collection>
-      <web-resource-name>ventanilla</web-resource-name>
-      <description></description>
-      <url-pattern>/*</url-pattern>
-      <http-method>GET</http-method>
-      <http-method>PUT</http-method>
-      <http-method>POST</http-method>
-      <http-method>DELETE</http-method>
-    </web-resource-collection>
-    <auth-constraint>
-      <description>Tiene acceso</description>
-      <role-name>ventanilla</role-name>
-    </auth-constraint>
-  </security-constraint>
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Allowed resources.</web-resource-name>
-      <url-pattern>/javax.faces.resource/*</url-pattern>
-    </web-resource-collection>
-  </security-constraint>
-  <security-role>
-    <description>Acesso a todo el Sistema</description>
-    <role-name>administrator</role-name>
-  </security-role>
-  <security-role>
-    <description>Atencion al usuario</description>
-    <role-name>ventanilla</role-name>
-  </security-role>
-  <login-config>
-    <auth-method>FORM</auth-method>
-    <realm-name>file</realm-name>
-    <form-login-config>
-      <form-login-page>/login.html</form-login-page>
-      <form-error-page>/error.xhtml</form-error-page>
-    </form-login-config>
-  </login-config>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	<display-name>Sistema Financiero</display-name>
+	<welcome-file-list>
+		<welcome-file>index.xhtml</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<error-code>502</error-code>
+		<location>/error/error-page.xhtml</location>
+	</error-page>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
+		<param-value>/resources</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
+		<param-value>url</param-value>
+	</context-param>
+	<security-constraint>
+		<display-name>constraint protected</display-name>
+		<web-resource-collection>
+			<web-resource-name>administrator</web-resource-name>
+			<description></description>
+			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>PUT</http-method>
+			<http-method>POST</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Tiene acceso</description>
+			<role-name>administrator</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<display-name>constraint protected</display-name>
+		<web-resource-collection>
+			<web-resource-name>ventanilla</web-resource-name>
+			<description></description>
+			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>PUT</http-method>
+			<http-method>POST</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Tiene acceso</description>
+			<role-name>ventanilla</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Allowed resources.</web-resource-name>
+			<url-pattern>/javax.faces.resource/*</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+	<security-role>
+		<description>Acesso a todo el Sistema</description>
+		<role-name>administrator</role-name>
+	</security-role>
+	<security-role>
+		<description>Atencion al usuario</description>
+		<role-name>ventanilla</role-name>
+	</security-role>
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>file</realm-name>
+		<form-login-config>
+			<form-login-page>/login.html</form-login-page>
+			<form-error-page>/error.xhtml</form-error-page>
+		</form-login-config>
+	</login-config>
 </web-app>

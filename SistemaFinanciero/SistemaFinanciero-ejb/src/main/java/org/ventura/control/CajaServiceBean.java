@@ -408,8 +408,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 	public boolean verificarCaja(Caja caja, EstadoAperturaType estadoAperturaType) throws Exception {
 		boolean result = true;
 		Estadoapertura estadoapertura1 = caja.getEstadoapertura();
-		Estadoapertura estadoapertura2 = ProduceObject
-				.getEstadoapertura(estadoAperturaType);
+		Estadoapertura estadoapertura2 = ProduceObject.getEstadoapertura(estadoAperturaType);
 		if (estadoapertura1.equals(estadoapertura2)) {
 			log.info("Verificacion de caja satisfactoria");
 		} else {
