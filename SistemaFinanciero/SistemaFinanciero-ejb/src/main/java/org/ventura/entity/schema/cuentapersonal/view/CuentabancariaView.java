@@ -16,7 +16,7 @@ import java.util.Date;
 @NamedQuery(name = "CuentabancariaView.findAll", query = "SELECT c FROM CuentabancariaView c")
 @NamedQueries({
 		@NamedQuery(name = CuentabancariaView.findByNumerocuenta, query = "SELECT c FROM CuentabancariaView c WHERE c.numerocuenta = :numerocuenta"),
-		@NamedQuery(name = CuentabancariaView.findByLikeDni, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.numeroDocumento LIKE :dni"),
+		@NamedQuery(name = CuentabancariaView.findByLikeDni, query = "SELECT c FROM CuentabancariaView c WHERE c.numeroDocumento LIKE :dni"),
 		@NamedQuery(name = CuentabancariaView.findByLikeRuc, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.numeroDocumento LIKE :ruc"),
 		@NamedQuery(name = CuentabancariaView.findByLikeNombre, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
 		@NamedQuery(name = CuentabancariaView.findByLikeRazonsocial, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial") })
@@ -69,7 +69,7 @@ public class CuentabancariaView implements Serializable {
 	@Column(name = "id_tipomoneda")
 	private Integer idTipomoneda;
 
-	@Column(name = "numero_documento", length = 2147483647)
+	@Column(name = "numero_documento")
 	private String numeroDocumento;
 
 	@Column(length = 14)

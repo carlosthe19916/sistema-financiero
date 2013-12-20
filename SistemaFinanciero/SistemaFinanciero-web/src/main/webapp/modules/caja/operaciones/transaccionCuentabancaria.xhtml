@@ -278,13 +278,15 @@
 							<div>
 								<div>
 									<div>
-										<h:inputText value="" style="width: 250px;float: left;" />
+										<h:inputText
+											value="#{transaccionCuentabancariaCajaBean.valorBusqueda}"
+											style="width: 250px;float: left;" />
 										&nbsp;
 										<h:commandLink styleClass="button"
 											style="margin: 0px;float: left;">
 											<span class="icon icon198"></span>
 											<span class="label"></span>
-											<f:ajax
+											<f:ajax execute="@form"
 												listener="#{transaccionCuentabancariaCajaBean.searchCuentabancaria()}"
 												render="tblResultadoBusqueda" />
 										</h:commandLink>

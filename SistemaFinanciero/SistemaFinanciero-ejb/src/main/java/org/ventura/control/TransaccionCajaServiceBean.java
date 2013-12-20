@@ -19,11 +19,15 @@ import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
+import org.ventura.dao.impl.BovedaCajaDAO;
 import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.TransaccioncajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.dao.impl.VouchercajaViewDAO;
+import org.ventura.entity.schema.caja.Boveda;
+import org.ventura.entity.schema.caja.BovedaCaja;
+import org.ventura.entity.schema.caja.BovedaCajaPK;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
@@ -67,6 +71,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	private CuentabancariaDAO cuentabancariaDAO;
 	@EJB
 	private VouchercajaViewDAO vouchercajaViewDAO;
+	@EJB
+	private BovedaCajaDAO bovedaCajaDAO;
 	
 	@Override
 	public Transaccioncuentabancaria createTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria)throws Exception {
@@ -140,9 +146,42 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 				break;
 			}
 			
-			cuentabancaria.setSaldo(saldoFinal);
-			
+			cuentabancaria.setSaldo(saldoFinal);		
 			cuentabancariaDAO.update(cuentabancaria);
+			
+			//actualizando saldo de caja
+			Tipomoneda tipomoneda = transaccioncuentabancaria.getTipomoneda();
+			List<Boveda> bovedas = caja.getBovedas();
+			Boveda bovedaTransaccion = null;
+			for (Boveda boveda : bovedas) {
+				Tipomoneda tipomonedaBoveda = boveda.getTipomoneda();
+				if(tipomoneda.equals(tipomonedaBoveda)){
+					bovedaTransaccion = boveda;
+					break;
+				}
+			}
+			if(bovedaTransaccion != null){
+				BovedaCaja bovedaCaja;
+				BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();				
+				bovedaCajaPK.setIdboveda(bovedaTransaccion.getIdboveda());
+				bovedaCajaPK.setIdcaja(caja.getIdcaja());
+				
+				bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+				
+				switch (tipoTransaccion) {
+				case DEPOSITO:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoTransaccion));
+					break;
+				case RETIRO:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoTransaccion));
+					break;
+				}
+				
+				bovedaCajaDAO.update(bovedaCaja);
+				
+			} else {
+				throw new Exception("No se puede modificar el saldo de la caja");
+			}
 			
 		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
 			transaccioncuentabancaria.setIdtransaccioncuentabancaria(null);;
