@@ -25,6 +25,7 @@ import org.ventura.dao.impl.TransaccioncajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.dao.impl.VouchercajaViewDAO;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.BovedaCaja;
 import org.ventura.entity.schema.caja.BovedaCajaPK;
@@ -340,25 +341,136 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception {
+	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja,
+			Transaccioncompraventa transaccioncompraventa) throws Exception {
 		try {
 			Transaccioncaja transaccioncaja = new Transaccioncaja();
 			transaccioncaja.setFecha(Calendar.getInstance().getTime());
 			transaccioncaja.setHora(Calendar.getInstance().getTime());
-			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncaja.setHistorialcaja(cajaServiceLocal
+					.getHistorialcajaLastActive(caja));
 			transaccioncajaDAO.create(transaccioncaja);
-			
+
 			transaccioncompraventa.setTransaccioncaja(transaccioncaja);
 			transaccioncompraventaDAO.create(transaccioncompraventa);
+
+			//actualizando saldo de caja TipomonedaType tipomonedaRecibido
+			actualizarMontoEntregadoCaja(caja, transaccioncompraventa); 
+			actualizarMontoRecibidoCaja(caja, transaccioncompraventa);
+			
 		} catch (Exception e) {
-			transaccioncompraventa.setIdtransaccioncompraventa(null);;
+			transaccioncompraventa.setIdtransaccioncompraventa(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se pudo Crear el Boveda");
 		}
-			
 		return transaccioncompraventa;
+	}
+	
+	
+	// actualizar el saldo de boveda caja con el monto recibido
+	public void actualizarMontoRecibidoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception {
+		try {
+			TipomonedaType tipomonedaRecibido = ProduceObject.getTipomoneda(transaccioncompraventa.getTipomonedaRecibido());
+			Tipomoneda tipomonedaRecibidaCV = transaccioncompraventa.getTipomonedaRecibido();
+			Moneda montoRecibido = transaccioncompraventa.getMontorecibido();
+			List<Boveda> bovedas = caja.getBovedas();
+			Boveda bovedaTransaccionCVRecibida = null;
+			for (Boveda boveda : bovedas) {
+				Tipomoneda tipomonedaBoveda = boveda.getTipomoneda();
+				if (tipomonedaRecibidaCV.equals(tipomonedaBoveda)) {
+					bovedaTransaccionCVRecibida = boveda;
+					break;
+				}
+			}
+			if (bovedaTransaccionCVRecibida != null) {
+				BovedaCaja bovedaCaja;
+				BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();
+				bovedaCajaPK.setIdboveda(bovedaTransaccionCVRecibida.getIdboveda());
+				bovedaCajaPK.setIdcaja(caja.getIdcaja());
+
+				bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+
+				switch (tipomonedaRecibido) {
+				case NUEVO_SOL:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoRecibido));
+					break;
+				case DOLAR:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoRecibido));
+					break;
+				case EURO:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoRecibido));
+					break;
+				default:
+					throw new Exception("Este tipo de moneda no esta registrado");
+				}
+				bovedaCajaDAO.update(bovedaCaja);
+			}
+		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+			transaccioncompraventa.setIdtransaccioncompraventa(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			transaccioncompraventa.setIdtransaccioncompraventa(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+		}
+	}
+	
+	// actualizar el saldo de boeda caja con el monto Entregado
+	public void actualizarMontoEntregadoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception{
+		try {
+			TipomonedaType tipomonedaEntregado = ProduceObject.getTipomoneda(transaccioncompraventa.getTipomonedaEntregado());
+			Tipomoneda tipomonedaEntregadaCV = transaccioncompraventa.getTipomonedaEntregado();
+			Moneda montoEntregado = transaccioncompraventa.getMontoentregado();
+			List<Boveda> bovedas = caja.getBovedas();
+			Boveda bovedaTransaccionCVEntregada = null;
+			for (Boveda boveda : bovedas) {
+				Tipomoneda tipomonedaBoveda = boveda.getTipomoneda();
+				if (tipomonedaEntregadaCV.equals(tipomonedaBoveda)) {
+					bovedaTransaccionCVEntregada = boveda;
+					break;
+				}
+			}
+			if (bovedaTransaccionCVEntregada != null) {
+				BovedaCaja bovedaCaja;
+				BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();
+				bovedaCajaPK.setIdboveda(bovedaTransaccionCVEntregada.getIdboveda());
+				bovedaCajaPK.setIdcaja(caja.getIdcaja());
+
+				bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+
+				switch (tipomonedaEntregado) {
+				case NUEVO_SOL:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoEntregado));
+					break;
+				case DOLAR:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoEntregado));
+					break;
+				case EURO:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoEntregado));
+					break;
+				default:
+					throw new Exception("Este tipo de moneda no esta registrado");
+				}
+				bovedaCajaDAO.update(bovedaCaja);
+			}
+		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+			transaccioncompraventa.setIdtransaccioncompraventa(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			transaccioncompraventa.setIdtransaccioncompraventa(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+		}
 	}
 	
 	@Override
@@ -385,6 +497,13 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			throw e;
 		}
 		return vouchercajaView;		
+	}
+
+	@Override
+	public VouchercajaView getVoucherTransaccionCompraVentaMoneda(
+			Transaccioncompraventa transaccioncompraventa) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

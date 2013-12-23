@@ -6,8 +6,6 @@ import javax.persistence.*;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
 
-import java.math.BigDecimal;
-
 /**
  * The persistent class for the transaccioncompraventa database table.
  * 
@@ -31,11 +29,15 @@ public class Transaccioncompraventa implements Serializable {
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "montorecibido")) })
 	private Moneda montorecibido;
 
-	@Column(length = 200)
-	private String referencia;
-
-	@Column(nullable = false, precision = 5, scale = 2)
-	private BigDecimal tasacambio;
+	@Column(length = 11, name="dniruc")
+	private String dniRuc;
+	
+	@Column(length = 200, name="nombresrazonsocial")
+	private String nombresRazonSocial;
+	
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tasacambio")) }) 
+	private Moneda tasacambio;
 
 	@ManyToOne
 	@JoinColumn(name = "idtransaccioncaja", nullable = false)
@@ -64,19 +66,11 @@ public class Transaccioncompraventa implements Serializable {
 		this.idtransaccioncompraventa = idtransaccioncompraventa;
 	}
 
-	public String getReferencia() {
-		return this.referencia;
-	}
-
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
-
-	public BigDecimal getTasacambio() {
+	public Moneda getTasacambio() {
 		return this.tasacambio;
 	}
 
-	public void setTasacambio(BigDecimal tasacambio) {
+	public void setTasacambio(Moneda tasacambio) {
 		this.tasacambio = tasacambio;
 	}
 
@@ -129,4 +123,19 @@ public class Transaccioncompraventa implements Serializable {
 		this.transaccioncaja = transaccioncaja;
 	}
 
+	public String getDniRuc() {
+		return dniRuc;
+	}
+
+	public void setDniRuc(String dniRuc) {
+		this.dniRuc = dniRuc;
+	}
+
+	public String getNombresRazonSocial() {
+		return nombresRazonSocial;
+	}
+
+	public void setNombresRazonSocial(String nombresRazonSocial) {
+		this.nombresRazonSocial = nombresRazonSocial;
+	}
 }
