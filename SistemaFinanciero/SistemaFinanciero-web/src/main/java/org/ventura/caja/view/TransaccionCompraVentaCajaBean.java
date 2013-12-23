@@ -3,7 +3,6 @@ package org.ventura.caja.view;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -24,10 +23,7 @@ import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
-import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.entity.schema.socio.Socio;
-import org.ventura.entity.schema.socio.ViewSocioPN;
 import org.ventura.managedbean.session.CajaBean;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
@@ -74,15 +70,16 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	@Inject
 	private CalculadoraBean calculadoraBeanRecibido;
 	@Inject
-	private CalculadoraBean calculadoraBeanEntregado;
+	private Moneda tipoCambio;
+	@Inject
+	private Moneda montoEntregadoNew;
 	
 	private boolean isValidBean;
-	private BigDecimal tipoCambio;
-	private String referencia;
+	private String dniRuc;
+	private String nombresRazonSocial;
 	
 	public TransaccionCompraVentaCajaBean(){
 		isValidBean = true;
-		tipoCambio = BigDecimal.ZERO;
 	}
 	
 	@PostConstruct
@@ -100,9 +97,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 			validateBean();
 
 			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccioncompraventa.ALL_ACTIVE);
-				System.out.println("id CAjaBean: "+ cajaBean.getCaja().getIdcaja());
 			cargarCombosTipoMoneda();
-				System.out.println("Caja0001: "+ caja.getIdcaja());
 		} catch (Exception e) {
 			setBeanInvalid();
 			JsfUtil.addErrorMessage(e,
@@ -111,7 +106,6 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	}
 	
 	public void cargarCombosTipoMoneda(){
-			System.out.println("Caja0002: "+ caja.getIdcaja());
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idcaja", cajaBean.getCaja().getIdcaja());
 		comboTipomonedaEntregado.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE_BY_CAJA, parameters);
@@ -119,9 +113,9 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	}
 	
 	public void calculateMontoEntregado(){
-		Moneda monto = new Moneda(tipoCambio);
-		Moneda money = monto.multiply(montoRecibido);
+		Moneda money = tipoCambio.multiply(montoRecibido);
 		setMontoEntregado(money);
+		setMontoEntregadoNew(money);
 	}
 	
 	public void validateBean() {
@@ -148,14 +142,15 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 				Transaccioncompraventa transaccionCompraVenta = new Transaccioncompraventa();
 
 				transaccionCompraVenta.setTipotransaccioncompraventa(tipotransaccioncompraventa);
-				transaccionCompraVenta.setReferencia(referencia);
+				transaccionCompraVenta.setDniRuc(dniRuc);
+				transaccionCompraVenta.setNombresRazonSocial(nombresRazonSocial);
 				transaccionCompraVenta.setTasacambio(tipoCambio);
-				transaccionCompraVenta.setMontoentregado(montoEntregado);
 				transaccionCompraVenta.setMontorecibido(montoRecibido);
+				transaccionCompraVenta.setMontoentregado(montoEntregadoNew);
 				transaccionCompraVenta.setTipomonedaEntregado(tipomonedaEntregado);
 				transaccionCompraVenta.setTipomonedaRecibido(tipomonedaRecibido);
 				try {
-					//transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta);
+					transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta);
 					//VouchercajaView vouchercajaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionBancaria(transaccionCompraVenta);
 					//imprimirVoucher(vouchercajaView);
 				} catch (Exception e) {
@@ -235,14 +230,6 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		this.tipotransaccioncompraventa = tipotransaccioncompraventa;
 	}
 
-	public String getReferencia() {
-		return referencia;
-	}
-
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
-
 	public ComboBean<Tipomoneda> getComboTipomonedaEntregado() {
 		return comboTipomonedaEntregado;
 	}
@@ -277,11 +264,11 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		this.tipomonedaRecibido = tipomonedaRecibido;
 	}
 
-	public BigDecimal getTipoCambio() {
+	public Moneda getTipoCambio() {
 		return tipoCambio;
 	}
 
-	public void setTipoCambio(BigDecimal tipoCambio) {
+	public void setTipoCambio(Moneda tipoCambio) {
 		this.tipoCambio = tipoCambio;
 	}
 
@@ -307,14 +294,6 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 	public void setCalculadoraBeanRecibido(CalculadoraBean calculadoraBeanRecibido) {
 		this.calculadoraBeanRecibido = calculadoraBeanRecibido;
-	}
-
-	public CalculadoraBean getCalculadoraBeanEntregado() {
-		return calculadoraBeanEntregado;
-	}
-
-	public void setCalculadoraBeanEntregado(CalculadoraBean calculadoraBeanEntregado) {
-		this.calculadoraBeanEntregado = calculadoraBeanEntregado;
 	}
 
 	public boolean isValidBean() {
@@ -351,5 +330,29 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 	public void setEstadomovimientoCaja(Estadomovimiento estadomovimientoCaja) {
 		this.estadomovimientoCaja = estadomovimientoCaja;
+	}
+
+	public Moneda getMontoEntregadoNew() {
+		return montoEntregadoNew;
+	}
+
+	public void setMontoEntregadoNew(Moneda montoEntregadoNew) {
+		this.montoEntregadoNew = montoEntregadoNew;
+	}
+
+	public String getDniRuc() {
+		return dniRuc;
+	}
+
+	public void setDniRuc(String dniRuc) {
+		this.dniRuc = dniRuc;
+	}
+
+	public String getNombresRazonSocial() {
+		return nombresRazonSocial;
+	}
+
+	public void setNombresRazonSocial(String nombresRazonSocial) {
+		this.nombresRazonSocial = nombresRazonSocial;
 	}
 }

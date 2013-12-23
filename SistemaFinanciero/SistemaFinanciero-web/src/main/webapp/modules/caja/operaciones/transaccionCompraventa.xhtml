@@ -6,7 +6,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -108,21 +109,39 @@
 								<h:message for="cmbTipoTransaccionCV" />
 							</div>
 							
-							<div class="p6n-api-consent-screen-input-section">
-								<div class="p6n-api-consent-screen-label">CLIENTE</div>
-								<div>
-									<h:inputText
-										value="#{transaccionCompraVentaCajaBean.referencia}"
-										
-										size="30" maxlenght="200" />
-								</div>
-							</div>
+							<h:panelGrid columns="3">
+								<p:outputPanel>
+									<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 100px;">DNI o RUC</div>
+										<div style="float: left;">
+											<h:inputText
+											value="#{transaccionCompraVentaCajaBean.dniRuc}"
+											size="15" maxlength="11" />
+										</div>
+									</div>
+								</p:outputPanel>
+
+								
+								<p:outputPanel>
+									<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">NOMBRES o RAZON SOCIAL</div>
+										<div style="float: left;">
+											<h:inputText
+											value="#{transaccionCompraVentaCajaBean.nombresRazonSocial}"
+											onkeyup="this.value = this.value.toUpperCase();"
+											size="50" maxlenght="200" />
+										</div>
+									</div>
+								</p:outputPanel>
+							</h:panelGrid>
+							
+							<div class="sf-separator"></div>
 
 							<h:panelGrid columns="3">
 								<p:outputPanel>
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"
-											style="width: 150px;">TIPO MONEDA RECIBIDA</div>
+											style="width:190px;">TIPO MONEDA RECIBIDA</div>
 										<div>
 											<h:selectOneMenu id="cmbTipomonedaRecibida"
 												value="#{transaccionCompraVentaCajaBean.comboTipomonedaRecibido.itemSelected}"
@@ -143,8 +162,6 @@
 										<h:message for="cmbTipomonedaRecibida" />
 									</div>
 								</p:outputPanel>
-								
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								
 								<p:outputPanel>
 									<div class="p6n-api-consent-screen-input-section">
@@ -177,17 +194,18 @@
 								<div style="float: left;">
 									<h:inputText id="txtTipoCambio"
 										value="#{transaccionCompraVentaCajaBean.tipoCambio}"
-										required="true" maxlenght="16" requiredMessage="Ingrese el tipo de cambio">
+										required="true" maxlenght="5" requiredMessage="Ingrese el tipo de cambio"> 
+										<f:converter converterId="MonedaConverter"></f:converter>
 										<f:ajax event="blur" render="@this" />
-									</h:inputText>
+									</h:inputText>	
 								</div>
 							</div>
 
-							<h:panelGrid columns="3">
+							<h:panelGrid columns="2">
 								<p:outputPanel>
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"
-											style="width: 150px;">MONTO RECIBIDO</div>
+											style="width: 100px;">MONTO RECIBIDO</div>
 										<div style="float: left;">
 											<h:inputText id="txtMontoRecibido"
 												value="#{transaccionCompraVentaCajaBean.montoRecibido}"
@@ -198,6 +216,7 @@
 												<f:ajax event="blur" listener = "#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}" render="txtMontoEntregado" />
 											</h:inputText>
 										</div>
+										
 										<div style="float: left;">
 											<h:outputLink id="btnCalculadoraMR" value="#"
 												styleClass="button" style="margin: 0 0 0 1px;">
@@ -207,27 +226,19 @@
 									</div>
 								</p:outputPanel>
 
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
 								<p:outputPanel>
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">MONTO ENTREGADO</div>
 										<div style="float: left;">
-											<h:inputText id="txtMontoEntregado" readonly = "true"
+											<h:inputText id="txtMontoEntregado" 
 												value="#{transaccionCompraVentaCajaBean.montoEntregado}"
-												required="true" maxlenght="16"
+												required="true" maxlenght="16" readonly = "true"
 												requiredMessage="Ingrese el monto entregado">
 												<f:converter converterId="MonedaConverter"></f:converter>
 												<f:ajax event="blur" render="@this" />
 											</h:inputText>
-										</div>
-										<div style="float: left;">
-											<h:outputLink id="btnCalculadoraME" value="#"
-												styleClass="button" style="margin: 0 0 0 1px;">
-												<span class="icon icon32"></span>
-											</h:outputLink>
-										</div>
+										</div> 
 									</div>
 								</p:outputPanel>
 							</h:panelGrid>
