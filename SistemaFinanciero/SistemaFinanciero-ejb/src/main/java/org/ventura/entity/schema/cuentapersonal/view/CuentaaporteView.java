@@ -16,10 +16,10 @@ import java.util.Date;
 @NamedQuery(name = "CuentaaporteView.findAll", query = "SELECT c FROM CuentaaporteView c")
 @NamedQueries({
 		@NamedQuery(name = CuentaaporteView.findByNumerocuenta, query = "SELECT c FROM CuentaaporteView c WHERE c.numerocuenta = :numerocuenta"),
-		@NamedQuery(name = CuentaaporteView.findByLikeDni, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.numeroDocumento LIKE :dni"),
-		@NamedQuery(name = CuentaaporteView.findByLikeRuc, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.numeroDocumento LIKE :ruc"),
-		@NamedQuery(name = CuentaaporteView.findByLikeNombre, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
-		@NamedQuery(name = CuentaaporteView.findByLikeRazonsocial, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial") })
+		@NamedQuery(name = CuentaaporteView.findByLikeDni, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PN' AND c.numeroDocumento LIKE :dni"),
+		@NamedQuery(name = CuentaaporteView.findByLikeRuc, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PJ' AND c.numeroDocumento LIKE :ruc"),
+		@NamedQuery(name = CuentaaporteView.findByLikeNombre, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
+		@NamedQuery(name = CuentaaporteView.findByLikeRazonsocial, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial") })
 public class CuentaaporteView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
