@@ -34,6 +34,9 @@ public class CuentaaporteView implements Serializable {
 	@Column(name = "id_cuentaaporte")
 	private Integer idCuentaaporte;
 
+	@Column(name = "tipo_cuenta")
+	private String tipoCuenta;
+	
 	@Column(name = "abreviatura_estadocuenta", length = 3)
 	private String abreviaturaEstadocuenta;
 
@@ -188,6 +191,14 @@ public class CuentaaporteView implements Serializable {
 
 	public void setTitular(String titular) {
 		this.titular = titular;
+	}
+
+	public String getTipoCuenta() {
+		return tipoCuenta;
+	}
+
+	public void setTipoCuenta(String tipoCuenta) {
+		this.tipoCuenta = tipoCuenta;
 	}
 
 }

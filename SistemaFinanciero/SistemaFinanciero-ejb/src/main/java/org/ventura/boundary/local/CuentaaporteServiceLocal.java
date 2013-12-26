@@ -1,6 +1,7 @@
 package org.ventura.boundary.local;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Accionista;
@@ -56,5 +58,10 @@ public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 		public List<CuentaaporteView> findCuentaaporteViewByNombre(String nombre) throws Exception;
 	
 		public List<CuentaaporteView> findCuentaaporteViewByRazonsocial(String razonsocial) throws Exception;
+		
+		public List<AportesCuentaaporteView> getTableAportes(Integer idcuentaaporte,Date startDate, Date endDate) throws Exception;
+		
+		public List<AportesCuentaaporteView> getTableAportesPorpagar(Integer idcuentaaporte,Date startDate, Date endDate) throws Exception;
+		
 
 }

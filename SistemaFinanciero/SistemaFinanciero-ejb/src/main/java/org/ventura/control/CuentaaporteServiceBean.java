@@ -1,9 +1,14 @@
 package org.ventura.control;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +27,14 @@ import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.dao.impl.AccionistaDAO;
+import org.ventura.dao.impl.AportesCuentaaporteViewDAO;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.CuentaaporteViewDAO;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Accionista;
@@ -57,6 +64,8 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	
 	@EJB
 	private CuentaaporteViewDAO cuentaaporteViewDAO;
+	@EJB
+	private AportesCuentaaporteViewDAO aportesCuentaaporteViewDAO;
 	
 	@Inject
 	private Log log;
@@ -435,6 +444,137 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			throw e;
 		}
 		return cuentaaporteViews;
+	}
+	
+	@Override
+	public List<AportesCuentaaporteView> getTableAportes(Integer idcuentaaporte,Date startDate, Date endDate) throws Exception{
+		List<AportesCuentaaporteView> aportesCuentaaporteViews = null;
+		try {		
+			Cuentaaporte cuentaaporte  = cuentaaporteDAO.find(idcuentaaporte);
+					
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcuentaaporte", idcuentaaporte);
+			parameters.put("startDate", startDate);
+			parameters.put("endDate", endDate);
+			aportesCuentaaporteViews = aportesCuentaaporteViewDAO.findByNamedQuery(AportesCuentaaporteView.findBetweenDates,parameters);
+						
+			//completando las fechas
+			Calendar beginCalendar = Calendar.getInstance();
+			Calendar endCalendar = Calendar.getInstance();
+			beginCalendar.setTime(startDate);
+			endCalendar.setTime(endDate);
+					
+			beginCalendar.set(Calendar.DATE, 1);
+			endCalendar.set(Calendar.DATE, 1);
+			
+			beginCalendar.clear(Calendar.HOUR_OF_DAY);
+			beginCalendar.clear(Calendar.HOUR);
+			beginCalendar.clear(Calendar.MINUTE);
+			beginCalendar.clear(Calendar.SECOND);
+			beginCalendar.clear(Calendar.MILLISECOND);
+			
+			endCalendar.clear(Calendar.HOUR_OF_DAY);
+			endCalendar.clear(Calendar.HOUR);
+			endCalendar.clear(Calendar.MINUTE);
+			endCalendar.clear(Calendar.SECOND);
+			endCalendar.clear(Calendar.MILLISECOND);
+			
+			//poniendo la data final
+			LinkedHashMap<Date, AportesCuentaaporteView> finalData = new LinkedHashMap<Date,AportesCuentaaporteView>();
+			
+			while (beginCalendar.compareTo(endCalendar) <= 0) {
+				AportesCuentaaporteView aportesCuentaaporteView = new AportesCuentaaporteView();
+				aportesCuentaaporteView.setIdcuentaaporte(cuentaaporte.getIdcuentaaporte());
+				aportesCuentaaporteView.setNumerocuentaaporte(cuentaaporte.getNumerocuentaaporte());
+				aportesCuentaaporteView.setTotal(new Moneda());
+				aportesCuentaaporteView.setMes(beginCalendar.getTime());	
+				
+				finalData.put(beginCalendar.getTime(), aportesCuentaaporteView);
+				
+				beginCalendar.add(Calendar.MONTH, 1);
+			}
+			
+			
+			for (AportesCuentaaporteView aportesCuentaaporteView : aportesCuentaaporteViews) {
+				finalData.put(aportesCuentaaporteView.getMes(), aportesCuentaaporteView);
+			}
+			
+			aportesCuentaaporteViews =  new ArrayList<AportesCuentaaporteView>(finalData.values());
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		
+		return aportesCuentaaporteViews;
+	}
+	
+	@Override
+	public List<AportesCuentaaporteView> getTableAportesPorpagar(Integer idcuentaaporte,Date startDate, Date endDate) throws Exception{
+		List<AportesCuentaaporteView> aportesCuentaaporteViews = null;
+		try {		
+			Cuentaaporte cuentaaporte  = cuentaaporteDAO.find(idcuentaaporte);
+					
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcuentaaporte", idcuentaaporte);
+			parameters.put("startDate", startDate);
+			parameters.put("endDate", endDate);
+			aportesCuentaaporteViews = aportesCuentaaporteViewDAO.findByNamedQuery(AportesCuentaaporteView.findBetweenDates,parameters);
+						
+			//completando las fechas
+			Calendar beginCalendar = Calendar.getInstance();
+			Calendar endCalendar = Calendar.getInstance();
+			beginCalendar.setTime(startDate);
+			endCalendar.setTime(endDate);
+					
+			beginCalendar.set(Calendar.DATE, 1);
+			endCalendar.set(Calendar.DATE, 1);
+			
+			beginCalendar.clear(Calendar.HOUR_OF_DAY);
+			beginCalendar.clear(Calendar.HOUR);
+			beginCalendar.clear(Calendar.MINUTE);
+			beginCalendar.clear(Calendar.SECOND);
+			beginCalendar.clear(Calendar.MILLISECOND);
+			
+			endCalendar.clear(Calendar.HOUR_OF_DAY);
+			endCalendar.clear(Calendar.HOUR);
+			endCalendar.clear(Calendar.MINUTE);
+			endCalendar.clear(Calendar.SECOND);
+			endCalendar.clear(Calendar.MILLISECOND);
+			
+			//poniendo la data final
+			LinkedHashMap<Date, AportesCuentaaporteView> finalData = new LinkedHashMap<Date,AportesCuentaaporteView>();
+			
+			while (beginCalendar.compareTo(endCalendar) <= 0) {
+				AportesCuentaaporteView aportesCuentaaporteView = new AportesCuentaaporteView();
+				aportesCuentaaporteView.setIdcuentaaporte(cuentaaporte.getIdcuentaaporte());
+				aportesCuentaaporteView.setNumerocuentaaporte(cuentaaporte.getNumerocuentaaporte());
+				aportesCuentaaporteView.setTotal(new Moneda());
+				aportesCuentaaporteView.setMes(beginCalendar.getTime());	
+				
+				finalData.put(beginCalendar.getTime(), aportesCuentaaporteView);
+				
+				beginCalendar.add(Calendar.MONTH, 1);
+			}
+			
+			
+			for (AportesCuentaaporteView aportesCuentaaporteView : aportesCuentaaporteViews) {
+				Date date = aportesCuentaaporteView.getMes();
+				if(finalData.containsKey(date)){
+					finalData.remove(date);
+				}
+			}
+			
+			aportesCuentaaporteViews =  new ArrayList<AportesCuentaaporteView>(finalData.values());
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		
+		return aportesCuentaaporteViews;
 	}
 
 }
