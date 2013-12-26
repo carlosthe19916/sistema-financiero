@@ -1,6 +1,7 @@
 package org.ventura.control;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.TemporalType;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
@@ -458,6 +460,8 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			parameters.put("endDate", endDate);
 			aportesCuentaaporteViews = aportesCuentaaporteViewDAO.findByNamedQuery(AportesCuentaaporteView.findBetweenDates,parameters);
 						
+			
+			
 			//completando las fechas
 			Calendar beginCalendar = Calendar.getInstance();
 			Calendar endCalendar = Calendar.getInstance();
@@ -512,14 +516,15 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	
 	@Override
 	public List<AportesCuentaaporteView> getTableAportesPorpagar(Integer idcuentaaporte,Date startDate, Date endDate) throws Exception{
-		List<AportesCuentaaporteView> aportesCuentaaporteViews = null;
-		try {		
+		List<AportesCuentaaporteView> aportesCuentaaporteViews;
+		try {				
 			Cuentaaporte cuentaaporte  = cuentaaporteDAO.find(idcuentaaporte);
 					
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("idcuentaaporte", idcuentaaporte);
 			parameters.put("startDate", startDate);
 			parameters.put("endDate", endDate);
+			
 			aportesCuentaaporteViews = aportesCuentaaporteViewDAO.findByNamedQuery(AportesCuentaaporteView.findBetweenDates,parameters);
 						
 			//completando las fechas

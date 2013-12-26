@@ -16,13 +16,16 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CajaServiceLocal;
+import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
 import org.ventura.dao.impl.BovedaCajaDAO;
+import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.TransaccioncajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
+import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.dao.impl.VouchercajaViewDAO;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
@@ -37,6 +40,7 @@ import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
@@ -59,6 +63,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 	@EJB
 	private CuentabancariaServiceLocal cuentabancariaServiceLocal;
+	@EJB
+	private CuentaaporteServiceLocal cuentaaporteServiceLocal;
 	
 	@EJB
 	private CajaServiceLocal cajaServiceLocal;
@@ -68,9 +74,13 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	@EJB
 	private TransaccioncuentabancariaDAO transaccioncuentabancariaDAO;
 	@EJB
+	private TransaccioncuentaaporteDAO transaccioncuentaaporteDAO;
+	@EJB
 	private TransaccioncompraventaDAO transaccioncompraventaDAO;
 	@EJB
 	private CuentabancariaDAO cuentabancariaDAO;
+	@EJB
+	private CuentaaporteDAO cuentaaporteDAO;
 	@EJB
 	private VouchercajaViewDAO vouchercajaViewDAO;
 	@EJB
@@ -336,8 +346,19 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		else 
 			return true;
 	}
+	
+	public boolean isRetiroValido(Cuentaaporte cuentaaporte, Moneda monto) throws Exception {
+		if(cuentaaporte.getSaldo().isEqual(monto))
+			return true;
+		else 
+			return false;
+	}
 
 	public boolean isDepositoValido(Cuentabancaria cuentabancaria, Moneda monto) {
+		return true;
+	}
+	
+	public boolean isDepositoValido(Cuentaaporte cuentaaporte, Moneda monto) {
 		return true;
 	}
 
@@ -509,40 +530,34 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 	@Override
 	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception {
-		/*try {
-			String numeroCuentabancaria = transaccioncuentabancaria.getCuentabancaria().getNumerocuenta();
-			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.findByNumerocuenta(numeroCuentabancaria);
-			if(cuentabancaria == null){
-				throw new Exception("Cuenta bancaria no encontrada");
+		try {
+			String numeroCuentaaporte = transaccioncuentaaporte.getCuentaaporte().getNumerocuentaaporte();
+			Cuentaaporte cuentaaporte = cuentaaporteServiceLocal.findByNumerocuenta(numeroCuentaaporte);
+			if(cuentaaporte == null){
+				throw new Exception("Cuenta de aportes no encontrada");
 			}
 			
-			Tipomoneda tipomonedaCuentabancaria = cuentabancaria.getTipomoneda();
-			Estadocuenta estadocuentaCuentabancaria = cuentabancaria.getEstadocuenta();
-			Tipocuentabancaria tipocuentabancaria = cuentabancaria.getTipocuentabancaria();
+			Tipomoneda tipomonedaCuentaaporte = cuentaaporte.getTipomoneda();
+			Estadocuenta estadocuentaCuentaaporte = cuentaaporte.getEstadocuenta();		
+			Tipomoneda tipomonedaTransaccioncuentaaporte = transaccioncuentaaporte.getTipomoneda();
 			
-			Tipomoneda tipomonedaTransaccionbancaria = transaccioncuentabancaria.getTipomoneda();
-			
-			if(!tipomonedaCuentabancaria.equals(tipomonedaTransaccionbancaria)){
+			if(!tipomonedaCuentaaporte.equals(tipomonedaTransaccioncuentaaporte)){
 				throw new Exception("Tipos de moneda incompatibles");
 			}
 			Estadocuenta estadocuentaActivo = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
-			if(!estadocuentaCuentabancaria.equals(estadocuentaActivo)){
+			if(!estadocuentaCuentaaporte.equals(estadocuentaActivo)){
 				throw new Exception("La cuenta no esta ACTIVA y no se puede realizar transacciones");
 			}
-			Tipocuentabancaria tipocuentabancariaActive = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
-			if(tipocuentabancaria.equals(tipocuentabancariaActive)){
-				throw new Exception("No se puede hacer operaciones sobre una cuenta a plazo fijo");
-			}
 
-			TipoTransaccionType tipoTransaccion = ProduceObject.getTipotransaccion(transaccioncuentabancaria.getTipotransaccion());
+			TipoTransaccionType tipoTransaccion = ProduceObject.getTipotransaccion(transaccioncuentaaporte.getTipotransaccion());
 			boolean isTransaccionvalida = false;
 
 			switch (tipoTransaccion) {
 			case DEPOSITO:
-				isTransaccionvalida = isDepositoValido(cuentabancaria,transaccioncuentabancaria.getMonto());
+				isTransaccionvalida = isDepositoValido(cuentaaporte,transaccioncuentaaporte.getMonto());
 				break;
 			case RETIRO:
-				isTransaccionvalida = isRetiroValido(cuentabancaria,transaccioncuentabancaria.getMonto());
+				isTransaccionvalida = isRetiroValido(cuentaaporte,transaccioncuentaaporte.getMonto());
 				break;
 			default:
 				throw new Exception("Tipo de transaccion no valida");
@@ -564,26 +579,30 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
 			transaccioncajaDAO.create(transaccioncaja);
 			
-			transaccioncuentabancaria.setTransaccioncaja(transaccioncaja);
-			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
-			transaccioncuentabancariaDAO.create(transaccioncuentabancaria);
+			transaccioncuentaaporte.setTransaccioncaja(transaccioncaja);
+			transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
+			transaccioncuentaaporteDAO.create(transaccioncuentaaporte);
 				
-			Moneda saldoFinal = cuentabancaria.getSaldo();
-			Moneda montoTransaccion = transaccioncuentabancaria.getMonto();
+			Moneda saldoFinal = cuentaaporte.getSaldo();
+			Moneda montoTransaccion = transaccioncuentaaporte.getMonto();
 			switch (tipoTransaccion) {
 			case DEPOSITO:
 				saldoFinal = saldoFinal.add(montoTransaccion);
 				break;
 			case RETIRO:
-				saldoFinal = saldoFinal.subtract(montoTransaccion);
-				break;
+				{
+					saldoFinal = saldoFinal.subtract(montoTransaccion);
+					Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);
+					cuentaaporte.setEstadocuenta(estadocuenta);
+					break;
+				}	
 			}
 			
-			cuentabancaria.setSaldo(saldoFinal);		
-			cuentabancariaDAO.update(cuentabancaria);
+			cuentaaporte.setSaldo(saldoFinal);		
+			cuentaaporteDAO.update(cuentaaporte);
 			
 			//actualizando saldo de caja
-			Tipomoneda tipomoneda = transaccioncuentabancaria.getTipomoneda();
+			Tipomoneda tipomoneda = transaccioncuentaaporte.getTipomoneda();
 			List<Boveda> bovedas = caja.getBovedas();
 			Boveda bovedaTransaccion = null;
 			for (Boveda boveda : bovedas) {
@@ -617,19 +636,18 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			}
 			
 		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
-			transaccioncuentabancaria.setIdtransaccioncuentabancaria(null);;
+			transaccioncuentaaporte.setIdtransaccioncuentaaporte(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			throw e;
 		} catch (Exception e) {
-			transaccioncuentabancaria.setIdtransaccioncuentabancaria(null);
+			transaccioncuentaaporte.setIdtransaccioncuentaaporte(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se pudo Crear el Boveda");
 		}
-		return transaccioncuentabancaria;*/
-		return null;
+		return transaccioncuentaaporte;
 	}
 
 }

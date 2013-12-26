@@ -27,6 +27,7 @@ public class AportesCuentaaporteView implements Serializable {
 	@Column
 	private Integer idcuentaaporte;
 
+	@Column
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date mes;
 
