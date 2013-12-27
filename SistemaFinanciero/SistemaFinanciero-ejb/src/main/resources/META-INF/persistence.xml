@@ -98,6 +98,7 @@
 		<class>org.ventura.entity.schema.caja.view.VouchercajaView</class>
 		<class>org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView</class>
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView</class>
+		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncuentaaporte</class>
 		
 		<properties>

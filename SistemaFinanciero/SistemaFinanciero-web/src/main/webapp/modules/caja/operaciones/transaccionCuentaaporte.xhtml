@@ -225,10 +225,10 @@
 										</p:column>
 										<p:column headerText="Mes afecto" style="text-align:right;">
 											<h:outputText
-												value="#{transaccionCuentaaporteCajaBean.getMonthName(aportes.mes)}">
+												value="#{transaccionCuentaaporteCajaBean.getMonthName(aportes.id.mes)}">
 											</h:outputText>
 											<label> - </label>
-											<h:outputText value="#{aportes.mes}">
+											<h:outputText value="#{aportes.id.mes}">
 												<f:convertDateTime pattern="yyyy" />
 											</h:outputText>
 										</p:column>

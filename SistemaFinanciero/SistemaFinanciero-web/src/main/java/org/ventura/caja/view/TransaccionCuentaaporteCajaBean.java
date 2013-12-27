@@ -197,7 +197,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 						transaccioncuentaaporte.setMonto(monto);
 						transaccioncuentaaporte.setReferencia(referencia);
 						transaccioncuentaaporte.setTipomoneda(tipomoneda);
-						transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getMes());
+						transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getId().getMes());
 						
 						try {
 							transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja,transaccioncuentaaporte);
@@ -207,8 +207,8 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 							JsfUtil.addErrorMessage(e, "Error al actualizar Caja");
 							return "failure";
 						}
-						JsfUtil.addSuccessMessage("Caja Actualizada");
-						return "success";					
+						JsfUtil.addSuccessMessage("Aporte realizado");
+						return "successTransaccionCuentaaporte?faces-redirect=true";					
 					} else {
 						JsfUtil.addErrorMessage("No se selecciono el mes de pago");
 						return null;
