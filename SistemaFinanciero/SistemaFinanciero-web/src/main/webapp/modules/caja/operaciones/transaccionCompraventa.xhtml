@@ -169,6 +169,7 @@
 													var="val" itemLabel="#{val.value.denominacion}"
 													itemValue="#{val.key}" />
 													<f:ajax execute="@this" />
+													<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="txtTipoCambio" />
 												<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
 											</h:selectOneMenu>
 										</div>
@@ -195,6 +196,7 @@
 													var="val" itemLabel="#{val.value.denominacion}"
 													itemValue="#{val.key}" />
 													<f:ajax execute="@this" />
+													<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="txtTipoCambio" />
 												<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
 											</h:selectOneMenu>
 										</div>
@@ -265,7 +267,7 @@
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton
 									action="#{transaccionCompraVentaCajaBean.createTransaccioncaja()}"
-									value="Guardar" styleClass="action blue" />
+									value="Aceptar" styleClass="action blue" />
 							</div>
 						</div>
 					</div>

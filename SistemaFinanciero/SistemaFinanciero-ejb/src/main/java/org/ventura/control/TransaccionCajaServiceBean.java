@@ -669,50 +669,76 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		TipomonedaType tipomonedaentregado = ProduceObject.getTipomoneda(tipoMonedaEntregado);
 		
 		//Variables para la compra
-		Tipotasa tasa_Compra_Dolar_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_DOLAR_CON_SOL);
-		Tipotasa tasa_Compra_Dolar_Euro = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_DOLAR_CON_EURO);
-		Tipotasa tasa_Compra_Euro_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_EURO_CON_SOL);
-		Tipotasa tasa_Compra_Euro_Dolar = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_EURO_CON_DOLAR);
+		Tipotasa tipo_Cambio_Compra_Dolar_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_DOLAR_CON_SOL);
+		Tipotasa tipo_Cambio_Compra_Dolar_Euro = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_DOLAR_CON_EURO);
+		Tipotasa tipo_Cambio_Compra_Euro_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_EURO_CON_SOL);
+		Tipotasa tipo_Cambio_Compra_Euro_Dolar = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_EURO_CON_DOLAR);
 		
 		////Variables para la compra
-		Tipotasa tasa_Venta_Dolar_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_DOLAR_CON_SOL);
-		Tipotasa tasa_Venta_Dolar_Euro = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_DOLAR_CON_EURO);
-		Tipotasa tasa_Venta_Euro_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_EURO_CON_SOL);
-		Tipotasa tasa_Venta_Euro_Dolar = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_EURO_CON_DOLAR);
-		
-		int parameterrrr = 6;
+		Tipotasa tipo_Cambio_Venta_Dolar_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_DOLAR_CON_SOL);
+		Tipotasa tipo_Cambio_Venta_Dolar_Euro = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_DOLAR_CON_EURO);
+		Tipotasa tipo_Cambio_Venta_Euro_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_EURO_CON_SOL);
+		Tipotasa tipo_Cambio_Venta_Euro_Dolar = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_EURO_CON_DOLAR);
 		
 		try {
 			if (tipoTransaccioncompraventa == TipoTransaccionCompraVentaType.COMPRA) {
 				if (tipomonedarecibido == TipomonedaType.DOLAR && tipomonedaentregado == TipomonedaType.NUEVO_SOL) {
 					Tasainteres tasainteres = new Tasainteres();
 					Object object = new Object();
-					object = tasainteresDAO.executeQuerrySingleResult(query, parameterrrr);
+					object = tasainteresDAO.executeQuerrySingleResult(query, tipo_Cambio_Compra_Dolar_Sol.getIdtipotasa());
 					tasainteres = (Tasainteres) object;
 					tipocambio = tasainteres.getTasa();
 				}
 				if (tipomonedarecibido == TipomonedaType.DOLAR && tipomonedaentregado == TipomonedaType.EURO) {
-
+					Tasainteres tasainteres = new Tasainteres();
+					Object object = new Object();
+					object = tasainteresDAO.executeQuerrySingleResult(query, tipo_Cambio_Compra_Dolar_Euro.getIdtipotasa());
+					tasainteres = (Tasainteres) object;
+					tipocambio = tasainteres.getTasa();
 				}
 				if (tipomonedarecibido == TipomonedaType.EURO && tipomonedaentregado == TipomonedaType.NUEVO_SOL) {
-
+					Tasainteres tasainteres = new Tasainteres();
+					Object object = new Object();
+					object = tasainteresDAO.executeQuerrySingleResult(query, tipo_Cambio_Compra_Euro_Sol.getIdtipotasa());
+					tasainteres = (Tasainteres) object;
+					tipocambio = tasainteres.getTasa();
 				}
 				if (tipomonedarecibido == TipomonedaType.EURO && tipomonedaentregado == TipomonedaType.DOLAR) {
-
+					Tasainteres tasainteres = new Tasainteres();
+					Object object = new Object();
+					object = tasainteresDAO.executeQuerrySingleResult(query, tipo_Cambio_Compra_Euro_Dolar.getIdtipotasa());
+					tasainteres = (Tasainteres) object;
+					tipocambio = tasainteres.getTasa();
 				}
 			}
 			if (tipoTransaccioncompraventa == TipoTransaccionCompraVentaType.VENTA) {
 				if (tipomonedarecibido == TipomonedaType.NUEVO_SOL && tipomonedaentregado == TipomonedaType.DOLAR) {
-
+					Tasainteres tasainteres = new Tasainteres();
+					Object object = new Object();
+					object = tasainteresDAO.executeQuerrySingleResult(query, tipo_Cambio_Venta_Dolar_Sol.getIdtipotasa());
+					tasainteres = (Tasainteres) object;
+					tipocambio = tasainteres.getTasa();
 				}
 				if (tipomonedarecibido == TipomonedaType.EURO && tipomonedaentregado == TipomonedaType.DOLAR) {
-
+					Tasainteres tasainteres = new Tasainteres();
+					Object object = new Object();
+					object = tasainteresDAO.executeQuerrySingleResult(query, tipo_Cambio_Venta_Dolar_Euro.getIdtipotasa());
+					tasainteres = (Tasainteres) object;
+					tipocambio = tasainteres.getTasa();
 				}
 				if (tipomonedarecibido == TipomonedaType.NUEVO_SOL && tipomonedaentregado == TipomonedaType.EURO) {
-
+					Tasainteres tasainteres = new Tasainteres();
+					Object object = new Object();
+					object = tasainteresDAO.executeQuerrySingleResult(query, tipo_Cambio_Venta_Euro_Sol.getIdtipotasa());
+					tasainteres = (Tasainteres) object;
+					tipocambio = tasainteres.getTasa();
 				}
 				if (tipomonedarecibido == TipomonedaType.DOLAR && tipomonedaentregado == TipomonedaType.EURO) {
-
+					Tasainteres tasainteres = new Tasainteres();
+					Object object = new Object();
+					object = tasainteresDAO.executeQuerrySingleResult(query, tipo_Cambio_Venta_Euro_Dolar.getIdtipotasa());
+					tasainteres = (Tasainteres) object;
+					tipocambio = tasainteres.getTasa();
 				}
 			}
 

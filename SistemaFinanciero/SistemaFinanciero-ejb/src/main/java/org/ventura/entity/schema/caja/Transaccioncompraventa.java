@@ -36,7 +36,7 @@ public class Transaccioncompraventa implements Serializable {
 	private String nombresRazonSocial;
 	
 	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tasacambio")) }) 
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tipocambio")) }) 
 	private TasaInteresTipoCambio tipocambio;
 
 	@ManyToOne
