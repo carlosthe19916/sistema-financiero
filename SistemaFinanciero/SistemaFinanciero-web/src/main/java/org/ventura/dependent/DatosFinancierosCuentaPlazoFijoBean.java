@@ -159,7 +159,8 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	}
 	
 	public void calcularMontoInteres(){
-		this.cuentaplazofijo.setMontointerespagado(cuentaplazofijo.getMonto()*cuentaplazofijo.getTiceaf());
+		//this.cuentaplazofijo.setMontointerespagado(cuentaplazofijo.getMonto()*cuentaplazofijo.getTiceaf());
+		System.out.println("Interes pagado error");
 	}
 		
 	

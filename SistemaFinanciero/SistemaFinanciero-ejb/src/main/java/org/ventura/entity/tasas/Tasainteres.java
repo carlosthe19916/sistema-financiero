@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 
 import java.util.Date;
@@ -43,7 +44,8 @@ public class Tasainteres implements Serializable {
 	@Column(nullable = false)
 	private double montominimo;
 
-	@Column(nullable = false)
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tasa")) })
 	private TasaInteresTipoCambio tasa;
 
 	// bi-directional many-to-one association to Tiposervicio

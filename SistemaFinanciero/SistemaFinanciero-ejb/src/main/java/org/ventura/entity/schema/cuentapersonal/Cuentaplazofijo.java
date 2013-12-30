@@ -59,9 +59,8 @@ public class Cuentaplazofijo implements Serializable {
 	@Column(nullable=false)
 	private boolean confirmacionsaldos;
 	
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "itf")) }) 
-	private TasaInteresTipoCambio itf;
+	@Column
+	private Double itf;
 
 	@Column(nullable=false)
 	private double monto;
@@ -72,16 +71,14 @@ public class Cuentaplazofijo implements Serializable {
 	@Column(nullable=false)
 	private double tasainteres;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "ticeaf")) }) 
-	private TasaInteresTipoCambio ticeaf;
+	@Column
+	private Double ticeaf;
 
 	@Column(length=20)
 	private String tiporetiro;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "trea")) }) 
-	private TasaInteresTipoCambio trea;
+	@Column
+	private Double trea;
 	
 	@ManyToOne
 	@JoinColumn(name = "idsocio", insertable = false, updatable = false)
@@ -143,14 +140,6 @@ public class Cuentaplazofijo implements Serializable {
 		this.idtipomoneda = idtipomoneda;
 	}
 
-	public TasaInteresTipoCambio getItf() {
-		return this.itf;
-	}
-
-	public void setItf(TasaInteresTipoCambio itf) {
-		this.itf = itf;
-	}
-
 	public double getMonto() {
 		return this.monto;
 	}
@@ -175,14 +164,6 @@ public class Cuentaplazofijo implements Serializable {
 		this.tasainteres = tasainteres;
 	}
 
-	public TasaInteresTipoCambio getTiceaf() {
-		return this.ticeaf;
-	}
-
-	public void setTiceaf(TasaInteresTipoCambio ticeaf) {
-		this.ticeaf = ticeaf;
-	}
-
 	public String getTiporetiro() {
 		return this.tiporetiro;
 	}
@@ -191,11 +172,11 @@ public class Cuentaplazofijo implements Serializable {
 		this.tiporetiro = tiporetiro;
 	}
 
-	public TasaInteresTipoCambio getTrea() {
+	public Double getTrea() {
 		return this.trea;
 	}
 
-	public void setTrea(TasaInteresTipoCambio trea) {
+	public void setTrea(Double trea) {
 		this.trea = trea;
 	}
 
@@ -375,6 +356,10 @@ public class Cuentaplazofijo implements Serializable {
 
 	public void setNumerocuentaplazofijo(String numerocuentaplazofijo) {
 		this.numerocuentaplazofijo = numerocuentaplazofijo;
+	}
+
+	public void setItf(Double itf) {
+		this.itf = itf;
 	}
 
 }

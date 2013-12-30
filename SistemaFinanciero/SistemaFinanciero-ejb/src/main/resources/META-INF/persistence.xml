@@ -100,6 +100,7 @@
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView</class>
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncuentaaporte</class>
+		<class>org.ventura.entity.schema.caja.TasaInteresTipoCambio</class>
 		
 		<properties>
 			<!-- Properties for Hibernate -->
