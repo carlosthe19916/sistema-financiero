@@ -53,7 +53,6 @@ import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
-import org.ventura.caja.dependent.BuscarCuentabancariaBean;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
@@ -132,9 +131,6 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	private Moneda monto;
 	private String numeroCuentabancaria;
 	private String referencia;
-
-	@Inject
-	private BuscarCuentabancariaBean buscarCuentabancariaBean;
 
 	public TransaccionCuentabancariaCajaBean() {
 		isValidBean = true;
@@ -484,15 +480,6 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 	public void setReferencia(String referencia) {
 		this.referencia = referencia;
-	}
-
-	public BuscarCuentabancariaBean getBuscarCuentabancariaBean() {
-		return buscarCuentabancariaBean;
-	}
-
-	public void setBuscarCuentabancariaBean(
-			BuscarCuentabancariaBean buscarCuentabancariaBean) {
-		this.buscarCuentabancariaBean = buscarCuentabancariaBean;
 	}
 
 	public String getValorBusqueda() {
