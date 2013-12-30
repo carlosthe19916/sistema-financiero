@@ -78,9 +78,11 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	private boolean isValidBean;
 	private String dniRuc;
 	private String nombresRazonSocial;
+	private boolean validateSaldoTotalCaja;
 	
 	public TransaccionCompraVentaCajaBean(){
 		isValidBean = true;
+		setValidateSaldoTotalCaja(true);
 	}
 	
 	@PostConstruct
@@ -140,29 +142,35 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		validateBean();
 		if (isValidBean) {
 			if (validateCompraVenta()) {
-				Transaccioncompraventa transaccionCompraVenta = new Transaccioncompraventa();
+					Transaccioncompraventa transaccionCompraVenta = new Transaccioncompraventa();
 
-				transaccionCompraVenta.setTipotransaccioncompraventa(tipotransaccioncompraventa);
-				transaccionCompraVenta.setDniRuc(dniRuc);
-				transaccionCompraVenta.setNombresRazonSocial(nombresRazonSocial);
-				transaccionCompraVenta.setTipocambio(tipoCambio);
-				transaccionCompraVenta.setMontorecibido(montoRecibido);
-				transaccionCompraVenta.setMontoentregado(montoEntregadoNew);
-				transaccionCompraVenta.setTipomonedaEntregado(tipomonedaEntregado);
-				transaccionCompraVenta.setTipomonedaRecibido(tipomonedaRecibido);
+					transaccionCompraVenta.setTipotransaccioncompraventa(tipotransaccioncompraventa);
+					transaccionCompraVenta.setDniRuc(dniRuc);
+					transaccionCompraVenta.setNombresRazonSocial(nombresRazonSocial);
+					transaccionCompraVenta.setTipocambio(tipoCambio);
+					transaccionCompraVenta.setMontorecibido(montoRecibido);
+					transaccionCompraVenta.setMontoentregado(montoEntregadoNew);
+					transaccionCompraVenta.setTipomonedaEntregado(tipomonedaEntregado);
+					transaccionCompraVenta.setTipomonedaRecibido(tipomonedaRecibido);
 
-				try {
-					transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta);
-					//VouchercajaView vouchercajaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionBancaria(transaccionCompraVenta);
-					//imprimirVoucher(vouchercajaView);
-				} catch (Exception e) {
-					JsfUtil.addErrorMessage(e, "Error al realizar la transacción");
-					return "failure";
-				}
-				JsfUtil.addSuccessMessage("La transaccion se realizó correctamente");
-				return "success";
+					if (validateSaldoCaja(caja, transaccionCompraVenta)) {
+						try {
+							transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta);
+							//VouchercajaView vouchercajaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionBancaria(transaccionCompraVenta);
+							//imprimirVoucher(vouchercajaView);
+							
+						} catch (Exception e) {
+							JsfUtil.addErrorMessage(e, "Error al realizar la transacción");
+							return "failure";
+						}
+						JsfUtil.addSuccessMessage("La transaccion se realizó correctamente");
+						return "success";
+					}else {
+						JsfUtil.addErrorMessage("La caja no tiene suficiente dinero (Monto a Entregar) para realizar la transacción");
+						return null;
+					}
 			}else {
-				JsfUtil.addErrorMessage("Error, Ud. no puede compar o vender el Nuevo Sol y verifique que los tipos de monedas sean diferentes.");
+				JsfUtil.addErrorMessage("Error, Ud. no puede comprar o vender el Nuevo Sol y verifique que los tipos de monedas sean diferentes.");
 				return null;
 			}
 		}else{
@@ -171,6 +179,16 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		}
 	}
 	
+	public boolean validateSaldoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) {
+		boolean result = false;
+		try {
+			result = transaccionCompraVentaServiceLocal.validateSaldoBovedaCaja(caja, transaccioncompraventa);
+		} catch (Exception e) {
+		}
+		setValidateSaldoTotalCaja(result);
+		return result;
+	}
+
 	public void cagarTipoCambio(){
 		try {
 			if (comboTipotransaccion.getItemSelected() != -1 && comboTipomonedaRecibido.getItemSelected() != -1 && comboTipomonedaEntregado.getItemSelected() != -1) {
@@ -398,5 +416,13 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 	public void setTipoCambio(TasaInteresTipoCambio tipoCambio) {
 		this.tipoCambio = tipoCambio;
+	}
+
+	public boolean isValidateSaldoTotalCaja() {
+		return validateSaldoTotalCaja;
+	}
+
+	public void setValidateSaldoTotalCaja(boolean validateSaldoTotalCaja) {
+		this.validateSaldoTotalCaja = validateSaldoTotalCaja;
 	}
 }
