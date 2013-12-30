@@ -13,6 +13,7 @@
 		<f:viewParam name="idcaja" value="#{cajaCRUDBean.idcaja}" />
 		<f:viewAction action="#{cajaCRUDBean.loadCajaForEdit()}" />
 	</f:metadata>
+
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
@@ -37,10 +38,9 @@
 											</p>
 										</div>
 										<div style="text-align: center;">
-											<h:commandLink value="Cerrar"
-												styleClass="p6n-api-access-in-page-error-link" />
-											&nbsp;|&nbsp;
-											<h:commandLink value="Volver" action="cancel"
+											<h:commandLink value="Volver"
+												action="administrarCaja.xhtml?faces-redirect=true"
+												immediate="true"
 												styleClass="p6n-api-access-in-page-error-link" />
 										</div>
 									</div>
