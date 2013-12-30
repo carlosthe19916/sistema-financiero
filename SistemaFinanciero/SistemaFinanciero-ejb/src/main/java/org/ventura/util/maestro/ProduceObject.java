@@ -261,7 +261,7 @@ public class ProduceObject {
 		return tipotasapasivaType;
 	}
 	
-	public static Tipotasa getTipotasa(TipotasaPasivaType tipotasapasivaType) {
+	public static Tipotasa getTipoTasaPasiva(TipotasaPasivaType tipotasapasivaType) {
 		Tipotasa tipotasapasiva = new Tipotasa();
 
 		switch (tipotasapasivaType) {

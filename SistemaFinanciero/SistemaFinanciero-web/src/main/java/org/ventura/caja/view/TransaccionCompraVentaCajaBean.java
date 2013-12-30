@@ -172,12 +172,17 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	}
 	
 	public void cagarTipoCambio(){
-		TasaInteresTipoCambio tipocambio = transaccionCompraVentaServiceLocal.retornarTipoCambio(Tasainteres.TASA_INTERES_BY_CV, tipotransaccioncompraventa, tipomonedaRecibido, tipomonedaEntregado);
-		setTipoCambio(tipocambio);
-		System.out.println("tipo cambio: " + tipocambio);
+		try {
+			TasaInteresTipoCambio tipocambio;
+			tipocambio = transaccionCompraVentaServiceLocal.retornarTipoCambio(Tasainteres.TASA_INTERES_BY_CV, tipotransaccioncompraventa, tipomonedaRecibido, tipomonedaEntregado);
+			setTipoCambio(tipocambio);
+			System.out.println("tipo cambio: " + tipocambio);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	} 
 	
-
 	//valida que la compra o venta no sea del nuevo sol o tipos de monedas iguales
 	public boolean validateCompraVenta() {
 		boolean validate = true;

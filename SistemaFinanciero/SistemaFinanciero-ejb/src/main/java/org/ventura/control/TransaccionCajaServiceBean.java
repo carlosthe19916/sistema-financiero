@@ -23,18 +23,22 @@ import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
 import org.ventura.dao.impl.BovedaCajaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.CuentabancariaDAO;
+import org.ventura.dao.impl.TasainteresDAO;
 import org.ventura.dao.impl.TransaccioncajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.dao.impl.VouchercajaViewDAO;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
+import org.ventura.entity.GeneratedTipotasaPasiva.TipotasaPasivaType;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.BovedaCaja;
 import org.ventura.entity.schema.caja.BovedaCajaPK;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Moneda;
+import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
+import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
@@ -44,11 +48,14 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.tasas.Tasainteres;
+import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.util.exception.InsufficientMoneyForTransactionException;
 import org.ventura.util.exception.InvalidTransactionBovedaException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadocuentaType;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipoTransaccionCompraVentaType;
 import org.ventura.util.maestro.TipoTransaccionType;
 import org.ventura.util.maestro.TipocuentabancariaType;
 
@@ -85,6 +92,9 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	private VouchercajaViewDAO vouchercajaViewDAO;
 	@EJB
 	private BovedaCajaDAO bovedaCajaDAO;
+	@EJB
+	private TasainteresDAO tasainteresDAO;
+
 	
 	@Override
 	public Transaccioncuentabancaria createTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria)throws Exception {
@@ -439,11 +449,11 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+			throw new Exception("Error Interno: No se pudo actualizar el monto recibido");
 		}
 	}
 	
-	// actualizar el saldo de boeda caja con el monto Entregado
+	// actualizar el saldo de boveda caja con el monto Entregado
 	public void actualizarMontoEntregadoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception{
 		try {
 			TipomonedaType tipomonedaEntregado = ProduceObject.getTipomoneda(transaccioncompraventa.getTipomonedaEntregado());
@@ -491,7 +501,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+			throw new Exception("Error Interno: No se pudo actualizar el monto recibido");
 		}
 	}
 	
@@ -649,5 +659,75 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		}
 		return transaccioncuentaaporte;
 	}
+	
+	@Override
+	public TasaInteresTipoCambio retornarTipoCambio(String query, Tipotransaccioncompraventa tipotransaccionCV, Tipomoneda tipoMonedaRecibido, Tipomoneda tipoMonedaEntregado) throws Exception {
+		TasaInteresTipoCambio tipocambio = new TasaInteresTipoCambio();
+		
+		TipoTransaccionCompraVentaType tipoTransaccioncompraventa = ProduceObject.getTipotransaccioncompraventa(tipotransaccionCV);
+		TipomonedaType tipomonedarecibido = ProduceObject.getTipomoneda(tipoMonedaRecibido);
+		TipomonedaType tipomonedaentregado = ProduceObject.getTipomoneda(tipoMonedaEntregado);
+		
+		//Variables para la compra
+		Tipotasa tasa_Compra_Dolar_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_DOLAR_CON_SOL);
+		Tipotasa tasa_Compra_Dolar_Euro = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_DOLAR_CON_EURO);
+		Tipotasa tasa_Compra_Euro_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_EURO_CON_SOL);
+		Tipotasa tasa_Compra_Euro_Dolar = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.COMPRA_EURO_CON_DOLAR);
+		
+		////Variables para la compra
+		Tipotasa tasa_Venta_Dolar_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_DOLAR_CON_SOL);
+		Tipotasa tasa_Venta_Dolar_Euro = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_DOLAR_CON_EURO);
+		Tipotasa tasa_Venta_Euro_Sol = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_EURO_CON_SOL);
+		Tipotasa tasa_Venta_Euro_Dolar = ProduceObject.getTipoTasaPasiva(TipotasaPasivaType.VENTA_EURO_CON_DOLAR);
+		
+		int parameterrrr = 6;
+		
+		try {
+			if (tipoTransaccioncompraventa == TipoTransaccionCompraVentaType.COMPRA) {
+				if (tipomonedarecibido == TipomonedaType.DOLAR && tipomonedaentregado == TipomonedaType.NUEVO_SOL) {
+					Tasainteres tasainteres = new Tasainteres();
+					Object object = new Object();
+					object = tasainteresDAO.executeQuerrySingleResult(query, parameterrrr);
+					tasainteres = (Tasainteres) object;
+					tipocambio = tasainteres.getTasa();
+				}
+				if (tipomonedarecibido == TipomonedaType.DOLAR && tipomonedaentregado == TipomonedaType.EURO) {
 
+				}
+				if (tipomonedarecibido == TipomonedaType.EURO && tipomonedaentregado == TipomonedaType.NUEVO_SOL) {
+
+				}
+				if (tipomonedarecibido == TipomonedaType.EURO && tipomonedaentregado == TipomonedaType.DOLAR) {
+
+				}
+			}
+			if (tipoTransaccioncompraventa == TipoTransaccionCompraVentaType.VENTA) {
+				if (tipomonedarecibido == TipomonedaType.NUEVO_SOL && tipomonedaentregado == TipomonedaType.DOLAR) {
+
+				}
+				if (tipomonedarecibido == TipomonedaType.EURO && tipomonedaentregado == TipomonedaType.DOLAR) {
+
+				}
+				if (tipomonedarecibido == TipomonedaType.NUEVO_SOL && tipomonedaentregado == TipomonedaType.EURO) {
+
+				}
+				if (tipomonedarecibido == TipomonedaType.DOLAR && tipomonedaentregado == TipomonedaType.EURO) {
+
+				}
+			}
+
+		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+		}
+		return tipocambio;
+	}
 }
+
+
