@@ -4,10 +4,13 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
+import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 
 @Local
 public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemote{
@@ -21,5 +24,7 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	public VouchercajaView getVoucherTransaccionBancaria(Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
 	
 	public VouchercajaView getVoucherTransaccionCompraVentaMoneda(Transaccioncompraventa transaccioncompraventa) throws Exception;
+	
+	public TasaInteresTipoCambio retornarTipoCambio(String query, Tipotransaccioncompraventa tipotransaccionCV, Tipomoneda tipoMonedaRecibido, Tipomoneda tipoMonedaEntregado) throws Exception;
 	
 }
