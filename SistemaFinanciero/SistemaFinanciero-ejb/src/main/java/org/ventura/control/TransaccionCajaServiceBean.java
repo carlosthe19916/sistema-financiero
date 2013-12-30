@@ -50,8 +50,10 @@ import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.entity.tasas.Tipotasa;
+import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.InsufficientMoneyForTransactionException;
 import org.ventura.util.exception.InvalidTransactionBovedaException;
+import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadocuentaType;
 import org.ventura.util.maestro.ProduceObject;
@@ -503,6 +505,69 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se pudo actualizar el monto recibido");
 		}
+	}
+	
+	@Override
+	public boolean validateSaldoBovedaCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception {
+		boolean result = false;
+
+		TipomonedaType tipomonedaEntregado = ProduceObject.getTipomoneda(transaccioncompraventa.getTipomonedaEntregado());
+		Tipomoneda tipomonedaEntregadoCV = transaccioncompraventa.getTipomonedaEntregado();
+
+		try {
+			List<Boveda> bovedas = caja.getBovedas();
+			Boveda bovedaTransaccionCVEntregado = null;
+			for (Boveda boveda : bovedas) {
+				Tipomoneda tipomonedaBoveda = boveda.getTipomoneda();
+				if (tipomonedaEntregadoCV.equals(tipomonedaBoveda)) {
+					bovedaTransaccionCVEntregado = boveda;
+					break;
+				}
+			}
+			if (bovedaTransaccionCVEntregado != null) {
+				BovedaCaja bovedaCaja;
+				BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();
+				bovedaCajaPK.setIdboveda(bovedaTransaccionCVEntregado
+						.getIdboveda());
+				bovedaCajaPK.setIdcaja(caja.getIdcaja());
+
+				bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+
+				switch (tipomonedaEntregado) {
+				case NUEVO_SOL:
+					if (bovedaCaja.getSaldototal().isGreaterThanOrEqual(transaccioncompraventa.getMontoentregado())) {
+						result = true;
+					} 
+					break;
+				case DOLAR:
+					if (bovedaCaja.getSaldototal().isGreaterThanOrEqual(transaccioncompraventa.getMontoentregado())) {
+						result = true;
+					} 
+					break;
+				case EURO:
+					if (bovedaCaja.getSaldototal().isGreaterThanOrEqual(transaccioncompraventa.getMontoentregado())) {
+						result = true;
+					} 
+					break;
+				default:
+					throw new Exception("Este tipo de moneda no esta registrado");
+				}
+			}
+		} catch (EntityExistsException | IllegalArgumentException
+				| TransactionRequiredException e) {
+			transaccioncompraventa.setIdtransaccioncompraventa(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			transaccioncompraventa.setIdtransaccioncompraventa(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(
+					"Error Interno: No se pudo verificar el saldo total de la caja");
+		}
+		return result;
 	}
 	
 	@Override

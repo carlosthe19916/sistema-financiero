@@ -27,4 +27,5 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	
 	public TasaInteresTipoCambio retornarTipoCambio(String query, Tipotransaccioncompraventa tipotransaccionCV, Tipomoneda tipoMonedaRecibido, Tipomoneda tipoMonedaEntregado) throws Exception;
 	
+	public boolean validateSaldoBovedaCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
 }
