@@ -16,13 +16,16 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CajaServiceLocal;
+import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
 import org.ventura.dao.impl.BovedaCajaDAO;
+import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.TransaccioncajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
+import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.dao.impl.VouchercajaViewDAO;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
@@ -34,8 +37,10 @@ import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Transaccioncaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
+import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
@@ -58,6 +63,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 	@EJB
 	private CuentabancariaServiceLocal cuentabancariaServiceLocal;
+	@EJB
+	private CuentaaporteServiceLocal cuentaaporteServiceLocal;
 	
 	@EJB
 	private CajaServiceLocal cajaServiceLocal;
@@ -67,9 +74,13 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	@EJB
 	private TransaccioncuentabancariaDAO transaccioncuentabancariaDAO;
 	@EJB
+	private TransaccioncuentaaporteDAO transaccioncuentaaporteDAO;
+	@EJB
 	private TransaccioncompraventaDAO transaccioncompraventaDAO;
 	@EJB
 	private CuentabancariaDAO cuentabancariaDAO;
+	@EJB
+	private CuentaaporteDAO cuentaaporteDAO;
 	@EJB
 	private VouchercajaViewDAO vouchercajaViewDAO;
 	@EJB
@@ -335,8 +346,19 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		else 
 			return true;
 	}
+	
+	public boolean isRetiroValido(Cuentaaporte cuentaaporte, Moneda monto) throws Exception {
+		if(cuentaaporte.getSaldo().isEqual(monto))
+			return true;
+		else 
+			return false;
+	}
 
 	public boolean isDepositoValido(Cuentabancaria cuentabancaria, Moneda monto) {
+		return true;
+	}
+	
+	public boolean isDepositoValido(Cuentaaporte cuentaaporte, Moneda monto) {
 		return true;
 	}
 
@@ -504,6 +526,128 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			Transaccioncompraventa transaccioncompraventa) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception {
+		try {
+			String numeroCuentaaporte = transaccioncuentaaporte.getCuentaaporte().getNumerocuentaaporte();
+			Cuentaaporte cuentaaporte = cuentaaporteServiceLocal.findByNumerocuenta(numeroCuentaaporte);
+			if(cuentaaporte == null){
+				throw new Exception("Cuenta de aportes no encontrada");
+			}
+			
+			Tipomoneda tipomonedaCuentaaporte = cuentaaporte.getTipomoneda();
+			Estadocuenta estadocuentaCuentaaporte = cuentaaporte.getEstadocuenta();		
+			Tipomoneda tipomonedaTransaccioncuentaaporte = transaccioncuentaaporte.getTipomoneda();
+			
+			if(!tipomonedaCuentaaporte.equals(tipomonedaTransaccioncuentaaporte)){
+				throw new Exception("Tipos de moneda incompatibles");
+			}
+			Estadocuenta estadocuentaActivo = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
+			if(!estadocuentaCuentaaporte.equals(estadocuentaActivo)){
+				throw new Exception("La cuenta no esta ACTIVA y no se puede realizar transacciones");
+			}
+
+			TipoTransaccionType tipoTransaccion = ProduceObject.getTipotransaccion(transaccioncuentaaporte.getTipotransaccion());
+			boolean isTransaccionvalida = false;
+
+			switch (tipoTransaccion) {
+			case DEPOSITO:
+				isTransaccionvalida = isDepositoValido(cuentaaporte,transaccioncuentaaporte.getMonto());
+				break;
+			case RETIRO:
+				isTransaccionvalida = isRetiroValido(cuentaaporte,transaccioncuentaaporte.getMonto());
+				break;
+			default:
+				throw new Exception("Tipo de transaccion no valida");
+			}
+			
+			if(isTransaccionvalida == false) {
+				switch (tipoTransaccion) {
+				case DEPOSITO:
+					throw new InvalidTransactionBovedaException("Transaccion no permitida");
+				case RETIRO:
+					throw new InsufficientMoneyForTransactionException("Fondos Insuficientes para Retiro");
+				}
+			}
+			
+			//validacion superada
+			Transaccioncaja transaccioncaja = new Transaccioncaja();
+			transaccioncaja.setFecha(Calendar.getInstance().getTime());
+			transaccioncaja.setHora(Calendar.getInstance().getTime());
+			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncajaDAO.create(transaccioncaja);
+			
+			transaccioncuentaaporte.setTransaccioncaja(transaccioncaja);
+			transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
+			transaccioncuentaaporteDAO.create(transaccioncuentaaporte);
+				
+			Moneda saldoFinal = cuentaaporte.getSaldo();
+			Moneda montoTransaccion = transaccioncuentaaporte.getMonto();
+			switch (tipoTransaccion) {
+			case DEPOSITO:
+				saldoFinal = saldoFinal.add(montoTransaccion);
+				break;
+			case RETIRO:
+				{
+					saldoFinal = saldoFinal.subtract(montoTransaccion);
+					Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);
+					cuentaaporte.setEstadocuenta(estadocuenta);
+					break;
+				}	
+			}
+			
+			cuentaaporte.setSaldo(saldoFinal);		
+			cuentaaporteDAO.update(cuentaaporte);
+			
+			//actualizando saldo de caja
+			Tipomoneda tipomoneda = transaccioncuentaaporte.getTipomoneda();
+			List<Boveda> bovedas = caja.getBovedas();
+			Boveda bovedaTransaccion = null;
+			for (Boveda boveda : bovedas) {
+				Tipomoneda tipomonedaBoveda = boveda.getTipomoneda();
+				if(tipomoneda.equals(tipomonedaBoveda)){
+					bovedaTransaccion = boveda;
+					break;
+				}
+			}
+			if(bovedaTransaccion != null){
+				BovedaCaja bovedaCaja;
+				BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();				
+				bovedaCajaPK.setIdboveda(bovedaTransaccion.getIdboveda());
+				bovedaCajaPK.setIdcaja(caja.getIdcaja());
+				
+				bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+				
+				switch (tipoTransaccion) {
+				case DEPOSITO:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoTransaccion));
+					break;
+				case RETIRO:
+					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoTransaccion));
+					break;
+				}
+				
+				bovedaCajaDAO.update(bovedaCaja);
+				
+			} else {
+				throw new Exception("No se puede modificar el saldo de la caja");
+			}
+			
+		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
+			transaccioncuentaaporte.setIdtransaccioncuentaaporte(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
+			transaccioncuentaaporte.setIdtransaccioncuentaaporte(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+		}
+		return transaccioncuentaaporte;
 	}
 
 }

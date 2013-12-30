@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 
 import java.util.Date;
 
@@ -14,11 +15,13 @@ import java.util.Date;
 @Entity
 @Table(name = "tasainteres", schema = "tasas")
 @NamedQuery(name = "Tasainteres.findAll", query = "SELECT t FROM Tasainteres t")
-@NamedQueries({ @NamedQuery(name = Tasainteres.FindById, query = "Select ti From Tasainteres ti INNER JOIN ti.tiposervicio ts INNER JOIN ts.servicio s INNER JOIN ti.tipotasa tt WHERE s.estado = TRUE and ts.estado = TRUE and ti.estado = TRUE and tt.estado = TRUE and tt.idtipotasa=:idtipotasa and ts.idtiposervicio=:idtiposervicio and :monto BETWEEN ti.montominimo and ti.montomaximo") })
+@NamedQueries({ @NamedQuery(name = Tasainteres.FindById, query = "Select ti From Tasainteres ti INNER JOIN ti.tiposervicio ts INNER JOIN ts.servicio s INNER JOIN ti.tipotasa tt WHERE s.estado = TRUE and ts.estado = TRUE and ti.estado = TRUE and tt.estado = TRUE and tt.idtipotasa=:idtipotasa and ts.idtiposervicio=:idtiposervicio and :monto BETWEEN ti.montominimo and ti.montomaximo"),
+				@NamedQuery(name = Tasainteres.TASA_INTERES_BY_CV, query = "select ti from Tasainteres ti where ti.tipotasa.idtipotasa = :parametro and ti.estado = true")})
 public class Tasainteres implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String FindById = "org.ventura.entity.tasas.Tasainteres.FindById";
+	public final static String TASA_INTERES_BY_CV = "org.ventura.entity.tasas.Tasainteres.TASA_INTERES_BY_CV";
 
 	@Id
 	@Column(unique = true, nullable = false)
@@ -41,7 +44,7 @@ public class Tasainteres implements Serializable {
 	private double montominimo;
 
 	@Column(nullable = false)
-	private double tasa;
+	private TasaInteresTipoCambio tasa;
 
 	// bi-directional many-to-one association to Tiposervicio
 	@ManyToOne
@@ -104,14 +107,6 @@ public class Tasainteres implements Serializable {
 		this.montominimo = montominimo;
 	}
 
-	public double getTasa() {
-		return this.tasa;
-	}
-
-	public void setTasa(double tasa) {
-		this.tasa = tasa;
-	}
-
 	public Tiposervicio getTiposervicio() {
 		return this.tiposervicio;
 	}
@@ -126,6 +121,14 @@ public class Tasainteres implements Serializable {
 
 	public void setTipotasa(Tipotasa tipotasa) {
 		this.tipotasa = tipotasa;
+	}
+
+	public TasaInteresTipoCambio getTasa() {
+		return tasa;
+	}
+
+	public void setTasa(TasaInteresTipoCambio tasa) {
+		this.tasa = tasa;
 	}
 
 }

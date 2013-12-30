@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.sucursal.Agencia;
@@ -58,8 +59,9 @@ public class Cuentaplazofijo implements Serializable {
 	@Column(nullable=false)
 	private boolean confirmacionsaldos;
 	
-	@Column(nullable=false)
-	private double itf;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "itf")) }) 
+	private TasaInteresTipoCambio itf;
 
 	@Column(nullable=false)
 	private double monto;
@@ -70,18 +72,16 @@ public class Cuentaplazofijo implements Serializable {
 	@Column(nullable=false)
 	private double tasainteres;
 
-	@Column(nullable=false)
-	private double ticeaf;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "ticeaf")) }) 
+	private TasaInteresTipoCambio ticeaf;
 
 	@Column(length=20)
 	private String tiporetiro;
 
-	@Column(nullable=false)
-	private double trea;
-	
-
-	
-	
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "trea")) }) 
+	private TasaInteresTipoCambio trea;
 	
 	@ManyToOne
 	@JoinColumn(name = "idsocio", insertable = false, updatable = false)
@@ -143,11 +143,11 @@ public class Cuentaplazofijo implements Serializable {
 		this.idtipomoneda = idtipomoneda;
 	}
 
-	public double getItf() {
+	public TasaInteresTipoCambio getItf() {
 		return this.itf;
 	}
 
-	public void setItf(double itf) {
+	public void setItf(TasaInteresTipoCambio itf) {
 		this.itf = itf;
 	}
 
@@ -175,11 +175,11 @@ public class Cuentaplazofijo implements Serializable {
 		this.tasainteres = tasainteres;
 	}
 
-	public double getTiceaf() {
+	public TasaInteresTipoCambio getTiceaf() {
 		return this.ticeaf;
 	}
 
-	public void setTiceaf(double ticeaf) {
+	public void setTiceaf(TasaInteresTipoCambio ticeaf) {
 		this.ticeaf = ticeaf;
 	}
 
@@ -191,11 +191,11 @@ public class Cuentaplazofijo implements Serializable {
 		this.tiporetiro = tiporetiro;
 	}
 
-	public double getTrea() {
+	public TasaInteresTipoCambio getTrea() {
 		return this.trea;
 	}
 
-	public void setTrea(double trea) {
+	public void setTrea(TasaInteresTipoCambio trea) {
 		this.trea = trea;
 	}
 

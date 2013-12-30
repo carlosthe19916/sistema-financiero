@@ -20,6 +20,7 @@ import org.ventura.entity.GeneratedTipotasaPasiva;
 import org.ventura.entity.GeneratedEstadocuenta.EstadocuentaType;
 import org.ventura.entity.GeneratedTiposervicio.TiposervicioType;
 import org.ventura.entity.GeneratedTipotasaPasiva.TipotasaPasivaType;
+import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.schema.cuentapersonal.Cuentacorriente;
 import org.ventura.entity.schema.cuentapersonal.Cuentacorrientehistorial;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
@@ -62,7 +63,7 @@ public class DatosFinancierosCuentaCorrienteBean implements Serializable {
 		this.cuentacorriente.addCuentacorrientehistorial(cuentacorrientehistorial);
 		this.cuentacorriente.setFechaapertura(Calendar.getInstance().getTime());
 
-		Double tasainteres = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasa, new Double(5));
+		TasaInteresTipoCambio tasainteres = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasa, new Double(5));
 		this.cuentacorrientehistorial.setTasainteres(tasainteres);
 		this.cuentacorrientehistorial.setEstado(true);
 		this.cuentacorrientehistorial.setCuentacorriente(cuentacorriente);

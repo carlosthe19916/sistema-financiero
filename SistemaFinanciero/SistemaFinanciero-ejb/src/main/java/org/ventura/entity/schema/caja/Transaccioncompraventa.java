@@ -37,7 +37,7 @@ public class Transaccioncompraventa implements Serializable {
 	
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tasacambio")) }) 
-	private Moneda tasacambio;
+	private TasaInteresTipoCambio tipocambio;
 
 	@ManyToOne
 	@JoinColumn(name = "idtransaccioncaja", nullable = false)
@@ -64,14 +64,6 @@ public class Transaccioncompraventa implements Serializable {
 
 	public void setIdtransaccioncompraventa(Integer idtransaccioncompraventa) {
 		this.idtransaccioncompraventa = idtransaccioncompraventa;
-	}
-
-	public Moneda getTasacambio() {
-		return this.tasacambio;
-	}
-
-	public void setTasacambio(Moneda tasacambio) {
-		this.tasacambio = tasacambio;
 	}
 
 	public Tipotransaccioncompraventa getTipotransaccioncompraventa() {
@@ -137,5 +129,13 @@ public class Transaccioncompraventa implements Serializable {
 
 	public void setNombresRazonSocial(String nombresRazonSocial) {
 		this.nombresRazonSocial = nombresRazonSocial;
+	}
+
+	public TasaInteresTipoCambio getTipocambio() {
+		return tipocambio;
+	}
+
+	public void setTipocambio(TasaInteresTipoCambio tipocambio) {
+		this.tipocambio = tipocambio;
 	}
 }

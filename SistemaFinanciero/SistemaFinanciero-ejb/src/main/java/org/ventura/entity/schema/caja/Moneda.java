@@ -88,12 +88,6 @@ public class Moneda implements Serializable {
 		BigDecimal result = this.value.multiply(moneda.getValue());
 		return new Moneda(result);
 	}
-	
-	public Moneda multiply(Moneda value) {
-		Moneda moneda = new Moneda(value);
-		BigDecimal result = this.value.multiply(moneda.getValue());
-		return new Moneda(result);
-	}
 
 	public BigDecimal divide(double value) {
 		Moneda moneda = new Moneda(value);
@@ -182,11 +176,12 @@ public class Moneda implements Serializable {
 		if (value == null)
 			return null;
 		int realScale = value.scale();
+		
 		if (realScale == 2) {
 			int doubleValue = getDecimalValue();
 
 			if (doubleValue % 10 == 0) {
-				stringValue = "." + doubleValue + stringValue + "0";
+				stringValue = "." + doubleValue + stringValue;
 			} else {
 				stringValue = "." + doubleValue + stringValue;
 			}

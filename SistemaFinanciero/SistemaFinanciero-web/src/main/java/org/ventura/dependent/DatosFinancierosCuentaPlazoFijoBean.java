@@ -22,6 +22,7 @@ import org.ventura.entity.GeneratedTiposervicio;
 import org.ventura.entity.GeneratedTipotasaPasiva;
 import org.ventura.entity.GeneratedTiposervicio.TiposervicioType;
 import org.ventura.entity.GeneratedEstadocuenta.EstadocuentaType;
+import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.GeneratedTipotasaPasiva.TipotasaPasivaType;
@@ -92,11 +93,11 @@ public class DatosFinancierosCuentaPlazoFijoBean implements Serializable{
 	 * Bussiness Logic
 	 */
 	public void cargartasasinteres() throws Exception{
-		Double ticeaf = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasaTICEAF, new Double(cuentaplazofijo.getMonto()));
+		TasaInteresTipoCambio ticeaf = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasaTICEAF, new Double(cuentaplazofijo.getMonto()));
 		this.cuentaplazofijo.setTiceaf(ticeaf);
-		Double trea = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasaTREA, new Double(cuentaplazofijo.getMonto()));
+		TasaInteresTipoCambio trea = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasaTREA, new Double(cuentaplazofijo.getMonto()));
 		this.cuentaplazofijo.setTrea(trea);
-		Double itf = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasaITF, new Double(cuentaplazofijo.getMonto()));
+		TasaInteresTipoCambio itf = tasainteresServiceLocal.getTasainteres(tiposervicio, tipotasaITF, new Double(cuentaplazofijo.getMonto()));
 		this.cuentaplazofijo.setItf(itf);
 		mostrardatos();
 	}

@@ -16,11 +16,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface GeneratedTipotasaPasiva {
 
-	TipotasaPasivaType strategyTasaPasiva() default TipotasaPasivaType.NINGUNO;
+	TipotasaPasivaType strategyTasaPasiva() default TipotasaPasivaType.TICAH;
 
 	public enum TipotasaPasivaType {
-		NINGUNO,
-
 		TICAH,
 
 		TICC,
@@ -29,6 +27,22 @@ public @interface GeneratedTipotasaPasiva {
 
 		TREA,
 
-		ITF
+		ITF,
+		
+		COMPRA_DOLAR_CON_SOL, 
+		
+		COMPRA_DOLAR_CON_EURO, 
+		
+		COMPRA_EURO_CON_SOL, 
+		
+		COMPRA_EURO_CON_DOLAR, 
+		
+		VENTA_DOLAR_CON_SOL, 
+		
+		VENTA_DOLAR_CON_EURO, 
+		
+		VENTA_EURO_CON_SOL, 
+		
+		VENTA_EURO_CON_DOLAR
 	}
 }

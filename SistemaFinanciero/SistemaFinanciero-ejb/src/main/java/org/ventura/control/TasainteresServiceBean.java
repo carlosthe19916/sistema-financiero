@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.boundary.remote.TasainteresServiceRemote;
 import org.ventura.dao.impl.TasainteresDAO;
+import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.entity.tasas.Tiposervicio;
 import org.ventura.entity.tasas.Tipotasa;
@@ -89,7 +90,7 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 */
 
 	@Override
-	public Double getTasainteres(Tiposervicio tiposervicio, Tipotasa tipotasa, Double monto) throws Exception {
+	public TasaInteresTipoCambio getTasainteres(Tiposervicio tiposervicio, Tipotasa tipotasa, Double monto) throws Exception {
 		Map<String, Object> parameters = new HashMap<String, Object>();		
 		parameters.put("idtiposervicio", tiposervicio.getIdtiposervicio());
 		parameters.put("idtipotasa", tipotasa.getIdtipotasa());

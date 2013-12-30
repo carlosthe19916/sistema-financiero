@@ -7,7 +7,8 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:rich="http://richfaces.org/rich">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -84,7 +85,7 @@
 						</h:panelGroup>
 
 						<br /> <br />
-						<div class="p6n-api-consent-screen-title">Compra y Venta de Moneda Extranjera</div>
+						<div class="p6n-api-consent-screen-title">COMPRA Y VENTA DE MONEDA EXTRANJERA</div>
 						<div class="p6n-api-consent-screen-inputs">
 							
 							<div class="p6n-api-consent-screen-input-section">
@@ -101,6 +102,7 @@
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
 										<f:ajax execute="@this" />
+										<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="txtTipoCambio" />
 									</h:selectOneMenu>
 								</div>
 							</div>
@@ -114,10 +116,18 @@
 									<div class="p6n-api-consent-screen-input-section">
 									<div class="p6n-api-consent-screen-label" style="width: 100px;">DNI o RUC</div>
 										<div style="float: left;">
-											<h:inputText
-											value="#{transaccionCompraVentaCajaBean.dniRuc}"
-											size="15" maxlength="11" />
+											<h:inputText  id="txtDniRuc" required="true"
+											requiredMessage="Ingrese DNI o Ruc"
+											value="#{transaccionCompraVentaCajaBean.dniRuc}" size="15" maxlength="11" 
+											validatorMessage="Dni o Ruc Invalido">
+											<f:validateRegex pattern="((?=.*[0-9]).{8,})"/>
+											<p:ajax event="blur" render="@this"></p:ajax>
+											</h:inputText>
 										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtDniRuc" />
 									</div>
 								</p:outputPanel>
 
@@ -126,11 +136,16 @@
 									<div class="p6n-api-consent-screen-input-section">
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">NOMBRES o RAZON SOCIAL</div>
 										<div style="float: left;">
-											<h:inputText
+											<h:inputText id="txtNombresRazonSocial" required="true"
+											requiredMessage="Ingrese Nombres o Razon Social" 
 											value="#{transaccionCompraVentaCajaBean.nombresRazonSocial}"
 											onkeyup="this.value = this.value.toUpperCase();"
 											size="50" maxlenght="200" />
 										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtNombresRazonSocial" />
 									</div>
 								</p:outputPanel>
 							</h:panelGrid>
@@ -153,6 +168,7 @@
 													value="#{transaccionCompraVentaCajaBean.comboTipomonedaRecibido.items.entrySet()}"
 													var="val" itemLabel="#{val.value.denominacion}"
 													itemValue="#{val.key}" />
+													<f:ajax execute="@this" />
 												<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
 											</h:selectOneMenu>
 										</div>
@@ -178,6 +194,7 @@
 													value="#{transaccionCompraVentaCajaBean.comboTipomonedaEntregado.items.entrySet()}"
 													var="val" itemLabel="#{val.value.denominacion}"
 													itemValue="#{val.key}" />
+													<f:ajax execute="@this" />
 												<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
 											</h:selectOneMenu>
 										</div>
@@ -195,12 +212,12 @@
 									<h:inputText id="txtTipoCambio"
 										value="#{transaccionCompraVentaCajaBean.tipoCambio}"
 										required="true" maxlenght="5" requiredMessage="Ingrese el tipo de cambio"> 
-										<f:converter converterId="MonedaConverter"></f:converter>
-										<f:ajax event="blur" render="@this" />
+										<f:converter converterId="TipoCambioConverter"></f:converter>
+										<f:ajax event="blur" listener = "#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}" render="txtMontoEntregado @this" />
 									</h:inputText>	
 								</div>
 							</div>
-
+						
 							<h:panelGrid columns="2">
 								<p:outputPanel>
 									<div class="p6n-api-consent-screen-input-section">
@@ -213,7 +230,7 @@
 												requiredMessage="Ingrese el monto a recibir"
 												validatorMessage="Monto recibido Invalido">
 												<f:converter converterId="MonedaConverter"></f:converter>
-												<f:ajax event="blur" listener = "#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}" render="txtMontoEntregado" />
+												<f:ajax event="blur" listener = "#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}" render="txtMontoEntregado @this" />
 											</h:inputText>
 										</div>
 										

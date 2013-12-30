@@ -112,5 +112,20 @@ public class Tipotasa implements Serializable {
 
 		return tasaintere;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Tipotasa)) {
+            return false;
+        }
+        // a room can be uniquely identified by it's number and the building it belongs to
+        final Tipotasa other = (Tipotasa) obj;
+        return other.getIdtipotasa() == idtipotasa ? true:false;
+	}
+	
+	@Override
+    public int hashCode() {
+        return idtipotasa;
+    }
 
 }

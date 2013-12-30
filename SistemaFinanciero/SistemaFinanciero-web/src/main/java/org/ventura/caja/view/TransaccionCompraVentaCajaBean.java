@@ -1,7 +1,6 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,9 +20,11 @@ import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Moneda;
+import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.managedbean.session.CajaBean;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
@@ -70,7 +71,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	@Inject
 	private CalculadoraBean calculadoraBeanRecibido;
 	@Inject
-	private Moneda tipoCambio;
+	private TasaInteresTipoCambio tipoCambio;
 	@Inject
 	private Moneda montoEntregadoNew;
 	
@@ -113,7 +114,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	}
 	
 	public void calculateMontoEntregado(){
-		Moneda money = tipoCambio.multiply(montoRecibido);
+		Moneda money = getTipoCambio().multiply(montoRecibido);
 		setMontoEntregado(money);
 		setMontoEntregadoNew(money);
 	}
@@ -144,11 +145,12 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 				transaccionCompraVenta.setTipotransaccioncompraventa(tipotransaccioncompraventa);
 				transaccionCompraVenta.setDniRuc(dniRuc);
 				transaccionCompraVenta.setNombresRazonSocial(nombresRazonSocial);
-				transaccionCompraVenta.setTasacambio(tipoCambio);
+				transaccionCompraVenta.setTipocambio(tipoCambio);
 				transaccionCompraVenta.setMontorecibido(montoRecibido);
 				transaccionCompraVenta.setMontoentregado(montoEntregadoNew);
 				transaccionCompraVenta.setTipomonedaEntregado(tipomonedaEntregado);
 				transaccionCompraVenta.setTipomonedaRecibido(tipomonedaRecibido);
+
 				try {
 					transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta);
 					//VouchercajaView vouchercajaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionBancaria(transaccionCompraVenta);
@@ -168,28 +170,67 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 			return null;
 		}
 	}
+	
+	public void cagarTipoCambio(){
+		TasaInteresTipoCambio tipocambio = transaccionCompraVentaServiceLocal.retornarTipoCambio(Tasainteres.TASA_INTERES_BY_CV, tipotransaccioncompraventa, tipomonedaRecibido, tipomonedaEntregado);
+		setTipoCambio(tipocambio);
+		System.out.println("tipo cambio: " + tipocambio);
+	} 
+	
 
+	//valida que la compra o venta no sea del nuevo sol o tipos de monedas iguales
 	public boolean validateCompraVenta() {
 		boolean validate = true;
-		if (comboTipotransaccion.getItemSelected() == 1) {
+		if (isCompra()) {
 			if (comboTipomonedaRecibido.getItemSelected() == comboTipomonedaEntregado.getItemSelected()) {
 				validate = false;
 			}
-			if (comboTipomonedaRecibido.getItemSelected() == 1) {
+			if (isRecibidaNuevoSol()) {
 				validate = false;
 			}
 		}
-		if (comboTipotransaccion.getItemSelected() == 2) {
+		if (isVenta()) {
 			if (comboTipomonedaRecibido.getItemSelected() == comboTipomonedaEntregado.getItemSelected()) {
 				validate = false;
 			}
-			if (comboTipomonedaEntregado.getItemSelected() == 1) {
+			if (isEntregadoNuevoSol()) {
 				validate = false;
 			}
 		}
 		return validate;
 	}
-
+	
+	public boolean isCompra(){
+		boolean result = false;
+		if (comboTipotransaccion.getItemSelected()==1) {
+			result = true;
+		}
+		return result;
+	}
+	
+	public boolean isVenta(){
+		boolean result = false;
+		if (comboTipotransaccion.getItemSelected()==2) {
+			result = true;
+		}
+		return result;
+	}
+	
+	public boolean isRecibidaNuevoSol(){
+		boolean result = false;
+		if (comboTipomonedaRecibido.getItemSelected() == 1) {
+			result = true;
+		}
+		return result;
+	}
+	public boolean isEntregadoNuevoSol(){
+		boolean result = false;
+		if (comboTipomonedaEntregado.getItemSelected() == 1) {
+			result = true;
+		}
+		return result;
+	}
+	
 	public void changeTipoTransaccion(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Tipotransaccioncompraventa tipotransaccionCompraVentaSelected = comboTipotransaccion.getObjectItemSelected(key);
@@ -262,14 +303,6 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 	public void setTipomonedaRecibido(Tipomoneda tipomonedaRecibido) {
 		this.tipomonedaRecibido = tipomonedaRecibido;
-	}
-
-	public Moneda getTipoCambio() {
-		return tipoCambio;
-	}
-
-	public void setTipoCambio(Moneda tipoCambio) {
-		this.tipoCambio = tipoCambio;
 	}
 
 	public Moneda getMontoRecibido() {
@@ -354,5 +387,13 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 	public void setNombresRazonSocial(String nombresRazonSocial) {
 		this.nombresRazonSocial = nombresRazonSocial;
+	}
+
+	public TasaInteresTipoCambio getTipoCambio() {
+		return tipoCambio;
+	}
+
+	public void setTipoCambio(TasaInteresTipoCambio tipoCambio) {
+		this.tipoCambio = tipoCambio;
 	}
 }

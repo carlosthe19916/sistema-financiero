@@ -192,14 +192,40 @@ public abstract class AbstractDAO<T> {
 	}
 	
 	public int executeQuerry(String namedQueryName, Object parameters) throws RollbackFailureException, Exception{
-			int deletedData = -1;
+			int data = -1;
 		try {
-			Query query=getEntityManager().createNamedQuery(namedQueryName);
+			Query query = getEntityManager().createNamedQuery(namedQueryName);
 			query.setParameter("parametro", parameters);
-		    deletedData = query.executeUpdate();
-		    return deletedData;
+		    data = query.executeUpdate();
 		} catch (Exception exception) {
 			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
+		return data;
 	}
+/*	
+	public TipoCambio executeQuerrySingleResult(String namedQueryName, Object parameters) throws RollbackFailureException, Exception{
+		TipoCambio data;
+	try {
+		Query query = getEntityManager().createNamedQuery(namedQueryName);
+		query.setParameter("parametro", parameters);
+	    Object a = query.getSingleResult();
+	    Double v = (Double) a;
+	    data = new TipoCambio(v);
+	} catch (Exception exception) {
+		throw new RollbackFailureException("Entity: " + " rollback", exception);
+	}
+	return data;
+	}*/
+	
+	public Object executeQuerrySingleResult(String namedQueryName, Object parameters) throws RollbackFailureException, Exception{
+		Object object;
+		try {
+			Query query = getEntityManager().createNamedQuery(namedQueryName);
+			query.setParameter("parametro", parameters);
+			object = query.getSingleResult();
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + " rollback", exception);
+		}
+		return object;
+	}	
 }

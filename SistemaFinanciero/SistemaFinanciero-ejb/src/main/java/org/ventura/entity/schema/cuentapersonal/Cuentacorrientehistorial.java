@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import org.ventura.entity.listener.CuentaahorrohistorialListener;
 import org.ventura.entity.listener.CuentacorrientehistorialListener;
+import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 
 /**
  * The persistent class for the cuentacorrientehistorial database table.
@@ -30,7 +31,7 @@ public class Cuentacorrientehistorial implements Serializable {
 	private Boolean estado;
 
 	@Column(nullable = false)
-	private Double tasainteres;
+	private TasaInteresTipoCambio tasainteres;
 
 	@Column(nullable = false)
 	private Integer idcuentacorriente;
@@ -67,11 +68,11 @@ public class Cuentacorrientehistorial implements Serializable {
 		this.estado = estado;
 	}
 
-	public Double getTasainteres() {
+	public TasaInteresTipoCambio getTasainteres() {
 		return this.tasainteres;
 	}
 
-	public void setTasainteres(Double tasainteres) {
+	public void setTasainteres(TasaInteresTipoCambio tasainteres) {
 		this.tasainteres = tasainteres;
 	}
 
