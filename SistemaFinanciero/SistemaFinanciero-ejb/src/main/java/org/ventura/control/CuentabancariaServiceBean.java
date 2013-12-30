@@ -18,6 +18,7 @@ import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.CuentabancariaViewDAO;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
+import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
 @Stateless
@@ -192,6 +193,18 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			throw e;
 		}
 		return cuentabancariaViews;
+	}
+
+	@Override
+	public List<Cuentabancaria> findAll()  throws Exception {
+		try {
+			return cuentabancariaDAO.findAll();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
 	}
 
 }

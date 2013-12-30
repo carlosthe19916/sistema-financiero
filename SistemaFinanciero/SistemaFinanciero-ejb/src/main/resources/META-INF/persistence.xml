@@ -83,6 +83,7 @@
 		<class>org.ventura.entity.schema.caja.Detallehistorialboveda</class>
 		<class>org.ventura.entity.schema.caja.Entidadfinanciera</class>
 		<class>org.ventura.entity.schema.caja.Moneda</class>
+		<class>org.ventura.util.helper.TasaInteres</class>
 		<class>org.ventura.entity.schema.caja.Historialcaja</class>
 		<class>org.ventura.entity.schema.caja.Detallehistorialcaja</class>
 		<class>org.ventura.entity.schema.cuentapersonal.Cuentabancaria</class>
@@ -101,7 +102,9 @@
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncuentaaporte</class>
 		<class>org.ventura.entity.schema.caja.TasaInteresTipoCambio</class>
-		
+		<class>org.ventura.entity.schema.cuentapersonal.Interesdiario</class>
+		<class>org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasa</class>
+		<class>org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasaPK</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="validate" />

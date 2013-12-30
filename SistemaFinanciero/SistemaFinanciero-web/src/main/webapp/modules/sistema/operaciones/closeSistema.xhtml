@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
+		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+	</f:metadata>
+
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Caja" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+		<h:outputStylesheet library="css" name="main.css" />
+
+		<br />
+		<div>
+			<div>
+				<div class="p6n-api-consent-screen-title">Cerrar Sistema</div>
+				<h:messages />
+				<br />
+				<div>
+					<h:form>
+						<p:calendar value="#{closeSistemaBean.fechaCalculo}">
+						</p:calendar>
+						<h:commandButton action="#{closeSistemaBean.generarIntereses()}"
+							value="Generar Interes" styleClass="action blue" />
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -328,4 +328,20 @@ public class ProduceObject {
 		}
 		return tipotransaccioncompraventaType;
 	}
+	
+	public static Tipotasa getTipotasa(TipotasaType tipotasaType) {
+		Tipotasa tipotasa =  new Tipotasa();
+		switch (tipotasaType) {
+		case CUENTA_AHORRO_TASA_INTERES:
+			tipotasa.setIdtipotasa(1);
+			break;
+		case CUENTA_CORRIENTE_TASA_INTERES:
+			tipotasa.setIdtipotasa(1);
+			break;
+		default:
+			tipotasa = null;
+			break;
+		}
+		return tipotasa;
+	}
 }

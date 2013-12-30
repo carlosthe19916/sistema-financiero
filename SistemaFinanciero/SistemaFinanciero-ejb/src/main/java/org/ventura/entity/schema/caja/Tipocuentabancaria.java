@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -59,6 +60,20 @@ public class Tipocuentabancaria implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Tipocuentabancaria)) {
+			return false;
+		}
+		final Tipocuentabancaria other = (Tipocuentabancaria) obj;
+		return other.getIdtipocuentabancaria() == this.idtipocuentabancaria ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idtipocuentabancaria;
 	}
 
 }

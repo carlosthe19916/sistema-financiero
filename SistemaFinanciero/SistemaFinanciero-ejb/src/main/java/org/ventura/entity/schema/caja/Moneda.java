@@ -71,6 +71,12 @@ public class Moneda implements Serializable {
 		return new Moneda(result);
 	}
 
+	public Moneda multiply(BigDecimal value) {
+		Moneda moneda = new Moneda(value);
+		BigDecimal result = this.value.multiply(moneda.getValue());
+		return new Moneda(result);
+	}
+	
 	public Moneda multiply(double value) {
 		Moneda moneda = new Moneda(value);
 		BigDecimal result = this.value.multiply(moneda.getValue());

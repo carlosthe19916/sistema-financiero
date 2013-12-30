@@ -13,6 +13,8 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 
 	public Cuentabancaria create(Cuentabancaria cuentabancaria) throws Exception;
 	
+	public List<Cuentabancaria> findAll() throws Exception;
+	
 	public Cuentabancaria findById(Object id) throws Exception;
 	
 	public Cuentabancaria findByNumerocuenta(String numerocuenta) throws Exception;
