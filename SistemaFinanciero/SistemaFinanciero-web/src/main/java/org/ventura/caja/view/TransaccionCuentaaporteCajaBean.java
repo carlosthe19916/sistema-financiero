@@ -3,6 +3,8 @@ package org.ventura.caja.view;
 import java.awt.print.PrinterJob;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,7 @@ import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 
 import org.ventura.boundary.local.CajaServiceLocal;
-import org.ventura.boundary.local.CuentabancariaServiceLocal;
+import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.caja.dependent.BuscarCuentabancariaBean;
@@ -42,15 +44,19 @@ import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
+import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
-import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
+import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
+import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.managedbean.session.CajaBean;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
+import org.venturabank.util.DateUtil;
 import org.venturabank.util.JsfUtil;
 import org.venturabank.util.PrintUtil;
 
@@ -65,7 +71,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	@EJB
 	private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
 	@EJB
-	private CuentabancariaServiceLocal cuentabancariaServiceLocal;
+	private CuentaaporteServiceLocal cuentaaporteServiceLocal;
 	@EJB
 	private CajaServiceLocal cajaServiceLocal;
 
@@ -83,15 +89,15 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 
 	// busqueda de cuentabancaria
 	@Inject
-	private TablaBean<CuentabancariaView> tablaCuentabancaria;
+	private TablaBean<CuentaaporteView> tablaCuentaaporte;
 	@Inject
 	private ComboBean<String> comboTipobusqueda;
 	private String valorBusqueda;
 	@Inject
-	private CuentabancariaView cuentabancariaViewSearched;
+	private CuentaaporteView cuentaaporteViewSearched;
 	
 	@Inject
-	private CuentabancariaView cuentabancariaView;
+	private CuentaaporteView cuentaaporteView;
 
 	// agrupadores pagina principal
 	@Inject
@@ -100,6 +106,8 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	private ComboBean<Tipomoneda> comboTipomoneda;
 	@Inject
 	private CalculadoraBean calculadoraBean;
+	@Inject
+	private TablaBean<AportesCuentaaporteView> tablaAportes;
 
 	// Datos pagina principal
 	@Inject
@@ -168,32 +176,43 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 		if (isCuentabancariaValid == true) {
 			validateBean();
 			if (isValidBean()) {
-
+			
 				Tipomoneda tipomoneda = new Tipomoneda();
-				tipomoneda.setIdtipomoneda(cuentabancariaView.getIdTipomoneda());
+				tipomoneda.setIdtipomoneda(cuentaaporteView.getIdTipomoneda());
 				if (this.tipomoneda.equals(tipomoneda)) {
-					Transaccioncuentabancaria transaccioncuentabancaria = new Transaccioncuentabancaria();
+					
+					AportesCuentaaporteView aportesCuentaaporteViewSelected;
+					Object object = tablaAportes.getSelectedRow();
+					if (object instanceof AportesCuentaaporteView) {
+						
+						aportesCuentaaporteViewSelected = (AportesCuentaaporteView) object;
+						
+						Transaccioncuentaaporte transaccioncuentaaporte = new Transaccioncuentaaporte();
 
-					Cuentabancaria cuentabancaria = new Cuentabancaria();
-					cuentabancaria.setNumerocuenta(numeroCuentabancaria);
+						Cuentaaporte cuentaaporte = new Cuentaaporte();
+						cuentaaporte.setNumerocuentaaporte(numeroCuentabancaria);
 
-					transaccioncuentabancaria.setTipotransaccion(tipotransaccion);
-					transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
-					transaccioncuentabancaria.setMonto(monto);
-					transaccioncuentabancaria.setReferencia(referencia);
-					transaccioncuentabancaria.setTipomoneda(tipomoneda);
-	
-					try {
-						transaccioncuentabancaria = transaccionCajaServiceLocal.createTransaccionCuentabancaria(cajaBean.getCaja(),transaccioncuentabancaria);
-						VouchercajaView vouchercajaView = transaccionCajaServiceLocal.getVoucherTransaccionBancaria(transaccioncuentabancaria);
-						imprimirVoucher(vouchercajaView);
-					} catch (Exception e) {
-						JsfUtil.addErrorMessage(e, "Error al actualizar Caja");
-						return "failure";
-					}
-					JsfUtil.addSuccessMessage("Caja Actualizada");
-					return "success";
-
+						transaccioncuentaaporte.setTipotransaccion(tipotransaccion);
+						transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
+						transaccioncuentaaporte.setMonto(monto);
+						transaccioncuentaaporte.setReferencia(referencia);
+						transaccioncuentaaporte.setTipomoneda(tipomoneda);
+						transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getId().getMes());
+						
+						try {
+							transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja,transaccioncuentaaporte);
+							//VouchercajaView vouchercajaView = transaccionCajaServiceLocal.getVoucherTransaccionBancaria(transaccioncuentabancaria);
+							//imprimirVoucher(vouchercajaView);
+						} catch (Exception e) {
+							JsfUtil.addErrorMessage(e, "Error al actualizar Caja");
+							return "failure";
+						}
+						JsfUtil.addSuccessMessage("Aporte realizado");
+						return "successTransaccionCuentaaporte?faces-redirect=true";					
+					} else {
+						JsfUtil.addErrorMessage("No se selecciono el mes de pago");
+						return null;
+					}				
 				} else {
 					JsfUtil.addErrorMessage("Los tipos de moneda son incompatibles");
 					return null;
@@ -261,29 +280,29 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	}
 
 	public void searchCuentabancaria() {
-		List<CuentabancariaView> cuentabancarias;
+		List<CuentaaporteView> cuentabancarias;
 		Integer value = comboTipobusqueda.getItemSelected();
 		try {
 			switch (value) {
 				case 1:
-					cuentabancarias = cuentabancariaServiceLocal.findCuentabancariaViewByDni(valorBusqueda);
+					cuentabancarias = cuentaaporteServiceLocal.findCuentaaporteViewByDni(valorBusqueda);
 					break;
 				 case 2:
-					 cuentabancarias = cuentabancariaServiceLocal.findCuentabancariaViewByRuc(valorBusqueda);
+					 cuentabancarias = cuentaaporteServiceLocal.findCuentaaporteViewByRuc(valorBusqueda);
 					 break;
 				 case 3:
-					 cuentabancarias = cuentabancariaServiceLocal.findCuentabancariaViewByNombre(valorBusqueda);
+					 cuentabancarias = cuentaaporteServiceLocal.findCuentaaporteViewByNombre(valorBusqueda);
 					 break;
 				 case 4:
-					 cuentabancarias = cuentabancariaServiceLocal.findCuentabancariaViewByRazonsocial(valorBusqueda);
+					 cuentabancarias = cuentaaporteServiceLocal.findCuentaaporteViewByRazonsocial(valorBusqueda);
 					 break;
 				 default: throw new Exception("Tipo de Busqueda no valida");
 			}
 			
 			if (cuentabancarias != null) {
-				this.tablaCuentabancaria.setRows(cuentabancarias);
+				this.tablaCuentaaporte.setRows(cuentabancarias);
 			} else {
-				this.tablaCuentabancaria.clean();
+				this.tablaCuentaaporte.clean();
 				JsfUtil.addErrorMessage("No se encontro resultados");
 			}
 		} catch (Exception e) {
@@ -292,25 +311,59 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	}
 
 	public void findCuentabancariaByNumerocuenta() {
-		CuentabancariaView cuentabancariaView;
+		CuentaaporteView cuentaaporteView;
 		try {
-			cuentabancariaView = cuentabancariaServiceLocal.findCuentabancariaViewByNumerocuenta(this.numeroCuentabancaria);
-			if (cuentabancariaView != null) {
-				this.cuentabancariaView = cuentabancariaView;
-				setCuentabancariaValid();
+			cuentaaporteView = cuentaaporteServiceLocal.findCuentaaporteViewByNumerocuenta(this.numeroCuentabancaria);
+			if (cuentaaporteView != null) {
+				this.cuentaaporteView = cuentaaporteView;
+				setCuentabancariaValid();	
+				
+				//probando list para eliminar linea
+				loadDetalleAportesCuenta();
 			} else {
-				this.cuentabancariaView = new CuentabancariaView();
+				this.cuentaaporteView = new CuentaaporteView();
 				setCuentabancariaInvalid();
 
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Cuenta bancaria no encontrada","Cuenta bancaria no encontrada");
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Cuenta aporte no encontrada","Cuenta aporte no encontrada");
 				FacesContext.getCurrentInstance().addMessage("msgBuscarCuentabancaria", facesMsg);
 			}
 		} catch (Exception e) {
 			setCuentabancariaInvalid();
-			JsfUtil.addErrorMessage("Error al buscar Cuenta bancaria");
+			JsfUtil.addErrorMessage("Error al buscar Cuenta aporte");
 		}
 	}
 
+	public void loadDetalleAportesCuenta() {
+		List<AportesCuentaaporteView> list;
+		try {
+			if (cuentaaporteView != null) {
+				Integer idCuentaaporte = cuentaaporteView.getIdCuentaaporte();
+				
+				Date startDate;			
+				Date endDate;
+				
+				Calendar aux = Calendar.getInstance();
+				aux.add(Calendar.YEAR,-1);
+				startDate = aux.getTime();
+				
+				Calendar aux2 = Calendar.getInstance();
+				aux2.add(Calendar.MONTH, 2);
+				endDate = aux2.getTime();
+				
+				list = cuentaaporteServiceLocal.getTableAportesPorpagar(idCuentaaporte, startDate, endDate);
+			} else {
+				list = new ArrayList<AportesCuentaaporteView>();
+			}
+			tablaAportes.setRows(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String getMonthName(Date date){
+		return DateUtil.getMonthName(date);
+	}
+	
 	public void loadDenominacionmonedaCalculadora() {
 		List<Denominacionmoneda> list;
 		try {
@@ -325,25 +378,24 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
-	public void setRowSelect() {
-		CuentabancariaView cuentabancariaView;
-		Object object = tablaCuentabancaria.getSelectedRow();
-		if (object instanceof CuentabancariaView) {
-			cuentabancariaView = (CuentabancariaView) object;
-			this.cuentabancariaViewSearched = cuentabancariaView;
-		} else {
-			this.cuentabancariaViewSearched = null;
-			JsfUtil.addErrorMessage("No se pudo seleccionar cuenta");
-		}
-	}
 	
 	public void setRowSelectToTransaccion() {
-		if (cuentabancariaViewSearched != null) {
-			this.cuentabancariaView = cuentabancariaViewSearched;
-			this.numeroCuentabancaria = cuentabancariaViewSearched.getNumerocuenta();
+		CuentaaporteView cuentaaporteView;
+		Object object = tablaCuentaaporte.getSelectedRow();
+		if (object instanceof CuentaaporteView) {
+			cuentaaporteView = (CuentaaporteView) object;
+			this.cuentaaporteViewSearched = cuentaaporteView;
 		} else {
-			this.cuentabancariaView = null;
+			this.cuentaaporteViewSearched = null;
+			JsfUtil.addErrorMessage("No se pudo seleccionar cuenta");
+		}
+		
+		if (cuentaaporteViewSearched != null) {
+			this.cuentaaporteView = cuentaaporteViewSearched;
+			this.numeroCuentabancaria = cuentaaporteViewSearched.getNumerocuenta();
+			this.loadDetalleAportesCuenta();
+		} else {
+			this.cuentaaporteView = null;
 			this.numeroCuentabancaria = "";
 			JsfUtil.addErrorMessage("No se pudo cargar la cuenta");
 		}
@@ -481,15 +533,6 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 		this.valorBusqueda = valorBusqueda;
 	}
 
-	public TablaBean<CuentabancariaView> getTablaCuentabancaria() {
-		return tablaCuentabancaria;
-	}
-
-	public void setTablaCuentabancaria(
-			TablaBean<CuentabancariaView> tablaCuentabancaria) {
-		this.tablaCuentabancaria = tablaCuentabancaria;
-	}
-
 	public String getNumeroCuentabancaria() {
 		return numeroCuentabancaria;
 	}
@@ -504,14 +547,6 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 
 	public void setComboTipobusqueda(ComboBean<String> comboTipobusqueda) {
 		this.comboTipobusqueda = comboTipobusqueda;
-	}
-
-	public CuentabancariaView getCuentabancariaView() {
-		return cuentabancariaView;
-	}
-
-	public void setCuentabancariaView(CuentabancariaView cuentabancariaView) {
-		this.cuentabancariaView = cuentabancariaView;
 	}
 
 	public Caja getCaja() {
@@ -554,13 +589,37 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 		this.isCuentabancariaValid = isCuentabancariaValid;
 	}
 
-	public CuentabancariaView getCuentabancariaViewSearched() {
-		return cuentabancariaViewSearched;
+	public TablaBean<CuentaaporteView> getTablaCuentaaporte() {
+		return tablaCuentaaporte;
 	}
 
-	public void setCuentabancariaViewSearched(
-			CuentabancariaView cuentabancariaViewSearched) {
-		this.cuentabancariaViewSearched = cuentabancariaViewSearched;
+	public void setTablaCuentaaporte(TablaBean<CuentaaporteView> tablaCuentaaporte) {
+		this.tablaCuentaaporte = tablaCuentaaporte;
+	}
+
+	public CuentaaporteView getCuentaaporteViewSearched() {
+		return cuentaaporteViewSearched;
+	}
+
+	public void setCuentaaporteViewSearched(
+			CuentaaporteView cuentaaporteViewSearched) {
+		this.cuentaaporteViewSearched = cuentaaporteViewSearched;
+	}
+
+	public CuentaaporteView getCuentaaporteView() {
+		return cuentaaporteView;
+	}
+
+	public void setCuentaaporteView(CuentaaporteView cuentaaporteView) {
+		this.cuentaaporteView = cuentaaporteView;
+	}
+
+	public TablaBean<AportesCuentaaporteView> getTablaAportes() {
+		return tablaAportes;
+	}
+
+	public void setTablaAportes(TablaBean<AportesCuentaaporteView> tablaAportes) {
+		this.tablaAportes = tablaAportes;
 	}
 
 }

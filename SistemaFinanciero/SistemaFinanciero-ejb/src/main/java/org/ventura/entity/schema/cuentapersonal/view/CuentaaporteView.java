@@ -16,10 +16,10 @@ import java.util.Date;
 @NamedQuery(name = "CuentaaporteView.findAll", query = "SELECT c FROM CuentaaporteView c")
 @NamedQueries({
 		@NamedQuery(name = CuentaaporteView.findByNumerocuenta, query = "SELECT c FROM CuentaaporteView c WHERE c.numerocuenta = :numerocuenta"),
-		@NamedQuery(name = CuentaaporteView.findByLikeDni, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.numeroDocumento LIKE :dni"),
-		@NamedQuery(name = CuentaaporteView.findByLikeRuc, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.numeroDocumento LIKE :ruc"),
-		@NamedQuery(name = CuentaaporteView.findByLikeNombre, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
-		@NamedQuery(name = CuentaaporteView.findByLikeRazonsocial, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial") })
+		@NamedQuery(name = CuentaaporteView.findByLikeDni, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PN' AND c.numeroDocumento LIKE :dni"),
+		@NamedQuery(name = CuentaaporteView.findByLikeRuc, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PJ' AND c.numeroDocumento LIKE :ruc"),
+		@NamedQuery(name = CuentaaporteView.findByLikeNombre, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
+		@NamedQuery(name = CuentaaporteView.findByLikeRazonsocial, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial") })
 public class CuentaaporteView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,6 +34,9 @@ public class CuentaaporteView implements Serializable {
 	@Column(name = "id_cuentaaporte")
 	private Integer idCuentaaporte;
 
+	@Column(name = "tipo_cuenta")
+	private String tipoCuenta;
+	
 	@Column(name = "abreviatura_estadocuenta", length = 3)
 	private String abreviaturaEstadocuenta;
 
@@ -188,6 +191,14 @@ public class CuentaaporteView implements Serializable {
 
 	public void setTitular(String titular) {
 		this.titular = titular;
+	}
+
+	public String getTipoCuenta() {
+		return tipoCuenta;
+	}
+
+	public void setTipoCuenta(String tipoCuenta) {
+		this.tipoCuenta = tipoCuenta;
 	}
 
 }
