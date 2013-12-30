@@ -202,20 +202,6 @@ public abstract class AbstractDAO<T> {
 		}
 		return data;
 	}
-/*	
-	public TipoCambio executeQuerrySingleResult(String namedQueryName, Object parameters) throws RollbackFailureException, Exception{
-		TipoCambio data;
-	try {
-		Query query = getEntityManager().createNamedQuery(namedQueryName);
-		query.setParameter("parametro", parameters);
-	    Object a = query.getSingleResult();
-	    Double v = (Double) a;
-	    data = new TipoCambio(v);
-	} catch (Exception exception) {
-		throw new RollbackFailureException("Entity: " + " rollback", exception);
-	}
-	return data;
-	}*/
 	
 	public Object executeQuerrySingleResult(String namedQueryName, Object parameters) throws RollbackFailureException, Exception{
 		Object object;

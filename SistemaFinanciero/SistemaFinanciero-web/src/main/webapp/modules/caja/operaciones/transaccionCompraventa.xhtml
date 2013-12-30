@@ -102,7 +102,7 @@
 											var="val" itemLabel="#{val.value.denominacion}"
 											itemValue="#{val.key}" />
 										<f:ajax execute="@this" />
-										<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="txtTipoCambio" />
+										<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="inplace" />
 									</h:selectOneMenu>
 								</div>
 							</div>
@@ -169,7 +169,7 @@
 													var="val" itemLabel="#{val.value.denominacion}"
 													itemValue="#{val.key}" />
 													<f:ajax execute="@this" />
-													<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="txtTipoCambio" />
+													<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="inplace" />
 												<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
 											</h:selectOneMenu>
 										</div>
@@ -196,7 +196,7 @@
 													var="val" itemLabel="#{val.value.denominacion}"
 													itemValue="#{val.key}" />
 													<f:ajax execute="@this" />
-													<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="txtTipoCambio" />
+													<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="inplace" />
 												<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
 											</h:selectOneMenu>
 										</div>
@@ -211,12 +211,15 @@
 							<div class="p6n-api-consent-screen-input-section">
 								<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO DE CAMBIO</div>
 								<div style="float: left;">
-									<h:inputText id="txtTipoCambio"
-										value="#{transaccionCompraVentaCajaBean.tipoCambio}"
-										required="true" maxlenght="5" requiredMessage="Ingrese el tipo de cambio"> 
-										<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
-										<f:ajax event="blur" listener = "#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}" render="txtMontoEntregado @this" />
-									</h:inputText>	
+								&nbsp;
+									<p:inplace id="inplace" >
+										<h:inputText id="txtTipoCambio"
+											value="#{transaccionCompraVentaCajaBean.tipoCambio}"
+											required="true" maxlenght="5" requiredMessage="Ingrese el tipo de cambio"> 
+											<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+											<f:ajax event="blur" listener = "#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}" render="txtMontoEntregado @this" />
+										</h:inputText>	
+									</p:inplace>
 								</div>
 							</div>
 						
