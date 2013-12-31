@@ -25,21 +25,69 @@
 		<h:outputStylesheet library="css" name="main.css" />
 
 		<br />
-		<div>
-			<div>
-				<div class="p6n-api-consent-screen-title">Cerrar Sistema</div>
-				<h:messages />
-				<br />
+
+		<h:form id="formTransaccion">
+			<br />
+			<div style="margin-left: 50px;">
 				<div>
-					<h:form>
-						<p:calendar value="#{closeSistemaBean.fechaCalculo}">
-						</p:calendar>
-						<h:commandButton action="#{closeSistemaBean.generarIntereses()}"
-							value="Generar Interes" styleClass="action blue" />
-					</h:form>
+					<div>
+						<br /> <br />
+						<div class="p6n-api-consent-screen-title">Generar Intereses</div>
+						<div class="p6n-api-consent-screen-inputs">
+							<div class="p6n-api-consent-screen-input-section">
+								<div class="p6n-api-consent-screen-label">FECHA DE
+									GENERACION</div>
+								<div>
+									<p:calendar id="txtFecha"
+										value="#{closeSistemaBean.fechaCalculo}"
+										showOtherMonths="true" required="true"
+										requiredMessage="Ingrese una fecha">
+									</p:calendar>
+								</div>
+							</div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+								style="float: inherit;">
+								<h:messages />
+							</div>
+							<br />
+							<div class="sf-separator"></div>
+							<div class="p6n-api-consent-screen-input-section">
+								<div class="sf-buttons" style="float: left;">
+									<h:commandButton
+										action="#{closeSistemaBean.generarIntereses()}"
+										value="Generar Interes" styleClass="action blue" />
+								</div>
+
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
+
+			<h:panelGroup rendered="#{closeSistemaBean.operacionTerminada}">
+				<div id="dlgCalculadora" class="modal-dialog p6n-popup"
+					style="left: 512.5px; top: 150px;">
+
+					<div class="p6n-popup-title">Operacion terminada</div>
+					<div class="modal-dialog-content">
+						<div>
+							<h:outputLabel
+								value="Los intereses correspondientes fueron generados." />
+						</div>
+					</div>
+					<div class="modal-dialog-buttons">
+						<h:commandButton value="Aceptar"
+							action="closeSistema.xhtml?faces-redirect=true"
+							styleClass="action blue">
+						</h:commandButton>
+					</div>
+				</div>
+				<div id="modal-dialog-bg" class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+			</h:panelGroup>
+		</h:form>
+
 	</ui:define>
 
 </ui:composition>

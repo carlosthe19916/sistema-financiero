@@ -15,12 +15,15 @@ import java.util.Date;
 @Entity
 @Table(name = "interesdiario", schema = "cuentapersonal")
 @NamedQuery(name = "Interesdiario.findAll", query = "SELECT i FROM Interesdiario i")
-@NamedQueries({ @NamedQuery(name = Interesdiario.InteresesForDate, query = "SELECT i FROM Interesdiario i WHERE i.fecha = :fecha")})
+@NamedQueries({
+		@NamedQuery(name = Interesdiario.InteresesForDate, query = "SELECT i FROM Interesdiario i WHERE i.fecha = :fecha"),
+		@NamedQuery(name = Interesdiario.InteresesForDateAndCuenta, query = "SELECT i FROM Interesdiario i WHERE i.idcuentabancaria = :idcuentabancaria AND i.fecha BETWEEN :startDate AND :endDate") })
 public class Interesdiario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String InteresesForDate = "org.ventura.entity.schema.cuentapersonal.Interesdiario";
+	public final static String InteresesForDateAndCuenta = "org.ventura.entity.schema.cuentapersonal.InteresesForDateAndCuenta";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

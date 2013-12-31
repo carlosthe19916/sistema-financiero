@@ -20,6 +20,7 @@ import javax.inject.Named;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.SistemaServiceLocal;
 import org.ventura.boundary.remote.SistemaServiceRemote;
+import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.CuentabancariaTipotasaDAO;
 import org.ventura.dao.impl.InteresdiarioDAO;
 import org.ventura.entity.schema.caja.Moneda;
@@ -52,6 +53,8 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 	private InteresdiarioDAO interesdiarioDAO;
 	@EJB
 	private CuentabancariaTipotasaDAO cuentabancariaTipotasaDAO;
+	@EJB
+	private CuentabancariaDAO cuentabancariaDAO;
 	
 	@Override
 	public void closeSistema(Date fecha) throws Exception{
@@ -74,6 +77,13 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 			}
 			
 			generarInteresCuentaAhorroAndCorriente(fecha);
+			
+			int lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+			int currentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+			
+			if(lastDayOfMonth == currentDayOfMonth){
+				generarCapitalizacionCuentaAhorroAndCorriente(fecha);
+			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -81,7 +91,7 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 	}
 	
 	public void generarInteresCuentaAhorroAndCorriente(Date fecha) throws Exception{
-		try {
+		
 			List<Cuentabancaria> cuentabancarias = cuentabancariaServiceLocal.findAll();
 			for (Cuentabancaria cuentabancaria : cuentabancarias) {
 				
@@ -129,9 +139,49 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 						
 				interesdiarioDAO.create(interesdiario);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}		
+			
+	}
+	
+	public void generarCapitalizacionCuentaAhorroAndCorriente(Date fecha) throws Exception{	
+		List<Cuentabancaria> cuentabancarias = cuentabancariaServiceLocal.findAll();
+		
+		Calendar startCalendar = Calendar.getInstance();
+		Calendar endCalendar = Calendar.getInstance();
+		
+		startCalendar.setTime(fecha);
+		endCalendar.setTime(fecha);
+		
+		int lastDayOfMonth = startCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		endCalendar.set(Calendar.DAY_OF_MONTH, lastDayOfMonth);
+		
+		startCalendar.clear(Calendar.HOUR_OF_DAY);
+		startCalendar.clear(Calendar.HOUR);
+		startCalendar.clear(Calendar.MINUTE);
+		startCalendar.clear(Calendar.SECOND);
+		startCalendar.clear(Calendar.MILLISECOND);
+		
+		endCalendar.clear(Calendar.HOUR_OF_DAY);
+		endCalendar.clear(Calendar.HOUR);
+		endCalendar.clear(Calendar.MINUTE);
+		endCalendar.clear(Calendar.SECOND);
+		endCalendar.clear(Calendar.MILLISECOND);
+		
+		for (Cuentabancaria cuentabancaria : cuentabancarias) {
+			Moneda interesTotal = new Moneda(); 
+			Moneda saldoFinal = new Moneda();
+			
+			Map<String, Object> parameters =  new HashMap<String, Object>();
+			parameters.put("idcuentabancaria", cuentabancaria.getIdcuentabancaria());
+			parameters.put("startDate", startCalendar.getTime());
+			parameters.put("endDate", endCalendar.getTime());
+			
+			List<Interesdiario> interesdiarios = interesdiarioDAO.findByNamedQuery(Interesdiario.InteresesForDate,parameters);
+			for (Interesdiario interesdiario : interesdiarios) {
+				interesTotal = interesTotal.add(interesdiario.getInteres());
+			}
+			saldoFinal = saldoFinal.add(interesTotal);
+			cuentabancaria.setSaldo(saldoFinal);
+			cuentabancariaDAO.update(cuentabancaria);
+		}
 	}
 }
