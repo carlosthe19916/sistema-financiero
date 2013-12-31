@@ -214,4 +214,20 @@ public abstract class AbstractDAO<T> {
 		}
 		return object;
 	}	
+	
+	public List executeQuerry(String namedQueryName, Map<String, Object> parameters) throws RollbackFailureException, Exception{
+		List list = null;
+		try {
+			Set<Entry<String, Object>> rawParameters = parameters.entrySet();
+			Query query = getEntityManager().createNamedQuery(namedQueryName);
+			
+			for (Entry<String, Object> entry : rawParameters) {
+				query.setParameter(entry.getKey(), entry.getValue());
+			}
+			list = query.getResultList();
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + " rollback", exception);
+		}
+		return list;
+	}
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -85,13 +86,15 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 				generarCapitalizacionCuentaAhorroAndCorriente(fecha);
 			}	
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
+			log.error("Cause:"+e.getCause());
+			log.error("Class:"+e.getClass());
 			throw e;
 		}
 	}
 	
 	public void generarInteresCuentaAhorroAndCorriente(Date fecha) throws Exception{
-		
+		try{
 			List<Cuentabancaria> cuentabancarias = cuentabancariaServiceLocal.findAll();
 			for (Cuentabancaria cuentabancaria : cuentabancarias) {
 				
@@ -139,49 +142,66 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 						
 				interesdiarioDAO.create(interesdiario);
 			}
-			
+		} catch(Exception e){
+			log.error(e.getMessage());
+			log.error("Cause:"+e.getCause());
+			log.error("Class:"+e.getClass());
+			throw new EJBException(e);
+		}		
 	}
 	
 	public void generarCapitalizacionCuentaAhorroAndCorriente(Date fecha) throws Exception{	
-		List<Cuentabancaria> cuentabancarias = cuentabancariaServiceLocal.findAll();
-		
-		Calendar startCalendar = Calendar.getInstance();
-		Calendar endCalendar = Calendar.getInstance();
-		
-		startCalendar.setTime(fecha);
-		endCalendar.setTime(fecha);
-		
-		int lastDayOfMonth = startCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-		endCalendar.set(Calendar.DAY_OF_MONTH, lastDayOfMonth);
-		
-		startCalendar.clear(Calendar.HOUR_OF_DAY);
-		startCalendar.clear(Calendar.HOUR);
-		startCalendar.clear(Calendar.MINUTE);
-		startCalendar.clear(Calendar.SECOND);
-		startCalendar.clear(Calendar.MILLISECOND);
-		
-		endCalendar.clear(Calendar.HOUR_OF_DAY);
-		endCalendar.clear(Calendar.HOUR);
-		endCalendar.clear(Calendar.MINUTE);
-		endCalendar.clear(Calendar.SECOND);
-		endCalendar.clear(Calendar.MILLISECOND);
-		
-		for (Cuentabancaria cuentabancaria : cuentabancarias) {
-			Moneda interesTotal = new Moneda(); 
-			Moneda saldoFinal = new Moneda();
+		try{
 			
-			Map<String, Object> parameters =  new HashMap<String, Object>();
-			parameters.put("idcuentabancaria", cuentabancaria.getIdcuentabancaria());
-			parameters.put("startDate", startCalendar.getTime());
-			parameters.put("endDate", endCalendar.getTime());
+			List<Cuentabancaria> cuentabancarias = cuentabancariaServiceLocal.findAll();
 			
-			List<Interesdiario> interesdiarios = interesdiarioDAO.findByNamedQuery(Interesdiario.InteresesForDate,parameters);
-			for (Interesdiario interesdiario : interesdiarios) {
-				interesTotal = interesTotal.add(interesdiario.getInteres());
+			Calendar startCalendar = Calendar.getInstance();
+			Calendar endCalendar = Calendar.getInstance();
+			
+			startCalendar.setTime(fecha);
+			endCalendar.setTime(fecha);
+			
+			int lastDayOfMonth = startCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+			int firstDayOfMonth = startCalendar.getActualMinimum(Calendar.DAY_OF_MONTH);
+			
+			startCalendar.set(Calendar.DAY_OF_MONTH, firstDayOfMonth);
+			endCalendar.set(Calendar.DAY_OF_MONTH, lastDayOfMonth);
+			
+			startCalendar.clear(Calendar.HOUR_OF_DAY);
+			startCalendar.clear(Calendar.HOUR);
+			startCalendar.clear(Calendar.MINUTE);
+			startCalendar.clear(Calendar.SECOND);
+			startCalendar.clear(Calendar.MILLISECOND);
+			
+			endCalendar.clear(Calendar.HOUR_OF_DAY);
+			endCalendar.clear(Calendar.HOUR);
+			endCalendar.clear(Calendar.MINUTE);
+			endCalendar.clear(Calendar.SECOND);
+			endCalendar.clear(Calendar.MILLISECOND);
+			
+			for (Cuentabancaria cuentabancaria : cuentabancarias) {
+				Moneda interesTotal = new Moneda(); 
+				Moneda saldoFinal = cuentabancaria.getSaldo();
+				
+				Map<String, Object> parameters =  new HashMap<String, Object>();
+				parameters.put("idcuentabancaria", cuentabancaria.getIdcuentabancaria());
+				parameters.put("startDate", startCalendar.getTime());
+				parameters.put("endDate", endCalendar.getTime());
+						
+				List<Interesdiario> result = interesdiarioDAO.findByNamedQuery(Interesdiario.InteresesForDateAndCuenta, parameters);
+				for (Interesdiario interesdiario : result) {
+					interesTotal = interesTotal.add(interesdiario.getInteres());
+				}
+				
+				saldoFinal = saldoFinal.add(interesTotal);
+				cuentabancaria.setSaldo(saldoFinal);
+				cuentabancariaDAO.update(cuentabancaria);
 			}
-			saldoFinal = saldoFinal.add(interesTotal);
-			cuentabancaria.setSaldo(saldoFinal);
-			cuentabancariaDAO.update(cuentabancaria);
-		}
+		} catch(Exception e){
+			log.error(e.getMessage());
+			log.error("Cause:"+e.getCause());
+			log.error("Class:"+e.getClass());
+			throw new EJBException(e);
+		}		
 	}
 }
