@@ -12,8 +12,8 @@ import java.util.Date;
  * The persistent class for the vouchercaja_view database table.
  * 
  */
-@Entity
-@Table(name = "vouchercaja_view", schema = "caja")
+//@Entity
+//@Table(name = "vouchercaja_view")
 @NamedQuery(name = "VouchercajaView.findAll", query = "SELECT v FROM VouchercajaView v")
 @NamedQueries({ @NamedQuery(name = VouchercajaView.FindByIdTransaccioncuentabancaria, query = "SELECT v FROM VouchercajaView v WHERE v.idTransaccioncuentabancaria = :idtransaccioncuentabancaria") })
 public class VouchercajaView implements Serializable {

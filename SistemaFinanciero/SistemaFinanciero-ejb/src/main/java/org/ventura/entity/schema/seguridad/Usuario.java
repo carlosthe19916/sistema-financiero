@@ -32,8 +32,8 @@ public class Usuario implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer idusuario;
 
-	@Column(length = 8)
-	private String dnitrabajador;
+	@Column
+	private Integer idtrabajador;
 
 	@Column(nullable = false)
 	private Boolean estado;
@@ -45,7 +45,7 @@ public class Usuario implements Serializable {
 	private String username;
 
 	@ManyToOne
-	@JoinColumn(name = "dnitrabajador", insertable = false, updatable = false)
+	@JoinColumn(name = "idtrabajador", insertable = false, updatable = false)
 	private Trabajador trabajador;
 
 	// bi-directional many-to-many association to Grupo
@@ -66,14 +66,6 @@ public class Usuario implements Serializable {
 
 	public void setIdusuario(Integer idusuario) {
 		this.idusuario = idusuario;
-	}
-
-	public String getDnitrabajador() {
-		return this.dnitrabajador;
-	}
-
-	public void setDnitrabajador(String dnitrabajador) {
-		this.dnitrabajador = dnitrabajador;
 	}
 
 	public Boolean getEstado() {

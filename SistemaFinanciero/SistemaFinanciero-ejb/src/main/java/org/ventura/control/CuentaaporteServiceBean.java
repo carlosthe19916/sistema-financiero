@@ -34,7 +34,7 @@ import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.CuentaaporteViewDAO;
 import org.ventura.entity.schema.caja.Moneda;
-import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK;
@@ -233,7 +233,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	}
 	
 	@Override
-	public List<Beneficiariocuenta> findByNamedQueryBeneficiario(String beneficiario,
+	public List<Beneficiario> findByNamedQueryBeneficiario(String beneficiario,
 			Map<String, Object> parameters) {
 		try {
 			return beneficiariocuentaDAO.findByNamedQuery(beneficiario, parameters);
@@ -283,16 +283,16 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	@Override
 	public void updateBeneficiario(Socio oSocio) throws Exception{
 		try{
-			List<Beneficiariocuenta> beneficiarios = oSocio.getCuentaaporte().getBeneficiarios();
+			/*List<Beneficiario> beneficiarios = oSocio.getCuentaaporte().getBeneficiarios();
 			if(beneficiarios != null){
-				for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-					Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
+				for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+					Beneficiario beneficiariocuenta = (Beneficiario) iterator.next();
 					beneficiariocuenta.setIdbeneficiariocuenta(null);
 					beneficiariocuenta.setCuentaaporte(oSocio.getCuentaaporte());
 					
 					createBeneficiario(beneficiariocuenta);
 				}
-			}
+			}*/
 		}catch(Exception e){
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -301,7 +301,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		}
 	}
 
-	private void createBeneficiario(Beneficiariocuenta beneficiariocuenta) throws Exception{
+	private void createBeneficiario(Beneficiario beneficiariocuenta) throws Exception{
 		try {
 			beneficiariocuentaDAO.create(beneficiariocuenta);
 		} catch (Exception e) {

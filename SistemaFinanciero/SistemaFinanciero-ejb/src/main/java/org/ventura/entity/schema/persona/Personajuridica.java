@@ -1,9 +1,7 @@
 package org.ventura.entity.schema.persona;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 import java.util.List;
 
@@ -14,31 +12,15 @@ import java.util.List;
 @Entity
 @Table(name = "personajuridica", schema = "persona")
 @NamedQuery(name = "Personajuridica.findAll", query = "SELECT p FROM Personajuridica p")
-@NamedQueries({
-	@NamedQuery(name = Personajuridica.Delete_Accionista, query = "delete from Accionista d where d.id.ruc = :parametro")})
 public class Personajuridica implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	public final static String Delete_Accionista = "org.ventura.model.Personajuridica.Delete_Accionista";
 
 	@Id
-	@Column(unique = true, nullable = false, length = 11)
-	private String ruc;
-
-	@Column(nullable = false, length = 50)
-	private String razonsocial;
-
-	@Column(length = 50)
-	private String nombrecomercial;
+	@Column(unique = true, nullable = false)
+	private Integer idpersonajuridica;
 
 	@Column(length = 50)
 	private String actividadprincipal;
-
-	private Boolean finsocial;
-
-	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	private Date fechaconstitucion;
 
 	@Column(length = 30)
 	private String celular;
@@ -46,44 +28,55 @@ public class Personajuridica implements Serializable {
 	@Column(length = 200)
 	private String direccion;
 
+	@Column(length = 50)
+	private String email;
+
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
+	private Date fechaconstitucion;
+
+	private Boolean finsocial;
+
+	@Column(length = 50)
+	private String nombrecomercial;
+
+	@Column(nullable = false, length = 50)
+	private String razonsocial;
+
 	@Column(length = 100)
 	private String referencia;
 
 	@Column(length = 20)
 	private String telefono;
 
-	@Column(length = 50)
-	private String email;
+	// bi-directional many-to-one association to Accionista
+	@OneToMany(mappedBy = "personajuridica")
+	private List<Accionista> accionistas;
 
-	@Column(length = 8, nullable = false)
-	private String dnirepresentantelegal;
-
-	@Column(nullable = false)
-	private Integer idtipoempresa;
+	// bi-directional many-to-one association to Personanatural
+	@ManyToOne
+	@JoinColumn(name = "idrepresentantelegal", nullable = false)
+	private Personanatural personanatural;
 
 	// bi-directional many-to-one association to Tipoempresa
 	@ManyToOne
-	@JoinColumn(name = "idtipoempresa", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idtipoempresa", nullable = false)
 	private Tipoempresa tipoempresa;
 
-	// bi-directional many-to-one association to Personanatural
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "dnirepresentantelegal", nullable = false, insertable = false, updatable = false)
-	private Personanatural personanatural;
+	// bi-directional many-to-one association to Tipodocumento
+	@ManyToOne
+	@JoinColumn(name = "idtipodocumento", nullable = false)
+	private Tipodocumento tipodocumento;
 
-	// bi-directional many-to-one association to Accionista
-	@OneToMany(mappedBy = "personajuridica", fetch = FetchType.EAGER)
-	private List<Accionista> listAccionista;
-	
 	public Personajuridica() {
 	}
 
-	public String getRuc() {
-		return this.ruc;
+	public Integer getIdpersonajuridica() {
+		return this.idpersonajuridica;
 	}
 
-	public void setRuc(String ruc) {
-		this.ruc = ruc;
+	public void setIdpersonajuridica(Integer idpersonajuridica) {
+		this.idpersonajuridica = idpersonajuridica;
 	}
 
 	public String getActividadprincipal() {
@@ -166,18 +159,34 @@ public class Personajuridica implements Serializable {
 		this.telefono = telefono;
 	}
 
+	public List<Accionista> getAccionistas() {
+		return this.accionistas;
+	}
+
+	public void setAccionistas(List<Accionista> accionistas) {
+		this.accionistas = accionistas;
+	}
+
 	public Accionista addAccionista(Accionista accionista) {
-		getListAccionista().add(accionista);
+		getAccionistas().add(accionista);
 		accionista.setPersonajuridica(this);
 
 		return accionista;
 	}
 
 	public Accionista removeAccionista(Accionista accionista) {
-		getListAccionista().remove(accionista);
+		getAccionistas().remove(accionista);
 		accionista.setPersonajuridica(null);
 
 		return accionista;
+	}
+
+	public Personanatural getPersonanatural() {
+		return this.personanatural;
+	}
+
+	public void setPersonanatural(Personanatural personanatural) {
+		this.personanatural = personanatural;
 	}
 
 	public Tipoempresa getTipoempresa() {
@@ -186,63 +195,14 @@ public class Personajuridica implements Serializable {
 
 	public void setTipoempresa(Tipoempresa tipoempresa) {
 		this.tipoempresa = tipoempresa;
-		if (tipoempresa != null) {
-			this.idtipoempresa = tipoempresa.getIdtipoempresa();
-		} else {
-			this.idtipoempresa = null;
-		}
 	}
 
-	public String getDnirepresentantelegal() {
-		return dnirepresentantelegal;
+	public Tipodocumento getTipodocumento() {
+		return this.tipodocumento;
 	}
 
-	public void setDnirepresentantelegal(String dnirepresentantelegal) {
-		this.dnirepresentantelegal = dnirepresentantelegal;
-	}
-
-	public Integer getIdtipoempresa() {
-		return idtipoempresa;
-	}
-
-	public void setIdtipoempresa(Integer idtipoempresa) {
-		this.idtipoempresa = idtipoempresa;
-	}
-
-	public List<Accionista> getListAccionista() {
-		return listAccionista;
-	}
-
-	public void setListAccionista(List<Accionista> listAccionista) {
-		this.listAccionista = listAccionista;
-	}
-
-	public Personanatural getPersonanatural() {
-		return personanatural;
-	}
-
-	public void setPersonanatural(Personanatural personanatural) {
-		this.personanatural = personanatural;
-		this.dnirepresentantelegal = personanatural.getDni();
-	}
-
-	public boolean isValid() {
-		boolean result = true;
-
-		if (ruc == null || ruc.isEmpty() || ruc.trim().isEmpty()
-				|| ruc.length() != 11) {
-			result = false;
-		}
-		if (razonsocial == null || razonsocial.isEmpty()
-				|| razonsocial.trim().isEmpty()) {
-			result = false;
-		}
-		if (dnirepresentantelegal == null || dnirepresentantelegal.isEmpty()
-				|| dnirepresentantelegal.trim().isEmpty()
-				|| dnirepresentantelegal.length() != 8) {
-			result = false;
-		}
-		return result;
+	public void setTipodocumento(Tipodocumento tipodocumento) {
+		this.tipodocumento = tipodocumento;
 	}
 
 }

@@ -4,31 +4,29 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.ventura.entity.schema.caja.Boveda;
-
-
 /**
  * The persistent class for the estadocuenta database table.
  * 
  */
 
 @Entity
-@Table(name="estadocuenta",schema="cuentapersonal")
-@NamedQuery(name="Estadocuenta.findAll", query="SELECT e FROM Estadocuenta e")
+@Table(name = "estadocuenta", schema = "cuentapersonal")
+@NamedQuery(name = "Estadocuenta.findAll", query = "SELECT e FROM Estadocuenta e")
 public class Estadocuenta implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idestadocuenta;
 
-	@Column(length=3)
+	@Column(length = 3)
 	private String abreviatura;
 
-	@Column(nullable=false, length=20)
+	@Column(nullable = false, length = 20)
 	private String denominacion;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
 	public Estadocuenta() {
@@ -65,19 +63,19 @@ public class Estadocuenta implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Estadocuenta)) {
 			return false;
 		}
 		final Estadocuenta other = (Estadocuenta) obj;
-		return other.getIdestadocuenta()== this.idestadocuenta ? true : false;
+		return other.getIdestadocuenta() == this.idestadocuenta ? true : false;
 	}
 
 	@Override
 	public int hashCode() {
 		return idestadocuenta;
 	}
-	
+
 }

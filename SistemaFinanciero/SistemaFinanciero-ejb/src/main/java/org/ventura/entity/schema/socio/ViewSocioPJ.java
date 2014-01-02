@@ -15,8 +15,8 @@ import java.util.Date;
  * The persistent class for the ViewSocio database table.
  * 
  */
-@Entity
-@Table(name = "viewsociopj", schema = "socio")
+//@Entity
+//@Table(name = "viewsociopj", schema = "socio")
 public class ViewSocioPJ implements Serializable {
 
 	private static final long serialVersionUID = 1L;

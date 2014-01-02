@@ -20,7 +20,7 @@ import javax.persistence.NamedQuery;
 
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
-import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Accionista;

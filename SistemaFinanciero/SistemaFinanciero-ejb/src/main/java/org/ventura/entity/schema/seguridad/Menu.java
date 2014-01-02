@@ -16,9 +16,9 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name = Menu.ALL, query = "SELECT m FROM Menu m"),
 		@NamedQuery(name = Menu.ALL_ACTIVE, query = "Select m From Menu m WHERE m.estado=true"),
-		@NamedQuery(name = Menu.ALL_FOR_USER, query = "Select me From Menu me INNER JOIN me.modulo mo INNER JOIN mo.rols r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE me.estado = true AND u.username = :username" ) })
+		@NamedQuery(name = Menu.ALL_FOR_USER, query = "Select me From Menu me INNER JOIN me.modulo mo INNER JOIN mo.rols r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE me.estado = true AND u.username = :username") })
 public class Menu implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public final static String ALL = "org.ventura.model.Menu.ALL";
@@ -137,20 +137,21 @@ public class Menu implements Serializable {
 	public void setPaginas(List<Pagina> paginas) {
 		this.paginas = paginas;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Menu)) {
-            return false;
-        }
-        // a room can be uniquely identified by it's number and the building it belongs to
-        final Menu other = (Menu) obj;
-        return other.getIdmenu() == idmenu ? true:false;
+			return false;
+		}
+		// a room can be uniquely identified by it's number and the building it
+		// belongs to
+		final Menu other = (Menu) obj;
+		return other.getIdmenu() == idmenu ? true : false;
 	}
-	
+
 	@Override
-    public int hashCode() {
-        return idmenu;
-    }
+	public int hashCode() {
+		return idmenu;
+	}
 
 }

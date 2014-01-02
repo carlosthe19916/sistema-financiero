@@ -1,13 +1,9 @@
 package org.ventura.entity.schema.persona;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
-import org.ventura.entity.schema.maestro.Estadocivil;
-import org.ventura.entity.schema.maestro.Sexo;
-
 import java.util.Date;
+import java.util.List;
 
 /**
  * The persistent class for the personanatural database table.
@@ -16,31 +12,18 @@ import java.util.Date;
 @Entity
 @Table(name = "personanatural", schema = "persona")
 @NamedQuery(name = "Personanatural.findAll", query = "SELECT p FROM Personanatural p")
-@NamedQueries({ @NamedQuery(name = Personanatural.findById, query = "Select p From Personanatural p Where p.dni=:dni") })
 public class Personanatural implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public final static String findById = "org.ventura.model.Personanatural.findById";
-
 	@Id
-	@Column(unique = true, nullable = false, length = 8)
-	private String dni;
-
-	@Column(nullable = false, length = 40)
-	private String apellidomaterno;
-
-	@Column(nullable = false, length = 40)
-	private String apellidopaterno;
+	@Column(unique = true, nullable = false)
+	private Integer idpersonanatural;
 
 	@Column(nullable = false, length = 50)
-	private String nombres;
+	private String apellidomaterno;
 
-	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	private Date fechanacimiento;
-
-	@Column(length = 30)
-	private String telefono;
+	@Column(nullable = false, length = 50)
+	private String apellidopaterno;
 
 	@Column(length = 30)
 	private String celular;
@@ -48,47 +31,53 @@ public class Personanatural implements Serializable {
 	@Column(length = 200)
 	private String direccion;
 
-	@Column(length = 100)
-	private String referencia;
-
-	@Column(length = 50)
-	private String ocupacion;
-	
-	@Column(length = 8)
-	private String dniapoderado;
-	
-	@Column(length = 150)
-	private String apoderado;
-	
 	@Column(length = 50)
 	private String email;
+
+	@Temporal(TemporalType.DATE)
+	private Date fechanacimiento;
 
 	@Column(length = 200)
 	private String firma;
 
-	@Column
 	private Integer idestadocivil;
 
-	@Column(nullable = false)
 	private Integer idsexo;
 
-	@ManyToOne
-	@JoinColumn(name = "idsexo", insertable = false, updatable = false)
-	private Sexo sexo;
+	@Column(nullable = false, length = 60)
+	private String nombres;
 
+	@Column(length = 70)
+	private String ocupacion;
+
+	@Column(length = 100)
+	private String referencia;
+
+	@Column(length = 30)
+	private String telefono;
+
+	// bi-directional many-to-one association to Accionista
+	@OneToMany(mappedBy = "personanatural")
+	private List<Accionista> accionistas;
+
+	// bi-directional many-to-one association to Personajuridica
+	@OneToMany(mappedBy = "personanatural")
+	private List<Personajuridica> personajuridicas;
+
+	// bi-directional many-to-one association to Tipodocumento
 	@ManyToOne
-	@JoinColumn(name = "idestadocivil", insertable = false, updatable = false)
-	private Estadocivil estadocivil;
+	@JoinColumn(name = "idtipodocumento", nullable = false)
+	private Tipodocumento tipodocumento;
 
 	public Personanatural() {
 	}
 
-	public String getDni() {
-		return this.dni;
+	public Integer getIdpersonanatural() {
+		return this.idpersonanatural;
 	}
 
-	public void setDni(String dni) {
-		this.dni = dni;
+	public void setIdpersonanatural(Integer idpersonanatural) {
+		this.idpersonanatural = idpersonanatural;
 	}
 
 	public String getApellidomaterno() {
@@ -195,94 +184,56 @@ public class Personanatural implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public Sexo getSexo() {
-		return sexo;
+	public List<Accionista> getAccionistas() {
+		return this.accionistas;
 	}
 
-	public void setSexo(Sexo sexo) {
-		this.sexo = sexo;
-		if (sexo != null) {
-			this.idsexo = sexo.getIdsexo();
-		} else {
-			this.idsexo = null;
-		}
+	public void setAccionistas(List<Accionista> accionistas) {
+		this.accionistas = accionistas;
 	}
 
-	public Estadocivil getEstadocivil() {
-		return estadocivil;
+	public Accionista addAccionista(Accionista accionista) {
+		getAccionistas().add(accionista);
+		accionista.setPersonanatural(this);
+
+		return accionista;
 	}
 
-	public void setEstadocivil(Estadocivil estadocivil) {
-		this.estadocivil = estadocivil;
-		if (estadocivil != null) {
-			this.idestadocivil = estadocivil.getIdestadocivil();
-		} else {
-			this.idestadocivil = null;
-		}
+	public Accionista removeAccionista(Accionista accionista) {
+		getAccionistas().remove(accionista);
+		accionista.setPersonanatural(null);
+
+		return accionista;
 	}
 
-	public String getNombreCompleto() {
-		String apellidoPaterno = getApellidopaterno();
-		String apellidoMaterno = getApellidomaterno();
-		String nombres = getNombres();
-
-		if (this.getApellidopaterno() == null) {
-			apellidoPaterno = "";
-		}
-		if (this.getApellidomaterno() == null) {
-			apellidoMaterno = "";
-		}
-		if (this.getNombres() == null) {
-			nombres = "";
-		}
-
-		return apellidoPaterno + " " + apellidoMaterno + " " + nombres;
+	public List<Personajuridica> getPersonajuridicas() {
+		return this.personajuridicas;
 	}
 
-	public boolean isValid() {
-		boolean result = true;
-
-		if (dni == null || dni.isEmpty() || dni.trim().isEmpty()
-				|| dni.length() != 8) {
-			result = false;
-		}
-		if (apellidopaterno == null || apellidopaterno.isEmpty()
-				|| apellidopaterno.trim().isEmpty()) {
-			result = false;
-		}
-		if (apellidomaterno == null || apellidomaterno.isEmpty()
-				|| apellidomaterno.trim().isEmpty()) {
-			result = false;
-		}
-		if (nombres == null || nombres.isEmpty() || nombres.trim().isEmpty()) {
-			result = false;
-		}
-		if (fechanacimiento == null) {
-			result = false;
-		}
-		if (idsexo == null) {
-			result = false;
-		}
-		return result;
-		
+	public void setPersonajuridicas(List<Personajuridica> personajuridicas) {
+		this.personajuridicas = personajuridicas;
 	}
 
-	public String getDniapoderado() {
-		return dniapoderado;
+	public Personajuridica addPersonajuridica(Personajuridica personajuridica) {
+		getPersonajuridicas().add(personajuridica);
+		personajuridica.setPersonanatural(this);
+
+		return personajuridica;
 	}
 
-	public void setDniapoderado(String dniapoderado) {
-		this.dniapoderado = dniapoderado;
+	public Personajuridica removePersonajuridica(Personajuridica personajuridica) {
+		getPersonajuridicas().remove(personajuridica);
+		personajuridica.setPersonanatural(null);
+
+		return personajuridica;
 	}
 
-	public String getApoderado() {
-		return apoderado;
+	public Tipodocumento getTipodocumento() {
+		return this.tipodocumento;
 	}
 
-	public void setApoderado(String apoderado) {
-		this.apoderado = apoderado;
+	public void setTipodocumento(Tipodocumento tipodocumento) {
+		this.tipodocumento = tipodocumento;
 	}
-	
-	
-	
+
 }

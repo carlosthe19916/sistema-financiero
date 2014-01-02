@@ -1,33 +1,34 @@
 package org.ventura.entity.schema.sucursal;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.*;
 
 /**
  * The persistent class for the sucursal database table.
  * 
  */
 @Entity
-@Table(name="sucursal",schema="sucursal")
-@NamedQuery(name="Sucursal.findAll", query="SELECT s FROM Sucursal s")
+@Table(name = "sucursal", schema = "sucursal")
+@NamedQuery(name = "Sucursal.findAll", query = "SELECT s FROM Sucursal s")
 public class Sucursal implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idsucursal;
 
-	@Column(length=10)
+	@Column(length = 10)
 	private String abreviatura;
 
-	@Column(nullable=false, length=150)
+	@Column(nullable = false, length = 150)
 	private String denominacion;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable=false, length=6)
+	@Column(nullable = false, length = 6)
 	private String idubigeo;
 
 	public Sucursal() {
@@ -73,4 +74,17 @@ public class Sucursal implements Serializable {
 		this.idubigeo = idubigeo;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Sucursal)) {
+			return false;
+		}
+		final Sucursal other = (Sucursal) obj;
+		return other.getIdsucursal() == this.idsucursal ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idsucursal;
+	}
 }

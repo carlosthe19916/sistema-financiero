@@ -22,7 +22,7 @@ import org.ventura.boundary.remote.SocioServiceRemote;
 import org.ventura.dao.impl.SocioDAO;
 import org.ventura.dao.impl.ViewSocioPJDAO;
 import org.ventura.dao.impl.ViewSocioPNDAO;
-import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
@@ -57,7 +57,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 	@Override
 	public Socio create(Socio socio) throws Exception {
 		try {				
-			boolean isValidSocio = Validator.validateSocio(socio);	
+			//boolean isValidSocio = Validator.validateSocio(socio);	
+			boolean isValidSocio = true;
 			if (isValidSocio == true) {
 				
 				Map<String, Object> parameters = new HashMap<String, Object>();
@@ -94,11 +95,11 @@ public class SocioServiceBean implements SocioServiceLocal {
 			}
 					
 		} catch (IllegalEntityException | PreexistingEntityException e) {			
-			List<Beneficiariocuenta> beneficiarios = socio.getCuentaaporte().getBeneficiarios();
-			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-				Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();	
+			/*List<Beneficiario> beneficiarios = socio.getCuentaaporte().getBeneficiarios();
+			for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+				Beneficiario beneficiariocuenta = (Beneficiario) iterator.next();	
 				beneficiariocuenta.setIdbeneficiariocuenta(null);
-			}
+			}*/
 			socio.getCuentaaporte().setIdcuentaaporte(null);			
 			socio.setIdsocio(null);
 			log.error("Exception:" + e.getClass());
@@ -106,11 +107,11 @@ public class SocioServiceBean implements SocioServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw new Exception(e.getMessage());
 		} catch (Exception e) {
-			List<Beneficiariocuenta> beneficiarios = socio.getCuentaaporte().getBeneficiarios();
-			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-				Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();	
+			/*List<Beneficiario> beneficiarios = socio.getCuentaaporte().getBeneficiarios();
+			for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+				Beneficiario beneficiariocuenta = (Beneficiario) iterator.next();	
 				beneficiariocuenta.setIdbeneficiariocuenta(null);
-			}
+			}*/
 			socio.getCuentaaporte().setIdcuentaaporte(null);			
 			socio.setIdsocio(null);
 			log.error("Exception:" + e.getClass());

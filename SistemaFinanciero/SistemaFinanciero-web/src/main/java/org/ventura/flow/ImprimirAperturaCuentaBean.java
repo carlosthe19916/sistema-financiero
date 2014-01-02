@@ -6,8 +6,8 @@ import java.util.List;
 import javax.faces.flow.FlowScoped;
 import javax.inject.Named;
 
-import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
-import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiario;
+import org.ventura.entity.schema.cuentapersonal.Titular;
 
 @Named
 @FlowScoped("imprimirAperturaCuenta-flow")
@@ -35,8 +35,8 @@ public class ImprimirAperturaCuentaBean {
 	private Date fechanacimientoPersonajuridica;
 	private String sexoPersonajuridica;
 	
-	private List<Titularcuenta> titulares;
-	private List<Beneficiariocuenta> beneficiarios;
+	private List<Titular> titulares;
+	private List<Beneficiario> beneficiarios;
 
 	public String getReturnValue() {
 		return "/index";
@@ -114,19 +114,19 @@ public class ImprimirAperturaCuentaBean {
 		this.estadocivilPersonanatural = estadocivilPersonanatural;
 	}
 
-	public List<Titularcuenta> getTitulares() {
+	public List<Titular> getTitulares() {
 		return titulares;
 	}
 
-	public void setTitulares(List<Titularcuenta> titulares) {
+	public void setTitulares(List<Titular> titulares) {
 		this.titulares = titulares;
 	}
 
-	public List<Beneficiariocuenta> getBeneficiarios() {
+	public List<Beneficiario> getBeneficiarios() {
 		return beneficiarios;
 	}
 
-	public void setBeneficiarios(List<Beneficiariocuenta> beneficiarios) {
+	public void setBeneficiarios(List<Beneficiario> beneficiarios) {
 		this.beneficiarios = beneficiarios;
 	}
 

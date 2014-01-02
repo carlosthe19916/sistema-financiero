@@ -22,7 +22,7 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.DatosFinancierosCuentaAporteBean;
 import org.ventura.dependent.PersonaJuridicaBean;
 import org.ventura.dependent.PersonaNaturalBean;
-import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Personajuridica;
@@ -134,12 +134,12 @@ public class AperturarCuentaaporteBean implements Serializable {
 			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
 			socio.setPersonanatural(personanatural);
 			
-			List<Beneficiariocuenta> beneficiarios = beneficiariosMB.getListBeneficiarios();
-			for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-				Beneficiariocuenta beneficiariocuenta = iterator.next();
-				beneficiariocuenta.setCuentaaporte(cuentaaporte);
+			List<Beneficiario> beneficiarios = beneficiariosMB.getListBeneficiarios();
+			for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+				Beneficiario beneficiariocuenta = iterator.next();
+				//beneficiariocuenta.setCuentaaporte(cuentaaporte);
 			}			
-			cuentaaporte.setBeneficiarios(beneficiarios);		
+			//cuentaaporte.setBeneficiarios(beneficiarios);		
 		} if (isPersonaJuridica()) {			
 			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
 			socio.setPersonajuridica(personajuridica);
@@ -196,7 +196,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 	public void cleanCuentaaporte(){
 		this.personaNaturalMB.setPersonaNatural(new Personanatural());
 		this.personaJuridicaMB.setoPersonajuridica(new Personajuridica());
-		this.beneficiariosMB.getTablaBeneficiarios().setRows(new ArrayList<Beneficiariocuenta>());
+		this.beneficiariosMB.getTablaBeneficiarios().setRows(new ArrayList<Beneficiario>());
 	}
 
 	public String getMensaje() {

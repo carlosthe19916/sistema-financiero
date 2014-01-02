@@ -12,7 +12,7 @@ import javax.faces.flow.builder.FlowCallBuilder;
 import javax.faces.flow.builder.FlowDefinition;
 import javax.inject.Inject;
 
-import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
+import org.ventura.entity.schema.cuentapersonal.Titular;
 import org.ventura.flow.AperturarCuentaaporteBean;
 
 public class AperturarCuentaaporteFlowdefinition implements Serializable {

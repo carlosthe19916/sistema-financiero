@@ -1,16 +1,25 @@
 package org.ventura.entity.schema.cuentapersonal;
 
 import java.io.Serializable;
+import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * The persistent class for the cuentabancaria database table.
@@ -135,4 +144,18 @@ public class Cuentabancaria implements Serializable {
 		this.estadocuenta = estadocuenta;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Cuentabancaria)) {
+			return false;
+		}
+		final Cuentabancaria other = (Cuentabancaria) obj;
+		return other.getIdcuentabancaria() == this.idcuentabancaria ? true
+				: false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idcuentabancaria;
+	}
 }

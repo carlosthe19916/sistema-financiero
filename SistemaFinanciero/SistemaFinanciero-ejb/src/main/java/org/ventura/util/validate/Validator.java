@@ -3,21 +3,15 @@ package org.ventura.util.validate;
 import java.util.Iterator;
 import java.util.List;
 
-import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
-import org.ventura.entity.schema.cuentapersonal.Cuentaahorro;
-import org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial;
+import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
-import org.ventura.entity.schema.cuentapersonal.Cuentacorriente;
-import org.ventura.entity.schema.cuentapersonal.Cuentacorrientehistorial;
-import org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo;
-import org.ventura.entity.schema.cuentapersonal.Titularcuenta;
-import org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial;
+import org.ventura.entity.schema.cuentapersonal.Titular;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 
 public class Validator {
 	
-	public static boolean validateCuentacorriente(Cuentacorriente cuentacorriente){
+	/*public static boolean validateCuentacorriente(Cuentacorriente cuentacorriente){
 		if(cuentacorriente == null){
 			return false;
 		}
@@ -41,8 +35,8 @@ public class Validator {
 		}
 		return true;
 	}
-	
-	public static boolean validateCuentaahorro(Cuentaahorro cuentaahorro){
+	*/
+	/*public static boolean validateCuentaahorro(Cuentaahorro cuentaahorro){
 		if(cuentaahorro == null){
 			return false;
 		}
@@ -66,8 +60,8 @@ public class Validator {
 		}
 		return true;
 	}
-	
-	public static boolean validateCuentaplazofijo(Cuentaplazofijo cuentaplazofijo){
+	*/
+	/*public static boolean validateCuentaplazofijo(Cuentaplazofijo cuentaplazofijo){
 		if(cuentaplazofijo == null){
 			return false;
 		}
@@ -89,8 +83,8 @@ public class Validator {
 		}
 		return true;
 	}
-	
-	public static boolean validateCuentaaporte(Cuentaaporte cuentaaporte){
+	*/
+	/*public static boolean validateCuentaaporte(Cuentaaporte cuentaaporte){
 		if(cuentaaporte == null){
 			return false;
 		}
@@ -187,7 +181,7 @@ public class Validator {
 		return true;
 	}
 	
-	public static boolean validateBeneficiario(Beneficiariocuenta beneficiariocuenta) {
+	public static boolean validateBeneficiario(Beneficiario beneficiariocuenta) {
 		if(beneficiariocuenta == null){
 			return false;
 		}		
@@ -212,7 +206,7 @@ public class Validator {
 		return true;
 	}
 
-	public static boolean validateTitular(Titularcuenta titularcuenta) {
+	public static boolean validateTitular(Titular titularcuenta) {
 		if(titularcuenta == null) {
 			return false;
 		}
@@ -277,12 +271,12 @@ public class Validator {
 		return true;
 	}
 	
-	public static boolean validateBeneficiarios(List<Beneficiariocuenta> beneficiarios) {
+	public static boolean validateBeneficiarios(List<Beneficiario> beneficiarios) {
 		if(beneficiarios == null) {
 			return false;
 		} 	
-		for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-			Beneficiariocuenta beneficiariocuenta = iterator.next();
+		for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+			Beneficiario beneficiariocuenta = iterator.next();
 			boolean result = validateBeneficiario(beneficiariocuenta);
 			if (result == false) {
 				return false;
@@ -291,17 +285,17 @@ public class Validator {
 		return true;
 	}
 	
-	public static boolean validateTitulares(List<Titularcuenta> titulares) {
+	public static boolean validateTitulares(List<Titular> titulares) {
 		if(titulares == null){
 			return false;
 		}
-		for (Iterator<Titularcuenta> iterator = titulares.iterator(); iterator.hasNext();) {
-			Titularcuenta titular = iterator.next();
+		for (Iterator<Titular> iterator = titulares.iterator(); iterator.hasNext();) {
+			Titular titular = iterator.next();
 			boolean result = validateTitular(titular);
 			if (result == false) {
 				return false;
 			}
 		}	
 		return true;
-	}
+	}*/
 }

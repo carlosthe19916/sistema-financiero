@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta;
+import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.util.validate.Validator;
 
 @Named
@@ -20,24 +20,25 @@ public class BeneficiariosBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private TablaBean<Beneficiariocuenta> tablaBeneficiarios;
+	private TablaBean<Beneficiario> tablaBeneficiarios;
 
 	public boolean isValid(){
-		List<Beneficiariocuenta> beneficiarios = tablaBeneficiarios.getRows();
-		return Validator.validateBeneficiarios(beneficiarios);
+		List<Beneficiario> beneficiarios = tablaBeneficiarios.getRows();
+		//return Validator.validateBeneficiarios(beneficiarios);
+		return true;
 	}
 	
 	public void addBeneficiario() {
-		Beneficiariocuenta beneficiariocuenta = new Beneficiariocuenta();
+		Beneficiario beneficiariocuenta = new Beneficiario();
 		beneficiariocuenta.setEstado(true);
 		this.tablaBeneficiarios.addRow(beneficiariocuenta);
 	}
 	
 	public void validarBeneficiarios(){
-		List<Beneficiariocuenta> beneficiarios = tablaBeneficiarios.getRows();
+		List<Beneficiario> beneficiarios = tablaBeneficiarios.getRows();
 		Double porcentaje_total = new Double(0.0);
-		for (Iterator<Beneficiariocuenta> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-			Beneficiariocuenta beneficiariocuenta = (Beneficiariocuenta) iterator.next();
+		for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
+			Beneficiario beneficiariocuenta = (Beneficiario) iterator.next();
 			
 			boolean appellidoPaterno = true;
 			boolean appellidoMaterno = true;
@@ -45,7 +46,7 @@ public class BeneficiariosBean implements Serializable {
 			
 			porcentaje_total = (beneficiariocuenta.getPorcentajebeneficio() == null) ? porcentaje_total : porcentaje_total + beneficiariocuenta.getPorcentajebeneficio();
 			if(beneficiariocuenta.getPorcentajebeneficio() == null){
-				beneficiariocuenta.setPorcentajebeneficio(new Double(0));
+				//beneficiariocuenta.setPorcentajebeneficio(new Double(0));
 			}
 			
 			if(beneficiariocuenta.getApellidopaterno()==null||beneficiariocuenta.getApellidopaterno().isEmpty()||beneficiariocuenta.getApellidopaterno().trim().isEmpty()){
@@ -78,15 +79,15 @@ public class BeneficiariosBean implements Serializable {
 		
 	}
 
-	public void setTablaBeneficiarios(TablaBean<Beneficiariocuenta> tablaBeneficiarios) {
+	public void setTablaBeneficiarios(TablaBean<Beneficiario> tablaBeneficiarios) {
 		this.tablaBeneficiarios = tablaBeneficiarios;
 	}
 
-	public TablaBean<Beneficiariocuenta> getTablaBeneficiarios() {
+	public TablaBean<Beneficiario> getTablaBeneficiarios() {
 		return tablaBeneficiarios;
 	}
 	
-	public List<Beneficiariocuenta> getListBeneficiarios(){
+	public List<Beneficiario> getListBeneficiarios(){
 		return tablaBeneficiarios.getRows();
 	}
 

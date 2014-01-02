@@ -12,41 +12,41 @@ import java.util.Date;
  * The persistent class for the FunctionCuentas database table.
  * 
  */
-@Entity
-@Table(name="view_retornar_cuentas", schema="cuentapersonal")
-//@NamedNativeQuery(name = ViewCuentas.CUENTAS, query = "select f.numerocuenta, f.idsocio, f.fechaapertura, f.idtipomoneda, f.saldo, f.idestadocuenta, f.idcuenta, f.idagencia, f.tipocuenta from cuentapersonal.f_retornar_cuentas(:codigoSocio) f", resultClass = ViewCuentas.class)
-@NamedQueries({
-	@NamedQuery(name = ViewCuentas.CUENTAS, query = "select c from ViewCuentas c where c.idsocio = :codigoSocio")})
+//@Entity
+//@Table(name = "view_retornar_cuentas", schema = "cuentapersonal")
+// @NamedNativeQuery(name = ViewCuentas.CUENTAS, query =
+// "select f.numerocuenta, f.idsocio, f.fechaapertura, f.idtipomoneda, f.saldo, f.idestadocuenta, f.idcuenta, f.idagencia, f.tipocuenta from cuentapersonal.f_retornar_cuentas(:codigoSocio) f",
+// resultClass = ViewCuentas.class)
+@NamedQueries({ @NamedQuery(name = ViewCuentas.CUENTAS, query = "select c from ViewCuentas c where c.idsocio = :codigoSocio") })
 public class ViewCuentas implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public final static String CUENTAS = "org.ventura.model.view_retornar_cuentas.CUENTAS";
-	
-	
+
 	@Id
 	@Column(unique = true, length = 14)
 	private String numerocuentaahorro;
-	
+
 	@Column(nullable = false)
 	private Integer idsocio;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fechaapertura;
-	
+
 	@Column(nullable = false)
 	private Integer idtipomoneda;
-	
+
 	@Column(nullable = false)
 	private double saldo;
-	
+
 	@Column(nullable = false)
 	private Integer idestadocuenta;
-	
+
 	@Column(nullable = false)
 	private Integer idcuentaahorro;
-	
+
 	@Column
 	private String tipocuenta;
 
@@ -54,7 +54,7 @@ public class ViewCuentas implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
-	
+
 	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
@@ -62,7 +62,7 @@ public class ViewCuentas implements Serializable {
 
 	public ViewCuentas() {
 	}
-	
+
 	public String getNumerocuentaahorro() {
 		return numerocuentaahorro;
 	}
@@ -74,7 +74,7 @@ public class ViewCuentas implements Serializable {
 	public Integer getIdsocio() {
 		return idsocio;
 	}
-	
+
 	public void setIdsocio(Integer idsocio) {
 		this.idsocio = idsocio;
 	}
@@ -126,9 +126,8 @@ public class ViewCuentas implements Serializable {
 	public void setTipocuenta(String tipocuenta) {
 		this.tipocuenta = tipocuenta;
 	}
-	
-	
-	//getters and setters bi-directional many-to-one association
+
+	// getters and setters bi-directional many-to-one association
 	public Estadocuenta getEstadocuenta() {
 		return this.estadocuenta;
 	}
@@ -148,11 +147,11 @@ public class ViewCuentas implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
-		if(tipomoneda != null){
+		if (tipomoneda != null) {
 			this.idtipomoneda = tipomoneda.getIdtipomoneda();
 		} else {
 			this.idtipomoneda = null;
-		}		
+		}
 	}
 
 }

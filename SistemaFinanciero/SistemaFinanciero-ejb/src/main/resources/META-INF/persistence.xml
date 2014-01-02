@@ -18,40 +18,14 @@
 		transaction-type="JTA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasource/SistemaFinancieroDS</jta-data-source>
-		<class>org.ventura.entity.schema.cuentapersonal.Beneficiariocuenta</class>
-		<class>org.ventura.entity.schema.cuentapersonal.ChequePK</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Chequeestado</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Chequera</class>
-		<class>org.ventura.entity.schema.cuentapersonal.ChequeraPK</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Chequeraestado</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Cuentaahorro</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Cuentaahorrohistorial</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Cuentacorriente</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Cuentacorrientehistorial</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Cuentaplazofijo</class>
+		<class>org.ventura.entity.schema.cuentapersonal.Beneficiario</class>
 		<class>org.ventura.entity.schema.cuentapersonal.Estadocuenta</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Estadotarjeta</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Frecuenciacapitalizacion</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Retirointeres</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Tarjetadebito</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Tarjetadebitoasignadocuentaahorro</class>
-		<class>org.ventura.entity.schema.cuentapersonal.TarjetadebitoasignadocuentaahorroPK</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Tarjetadebitoasignadocuentacorriente</class>
-		<class>org.ventura.entity.schema.cuentapersonal.TarjetadebitoasignadocuentacorrientePK</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Tipotarjetadebito</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Titularcuenta</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Titularcuentahistorial</class>
+		<class>org.ventura.entity.schema.cuentapersonal.Titular</class>
 		<class>org.ventura.entity.schema.maestro.Estadocivil</class>
 		<class>org.ventura.entity.schema.maestro.Sexo</class>
 		<class>org.ventura.entity.schema.maestro.Tipomoneda</class>
 		<class>org.ventura.entity.schema.maestro.Ubigeo</class>
-		<class>org.ventura.entity.schema.persona.Accionista</class>
-		<class>org.ventura.entity.schema.persona.AccionistaPK</class>
-		<class>org.ventura.entity.schema.persona.Personajuridica</class>
-		<class>org.ventura.entity.schema.persona.Personanatural</class>
-		<class>org.ventura.entity.schema.persona.Tipoempresa</class>
 		<class>org.ventura.entity.schema.sucursal.Sucursal</class>
-		<class>org.ventura.entity.schema.cuentapersonal.Cheque</class>
 		<class>org.ventura.entity.schema.cuentapersonal.Cuentaaporte</class>
 		<class>org.ventura.entity.schema.seguridad.Usuario</class>
 		<class>org.ventura.entity.schema.seguridad.Grupo</class>
@@ -67,9 +41,9 @@
 		<class>org.ventura.entity.tasas.Tasainteres</class>
 		<class>org.ventura.entity.tasas.Tiposervicio</class>
 		<class>org.ventura.entity.tasas.Tipotasa</class>
-		<class>org.ventura.entity.schema.socio.ViewSocioPN</class>
-		<class>org.ventura.entity.schema.socio.ViewSocioPJ</class>
-		<class>org.ventura.entity.schema.cuentapersonal.ViewCuentas</class>
+		<!-- <class>org.ventura.entity.schema.socio.ViewSocioPN</class>
+		<class>org.ventura.entity.schema.socio.ViewSocioPJ</class> --> 
+		<!-- <class>org.ventura.entity.schema.cuentapersonal.ViewCuentas</class> -->
 		<class>org.ventura.entity.schema.caja.Boveda</class>
 		<class>org.ventura.entity.schema.caja.Caja</class>
 		<class>org.ventura.entity.schema.caja.Denominacionmoneda</class>
@@ -92,12 +66,12 @@
 		<class>org.ventura.entity.schema.caja.Tipotransaccioncompraventa</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncompraventa</class>
 		<class>org.ventura.entity.schema.caja.view.BovedaView</class>
-		<class>org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView</class>
+		<!-- <class>org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView</class> -->
 		<class>org.ventura.entity.schema.caja.view.CajaView</class>
 		<class>org.ventura.entity.schema.caja.BovedaCaja</class>
 		<class>org.ventura.entity.schema.caja.BovedaCajaPK</class>
-		<class>org.ventura.entity.schema.caja.view.VouchercajaView</class>
-		<class>org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView</class>
+		<!--<class>org.ventura.entity.schema.caja.view.VouchercajaView</class>-->
+		<!-- <class>org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView</class> -->
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView</class>
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncuentaaporte</class>
@@ -105,6 +79,11 @@
 		<class>org.ventura.entity.schema.cuentapersonal.Interesdiario</class>
 		<class>org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasa</class>
 		<class>org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasaPK</class>
+		<class>org.ventura.entity.schema.persona.Accionista</class>
+		<class>org.ventura.entity.schema.persona.Personajuridica</class>
+		<class>org.ventura.entity.schema.persona.Personanatural</class>
+		<class>org.ventura.entity.schema.persona.Tipodocumento</class>
+		<class>org.ventura.entity.schema.persona.Tipoempresa</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="validate" />

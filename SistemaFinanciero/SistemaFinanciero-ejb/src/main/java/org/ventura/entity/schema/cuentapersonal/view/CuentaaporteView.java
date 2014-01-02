@@ -11,8 +11,8 @@ import java.util.Date;
  * The persistent class for the cuentaaporte_view database table.
  * 
  */
-@Entity
-@Table(name = "cuentaaporte_view", schema = "cuentapersonal")
+//@Entity
+//@Table(name = "cuentaaporte_view")
 @NamedQuery(name = "CuentaaporteView.findAll", query = "SELECT c FROM CuentaaporteView c")
 @NamedQueries({
 		@NamedQuery(name = CuentaaporteView.findByNumerocuenta, query = "SELECT c FROM CuentaaporteView c WHERE c.numerocuenta = :numerocuenta"),

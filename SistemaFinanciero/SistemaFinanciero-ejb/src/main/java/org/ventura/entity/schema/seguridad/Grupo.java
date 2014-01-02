@@ -31,12 +31,12 @@ public class Grupo implements Serializable {
 
 	// bi-directional many-to-many association to Rol
 	@ManyToMany
-	@JoinTable(name = "grupo_rol", schema="seguridad", joinColumns = { @JoinColumn(name = "idgrupo", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idrol", nullable = false) })
+	@JoinTable(name = "grupo_rol", schema = "seguridad", joinColumns = { @JoinColumn(name = "idgrupo", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idrol", nullable = false) })
 	private List<Rol> rols;
 
 	// bi-directional many-to-many association to Usuario
 	@ManyToMany
-	@JoinTable(name = "usuario_grupo", schema="seguridad", joinColumns = { @JoinColumn(name = "idgrupo", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idusuario", nullable = false) })
+	@JoinTable(name = "usuario_grupo", schema = "seguridad", joinColumns = { @JoinColumn(name = "idgrupo", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "idusuario", nullable = false) })
 	private List<Usuario> usuarios;
 
 	public Grupo() {
@@ -89,20 +89,21 @@ public class Grupo implements Serializable {
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Grupo)) {
-            return false;
-        }
-        // a room can be uniquely identified by it's number and the building it belongs to
-        final Grupo other = (Grupo) obj;
-        return other.getIdgrupo() == idgrupo ? true:false;
+			return false;
+		}
+		// a room can be uniquely identified by it's number and the building it
+		// belongs to
+		final Grupo other = (Grupo) obj;
+		return other.getIdgrupo() == idgrupo ? true : false;
 	}
-	
+
 	@Override
-    public int hashCode() {
-        return idgrupo;
-    }
+	public int hashCode() {
+		return idgrupo;
+	}
 
 }

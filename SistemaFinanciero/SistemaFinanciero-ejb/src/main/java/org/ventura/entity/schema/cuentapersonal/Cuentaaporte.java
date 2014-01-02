@@ -2,11 +2,9 @@ package org.ventura.entity.schema.cuentapersonal;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -17,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,10 +26,8 @@ import org.ventura.entity.schema.maestro.Tipomoneda;
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
 @NamedQueries({
 		@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c"),
-		@NamedQuery(name = Cuentaaporte.BENEFICIARIOS, query = "select be from Beneficiariocuenta be where be.estado = true and be.idcuentaaporte = :idCuentaAporte"),
-		@NamedQuery(name = Cuentaaporte.BAJA_BENEFICIARIO, query = "update Beneficiariocuenta B set B.estado = false where B.idcuentaaporte = :parametro"),
-		@NamedQuery(name = Cuentaaporte.ACCIONISTAS, query = "select ac from Accionista ac where ac.personajuridica.ruc = :ruc"), 
-		@NamedQuery(name = Cuentaaporte.findByNumerocuenta, query = "SELECT c FROM Cuentaaporte c WHERE c.numerocuentaaporte = :numerocuentaaporte")})
+		//@NamedQuery(name = Cuentaaporte.ACCIONISTAS, query = "select ac from Accionista ac where ac.personajuridica.ruc = :ruc"),
+		@NamedQuery(name = Cuentaaporte.findByNumerocuenta, query = "SELECT c FROM Cuentaaporte c WHERE c.numerocuentaaporte = :numerocuentaaporte") })
 public class Cuentaaporte implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -68,19 +63,13 @@ public class Cuentaaporte implements Serializable {
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldo")) })
 	private Moneda saldo;
 
-	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
 	private Estadocuenta estadocuenta;
 
-	// bi-directional many-to-one association to Estadocuenta
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
 	private Tipomoneda tipomoneda;
-
-	// bi-directional many-to-one association to Beneficiariocuenta
-	@OneToMany(mappedBy = "cuentaaporte", cascade = CascadeType.ALL)
-	private List<Beneficiariocuenta> beneficiarios;
 
 	public Cuentaaporte() {
 	}
@@ -151,14 +140,6 @@ public class Cuentaaporte implements Serializable {
 		this.numerocuentaaporte = numerocuentaaporte;
 	}
 
-	public List<Beneficiariocuenta> getBeneficiarios() {
-		return beneficiarios;
-	}
-
-	public void setBeneficiarios(List<Beneficiariocuenta> beneficiarios) {
-		this.beneficiarios = beneficiarios;
-	}
-
 	public void setSaldo(Moneda saldo) {
 		this.saldo = saldo;
 	}
@@ -175,4 +156,17 @@ public class Cuentaaporte implements Serializable {
 		return saldo;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Cuentaaporte)) {
+			return false;
+		}
+		final Cuentaaporte other = (Cuentaaporte) obj;
+		return other.getIdcuentaaporte() == this.idcuentaaporte ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idcuentaaporte;
+	}
 }
