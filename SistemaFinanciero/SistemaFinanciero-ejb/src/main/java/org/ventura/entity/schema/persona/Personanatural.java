@@ -235,5 +235,9 @@ public class Personanatural implements Serializable {
 	public void setTipodocumento(Tipodocumento tipodocumento) {
 		this.tipodocumento = tipodocumento;
 	}
+	
+	public String getNombreCompleto(){
+		return this.nombres;
+	}
 
 }
