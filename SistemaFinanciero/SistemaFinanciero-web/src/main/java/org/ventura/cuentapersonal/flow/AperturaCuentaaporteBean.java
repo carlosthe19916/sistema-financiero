@@ -19,7 +19,6 @@ import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.dependent.ComboBean;
-import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Personajuridica;
@@ -93,6 +92,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 	@Inject private ComboBean<Sexo> comboSexoRepresentantelegal;
 	
 	// VISTA 02
+	private boolean isDlgAccionistaOpen;
 	private Map<String, Personanatural> accionistas;
 	@Inject private ComboBean<Tipodocumento> comboTipodocumentoAccionista;
 	private String numeroDocumentoAccionista;
@@ -100,7 +100,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 	private String apellidoMaternoAccionista;
 	private String nombresAccionista;
 	private Date fechaNacimientoAccionista;
-	@Inject private ComboBean<Sexo> comboSexoTitular;
+	@Inject private ComboBean<Sexo> comboSexoAccionista;
 	
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
@@ -113,6 +113,8 @@ public class AperturaCuentaaporteBean implements Serializable {
 		personanajuridicaSelected = false;
 		existeApoderado = false;
 		accionistas = new HashMap<String, Personanatural>();
+		
+		isDlgAccionistaOpen = false;
 	}
 
 	@PostConstruct
@@ -136,13 +138,17 @@ public class AperturaCuentaaporteBean implements Serializable {
 			
 			comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			comboSexoApoderado.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
-			comboSexoTitular.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
+			comboSexoAccionista.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			comboSexoRepresentantelegal.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			
 			comboEstadocivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}		
+	}
+	
+	public String crearCuentaaporte(){
+		return null;
 	}
 	
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
@@ -190,9 +196,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 				this.apellidoPaterno = "";
 				this.apellidoMaterno = "";
 				this.nombres = "";
-				Calendar calendar = Calendar.getInstance();
-				calendar.clear();
-				this.fechaNacimiento = calendar.getTime();
+				this.fechaNacimiento = null;
 				this.comboSexo.setItemSelected(-1);
 				this.comboEstadocivil.setItemSelected(-1);
 				this.ocupacion = "";
@@ -225,7 +229,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 				this.apellidoPaternoApoderado = "";
 				this.apellidoMaternoApoderado = "";
 				this.nombresApoderado = "";
-				this.fechaNacimientoApoderado = Calendar.getInstance().getTime();
+				this.fechaNacimientoApoderado = null;
 				this.comboSexoApoderado.setItemSelected(-1);
 			}
 		} catch (Exception e) {
@@ -251,7 +255,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 				this.apellidoPaternoRepresentantelegal = "";
 				this.apellidoMaternoRepresentantelegal = "";
 				this.nombresRepresentantelegal = "";
-				this.fechaNacimientoRepresentantelegal = Calendar.getInstance().getTime();
+				this.fechaNacimientoRepresentantelegal = null;
 				this.comboSexoRepresentantelegal.setItemSelected(-1);
 			}
 		} catch (Exception e) {
@@ -259,7 +263,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 		}
 	}
 	
-	public void buscarPersonanaturalTitular(){
+	public void buscarPersonanaturalAccionista(){
 		try {
 			Tipodocumento tipodocumento = comboTipodocumentoAccionista.getObjectItemSelected();
 			String numeroDocumento = numeroDocumentoAccionista;
@@ -272,13 +276,13 @@ public class AperturaCuentaaporteBean implements Serializable {
 				this.apellidoMaternoAccionista = personaNatural.getApellidomaterno();
 				this.nombresAccionista = personaNatural.getNombres();
 				this.fechaNacimientoAccionista = personaNatural.getFechanacimiento();
-				this.comboSexoTitular.setItemSelected(personaNatural.getSexo());
+				this.comboSexoAccionista.setItemSelected(personaNatural.getSexo());
 			} else {
 				this.apellidoPaternoAccionista = "";
 				this.apellidoMaternoAccionista = "";
 				this.nombresAccionista = "";
 				this.fechaNacimientoAccionista = null;
-				this.comboSexoTitular.setItemSelected(-1);
+				this.comboSexoAccionista.setItemSelected(-1);
 			}
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
@@ -327,9 +331,9 @@ public class AperturaCuentaaporteBean implements Serializable {
 		}
 	}
 	
-	public void addTitular(){
+	public void addAccionista(){
 		Tipodocumento tipodocumento = comboTipodocumentoAccionista.getObjectItemSelected();
-		Sexo sexo = comboSexoTitular.getObjectItemSelected();
+		Sexo sexo = comboSexoAccionista.getObjectItemSelected();
 		
 		Personanatural personanatural = new Personanatural();
 		personanatural.setNumerodocumento(numeroDocumentoAccionista);
@@ -349,10 +353,10 @@ public class AperturaCuentaaporteBean implements Serializable {
 		this.apellidoMaternoAccionista = "";
 		this.nombresAccionista = "";
 		this.fechaNacimientoAccionista = null;
-		this.comboSexoTitular.setItemSelected(-1);
+		this.comboSexoAccionista.setItemSelected(-1);
 	}
 	
-	public void editTitular(Object obj) {
+	public void editAccionista(Object obj) {
 		if(obj instanceof Personanatural){
 			Personanatural personanatural = (Personanatural) obj;
 			
@@ -362,11 +366,13 @@ public class AperturaCuentaaporteBean implements Serializable {
 			apellidoMaternoAccionista = personanatural.getApellidomaterno();
 			nombresAccionista = personanatural.getNombres();
 			fechaNacimientoAccionista = personanatural.getFechanacimiento();
-			comboSexoTitular.setItemSelected(personanatural.getSexo());		
+			comboSexoAccionista.setItemSelected(personanatural.getSexo());		
+			
+			setDlgAccionistaOpen(true);
 		} 
 	}
 	
-	public void removeTitular(Object obj) {
+	public void removeAccionista(Object obj) {
 		if(obj instanceof Personanatural){
 			Personanatural personanatural = (Personanatural) obj;
 			String keyMap = personanatural.getTipodocumento().getIdtipodocumento()+personanatural.getNumerodocumento();
@@ -389,7 +395,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 		Tipodocumento tipodocumentoSelected = comboTipodocumentoApoderado.getObjectItemSelected(key);
 	}
 	
-	public void changeTipodocumentoTitular(ValueChangeEvent event) {
+	public void changeTipodocumentoAccionista(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Tipodocumento tipodocumentoSelected = comboTipodocumentoAccionista.getObjectItemSelected(key);
 	}
@@ -742,77 +748,6 @@ public class AperturaCuentaaporteBean implements Serializable {
 		this.existeApoderado = existeApoderado;
 	}
 
-	public ComboBean<Tipodocumento> getComboTipodocumentoTitular() {
-		return comboTipodocumentoAccionista;
-	}
-
-	public void setComboTipodocumentoTitular(
-			ComboBean<Tipodocumento> comboTipodocumentoTitular) {
-		this.comboTipodocumentoAccionista = comboTipodocumentoTitular;
-	}
-
-	public String getNumeroDocumentoTitular() {
-		return numeroDocumentoAccionista;
-	}
-
-	public void setNumeroDocumentoTitular(String numeroDocumentoTitular) {
-		this.numeroDocumentoAccionista = numeroDocumentoTitular;
-	}
-
-	public String getApellidoPaternoTitular() {
-		return apellidoPaternoAccionista;
-	}
-
-	public void setApellidoPaternoTitular(String apellidoPaternoTitular) {
-		this.apellidoPaternoAccionista = apellidoPaternoTitular;
-	}
-
-	public String getApellidoMaternoTitular() {
-		return apellidoMaternoAccionista;
-	}
-
-	public void setApellidoMaternoTitular(String apellidoMaternoTitular) {
-		this.apellidoMaternoAccionista = apellidoMaternoTitular;
-	}
-
-	public String getNombresTitular() {
-		return nombresAccionista;
-	}
-
-	public void setNombresTitular(String nombresTitular) {
-		this.nombresAccionista = nombresTitular;
-	}
-
-	public Date getFechaNacimientoTitular() {
-		return fechaNacimientoAccionista;
-	}
-
-	public void setFechaNacimientoTitular(Date fechaNacimientoTitular) {
-		this.fechaNacimientoAccionista = fechaNacimientoTitular;
-	}
-
-	public ComboBean<Sexo> getComboSexoTitular() {
-		return comboSexoTitular;
-	}
-
-	public void setComboSexoTitular(ComboBean<Sexo> comboSexoTitular) {
-		this.comboSexoTitular = comboSexoTitular;
-	}
-
-	public Map<String, Personanatural> getTitulares() {
-		return accionistas;
-	}
-	
-	public List<Personanatural> listTitulares() {
-		List<Personanatural> list = new ArrayList<Personanatural>();
-		list.addAll(accionistas.values());
-		return list;
-	}
-
-	public void setTitulares(Map<String, Personanatural> titulares) {
-		this.accionistas = titulares;
-	}
-
 	public boolean isPersonanatural() {
 		return isPersonanatural;
 	}
@@ -889,6 +824,85 @@ public class AperturaCuentaaporteBean implements Serializable {
 	public void setComboSexoRepresentantelegal(
 			ComboBean<Sexo> comboSexoRepresentantelegal) {
 		this.comboSexoRepresentantelegal = comboSexoRepresentantelegal;
+	}
+
+	public List<Personanatural> listAccionistas() {
+		List<Personanatural> list = new ArrayList<Personanatural>();
+		list.addAll(accionistas.values());
+		return list;
+	}
+	
+	public Map<String, Personanatural> getAccionistas() {
+		return accionistas;
+	}
+
+	public void setAccionistas(Map<String, Personanatural> accionistas) {
+		this.accionistas = accionistas;
+	}
+
+	public ComboBean<Tipodocumento> getComboTipodocumentoAccionista() {
+		return comboTipodocumentoAccionista;
+	}
+
+	public void setComboTipodocumentoAccionista(
+			ComboBean<Tipodocumento> comboTipodocumentoAccionista) {
+		this.comboTipodocumentoAccionista = comboTipodocumentoAccionista;
+	}
+
+	public String getNumeroDocumentoAccionista() {
+		return numeroDocumentoAccionista;
+	}
+
+	public void setNumeroDocumentoAccionista(String numeroDocumentoAccionista) {
+		this.numeroDocumentoAccionista = numeroDocumentoAccionista;
+	}
+
+	public String getApellidoPaternoAccionista() {
+		return apellidoPaternoAccionista;
+	}
+
+	public void setApellidoPaternoAccionista(String apellidoPaternoAccionista) {
+		this.apellidoPaternoAccionista = apellidoPaternoAccionista;
+	}
+
+	public String getApellidoMaternoAccionista() {
+		return apellidoMaternoAccionista;
+	}
+
+	public void setApellidoMaternoAccionista(String apellidoMaternoAccionista) {
+		this.apellidoMaternoAccionista = apellidoMaternoAccionista;
+	}
+
+	public String getNombresAccionista() {
+		return nombresAccionista;
+	}
+
+	public void setNombresAccionista(String nombresAccionista) {
+		this.nombresAccionista = nombresAccionista;
+	}
+
+	public Date getFechaNacimientoAccionista() {
+		return fechaNacimientoAccionista;
+	}
+
+	public void setFechaNacimientoAccionista(Date fechaNacimientoAccionista) {
+		this.fechaNacimientoAccionista = fechaNacimientoAccionista;
+	}
+
+	public ComboBean<Sexo> getComboSexoAccionista() {
+		return comboSexoAccionista;
+	}
+
+	public void setComboSexoAccionista(ComboBean<Sexo> comboSexoAccionista) {
+		this.comboSexoAccionista = comboSexoAccionista;
+	}
+
+	public boolean isDlgAccionistaOpen() {
+		return isDlgAccionistaOpen;
+	}
+
+	public void setDlgAccionistaOpen(boolean isDlgAccionistaOpen) {
+		this.isDlgAccionistaOpen = isDlgAccionistaOpen;
 	}
 
 }
