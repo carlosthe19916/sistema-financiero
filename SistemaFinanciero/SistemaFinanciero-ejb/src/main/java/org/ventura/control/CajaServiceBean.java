@@ -32,10 +32,7 @@ import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
-import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Historialcaja;
-import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
-import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.RollbackFailureException;
@@ -200,7 +197,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 				copyDetallehistorialOldtoNew(historialCajaOld, historialCajaNew);
 			}
 
-			// hacer for para cada tipo de moneda
+			//for para cada tipo de moneda
 			for (int i = 0; i < caja.getBovedas().size(); i++) {
 				List<Denominacionmoneda> denominacionmonedasAllActive = getDenominacionmonedasActive(caja
 						.getBovedas().get(i).getTipomoneda());
@@ -260,18 +257,36 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 	}
 	
+	public Historialcaja getHistorialcajaForClose(Caja caja) throws RollbackFailureException, Exception {
+		Historialcaja historialcaja = null;
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("caja", caja);
+		
+		List<Historialcaja> historialcajaList = historialcajaDAO.findByNamedQuery(Historialcaja.findHistorialActive, parameters);
+		if (historialcajaList.size() == 0) {
+			historialcaja = null;
+		}
+		if (historialcajaList.size() == 1) {
+			historialcaja = historialcajaList.get(0);
+		}
+		if (historialcajaList.size() > 1) {
+			throw new Exception("Existe más de un historial caja activo");
+		}
+		
+		return historialcaja;
+	}
+	
 	@Override
-	public void closeCaja(Caja caja) throws Exception {
+	public void closeCaja(Caja caja, List<Detallehistorialcaja> detalleSoles, List<Detallehistorialcaja> detalleDolares, List<Detallehistorialcaja> detalleEuros) throws Exception {
 		try {
 			caja = cajaDAO.find(caja.getIdcaja());
 			
-			boolean resultCaja = verificarCaja(caja, EstadoAperturaType.CERRADO);
-			if (resultCaja == true) {
+			boolean resultCaja = verificarCaja(caja, EstadoAperturaType.ABIERTO);
+			if (resultCaja == false) {
 				throw new Exception("Caja cerrada, Imposible cerrarla nuevamente");
 			}
 			
-			boolean resultBovedas = verificarBovedas(caja,
-					EstadoAperturaType.ABIERTO);
+			boolean resultBovedas = verificarBovedas(caja, EstadoAperturaType.ABIERTO);
 			if (resultBovedas == false) {
 				throw new Exception("Bovedas Cerradas, Imposible cerrar la Caja");
 			}
@@ -280,12 +295,26 @@ public class CajaServiceBean implements CajaServiceLocal{
 			if (historialcaja == null) {
 				throw new Exception("No se puede cerrar caja, no existe HistorialCajaActivo");
 			}
+			historialcaja.getDetallehistorialcajas().clear();
 			
+			for (Detallehistorialcaja d : detalleDolares) {
+				historialcaja.addDetallehistorialcaja(d);
+			}
+			for (Detallehistorialcaja s : detalleSoles) {
+				historialcaja.addDetallehistorialcaja(s);
+			}
+			for (Detallehistorialcaja e : detalleEuros) {
+				historialcaja.addDetallehistorialcaja(e);
+			}
 			
 			historialcaja.setFechacierre(Calendar.getInstance().getTime());
 			historialcaja.setHoracierre(Calendar.getInstance().getTime());
 			Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
 			historialcaja.setEstadomovimiento(estadomovimiento);
+			
+			for (Detallehistorialcaja dhc : historialcaja.getDetallehistorialcajas()) {
+				detallehistorialcajaDAO.update(dhc);
+			}
 			historialcajaDAO.update(historialcaja);
 			
 			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
@@ -300,7 +329,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 			log.error("Caused by:" + e.getCause());
 			throw e;
 		} catch (Exception e) {
-			caja.setIdcaja(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
@@ -363,6 +391,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 		return historialcaja;
 	}
 	
+	/*
 	@Override
 	public Historialcaja getHistorialcajaLastNoActive(Caja caja) throws Exception {
 		Historialcaja historialcaja = null;
@@ -380,7 +409,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw new Exception("Existe mas de un historial activo");
 		}
 		return historialcaja;
-	}
+	}*/
 	
 	public boolean verificarBovedas(Caja caja, EstadoAperturaType estadoAperturaType) throws Exception{
 		boolean result = true;
@@ -433,61 +462,26 @@ public class CajaServiceBean implements CajaServiceLocal{
 		return bovedas;
 	}
 	
-	@Override
-	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetalleforOpenCaja(Caja caja) throws Exception {
-		try {
-			Historialcaja historialcaja = getHistorialcajaLastActive(caja);
-			List<Detallehistorialcaja> result = null;
-			HashMap<Tipomoneda, List<Detallehistorialcaja>> colecctionDetealleHistorialCaja = new HashMap<>();
-			
-			for (int i = 0; i < caja.getBovedas().size(); i++) {
-				Tipomoneda tipomoneda = caja.getBovedas().get(i).getTipomoneda();	
-				List<Denominacionmoneda> denominacionmoedaAllActive = getDenominacionmonedasActive(tipomoneda);
-				List<Denominacionmoneda> denominacionmonedasAllFromHistorial = new ArrayList<Denominacionmoneda>();
-				
-				if (historialcaja == null) {
-					result = new ArrayList<Detallehistorialcaja>();
-				}else{
-					result = historialcaja.getDetallehistorialcajas();
-					for (Detallehistorialcaja e : historialcaja.getDetallehistorialcajas()) {
-						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
-						denominacionmonedasAllFromHistorial.add(denominacionmoneda);
-					}
-				}
-				
-				List<Denominacionmoneda> denominacionmoneda2 = getDiferenceWithoutDuplicates(denominacionmoedaAllActive, denominacionmonedasAllFromHistorial);
-				for (Denominacionmoneda e : denominacionmoneda2) {
-					Detallehistorialcaja detallehistorialcaja = new Detallehistorialcaja();
-					detallehistorialcaja.setDenominacionmoneda(e);
-					detallehistorialcaja.setCantidad(0);
-					
-					result.add(detallehistorialcaja);
-				}
-				colecctionDetealleHistorialCaja.put(tipomoneda, result);
-			}
-			return colecctionDetealleHistorialCaja;
-		} catch (RollbackFailureException e) {
-			caja.setIdcaja(null);
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se obtener el detalle de la caja");
-		} catch (Exception e) {
-			caja.setIdcaja(null);
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se puede obtener el detalle de la caja");
-		}
-	}
 	
 	public List<Detallehistorialcaja> getDetalleHistorialCajaByTipoMoneda(Tipomoneda tipomoneda, Historialcaja historialcaja) throws RollbackFailureException, Exception {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
 		parameters.put("idhistorialcaja", historialcaja.getIdhistorialcaja());
-		List<Detallehistorialcaja> detalleHCByTipoMoneda = detallehistorialcajaDAO.findByNamedQuery(Detallehistorialcaja.detalleHistorialCajaByTipoMoneda, parameters); //modificar---------
+		List<Detallehistorialcaja> detalleHCByTipoMoneda = detallehistorialcajaDAO.findByNamedQuery(Detallehistorialcaja.detalleHistorialCajaByTipoMoneda, parameters);
 		return detalleHCByTipoMoneda;
 	}
+	
+	public List<Detallehistorialcaja> getDetalleHistorialCajaInZero(Tipomoneda tipomoneda, Historialcaja historialcaja) throws RollbackFailureException, Exception {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
+		parameters.put("idhistorialcaja", historialcaja.getIdhistorialcaja());
+		List<Detallehistorialcaja> detalleHCByTipoMoneda = detallehistorialcajaDAO.findByNamedQuery(Detallehistorialcaja.detalleHistorialCajaByTipoMoneda, parameters);
+		for (Detallehistorialcaja e : detalleHCByTipoMoneda) {
+			e.setCantidad(0);
+		}
+		return detalleHCByTipoMoneda;
+	}
+	
 	
 	@Override
 	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaLastActive(Caja caja) throws Exception {
@@ -537,6 +531,57 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 	}	
 	
+	
+	
+	@Override
+	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaInZero(Caja caja) throws Exception {
+		try {
+			Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+			List<Detallehistorialcaja> result = null;
+			HashMap<Tipomoneda, List<Detallehistorialcaja>> colecctionDetealleHistorialCaja = new HashMap<>();
+			
+			for (int i = 0; i < caja.getBovedas().size(); i++) {
+				Tipomoneda tipomoneda = caja.getBovedas().get(i).getTipomoneda();	
+				List<Denominacionmoneda> denominacionmoedaAllActive = getDenominacionmonedasActive(tipomoneda);
+				List<Denominacionmoneda> denominacionmonedasAllFromHistorial = new ArrayList<Denominacionmoneda>();
+				
+				if (historialcaja == null) {
+					result = new ArrayList<Detallehistorialcaja>();
+				}else{
+					result = getDetalleHistorialCajaInZero(tipomoneda, historialcaja);
+					for (Detallehistorialcaja e : result) {
+						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
+						denominacionmonedasAllFromHistorial.add(denominacionmoneda);
+					}
+				}
+				
+				List<Denominacionmoneda> denominacionmoneda2 = getDiferenceWithoutDuplicates(denominacionmoedaAllActive, denominacionmonedasAllFromHistorial);
+				for (Denominacionmoneda e : denominacionmoneda2) {
+					Detallehistorialcaja detallehistorialcaja = new Detallehistorialcaja();
+					detallehistorialcaja.setDenominacionmoneda(e);
+					detallehistorialcaja.setCantidad(0);
+					
+					result.add(detallehistorialcaja);
+				}
+				colecctionDetealleHistorialCaja.put(tipomoneda, result);
+			}
+			return colecctionDetealleHistorialCaja;
+		} catch (RollbackFailureException e) {
+			caja.setIdcaja(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se obtener el detalle de la caja");
+		} catch (Exception e) {
+			caja.setIdcaja(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se puede obtener el detalle de la caja");
+		}
+	}
+	
+	/*
 	@Override
 	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaLastNoActive(Caja caja) throws Exception {
 		try {
@@ -552,7 +597,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 				if (historialcaja == null) {
 					result = new ArrayList<Detallehistorialcaja>();
 				}else{
-					result = historialcaja.getDetallehistorialcajas();
+					result = getDetalleHistorialCajaByTipoMoneda(tipomoneda, historialcaja);
 					for (Detallehistorialcaja e : historialcaja.getDetallehistorialcajas()) {
 						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
 						denominacionmonedasAllFromHistorial.add(denominacionmoneda);
@@ -583,7 +628,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 			log.error("Caused by:" + e.getCause());
 			throw new Exception("Error Interno: No se puede obtener el detalle de la caja");
 		}
-	}	
+	}	*/
 	
 	@Override
 	public void freezeCaja(Caja oCaja) throws Exception {

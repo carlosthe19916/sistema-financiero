@@ -24,7 +24,6 @@
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
 			<h:form>
-
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
@@ -50,41 +49,46 @@
 									style="opacity: 0.4; width: 1366px; height: 602px;"
 									aria-hidden="true"></div>
 							</h:panelGroup>
-							
+
 							<div class="p6n-api-consent-screen-inputs">
-						<div class="p6n-api-consent-screen-input-section">
-							<div class="p6n-api-consent-screen-label" style="width: 150px;">
-								AGENCIA</div>
-							<div>
-								<h:outputLabel value="#{openCloseCajaBean.agencia.denominacion}" />
-							</div>
-						</div>
-						<div class="p6n-api-consent-screen-input-section">
-							<div style="display: inline-block;">
-								<div class="p6n-api-consent-screen-label" style="width: 150px;">CAJA</div>
-								<div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">
+										AGENCIA</div>
 									<div>
-										<h:outputLabel value="#{openCloseCajaBean.caja.denominacion}" />
+										<h:outputLabel
+											value="#{openCloseCajaBean.agencia.denominacion}" />
 									</div>
 								</div>
-							</div>
-							<div style="display: inline-block;">
-								<div class="p6n-api-consent-screen-label" style="width: 150px;">ABREVIATURA</div>
-								<div>
-									<h:outputLabel value="#{openCloseCajaBean.caja.abreviatura}" />
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">CAJA</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{openCloseCajaBean.caja.denominacion}" />
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">ABREVIATURA</div>
+										<div>
+											<h:outputLabel value="#{openCloseCajaBean.caja.abreviatura}" />
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">ESTADO</div>
+										<div>
+											<h:outputLabel
+												value="#{openCloseCajaBean.caja.estadoapertura.denominacion}" />
+										</div>
+									</div>
 								</div>
-							</div>
-							<div style="display: inline-block;">
-								<div class="p6n-api-consent-screen-label" style="width: 150px;">ESTADO</div>
+								<br />
 								<div>
-									<h:outputLabel
-										value="#{openCloseCajaBean.caja.estadoapertura.denominacion}" />
-								</div>
-							</div>
-						</div>
-						<br />
-						<div>
-							<p:accordionPanel >
+									<p:accordionPanel multiple="true">
 										<p:tab title="MONEDA NUEVO SOL"
 											rendered="#{openCloseCajaBean.caja_Boveda_Nuevo_Sol()}">
 											<p:panelGrid columns="2" style="margin-left:1px;">
@@ -100,17 +104,19 @@
 															<h:outputText value="#{row + 1}" />
 														</p:column>
 														<p:column headerText="Denominacion" width="40"
-															style="text-align:right;">
+															style="text-align:right">
 															<h:outputText
 																value="#{cajaDetalleSolesLastNoActive.denominacionmoneda.denominacion}" />
 														</p:column>
 														<p:column headerText="Cantidad" width="100"
-															style="text-align:right;">
-															<h:outputText value="#{cajaDetalleSolesLastNoActive.cantidad}" />
+															style="text-align:right; height:19px">
+															<h:outputText
+																value="#{cajaDetalleSolesLastNoActive.cantidad}" />
 														</p:column>
 														<p:column headerText="Total" width="150"
 															style="text-align:right;">
-															<h:outputText value="#{cajaDetalleSolesLastNoActive.subtotal}" />
+															<h:outputText
+																value="#{cajaDetalleSolesLastNoActive.subtotal}" />
 														</p:column>
 
 														<p:columnGroup type="footer">
@@ -126,7 +132,7 @@
 												</p:outputPanel>
 
 												<p:outputPanel>
-													<p:dataTable var="cajaDetalleSoles"
+													<p:dataTable var="cajaDetalleSoles" id="tableTotalSoles"
 														value="#{openCloseCajaBean.tablaCajaDetalleSoles.rows}"
 														rowKey="#{cajaDetalleSoles}" rowIndexVar="row">
 
@@ -143,11 +149,65 @@
 														</p:column>
 														<p:column headerText="Cantidad" width="100"
 															style="text-align:right;">
-															<h:outputText value="#{cajaDetalleSoles.cantidad}" />
+
+															<h:inputText value="#{cajaDetalleSoles.cantidad}"
+																required="true" maxlength="6"
+																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+																style="text-align:right; width:100px; height:20px">
+																<f:ajax event="blur" execute="@this" render="totalSoles tableTotalSoles"/>
+															</h:inputText>
 														</p:column>
 														<p:column headerText="Total" width="150"
 															style="text-align:right;">
-															<h:outputText value="#{cajaDetalleSoles.subtotal}" />
+															<h:outputText id="txtTotalSoles"
+																value="#{cajaDetalleSoles.subtotal}" >
+															</h:outputText>
+														</p:column>
+														
+														<p:columnGroup id="totalSoles" type="footer">
+															<p:row>
+																<p:column colspan="3" footerText="Total en Caja:"
+																	style="text-align:right" />
+																<p:column colspan="1"
+																	footerText="#{openCloseCajaBean.totalHistorialCajaSoles()}"
+																	style="text-align:right" />
+															</p:row>
+														</p:columnGroup>
+														
+													</p:dataTable>
+												</p:outputPanel>
+											</p:panelGrid>
+										</p:tab>
+
+										<p:tab title="MONEDA DOLARES"
+											rendered="#{openCloseCajaBean.caja_Boveda_Dolar()}">
+											<p:panelGrid columns="2" style="margin-left:1px;">
+												<p:outputPanel>
+													<p:dataTable var="cajaDetalleDolaresLastNoActive"
+														value="#{openCloseCajaBean.tablaCajaDetalleDolaresLastNoActive.rows}"
+														rowKey="#{cajaDetalleDolaresLastNoActive}"
+														rowIndexVar="row">
+
+														<f:facet name="header">SALDO INICIAL</f:facet>
+
+														<p:column headerText="Nro" width="15"
+															style="text-align:center;">
+															<h:outputText value="#{row + 1}" />
+														</p:column>
+														<p:column headerText="Denominacion" width="40"
+															style="text-align:right;">
+															<h:outputText
+																value="#{cajaDetalleDolaresLastNoActive.denominacionmoneda.denominacion}" />
+														</p:column>
+														<p:column headerText="Cantidad" width="100"
+															style="text-align:right; height:19px">
+															<h:outputText
+																value="#{cajaDetalleDolaresLastNoActive.cantidad}" />
+														</p:column>
+														<p:column headerText="Total" width="150"
+															style="text-align:right;">
+															<h:outputText
+																value="#{cajaDetalleDolaresLastNoActive.subtotal}" />
 														</p:column>
 
 														<p:columnGroup type="footer">
@@ -155,7 +215,54 @@
 																<p:column colspan="3" footerText="Total en Caja:"
 																	style="text-align:right" />
 																<p:column colspan="1"
-																	footerText="#{openCloseCajaBean.totalHistorialCajaSoles}"
+																	footerText="#{openCloseCajaBean.totalHistorialcajaDolaresLastNoActive}"
+																	style="text-align:right" />
+															</p:row>
+														</p:columnGroup>
+													</p:dataTable>
+												</p:outputPanel>
+
+												<p:outputPanel>
+													<p:dataTable var="cajaDetalleDolares" id="tableTotalDolares"
+														value="#{openCloseCajaBean.tablaCajaDetalleDolares.rows}"
+														rowKey="#{cajaDetalleDolares}" rowIndexVar="row">
+
+														<f:facet name="header">SALDO FINAL</f:facet>
+
+														<p:column headerText="Nro" width="15"
+															style="text-align:center;">
+															<h:outputText value="#{row + 1}" />
+														</p:column>
+														<p:column headerText="Denominacion" width="40"
+															style="text-align:right;">
+															<h:outputText
+																value="#{cajaDetalleDolares.denominacionmoneda.denominacion}" />
+														</p:column>
+														<p:column headerText="Cantidad" width="100"
+															style="text-align:right;">
+
+															<h:inputText value="#{cajaDetalleDolares.cantidad}"
+																required="true" maxlength="6"
+																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+																style="text-align:right; width:100px; height:20px">
+																<f:ajax event="blur" execute="@this"
+																	render="txtTotalDolares tableTotalDolares" />
+															</h:inputText>
+
+														</p:column>
+														<p:column headerText="Total" width="150"
+															style="text-align:right;">
+															<h:outputText id="txtTotalDolares"
+																value="#{cajaDetalleDolares.subtotal}" />
+														</p:column>
+
+														<p:columnGroup id="panelTotalTransaccionDolares"
+															type="footer">
+															<p:row>
+																<p:column colspan="3" footerText="Total en Caja:"
+																	style="text-align:right" />
+																<p:column colspan="1"
+																	footerText="#{openCloseCajaBean.totalHistorialCajaDolares()}"
 																	style="text-align:right" />
 															</p:row>
 														</p:columnGroup>
@@ -164,171 +271,105 @@
 											</p:panelGrid>
 										</p:tab>
 
-										<p:tab title="MONEDA DOLARES" rendered="#{openCloseCajaBean.caja_Boveda_Dolar()}">
+										<p:tab title="MONEDA EUROS"
+											rendered="#{openCloseCajaBean.caja_Boveda_Euro()}">
 											<p:panelGrid columns="2" style="margin-left:1px;">
 												<p:outputPanel>
-													<p:dataTable var="cajaDetalleDolaresLastNoActive" value="#{openCloseCajaBean.tablaCajaDetalleDolaresLastNoActive.rows}" rowKey="#{cajaDetalleDolaresLastNoActive}" rowIndexVar="row">
-										
-										<f:facet name="header">SALDO INICIAL</f:facet>
+													<p:dataTable var="cajaDetalleEurosLastNoActive"
+														value="#{openCloseCajaBean.tablaCajaDetalleEurosLastNoActive.rows}"
+														rowKey="#{cajaDetalleEurosLastNoActive}" rowIndexVar="row">
 
-										<p:column headerText="Nro" width="15"
-											style="text-align:center;">
-											<h:outputText value="#{row + 1}" />
-										</p:column>
-										<p:column headerText="Denominacion" width="40"
-											style="text-align:right;">
-											<h:outputText
-												value="#{cajaDetalleDolaresLastNoActive.denominacionmoneda.denominacion}" />
-										</p:column>
-										<p:column headerText="Cantidad" width="100"
-											style="text-align:right;">
-											<h:outputText value="#{cajaDetalleDolaresLastNoActive.cantidad}" />
-										</p:column>
-										<p:column headerText="Total" width="150"
-											style="text-align:right;">
-											<h:outputText value="#{cajaDetalleDolaresLastNoActive.subtotal}" />
-										</p:column>
+														<f:facet name="header">SALDO INICIAL</f:facet>
 
-										<p:columnGroup type="footer">
-											<p:row>
-												<p:column colspan="3" footerText="Total en Caja:"
-													style="text-align:right" />
-												<p:column colspan="1"
-													footerText="#{openCloseCajaBean.totalHistorialcajaDolaresLastNoActive}"
-													style="text-align:right" />
-											</p:row>
-										</p:columnGroup>
-									</p:dataTable>
-									</p:outputPanel>
-									
-									<p:outputPanel>
-									<p:dataTable var="cajaDetalleDolares"
-										value="#{openCloseCajaBean.tablaCajaDetalleDolares.rows}"
-										rowKey="#{cajaDetalleDolares}" rowIndexVar="row">
+														<p:column headerText="Nro" width="15"
+															style="text-align:center;">
+															<h:outputText value="#{row + 1}" />
+														</p:column>
+														<p:column headerText="Denominacion" width="40"
+															style="text-align:right;">
+															<h:outputText
+																value="#{cajaDetalleEurosLastNoActive.denominacionmoneda.denominacion}" />
+														</p:column>
+														<p:column headerText="Cantidad" width="100"
+															style="text-align:right; height:19px;">
+															<h:outputText
+																value="#{cajaDetalleEurosLastNoActive.cantidad}" />
+														</p:column>
+														<p:column headerText="Total" width="150"
+															style="text-align:right;">
+															<h:outputText
+																value="#{cajaDetalleEurosLastNoActive.subtotal}" />
+														</p:column>
 
-										<f:facet name="header">SALDO FINAL</f:facet>
+														<p:columnGroup type="footer">
+															<p:row>
+																<p:column colspan="3" footerText="Total en Caja:"
+																	style="text-align:right" />
+																<p:column colspan="1"
+																	footerText="#{openCloseCajaBean.totalHistorialcajaEurosLastNoActive}"
+																	style="text-align:right" />
+															</p:row>
+														</p:columnGroup>
+													</p:dataTable>
+												</p:outputPanel>
 
-										<p:column headerText="Nro" width="15"
-											style="text-align:center;">
-											<h:outputText value="#{row + 1}" />
-										</p:column>
-										<p:column headerText="Denominacion" width="40"
-											style="text-align:right;">
-											<h:outputText
-												value="#{cajaDetalleDolares.denominacionmoneda.denominacion}" />
-										</p:column>
-										<p:column headerText="Cantidad" width="100"
-											style="text-align:right;">
-											<h:outputText value="#{cajaDetalleDolares.cantidad}" />
-										</p:column>
-										<p:column headerText="Total" width="150"
-											style="text-align:right;">
-											<h:outputText value="#{cajaDetalleDolares.subtotal}" />
-										</p:column>
-
-										<p:columnGroup type="footer">
-											<p:row>
-												<p:column colspan="3" footerText="Total en Caja:"
-													style="text-align:right" />
-												<p:column colspan="1"
-													footerText="#{openCloseCajaBean.totalHistorialCajaDolares}"
-													style="text-align:right" />
-											</p:row>
-										</p:columnGroup>
-									</p:dataTable>
-									</p:outputPanel>
-											</p:panelGrid>
-								</p:tab>
-
-								<p:tab title="MONEDA EUROS"
-									rendered="#{openCloseCajaBean.caja_Boveda_Euro()}">
-									<p:panelGrid columns="2" style="margin-left:1px;">
 												<p:outputPanel>
-									<p:dataTable var="cajaDetalleEurosLastNoActive"
-										value="#{openCloseCajaBean.tablaCajaDetalleEurosLastNoActive.rows}"
-										rowKey="#{cajaDetalleEurosLastNoActive}" rowIndexVar="row">
+													<p:dataTable var="cajaDetalleEuros" id="tableTotalEuros"
+														value="#{openCloseCajaBean.tablaCajaDetalleEuros.rows}"
+														rowKey="#{cajaDetalleEuros}" rowIndexVar="row">
 
-										<f:facet name="header">SALDO INICIAL</f:facet>
+														<f:facet name="header">SALDO FINAL</f:facet>
 
-										<p:column headerText="Nro" width="15"
-											style="text-align:center;">
-											<h:outputText value="#{row + 1}" />
-										</p:column>
-										<p:column headerText="Denominacion" width="40"
-											style="text-align:right;">
-											<h:outputText
-												value="#{cajaDetalleEurosLastNoActive.denominacionmoneda.denominacion}" />
-										</p:column>
-										<p:column headerText="Cantidad" width="100"
-											style="text-align:right;">
-											<h:outputText value="#{cajaDetalleEurosLastNoActive.cantidad}" />
-										</p:column>
-										<p:column headerText="Total" width="150"
-											style="text-align:right;">
-											<h:outputText value="#{cajaDetalleEurosLastNoActive.subtotal}" />
-										</p:column>
+														<p:column headerText="Nro" width="15"
+															style="text-align:center;">
+															<h:outputText value="#{row + 1}" />
+														</p:column>
+														<p:column headerText="Denominacion" width="40"
+															style="text-align:right;">
+															<h:outputText
+																value="#{cajaDetalleEuros.denominacionmoneda.denominacion}" />
+														</p:column>
+														<p:column headerText="Cantidad" width="100"
+															style="text-align:right;">
 
-										<p:columnGroup type="footer">
-											<p:row>
-												<p:column colspan="3" footerText="Total en Caja:"
-													style="text-align:right" />
-												<p:column colspan="1"
-													footerText="#{openCloseCajaBean.totalHistorialcajaEurosLastNoActive}"
-													style="text-align:right" />
-											</p:row>
-										</p:columnGroup>
-									</p:dataTable>
-									</p:outputPanel>
-									
-									<p:outputPanel>
-									<p:dataTable var="cajaDetalleEuros"
-										value="#{openCloseCajaBean.tablaCajaDetalleEuros.rows}"
-										rowKey="#{cajaDetalleEuros}" rowIndexVar="row">
+															<h:inputText value="#{cajaDetalleEuros.cantidad}"
+																required="true" maxlength="6"
+																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+																style="text-align:right; width:100px; height:20px">
+																<f:ajax event="blur" execute="@this" render="txtTotalEuros tableTotalEuros" />
+															</h:inputText>
+														</p:column>
+														<p:column headerText="Total" width="150"
+															style="text-align:right;">
+															<h:outputText id="txtTotalEuros"
+																value="#{cajaDetalleEuros.subtotal}" />
+														</p:column>
 
-										<f:facet name="header">SALDO FINAL</f:facet>
-
-										<p:column headerText="Nro" width="15"
-											style="text-align:center;">
-											<h:outputText value="#{row + 1}" />
-										</p:column>
-										<p:column headerText="Denominacion" width="40"
-											style="text-align:right;">
-											<h:outputText
-												value="#{cajaDetalleEuros.denominacionmoneda.denominacion}" />
-										</p:column>
-										<p:column headerText="Cantidad" width="100"
-											style="text-align:right;">
-											<h:outputText value="#{cajaDetalleEuros.cantidad}" />
-										</p:column>
-										<p:column headerText="Total" width="150"
-											style="text-align:right;">
-											<h:outputText value="#{cajaDetalleEuros.subtotal}" />
-										</p:column>
-
-										<p:columnGroup type="footer">
-											<p:row>
-												<p:column colspan="3" footerText="Total en Caja:"
-													style="text-align:right" />
-												<p:column colspan="1"
-													footerText="#{openCloseCajaBean.totalHistorialCajaEuros}"
-													style="text-align:right" />
-											</p:row>
-										</p:columnGroup>
-									</p:dataTable>
-									</p:outputPanel>
+														<p:columnGroup id="panelTotalTransaccionEuros"
+															type="footer">
+															<p:row>
+																<p:column colspan="3" footerText="Total en Caja:"
+																	style="text-align:right" />
+																<p:column colspan="1"
+																	footerText="#{openCloseCajaBean.totalHistorialCajaEuros()}"
+																	style="text-align:right" />
+															</p:row>
+														</p:columnGroup>
+													</p:dataTable>
+												</p:outputPanel>
 											</p:panelGrid>
-								</p:tab>
-							</p:accordionPanel>
-						</div>
-						
-						<div class="sf-buttons" style="float: left;">
-							<h:commandButton action="#{openCloseCajaBean.closeCaja()}"
-								value="Cerrar" styleClass="action blue" />
+										</p:tab>
+									</p:accordionPanel>
+								</div>
 
-							<h:commandButton action="cancel" value="Cancelar"
-								styleClass="action" />
-						</div>
-					</div>
+								<div class="sf-buttons" style="float: left;">
+									<h:commandButton action="#{openCloseCajaBean.closeCaja()}"
+										value="Cerrar" styleClass="action blue" />
+
+									<h:commandButton action="cancel" value="Cancelar"
+										styleClass="action" />
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
