@@ -937,7 +937,7 @@ input[type=checkbox]:hover,input[type=radio]:hover {
 }
 
 input[type=checkbox]:checked::after {
-	content: url(images/check_mark.png?v=df73f3ec7dd5a19cba1d98824f5cfc70);
+	content: url(#{resource['images:check_mark.png']});
 	display: block;
 	left: -4px;
 	position: absolute;

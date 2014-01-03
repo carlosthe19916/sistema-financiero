@@ -16,7 +16,7 @@ import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.sucursal.Agencia;
-import org.ventura.managedbean.session.AgenciaBean;
+import org.ventura.session.AgenciaBean;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.util.JsfUtil;

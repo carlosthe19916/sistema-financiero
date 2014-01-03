@@ -19,9 +19,6 @@ import org.primefaces.context.RequestContext;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.BeneficiariosBean;
 import org.ventura.dependent.ComboBean;
-import org.ventura.dependent.DatosFinancierosCuentaAporteBean;
-import org.ventura.dependent.PersonaJuridicaBean;
-import org.ventura.dependent.PersonaNaturalBean;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.maestro.Sexo;
@@ -29,7 +26,7 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.sucursal.Agencia;
-import org.ventura.managedbean.session.AgenciaBean;
+import org.ventura.session.AgenciaBean;
 
 @Named
 @FlowScoped("aperturarCuentaaporte-flow")
@@ -48,12 +45,12 @@ public class AperturarCuentaaporteBean implements Serializable {
 	private AgenciaBean agenciaBean;
 	@Inject
 	private ComboBean<String> comboTipoPersona;
-	@Inject
+	/*@Inject
 	private PersonaNaturalBean personaNaturalMB;
 	@Inject
 	private PersonaJuridicaBean personaJuridicaMB;
 	@Inject
-	private DatosFinancierosCuentaAporteBean datosFinancierosCuentaAporteMB;
+	private DatosFinancierosCuentaAporteBean datosFinancierosCuentaAporteMB;*/
 	@Inject
 	private BeneficiariosBean beneficiariosMB;
 
@@ -94,7 +91,7 @@ public class AperturarCuentaaporteBean implements Serializable {
 	}
 	
 	private void validarValoresNulosParaImpresion(){
-		if(isPersonaNatural()){
+		/*if(isPersonaNatural()){
 			this.socio.setPersonajuridica(new Personajuridica());
 			
 			this.socio.getPersonajuridica().setRuc("");
@@ -109,9 +106,9 @@ public class AperturarCuentaaporteBean implements Serializable {
 			personanatural.setSexo(sexo);
 			
 			this.socio.getPersonajuridica().setPersonanatural(personanatural);
-		}
+		}*/
 		
-		if(isPersonaJuridica()){
+		/*if(isPersonaJuridica()){
 			Personanatural personanatural =  new Personanatural();
 			personanatural.setDni("");
 			personanatural.setFechanacimiento(Calendar.getInstance().getTime());
@@ -119,20 +116,20 @@ public class AperturarCuentaaporteBean implements Serializable {
 			sexo.setDenominacion("");
 			personanatural.setSexo(sexo);		
 			this.socio.setPersonanatural(personanatural);
-		}
+		}*/
 	}
 
 	public Socio establecerParametrosCuentaaporte(Socio socio) throws Exception {
 		Agencia agencia = agenciaBean.getAgencia();
 		Cuentaaporte cuentaaporte = new Cuentaaporte();
-		cuentaaporte = datosFinancierosCuentaAporteMB.getCuentaaporte();
+		//cuentaaporte = datosFinancierosCuentaAporteMB.getCuentaaporte();
 		
 		socio.setAgencia(agencia);
 		socio.setCuentaaporte(cuentaaporte);
 		
 		if (isPersonaNatural()) {
-			Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
-			socio.setPersonanatural(personanatural);
+			//Personanatural personanatural = this.personaNaturalMB.getPersonaNatural();
+			//socio.setPersonanatural(personanatural);
 			
 			List<Beneficiario> beneficiarios = beneficiariosMB.getListBeneficiarios();
 			for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
@@ -141,14 +138,14 @@ public class AperturarCuentaaporteBean implements Serializable {
 			}			
 			//cuentaaporte.setBeneficiarios(beneficiarios);		
 		} if (isPersonaJuridica()) {			
-			Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
-			socio.setPersonajuridica(personajuridica);
+			//Personajuridica personajuridica = this.personaJuridicaMB.getPersonajuridicaProsesed();
+			//socio.setPersonajuridica(personajuridica);
 		}	
 		return socio;
 	}
 
 	public boolean validarAperturarCuentaaporteBean() {
-		boolean result = true;
+	/*	boolean result = true;
 		this.mensaje = "ERROR:\n";
 		if (isPersonaNatural()) {
 			if (!personaNaturalMB.isValid()) {
@@ -169,13 +166,14 @@ public class AperturarCuentaaporteBean implements Serializable {
 		if (!datosFinancierosCuentaAporteMB.isValid()) {
 			result = false;
 			this.mensaje = mensaje + "Datos Financieros invalidos \n";
-		}
-		return result;
+		}*
+		return result;*/
+		return true;
 	}
 	
 	public void establecerTitularDefecto() {
 		if(comboTipoPersona.getItemSelected()==2){
-			personaJuridicaMB.validarPorcentajeParticipacion();
+			//personaJuridicaMB.validarPorcentajeParticipacion();
 		}
 	}
 
@@ -194,9 +192,11 @@ public class AperturarCuentaaporteBean implements Serializable {
 	}
 	
 	public void cleanCuentaaporte(){
+		/*
 		this.personaNaturalMB.setPersonaNatural(new Personanatural());
 		this.personaJuridicaMB.setoPersonajuridica(new Personajuridica());
 		this.beneficiariosMB.getTablaBeneficiarios().setRows(new ArrayList<Beneficiario>());
+		*/
 	}
 
 	public String getMensaje() {
@@ -213,30 +213,6 @@ public class AperturarCuentaaporteBean implements Serializable {
 
 	public void setComboTipoPersona(ComboBean<String> comboTipoPersona) {
 		this.comboTipoPersona = comboTipoPersona;
-	}
-
-	public PersonaNaturalBean getPersonaNaturalMB() {
-		return personaNaturalMB;
-	}
-
-	public void setPersonaNaturalMB(PersonaNaturalBean personaNaturalMB) {
-		this.personaNaturalMB = personaNaturalMB;
-	}
-
-	public PersonaJuridicaBean getPersonaJuridicaMB() {
-		return personaJuridicaMB;
-	}
-
-	public void setPersonaJuridicaMB(PersonaJuridicaBean personaJuridicaMB) {
-		this.personaJuridicaMB = personaJuridicaMB;
-	}
-
-	public DatosFinancierosCuentaAporteBean getDatosFinancierosCuentaAporteMB() {
-		return datosFinancierosCuentaAporteMB;
-	}
-
-	public void setDatosFinancierosCuentaAporteMB(DatosFinancierosCuentaAporteBean datosFinancierosCuentaAporteMB) {
-		this.datosFinancierosCuentaAporteMB = datosFinancierosCuentaAporteMB;
 	}
 
 	public BeneficiariosBean getBeneficiariosMB() {

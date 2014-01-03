@@ -24,7 +24,7 @@ import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
-import org.ventura.managedbean.session.AgenciaBean;
+import org.ventura.session.AgenciaBean;
 import org.ventura.util.exception.InsufficientMoneyForTransactionException;
 import org.ventura.util.exception.InvalidTransactionBovedaException;
 import org.ventura.util.maestro.EstadoAperturaType;

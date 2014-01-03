@@ -25,7 +25,7 @@ import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.managedbean.session.AgenciaBean;
+import org.ventura.session.AgenciaBean;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.util.JsfUtil;

@@ -1,6 +1,7 @@
 package org.ventura.control;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.ventura.dao.impl.PersonajuridicaDAO;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.util.logger.Log;
 
 @Stateless
@@ -236,4 +238,32 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 
 		return list;
 	}
+
+	@Override
+	public Personajuridica findByTipodocumento(Tipodocumento tipodocumento,
+			String numerodocumento) throws Exception {
+		Personajuridica personajuridica = null;
+		try{
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("tipodocumento", tipodocumento);
+			parameters.put("numerodocumento", numerodocumento);
+			List<Personajuridica> list = oPersonajuridicaDAO.findByNamedQuery(Personajuridica.FindByTipodocumentoNumerodocumento, parameters);
+			if(list.size() == 1){
+				personajuridica = list.get(0);
+			} else {
+				if(list.size() == 0){
+					personajuridica = null;
+				} else {
+					throw new Exception("Existen dos personas duplicadas");	
+				}
+			}
+		} catch(Exception e){
+			log.error(e.getMessage());
+			log.error("Cause:" + e.getCause());
+			log.error("Class:" + e.getClass());
+			throw e;
+		}
+		return personajuridica;
+	}
+	
 }

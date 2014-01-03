@@ -108,7 +108,7 @@ public class OpenCloseCajaBean implements Serializable {
 			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
 			
 			if (estadoapertura.equals(estadoapertura2)) {
-				HashMap<Tipomoneda, List<Detallehistorialcaja>> detalleaperturacierrecajaList = cajaServiceLocal.getDetalleforOpenCaja(caja);
+				HashMap<Tipomoneda, List<Detallehistorialcaja>> detalleaperturacierrecajaList = cajaServiceLocal.getDetallehistorialcajaLastActive(caja);
 				
 				Set<Tipomoneda> a= detalleaperturacierrecajaList.keySet();
 				for (Tipomoneda tipomoneda : a) {
@@ -142,8 +142,9 @@ public class OpenCloseCajaBean implements Serializable {
 			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
 			
 			if (!estadoapertura.equals(estadoapertura2)) {
-				HashMap<Tipomoneda, List<Detallehistorialcaja>> detallehistorialcajaInicial = cajaServiceLocal.getDetallehistorialcajaLastNoActive(caja);
-				HashMap<Tipomoneda, List<Detallehistorialcaja>> detallehistorialcajaFinal = cajaServiceLocal.getDetallehistorialcajaLastActive(caja);
+				//HashMap<Tipomoneda, List<Detallehistorialcaja>> detallehistorialcajaInicial = cajaServiceLocal.getDetallehistorialcajaLastNoActive(caja);
+				HashMap<Tipomoneda, List<Detallehistorialcaja>> detallehistorialcajaInicial = cajaServiceLocal.getDetallehistorialcajaLastActive(caja);
+				HashMap<Tipomoneda, List<Detallehistorialcaja>> detallehistorialcajaFinal = cajaServiceLocal.getDetallehistorialcajaInZero(caja);
 				
 				Set<Tipomoneda> a = detallehistorialcajaInicial.keySet();
 				
@@ -194,12 +195,16 @@ public class OpenCloseCajaBean implements Serializable {
 		
 	public String closeCaja() throws Exception {
 		Caja caja = this.caja;
+		List<Detallehistorialcaja> detalleSoles = tablaCajaDetalleSoles.getRows();
+		List<Detallehistorialcaja> detalleDolares = tablaCajaDetalleDolares.getRows();
+		List<Detallehistorialcaja> detalleEuros = tablaCajaDetalleEuros.getRows();
+			
 		try {
 			Estadoapertura estadoapertura = ProduceObject
-					.getEstadoapertura(EstadoAperturaType.CERRADO);
+					.getEstadoapertura(EstadoAperturaType.ABIERTO);
 			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
-			if (!estadoapertura.equals(estadoapertura2)) {
-				this.cajaServiceLocal.closeCaja(caja);
+			if (estadoapertura.equals(estadoapertura2)) {
+				this.cajaServiceLocal.closeCaja(caja, detalleSoles, detalleDolares, detalleEuros);
 				JsfUtil.addSuccessMessage("Caja Cerrada");
 			} else {
 				JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");
@@ -214,7 +219,7 @@ public class OpenCloseCajaBean implements Serializable {
 	}
 	
 	// total en soles final
-	public Moneda getTotalHistorialCajaSoles() {
+	public Moneda totalHistorialCajaSoles() {
 		Moneda result = new Moneda();
 		for (Detallehistorialcaja e : tablaCajaDetalleSoles.getRows()) {
 			Moneda subtotal = e.getSubtotal();
@@ -224,7 +229,7 @@ public class OpenCloseCajaBean implements Serializable {
 	}
 
 	// total en dolares final
-	public Moneda getTotalHistorialCajaDolares() {
+	public Moneda totalHistorialCajaDolares() {
 		Moneda result = new Moneda();
 		for (Detallehistorialcaja e : tablaCajaDetalleDolares.getRows()) {
 			Moneda subtotal = e.getSubtotal();
@@ -234,7 +239,7 @@ public class OpenCloseCajaBean implements Serializable {
 	}
 
 	// total en en euros final
-	public Moneda getTotalHistorialCajaEuros() {
+	public Moneda totalHistorialCajaEuros() {
 		Moneda result = new Moneda();
 		for (Detallehistorialcaja e : tablaCajaDetalleEuros.getRows()) {
 			Moneda subtotal = e.getSubtotal();

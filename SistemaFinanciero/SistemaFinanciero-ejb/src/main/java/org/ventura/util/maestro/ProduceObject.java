@@ -9,6 +9,7 @@ import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.tasas.Tipotasa;
 
 public class ProduceObject {
@@ -29,8 +30,9 @@ public class ProduceObject {
 		}
 		return estadoapertura;
 	}
-	
-	public static EstadoAperturaType getEstadoaperturaType(Estadoapertura estadoapertura) {
+
+	public static EstadoAperturaType getEstadoaperturaType(
+			Estadoapertura estadoapertura) {
 		EstadoAperturaType estadoAperturaType;
 		Integer id = estadoapertura.getIdestadoapertura();
 		switch (id) {
@@ -225,7 +227,7 @@ public class ProduceObject {
 		}
 		return tipomoneda;
 	}
-	
+
 	public static TipotasaPasivaType getTipoTasaPasiva(Tipotasa tipotasapasiva) {
 		TipotasaPasivaType tipotasapasivaType;
 		Integer id = tipotasapasiva.getIdtipotasa();
@@ -260,8 +262,9 @@ public class ProduceObject {
 		}
 		return tipotasapasivaType;
 	}
-	
-	public static Tipotasa getTipoTasaPasiva(TipotasaPasivaType tipotasapasivaType) {
+
+	public static Tipotasa getTipoTasaPasiva(
+			TipotasaPasivaType tipotasapasivaType) {
 		Tipotasa tipotasapasiva = new Tipotasa();
 
 		switch (tipotasapasivaType) {
@@ -295,8 +298,9 @@ public class ProduceObject {
 		}
 		return tipotasapasiva;
 	}
-	
-	public static Tipotransaccioncompraventa getTipotransaccioncompraventa(TipoTransaccionCompraVentaType tipoTransaccioncompraventaType) {
+
+	public static Tipotransaccioncompraventa getTipotransaccioncompraventa(
+			TipoTransaccionCompraVentaType tipoTransaccioncompraventaType) {
 		Tipotransaccioncompraventa tipotransaccioncompraventa = new Tipotransaccioncompraventa();
 		switch (tipoTransaccioncompraventaType) {
 		case COMPRA:
@@ -312,9 +316,11 @@ public class ProduceObject {
 		return tipotransaccioncompraventa;
 	}
 
-	public static TipoTransaccionCompraVentaType getTipotransaccioncompraventa(Tipotransaccioncompraventa tipotransaccioncompraventa) {
+	public static TipoTransaccionCompraVentaType getTipotransaccioncompraventa(
+			Tipotransaccioncompraventa tipotransaccioncompraventa) {
 		TipoTransaccionCompraVentaType tipotransaccioncompraventaType;
-		Integer id = tipotransaccioncompraventa.getIdtipotransaccioncompraventa();
+		Integer id = tipotransaccioncompraventa
+				.getIdtipotransaccioncompraventa();
 		switch (id) {
 		case 1:
 			tipotransaccioncompraventaType = TipoTransaccionCompraVentaType.COMPRA;
@@ -328,9 +334,9 @@ public class ProduceObject {
 		}
 		return tipotransaccioncompraventaType;
 	}
-	
+
 	public static Tipotasa getTipotasa(TipotasaType tipotasaType) {
-		Tipotasa tipotasa =  new Tipotasa();
+		Tipotasa tipotasa = new Tipotasa();
 		switch (tipotasaType) {
 		case CUENTA_AHORRO_TASA_INTERES:
 			tipotasa.setIdtipotasa(1);
@@ -343,5 +349,18 @@ public class ProduceObject {
 			break;
 		}
 		return tipotasa;
+	}
+
+	public static Tipodocumento getTipodocumento(TipodocumentoType tipodocumentoType) {
+		Tipodocumento tipodocumento = new Tipodocumento();
+		switch (tipodocumentoType) {
+		case DNI:
+			tipodocumento.setIdtipodocumento(1);
+			break;
+		default:
+			tipodocumento = null;
+			break;
+		}
+		return tipodocumento;
 	}
 }

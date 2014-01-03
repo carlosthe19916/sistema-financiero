@@ -116,4 +116,12 @@ public class Usuario implements Serializable {
 		this.cajas = cajas;
 	}
 
+	public Integer getIdtrabajador() {
+		return idtrabajador;
+	}
+
+	public void setIdtrabajador(Integer idtrabajador) {
+		this.idtrabajador = idtrabajador;
+	}
+
 }

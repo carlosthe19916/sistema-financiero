@@ -8,6 +8,7 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.PersonanaturalServiceRemote;
 import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.persona.Tipodocumento;
 
 @Local
 public interface PersonanaturalServiceLocal extends PersonanaturalServiceRemote{
@@ -15,7 +16,11 @@ public interface PersonanaturalServiceLocal extends PersonanaturalServiceRemote{
 	public void create(Personanatural oPersonanatural)throws Exception;
 
 	public Personanatural find(Object id)throws Exception;
-
+	
+	public Personanatural findByDni(String id)throws Exception;
+	
+	public Personanatural findByTipodocumento(Tipodocumento tipodocumento, String numerodocumento)throws Exception;
+	
 	public void delete(Personanatural oPersonanatural)throws Exception;
 
 	public void update(Personanatural oPersonanatural)throws Exception;

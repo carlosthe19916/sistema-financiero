@@ -1,7 +1,11 @@
 package org.ventura.entity.schema.persona;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.ventura.entity.schema.maestro.Sexo;
+
 import java.util.List;
 
 /**
@@ -11,8 +15,15 @@ import java.util.List;
 @Entity
 @Table(name = "tipodocumento", schema = "persona")
 @NamedQuery(name = "Tipodocumento.findAll", query = "SELECT t FROM Tipodocumento t")
+@NamedQueries({
+		@NamedQuery(name = Tipodocumento.AllForPersonaNatural, query = "SELECT t FROM Tipodocumento t WHERE t.tipopersona = 'PN'"),
+		@NamedQuery(name = Tipodocumento.AllForPersonaJuridica, query = "SELECT t FROM Tipodocumento t WHERE t.tipopersona = 'PJ'") })
 public class Tipodocumento implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	public final static String AllForPersonaNatural = "org.ventura.entity.schema.persona.Tipodocumento.AllForPersonaNatural";
+	public final static String AllForPersonaJuridica = "org.ventura.entity.schema.persona.Tipodocumento.AllForPersonaJuridica";
 
 	@Id
 	@Column(unique = true, nullable = false)
@@ -26,6 +37,9 @@ public class Tipodocumento implements Serializable {
 
 	@Column(nullable = false)
 	private Boolean estado;
+
+	@Column(nullable = false, length = 2)
+	private String tipopersona;
 
 	// bi-directional many-to-one association to Personajuridica
 	@OneToMany(mappedBy = "tipodocumento")
@@ -112,6 +126,30 @@ public class Tipodocumento implements Serializable {
 		personanatural.setTipodocumento(null);
 
 		return personanatural;
+	}
+
+	public String getTipopersona() {
+		return tipopersona;
+	}
+
+	public void setTipopersona(String tipopersona) {
+		this.tipopersona = tipopersona;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Sexo)) {
+			return false;
+		}
+		// a room can be uniquely identified by it's number and the building it
+		// belongs to
+		final Tipodocumento other = (Tipodocumento) obj;
+		return other.getIdtipodocumento() == idtipodocumento ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idtipodocumento;
 	}
 
 }

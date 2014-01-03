@@ -1,4 +1,4 @@
-package org.ventura.managedbean.session;
+package org.ventura.session;
 
 import java.io.Serializable;
 

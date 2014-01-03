@@ -1,7 +1,9 @@
 package org.ventura.entity.schema.persona;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,13 +14,20 @@ import java.util.List;
 @Entity
 @Table(name = "personajuridica", schema = "persona")
 @NamedQuery(name = "Personajuridica.findAll", query = "SELECT p FROM Personajuridica p")
+@NamedQueries({ @NamedQuery(name = Personajuridica.FindByTipodocumentoNumerodocumento, query = "SELECT p FROM Personajuridica p WHERE p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento") })
 public class Personajuridica implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
+	public final static String FindByTipodocumentoNumerodocumento = "org.ventura.entity.schema.persona.personajuridica.FindByDni";
+	
 	@Id
 	@Column(unique = true, nullable = false)
 	private Integer idpersonajuridica;
 
+	@Column
+	private String numerodocumento;
+	
 	@Column(length = 50)
 	private String actividadprincipal;
 
@@ -35,7 +44,8 @@ public class Personajuridica implements Serializable {
 	@Column(nullable = false)
 	private Date fechaconstitucion;
 
-	private Boolean finsocial;
+	@Column
+	private Boolean findelucro;
 
 	@Column(length = 50)
 	private String nombrecomercial;
@@ -119,14 +129,6 @@ public class Personajuridica implements Serializable {
 		this.fechaconstitucion = fechaconstitucion;
 	}
 
-	public Boolean getFinsocial() {
-		return this.finsocial;
-	}
-
-	public void setFinsocial(Boolean finsocial) {
-		this.finsocial = finsocial;
-	}
-
 	public String getNombrecomercial() {
 		return this.nombrecomercial;
 	}
@@ -203,6 +205,22 @@ public class Personajuridica implements Serializable {
 
 	public void setTipodocumento(Tipodocumento tipodocumento) {
 		this.tipodocumento = tipodocumento;
+	}
+
+	public String getNumerodocumento() {
+		return numerodocumento;
+	}
+
+	public void setNumerodocumento(String numerodocumento) {
+		this.numerodocumento = numerodocumento;
+	}
+
+	public Boolean getFindelucro() {
+		return findelucro;
+	}
+
+	public void setFindelucro(Boolean findelucro) {
+		this.findelucro = findelucro;
 	}
 
 }

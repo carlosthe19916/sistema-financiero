@@ -25,7 +25,7 @@ import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.tasas.Tasainteres;
-import org.ventura.managedbean.session.CajaBean;
+import org.ventura.session.CajaBean;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;

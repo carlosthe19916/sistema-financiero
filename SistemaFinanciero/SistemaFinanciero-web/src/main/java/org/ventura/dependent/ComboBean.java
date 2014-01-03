@@ -79,6 +79,13 @@ public class ComboBean<E> {
 		return items;
 	}
 
+	public void setItems(List<E> list) {
+		Map<Integer, E> map = new HashMap<Integer, E>();
+		for (E i : list)
+			map.put(i.hashCode(), i);
+		this.items = map;
+	}
+	
 	public void setItems(Map<Integer, E> items) {
 		this.items = items;
 	}

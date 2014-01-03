@@ -1,7 +1,13 @@
 package org.ventura.entity.schema.persona;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.ventura.entity.schema.caja.Boveda;
+import org.ventura.entity.schema.maestro.Estadocivil;
+import org.ventura.entity.schema.maestro.Sexo;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,12 +18,19 @@ import java.util.List;
 @Entity
 @Table(name = "personanatural", schema = "persona")
 @NamedQuery(name = "Personanatural.findAll", query = "SELECT p FROM Personanatural p")
+@NamedQueries({ @NamedQuery(name = Personanatural.FindByTipodocumentoNumerodocumento, query = "SELECT p FROM Personanatural p WHERE p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento") })
 public class Personanatural implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	public final static String FindByTipodocumentoNumerodocumento = "org.ventura.entity.schema.persona.personanatural.FindByDni";
 
 	@Id
 	@Column(unique = true, nullable = false)
 	private Integer idpersonanatural;
+
+	@Column(length = 15, nullable = false)
+	private String numerodocumento;
 
 	@Column(nullable = false, length = 50)
 	private String apellidomaterno;
@@ -39,10 +52,6 @@ public class Personanatural implements Serializable {
 
 	@Column(length = 200)
 	private String firma;
-
-	private Integer idestadocivil;
-
-	private Integer idsexo;
 
 	@Column(nullable = false, length = 60)
 	private String nombres;
@@ -69,6 +78,14 @@ public class Personanatural implements Serializable {
 	@JoinColumn(name = "idtipodocumento", nullable = false)
 	private Tipodocumento tipodocumento;
 
+	@ManyToOne
+	@JoinColumn(name = "idsexo", nullable = false)
+	private Sexo sexo;
+	
+	@ManyToOne
+	@JoinColumn(name = "idestadocivil")
+	private Estadocivil estadocivil;
+	
 	public Personanatural() {
 	}
 
@@ -134,22 +151,6 @@ public class Personanatural implements Serializable {
 
 	public void setFirma(String firma) {
 		this.firma = firma;
-	}
-
-	public Integer getIdestadocivil() {
-		return this.idestadocivil;
-	}
-
-	public void setIdestadocivil(Integer idestadocivil) {
-		this.idestadocivil = idestadocivil;
-	}
-
-	public Integer getIdsexo() {
-		return this.idsexo;
-	}
-
-	public void setIdsexo(Integer idsexo) {
-		this.idsexo = idsexo;
 	}
 
 	public String getNombres() {
@@ -235,9 +236,33 @@ public class Personanatural implements Serializable {
 	public void setTipodocumento(Tipodocumento tipodocumento) {
 		this.tipodocumento = tipodocumento;
 	}
-	
-	public String getNombreCompleto(){
+
+	public String getNombreCompleto() {
 		return this.nombres;
+	}
+
+	public String getNumerodocumento() {
+		return numerodocumento;
+	}
+
+	public void setNumerodocumento(String numerodocumento) {
+		this.numerodocumento = numerodocumento;
+	}
+
+	public Sexo getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
+
+	public Estadocivil getEstadocivil() {
+		return estadocivil;
+	}
+
+	public void setEstadocivil(Estadocivil estadocivil) {
+		this.estadocivil = estadocivil;
 	}
 
 }
