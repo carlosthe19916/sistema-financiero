@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
 
@@ -26,6 +25,7 @@ public class Personanatural implements Serializable {
 	public final static String FindByTipodocumentoNumerodocumento = "org.ventura.entity.schema.persona.personanatural.FindByDni";
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idpersonanatural;
 
@@ -69,23 +69,19 @@ public class Personanatural implements Serializable {
 	@OneToMany(mappedBy = "personanatural")
 	private List<Accionista> accionistas;
 
-	// bi-directional many-to-one association to Personajuridica
-	@OneToMany(mappedBy = "personanatural")
-	private List<Personajuridica> personajuridicas;
-
 	// bi-directional many-to-one association to Tipodocumento
 	@ManyToOne
 	@JoinColumn(name = "idtipodocumento", nullable = false)
 	private Tipodocumento tipodocumento;
 
 	@ManyToOne
-	@JoinColumn(name = "idsexo", nullable = false)
+	@JoinColumn(name = "idsexo")
 	private Sexo sexo;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idestadocivil")
 	private Estadocivil estadocivil;
-	
+
 	public Personanatural() {
 	}
 
@@ -205,28 +201,6 @@ public class Personanatural implements Serializable {
 		accionista.setPersonanatural(null);
 
 		return accionista;
-	}
-
-	public List<Personajuridica> getPersonajuridicas() {
-		return this.personajuridicas;
-	}
-
-	public void setPersonajuridicas(List<Personajuridica> personajuridicas) {
-		this.personajuridicas = personajuridicas;
-	}
-
-	public Personajuridica addPersonajuridica(Personajuridica personajuridica) {
-		getPersonajuridicas().add(personajuridica);
-		personajuridica.setPersonanatural(this);
-
-		return personajuridica;
-	}
-
-	public Personajuridica removePersonajuridica(Personajuridica personajuridica) {
-		getPersonajuridicas().remove(personajuridica);
-		personajuridica.setPersonanatural(null);
-
-		return personajuridica;
 	}
 
 	public Tipodocumento getTipodocumento() {

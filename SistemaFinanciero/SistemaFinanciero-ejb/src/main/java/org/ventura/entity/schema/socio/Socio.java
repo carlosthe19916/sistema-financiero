@@ -20,7 +20,10 @@ import java.util.Date;
 @Table(name = "socio", schema = "socio")
 @EntityListeners(SocioListener.class)
 @NamedQuery(name = "Socio.findAll", query = "SELECT s FROM Socio s")
-@NamedQueries({ @NamedQuery(name = Socio.ALL, query = "Select s From Sexo s"),
+@NamedQueries({
+		@NamedQuery(name = Socio.ALL, query = "SELECT s FROM Socio s"),
+		@NamedQuery(name = Socio.FindSocioPNByTipodocumentoNumerodocumento, query = "Select s From Socio s INNER JOIN s.personanatural p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento"),
+		@NamedQuery(name = Socio.FindSocioPJByTipodocumentoNumerodocumento, query = "Select s From Socio s INNER JOIN s.personajuridica p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento")
 /*
  * @NamedQuery(name = Socio.FindByDni, query =
  * "Select s From Socio s WHERE s.estado=true AND s.dni=:dni"),
@@ -46,6 +49,9 @@ public class Socio implements Serializable {
 	public final static String SOCIOSPN = "org.ventura.model.Socio.SOCIOSPN";
 	public final static String SOCIOSPJ = "org.ventura.model.Socio.SOCIOSPJ";
 
+	public final static String FindSocioPNByTipodocumentoNumerodocumento = "org.ventura.entity.schema.socio.socio.FindSocioPNByTipodocumentoNumerodocumento";
+	public final static String FindSocioPJByTipodocumentoNumerodocumento = "org.ventura.entity.schema.socio.socio.FindSocioPJByTipodocumentoNumerodocumento";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
@@ -63,7 +69,11 @@ public class Socio implements Serializable {
 	private Personanatural personanatural;
 
 	@ManyToOne
-	@JoinColumn(name = "idagencia", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idapoderado")
+	private Personanatural apoderado;
+
+	@ManyToOne
+	@JoinColumn(name = "idagencia", nullable = false)
 	private Agencia agencia;
 
 	@ManyToOne
@@ -137,5 +147,21 @@ public class Socio implements Serializable {
 	@Override
 	public int hashCode() {
 		return idsocio;
+	}
+
+	public void setPersonanatural(Personanatural personanatural) {
+		this.personanatural = personanatural;
+	}
+
+	public void setPersonajuridica(Personajuridica personajuridica) {
+		this.personajuridica = personajuridica;
+	}
+
+	public Personanatural getApoderado() {
+		return apoderado;
+	}
+
+	public void setApoderado(Personanatural apoderado) {
+		this.apoderado = apoderado;
 	}
 }

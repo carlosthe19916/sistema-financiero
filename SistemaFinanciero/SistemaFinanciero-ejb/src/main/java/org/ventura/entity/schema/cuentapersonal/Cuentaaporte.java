@@ -26,7 +26,8 @@ import org.ventura.entity.schema.maestro.Tipomoneda;
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
 @NamedQueries({
 		@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c"),
-		//@NamedQuery(name = Cuentaaporte.ACCIONISTAS, query = "select ac from Accionista ac where ac.personajuridica.ruc = :ruc"),
+		// @NamedQuery(name = Cuentaaporte.ACCIONISTAS, query =
+		// "select ac from Accionista ac where ac.personajuridica.ruc = :ruc"),
 		@NamedQuery(name = Cuentaaporte.findByNumerocuenta, query = "SELECT c FROM Cuentaaporte c WHERE c.numerocuentaaporte = :numerocuentaaporte") })
 public class Cuentaaporte implements Serializable {
 
@@ -53,22 +54,16 @@ public class Cuentaaporte implements Serializable {
 	@Column(nullable = false)
 	private Date fechacierre;
 
-	@Column(nullable = false)
-	private Integer idtipomoneda;
-
-	@Column(nullable = false)
-	private Integer idestadocuenta;
-
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldo")) })
 	private Moneda saldo;
 
 	@ManyToOne
-	@JoinColumn(name = "idestadocuenta", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idestadocuenta", nullable = false)
 	private Estadocuenta estadocuenta;
 
 	@ManyToOne
-	@JoinColumn(name = "idtipomoneda", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idtipomoneda", nullable = false)
 	private Tipomoneda tipomoneda;
 
 	public Cuentaaporte() {
@@ -81,47 +76,13 @@ public class Cuentaaporte implements Serializable {
 	public void setFechaapertura(Date fechaapertura) {
 		this.fechaapertura = fechaapertura;
 	}
-
-	public Integer getIdtipomoneda() {
-		return this.idtipomoneda;
-	}
-
-	public void setIdtipomoneda(Integer idtipomoneda) {
-		this.idtipomoneda = idtipomoneda;
-	}
-
+	
 	public Estadocuenta getEstadocuenta() {
 		return this.estadocuenta;
-	}
-
-	public void setEstadocuenta(Estadocuenta estadocuenta) {
-		this.estadocuenta = estadocuenta;
-		if (estadocuenta != null) {
-			this.idestadocuenta = estadocuenta.getIdestadocuenta();
-		} else {
-			this.idestadocuenta = null;
-		}
-	}
+	}	
 
 	public Tipomoneda getTipomoneda() {
 		return tipomoneda;
-	}
-
-	public void setTipomoneda(Tipomoneda tipomoneda) {
-		this.tipomoneda = tipomoneda;
-		if (tipomoneda != null) {
-			this.idtipomoneda = tipomoneda.getIdtipomoneda();
-		} else {
-			this.idtipomoneda = null;
-		}
-	}
-
-	public Integer getIdestadocuenta() {
-		return idestadocuenta;
-	}
-
-	public void setIdestadocuenta(Integer idestadocuenta) {
-		this.idestadocuenta = idestadocuenta;
 	}
 
 	public Integer getIdcuentaaporte() {
@@ -168,5 +129,13 @@ public class Cuentaaporte implements Serializable {
 	@Override
 	public int hashCode() {
 		return idcuentaaporte;
+	}
+
+	public void setEstadocuenta(Estadocuenta estadocuenta) {
+		this.estadocuenta = estadocuenta;
+	}
+
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
 	}
 }

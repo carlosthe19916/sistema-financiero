@@ -41,6 +41,8 @@ import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Accionista;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;

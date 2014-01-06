@@ -125,7 +125,7 @@
 											<div>
 												<div>
 													<h:inputText id="txtNombresApoderado"
-														value="#{aperturaCuentaaporteBean.apellidoMaternoApoderado}"
+														value="#{aperturaCuentaaporteBean.nombresApoderado}"
 														required="#{aperturaCuentaaporteBean.existeApoderado}"
 														maxlength="50" requiredMessage="Ingrese nombres"
 														onkeyup="this.value = this.value.toUpperCase();"
@@ -310,7 +310,7 @@
 													<div class="p6n-api-consent-screen-label">SEXO</div>
 													<div>
 														<div>
-															<h:selectOneMenu id="cmbSexoApoderado"
+															<h:selectOneMenu id="cmbSexoRepresentantelegal"
 																value="#{aperturaCuentaaporteBean.comboSexoRepresentantelegal.itemSelected}"
 																required="true" requiredMessage="Seleccione sexo">
 																<f:selectItem itemLabel="--Seleccione--" itemValue="" />
@@ -408,31 +408,31 @@
 																				<tr class="ng-scope">
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
-																								value="#{accionista.tipodocumento.abreviatura}" />
+																								value="#{accionista.personanatural.tipodocumento.abreviatura}" />
 																					</a></td>
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
-																								value="#{accionista.numerodocumento}" />
+																								value="#{accionista.personanatural.numerodocumento}" />
 																					</a></td>
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
-																								value="#{accionista.apellidopaterno}" />
+																								value="#{accionista.personanatural.apellidopaterno}" />
 																					</a></td>
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
-																								value="#{accionista.apellidomaterno}" />
+																								value="#{accionista.personanatural.apellidomaterno}" />
 																					</a></td>
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
-																								value="#{accionista.nombres}" />
+																								value="#{accionista.personanatural.nombres}" />
 																					</a></td>
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
-																								value="#{accionista.sexo.denominacion}" />
+																								value="#{accionista.personanatural.sexo.denominacion}" />
 																					</a></td>
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
-																								value="#{accionista.fechanacimiento}">
+																								value="#{accionista.personanatural.fechanacimiento}">
 																								<f:convertDateTime pattern="dd/MM/yy" />
 																							</h:outputLabel>
 																					</a></td>
@@ -647,11 +647,27 @@
 											<h:message for="cmbSexoTitular" />
 											<h:message for="txtFechanacimientoTitular" />
 										</div>
+										<div class="p6n-api-consent-screen-input-section"
+											style="width: 190px;">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 190px;">PORCENTAJE PARTICIPACION(%)</div>
+											<div>
+												<div>
+													<h:inputText id="txtPorcentajeParticipacion"
+														value="#{aperturaCuentaaporteBean.porcentajeParticipacionAccionista}"
+														required="true" maxlength="6"
+														requiredMessage="Ingrese porcentaje">
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtPorcentajeParticipacion" />
+										</div>
 									</div>
 									<br />
 								</div>
-
-
 								<div class="modal-dialog-buttons">
 									<h:commandButton value="Guardar" styleClass="action blue">
 										<f:ajax listener="#{aperturaCuentaaporteBean.addAccionista()}"

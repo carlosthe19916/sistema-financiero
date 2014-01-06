@@ -59,21 +59,17 @@ public class Personajuridica implements Serializable {
 	@Column(length = 20)
 	private String telefono;
 
-	// bi-directional many-to-one association to Accionista
 	@OneToMany(mappedBy = "personajuridica")
 	private List<Accionista> accionistas;
 
-	// bi-directional many-to-one association to Personanatural
 	@ManyToOne
 	@JoinColumn(name = "idrepresentantelegal", nullable = false)
-	private Personanatural personanatural;
+	private Personanatural representanteLegal;
 
-	// bi-directional many-to-one association to Tipoempresa
 	@ManyToOne
 	@JoinColumn(name = "idtipoempresa", nullable = false)
 	private Tipoempresa tipoempresa;
 
-	// bi-directional many-to-one association to Tipodocumento
 	@ManyToOne
 	@JoinColumn(name = "idtipodocumento", nullable = false)
 	private Tipodocumento tipodocumento;
@@ -183,14 +179,6 @@ public class Personajuridica implements Serializable {
 		return accionista;
 	}
 
-	public Personanatural getPersonanatural() {
-		return this.personanatural;
-	}
-
-	public void setPersonanatural(Personanatural personanatural) {
-		this.personanatural = personanatural;
-	}
-
 	public Tipoempresa getTipoempresa() {
 		return this.tipoempresa;
 	}
@@ -221,6 +209,14 @@ public class Personajuridica implements Serializable {
 
 	public void setFindelucro(Boolean findelucro) {
 		this.findelucro = findelucro;
+	}
+
+	public Personanatural getRepresentanteLegal() {
+		return representanteLegal;
+	}
+
+	public void setRepresentanteLegal(Personanatural representanteLegal) {
+		this.representanteLegal = representanteLegal;
 	}
 
 }

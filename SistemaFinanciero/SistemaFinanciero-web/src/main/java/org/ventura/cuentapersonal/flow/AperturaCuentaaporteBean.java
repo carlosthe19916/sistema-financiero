@@ -1,8 +1,9 @@
 package org.ventura.cuentapersonal.flow;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,13 +19,18 @@ import javax.inject.Named;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
+import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
+import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.sucursal.Agencia;
+import org.ventura.session.AgenciaBean;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -93,7 +99,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 	
 	// VISTA 02
 	private boolean isDlgAccionistaOpen;
-	private Map<String, Personanatural> accionistas;
+	private Map<String, Accionista> accionistas;
 	@Inject private ComboBean<Tipodocumento> comboTipodocumentoAccionista;
 	private String numeroDocumentoAccionista;
 	private String apellidoPaternoAccionista;
@@ -101,10 +107,14 @@ public class AperturaCuentaaporteBean implements Serializable {
 	private String nombresAccionista;
 	private Date fechaNacimientoAccionista;
 	@Inject private ComboBean<Sexo> comboSexoAccionista;
+	private BigDecimal porcentajeParticipacionAccionista;
 	
+	@EJB private SocioServiceLocal socioServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 	@EJB private MaestrosServiceLocal maestrosServiceLocal;
+	@Inject private AgenciaBean agenciaBean;
+	@Inject private Agencia agencia;
 	
 	public AperturaCuentaaporteBean() {
 		isPersonanatural = false;
@@ -112,13 +122,17 @@ public class AperturaCuentaaporteBean implements Serializable {
 		personanaturalSelected = false;
 		personanajuridicaSelected = false;
 		existeApoderado = false;
-		accionistas = new HashMap<String, Personanatural>();
+		accionistas = new HashMap<String, Accionista>();
 		
 		isDlgAccionistaOpen = false;
+		porcentajeParticipacionAccionista = new BigDecimal(0);
+		porcentajeParticipacionAccionista.setScale(2);
 	}
 
 	@PostConstruct
 	private void initialize(){
+		agencia = agenciaBean.getAgencia();
+		
 		this.comboTipopersona.putItem(0, "--SELECCIONE--");
 		this.comboTipopersona.putItem(1, "PERSONA NATURAL");
 		this.comboTipopersona.putItem(2, "PERSONA JURIDICA");
@@ -148,6 +162,86 @@ public class AperturaCuentaaporteBean implements Serializable {
 	}
 	
 	public String crearCuentaaporte(){
+		try {
+			if (isPersonanatural) {
+				Personanatural personaNaturalSocio = new Personanatural();
+				personaNaturalSocio.setTipodocumento(comboTipodocumentoPersonanatural.getObjectItemSelected());
+				personaNaturalSocio.setNumerodocumento(numeroDocumentoPersonanatural);
+				personaNaturalSocio.setApellidopaterno(apellidoPaterno);
+				personaNaturalSocio.setApellidomaterno(apellidoMaterno);
+				personaNaturalSocio.setNombres(nombres);
+				personaNaturalSocio.setFechanacimiento(fechaNacimiento);
+				personaNaturalSocio.setEstadocivil(comboEstadocivil.getObjectItemSelected());
+				personaNaturalSocio.setOcupacion(ocupacion);
+				personaNaturalSocio.setDireccion(direccionPersonanatural);
+				personaNaturalSocio.setReferencia(referenciaPersonanatural);
+				personaNaturalSocio.setTelefono(telefonoPersonanatural);				personaNaturalSocio.setCelular(celularPersonanatural);
+				personaNaturalSocio.setEmail(emailPersonanatural);
+				
+				Personanatural apoderado = null;
+				if(existeApoderado){
+					apoderado = new Personanatural();
+					apoderado.setTipodocumento(comboTipodocumentoApoderado.getObjectItemSelected());
+					apoderado.setNumerodocumento(numeroDocumentoApoderado);
+					apoderado.setApellidopaterno(apellidoPaternoApoderado);
+					apoderado.setApellidomaterno(apellidoMaternoApoderado);
+					apoderado.setNombres(nombresApoderado);
+					apoderado.setSexo(comboSexoApoderado.getObjectItemSelected());
+					apoderado.setFechanacimiento(fechaNacimientoApoderado);
+				}
+				
+				Socio socio = new Socio();
+				socio.setPersonanatural(personaNaturalSocio);
+				socio.setApoderado(apoderado);
+				socio.setAgencia(agencia);
+				
+				socioServiceLocal.createSocioPersonanatural(socio);
+			} else {
+				if (isPersonajuridica) {
+					
+					Personajuridica personaJuridicaSocio = new Personajuridica();
+					personaJuridicaSocio.setTipodocumento(comboTipodocumentoPersonajuridica.getObjectItemSelected());
+					personaJuridicaSocio.setNumerodocumento(numeroDocumentoPersonajuridica);
+					personaJuridicaSocio.setRazonsocial(razonSocial);
+					personaJuridicaSocio.setNombrecomercial(nombreComercial);
+					personaJuridicaSocio.setActividadprincipal(actividadPrincipal);
+					personaJuridicaSocio.setFechaconstitucion(fechaConstitucion);
+					personaJuridicaSocio.setTipoempresa(comboTipoempresa.getObjectItemSelected());
+					personaJuridicaSocio.setFindelucro(comboFinsocial.getItemSelected() == 1 ? true : false);		
+					personaJuridicaSocio.setDireccion(direccionPersonajuridica);
+					personaJuridicaSocio.setReferencia(referenciaPersonajuridica);
+					personaJuridicaSocio.setTelefono(telefonoPersonajuridica);
+					personaJuridicaSocio.setCelular(celularPersonajuridica);
+					personaJuridicaSocio.setEmail(emailPersonajuridica);
+													
+					Personanatural representanteLegal = new Personanatural();
+					representanteLegal.setTipodocumento(comboTipodocumentoRepresentantelegal.getObjectItemSelected());
+					representanteLegal.setNumerodocumento(numeroDocumentoRepresentantelegal);
+					representanteLegal.setApellidopaterno(apellidoPaternoRepresentantelegal);
+					representanteLegal.setApellidomaterno(apellidoMaternoRepresentantelegal);
+					representanteLegal.setNombres(nombresRepresentantelegal);
+					representanteLegal.setFechanacimiento(fechaNacimientoRepresentantelegal);
+					
+					List<Accionista> listAccionistas = new ArrayList<Accionista>();
+					listAccionistas.addAll(accionistas.values());
+					
+					personaJuridicaSocio.setRepresentanteLegal(representanteLegal);
+					personaJuridicaSocio.setAccionistas(listAccionistas);
+					
+					Socio socio = new Socio();
+					socio.setPersonajuridica(personaJuridicaSocio);
+					socio.setAgencia(agencia);
+					
+					socioServiceLocal.createSocioPersonajuridica(socio);
+				} else {
+					throw new Exception("El tipo de persona no es valido");
+				}
+			}
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, e.getMessage());
+			return null;
+		}
+
 		return null;
 	}
 	
@@ -345,7 +439,11 @@ public class AperturaCuentaaporteBean implements Serializable {
 		personanatural.setSexo(sexo);
 		
 		String keyMap = personanatural.getTipodocumento().getIdtipodocumento()+personanatural.getNumerodocumento();
-		this.accionistas.put(keyMap, personanatural);
+		
+		Accionista accionista = new Accionista();
+		accionista.setPersonanatural(personanatural);
+		
+		this.accionistas.put(keyMap, accionista);
 		
 		this.comboTipodocumentoAccionista.setItemSelected(-1);
 		this.numeroDocumentoAccionista = "";
@@ -354,6 +452,9 @@ public class AperturaCuentaaporteBean implements Serializable {
 		this.nombresAccionista = "";
 		this.fechaNacimientoAccionista = null;
 		this.comboSexoAccionista.setItemSelected(-1);
+		BigDecimal bigDecimal = BigDecimal.ZERO;
+		bigDecimal.setScale(2);
+		this.porcentajeParticipacionAccionista = bigDecimal;
 	}
 	
 	public void editAccionista(Object obj) {
@@ -826,17 +927,17 @@ public class AperturaCuentaaporteBean implements Serializable {
 		this.comboSexoRepresentantelegal = comboSexoRepresentantelegal;
 	}
 
-	public List<Personanatural> listAccionistas() {
-		List<Personanatural> list = new ArrayList<Personanatural>();
+	public List<Accionista> listAccionistas() {
+		List<Accionista> list = new ArrayList<Accionista>();
 		list.addAll(accionistas.values());
 		return list;
 	}
 	
-	public Map<String, Personanatural> getAccionistas() {
+	public Map<String, Accionista> getAccionistas() {
 		return accionistas;
 	}
 
-	public void setAccionistas(Map<String, Personanatural> accionistas) {
+	public void setAccionistas(Map<String, Accionista> accionistas) {
 		this.accionistas = accionistas;
 	}
 
@@ -903,6 +1004,15 @@ public class AperturaCuentaaporteBean implements Serializable {
 
 	public void setDlgAccionistaOpen(boolean isDlgAccionistaOpen) {
 		this.isDlgAccionistaOpen = isDlgAccionistaOpen;
+	}
+
+	public BigDecimal getPorcentajeParticipacionAccionista() {
+		return porcentajeParticipacionAccionista;
+	}
+
+	public void setPorcentajeParticipacionAccionista(
+			BigDecimal porcentajeParticipacionAccionista) {
+		this.porcentajeParticipacionAccionista = porcentajeParticipacionAccionista;
 	}
 
 }

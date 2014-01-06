@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -19,18 +21,28 @@ import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.remote.SocioServiceRemote;
+import org.ventura.dao.impl.AccionistaDAO;
+import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.SocioDAO;
 import org.ventura.dao.impl.ViewSocioPJDAO;
 import org.ventura.dao.impl.ViewSocioPNDAO;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
+import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.socio.ViewSocioPJ;
 import org.ventura.entity.schema.socio.ViewSocioPN;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.logger.Log;
+import org.ventura.util.maestro.EstadocuentaType;
+import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.validate.Validator;
 
 @Named
@@ -46,6 +58,10 @@ public class SocioServiceBean implements SocioServiceLocal {
 	@EJB
 	private SocioDAO socioDAO;
 	@EJB
+	private AccionistaDAO accionistaDAO;
+	@EJB 
+	private CuentaaporteDAO cuentaaporteDAO;
+	@EJB
 	private ViewSocioPNDAO viewSocioPNDAO;
 	@EJB
 	private ViewSocioPJDAO viewSocioPJDAO;
@@ -53,74 +69,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB
 	private PersonajuridicaServiceLocal personajuridicaServiceLocal;
-
-	@Override
-	public Socio create(Socio socio) throws Exception {
-		try {				
-			//boolean isValidSocio = Validator.validateSocio(socio);	
-			boolean isValidSocio = true;
-			if (isValidSocio == true) {
-				
-				Map<String, Object> parameters = new HashMap<String, Object>();
-				List<Socio> resultList = null;
-				
-				Personanatural personanatural = socio.getPersonanatural();
-				Personajuridica personajuridica = socio.getPersonajuridica();
-				if (personanatural != null) {
-					Object key = personanatural.getDni();
-					Object result = personanaturalServiceLocal.find(key);
-					if (result == null) {
-						personanaturalServiceLocal.create(personanatural);
-					}
-					parameters.put("dni", socio.getDni());
-					resultList = socioDAO.findByNamedQuery(Socio.FindByDni, parameters);
-				}
-				if (personajuridica != null) {
-					Object key = personajuridica.getRuc();
-					Object result = personajuridicaServiceLocal.find(key);
-					if (result == null) {
-						personajuridicaServiceLocal.create(personajuridica);
-					}
-					parameters.put("ruc", socio.getRuc());
-					resultList = socioDAO.findByNamedQuery(Socio.FindByRuc, parameters);
-				}
-				if (resultList == null || resultList.size() == 0) {
-					socioDAO.create(socio);
-				} else {
-					throw new PreexistingEntityException("El cliente ya tiene una cuenta de aportes Activa");
-				}
-			} else {
-				log.error("Exception: method Validator(socio) is false");
-				throw new IllegalEntityException("Datos de Socio Invalidos");
-			}
-					
-		} catch (IllegalEntityException | PreexistingEntityException e) {			
-			/*List<Beneficiario> beneficiarios = socio.getCuentaaporte().getBeneficiarios();
-			for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-				Beneficiario beneficiariocuenta = (Beneficiario) iterator.next();	
-				beneficiariocuenta.setIdbeneficiariocuenta(null);
-			}*/
-			socio.getCuentaaporte().setIdcuentaaporte(null);			
-			socio.setIdsocio(null);
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception(e.getMessage());
-		} catch (Exception e) {
-			/*List<Beneficiario> beneficiarios = socio.getCuentaaporte().getBeneficiarios();
-			for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-				Beneficiario beneficiariocuenta = (Beneficiario) iterator.next();	
-				beneficiariocuenta.setIdbeneficiariocuenta(null);
-			}*/
-			socio.getCuentaaporte().setIdcuentaaporte(null);			
-			socio.setIdsocio(null);
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear el Socio");
-		} 
-		return socio;
-	}
+	
 
 	@Override
 	public Socio find(Object id) throws Exception {
@@ -293,5 +242,213 @@ public class SocioServiceBean implements SocioServiceLocal {
 		}
 
 		return list;
+	}
+
+	@Override
+	public void createSocioPersonanatural(Socio socio) throws Exception {
+		try {				
+			socio.setPersonajuridica(null);
+			
+			Map<String,Object> parameters = new HashMap<String, Object>();
+			parameters.put("tipodocumento", socio.getPersonanatural().getTipodocumento());
+			parameters.put("numerodocumento", socio.getPersonanatural().getNumerodocumento());			
+			List<Socio> resultList = socioDAO.findByNamedQuery(Socio.FindSocioPNByTipodocumentoNumerodocumento,parameters,1);
+				
+			if(resultList.size() != 0){
+				throw new PreexistingEntityException("El cliente ya tiene una cuenta de aportes Activa");
+			}
+			
+			Personanatural personanatural = socio.getPersonanatural();
+			Personanatural apoderado = socio.getApoderado();
+			
+			Tipodocumento tipodocumentoSocio = personanatural.getTipodocumento();
+			String numerodocumentoSocio = personanatural.getNumerodocumento();
+			Personanatural personanaturalBD = personanaturalServiceLocal.findByTipodocumento(tipodocumentoSocio, numerodocumentoSocio);
+			if(personanaturalBD != null){
+				personanaturalBD.setTipodocumento(personanatural.getTipodocumento());
+				personanaturalBD.setNumerodocumento(personanatural.getNumerodocumento());
+				personanaturalBD.setApellidopaterno(personanatural.getApellidopaterno());
+				personanaturalBD.setApellidomaterno(personanatural.getApellidomaterno());
+				personanaturalBD.setNombres(personanatural.getNombres());
+				personanaturalBD.setFechanacimiento(personanatural.getFechanacimiento());
+				personanaturalBD.setSexo(personanatural.getSexo());
+				personanaturalBD.setEstadocivil(personanatural.getEstadocivil());
+				personanaturalBD.setOcupacion(personanatural.getOcupacion());
+				personanaturalBD.setDireccion(personanatural.getDireccion());
+				personanaturalBD.setReferencia(personanatural.getReferencia());
+				personanaturalBD.setTelefono(personanatural.getTelefono());
+				personanaturalBD.setCelular(personanatural.getCelular());
+				personanaturalServiceLocal.update(personanaturalBD);
+				personanatural = personanaturalBD;
+			} else {
+				personanaturalServiceLocal.create(personanatural);
+			}
+			
+			if(apoderado != null){
+				Tipodocumento tipodocumentoApoderado = apoderado.getTipodocumento();
+				String numerodocumentoApoderado = apoderado.getNumerodocumento();
+				Personanatural apoderadoBD = personanaturalServiceLocal.findByTipodocumento(tipodocumentoApoderado, numerodocumentoApoderado);			
+				if(apoderadoBD != null){
+					apoderadoBD.setTipodocumento(apoderado.getTipodocumento());
+					apoderadoBD.setNumerodocumento(apoderado.getNumerodocumento());
+					apoderadoBD.setApellidopaterno(apoderado.getApellidopaterno());
+					apoderadoBD.setApellidomaterno(apoderado.getApellidomaterno());
+					apoderadoBD.setNombres(apoderado.getNombres());
+					apoderadoBD.setFechanacimiento(apoderado.getFechanacimiento());
+					apoderadoBD.setSexo(apoderado.getSexo());
+					personanaturalServiceLocal.update(apoderadoBD);
+					apoderado = apoderadoBD;
+				} else {
+					personanaturalServiceLocal.create(apoderado);
+				}
+			}
+					
+			Cuentaaporte cuentaaporte = new Cuentaaporte();		
+			cuentaaporte.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO));
+			cuentaaporte.setTipomoneda(ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL));
+			cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
+			cuentaaporte.setFechacierre(null);
+			cuentaaporte.setSaldo(new Moneda());				
+			cuentaaporteDAO.create(cuentaaporte);
+			
+			socio.setEstado(true);
+			socio.setFechaasociado(Calendar.getInstance().getTime());
+			socio.setCuentaaporte(cuentaaporte);
+			socio.setPersonanatural(personanatural);
+			socio.setApoderado(apoderado);
+			
+			socioDAO.create(socio);
+			
+		} catch (IllegalEntityException | PreexistingEntityException e) {			
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());	
+		} catch (Exception e) {
+			socio.getCuentaaporte().setIdcuentaaporte(null);			
+			socio.setIdsocio(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		} 	
+	}
+
+	@Override
+	public void createSocioPersonajuridica(Socio socio) throws Exception {
+		try {				
+			socio.setPersonanatural(null);
+			
+			Map<String,Object> parameters = new HashMap<String, Object>();
+			parameters.put("tipodocumento", socio.getPersonanatural().getTipodocumento());
+			parameters.put("numerodocumento", socio.getPersonanatural().getNumerodocumento());			
+			List<Socio> resultList = socioDAO.findByNamedQuery(Socio.FindSocioPJByTipodocumentoNumerodocumento,parameters,1);
+				
+			if(resultList.size() != 0){
+				throw new PreexistingEntityException("El cliente ya tiene una cuenta de aportes Activa");
+			}
+				
+			Personajuridica personajuridica = socio.getPersonajuridica();
+			Personanatural representanteLegal = personajuridica.getRepresentanteLegal();
+			List<Accionista> accionistas = personajuridica.getAccionistas();
+			
+			Tipodocumento tipodocumentoRepresentanteLegal = representanteLegal.getTipodocumento();
+			String numeroDocumentoRepresentanteLegal = representanteLegal.getNumerodocumento();
+			Personanatural representanteLegalBD = personanaturalServiceLocal.findByTipodocumento(tipodocumentoRepresentanteLegal, numeroDocumentoRepresentanteLegal);
+			
+			if(representanteLegalBD != null){
+				representanteLegalBD.setTipodocumento(representanteLegal.getTipodocumento());
+				representanteLegalBD.setNumerodocumento(representanteLegal.getNumerodocumento());
+				representanteLegalBD.setApellidopaterno(representanteLegal.getApellidopaterno());
+				representanteLegalBD.setApellidomaterno(representanteLegal.getApellidomaterno());
+				representanteLegalBD.setNombres(representanteLegal.getNombres());
+				representanteLegalBD.setFechanacimiento(representanteLegal.getFechanacimiento());
+				representanteLegalBD.setSexo(representanteLegal.getSexo());		
+				personanaturalServiceLocal.update(representanteLegalBD);
+				
+				representanteLegal = representanteLegalBD;
+			} else {
+				personanaturalServiceLocal.create(representanteLegal);
+			}
+			
+			Tipodocumento tipodocumentoSocio = personajuridica.getTipodocumento();
+			String numerodocumentoSocio = personajuridica.getNumerodocumento();
+			Personajuridica personajuridicaBD =  personajuridicaServiceLocal.findByTipodocumento(tipodocumentoSocio, numerodocumentoSocio);
+			
+			if(personajuridicaBD != null){
+				personajuridicaBD.setTipodocumento(personajuridica.getTipodocumento());
+				personajuridicaBD.setNumerodocumento(personajuridica.getNumerodocumento());
+				personajuridicaBD.setRazonsocial(personajuridica.getRazonsocial());
+				personajuridicaBD.setNombrecomercial(personajuridica.getNombrecomercial());
+				personajuridicaBD.setActividadprincipal(personajuridica.getActividadprincipal());
+				personajuridicaBD.setFechaconstitucion(personajuridica.getFechaconstitucion());
+				personajuridicaBD.setTipoempresa(personajuridica.getTipoempresa());
+				personajuridicaBD.setFindelucro(personajuridicaBD.getFindelucro());
+				personajuridicaBD.setDireccion(personajuridica.getDireccion());
+				personajuridicaBD.setReferencia(personajuridica.getReferencia());
+				personajuridicaBD.setTelefono(personajuridica.getTelefono());
+				personajuridicaBD.setCelular(personajuridica.getCelular());
+				personajuridicaBD.setEmail(personajuridica.getEmail());
+				personajuridicaServiceLocal.update(personajuridicaBD);
+				personajuridica = personajuridicaBD;
+			} else {
+				personajuridicaServiceLocal.create(personajuridica);
+			}
+			
+			for (Accionista accionista : accionistas) {
+				Personanatural accionistaPersonanatural = accionista.getPersonanatural();
+				Tipodocumento tipodocumentoAccionista = accionistaPersonanatural.getTipodocumento();
+				String numeroDocumentoAccionista = accionistaPersonanatural.getNumerodocumento();
+				Personanatural accionistaPersonanaturalBD = personanaturalServiceLocal.findByTipodocumento(tipodocumentoAccionista, numeroDocumentoAccionista);
+				
+				if(accionistaPersonanaturalBD != null){
+					accionistaPersonanaturalBD.setTipodocumento(accionistaPersonanatural.getTipodocumento());
+					accionistaPersonanaturalBD.setNumerodocumento(accionistaPersonanatural.getNumerodocumento());
+					accionistaPersonanaturalBD.setApellidopaterno(accionistaPersonanatural.getApellidopaterno());
+					accionistaPersonanaturalBD.setApellidomaterno(accionistaPersonanatural.getApellidomaterno());
+					accionistaPersonanaturalBD.setNombres(accionistaPersonanatural.getNombres());
+					accionistaPersonanaturalBD.setFechanacimiento(accionistaPersonanatural.getFechanacimiento());
+					accionistaPersonanaturalBD.setSexo(accionistaPersonanatural.getSexo());		
+					personanaturalServiceLocal.update(accionistaPersonanaturalBD);
+					accionistaPersonanatural = accionistaPersonanaturalBD;
+				} else {
+					personanaturalServiceLocal.create(accionistaPersonanaturalBD);
+				}
+				
+				accionista.setPersonanatural(accionistaPersonanatural);
+				accionista.setPersonajuridica(personajuridica);
+				accionistaDAO.create(accionista);
+			}
+			
+			Cuentaaporte cuentaaporte = new Cuentaaporte();		
+			cuentaaporte.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO));
+			cuentaaporte.setTipomoneda(ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL));
+			cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
+			cuentaaporte.setFechacierre(null);
+			cuentaaporte.setSaldo(new Moneda());				
+			cuentaaporteDAO.create(cuentaaporte);
+			
+			socio.setEstado(true);
+			socio.setFechaasociado(Calendar.getInstance().getTime());
+			socio.setCuentaaporte(cuentaaporte);
+			socio.setPersonajuridica(personajuridica);
+			
+			socioDAO.create(socio);
+			
+		} catch (IllegalEntityException | PreexistingEntityException e) {			
+			socio.getCuentaaporte().setIdcuentaaporte(null);			
+			socio.setIdsocio(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception(e.getMessage());	
+		} catch (Exception e) {
+			socio.getCuentaaporte().setIdcuentaaporte(null);			
+			socio.setIdsocio(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		} 	
 	}
 }

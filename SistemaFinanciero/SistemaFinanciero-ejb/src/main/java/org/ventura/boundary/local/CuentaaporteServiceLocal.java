@@ -2,22 +2,21 @@ package org.ventura.boundary.local;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
-import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
-import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Accionista;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 
 public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
-		
+			
 		public Cuentaaporte createCuentaAporteWithPersonanatural(Cuentaaporte cuentaaporte) throws Exception;
 
 		public Cuentaaporte createCuentaAporteWithPersonajuridica(Cuentaaporte cuentaaporte) throws Exception;
