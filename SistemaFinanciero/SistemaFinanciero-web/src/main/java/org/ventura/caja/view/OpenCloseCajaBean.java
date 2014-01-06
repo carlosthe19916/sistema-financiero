@@ -22,7 +22,7 @@ import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
-import org.ventura.managedbean.session.AgenciaBean;
+import org.ventura.session.AgenciaBean;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.util.JsfUtil;
@@ -58,9 +58,15 @@ public class OpenCloseCajaBean implements Serializable {
 	private Caja caja;
 	private Integer idcaja;
 	private boolean isValidBean;
+	private boolean validSaldoCajaSoles;
+	private boolean validSaldoCajaDolares;
+	private boolean validSaldoCajaEuros;
 
 	public OpenCloseCajaBean() {
 		isValidBean = true;
+		validSaldoCajaSoles = true;
+		setValidSaldoCajaDolares(true);
+		setValidSaldoCajaEuros(true);
 	}
 	
 	@PostConstruct
@@ -142,7 +148,6 @@ public class OpenCloseCajaBean implements Serializable {
 			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
 			
 			if (!estadoapertura.equals(estadoapertura2)) {
-				//HashMap<Tipomoneda, List<Detallehistorialcaja>> detallehistorialcajaInicial = cajaServiceLocal.getDetallehistorialcajaLastNoActive(caja);
 				HashMap<Tipomoneda, List<Detallehistorialcaja>> detallehistorialcajaInicial = cajaServiceLocal.getDetallehistorialcajaLastActive(caja);
 				HashMap<Tipomoneda, List<Detallehistorialcaja>> detallehistorialcajaFinal = cajaServiceLocal.getDetallehistorialcajaInZero(caja);
 				
@@ -205,7 +210,51 @@ public class OpenCloseCajaBean implements Serializable {
 			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
 			if (estadoapertura.equals(estadoapertura2)) {
 				this.cajaServiceLocal.closeCaja(caja, detalleSoles, detalleDolares, detalleEuros);
-				JsfUtil.addSuccessMessage("Caja Cerrada");
+				
+				//validar los saldos en caja y base de datos en soles
+				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja)==-1) {
+					setValidSaldoCajaSoles(false);
+					JsfUtil.addErrorMessage("Dinero Faltante en Nuevo Sol");
+					return null;
+				}
+				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja)==1) {
+					setValidSaldoCajaSoles(false);
+					JsfUtil.addErrorMessage("Dinero Sobrante en Nuevo Sol");
+					return null;
+				}
+				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja)==0) {
+					JsfUtil.addSuccessMessage("Caja Cerrada");
+				}
+				
+				//validar los saldos en caja y base de datos en Dolares
+				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja)==-1) {
+					setValidSaldoCajaDolares(false);
+					JsfUtil.addErrorMessage("Dinero Faltante en Dolares");
+					return null;
+				}
+				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja)==1) {
+					setValidSaldoCajaDolares(false);
+					JsfUtil.addErrorMessage("Dinero Sobrante en Dolares");
+					return null;
+				}
+				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja)==0) {
+					JsfUtil.addSuccessMessage("Caja Cerrada");
+				}
+				
+				//validar los saldos en caja y base de datos en euros
+				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja)==-1) {
+					setValidSaldoCajaEuros(false);
+					JsfUtil.addErrorMessage("Dinero Faltante en Euros");
+					return null;
+				}
+				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja)==1) {
+					setValidSaldoCajaEuros(false);
+					JsfUtil.addErrorMessage("Dinero Sobrante en Euros");
+					return null;
+				}
+				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja)==0) {
+					JsfUtil.addSuccessMessage("Caja Cerrada");
+				}
 			} else {
 				JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");
 				setInvalidBean();
@@ -436,5 +485,29 @@ public class OpenCloseCajaBean implements Serializable {
 	public void setTablaCajaDetalleEurosLastNoActive(
 			TablaBean<Detallehistorialcaja> tablaCajaDetalleEurosLastNoActive) {
 		this.tablaCajaDetalleEurosLastNoActive = tablaCajaDetalleEurosLastNoActive;
+	}
+
+	public boolean isValidSaldoCajaSoles() {
+		return validSaldoCajaSoles;
+	}
+
+	public void setValidSaldoCajaSoles(boolean validSaldoCajaSoles) {
+		this.validSaldoCajaSoles = validSaldoCajaSoles;
+	}
+
+	public boolean isValidSaldoCajaDolares() {
+		return validSaldoCajaDolares;
+	}
+
+	public void setValidSaldoCajaDolares(boolean validSaldoCajaDolares) {
+		this.validSaldoCajaDolares = validSaldoCajaDolares;
+	}
+
+	public boolean isValidSaldoCajaEuros() {
+		return validSaldoCajaEuros;
+	}
+
+	public void setValidSaldoCajaEuros(boolean validSaldoCajaEuros) {
+		this.validSaldoCajaEuros = validSaldoCajaEuros;
 	}
 }
