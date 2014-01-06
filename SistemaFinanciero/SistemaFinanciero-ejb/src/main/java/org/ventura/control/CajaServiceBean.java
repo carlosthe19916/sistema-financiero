@@ -21,18 +21,23 @@ import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.remote.CajaServiceRemote;
+import org.ventura.dao.impl.BovedaCajaDAO;
 import org.ventura.dao.impl.BovedaDAO;
 import org.ventura.dao.impl.CajaDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
 import org.ventura.dao.impl.DetallehistorialcajaDAO;
 import org.ventura.dao.impl.HistorialcajaDAO;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Boveda;
+import org.ventura.entity.schema.caja.BovedaCaja;
+import org.ventura.entity.schema.caja.BovedaCajaPK;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
+import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.RollbackFailureException;
@@ -56,7 +61,8 @@ public class CajaServiceBean implements CajaServiceLocal{
 
 	@EJB
 	private BovedaDAO bovedaDAO;
-	
+	@EJB
+	private BovedaCajaDAO bovedaCajaDAO;
 	@EJB
 	private HistorialcajaDAO historialcajaDAO;
 	@EJB
@@ -66,6 +72,12 @@ public class CajaServiceBean implements CajaServiceLocal{
 	
 	@Inject
 	private Log log;
+	@Inject
+	private Moneda totalCajaSoles;
+	@Inject
+	private Moneda totalCajaDolares;
+	@Inject
+	private Moneda totalCajaEuros;
 	
 	public CajaServiceBean() {
 		
@@ -298,31 +310,41 @@ public class CajaServiceBean implements CajaServiceLocal{
 			historialcaja.getDetallehistorialcajas().clear();
 			
 			for (Detallehistorialcaja d : detalleDolares) {
+				totalCajaDolares = totalCajaDolares.add(d.getSubtotal());	
 				historialcaja.addDetallehistorialcaja(d);
 			}
+			
 			for (Detallehistorialcaja s : detalleSoles) {
+				totalCajaSoles = totalCajaSoles.add(s.getSubtotal());
 				historialcaja.addDetallehistorialcaja(s);
 			}
+			
 			for (Detallehistorialcaja e : detalleEuros) {
+				totalCajaEuros = totalCajaEuros.add(e.getSubtotal());
 				historialcaja.addDetallehistorialcaja(e);
 			}
 			
-			historialcaja.setFechacierre(Calendar.getInstance().getTime());
-			historialcaja.setHoracierre(Calendar.getInstance().getTime());
-			Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
-			historialcaja.setEstadomovimiento(estadomovimiento);
-			
-			for (Detallehistorialcaja dhc : historialcaja.getDetallehistorialcajas()) {
-				detallehistorialcajaDAO.update(dhc);
+			if (compareSaldoTotalCajaSoles(caja) == 0 && compareSaldoTotalCajaDolares(caja) == 0 && compareSaldoTotalCajaEuros(caja) == 0) {
+				
+				historialcaja.setFechacierre(Calendar.getInstance().getTime());
+				historialcaja.setHoracierre(Calendar.getInstance().getTime());
+				Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
+				historialcaja.setEstadomovimiento(estadomovimiento);
+				
+				for (Detallehistorialcaja dhc : historialcaja.getDetallehistorialcajas()) {
+					detallehistorialcajaDAO.update(dhc);
+				}
+				historialcajaDAO.update(historialcaja);
+				
+				Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+				caja.setEstadoapertura(estadoapertura);
+				cajaDAO.update(caja);
+				
+				log.info("FINISH SUCCESSFULLY: CAJA CERRADA");
+			}else{
+				log.info("FINISH ERROR: CAJA NO CERRADA");
 			}
-			historialcajaDAO.update(historialcaja);
 			
-			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
-			caja.setEstadoapertura(estadoapertura);
-			cajaDAO.update(caja);
-			
-			log.info("FINISH SUCCESSFULLY: CAJA CERRADA");
-
 		} catch (IllegalArgumentException | NonexistentEntityException e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -336,6 +358,123 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 	}
 	
+	//comparar saldo de cierre en caja con saldo en base de datos Soles
+	public int compareSaldoTotalCajaSoles(Caja caja) throws Exception {
+		int valor = -2;
+		Tipomoneda tipoMonedaSoles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+		List<Boveda> bovedas = caja.getBovedas();
+		Boveda bovedaSoles = null;
+		for (Boveda boveda : bovedas) {
+			Tipomoneda tipomonedaBoveda = boveda.getTipomoneda();
+			if (tipoMonedaSoles.equals(tipomonedaBoveda)) {
+				bovedaSoles = boveda;
+				break;
+			}
+		}
+		if (bovedaSoles != null) {
+			BovedaCaja bovedaCaja;
+			BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();
+			bovedaCajaPK.setIdboveda(bovedaSoles.getIdboveda());
+			bovedaCajaPK.setIdcaja(caja.getIdcaja());
+			
+			bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+			
+			if (totalCajaSoles.isGreaterThan(bovedaCaja.getSaldototal())) {
+				valor = 1;
+			}
+			if (totalCajaSoles.isLessThan(bovedaCaja.getSaldototal())) {
+				valor = -1;
+			}if(totalCajaSoles.isEqual(bovedaCaja.getSaldototal())){
+				valor = 0;
+			}
+		}else{
+			valor = 0;
+		}
+		return valor;
+	}
+	
+	// comparar saldo de cierre en caja con saldo en base de datos Dolares
+	public int compareSaldoTotalCajaDolares(Caja caja) throws Exception {
+		int valor = -2;
+		
+		Tipomoneda tipoMonedaDolares = ProduceObject
+				.getTipomoneda(TipomonedaType.DOLAR);
+		List<Boveda> bovedas = caja.getBovedas();
+		Boveda bovedaDolares = null;
+		for (Boveda boveda : bovedas) {
+			Tipomoneda tipomonedaBoveda = boveda.getTipomoneda();
+			if (tipoMonedaDolares.equals(tipomonedaBoveda)) {
+				bovedaDolares = boveda;
+				break;
+			}
+		}
+		if (bovedaDolares != null) {
+			BovedaCaja bovedaCaja;
+			BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();
+			bovedaCajaPK.setIdboveda(bovedaDolares.getIdboveda());
+			bovedaCajaPK.setIdcaja(caja.getIdcaja());
+
+			bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+
+			if (totalCajaDolares.isGreaterThan(bovedaCaja.getSaldototal())) {
+				valor = 1;
+			}
+			if (totalCajaDolares.isLessThan(bovedaCaja.getSaldototal())) {
+				valor = -1;
+			}
+			if (totalCajaDolares.isEqual(bovedaCaja.getSaldototal())) {
+				valor = 0;
+			} else {
+				valor = 0;
+				throw new Exception("Imposible comparar saldos en caja dolares");
+			}
+		} else {
+			valor = 0;
+		}
+		return valor;
+	}
+	
+	// comparar saldo de cierre en caja con saldo en base de datos Euros
+	public int compareSaldoTotalCajaEuros(Caja caja) throws Exception {
+		int valor = -2;
+		
+		Tipomoneda tipoMonedaEuros = ProduceObject
+				.getTipomoneda(TipomonedaType.EURO);
+		List<Boveda> bovedas = caja.getBovedas();
+		Boveda bovedaEuros = null;
+		for (Boveda boveda : bovedas) {
+			Tipomoneda tipomonedaBoveda = boveda.getTipomoneda();
+			if (tipoMonedaEuros.equals(tipomonedaBoveda)) {
+				bovedaEuros = boveda;
+				break;
+			}
+		}
+		if (bovedaEuros != null) {
+			BovedaCaja bovedaCaja;
+			BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();
+			bovedaCajaPK.setIdboveda(bovedaEuros.getIdboveda());
+			bovedaCajaPK.setIdcaja(caja.getIdcaja());
+
+			bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+
+			if (totalCajaEuros.isGreaterThan(bovedaCaja.getSaldototal())) {
+				valor = 1;
+			}
+			if (totalCajaEuros.isLessThan(bovedaCaja.getSaldototal())) {
+				valor = -1;
+			}
+			if (totalCajaEuros.isEqual(bovedaCaja.getSaldototal())) {
+				valor = 0;
+			} else {
+				throw new Exception(
+						"Imposible comparar saldos en caja de Euros");
+			}
+		} else {
+			valor = 0;
+		}
+		return valor;
+	}
+
 	public List<Denominacionmoneda> getDiferenceWithoutDuplicates(List<Denominacionmoneda> one, List<Denominacionmoneda> two) {
 		List<Denominacionmoneda> resultList = new ArrayList<Denominacionmoneda>();
 		resultList.addAll(one);
@@ -390,26 +529,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 		
 		return historialcaja;
 	}
-	
-	/*
-	@Override
-	public Historialcaja getHistorialcajaLastNoActive(Caja caja) throws Exception {
-		Historialcaja historialcaja = null;
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("caja", caja);
-
-		List<Historialcaja> historialcajaList = historialcajaDAO.findByNamedQuery(Historialcaja.findLastHistorialNoActive, parameters);
-		if (historialcajaList.size() == 0) {
-			historialcaja = null;
-		}
-		if (historialcajaList.size() == 1) {
-			historialcaja = historialcajaList.get(0);
-		}
-		if (historialcajaList.size() > 1) {
-			throw new Exception("Existe mas de un historial activo");
-		}
-		return historialcaja;
-	}*/
 	
 	public boolean verificarBovedas(Caja caja, EstadoAperturaType estadoAperturaType) throws Exception{
 		boolean result = true;
@@ -581,55 +700,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 	}
 	
-	/*
-	@Override
-	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaLastNoActive(Caja caja) throws Exception {
-		try {
-			Historialcaja historialcaja = getHistorialcajaLastNoActive(caja);
-			List<Detallehistorialcaja> result = null;
-			HashMap<Tipomoneda, List<Detallehistorialcaja>> colecctionDetealleHistorialCaja = new HashMap<>();
-			
-			for (int i = 0; i < caja.getBovedas().size(); i++) {
-				Tipomoneda tipomoneda = caja.getBovedas().get(i).getTipomoneda();	
-				List<Denominacionmoneda> denominacionmoedaAllActive = getDenominacionmonedasActive(tipomoneda);
-				List<Denominacionmoneda> denominacionmonedasAllFromHistorial = new ArrayList<Denominacionmoneda>();
-				
-				if (historialcaja == null) {
-					result = new ArrayList<Detallehistorialcaja>();
-				}else{
-					result = getDetalleHistorialCajaByTipoMoneda(tipomoneda, historialcaja);
-					for (Detallehistorialcaja e : historialcaja.getDetallehistorialcajas()) {
-						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
-						denominacionmonedasAllFromHistorial.add(denominacionmoneda);
-					}
-				}
-				
-				List<Denominacionmoneda> denominacionmoneda2 = getDiferenceWithoutDuplicates(denominacionmoedaAllActive, denominacionmonedasAllFromHistorial);
-				for (Denominacionmoneda e : denominacionmoneda2) {
-					Detallehistorialcaja detallehistorialcaja = new Detallehistorialcaja();
-					detallehistorialcaja.setDenominacionmoneda(e);
-					detallehistorialcaja.setCantidad(0);
-					
-					result.add(detallehistorialcaja);
-				}
-				colecctionDetealleHistorialCaja.put(tipomoneda, result);
-			}
-			return colecctionDetealleHistorialCaja;
-		} catch (RollbackFailureException e) {
-			caja.setIdcaja(null);
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se obtener el detalle de la caja");
-		} catch (Exception e) {
-			caja.setIdcaja(null);
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se puede obtener el detalle de la caja");
-		}
-	}	*/
-	
 	@Override
 	public void freezeCaja(Caja oCaja) throws Exception {
 		try {
@@ -678,6 +748,30 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}else{
 			throw new Exception("Caja cerrada, no se pueden Congelar/Descongelar caja");
 		}
+	}
+
+	public Moneda getTotalCajaSoles() {
+		return totalCajaSoles;
+	}
+
+	public void setTotalCajaSoles(Moneda totalCajaSoles) {
+		this.totalCajaSoles = totalCajaSoles;
+	}
+
+	public Moneda getTotalCajaDolares() {
+		return totalCajaDolares;
+	}
+
+	public void setTotalCajaDolares(Moneda totalCajaDolares) {
+		this.totalCajaDolares = totalCajaDolares;
+	}
+
+	public Moneda getTotalCajaEuros() {
+		return totalCajaEuros;
+	}
+
+	public void setTotalCajaEuros(Moneda totalCajaEuros) {
+		this.totalCajaEuros = totalCajaEuros;
 	}
 
 }

@@ -44,14 +44,16 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	
 	public Historialcaja getHistorialcajaLastActive(Caja oCaja) throws RollbackFailureException, Exception;
 	
-	//public Historialcaja getHistorialcajaLastNoActive(Caja caja) throws Exception;
-	
 	public List<Boveda> getBovedas(Caja oCaja) throws Exception;
 	
 	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaLastActive(Caja caja) throws Exception;
 	
-	//public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaLastNoActive(Caja caja) throws Exception;
-	
 	public HashMap<Tipomoneda,List<Detallehistorialcaja>> getDetallehistorialcajaInZero(Caja caja) throws Exception;
+	
+	public int compareSaldoTotalCajaSoles(Caja caja) throws Exception;
+	
+	public int compareSaldoTotalCajaDolares(Caja caja) throws Exception;
+	
+	public int compareSaldoTotalCajaEuros(Caja caja) throws Exception;
 	
 }

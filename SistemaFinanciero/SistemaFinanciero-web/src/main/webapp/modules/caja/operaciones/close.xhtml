@@ -12,23 +12,44 @@
 		<f:viewParam name="idcaja" value="#{openCloseCajaBean.idcaja}" />
 		<f:viewAction action="#{openCloseCajaBean.loadCajaForClose()}" />
 	</f:metadata>
-
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
 			<h:outputText value="Close Caja" />
 		</ui:define>
-
 		<!-- Definiendo el cuerpo de la pagina -->
 		<ui:define name="content">
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
-			<h:form>
+			<h:form id="formClose">
+			 <p:focus context="formClose" />
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
 							<div class="p6n-api-consent-screen-title">Cerrar Caja</div>
 							<h:panelGroup rendered="#{!openCloseCajaBean.validBean}">
+								<div class="p6n-api-access-in-page-error" style="left: 516px;">
+									<div>
+										<div>
+											<p>
+												<h:messages />
+											</p>
+										</div>
+										<div style="text-align: center;">
+											<h:commandLink value="Cerrar"
+												styleClass="p6n-api-access-in-page-error-link" />
+											&nbsp;|&nbsp;
+											<h:commandLink value="Volver" action="cancel"
+												styleClass="p6n-api-access-in-page-error-link" />
+										</div>
+									</div>
+								</div>
+								<div class="modal-dialog-bg"
+									style="opacity: 0.4; width: 1366px; height: 602px;"
+									aria-hidden="true"></div>
+							</h:panelGroup>
+							
+							<h:panelGroup rendered="#{!openCloseCajaBean.validSaldoCajaSoles}">
 								<div class="p6n-api-access-in-page-error" style="left: 516px;">
 									<div>
 										<div>
@@ -135,7 +156,7 @@
 													<p:dataTable var="cajaDetalleSoles" id="tableTotalSoles"
 														value="#{openCloseCajaBean.tablaCajaDetalleSoles.rows}"
 														rowKey="#{cajaDetalleSoles}" rowIndexVar="row">
-
+														
 														<f:facet name="header">SALDO FINAL</f:facet>
 
 														<p:column headerText="Nro" width="15"
@@ -149,11 +170,10 @@
 														</p:column>
 														<p:column headerText="Cantidad" width="100"
 															style="text-align:right;">
-
-															<h:inputText value="#{cajaDetalleSoles.cantidad}"
-																required="true" maxlength="6"
+															<h:inputText value="#{cajaDetalleSoles.cantidad}" id="aaaa"
+																required="true" maxlength="6" 
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
-																style="text-align:right; width:100px; height:20px">
+																style="text-align:left; width:100px; height:20px">
 																<f:ajax event="blur" execute="@this" render="totalSoles tableTotalSoles"/>
 															</h:inputText>
 														</p:column>
@@ -244,7 +264,7 @@
 															<h:inputText value="#{cajaDetalleDolares.cantidad}"
 																required="true" maxlength="6"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
-																style="text-align:right; width:100px; height:20px">
+																style="text-align:left; width:100px; height:20px">
 																<f:ajax event="blur" execute="@this"
 																	render="txtTotalDolares tableTotalDolares" />
 															</h:inputText>
@@ -335,7 +355,7 @@
 															<h:inputText value="#{cajaDetalleEuros.cantidad}"
 																required="true" maxlength="6"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
-																style="text-align:right; width:100px; height:20px">
+																style="text-align:left; width:100px; height:20px">
 																<f:ajax event="blur" execute="@this" render="txtTotalEuros tableTotalEuros" />
 															</h:inputText>
 														</p:column>
