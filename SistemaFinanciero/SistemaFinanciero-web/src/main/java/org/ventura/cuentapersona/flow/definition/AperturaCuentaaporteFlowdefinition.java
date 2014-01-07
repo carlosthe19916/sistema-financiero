@@ -9,16 +9,18 @@ import javax.faces.flow.builder.FlowBuilderParameter;
 import javax.faces.flow.builder.FlowDefinition;
 
 public class AperturaCuentaaporteFlowdefinition implements Serializable {
-	
+
 	@Produces
 	@FlowDefinition
 	public Flow defineFlow(@FlowBuilderParameter FlowBuilder flowBuilder) {
 		String flowId = "aperturaCuentaaporte-flow";
 		flowBuilder.id("", flowId);
-		flowBuilder.viewNode(flowId, "/" + flowId + "/" + flowId + ".xhtml").markAsStartNode();
+		flowBuilder.viewNode(flowId, "/" + flowId + "/" + flowId + ".xhtml")
+				.markAsStartNode();
 
-		flowBuilder.returnNode("returnFromAperturarCuentaaporteFlow").fromOutcome("#{aperturarCuentaaporteBean.returnValue}");
-			
+		flowBuilder.returnNode("returnFromAperturaCuentaaporteFlow")
+				.fromOutcome("aperturaCuentaaporte-flowC");
+
 		return flowBuilder.getFlow();
 	}
 }

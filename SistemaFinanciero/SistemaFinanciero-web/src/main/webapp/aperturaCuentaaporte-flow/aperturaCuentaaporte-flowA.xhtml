@@ -19,7 +19,6 @@
 	<ui:define name="content">
 
 		<h:outputStylesheet library="css" name="main.css" />
-		<h:outputScript library="js" name="angular.min.js"></h:outputScript>
 
 		<br />
 		<div>
@@ -36,8 +35,7 @@
 										</div>
 										<div style="display: inline-block;">
 											<h:selectBooleanCheckbox
-												value="#{aperturaCuentaaporteBean.existeApoderado}"
-												pt:ng-model="apoderadoSelected">
+												value="#{aperturaCuentaaporteBean.existeApoderado}">
 												<f:ajax></f:ajax>
 											</h:selectBooleanCheckbox>
 										</div>
@@ -388,15 +386,16 @@
 																				<th><a href="javascript:;"
 																					class="ng-isolate-scope p6n-clickable-link">
 																						F.nacimiento </a></th>
+																				<th><a href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						(%) </a></th>
 																				<th class="p6n-api-list-col-status"><a
-																					href="javascript:;" pan-sort-header=""
-																					sort-key="getEnabledAndName" sort-data="sortState"
+																					href="javascript:;"
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Status </a></th>
 
 																				<th class="p6n-api-list-col-status"><a
-																					href="javascript:;" pan-sort-header=""
-																					sort-key="getEnabledAndName" sort-data="sortState"
+																					href="javascript:;"
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Status </a></th>
 																			</tr>
@@ -436,11 +435,17 @@
 																								<f:convertDateTime pattern="dd/MM/yy" />
 																							</h:outputLabel>
 																					</a></td>
+																					<td><a href="javascript:;"
+																						class="p6n-clickable-link ng-binding"> <h:outputLabel
+																								value="#{accionista.porcentajeparticipacion}">
+																								<f:convertDateTime pattern="dd/MM/yy" />
+																							</h:outputLabel>
+																					</a></td>
 																					<td><h:commandButton value="Edit"
 																							styleClass="action green" style="margin: 0px;">
 																							<f:ajax
 																								listener="#{aperturaCuentaaporteBean.editAccionista(accionista)}"
-																								render=":panelGroupDlgAccionista" />
+																								render=":panelGroupDlgAccionista :formDialogAccionista" />
 																						</h:commandButton></td>
 																					<td><h:commandButton value="Remove"
 																							styleClass="action red" style="margin: 0px;">
@@ -467,11 +472,11 @@
 														<div class="p6n-main-pane p6n-acl-pane"
 															style="margin-left: 0px;">
 															<div class="p6n-action-bar" style="padding-bottom: 45px;">
-																<h:commandButton value="Añadir Titular"
+																<h:commandButton value="Añadir Accionista"
 																	class="actionn red">
 																	<f:ajax
 																		listener="#{aperturaCuentaaporteBean.setDlgAccionistaOpen(true)}"
-																		render=":panelGroupDlgAccionista" />
+																		render=":panelGroupDlgAccionista :formDialogAccionista" />
 																</h:commandButton>
 
 															</div>
@@ -501,8 +506,7 @@
 						rendered="#{aperturaCuentaaporteBean.dlgAccionistaOpen}">
 						<h:form id="formDialogAccionista">
 							<div class="modal-dialog-bg"
-								style="opacity: 0.4; width: 1366px; height: 902px;"
-								ng-show="dialogAccionista"></div>
+								style="opacity: 0.4; width: 1366px; height: 902px;"></div>
 							<div class="modal-dialog p6n-popup"
 								style="left: 402px; top: 50px;">
 								<div class="modal-dialog-content p6n-acl-add-member-popup"
@@ -672,7 +676,7 @@
 									<h:commandButton value="Guardar" styleClass="action blue">
 										<f:ajax listener="#{aperturaCuentaaporteBean.addAccionista()}"
 											execute="@form"
-											render="@form :panelGroupDlgAccionista :panelGroupPersonajuridica" />
+											render="@form :panelGroupPersonajuridica :formPersonajuridica" />
 									</h:commandButton>
 									<h:commandButton value="Cancelar" styleClass="action">
 										<f:ajax

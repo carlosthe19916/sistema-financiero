@@ -46,7 +46,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	@Override
 	public Personajuridica create(Personajuridica oPersonajuridica) throws Exception  {
 		try{
-			Personanatural representantelegal = oPersonajuridica.getPersonanatural();
+			Personanatural representantelegal = oPersonajuridica.getRepresentanteLegal();
 			if (representantelegal != null) {
 				Object key = representantelegal.getDni();
 				Object result = personanaturalServiceLocal.find(key);
@@ -250,6 +250,17 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			List<Personajuridica> list = oPersonajuridicaDAO.findByNamedQuery(Personajuridica.FindByTipodocumentoNumerodocumento, parameters);
 			if(list.size() == 1){
 				personajuridica = list.get(0);
+				
+				Personanatural representanteLegal = personajuridica.getRepresentanteLegal();
+				List<Accionista> accionistas = personajuridica.getAccionistas();
+				
+				personajuridica.setRepresentanteLegal(representanteLegal);
+				
+				for (Accionista accionista : accionistas) {
+					Personanatural personanatural = accionista.getPersonanatural();
+					accionista.setPersonanatural(personanatural);
+				}
+				personajuridica.setAccionistas(accionistas);
 			} else {
 				if(list.size() == 0){
 					personajuridica = null;

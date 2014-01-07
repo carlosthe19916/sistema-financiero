@@ -156,10 +156,13 @@ public class AperturaCuentaaporteBean implements Serializable {
 			comboSexoRepresentantelegal.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			
 			comboEstadocivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
+			
+			comboTipoempresa.initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}		
 	}
+	
 	
 	public String crearCuentaaporte(){
 		try {
@@ -242,7 +245,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 			return null;
 		}
 
-		return null;
+		return "returnFromAperturaCuentaaporteFlow";
 	}
 	
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
@@ -371,12 +374,18 @@ public class AperturaCuentaaporteBean implements Serializable {
 				this.nombresAccionista = personaNatural.getNombres();
 				this.fechaNacimientoAccionista = personaNatural.getFechanacimiento();
 				this.comboSexoAccionista.setItemSelected(personaNatural.getSexo());
+				BigDecimal bigDecimal = new BigDecimal(0);
+				bigDecimal.setScale(2);
+				this.porcentajeParticipacionAccionista = bigDecimal;
 			} else {
 				this.apellidoPaternoAccionista = "";
 				this.apellidoMaternoAccionista = "";
 				this.nombresAccionista = "";
 				this.fechaNacimientoAccionista = null;
 				this.comboSexoAccionista.setItemSelected(-1);
+				BigDecimal bigDecimal = new BigDecimal(0);
+				bigDecimal.setScale(2);
+				this.porcentajeParticipacionAccionista = bigDecimal;
 			}
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
@@ -407,6 +416,23 @@ public class AperturaCuentaaporteBean implements Serializable {
 				telefonoPersonajuridica = personajuridica.getTelefono();
 				celularPersonajuridica = personajuridica.getCelular();
 				emailPersonajuridica = personajuridica.getEmail();
+				
+				comboTipodocumentoRepresentantelegal.setItemSelected(personajuridica.getRepresentanteLegal().getTipodocumento());
+				numeroDocumentoRepresentantelegal = personajuridica.getRepresentanteLegal().getNumerodocumento();
+				apellidoPaternoRepresentantelegal = personajuridica.getRepresentanteLegal().getApellidopaterno();
+				apellidoMaternoRepresentantelegal = personajuridica.getRepresentanteLegal().getApellidomaterno();
+				nombresRepresentantelegal = personajuridica.getRepresentanteLegal().getNombres();
+				fechaNacimientoRepresentantelegal = personajuridica.getRepresentanteLegal().getFechanacimiento();
+				comboSexoRepresentantelegal.setItemSelected(personajuridica.getRepresentanteLegal().getSexo());
+				
+				this.accionistas.clear();
+				List<Accionista> listAccionistas = personajuridica.getAccionistas();
+				for (Accionista accionista : listAccionistas) {
+					Personanatural personanatural = accionista.getPersonanatural();
+					String keyMap = personanatural.getTipodocumento().getIdtipodocumento() + personanatural.getNumerodocumento();
+					this.accionistas.put(keyMap, accionista);
+				}
+				
 			} else {
 				razonSocial = "";
 				nombreComercial = "";
@@ -419,6 +445,16 @@ public class AperturaCuentaaporteBean implements Serializable {
 				telefonoPersonajuridica = "";
 				celularPersonajuridica = "";
 				emailPersonajuridica = "";
+				
+				comboTipodocumentoRepresentantelegal.setItemSelected(-1);
+				numeroDocumentoRepresentantelegal = "";
+				apellidoPaternoRepresentantelegal = "";
+				apellidoMaternoRepresentantelegal = "";
+				nombresRepresentantelegal = "";
+				fechaNacimientoRepresentantelegal = null;
+				comboSexoRepresentantelegal.setItemSelected(-1);
+				
+				this.accionistas.clear();
 			}
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
@@ -442,6 +478,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 		
 		Accionista accionista = new Accionista();
 		accionista.setPersonanatural(personanatural);
+		accionista.setPorcentajeparticipacion(porcentajeParticipacionAccionista);
 		
 		this.accionistas.put(keyMap, accionista);
 		
@@ -458,8 +495,9 @@ public class AperturaCuentaaporteBean implements Serializable {
 	}
 	
 	public void editAccionista(Object obj) {
-		if(obj instanceof Personanatural){
-			Personanatural personanatural = (Personanatural) obj;
+		if(obj instanceof Accionista){
+			Accionista accionista = (Accionista) obj;
+			Personanatural personanatural = accionista.getPersonanatural();
 			
 			comboTipodocumentoAccionista.setItemSelected(personanatural.getTipodocumento());
 			numeroDocumentoAccionista = personanatural.getNumerodocumento();
@@ -468,14 +506,15 @@ public class AperturaCuentaaporteBean implements Serializable {
 			nombresAccionista = personanatural.getNombres();
 			fechaNacimientoAccionista = personanatural.getFechanacimiento();
 			comboSexoAccionista.setItemSelected(personanatural.getSexo());		
-			
+			porcentajeParticipacionAccionista = accionista.getPorcentajeparticipacion();
 			setDlgAccionistaOpen(true);
 		} 
 	}
 	
 	public void removeAccionista(Object obj) {
-		if(obj instanceof Personanatural){
-			Personanatural personanatural = (Personanatural) obj;
+		if(obj instanceof Accionista){
+			Accionista accionista = (Accionista) obj;
+			Personanatural personanatural = accionista.getPersonanatural();
 			String keyMap = personanatural.getTipodocumento().getIdtipodocumento()+personanatural.getNumerodocumento();
 			this.accionistas.remove(keyMap);
 		} 

@@ -14,20 +14,20 @@ import java.util.List;
 @Entity
 @Table(name = "personajuridica", schema = "persona")
 @NamedQuery(name = "Personajuridica.findAll", query = "SELECT p FROM Personajuridica p")
-@NamedQueries({ @NamedQuery(name = Personajuridica.FindByTipodocumentoNumerodocumento, query = "SELECT p FROM Personajuridica p WHERE p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento") })
+@NamedQueries({ @NamedQuery(name = Personajuridica.FindByTipodocumentoNumerodocumento, query = "SELECT pj FROM Personajuridica pj WHERE pj.tipodocumento = :tipodocumento AND pj.numerodocumento = :numerodocumento") })
 public class Personajuridica implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public final static String FindByTipodocumentoNumerodocumento = "org.ventura.entity.schema.persona.personajuridica.FindByDni";
-	
+
 	@Id
 	@Column(unique = true, nullable = false)
 	private Integer idpersonajuridica;
 
 	@Column
 	private String numerodocumento;
-	
+
 	@Column(length = 50)
 	private String actividadprincipal;
 

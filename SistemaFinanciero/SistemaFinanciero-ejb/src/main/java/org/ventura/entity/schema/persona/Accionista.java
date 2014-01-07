@@ -1,7 +1,9 @@
 package org.ventura.entity.schema.persona;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 
 /**
@@ -12,10 +14,14 @@ import java.math.BigDecimal;
 @Table(name = "accionista", schema = "persona")
 @NamedQuery(name = "Accionista.findAll", query = "SELECT a FROM Accionista a")
 public class Accionista implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(nullable = false)
+	private Integer idaccionista;
+
 	@Column(nullable = false, precision = 4, scale = 2)
 	private BigDecimal porcentajeparticipacion;
 
@@ -54,6 +60,14 @@ public class Accionista implements Serializable {
 
 	public void setPersonanatural(Personanatural personanatural) {
 		this.personanatural = personanatural;
+	}
+
+	public Integer getIdaccionista() {
+		return idaccionista;
+	}
+
+	public void setIdaccionista(Integer idaccionista) {
+		this.idaccionista = idaccionista;
 	}
 
 }

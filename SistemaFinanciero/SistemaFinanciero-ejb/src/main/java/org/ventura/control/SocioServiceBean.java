@@ -340,8 +340,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 			socio.setPersonanatural(null);
 			
 			Map<String,Object> parameters = new HashMap<String, Object>();
-			parameters.put("tipodocumento", socio.getPersonanatural().getTipodocumento());
-			parameters.put("numerodocumento", socio.getPersonanatural().getNumerodocumento());			
+			parameters.put("tipodocumento", socio.getPersonajuridica().getTipodocumento());
+			parameters.put("numerodocumento", socio.getPersonajuridica().getNumerodocumento());			
 			List<Socio> resultList = socioDAO.findByNamedQuery(Socio.FindSocioPJByTipodocumentoNumerodocumento,parameters,1);
 				
 			if(resultList.size() != 0){
@@ -350,7 +350,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 				
 			Personajuridica personajuridica = socio.getPersonajuridica();
 			Personanatural representanteLegal = personajuridica.getRepresentanteLegal();
-			List<Accionista> accionistas = personajuridica.getAccionistas();
+			List<Accionista> accionistas = personajuridica.getAccionistas();	
 			
 			Tipodocumento tipodocumentoRepresentanteLegal = representanteLegal.getTipodocumento();
 			String numeroDocumentoRepresentanteLegal = representanteLegal.getNumerodocumento();
@@ -415,9 +415,12 @@ public class SocioServiceBean implements SocioServiceLocal {
 					personanaturalServiceLocal.create(accionistaPersonanaturalBD);
 				}
 				
-				accionista.setPersonanatural(accionistaPersonanatural);
-				accionista.setPersonajuridica(personajuridica);
-				accionistaDAO.create(accionista);
+				Accionista accionistaNew = new Accionista();		
+				accionistaNew.setPersonanatural(accionistaPersonanatural);
+				accionistaNew.setPersonajuridica(personajuridica);
+				accionistaNew.setPorcentajeparticipacion(accionista.getPorcentajeparticipacion());
+				accionistaDAO.create(accionistaNew);
+				accionistaDAO.delete(accionista);
 			}
 			
 			Cuentaaporte cuentaaporte = new Cuentaaporte();		
@@ -435,15 +438,13 @@ public class SocioServiceBean implements SocioServiceLocal {
 			
 			socioDAO.create(socio);
 			
-		} catch (IllegalEntityException | PreexistingEntityException e) {			
-			socio.getCuentaaporte().setIdcuentaaporte(null);			
+		} catch (IllegalEntityException | PreexistingEntityException e) {					
 			socio.setIdsocio(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw new Exception(e.getMessage());	
-		} catch (Exception e) {
-			socio.getCuentaaporte().setIdcuentaaporte(null);			
+		} catch (Exception e) {			
 			socio.setIdsocio(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
