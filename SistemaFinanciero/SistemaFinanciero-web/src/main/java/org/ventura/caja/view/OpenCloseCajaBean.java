@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -212,48 +213,60 @@ public class OpenCloseCajaBean implements Serializable {
 				this.cajaServiceLocal.closeCaja(caja, detalleSoles, detalleDolares, detalleEuros);
 				
 				//validar los saldos en caja y base de datos en soles
-				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja)==-1) {
+				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(-1)) {
+					Map<Integer, Moneda> haspSoles = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaSoles(false);
-					JsfUtil.addErrorMessage("Dinero Faltante en Nuevo Sol");
+					Moneda faltateSoles = haspSoles.get(-1);
+					JsfUtil.addErrorMessage("Dinero Faltante de " + faltateSoles + " Nuevos Soles");
 					return null;
 				}
-				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja)==1) {
+				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(1)) {
+					Map<Integer, Moneda> haspSoles = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaSoles(false);
-					JsfUtil.addErrorMessage("Dinero Sobrante en Nuevo Sol");
+					Moneda sobranteSoles = haspSoles.get(1);
+					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteSoles + " Nuevos Soles");
 					return null;
 				}
-				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja)==0) {
-					JsfUtil.addSuccessMessage("Caja Cerrada");
+				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(0)) {
+					JsfUtil.addSuccessMessage("Caja Cerrada correctamente");
 				}
 				
 				//validar los saldos en caja y base de datos en Dolares
-				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja)==-1) {
+				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(-1)) {
+					Map<Integer, Moneda> haspDolares = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaDolares(false);
-					JsfUtil.addErrorMessage("Dinero Faltante en Dolares");
+					Moneda faltanteDolares = haspDolares.get(-1);
+					JsfUtil.addErrorMessage("Dinero Faltante De " + faltanteDolares + " Dolares");
 					return null;
 				}
-				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja)==1) {
+				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(1)) {
+					Map<Integer, Moneda> haspDolares = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaDolares(false);
-					JsfUtil.addErrorMessage("Dinero Sobrante en Dolares");
+					Moneda sobranteDolares = haspDolares.get(1);
+					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteDolares + " Dolares");
 					return null;
 				}
-				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja)==0) {
-					JsfUtil.addSuccessMessage("Caja Cerrada");
+				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(0)) {
+					JsfUtil.addSuccessMessage("Caja Cerrada Correctamente");
 				}
 				
 				//validar los saldos en caja y base de datos en euros
-				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja)==-1) {
+				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja).containsKey(-1)) {
+					Map<Integer, Moneda> haspEuros = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaEuros(false);
-					JsfUtil.addErrorMessage("Dinero Faltante en Euros");
+					Moneda faltanteEuros = haspEuros.get(-1);
+					JsfUtil.addErrorMessage("Dinero Faltante de " + faltanteEuros + " Euros");
 					return null;
 				}
-				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja)==1) {
+				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja).containsKey(1)) {
+					Map<Integer, Moneda> haspEuros = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaEuros(false);
-					JsfUtil.addErrorMessage("Dinero Sobrante en Euros");
+					Moneda sobranteEuros = haspEuros.get(1);
+					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteEuros + " Euros");
 					return null;
 				}
-				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja)==0) {
-					JsfUtil.addSuccessMessage("Caja Cerrada");
+				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja).containsKey(0)) {
+					JsfUtil.addSuccessMessage("Caja Cerrada Correctamente");
 				}
 			} else {
 				JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");
