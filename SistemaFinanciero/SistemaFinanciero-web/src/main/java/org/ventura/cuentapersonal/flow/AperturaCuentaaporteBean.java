@@ -45,6 +45,8 @@ public class AperturaCuentaaporteBean implements Serializable {
 	private boolean isPersonanatural;
 	private boolean isPersonajuridica;
 	
+	private boolean cuentaValida;
+	
 	// DATOS DE LA VISTA
 	// VISTA 01
 	@Inject private ComboBean<String> comboTipopersona;
@@ -117,6 +119,8 @@ public class AperturaCuentaaporteBean implements Serializable {
 	@Inject private Agencia agencia;
 	
 	public AperturaCuentaaporteBean() {
+		cuentaValida = true;
+		
 		isPersonanatural = false;
 		isPersonajuridica = false;
 		personanaturalSelected = false;
@@ -137,7 +141,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 		this.comboTipopersona.putItem(1, "PERSONA NATURAL");
 		this.comboTipopersona.putItem(2, "PERSONA JURIDICA");
 		
-		this.comboFinsocial.putItem(0, "--SELECCIONE--");
+		this.comboFinsocial.putItem(0, "--NO ESPECIFICA--");
 		this.comboFinsocial.putItem(1, "CON FINES DE LUCRO");
 		this.comboFinsocial.putItem(2, "SIN FINES DE LUCRO");
 		
@@ -241,6 +245,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 				}
 			}
 		} catch (Exception e) {
+			this.cuentaValida = false;
 			JsfUtil.addErrorMessage(e, e.getMessage());
 			return null;
 		}
@@ -1052,6 +1057,14 @@ public class AperturaCuentaaporteBean implements Serializable {
 	public void setPorcentajeParticipacionAccionista(
 			BigDecimal porcentajeParticipacionAccionista) {
 		this.porcentajeParticipacionAccionista = porcentajeParticipacionAccionista;
+	}
+
+	public boolean isCuentaValida() {
+		return cuentaValida;
+	}
+
+	public void setCuentaValida(boolean cuentaValida) {
+		this.cuentaValida = cuentaValida;
 	}
 
 }
