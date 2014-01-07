@@ -78,7 +78,6 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	@Override
 	public Cuentaaporte createCuentaAporteWithPersonanatural(Cuentaaporte cuentaaporte) throws Exception {
 		try {	
-			generarDatosDeRegistro(cuentaaporte);	
 			cuentaaporteDAO.create(cuentaaporte);
 			
 			//Socio socio = cuentaaporte.getSocio();
@@ -96,8 +95,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 
 	@Override
 	public Cuentaaporte createCuentaAporteWithPersonajuridica(Cuentaaporte cuentaaporte) throws Exception {
-		try {
-			generarDatosDeRegistro(cuentaaporte);	
+		try {	
 			cuentaaporteDAO.create(cuentaaporte);
 			
 			/*Socio socio = new Socio();
@@ -116,7 +114,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	}
 	
 	protected Socio buscarSocioPersonaNatural(Socio socio) throws PreexistingEntityException, Exception {
-		if (socio != null) {
+		/*if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("dni", socio.getDni());
 			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
@@ -125,12 +123,12 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			} else {
 				throw new PreexistingEntityException("La Persona Natural ya tiene una cuenta de aportes Activa");
 			}
-		}
+		}*/
 		return socio;
 	}
 
 	protected Socio buscarSocioPersonaJuridica(Socio socio) throws PreexistingEntityException, Exception {
-		if (socio != null) {
+		/*if (socio != null) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ruc", socio.getDni());
 			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
@@ -139,21 +137,8 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			} else {
 				throw new PreexistingEntityException("La Persona Juridica ya tiene una cuenta de aportes Activa");
 			}
-		}
+		}*/
 		return socio;
-	}
-		
-	private void generarDatosDeRegistro(Cuentaaporte cuentaaporte) {		
-		cuentaaporte.setIdestadocuenta(1);
-		
-		Tipomoneda tipomoneda = new Tipomoneda();
-		tipomoneda.setIdtipomoneda(1);
-		tipomoneda.setDenominacion("NUEVOS SOLES");
-		tipomoneda.setEstado(true);
-		cuentaaporte.setTipomoneda(tipomoneda);
-		
-		cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
-		cuentaaporte.setSaldo(new Moneda());		
 	}
 
 	@Override

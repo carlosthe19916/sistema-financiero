@@ -1,4 +1,4 @@
-package org.ventura.cuentapersona.flow.definition;
+package org.ventura.cuentapersonal.flow.definition;
 
 import java.io.Serializable;
 
