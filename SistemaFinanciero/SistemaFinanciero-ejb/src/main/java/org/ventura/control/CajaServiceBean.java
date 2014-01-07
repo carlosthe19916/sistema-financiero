@@ -72,15 +72,12 @@ public class CajaServiceBean implements CajaServiceLocal{
 	
 	@Inject
 	private Log log;
-	@Inject
+	
 	private Moneda totalCajaSoles;
-	@Inject
 	private Moneda totalCajaDolares;
-	@Inject
 	private Moneda totalCajaEuros;
 	
 	public CajaServiceBean() {
-		
 	}
 
 	@Override
@@ -291,6 +288,10 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@Override
 	public void closeCaja(Caja caja, List<Detallehistorialcaja> detalleSoles, List<Detallehistorialcaja> detalleDolares, List<Detallehistorialcaja> detalleEuros) throws Exception {
 		try {
+			totalCajaSoles = new Moneda();
+			totalCajaDolares = new Moneda();
+			totalCajaEuros = new Moneda();
+			
 			caja = cajaDAO.find(caja.getIdcaja());
 			
 			boolean resultCaja = verificarCaja(caja, EstadoAperturaType.ABIERTO);
@@ -317,6 +318,8 @@ public class CajaServiceBean implements CajaServiceLocal{
 			for (Detallehistorialcaja s : detalleSoles) {
 				totalCajaSoles = totalCajaSoles.add(s.getSubtotal());
 				historialcaja.addDetallehistorialcaja(s);
+				System.out.println("total soles " + totalCajaSoles + "*******************");
+				System.out.println("Subtotal " + s.getSubtotal() + "*******************");
 			}
 			
 			for (Detallehistorialcaja e : detalleEuros) {
@@ -324,7 +327,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 				historialcaja.addDetallehistorialcaja(e);
 			}
 			
-			if (compareSaldoTotalCajaSoles(caja) == 0 && compareSaldoTotalCajaDolares(caja) == 0 && compareSaldoTotalCajaEuros(caja) == 0) {
+			if (compareSaldoTotalCajaSoles(caja).containsKey(0) && compareSaldoTotalCajaDolares(caja).containsKey(0) && compareSaldoTotalCajaEuros(caja).containsKey(0)) {
 				
 				historialcaja.setFechacierre(Calendar.getInstance().getTime());
 				historialcaja.setHoracierre(Calendar.getInstance().getTime());
@@ -359,8 +362,9 @@ public class CajaServiceBean implements CajaServiceLocal{
 	}
 	
 	//comparar saldo de cierre en caja con saldo en base de datos Soles
-	public int compareSaldoTotalCajaSoles(Caja caja) throws Exception {
-		int valor = -2;
+	public Map<Integer, Moneda> compareSaldoTotalCajaSoles(Caja caja) throws Exception {
+		Map<Integer, Moneda> hashMapSoles = new HashMap<Integer, Moneda>();
+		
 		Tipomoneda tipoMonedaSoles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 		List<Boveda> bovedas = caja.getBovedas();
 		Boveda bovedaSoles = null;
@@ -380,22 +384,26 @@ public class CajaServiceBean implements CajaServiceLocal{
 			bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
 			
 			if (totalCajaSoles.isGreaterThan(bovedaCaja.getSaldototal())) {
-				valor = 1;
+				Moneda sobranteSoles = totalCajaSoles.subtract(bovedaCaja.getSaldototal());
+				hashMapSoles.put(1, sobranteSoles);
 			}
 			if (totalCajaSoles.isLessThan(bovedaCaja.getSaldototal())) {
-				valor = -1;
+				Moneda faltanteSoles = bovedaCaja.getSaldototal().subtract(totalCajaSoles);
+				hashMapSoles.put(-1, faltanteSoles);
 			}if(totalCajaSoles.isEqual(bovedaCaja.getSaldototal())){
-				valor = 0;
+				Moneda soles = totalCajaSoles.subtract(bovedaCaja.getSaldototal());
+				hashMapSoles.put(0, soles);
 			}
 		}else{
-			valor = 0;
+			Moneda soles = new Moneda();
+			hashMapSoles.put(0, soles);
 		}
-		return valor;
+		return hashMapSoles;
 	}
 	
 	// comparar saldo de cierre en caja con saldo en base de datos Dolares
-	public int compareSaldoTotalCajaDolares(Caja caja) throws Exception {
-		int valor = -2;
+	public Map<Integer, Moneda> compareSaldoTotalCajaDolares(Caja caja) throws Exception {
+		Map<Integer, Moneda> hashMapDolares = new HashMap<Integer, Moneda>();
 		
 		Tipomoneda tipoMonedaDolares = ProduceObject
 				.getTipomoneda(TipomonedaType.DOLAR);
@@ -417,26 +425,27 @@ public class CajaServiceBean implements CajaServiceLocal{
 			bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
 
 			if (totalCajaDolares.isGreaterThan(bovedaCaja.getSaldototal())) {
-				valor = 1;
+				Moneda sobranteDolares = totalCajaDolares.subtract(bovedaCaja.getSaldototal());
+				hashMapDolares.put(1, sobranteDolares);
 			}
 			if (totalCajaDolares.isLessThan(bovedaCaja.getSaldototal())) {
-				valor = -1;
+				Moneda faltanteDolares = bovedaCaja.getSaldototal().subtract(totalCajaDolares);
+				hashMapDolares.put(-1, faltanteDolares);
 			}
 			if (totalCajaDolares.isEqual(bovedaCaja.getSaldototal())) {
-				valor = 0;
-			} else {
-				valor = 0;
-				throw new Exception("Imposible comparar saldos en caja dolares");
+				Moneda dolares = totalCajaDolares.subtract(bovedaCaja.getSaldototal());
+				hashMapDolares.put(0, dolares);
 			}
 		} else {
-			valor = 0;
+			Moneda dolares = new Moneda();
+			hashMapDolares.put(0, dolares);
 		}
-		return valor;
+		return hashMapDolares;
 	}
 	
 	// comparar saldo de cierre en caja con saldo en base de datos Euros
-	public int compareSaldoTotalCajaEuros(Caja caja) throws Exception {
-		int valor = -2;
+	public Map<Integer, Moneda> compareSaldoTotalCajaEuros(Caja caja) throws Exception {
+		Map<Integer, Moneda> hashMapEuros = new HashMap<Integer, Moneda>();
 		
 		Tipomoneda tipoMonedaEuros = ProduceObject
 				.getTipomoneda(TipomonedaType.EURO);
@@ -458,21 +467,22 @@ public class CajaServiceBean implements CajaServiceLocal{
 			bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
 
 			if (totalCajaEuros.isGreaterThan(bovedaCaja.getSaldototal())) {
-				valor = 1;
+				Moneda sobranteEuros = totalCajaEuros.subtract(bovedaCaja.getSaldototal());
+				hashMapEuros.put(1, sobranteEuros);
 			}
 			if (totalCajaEuros.isLessThan(bovedaCaja.getSaldototal())) {
-				valor = -1;
+				Moneda faltanteEuros = bovedaCaja.getSaldototal().subtract(totalCajaEuros);
+				hashMapEuros.put(-1, faltanteEuros);
 			}
 			if (totalCajaEuros.isEqual(bovedaCaja.getSaldototal())) {
-				valor = 0;
-			} else {
-				throw new Exception(
-						"Imposible comparar saldos en caja de Euros");
+				Moneda euros = totalCajaEuros.subtract(bovedaCaja.getSaldototal());
+				hashMapEuros.put(0, euros);
 			}
 		} else {
-			valor = 0;
+			Moneda euros = new Moneda();
+			hashMapEuros.put(0, euros);
 		}
-		return valor;
+		return hashMapEuros;
 	}
 
 	public List<Denominacionmoneda> getDiferenceWithoutDuplicates(List<Denominacionmoneda> one, List<Denominacionmoneda> two) {
