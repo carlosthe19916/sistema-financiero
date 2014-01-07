@@ -4,6 +4,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
 
@@ -11,7 +12,7 @@
 
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
-		<h:outputText value="Apertura Cta. Aporte" />
+		<h:outputText value="Apertura Cta. Ahorro" />
 	</ui:define>
 
 	<!-- Definiendo el cuerpo de la pagina -->
@@ -21,7 +22,7 @@
 
 		<br />
 		<div>
-			<h:panelGroup rendered="#{aperturaCuentaaporteBean.personanatural}">
+			<h:panelGroup rendered="#{aperturaCuentaahorroBean.personanatural}">
 				<h:form>
 					<div style="margin-left: 50px;">
 						<div>
@@ -34,7 +35,7 @@
 										</div>
 										<div style="display: inline-block;">
 											<h:selectBooleanCheckbox
-												value="#{aperturaCuentaaporteBean.existeApoderado}">
+												value="#{aperturaCuentaahorroBean.existeApoderado}">
 												<f:ajax></f:ajax>
 											</h:selectBooleanCheckbox>
 										</div>
@@ -46,13 +47,13 @@
 													DOCUMENTO</div>
 												<div>
 													<h:selectOneMenu id="cmbTipodocumentoApoderado"
-														value="#{aperturaCuentaaporteBean.comboTipodocumentoApoderado.itemSelected}"
-														valueChangeListener="#{aperturaCuentaaporteBean.changeTipodocumentoApoderado}"
-														required="#{aperturaCuentaaporteBean.existeApoderado}"
+														value="#{aperturaCuentaahorroBean.comboTipodocumentoApoderado.itemSelected}"
+														valueChangeListener="#{aperturaCuentaahorroBean.changeTipodocumentoApoderado}"
+														required="#{aperturaCuentaahorroBean.existeApoderado}"
 														requiredMessage="Seleccione tipo de documento">
 														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 														<f:selectItems
-															value="#{aperturaCuentaaporteBean.comboTipodocumentoApoderado.items.entrySet()}"
+															value="#{aperturaCuentaahorroBean.comboTipodocumentoApoderado.items.entrySet()}"
 															var="val" itemLabel="#{val.value.abreviatura}"
 															itemValue="#{val.key}" />
 														<f:ajax></f:ajax>
@@ -64,15 +65,14 @@
 													DOCUMENTO</div>
 												<div>
 													<h:inputText id="txtNumerodocumentoApoderado"
-														value="#{aperturaCuentaaporteBean.numeroDocumentoApoderado}"
-														required="#{aperturaCuentaaporteBean.existeApoderado}"
+														value="#{aperturaCuentaahorroBean.numeroDocumentoApoderado}"
+														required="#{aperturaCuentaahorroBean.existeApoderado}"
 														maxlength="8"
 														requiredMessage="Ingrese numero de documento"
 														validatorMessage="Número de documento Invalido"
-														onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-														pt:placeholder="12345678">
+														onkeypress="if (event.keyCode == 13) {onchange(); return false; }">
 														<f:ajax
-															listener="#{aperturaCuentaaporteBean.buscarPersonanaturalApoderado()}"
+															listener="#{aperturaCuentaahorroBean.buscarPersonanaturalApoderado()}"
 															render="@form"></f:ajax>
 													</h:inputText>
 												</div>
@@ -90,11 +90,10 @@
 												<div>
 													<div>
 														<h:inputText id="txtApellidoPaternoApoderado"
-															value="#{aperturaCuentaaporteBean.apellidoPaternoApoderado}"
-															required="#{aperturaCuentaaporteBean.existeApoderado}"
+															value="#{aperturaCuentaahorroBean.apellidoPaternoApoderado}"
+															required="#{aperturaCuentaahorroBean.existeApoderado}"
 															maxlength="50" requiredMessage="Ingrese apellido paterno"
-															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Apellido paterno">
+															onkeyup="this.value = this.value.toUpperCase();">
 														</h:inputText>
 													</div>
 												</div>
@@ -105,11 +104,10 @@
 												<div>
 													<div>
 														<h:inputText id="txtApellidoMaternoApoderado"
-															value="#{aperturaCuentaaporteBean.apellidoMaternoApoderado}"
-															required="#{aperturaCuentaaporteBean.existeApoderado}"
+															value="#{aperturaCuentaahorroBean.apellidoMaternoApoderado}"
+															required="#{aperturaCuentaahorroBean.existeApoderado}"
 															maxlength="50" requiredMessage="Ingrese apellido materno"
-															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Apellido materno">
+															onkeyup="this.value = this.value.toUpperCase();">
 														</h:inputText>
 													</div>
 												</div>
@@ -125,11 +123,11 @@
 											<div>
 												<div>
 													<h:inputText id="txtNombresApoderado"
-														value="#{aperturaCuentaaporteBean.nombresApoderado}"
-														required="#{aperturaCuentaaporteBean.existeApoderado}"
+														value="#{aperturaCuentaahorroBean.nombresApoderado}"
+														required="#{aperturaCuentaahorroBean.existeApoderado}"
 														maxlength="50" requiredMessage="Ingrese nombres"
 														onkeyup="this.value = this.value.toUpperCase();"
-														style="width:339px;" pt:placeholder="Nombres">
+														style="width:339px;">
 													</h:inputText>
 												</div>
 											</div>
@@ -144,12 +142,12 @@
 												<div>
 													<div>
 														<h:selectOneMenu id="cmbSexoApoderado"
-															value="#{aperturaCuentaaporteBean.comboSexoApoderado.itemSelected}"
-															required="#{aperturaCuentaaporteBean.existeApoderado}"
+															value="#{aperturaCuentaahorroBean.comboSexoApoderado.itemSelected}"
+															required="#{aperturaCuentaahorroBean.existeApoderado}"
 															requiredMessage="Seleccione sexo">
 															<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 															<f:selectItems
-																value="#{aperturaCuentaaporteBean.comboSexoApoderado.items.entrySet()}"
+																value="#{aperturaCuentaahorroBean.comboSexoApoderado.items.entrySet()}"
 																var="val" itemLabel="#{val.value.denominacion}"
 																itemValue="#{val.key}" />
 														</h:selectOneMenu>
@@ -162,12 +160,11 @@
 												<div>
 													<div>
 														<p:calendar id="txtFechanacimientoApoderado"
-															value="#{aperturaCuentaaporteBean.fechaNacimientoApoderado}"
+															value="#{aperturaCuentaahorroBean.fechaNacimientoApoderado}"
 															navigator="true" pattern="dd/MM/yy"
-															required="#{aperturaCuentaaporteBean.existeApoderado}"
+															required="#{aperturaCuentaahorroBean.existeApoderado}"
 															requiredMessage="Ingrese fecha de nacimiento"
-															converterMessage="formato incorrecto"
-															pt:placeholder="dd/mm/yyyy">
+															converterMessage="formato incorrecto">
 															<f:convertDateTime pattern="dd/MM/yy" />
 														</p:calendar>
 													</div>
@@ -185,9 +182,9 @@
 									<br />
 									<div class="sf-buttons" style="float: left;">
 										<h:commandButton value="« Anterior" immediate="true"
-											action="aperturaCuentaaporte-flow.xhtml" styleClass="action" />
+											action="aperturaCuentaahorro-flow.xhtml" styleClass="action" />
 										<h:commandButton value="Siguiente »"
-											action="aperturaCuentaaporte-flowB.xhtml" styleClass="action" />
+											action="aperturaCuentaahorro-flowB.xhtml" styleClass="action" />
 									</div>
 								</div>
 							</div>
@@ -198,7 +195,7 @@
 
 
 			<h:panelGroup id="panelGroupPersonajuridica"
-				rendered="#{aperturaCuentaaporteBean.personajuridica}">
+				rendered="#{aperturaCuentaahorroBean.personajuridica}">
 				<h:form id="formPersonajuridica">
 					<div style="margin-left: 50px;">
 						<div>
@@ -218,13 +215,13 @@
 														DOCUMENTO</div>
 													<div>
 														<h:selectOneMenu id="cmbTipodocumentoRepresentantelegal"
-															value="#{aperturaCuentaaporteBean.comboTipodocumentoRepresentantelegal.itemSelected}"
-															valueChangeListener="#{aperturaCuentaaporteBean.changeTipodocumentoRepresentantelegal}"
+															value="#{aperturaCuentaahorroBean.comboTipodocumentoRepresentantelegal.itemSelected}"
+															valueChangeListener="#{aperturaCuentaahorroBean.changeTipodocumentoRepresentantelegal}"
 															required="true"
 															requiredMessage="Seleccione tipo de documento">
 															<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 															<f:selectItems
-																value="#{aperturaCuentaaporteBean.comboTipodocumentoRepresentantelegal.items.entrySet()}"
+																value="#{aperturaCuentaahorroBean.comboTipodocumentoRepresentantelegal.items.entrySet()}"
 																var="val" itemLabel="#{val.value.abreviatura}"
 																itemValue="#{val.key}" />
 															<f:ajax></f:ajax>
@@ -236,13 +233,13 @@
 														DOCUMENTO</div>
 													<div>
 														<h:inputText id="txtNumerodocumentoRepresentantelegal"
-															value="#{aperturaCuentaaporteBean.numeroDocumentoRepresentantelegal}"
+															value="#{aperturaCuentaahorroBean.numeroDocumentoRepresentantelegal}"
 															required="true" maxlength="8"
 															requiredMessage="Ingrese numero de documento"
 															validatorMessage="Número de documento Invalido"
-															pt:placeholder="12345678910">
+															onkeypress="if (event.keyCode == 13) {onchange(); return false; }">
 															<f:ajax
-																listener="#{aperturaCuentaaporteBean.buscarPersonanaturalRepresentantelegal()}"
+																listener="#{aperturaCuentaahorroBean.buscarPersonanaturalRepresentantelegal()}"
 																render="formRepresentantelegal"></f:ajax>
 														</h:inputText>
 													</div>
@@ -260,11 +257,10 @@
 													<div>
 														<div>
 															<h:inputText id="txtApellidoPaternoRepresentantelegal"
-																value="#{aperturaCuentaaporteBean.apellidoPaternoRepresentantelegal}"
+																value="#{aperturaCuentaahorroBean.apellidoPaternoRepresentantelegal}"
 																required="true" maxlength="50"
 																requiredMessage="Ingrese apellido paterno"
-																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Apellido paterno">
+																onkeyup="this.value = this.value.toUpperCase();">
 															</h:inputText>
 														</div>
 													</div>
@@ -275,11 +271,10 @@
 													<div>
 														<div>
 															<h:inputText id="txtApellidoMaternoRepresentantelegal"
-																value="#{aperturaCuentaaporteBean.apellidoMaternoRepresentantelegal}"
+																value="#{aperturaCuentaahorroBean.apellidoMaternoRepresentantelegal}"
 																required="true" maxlength="50"
 																requiredMessage="Ingrese apellido materno"
-																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Apellido materno">
+																onkeyup="this.value = this.value.toUpperCase();">
 															</h:inputText>
 														</div>
 													</div>
@@ -295,11 +290,11 @@
 												<div>
 													<div>
 														<h:inputText id="txtNombresRepresentantelegal"
-															value="#{aperturaCuentaaporteBean.apellidoMaternoRepresentantelegal}"
+															value="#{aperturaCuentaahorroBean.apellidoMaternoRepresentantelegal}"
 															required="true" maxlength="50"
 															requiredMessage="Ingrese nombres"
 															onkeyup="this.value = this.value.toUpperCase();"
-															style="width:339px;" pt:placeholder="nombres">
+															style="width:339px;">
 														</h:inputText>
 													</div>
 												</div>
@@ -314,11 +309,11 @@
 													<div>
 														<div>
 															<h:selectOneMenu id="cmbSexoRepresentantelegal"
-																value="#{aperturaCuentaaporteBean.comboSexoRepresentantelegal.itemSelected}"
+																value="#{aperturaCuentaahorroBean.comboSexoRepresentantelegal.itemSelected}"
 																required="true" requiredMessage="Seleccione sexo">
 																<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 																<f:selectItems
-																	value="#{aperturaCuentaaporteBean.comboSexoRepresentantelegal.items.entrySet()}"
+																	value="#{aperturaCuentaahorroBean.comboSexoRepresentantelegal.items.entrySet()}"
 																	var="val" itemLabel="#{val.value.denominacion}"
 																	itemValue="#{val.key}" />
 															</h:selectOneMenu>
@@ -331,11 +326,10 @@
 													<div>
 														<div>
 															<p:calendar id="txtFechanacimientoRepresentantelegal"
-																value="#{aperturaCuentaaporteBean.fechaNacimientoRepresentantelegal}"
+																value="#{aperturaCuentaahorroBean.fechaNacimientoRepresentantelegal}"
 																navigator="true" pattern="dd/MM/yy" required="true"
 																requiredMessage="Ingrese fecha de nacimiento"
-																converterMessage="formato incorrecto"
-																pt:placeholder="dd/mm/yyyy">
+																converterMessage="formato incorrecto">
 																<f:convertDateTime pattern="dd/MM/yy" />
 															</p:calendar>
 														</div>
@@ -408,7 +402,7 @@
 																		</thead>
 																		<tbody>
 																			<ui:repeat
-																				value="#{aperturaCuentaaporteBean.listAccionistas()}"
+																				value="#{aperturaCuentaahorroBean.listAccionistas()}"
 																				var="accionista">
 																				<tr class="ng-scope">
 																					<td><a href="javascript:;"
@@ -450,13 +444,13 @@
 																					<td><h:commandButton value="Edit"
 																							styleClass="action green" style="margin: 0px;">
 																							<f:ajax
-																								listener="#{aperturaCuentaaporteBean.editAccionista(accionista)}"
+																								listener="#{aperturaCuentaahorroBean.editAccionista(accionista)}"
 																								render=":panelGroupDlgAccionista :formDialogAccionista" />
 																						</h:commandButton></td>
 																					<td><h:commandButton value="Remove"
 																							styleClass="action red" style="margin: 0px;">
 																							<f:ajax
-																								listener="#{aperturaCuentaaporteBean.removeAccionista(accionista)}"
+																								listener="#{aperturaCuentaahorroBean.removeAccionista(accionista)}"
 																								render="@form" />
 																						</h:commandButton></td>
 																				</tr>
@@ -481,7 +475,7 @@
 																<h:commandButton value="Añadir Accionista"
 																	class="actionn red">
 																	<f:ajax
-																		listener="#{aperturaCuentaaporteBean.setDlgAccionistaOpen(true)}"
+																		listener="#{aperturaCuentaahorroBean.setDlgAccionistaOpen(true)}"
 																		render=":panelGroupDlgAccionista :formDialogAccionista" />
 																</h:commandButton>
 
@@ -496,9 +490,9 @@
 
 									<div class="sf-buttons" style="float: left;">
 										<h:commandButton value="« Anterior" immediate="true"
-											action="aperturaCuentaaporte-flow.xhtml" styleClass="action" />
+											action="aperturaCuentaahorro-flow.xhtml" styleClass="action" />
 										<h:commandButton value="Siguiente »"
-											action="aperturaCuentaaporte-flowB.xhtml" styleClass="action" />
+											action="aperturaCuentaahorro-flowB.xhtml" styleClass="action" />
 									</div>
 
 								</div>
@@ -509,7 +503,7 @@
 
 				<h:panelGroup id="panelGroupDlgAccionista">
 					<h:panelGroup
-						rendered="#{aperturaCuentaaporteBean.dlgAccionistaOpen}">
+						rendered="#{aperturaCuentaahorroBean.dlgAccionistaOpen}">
 						<h:form id="formDialogAccionista">
 							<div class="modal-dialog-bg"
 								style="opacity: 0.4; width: 1366px; height: 902px;"></div>
@@ -527,13 +521,13 @@
 													DOCUMENTO</div>
 												<div>
 													<h:selectOneMenu id="cmbTipodocumentoTitular"
-														value="#{aperturaCuentaaporteBean.comboTipodocumentoAccionista.itemSelected}"
-														valueChangeListener="#{aperturaCuentaaporteBean.changeTipodocumentoAccionista}"
+														value="#{aperturaCuentaahorroBean.comboTipodocumentoAccionista.itemSelected}"
+														valueChangeListener="#{aperturaCuentaahorroBean.changeTipodocumentoAccionista}"
 														required="true"
 														requiredMessage="Seleccione tipo de documento">
 														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 														<f:selectItems
-															value="#{aperturaCuentaaporteBean.comboTipodocumentoAccionista.items.entrySet()}"
+															value="#{aperturaCuentaahorroBean.comboTipodocumentoAccionista.items.entrySet()}"
 															var="val" itemLabel="#{val.value.abreviatura}"
 															itemValue="#{val.key}" />
 														<f:ajax></f:ajax>
@@ -545,14 +539,14 @@
 													style="width: 180px;">NUMERO DOCUMENTO</div>
 												<div>
 													<h:inputText id="txtDniTitular"
-														value="#{aperturaCuentaaporteBean.numeroDocumentoAccionista}"
+														value="#{aperturaCuentaahorroBean.numeroDocumentoAccionista}"
 														required="true" maxlength="8"
 														requiredMessage="Ingrese dni"
 														validatorMessage="Número de DNI Invalido"
-														pt:placeholder="12345678">
+														onkeypress="if (event.keyCode == 13) {onchange(); return false; }">
 														<f:validateRegex pattern="(^[0-9]{8}$)" />
 														<f:ajax
-															listener="#{aperturaCuentaaporteBean.buscarPersonanaturalAccionista()}"
+															listener="#{aperturaCuentaahorroBean.buscarPersonanaturalAccionista()}"
 															render="@form"></f:ajax>
 													</h:inputText>
 												</div>
@@ -570,11 +564,10 @@
 												<div>
 													<div>
 														<h:inputText id="txtApellidoPaternoTitular"
-															value="#{aperturaCuentaaporteBean.apellidoPaternoAccionista}"
+															value="#{aperturaCuentaahorroBean.apellidoPaternoAccionista}"
 															required="true" maxlength="50"
 															requiredMessage="Ingrese apellido paterno"
-															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Apellido paterno">
+															onkeyup="this.value = this.value.toUpperCase();">
 														</h:inputText>
 													</div>
 												</div>
@@ -585,11 +578,10 @@
 												<div>
 													<div>
 														<h:inputText id="txtApellidoMaternoTitular"
-															value="#{aperturaCuentaaporteBean.apellidoMaternoAccionista}"
+															value="#{aperturaCuentaahorroBean.apellidoMaternoAccionista}"
 															required="true" maxlength="50"
 															requiredMessage="Ingrese apellido materno"
-															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Apellido materno">
+															onkeyup="this.value = this.value.toUpperCase();">
 														</h:inputText>
 													</div>
 												</div>
@@ -607,11 +599,11 @@
 											<div>
 												<div>
 													<h:inputText id="txtNombresTitular"
-														value="#{aperturaCuentaaporteBean.nombresAccionista}"
+														value="#{aperturaCuentaahorroBean.nombresAccionista}"
 														required="true" maxlength="50"
 														requiredMessage="Ingrese nombres"
 														onkeyup="this.value = this.value.toUpperCase();"
-														style="width:339px;" pt:placeholder="Nombres">
+														style="width:339px;">
 													</h:inputText>
 												</div>
 											</div>
@@ -627,11 +619,11 @@
 												<div>
 													<div>
 														<h:selectOneMenu id="cmbSexoTitular"
-															value="#{aperturaCuentaaporteBean.comboSexoAccionista.itemSelected}"
+															value="#{aperturaCuentaahorroBean.comboSexoAccionista.itemSelected}"
 															required="true" requiredMessage="Seleccione sexo">
 															<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 															<f:selectItems
-																value="#{aperturaCuentaaporteBean.comboSexoAccionista.items.entrySet()}"
+																value="#{aperturaCuentaahorroBean.comboSexoAccionista.items.entrySet()}"
 																var="val" itemLabel="#{val.value.denominacion}"
 																itemValue="#{val.key}" />
 														</h:selectOneMenu>
@@ -644,11 +636,10 @@
 												<div>
 													<div>
 														<p:calendar id="txtFechanacimientoTitular"
-															value="#{aperturaCuentaaporteBean.fechaNacimientoAccionista}"
+															value="#{aperturaCuentaahorroBean.fechaNacimientoAccionista}"
 															navigator="true" pattern="dd/MM/yy" required="true"
 															requiredMessage="Ingrese fecha de nacimiento"
-															converterMessage="formato incorrecto"
-															pt:placeholder="dd/mm/yyyy">
+															converterMessage="formato incorrecto">
 															<f:convertDateTime pattern="dd/MM/yy" />
 														</p:calendar>
 													</div>
@@ -667,9 +658,9 @@
 											<div>
 												<div>
 													<h:inputText id="txtPorcentajeParticipacion"
-														value="#{aperturaCuentaaporteBean.porcentajeParticipacionAccionista}"
+														value="#{aperturaCuentaahorroBean.porcentajeParticipacionAccionista}"
 														required="true" maxlength="6"
-														requiredMessage="Ingrese porcentaje" pt:placeholder="(%)">
+														requiredMessage="Ingrese porcentaje">
 													</h:inputText>
 												</div>
 											</div>
@@ -683,13 +674,13 @@
 								</div>
 								<div class="modal-dialog-buttons">
 									<h:commandButton value="Guardar" styleClass="action blue">
-										<f:ajax listener="#{aperturaCuentaaporteBean.addAccionista()}"
+										<f:ajax listener="#{aperturaCuentaahorroBean.addAccionista()}"
 											execute="@form"
 											render="@form :panelGroupPersonajuridica :formPersonajuridica" />
 									</h:commandButton>
 									<h:commandButton value="Cancelar" styleClass="action">
 										<f:ajax
-											listener="#{aperturaCuentaaporteBean.setDlgAccionistaOpen(false)}"
+											listener="#{aperturaCuentaahorroBean.setDlgAccionistaOpen(false)}"
 											render="@form :panelGroupDlgAccionista" />
 									</h:commandButton>
 								</div>

@@ -14,14 +14,17 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.flow.FlowScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.Min;
 
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.ComboBean;
+import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
@@ -33,8 +36,8 @@ import org.ventura.session.AgenciaBean;
 import org.venturabank.util.JsfUtil;
 
 @Named
-@FlowScoped("aperturaCuentaaporte-flow")
-public class AperturaCuentaaporteBean implements Serializable {
+@FlowScoped("aperturaCuentaahorro-flow")
+public class AperturaCuentaahorroBean implements Serializable {
 
 	/**
 	 * 
@@ -49,18 +52,17 @@ public class AperturaCuentaaporteBean implements Serializable {
 	// DATOS DE LA VISTA
 	// VISTA 01
 	@Inject private ComboBean<String> comboTipopersona;
-	private boolean personanaturalSelected;
-	private boolean personanajuridicaSelected;
+	@Inject private ComboBean<Tipomoneda> comboTipomoneda;
 
 	@Inject private ComboBean<Tipodocumento> comboTipodocumentoPersonanatural;
 	private String numeroDocumentoPersonanatural;
-	private String apellidoPaterno;
-	private String apellidoMaterno;
-	private String nombres;
-	private Date fechaNacimiento;
-	@Inject private ComboBean<Sexo> comboSexo;
-	@Inject private ComboBean<Estadocivil> comboEstadocivil;
-	private String ocupacion;
+	private String apellidoPaternoPersonanatural;
+	private String apellidoMaternoPersonanatural;
+	private String nombresPersonanatural;
+	private Date fechaNacimientoPersonanatural;
+	@Inject private ComboBean<Sexo> comboSexoPersonanatural;
+	@Inject private ComboBean<Estadocivil> comboEstadocivilPersonanatural;
+	private String ocupacionPersonanatural;
 	private String direccionPersonanatural;
 	private String referenciaPersonanatural;
 	private String telefonoPersonanatural;
@@ -110,6 +112,26 @@ public class AperturaCuentaaporteBean implements Serializable {
 	@Inject private ComboBean<Sexo> comboSexoAccionista;
 	private BigDecimal porcentajeParticipacionAccionista;
 	
+	//vista 03
+	private boolean isDlgTitularOpen;
+	@Min(value = 1) private Integer cantidadRetirantes;
+	private Map<String, Personanatural> titulares;
+	@Inject private ComboBean<Tipodocumento> comboTipodocumentoTitular;
+	private String numeroDocumentoTitular;
+	private String apellidoPaternoTitular;
+	private String apellidoMaternoTitular;
+	private String nombresTitular;
+	private Date fechaNacimientoTitular;
+	@Inject private ComboBean<Sexo> comboSexoTitular;
+	
+	private boolean isDlgBeneficiarioOpen;
+	private Map<String, Beneficiario> beneficiarios;
+	private String numeroDocumentoBeneficiario;
+	private String apellidoPaternoBeneficiario;
+	private String apellidoMaternoBeneficiario;
+	private String nombresBeneficiario;
+	private Integer porcentajeBeneficio;
+	
 	@EJB private SocioServiceLocal socioServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
@@ -117,17 +139,23 @@ public class AperturaCuentaaporteBean implements Serializable {
 	@Inject private AgenciaBean agenciaBean;
 	@Inject private Agencia agencia;
 	
-	public AperturaCuentaaporteBean() {
+	public AperturaCuentaahorroBean() {
 		cuentaValida = true;
 		
 		isPersonanatural = false;
 		isPersonajuridica = false;
-		personanaturalSelected = false;
-		personanajuridicaSelected = false;
+
 		existeApoderado = false;
 		accionistas = new HashMap<String, Accionista>();
+		titulares = new HashMap<String, Personanatural>();
+		beneficiarios = new HashMap<String, Beneficiario>();
 		
 		isDlgAccionistaOpen = false;
+		isDlgTitularOpen = false;
+		isDlgBeneficiarioOpen = false;
+		
+		cantidadRetirantes = 1;
+		
 		porcentajeParticipacionAccionista = new BigDecimal(0);
 		porcentajeParticipacionAccionista.setScale(2);
 	}
@@ -149,36 +177,40 @@ public class AperturaCuentaaporteBean implements Serializable {
 			comboTipodocumentoPersonanatural.setItems(listTipodocumentoPersonanatural);
 			comboTipodocumentoApoderado.setItems(listTipodocumentoPersonanatural);
 			comboTipodocumentoAccionista.setItems(listTipodocumentoPersonanatural);
+			comboTipodocumentoTitular.setItems(listTipodocumentoPersonanatural);
 			List<Tipodocumento> listTipodocumentoPersonajuridica = maestrosServiceLocal.getTipodocumentoForPersonaJuridica();
 			comboTipodocumentoPersonajuridica.setItems(listTipodocumentoPersonajuridica);
 			comboTipodocumentoRepresentantelegal.setItems(listTipodocumentoPersonanatural);
 			
-			comboSexo.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
+			comboSexoPersonanatural.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			comboSexoApoderado.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			comboSexoAccionista.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			comboSexoRepresentantelegal.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
+			comboSexoTitular.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			
-			comboEstadocivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
+			comboEstadocivilPersonanatural.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
 			
 			comboTipoempresa.initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
+			
+			comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}		
 	}
 	
 	
-	public String crearCuentaaporte(){
+	public String crearCuentaahorro(){
 		try {
 			if (isPersonanatural) {
 				Personanatural personaNaturalSocio = new Personanatural();
 				personaNaturalSocio.setTipodocumento(comboTipodocumentoPersonanatural.getObjectItemSelected());
 				personaNaturalSocio.setNumerodocumento(numeroDocumentoPersonanatural);
-				personaNaturalSocio.setApellidopaterno(apellidoPaterno);
-				personaNaturalSocio.setApellidomaterno(apellidoMaterno);
-				personaNaturalSocio.setNombres(nombres);
-				personaNaturalSocio.setFechanacimiento(fechaNacimiento);
-				personaNaturalSocio.setEstadocivil(comboEstadocivil.getObjectItemSelected());
-				personaNaturalSocio.setOcupacion(ocupacion);
+				personaNaturalSocio.setApellidopaterno(apellidoPaternoPersonanatural);
+				personaNaturalSocio.setApellidomaterno(apellidoMaternoPersonanatural);
+				personaNaturalSocio.setNombres(nombresPersonanatural);
+				personaNaturalSocio.setFechanacimiento(fechaNacimientoPersonanatural);
+				personaNaturalSocio.setEstadocivil(comboEstadocivilPersonanatural.getObjectItemSelected());
+				personaNaturalSocio.setOcupacion(ocupacionPersonanatural);
 				personaNaturalSocio.setDireccion(direccionPersonanatural);
 				personaNaturalSocio.setReferencia(referenciaPersonanatural);
 				personaNaturalSocio.setTelefono(telefonoPersonanatural);				personaNaturalSocio.setCelular(celularPersonanatural);
@@ -281,26 +313,26 @@ public class AperturaCuentaaporteBean implements Serializable {
 			if(personaNatural != null){
 				this.comboTipodocumentoPersonanatural.setItemSelected(personaNatural.getTipodocumento());
 				this.numeroDocumentoPersonanatural = personaNatural.getNumerodocumento();
-				this.apellidoPaterno = personaNatural.getApellidopaterno();
-				this.apellidoMaterno = personaNatural.getApellidomaterno();
-				this.nombres = personaNatural.getNombres();
-				this.fechaNacimiento = personaNatural.getFechanacimiento();
-				this.comboSexo.setItemSelected(personaNatural.getSexo());
-				this.comboEstadocivil.setItemSelected(personaNatural.getEstadocivil());
-				this.ocupacion = personaNatural.getOcupacion();
+				this.apellidoPaternoPersonanatural = personaNatural.getApellidopaterno();
+				this.apellidoMaternoPersonanatural = personaNatural.getApellidomaterno();
+				this.nombresPersonanatural = personaNatural.getNombres();
+				this.fechaNacimientoPersonanatural = personaNatural.getFechanacimiento();
+				this.comboSexoPersonanatural.setItemSelected(personaNatural.getSexo());
+				this.comboEstadocivilPersonanatural.setItemSelected(personaNatural.getEstadocivil());
+				this.ocupacionPersonanatural = personaNatural.getOcupacion();
 				this.direccionPersonanatural = personaNatural.getDireccion();
 				this.referenciaPersonanatural = personaNatural.getReferencia();
 				this.telefonoPersonanatural = personaNatural.getTelefono();
 				this.celularPersonanatural = personaNatural.getCelular();
 				this.emailPersonanatural = personaNatural.getEmail();
 			} else {
-				this.apellidoPaterno = "";
-				this.apellidoMaterno = "";
-				this.nombres = "";
-				this.fechaNacimiento = null;
-				this.comboSexo.setItemSelected(-1);
-				this.comboEstadocivil.setItemSelected(-1);
-				this.ocupacion = "";
+				this.apellidoPaternoPersonanatural = "";
+				this.apellidoMaternoPersonanatural = "";
+				this.nombresPersonanatural = "";
+				this.fechaNacimientoPersonanatural = null;
+				this.comboSexoPersonanatural.setItemSelected(-1);
+				this.comboEstadocivilPersonanatural.setItemSelected(-1);
+				this.ocupacionPersonanatural = "";
 				this.direccionPersonanatural = "";
 				this.referenciaPersonanatural = "";
 				this.telefonoPersonanatural = "";
@@ -390,6 +422,32 @@ public class AperturaCuentaaporteBean implements Serializable {
 				BigDecimal bigDecimal = new BigDecimal(0);
 				bigDecimal.setScale(2);
 				this.porcentajeParticipacionAccionista = bigDecimal;
+			}
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, e.getMessage());
+		}
+	}
+	
+	public void buscarPersonanaturalTitular(){
+		try {
+			Tipodocumento tipodocumento = comboTipodocumentoTitular.getObjectItemSelected();
+			String numeroDocumento = numeroDocumentoTitular;
+			Personanatural personaNatural = buscarPersonanatural(tipodocumento, numeroDocumento);
+			
+			if(personaNatural != null){
+				this.comboTipodocumentoTitular.setItemSelected(personaNatural.getTipodocumento());
+				this.numeroDocumentoTitular = personaNatural.getNumerodocumento();
+				this.apellidoPaternoTitular = personaNatural.getApellidopaterno();
+				this.apellidoMaternoTitular = personaNatural.getApellidomaterno();
+				this.nombresTitular = personaNatural.getNombres();
+				this.fechaNacimientoTitular = personaNatural.getFechanacimiento();
+				this.comboSexoTitular.setItemSelected(personaNatural.getSexo());
+			} else {
+				this.apellidoPaternoTitular = "";
+				this.apellidoMaternoTitular = "";
+				this.nombresTitular = "";
+				this.fechaNacimientoTitular = null;
+				this.comboSexoTitular.setItemSelected(-1);
 			}
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
@@ -524,29 +582,186 @@ public class AperturaCuentaaporteBean implements Serializable {
 		} 
 	}
 	
+	public void addTitularDefecto(){		
+		Personanatural personanatural = new Personanatural();
+		String keyMapTitularDefecto = null;
+		if(isPersonanatural){
+			keyMapTitularDefecto = comboTipodocumentoPersonanatural.getObjectItemSelected().getIdtipodocumento()+numeroDocumentoPersonanatural;
+			
+			Tipodocumento tipodocumento = comboTipodocumentoPersonanatural.getObjectItemSelected();
+			Sexo sexo = comboSexoPersonanatural.getObjectItemSelected();
+			personanatural.setNumerodocumento(numeroDocumentoPersonanatural);
+			personanatural.setApellidopaterno(apellidoPaternoPersonanatural);
+			personanatural.setApellidomaterno(apellidoMaternoPersonanatural);
+			personanatural.setNombres(nombresPersonanatural);
+			personanatural.setFechanacimiento(fechaNacimientoPersonanatural);
+			personanatural.setTipodocumento(tipodocumento);
+			personanatural.setSexo(sexo);
+		}
+		if(isPersonajuridica){
+			keyMapTitularDefecto = comboTipodocumentoRepresentantelegal.getObjectItemSelected().getIdtipodocumento()+numeroDocumentoRepresentantelegal;
+			
+			Tipodocumento tipodocumento = comboTipodocumentoRepresentantelegal.getObjectItemSelected();
+			Sexo sexo = comboSexoRepresentantelegal.getObjectItemSelected();
+			personanatural.setNumerodocumento(numeroDocumentoRepresentantelegal);
+			personanatural.setApellidopaterno(apellidoPaternoRepresentantelegal);
+			personanatural.setApellidomaterno(apellidoMaternoRepresentantelegal);
+			personanatural.setNombres(nombresRepresentantelegal);
+			personanatural.setFechanacimiento(fechaNacimientoRepresentantelegal);
+			personanatural.setTipodocumento(tipodocumento);
+			personanatural.setSexo(sexo);
+		}
+			
+		this.titulares.put(keyMapTitularDefecto, personanatural);
+	}
+	
+	public void removeTitularDefecto(){		
+		String keyMapTitularDefecto = null;
+		if(isPersonanatural){
+			keyMapTitularDefecto = comboTipodocumentoPersonanatural.getObjectItemSelected().getIdtipodocumento()+numeroDocumentoPersonanatural;
+		}
+		if(isPersonajuridica){
+			keyMapTitularDefecto = comboTipodocumentoRepresentantelegal.getObjectItemSelected().getIdtipodocumento()+numeroDocumentoRepresentantelegal;
+		}
+			
+		this.titulares.remove(keyMapTitularDefecto);
+	}
+	
+	public void addTitular(){
+		Tipodocumento tipodocumento = comboTipodocumentoTitular.getObjectItemSelected();
+		Sexo sexo = comboSexoTitular.getObjectItemSelected();
+		
+		Personanatural personanatural = new Personanatural();
+		personanatural.setNumerodocumento(numeroDocumentoTitular);
+		personanatural.setApellidopaterno(apellidoPaternoTitular);
+		personanatural.setApellidomaterno(apellidoMaternoTitular);
+		personanatural.setNombres(nombresTitular);
+		personanatural.setFechanacimiento(fechaNacimientoTitular);
+		personanatural.setTipodocumento(tipodocumento);
+		personanatural.setSexo(sexo);
+		
+		String keyMap = personanatural.getTipodocumento().getIdtipodocumento()+personanatural.getNumerodocumento();
+		
+		String keyMapTitularDefecto = null;
+		if(isPersonanatural){
+			keyMapTitularDefecto = comboTipodocumentoPersonanatural.getObjectItemSelected().getIdtipodocumento()+numeroDocumentoPersonanatural;
+		}
+		if(isPersonajuridica){
+			keyMapTitularDefecto = comboTipodocumentoRepresentantelegal.getObjectItemSelected().getIdtipodocumento()+numeroDocumentoRepresentantelegal;
+		}
+		
+		if(keyMap.compareTo(keyMapTitularDefecto) != 0){
+			this.titulares.put(keyMap, personanatural);
+		}
+		
+		this.comboTipodocumentoTitular.setItemSelected(-1);
+		this.numeroDocumentoTitular = "";
+		this.apellidoPaternoTitular = "";
+		this.apellidoMaternoTitular = "";
+		this.nombresTitular = "";
+		this.fechaNacimientoTitular = null;
+		this.comboSexoTitular.setItemSelected(-1);
+	}
+	
+	public void editTitular(Object obj) {
+		if(obj instanceof Personanatural){
+			Personanatural personanatural = (Personanatural) obj;
+			
+			comboTipodocumentoTitular.setItemSelected(personanatural.getTipodocumento());
+			numeroDocumentoTitular = personanatural.getNumerodocumento();
+			apellidoPaternoTitular = personanatural.getApellidopaterno();
+			apellidoMaternoTitular = personanatural.getApellidomaterno();
+			nombresTitular = personanatural.getNombres();
+			fechaNacimientoTitular = personanatural.getFechanacimiento();
+			comboSexoTitular.setItemSelected(personanatural.getSexo());	
+			
+			setDlgTitularOpen(true);
+		} 
+	}
+	
+	public void removeTitular(Object obj) {
+		if(obj instanceof Personanatural){
+			Personanatural personanatural = (Personanatural) obj;
+			String keyMap = personanatural.getTipodocumento().getIdtipodocumento()+personanatural.getNumerodocumento();
+			this.titulares.remove(keyMap);
+		} 
+	}
+	
+	public void addBeneficiario(){
+
+		Beneficiario beneficiario = new Beneficiario();
+		
+		beneficiario.setDni(numeroDocumentoBeneficiario);
+		beneficiario.setApellidopaterno(apellidoPaternoBeneficiario);
+		beneficiario.setApellidomaterno(apellidoMaternoBeneficiario);
+		beneficiario.setNombres(nombresBeneficiario);
+		beneficiario.setPorcentajebeneficio(porcentajeBeneficio);
+			
+		String keyMap = beneficiario.getApellidopaterno()+beneficiario.getApellidomaterno()+beneficiario.getNombres();
+		this.beneficiarios.put(keyMap, beneficiario);
+		
+		numeroDocumentoBeneficiario = "";
+		apellidoPaternoBeneficiario = "";
+		apellidoMaternoBeneficiario = "";
+		nombresBeneficiario = "";
+		porcentajeBeneficio = 0;
+	}
+	
+	public void editBeneficiario(Object obj) {
+		if(obj instanceof Beneficiario){
+			Beneficiario beneficiario = (Beneficiario) obj;
+						
+			numeroDocumentoBeneficiario = beneficiario.getDni();
+			apellidoPaternoBeneficiario = beneficiario.getApellidopaterno();
+			apellidoMaternoBeneficiario = beneficiario.getApellidomaterno();
+			nombresBeneficiario = beneficiario.getNombres();
+			porcentajeBeneficio = beneficiario.getPorcentajebeneficio();
+			
+			setDlgBeneficiarioOpen(true);
+		} 
+	}
+	
+	public void removeBeneficiario(Object obj) {
+		if(obj instanceof Beneficiario){
+			Beneficiario beneficiario = (Beneficiario) obj;
+			String keyMap = beneficiario.getApellidopaterno()+beneficiario.getApellidomaterno()+beneficiario.getNombres();
+			this.beneficiarios.remove(keyMap);
+		} 
+	}
+	
+	public void changeTipomoneda(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		Tipomoneda tipodocumentoSelected = comboTipomoneda.getObjectItemSelected(key);
+	}
+	
 	public void changeTipodocumentoPersonanatural(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		//Tipodocumento tipodocumentoSelected = comboTipodocumentoPersonanatural.getObjectItemSelected(key);
+		Tipodocumento tipodocumentoSelected = comboTipodocumentoPersonanatural.getObjectItemSelected(key);
+	}
+	
+	public void changeTipodocumentoTitular(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		Tipodocumento tipodocumentoSelected = comboTipodocumentoTitular.getObjectItemSelected(key);
 	}
 	
 	public void changeTipodocumentoPersonajuridica(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		//Tipodocumento tipodocumentoSelected = comboTipodocumentoPersonajuridica.getObjectItemSelected(key);
+		Tipodocumento tipodocumentoSelected = comboTipodocumentoPersonajuridica.getObjectItemSelected(key);
 	}
 	
 	public void changeTipodocumentoApoderado(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		//Tipodocumento tipodocumentoSelected = comboTipodocumentoApoderado.getObjectItemSelected(key);
+		Tipodocumento tipodocumentoSelected = comboTipodocumentoApoderado.getObjectItemSelected(key);
 	}
 	
 	public void changeTipodocumentoAccionista(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		//Tipodocumento tipodocumentoSelected = comboTipodocumentoAccionista.getObjectItemSelected(key);
+		Tipodocumento tipodocumentoSelected = comboTipodocumentoAccionista.getObjectItemSelected(key);
 	}
 	
 	public void changeTipodocumentoRepresentantelegal(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
-		//Tipodocumento tipodocumentoSelected = comboTipodocumentoAccionista.getObjectItemSelected(key);
+		Tipodocumento tipodocumentoSelected = comboTipodocumentoRepresentantelegal.getObjectItemSelected(key);
 	}
 
 	public void changeTipopersona(ValueChangeEvent event) {
@@ -555,29 +770,21 @@ public class AperturaCuentaaporteBean implements Serializable {
 		case 0:
 			isPersonanatural = false;
 			isPersonajuridica = false;
-			personanaturalSelected = false;
-			personanajuridicaSelected = false;
 			this.comboTipopersona.setItemSelected(0);
 			break;
 		case 1:
 			isPersonanatural = true;
 			isPersonajuridica = false;
-			personanaturalSelected = true;
-			personanajuridicaSelected = false;
 			this.comboTipopersona.setItemSelected(1);
 			break;
 		case 2:
 			isPersonanatural = false;
 			isPersonajuridica = true;
-			personanaturalSelected = false;
-			personanajuridicaSelected = true;
 			this.comboTipopersona.setItemSelected(2);
 			break;
 		default:
 			isPersonanatural = false;
 			isPersonajuridica = false;
-			personanaturalSelected = false;
-			personanajuridicaSelected = false;
 			this.comboTipopersona.setItemSelected(0);
 			break;
 		}
@@ -592,59 +799,59 @@ public class AperturaCuentaaporteBean implements Serializable {
 	}
 
 	public String getApellidoPaterno() {
-		return apellidoPaterno;
+		return apellidoPaternoPersonanatural;
 	}
 
 	public void setApellidoPaterno(String apellidoPaterno) {
-		this.apellidoPaterno = apellidoPaterno;
+		this.apellidoPaternoPersonanatural = apellidoPaterno;
 	}
 
 	public String getApellidoMaterno() {
-		return apellidoMaterno;
+		return apellidoMaternoPersonanatural;
 	}
 
 	public void setApellidoMaterno(String apellidoMaterno) {
-		this.apellidoMaterno = apellidoMaterno;
+		this.apellidoMaternoPersonanatural = apellidoMaterno;
 	}
 
 	public String getNombres() {
-		return nombres;
+		return nombresPersonanatural;
 	}
 
 	public void setNombres(String nombres) {
-		this.nombres = nombres;
+		this.nombresPersonanatural = nombres;
 	}
 
 	public Date getFechaNacimiento() {
-		return fechaNacimiento;
+		return fechaNacimientoPersonanatural;
 	}
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
+		this.fechaNacimientoPersonanatural = fechaNacimiento;
 	}
 
 	public ComboBean<Sexo> getComboSexo() {
-		return comboSexo;
+		return comboSexoPersonanatural;
 	}
 
 	public void setComboSexo(ComboBean<Sexo> comboSexo) {
-		this.comboSexo = comboSexo;
+		this.comboSexoPersonanatural = comboSexo;
 	}
 
 	public ComboBean<Estadocivil> getComboEstadocivil() {
-		return comboEstadocivil;
+		return comboEstadocivilPersonanatural;
 	}
 
 	public void setComboEstadocivil(ComboBean<Estadocivil> comboEstadocivil) {
-		this.comboEstadocivil = comboEstadocivil;
+		this.comboEstadocivilPersonanatural = comboEstadocivil;
 	}
 
 	public String getOcupacion() {
-		return ocupacion;
+		return ocupacionPersonanatural;
 	}
 
 	public void setOcupacion(String ocupacion) {
-		this.ocupacion = ocupacion;
+		this.ocupacionPersonanatural = ocupacion;
 	}
 
 	public String getDireccionPersonanatural() {
@@ -773,22 +980,6 @@ public class AperturaCuentaaporteBean implements Serializable {
 
 	public void setEmailPersonajuridica(String emailPersonajuridica) {
 		this.emailPersonajuridica = emailPersonajuridica;
-	}
-
-	public boolean isPersonanaturalSelected() {
-		return personanaturalSelected;
-	}
-
-	public void setPersonanaturalSelected(boolean personanaturalSelected) {
-		this.personanaturalSelected = personanaturalSelected;
-	}
-
-	public boolean isPersonanajuridicaSelected() {
-		return personanajuridicaSelected;
-	}
-
-	public void setPersonanajuridicaSelected(boolean personanajuridicaSelected) {
-		this.personanajuridicaSelected = personanajuridicaSelected;
 	}
 
 	public ComboBean<Tipodocumento> getComboTipodocumentoPersonanatural() {
@@ -976,6 +1167,18 @@ public class AperturaCuentaaporteBean implements Serializable {
 		return list;
 	}
 	
+	public List<Personanatural> listTitulares() {
+		List<Personanatural> list = new ArrayList<Personanatural>();
+		list.addAll(titulares.values());
+		return list;
+	}
+	
+	public List<Beneficiario> listBeneficiarios() {
+		List<Beneficiario> list = new ArrayList<Beneficiario>();
+		list.addAll(beneficiarios.values());
+		return list;
+	}
+	
 	public Map<String, Accionista> getAccionistas() {
 		return accionistas;
 	}
@@ -1064,6 +1267,210 @@ public class AperturaCuentaaporteBean implements Serializable {
 
 	public void setCuentaValida(boolean cuentaValida) {
 		this.cuentaValida = cuentaValida;
+	}
+
+	public String getApellidoPaternoPersonanatural() {
+		return apellidoPaternoPersonanatural;
+	}
+
+	public void setApellidoPaternoPersonanatural(
+			String apellidoPaternoPersonanatural) {
+		this.apellidoPaternoPersonanatural = apellidoPaternoPersonanatural;
+	}
+
+	public String getApellidoMaternoPersonanatural() {
+		return apellidoMaternoPersonanatural;
+	}
+
+	public void setApellidoMaternoPersonanatural(
+			String apellidoMaternoPersonanatural) {
+		this.apellidoMaternoPersonanatural = apellidoMaternoPersonanatural;
+	}
+
+	public String getNombresPersonanatural() {
+		return nombresPersonanatural;
+	}
+
+	public void setNombresPersonanatural(String nombresPersonanatural) {
+		this.nombresPersonanatural = nombresPersonanatural;
+	}
+
+	public Date getFechaNacimientoPersonanatural() {
+		return fechaNacimientoPersonanatural;
+	}
+
+	public void setFechaNacimientoPersonanatural(Date fechaNacimientoPersonanatural) {
+		this.fechaNacimientoPersonanatural = fechaNacimientoPersonanatural;
+	}
+
+	public ComboBean<Sexo> getComboSexoPersonanatural() {
+		return comboSexoPersonanatural;
+	}
+
+	public void setComboSexoPersonanatural(ComboBean<Sexo> comboSexoPersonanatural) {
+		this.comboSexoPersonanatural = comboSexoPersonanatural;
+	}
+
+	public ComboBean<Estadocivil> getComboEstadocivilPersonanatural() {
+		return comboEstadocivilPersonanatural;
+	}
+
+	public void setComboEstadocivilPersonanatural(
+			ComboBean<Estadocivil> comboEstadocivilPersonanatural) {
+		this.comboEstadocivilPersonanatural = comboEstadocivilPersonanatural;
+	}
+
+	public String getOcupacionPersonanatural() {
+		return ocupacionPersonanatural;
+	}
+
+	public void setOcupacionPersonanatural(String ocupacionPersonanatural) {
+		this.ocupacionPersonanatural = ocupacionPersonanatural;
+	}
+
+	public Map<String, Personanatural> getTitulares() {
+		return titulares;
+	}
+
+	public void setTitulares(Map<String, Personanatural> titulares) {
+		this.titulares = titulares;
+	}
+
+	public ComboBean<Tipodocumento> getComboTipodocumentoTitular() {
+		return comboTipodocumentoTitular;
+	}
+
+	public void setComboTipodocumentoTitular(
+			ComboBean<Tipodocumento> comboTipodocumentoTitular) {
+		this.comboTipodocumentoTitular = comboTipodocumentoTitular;
+	}
+
+	public String getNumeroDocumentoTitular() {
+		return numeroDocumentoTitular;
+	}
+
+	public void setNumeroDocumentoTitular(String numeroDocumentoTitular) {
+		this.numeroDocumentoTitular = numeroDocumentoTitular;
+	}
+
+	public String getApellidoPaternoTitular() {
+		return apellidoPaternoTitular;
+	}
+
+	public void setApellidoPaternoTitular(String apellidoPaternoTitular) {
+		this.apellidoPaternoTitular = apellidoPaternoTitular;
+	}
+
+	public String getApellidoMaternoTitular() {
+		return apellidoMaternoTitular;
+	}
+
+	public void setApellidoMaternoTitular(String apellidoMaternoTitular) {
+		this.apellidoMaternoTitular = apellidoMaternoTitular;
+	}
+
+	public String getNombresTitular() {
+		return nombresTitular;
+	}
+
+	public void setNombresTitular(String nombresTitular) {
+		this.nombresTitular = nombresTitular;
+	}
+
+	public Date getFechaNacimientoTitular() {
+		return fechaNacimientoTitular;
+	}
+
+	public void setFechaNacimientoTitular(Date fechaNacimientoTitular) {
+		this.fechaNacimientoTitular = fechaNacimientoTitular;
+	}
+
+	public ComboBean<Sexo> getComboSexoTitular() {
+		return comboSexoTitular;
+	}
+
+	public void setComboSexoTitular(ComboBean<Sexo> comboSexoTitular) {
+		this.comboSexoTitular = comboSexoTitular;
+	}
+
+	public Map<String, Beneficiario> getBeneficiarios() {
+		return beneficiarios;
+	}
+
+	public void setBeneficiarios(Map<String, Beneficiario> beneficiarios) {
+		this.beneficiarios = beneficiarios;
+	}
+
+	public String getNumeroDocumentoBeneficiario() {
+		return numeroDocumentoBeneficiario;
+	}
+
+	public void setNumeroDocumentoBeneficiario(String numeroDocumentoBeneficiario) {
+		this.numeroDocumentoBeneficiario = numeroDocumentoBeneficiario;
+	}
+
+	public String getApellidoPaternoBeneficiario() {
+		return apellidoPaternoBeneficiario;
+	}
+
+	public void setApellidoPaternoBeneficiario(String apellidoPaternoBeneficiario) {
+		this.apellidoPaternoBeneficiario = apellidoPaternoBeneficiario;
+	}
+
+	public String getApellidoMaternoBeneficiario() {
+		return apellidoMaternoBeneficiario;
+	}
+
+	public void setApellidoMaternoBeneficiario(String apellidoMaternoBeneficiario) {
+		this.apellidoMaternoBeneficiario = apellidoMaternoBeneficiario;
+	}
+
+	public String getNombresBeneficiario() {
+		return nombresBeneficiario;
+	}
+
+	public void setNombresBeneficiario(String nombresBeneficiario) {
+		this.nombresBeneficiario = nombresBeneficiario;
+	}
+
+	public Integer getPorcentajeBeneficio() {
+		return porcentajeBeneficio;
+	}
+
+	public void setPorcentajeBeneficio(Integer porcentajeBeneficio) {
+		this.porcentajeBeneficio = porcentajeBeneficio;
+	}
+
+	public boolean isDlgTitularOpen() {
+		return isDlgTitularOpen;
+	}
+
+	public void setDlgTitularOpen(boolean isDlgTitularOpen) {
+		this.isDlgTitularOpen = isDlgTitularOpen;
+	}
+
+	public boolean isDlgBeneficiarioOpen() {
+		return isDlgBeneficiarioOpen;
+	}
+
+	public void setDlgBeneficiarioOpen(boolean isDlgBeneficiarioOpen) {
+		this.isDlgBeneficiarioOpen = isDlgBeneficiarioOpen;
+	}
+
+	public Integer getCantidadRetirantes() {
+		return cantidadRetirantes;
+	}
+
+	public void setCantidadRetirantes(Integer cantidadRetirantes) {
+		this.cantidadRetirantes = cantidadRetirantes;
+	}
+
+	public ComboBean<Tipomoneda> getComboTipomoneda() {
+		return comboTipomoneda;
+	}
+
+	public void setComboTipomoneda(ComboBean<Tipomoneda> comboTipomoneda) {
+		this.comboTipomoneda = comboTipomoneda;
 	}
 
 }

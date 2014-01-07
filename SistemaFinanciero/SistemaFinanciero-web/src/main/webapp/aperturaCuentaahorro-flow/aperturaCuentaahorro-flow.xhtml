@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Apertura Cta. Ahorro" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+
+		<h:outputStylesheet library="css" name="main.css" />
+		<div>
+			<br />
+			<div style="margin-left: 50px;">
+				<div>
+					<div>
+						<div class="p6n-api-consent-screen-title">APERTURA DE CUENTA
+							DE AHORROS</div>
+						<div class="p6n-api-consent-screen-inputs" style="float: none;">
+							<div class="p6n-api-consent-screen-input-section">
+								<div class="p6n-api-consent-screen-label" style="width: 150px;">
+									TIPO DE PERSONA</div>
+								<div>
+									<h:form>
+										<h:selectOneMenu id="cmbTipopersona"
+											value="#{aperturaCuentaahorroBean.comboTipopersona.itemSelected}"
+											valueChangeListener="#{aperturaCuentaahorroBean.changeTipopersona}"
+											required="true" requiredMessage="Seleccione tipo de persona">
+											<f:selectItems
+												value="#{aperturaCuentaahorroBean.comboTipopersona.items.entrySet()}"
+												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+											<f:ajax
+												render=":persona :formPersonaNatural :formPersonaJuridica"
+												execute="@form"></f:ajax>
+										</h:selectOneMenu>
+									</h:form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<h:panelGroup id="persona">
+				<h:form id="formPersonaNatural">
+					<h:panelGroup id="panelGroupPersonanatural"
+						rendered="#{aperturaCuentaahorroBean.personanatural}">
+						<br />
+						<div>
+							<div style="margin-left: 50px;">
+								<div>
+									<div>
+										<div class="p6n-api-consent-screen-title">PERSONA
+											NATURAL</div>
+										<div class="p6n-api-consent-screen-inputs">
+											<div class="sf-separator">
+												<h3 class="p6n-api-consent-screen-title"
+													style="color: #298B11;">Datos generales</h3>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">TIPO
+														DOCUMENTO</div>
+													<div>
+														<h:selectOneMenu id="cmbTipodocumento"
+															value="#{aperturaCuentaahorroBean.comboTipodocumentoPersonanatural.itemSelected}"
+															valueChangeListener="#{aperturaCuentaahorroBean.changeTipodocumentoPersonanatural}"
+															required="true"
+															requiredMessage="Seleccione tipo de documento">
+															<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+															<f:selectItems
+																value="#{aperturaCuentaahorroBean.comboTipodocumentoPersonanatural.items.entrySet()}"
+																var="val" itemLabel="#{val.value.abreviatura}"
+																itemValue="#{val.key}" />
+															<f:ajax></f:ajax>
+														</h:selectOneMenu>
+													</div>
+												</div>
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">NUMERO
+														DOCUMENTO</div>
+													<div>
+														<h:inputText id="txtDni"
+															value="#{aperturaCuentaahorroBean.numeroDocumentoPersonanatural}"
+															required="true" maxlength="8"
+															requiredMessage="Ingrese numero documento"
+															validatorMessage="Número de DNI Invalido"
+															onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+															pt:placeholder="12345678">
+															<f:validateRegex pattern="(^[0-9]{8}$)" />
+															<f:ajax
+																listener="#{aperturaCuentaahorroBean.buscarPersonanaturalSocio()}"
+																render="@form"></f:ajax>
+														</h:inputText>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="cmbTipodocumento" />
+												<h:message for="txtDni" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">APELLIDO
+														PATERNO</div>
+													<div>
+														<div>
+															<h:inputText id="txtApellidoPaterno"
+																value="#{aperturaCuentaahorroBean.apellidoPaternoPersonanatural}"
+																required="true" maxlength="50"
+																requiredMessage="Ingrese apellido paterno"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="Apellido paterno">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">APELLIDO
+														MATERNO</div>
+													<div>
+														<div>
+															<h:inputText id="txtApellidoMaterno"
+																value="#{aperturaCuentaahorroBean.apellidoMaternoPersonanatural}"
+																required="true" maxlength="50"
+																requiredMessage="Ingrese apellido materno"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="Apellido materno">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="txtApellidoPaterno" />
+												<h:message for="txtApellidoMaterno" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label">NOMBRES</div>
+												<div>
+													<div>
+														<h:inputText id="txtNombres"
+															value="#{aperturaCuentaahorroBean.nombresPersonanatural}"
+															required="true" maxlength="50"
+															requiredMessage="Ingrese nombres"
+															onkeyup="this.value = this.value.toUpperCase();"
+															pt:placeholder="nombres" style="width:339px;">
+														</h:inputText>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="txtNombres" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">SEXO</div>
+													<div>
+														<div>
+															<h:selectOneMenu id="cmbSexo"
+																value="#{aperturaCuentaahorroBean.comboSexoPersonanatural.itemSelected}"
+																required="true" requiredMessage="Seleccione sexo">
+																<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+																<f:selectItems
+																	value="#{aperturaCuentaahorroBean.comboSexoPersonanatural.items.entrySet()}"
+																	var="val" itemLabel="#{val.value.denominacion}"
+																	itemValue="#{val.key}" />
+															</h:selectOneMenu>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">FECHA DE
+														NACIMIENTO</div>
+													<div>
+														<div>
+															<p:calendar id="txtFechanacimiento"
+																value="#{aperturaCuentaahorroBean.fechaNacimientoPersonanatural}"
+																navigator="true" pattern="dd/MM/yy" required="true"
+																requiredMessage="Ingrese fecha de nacimiento"
+																converterMessage="formato incorrecto"
+																pt:placeholder="dd/mm/yyyy">
+																<f:convertDateTime pattern="dd/MM/yy" />
+															</p:calendar>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="cmbSexo" />
+												<h:message for="txtFechanacimiento" />
+											</div>
+											<br />
+											<div class="sf-separator">
+												<h3 class="p6n-api-consent-screen-title"
+													style="color: #298B11;">Datos adicionales</h3>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label">ESTADO CIVIL</div>
+												<div>
+													<div style="display: inline-block; width: 190px;">
+														<div>
+															<h:selectOneMenu id="cmbEstadocivil"
+																value="#{aperturaCuentaahorroBean.comboEstadocivilPersonanatural.itemSelected}">
+																<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+																<f:selectItems
+																	value="#{aperturaCuentaahorroBean.comboEstadocivilPersonanatural.items.entrySet()}"
+																	var="val" itemLabel="#{val.value.denominacion}"
+																	itemValue="#{val.key}" />
+															</h:selectOneMenu>
+														</div>
+													</div>
+													<div style="display: inline-block;">
+														<div class="p6n-api-consent-screen-label">OCUPACION</div>
+														<div>
+															<div>
+																<h:inputText
+																	value="#{aperturaCuentaahorroBean.ocupacionPersonanatural}"
+																	pt:placeholder="ocupacion" />
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">DIRECCION</div>
+													<div>
+														<div>
+															<h:inputText
+																value="#{aperturaCuentaahorroBean.direccionPersonanatural}"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="direccion">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">REFERENCIA</div>
+													<div>
+														<div>
+															<h:inputText
+																value="#{aperturaCuentaahorroBean.referenciaPersonanatural}"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="referencia">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">TELEFONO</div>
+													<div>
+														<div>
+															<h:inputText
+																value="#{aperturaCuentaahorroBean.telefonoPersonanatural}"
+																pt:placeholder="066000000">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">CELULAR</div>
+													<div>
+														<div>
+															<h:inputText
+																value="#{aperturaCuentaahorroBean.celularPersonanatural}"
+																pt:placeholder="ceular/#rpm">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label">EMAIL</div>
+												<div>
+													<div>
+														<h:inputText
+															value="#{aperturaCuentaahorroBean.emailPersonanatural}"
+															pt:placeholder="example@domain.com" style="width:339px;" />
+													</div>
+												</div>
+											</div>
+											<br />
+											<div class="sf-buttons" style="float: left;">
+												<h:commandButton value="Cancelar" immediate="true"
+													styleClass="action" />
+												<h:commandButton value="Siguiente »"
+													action="aperturaCuentaahorro-flowA" styleClass="action" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:form>
+				<br></br>
+				<h:panelGroup id="panelGroupPersonajuridica"
+					rendered="#{aperturaCuentaahorroBean.personajuridica}">
+					<div>
+						<h:form id="formPersonaJuridica">
+							<div style="margin-left: 50px;">
+								<div>
+									<div>
+										<div class="p6n-api-consent-screen-title">PERSONA
+											JURIDICA</div>
+										<div class="p6n-api-consent-screen-inputs">
+											<div class="sf-separator">
+												<h3 class="p6n-api-consent-screen-title"
+													style="color: #298B11;">Datos generales</h3>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">TIPO
+														DOCUMENTO</div>
+													<div>
+														<h:selectOneMenu id="cmbTipodocumentoPersonajuridica"
+															value="#{aperturaCuentaahorroBean.comboTipodocumentoPersonajuridica.itemSelected}"
+															valueChangeListener="#{aperturaCuentaahorroBean.changeTipodocumentoPersonajuridica}"
+															required="true"
+															requiredMessage="Seleccione tipo de documento">
+															<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+															<f:selectItems
+																value="#{aperturaCuentaahorroBean.comboTipodocumentoPersonajuridica.items.entrySet()}"
+																var="val" itemLabel="#{val.value.abreviatura}"
+																itemValue="#{val.key}" />
+															<f:ajax></f:ajax>
+														</h:selectOneMenu>
+													</div>
+												</div>
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">NUMERO
+														DOCUMENTO</div>
+													<div>
+														<h:inputText id="txtNumerodocumentoPersonajuridica"
+															value="#{aperturaCuentaahorroBean.numeroDocumentoPersonajuridica}"
+															required="true" maxlength="11"
+															requiredMessage="Ingrese numero documento"
+															validatorMessage="Número de DNI Invalido"
+															onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+															pt:placeholder="123456789101">
+															<f:validateRegex pattern="(^[0-9]{11}$)" />
+															<f:ajax
+																listener="#{aperturaCuentaahorroBean.buscarPersonajuridicaSocio()}"
+																render="@form"></f:ajax>
+														</h:inputText>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="cmbTipodocumentoPersonajuridica" />
+												<h:message for="txtNumerodocumentoPersonajuridica" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">RAZON
+														SOCIAL</div>
+													<div>
+														<div>
+															<h:inputText id="txtTazonsocial"
+																value="#{aperturaCuentaahorroBean.razonSocial}"
+																required="true" maxlength="50"
+																requiredMessage="Ingrese la razon social"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="Razon social">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">NOMBRE
+														COMERCIAL</div>
+													<div>
+														<div>
+															<h:inputText id="txtNombrecomercial"
+																value="#{aperturaCuentaahorroBean.nombreComercial}"
+																maxlength="50"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="Nombre comercial">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="txtTazonsocial" />
+												<h:message for="txtNombrecomercial" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">ACTIVIDAD
+														PRINCIPAL</div>
+													<div>
+														<div>
+															<h:inputText id="txtActividadprincipal"
+																value="#{aperturaCuentaahorroBean.actividadPrincipal}"
+																maxlength="50"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="actividad principal">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">FECHA
+														CONSTITUCION</div>
+													<div>
+														<div>
+															<p:calendar id="txtFechaconstitucion"
+																value="#{aperturaCuentaahorroBean.fechaConstitucion}"
+																navigator="true" pattern="dd/MM/yy" required="true"
+																requiredMessage="Ingrese Fecha de constitucion"
+																converterMessage="El formato de la fecha no es correcto"
+																pt:placeholder="dd/mm/yyyy">
+																<f:convertDateTime pattern="dd/MM/yy" />
+															</p:calendar>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="txtActividadprincipal" />
+												<h:message for="txtFechaconstitucion" />
+											</div>
+											<br />
+											<div class="sf-separator">
+												<h3 class="p6n-api-consent-screen-title"
+													style="color: #298B11;">Datos comerciales</h3>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">TIPO
+														EMPRESA</div>
+													<div>
+														<div>
+															<h:selectOneMenu id="cmbTipoempresa"
+																value="#{aperturaCuentaahorroBean.comboTipoempresa.itemSelected}"
+																required="true" requiredMessage="Ingrese tipo empresa"
+																pt:placeholder="Tipo empresa">
+																<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+																<f:selectItems
+																	value="#{aperturaCuentaahorroBean.comboTipoempresa.items.entrySet()}"
+																	var="val" itemLabel="#{val.value.denominacion}"
+																	itemValue="#{val.key}" />
+															</h:selectOneMenu>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">FIN SOCIAL</div>
+													<div>
+														<div>
+															<h:selectOneMenu id="cmbFinsocial"
+																value="#{aperturaCuentaahorroBean.comboFinsocial.itemSelected}">
+																<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+																<f:selectItems
+																	value="#{aperturaCuentaahorroBean.comboFinsocial.items.entrySet()}"
+																	var="val" itemLabel="#{val.value}"
+																	itemValue="#{val.key}" />
+															</h:selectOneMenu>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="cmbTipoempresa" />
+												<h:message for="cmbFinsocial" />
+											</div>
+											<br />
+											<div class="sf-separator">
+												<h3 class="p6n-api-consent-screen-title"
+													style="color: #298B11;">Datos adicionales</h3>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">DIRECCION</div>
+													<div>
+														<div>
+															<h:inputText
+																value="#{aperturaCuentaahorroBean.direccionPersonajuridica}"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="Direccion">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">REFERENCIA</div>
+													<div>
+														<div>
+															<h:inputText
+																value="#{aperturaCuentaahorroBean.referenciaPersonajuridica}"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="Referencia">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">TELEFONO</div>
+													<div>
+														<div>
+															<h:inputText
+																value="#{aperturaCuentaahorroBean.telefonoPersonajuridica}"
+																pt:placeholder="066000000">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">CELULAR</div>
+													<div>
+														<div>
+															<h:inputText
+																value="#{aperturaCuentaahorroBean.celularPersonajuridica}"
+																pt:placeholder="celular/#rpm">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label">EMAIL</div>
+												<div>
+													<div>
+														<h:inputText
+															value="#{aperturaCuentaahorroBean.emailPersonajuridica}"
+															pt:placeholder="example@domain.com" style="width:339px;" />
+													</div>
+												</div>
+											</div>
+											<br /> <br />
+											<div class="sf-buttons" style="float: left;">
+												<h:commandButton value="Cancelar" immediate="true"
+													styleClass="action" />
+												<h:commandButton value="Siguiente »"
+													action="aperturaCuentaahorro-flowA" styleClass="action" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</h:form>
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>
