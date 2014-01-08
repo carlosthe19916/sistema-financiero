@@ -71,15 +71,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 	private String telefonoPersonanatural;
 	private String celularPersonanatural;
 	private String emailPersonanatural;
-	
-	private boolean existeApoderado;
-	@Inject private ComboBean<Tipodocumento> comboTipodocumentoApoderado;
-	private String numeroDocumentoApoderado;
-	private String apellidoPaternoApoderado;
-	private String apellidoMaternoApoderado;
-	private String nombresApoderado;
-	private Date fechaNacimientoApoderado;
-	@Inject private ComboBean<Sexo> comboSexoApoderado;
 
 	@Inject private ComboBean<Tipodocumento> comboTipodocumentoPersonajuridica;
 	private String numeroDocumentoPersonajuridica;	
@@ -146,7 +137,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 		isPersonanatural = false;
 		isPersonajuridica = false;
 
-		existeApoderado = false;
 		accionistas = new HashMap<String, Accionista>();
 		titulares = new HashMap<String, Personanatural>();
 		beneficiarios = new HashMap<String, Beneficiario>();
@@ -174,7 +164,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 		try {
 			List<Tipodocumento> listTipodocumentoPersonanatural = maestrosServiceLocal.getTipodocumentoForPersonaNatural();
 			comboTipodocumentoPersonanatural.setItems(listTipodocumentoPersonanatural);
-			comboTipodocumentoApoderado.setItems(listTipodocumentoPersonanatural);
 			comboTipodocumentoAccionista.setItems(listTipodocumentoPersonanatural);
 			comboTipodocumentoTitular.setItems(listTipodocumentoPersonanatural);
 			List<Tipodocumento> listTipodocumentoPersonajuridica = maestrosServiceLocal.getTipodocumentoForPersonaJuridica();
@@ -182,7 +171,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 			comboTipodocumentoRepresentantelegal.setItems(listTipodocumentoPersonanatural);
 			
 			comboSexoPersonanatural.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
-			comboSexoApoderado.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			comboSexoAccionista.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			comboSexoRepresentantelegal.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			comboSexoTitular.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
@@ -350,32 +338,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 				this.telefonoPersonanatural = "";
 				this.celularPersonanatural = "";
 				this.emailPersonanatural = "";
-			}
-		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, e.getMessage());
-		}
-	}
-	
-	public void buscarPersonanaturalApoderado(){
-		try {
-			Tipodocumento tipodocumento = comboTipodocumentoApoderado.getObjectItemSelected();
-			String numeroDocumento = numeroDocumentoApoderado;
-			Personanatural personaNatural = buscarPersonanatural(tipodocumento, numeroDocumento);
-			
-			if(personaNatural != null){
-				this.comboTipodocumentoApoderado.setItemSelected(personaNatural.getTipodocumento());
-				this.numeroDocumentoApoderado = personaNatural.getNumerodocumento();
-				this.apellidoPaternoApoderado = personaNatural.getApellidopaterno();
-				this.apellidoMaternoApoderado = personaNatural.getApellidomaterno();
-				this.nombresApoderado = personaNatural.getNombres();
-				this.fechaNacimientoApoderado = personaNatural.getFechanacimiento();
-				this.comboSexoApoderado.setItemSelected(personaNatural.getSexo());
-			} else {
-				this.apellidoPaternoApoderado = "";
-				this.apellidoMaternoApoderado = "";
-				this.nombresApoderado = "";
-				this.fechaNacimientoApoderado = null;
-				this.comboSexoApoderado.setItemSelected(-1);
 			}
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
@@ -761,11 +723,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 		Tipodocumento tipodocumentoSelected = comboTipodocumentoPersonajuridica.getObjectItemSelected(key);
 	}
 	
-	public void changeTipodocumentoApoderado(ValueChangeEvent event) {
-		Integer key = (Integer) event.getNewValue();
-		Tipodocumento tipodocumentoSelected = comboTipodocumentoApoderado.getObjectItemSelected(key);
-	}
-	
 	public void changeTipodocumentoAccionista(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Tipodocumento tipodocumentoSelected = comboTipodocumentoAccionista.getObjectItemSelected(key);
@@ -1028,71 +985,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 	public void setNumeroDocumentoPersonajuridica(
 			String numeroDocumentoPersonajuridica) {
 		this.numeroDocumentoPersonajuridica = numeroDocumentoPersonajuridica;
-	}
-
-	public ComboBean<Tipodocumento> getComboTipodocumentoApoderado() {
-		return comboTipodocumentoApoderado;
-	}
-
-	public void setComboTipodocumentoApoderado(
-			ComboBean<Tipodocumento> comboTipodocumentoApoderado) {
-		this.comboTipodocumentoApoderado = comboTipodocumentoApoderado;
-	}
-
-	public String getNumeroDocumentoApoderado() {
-		return numeroDocumentoApoderado;
-	}
-
-	public void setNumeroDocumentoApoderado(String numeroDocumentoApoderado) {
-		this.numeroDocumentoApoderado = numeroDocumentoApoderado;
-	}
-
-	public String getApellidoPaternoApoderado() {
-		return apellidoPaternoApoderado;
-	}
-
-	public void setApellidoPaternoApoderado(String apellidoPaternoApoderado) {
-		this.apellidoPaternoApoderado = apellidoPaternoApoderado;
-	}
-
-	public String getApellidoMaternoApoderado() {
-		return apellidoMaternoApoderado;
-	}
-
-	public void setApellidoMaternoApoderado(String apellidoMaternoApoderado) {
-		this.apellidoMaternoApoderado = apellidoMaternoApoderado;
-	}
-
-	public String getNombresApoderado() {
-		return nombresApoderado;
-	}
-
-	public void setNombresApoderado(String nombresApoderado) {
-		this.nombresApoderado = nombresApoderado;
-	}
-
-	public Date getFechaNacimientoApoderado() {
-		return fechaNacimientoApoderado;
-	}
-
-	public void setFechaNacimientoApoderado(Date fechaNacimientoApoderado) {
-		this.fechaNacimientoApoderado = fechaNacimientoApoderado;
-	}
-
-	public ComboBean<Sexo> getComboSexoApoderado() {
-		return comboSexoApoderado;
-	}
-
-	public void setComboSexoApoderado(ComboBean<Sexo> comboSexoApoderado) {
-		this.comboSexoApoderado = comboSexoApoderado;
-	}
-
-	public boolean isExisteApoderado() {
-		return existeApoderado;
-	}
-
-	public void setExisteApoderado(boolean existeApoderado) {
-		this.existeApoderado = existeApoderado;
 	}
 
 	public boolean isPersonanatural() {

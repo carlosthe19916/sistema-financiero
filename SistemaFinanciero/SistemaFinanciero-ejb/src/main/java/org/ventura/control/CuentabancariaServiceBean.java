@@ -932,7 +932,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
 			cuentabancaria.setEstadocuenta(estadocuenta);
 			cuentabancaria.setFechaapertura(Calendar.getInstance().getTime());
-			cuentabancaria.setSaldo(new Moneda());
 			cuentabancaria.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
@@ -1115,7 +1114,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
 			cuentabancaria.setEstadocuenta(estadocuenta);
 			cuentabancaria.setFechaapertura(Calendar.getInstance().getTime());
-			cuentabancaria.setSaldo(new Moneda());
 			cuentabancaria.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);

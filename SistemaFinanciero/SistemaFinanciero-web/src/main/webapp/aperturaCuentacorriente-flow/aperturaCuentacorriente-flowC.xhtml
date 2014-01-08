@@ -165,58 +165,6 @@
 										<div class="p6n-line"></div>
 									</div>
 								</div>
-								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">APODERADO</h2>
-									<div class="ng-isolate-scope">
-										<div class="">
-											<div class="ng-scope">
-												<br />
-												<p>
-													Apoderado:
-													<h:outputLabel
-														value="#{aperturaCuentacorrienteBean.existeApoderado ? 'SI':'NO'}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Tipo y numero documento:
-													<h:outputLabel
-														value="#{aperturaCuentacorrienteBean.comboTipodocumentoApoderado.getObjectItemSelected().abreviatura} #{aperturaCuentacorrienteBean.numeroDocumentoApoderado}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Apellidos y nombres:
-													<h:outputLabel
-														value="#{aperturaCuentacorrienteBean.apellidoPaternoApoderado} #{aperturaCuentacorrienteBean.apellidoMaternoApoderado}, #{aperturaCuentacorrienteBean.nombresApoderado}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Sexo:
-													<h:outputLabel
-														value="#{aperturaCuentacorrienteBean.comboSexoApoderado.getObjectItemSelected().denominacion}"
-														styleClass="sf-label-bold" />
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. nacimiento:
-													<h:outputLabel
-														value="#{aperturaCuentacorrienteBean.fechaNacimientoApoderado}"
-														styleClass="sf-label-bold">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputLabel>
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="p6n-page-section-divider">
-										<div class="p6n-line"></div>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>

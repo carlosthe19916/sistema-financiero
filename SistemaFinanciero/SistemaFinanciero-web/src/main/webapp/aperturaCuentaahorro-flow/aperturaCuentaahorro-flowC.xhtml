@@ -164,58 +164,6 @@
 										<div class="p6n-line"></div>
 									</div>
 								</div>
-								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">APODERADO</h2>
-									<div class="ng-isolate-scope">
-										<div class="">
-											<div class="ng-scope">
-												<br />
-												<p>
-													Apoderado:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.existeApoderado ? 'SI':'NO'}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Tipo y numero documento:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboTipodocumentoApoderado.getObjectItemSelected().abreviatura} #{aperturaCuentaahorroBean.numeroDocumentoApoderado}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Apellidos y nombres:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.apellidoPaternoApoderado} #{aperturaCuentaahorroBean.apellidoMaternoApoderado}, #{aperturaCuentaahorroBean.nombresApoderado}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Sexo:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboSexoApoderado.getObjectItemSelected().denominacion}"
-														styleClass="sf-label-bold" />
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. nacimiento:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.fechaNacimientoApoderado}"
-														styleClass="sf-label-bold">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputLabel>
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="p6n-page-section-divider">
-										<div class="p6n-line"></div>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>

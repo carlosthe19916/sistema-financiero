@@ -19,7 +19,7 @@ public class AperturaCuentaplazofijoFlowdefinition implements Serializable {
 				.markAsStartNode();
 
 		flowBuilder.returnNode("returnFromAperturaCuentaplazofijoFlow")
-				.fromOutcome("aperturaCuentaplazofijo-flowD");
+				.fromOutcome("aperturaCuentaplazofijo-flowE");
 
 		return flowBuilder.getFlow();
 	}

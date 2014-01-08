@@ -51,27 +51,23 @@
 												<br />
 												<p>
 													Moneda:
-													<h:selectOneMenu id="cmbTipomonedaCuentacorriente"
-														value="#{aperturaCuentaplazofijoBean.comboTipomoneda.itemSelected}"
-														valueChangeListener="#{aperturaCuentaplazofijoBean.changeTipomoneda}"
-														required="true"
-														requiredMessage="Seleccione tipo de moneda">
-														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
-														<f:selectItems
-															value="#{aperturaCuentaplazofijoBean.comboTipomoneda.items.entrySet()}"
-															var="val"
-															itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
-															itemValue="#{val.key}" />
-														<f:ajax></f:ajax>
-													</h:selectOneMenu>
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura} #{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.denominacion}"
+														styleClass="sf-label-bold" />
 												</p>
-												<div
-													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-													<h:message for="cmbTipomonedaCuentacorriente" />
-												</div>
 												<br />
 												<p>
-													Saldo: <label class="sf-label-bold">0.00</label>
+													Monto:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.montoApertura}"
+														styleClass="sf-label-bold" />
+												</p>
+												<br />
+												<p>
+													Periodo:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.periodoDeposito} Dias"
+														styleClass="sf-label-bold" />
 												</p>
 											</div>
 										</div>
@@ -157,58 +153,6 @@
 													<h:outputLabel
 														value="#{aperturaCuentaplazofijoBean.emailPersonanatural}"
 														styleClass="sf-label-bold" />
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="p6n-page-section-divider">
-										<div class="p6n-line"></div>
-									</div>
-								</div>
-								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">APODERADO</h2>
-									<div class="ng-isolate-scope">
-										<div class="">
-											<div class="ng-scope">
-												<br />
-												<p>
-													Apoderado:
-													<h:outputLabel
-														value="#{aperturaCuentaplazofijoBean.existeApoderado ? 'SI':'NO'}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Tipo y numero documento:
-													<h:outputLabel
-														value="#{aperturaCuentaplazofijoBean.comboTipodocumentoApoderado.getObjectItemSelected().abreviatura} #{aperturaCuentaplazofijoBean.numeroDocumentoApoderado}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Apellidos y nombres:
-													<h:outputLabel
-														value="#{aperturaCuentaplazofijoBean.apellidoPaternoApoderado} #{aperturaCuentaplazofijoBean.apellidoMaternoApoderado}, #{aperturaCuentaplazofijoBean.nombresApoderado}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Sexo:
-													<h:outputLabel
-														value="#{aperturaCuentaplazofijoBean.comboSexoApoderado.getObjectItemSelected().denominacion}"
-														styleClass="sf-label-bold" />
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. nacimiento:
-													<h:outputLabel
-														value="#{aperturaCuentaplazofijoBean.fechaNacimientoApoderado}"
-														styleClass="sf-label-bold">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputLabel>
 												</p>
 											</div>
 										</div>
@@ -651,7 +595,7 @@
 
 			<div style="margin-left: 40px;">
 
-				<h:commandButton action="aperturaCuentaplazofijo-flowB"
+				<h:commandButton action="aperturaCuentaplazofijo-flowC"
 					immediate="true"
 					actionListener="#{aperturaCuentaplazofijoBean.removeTitularDefecto()}"
 					value="« Anterior " />

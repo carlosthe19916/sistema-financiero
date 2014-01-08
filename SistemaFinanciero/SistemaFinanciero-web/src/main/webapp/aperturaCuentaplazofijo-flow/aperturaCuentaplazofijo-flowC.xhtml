@@ -58,8 +58,14 @@
 									<div class="p6n-api-consent-screen-label">MONTO APERTURA</div>
 									<div>
 										<div>
-											<h:inputText id="txtMonto"
-												value="#{aperturaCuentaplazofijoBean.montoApertura}" />
+											<h:inputText id="txtMonto" required="true"
+												requiredMessage="Ingrese monto"
+												converterMessage="Ingrese monto valido Ejemplo: 999.00"
+												value="#{aperturaCuentaplazofijoBean.montoApertura}"
+												pt:placeholder="0.00">
+												<f:converter converterId="javax.faces.BigDecimal"
+													maxFractionDigits="2" minFractionDigits="2" pattern="0.00" />
+											</h:inputText>
 										</div>
 									</div>
 								</div>
@@ -67,17 +73,18 @@
 									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 									<h:message for="txtMonto" />
 								</div>
-								<div
-									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-									<h:message for="cmbTipomonedaCuentaplazofijo" />
-								</div>
 								<div class="p6n-api-consent-screen-input-section">
 									<div class="p6n-api-consent-screen-label">PERIODO DE
-										DEPOSITO</div>
+										DEPOSITO (dias)</div>
 									<div>
 										<div>
-											<h:inputText id="txtPeriodo"
-												value="#{aperturaCuentaplazofijoBean.periodoDeposito}" />
+											<h:inputText id="txtPeriodo" required="true"
+												requiredMessage="Ingrese un periodo"
+												converterMessage="Ingrese cantidad de dias valido Ejemplo: 360"
+												pt:placeholder="0 dias"
+												value="#{aperturaCuentaplazofijoBean.periodoDeposito}">
+												<f:convertNumber integerOnly="true" type="number" />
+											</h:inputText>
 										</div>
 									</div>
 								</div>
@@ -90,9 +97,11 @@
 							<br />
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton value="« Anterior" immediate="true"
-									action="aperturaCuentaaporte-flowB.xhtml" styleClass="action" />
+									action="aperturaCuentaplazofijo-flowB.xhtml"
+									styleClass="action" />
 								<h:commandButton value="Siguiente »"
-									action="aperturaCuentaaporte-flowD.xhtml" styleClass="action" />
+									action="aperturaCuentaplazofijo-flowD.xhtml"
+									styleClass="action" />
 							</div>
 						</div>
 					</div>
