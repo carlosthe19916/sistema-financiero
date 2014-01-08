@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Configurar Tipo de Cambio" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+			<h:outputStylesheet library="css" name="main.css" />
+			<br />
+			<h:form id="formDialog">
+
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">CONFIGURAR TIPO DE CAMBIO</div>
+							
+							<h:panelGroup rendered = "">
+								<div class="p6n-api-access-in-page-error" style="left: 516px;">
+									<div>
+										<div>
+											<p>
+												<h:messages />
+											</p>
+										</div>
+										<div style="text-align: center;">
+											<h:commandLink value="Cerrar"
+												styleClass="p6n-api-access-in-page-error-link" />
+											&nbsp;|&nbsp;
+											<h:commandLink value="Volver" action="cancel"
+												styleClass="p6n-api-access-in-page-error-link" />
+										</div>
+									</div>
+								</div>
+								<div class="modal-dialog-bg"
+									style="opacity: 0.4; width: 1366px; height: 1000px;"
+									aria-hidden="true"></div>
+							</h:panelGroup>
+
+							<div class="p6n-api-consent-screen-inputs">
+								<br />
+
+								<div>
+									<h:panelGrid columns="2">
+										<p:outputPanel>
+											<div class="p6n-api-consent-screen-title"
+												style="width: 200px; text-align: center;">COMPRA</div>
+
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-title"
+													style="width: 200px; text-align: center;">$--------------------
+													S/.</div>
+												<div class="p6n-api-consent-screen-label"
+													style="width: 200px; text-align: center;">TIPO DE
+													CAMBIO</div>
+												<div style="float: left; width: 200px; text-align: center;">
+													<h:inputText id="tipoCambioCompraDS" required="true"
+														requiredMessage="Ingrese el tipo de cambio" value=""
+														size="15" maxlength="5">
+														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+														<p:ajax event="blur" render="@this"></p:ajax>
+													</h:inputText>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+												style="width: 220px; text-align: center;">
+												<h:message for="tipoCambioCompraDS" />
+											</div>
+
+											<br />
+											<br />
+											<br />
+
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-title"
+													style="width: 200px; text-align: center;">€--------------------
+													S/.</div>
+												<div class="p6n-api-consent-screen-label"
+													style="width: 200px; text-align: center;">TIPO DE
+													CAMBIO</div>
+												<div style="float: left; width: 200px; text-align: center;">
+													<h:inputText id="tipoCambioCompraES" required="true"
+														requiredMessage="Ingrese el tipo de cambio" value=""
+														size="15" maxlength="5">
+														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+														<p:ajax event="blur" render="@this"></p:ajax>
+													</h:inputText>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+												style="width: 220px; text-align: center;">
+												<h:message for="tipoCambioCompraES" />
+											</div>
+
+											<br />
+											<br />
+											<br />
+
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-title"
+													style="width: 200px; text-align: center;">$--------------------
+													€</div>
+												<div class="p6n-api-consent-screen-label"
+													style="width: 200px; text-align: center;">TIPO DE
+													CAMBIO</div>
+												<div style="float: left; width: 200px; text-align: center;">
+													<h:inputText id="tipoCambioCompraDE" required="true"
+														requiredMessage="Ingrese el tipo de cambio" value=""
+														size="15" maxlength="5">
+														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+														<p:ajax event="blur" render="@this"></p:ajax>
+													</h:inputText>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+												style="width: 220px; text-align: center;">
+												<h:message for="tipoCambioCompraDE" />
+											</div>
+
+											<br />
+											<br />
+											<br />
+
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-title"
+													style="width: 200px; text-align: center;">€--------------------
+													$</div>
+												<div class="p6n-api-consent-screen-label"
+													style="width: 200px; text-align: center;">TIPO DE
+													CAMBIO</div>
+												<div style="float: left; width: 200px; text-align: center;">
+													<h:inputText id="tipoCambioCompraED" required="true"
+														requiredMessage="Ingrese el tipo de cambio" value=""
+														size="15" maxlength="5">
+														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+														<p:ajax event="blur" render="@this"></p:ajax>
+													</h:inputText>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+												style="width: 220px; text-align: center;">
+												<h:message for="tipoCambioCompraED" />
+											</div>
+										</p:outputPanel>
+
+										<p:outputPanel>
+											<div class="p6n-api-consent-screen-title"
+												style="width: 300px; text-align: center;">VENTA</div>
+
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-title"
+													style="width: 300px; text-align: center;">$--------------------
+													S/.</div>
+												<div class="p6n-api-consent-screen-label"
+													style="width: 300px; text-align: center;">TIPO DE
+													CAMBIO</div>
+												<div style="float: left; width: 300px; text-align: center;">
+													<h:inputText id="tipoCambioVentaDS" required="true"
+														requiredMessage="Ingrese el tipo de cambio" value=""
+														size="15" maxlength="5">
+														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+														<p:ajax event="blur" render="@this"></p:ajax>
+													</h:inputText>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+												style="width: 320px; text-align: center;">
+												<h:message for="tipoCambioVentaDS" />
+											</div>
+
+											<br />
+											<br />
+											<br />
+
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-title"
+													style="width: 300px; text-align: center;">€--------------------
+													S/.</div>
+												<div class="p6n-api-consent-screen-label"
+													style="width: 300px; text-align: center;">TIPO DE
+													CAMBIO</div>
+												<div style="float: left; width: 300px; text-align: center;">
+													<h:inputText id="tipoCambioVentaES" required="true"
+														requiredMessage="Ingrese el tipo de cambio" value=""
+														size="15" maxlength="5">
+														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+														<p:ajax event="blur" render="@this"></p:ajax>
+													</h:inputText>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+												style="width: 320px; text-align: center;">
+												<h:message for="tipoCambioVentaES" />
+											</div>
+
+											<br />
+											<br />
+											<br />
+
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-title"
+													style="width: 300px; text-align: center;">$--------------------
+													€</div>
+												<div class="p6n-api-consent-screen-label"
+													style="width: 300px; text-align: center;">TIPO DE
+													CAMBIO</div>
+												<div style="float: left; width: 300px; text-align: center;">
+													<h:inputText id="tipoCambioVentaDE" required="true"
+														requiredMessage="Ingrese el tipo de cambio" value=""
+														size="15" maxlength="5">
+														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+														<p:ajax event="blur" render="@this"></p:ajax>
+													</h:inputText>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+												style="width: 320px; text-align: center;">
+												<h:message for="tipoCambioVentaDE" />
+											</div>
+
+											<br />
+											<br />
+											<br />
+
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-title"
+													style="width: 300px; text-align: center;">€--------------------
+													$</div>
+												<div class="p6n-api-consent-screen-label"
+													style="width: 300px; text-align: center;">TIPO DE
+													CAMBIO</div>
+												<div style="float: left; width: 300px; text-align: center;">
+													<h:inputText id="tipoCambioVentaED" required="true"
+														requiredMessage="Ingrese el tipo de cambio" value=""
+														size="15" maxlength="5">
+														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+														<p:ajax event="blur" render="@this"></p:ajax>
+													</h:inputText>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+												style="width: 320px; text-align: center;">
+												<h:message for="tipoCambioVentaED" />
+											</div>
+										</p:outputPanel>
+									</h:panelGrid>
+								</div>
+
+								<div class="sf-buttons" style="float: left;">
+									<h:commandButton action="#" value="Aceptar"
+										styleClass="action blue" />
+
+									<h:commandButton action="cancel" value="Cancelar"
+										styleClass="action" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>
