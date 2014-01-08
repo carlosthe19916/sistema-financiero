@@ -1,7 +1,9 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -12,10 +14,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CajaServiceLocal;
+import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
@@ -41,6 +45,8 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	private TransaccionCajaServiceLocal transaccionCompraVentaServiceLocal;
 	@EJB
 	private CajaServiceLocal cajaServiceLocal;
+	@EJB
+	private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
 	
 	@Inject
 	private CajaBean cajaBean;
@@ -74,6 +80,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	private TasaInteresTipoCambio tipoCambio;
 	@Inject
 	private Moneda montoEntregadoNew;
+	
 	
 	private boolean isValidBean;
 	private String dniRuc;
@@ -121,6 +128,22 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		setMontoEntregadoNew(money);
 	}
 	
+	
+	public void loadDenominacionmonedaCalculadora() {
+		List<Denominacionmoneda> list;
+		try {
+			Tipomoneda tipomonedaRecibido = this.tipomonedaRecibido;
+			if (tipomonedaRecibido != null) {
+				list = denominacionmonedaServiceLocal.getDenominacionmonedasActive(tipomonedaRecibido);
+			} else {
+				list = new ArrayList<Denominacionmoneda>();
+			}
+			calculadoraBeanRecibido.setDenominaciones(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void validateBean() {
 		if (getCaja() == null) {
 			setBeanInvalid();
@@ -166,7 +189,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 						JsfUtil.addSuccessMessage("La transaccion se realizó correctamente");
 						return "success";
 					}else {
-						JsfUtil.addErrorMessage("La caja no tiene suficiente dinero (Monto a Entregar) para realizar la transacción");
+						JsfUtil.addErrorMessage("La caja no tiene suficiente dinero para realizar la transacción");
 						return null;
 					}
 			}else {
@@ -263,7 +286,6 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		Tipomoneda tipomonedaSelected = comboTipomonedaEntregado.getObjectItemSelected(key);
 		this.tipomonedaEntregado = tipomonedaSelected;
 		this.montoEntregado = new Moneda();
-		//loadDenominacionmonedaCalculadora();
 	}
 	
 	public void changeTipomonedaRecibido(ValueChangeEvent event) {
@@ -271,7 +293,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		Tipomoneda tipomonedaSelected = comboTipomonedaRecibido.getObjectItemSelected(key);
 		this.tipomonedaRecibido = tipomonedaSelected;
 		this.montoRecibido = new Moneda();
-		//loadDenominacionmonedaCalculadora();
+		loadDenominacionmonedaCalculadora();
 	}
 
 	public ComboBean<Tipotransaccioncompraventa> getComboTipotransaccion() {
@@ -340,6 +362,11 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 	public void setMontoEntregado(Moneda montoEntregado) {
 		this.montoEntregado = montoEntregado;
+	}
+	
+	public void setMontoFromCalculadora() {
+		Moneda result = this.calculadoraBeanRecibido.getTotal();
+		this.montoRecibido = result;
 	}
 
 	public CalculadoraBean getCalculadoraBeanRecibido() {
