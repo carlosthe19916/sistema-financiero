@@ -12,7 +12,7 @@ public class ProduceObjectTasainteres {
 			tipotasa.setIdtipotasa(1);
 			break;
 		case CUENTA_CORRIENTE_TASA_INTERES:
-			tipotasa.setIdtipotasa(2);
+			tipotasa.setIdtipotasa(5);
 			break;
 		default:
 			tipotasa.setIdtipotasa(null);
