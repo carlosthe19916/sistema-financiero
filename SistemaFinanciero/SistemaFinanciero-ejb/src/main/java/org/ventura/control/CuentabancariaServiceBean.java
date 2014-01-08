@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -17,10 +18,12 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.boundary.remote.CuentabancariaServiceRemote;
 import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentabancariaDAO;
+import org.ventura.dao.impl.CuentabancariaTipotasaDAO;
 import org.ventura.dao.impl.CuentabancariaViewDAO;
 import org.ventura.dao.impl.SocioDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
@@ -30,6 +33,8 @@ import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasa;
+import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasaPK;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.cuentapersonal.Titular;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
@@ -38,12 +43,17 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.tasas.Tasainteres;
+import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
+import org.ventura.util.helper.TasaInteres;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadocuentaType;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipocuentabancariaType;
+import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 
 @Stateless
 @Local(CuentabancariaServiceLocal.class)
@@ -66,14 +76,18 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	private AccionistaDAO accionistaDAO;
 	@EJB
 	private TitularcuentaDAO titularcuentaDAO;
-	
 	@EJB
 	private BeneficiariocuentaDAO beneficiariocuentaDAO;
+	
+	@EJB
+	private CuentabancariaTipotasaDAO cuentabancariaTipotasaDAO;
 	
 	@EJB
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB
 	private PersonajuridicaServiceLocal personajuridicaServiceLocal;
+	@EJB
+	private TasainteresServiceLocal tasainteresServiceLocal;
 	
 	@Override
 	public Cuentabancaria create(Cuentabancaria cuentabancaria)
@@ -464,6 +478,23 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
+			
+			TipotasaCuentasPersonalesType tipotasaType = TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES;
+			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
+			BigDecimal monto = cuentabancaria.getSaldo().getValue();
+			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentapersonal(tipotasaType, monto);
+			
+			TasaInteres tasainteres = new TasaInteres();
+			tasainteres.setValue(tasaValor);
+			
+			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
+			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
+			cuentabancariaTipotasa.setId(pk);
+			cuentabancariaTipotasa.setTasainteres(tasainteres);
+			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
+			pk.setIdtipotasa(tipotasa.getIdtipotasa());
+			
+			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
 			
 			for (Titular titular : titulares) {
 				Personanatural titularPersonanatural = titular.getPersonanatural();

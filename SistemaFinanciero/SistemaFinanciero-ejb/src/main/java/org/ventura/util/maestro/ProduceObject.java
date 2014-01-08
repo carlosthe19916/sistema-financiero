@@ -335,7 +335,7 @@ public class ProduceObject {
 		return tipotransaccioncompraventaType;
 	}
 
-	public static Tipotasa getTipotasa(TipotasaType tipotasaType) {
+	public static Tipotasa getTipotasa(TipotasaCompraVentaType tipotasaType) {
 		Tipotasa tipotasa = new Tipotasa();
 		switch (tipotasaType) {
 		case CUENTA_AHORRO_TASA_INTERES:
