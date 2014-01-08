@@ -11,8 +11,8 @@ import java.util.Date;
  * The persistent class for the cuentabancaria_view database table.
  * 
  */
-//@Entity
-//@Table(name = "cuentabancaria_view")
+@Entity
+@Table(name = "cuentabancaria_view", schema = "cuentapersonal")
 @NamedQuery(name = "CuentabancariaView.findAll", query = "SELECT c FROM CuentabancariaView c")
 @NamedQueries({
 		@NamedQuery(name = CuentabancariaView.findByNumerocuenta, query = "SELECT c FROM CuentabancariaView c WHERE c.numerocuenta = :numerocuenta"),
@@ -72,6 +72,15 @@ public class CuentabancariaView implements Serializable {
 	@Column(name = "numero_documento")
 	private String numeroDocumento;
 
+	@Column(name = "id_tipodocumento")
+	private Integer idTipodocumento;
+	
+	@Column(name = "denominacion_tipodocumento")
+	private String denominacionTipodocumento;
+	
+	@Column(name = "abreviatura_tipodocumento")
+	private String abreviaturaTipodocumento;
+	
 	@Column(length = 14)
 	private String numerocuenta;
 
@@ -223,6 +232,30 @@ public class CuentabancariaView implements Serializable {
 
 	public void setTipoPersona(String tipoPersona) {
 		this.tipoPersona = tipoPersona;
+	}
+
+	public Integer getIdTipodocumento() {
+		return idTipodocumento;
+	}
+
+	public void setIdTipodocumento(Integer idTipodocumento) {
+		this.idTipodocumento = idTipodocumento;
+	}
+
+	public String getDenominacionTipodocumento() {
+		return denominacionTipodocumento;
+	}
+
+	public void setDenominacionTipodocumento(String denominacionTipodocumento) {
+		this.denominacionTipodocumento = denominacionTipodocumento;
+	}
+
+	public String getAbreviaturaTipodocumento() {
+		return abreviaturaTipodocumento;
+	}
+
+	public void setAbreviaturaTipodocumento(String abreviaturaTipodocumento) {
+		this.abreviaturaTipodocumento = abreviaturaTipodocumento;
 	}
 
 }
