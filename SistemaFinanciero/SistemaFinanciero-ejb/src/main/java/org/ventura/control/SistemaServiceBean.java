@@ -34,7 +34,7 @@ import org.ventura.util.helper.TasaInteres;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipocuentabancariaType;
-import org.ventura.util.maestro.TipotasaType;
+import org.ventura.util.maestro.TipotasaCompraVentaType;
 import org.ventura.util.math.BigDecimalMath;
 
 @Named
@@ -101,10 +101,10 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 				Tipotasa tipotasa = null;
 				
 				if(cuentabancaria.getTipocuentabancaria().equals(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_AHORRO))){
-					tipotasa = ProduceObject.getTipotasa(TipotasaType.CUENTA_AHORRO_TASA_INTERES);
+					tipotasa = ProduceObject.getTipotasa(TipotasaCompraVentaType.CUENTA_AHORRO_TASA_INTERES);
 				}
 				if(cuentabancaria.getTipocuentabancaria().equals(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_CORRIENTE))){
-					tipotasa = ProduceObject.getTipotasa(TipotasaType.CUENTA_CORRIENTE_TASA_INTERES);
+					tipotasa = ProduceObject.getTipotasa(TipotasaCompraVentaType.CUENTA_CORRIENTE_TASA_INTERES);
 				}
 							
 				CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();

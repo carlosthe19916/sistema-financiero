@@ -1,6 +1,7 @@
 package org.ventura.entity.tasas;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -15,8 +16,9 @@ import java.util.Date;
 @Entity
 @Table(name = "tasainteres", schema = "tasas")
 @NamedQuery(name = "Tasainteres.findAll", query = "SELECT t FROM Tasainteres t")
-@NamedQueries({ @NamedQuery(name = Tasainteres.FindById, query = "Select ti From Tasainteres ti INNER JOIN ti.tiposervicio ts INNER JOIN ts.servicio s INNER JOIN ti.tipotasa tt WHERE s.estado = TRUE and ts.estado = TRUE and ti.estado = TRUE and tt.estado = TRUE and tt.idtipotasa=:idtipotasa and ts.idtiposervicio=:idtiposervicio and :monto BETWEEN ti.montominimo and ti.montomaximo"),
-				@NamedQuery(name = Tasainteres.TASA_INTERES_BY_CV, query = "select ti from Tasainteres ti where ti.tipotasa.idtipotasa = :parametro and ti.estado = true")})
+@NamedQueries({
+		@NamedQuery(name = Tasainteres.FindById, query = "Select ti From Tasainteres ti INNER JOIN ti.tiposervicio ts INNER JOIN ts.servicio s INNER JOIN ti.tipotasa tt WHERE s.estado = TRUE and ts.estado = TRUE and ti.estado = TRUE and tt.estado = TRUE and tt.idtipotasa=:idtipotasa AND :monto BETWEEN ti.montominimo and ti.montomaximo"),
+		@NamedQuery(name = Tasainteres.TASA_INTERES_BY_CV, query = "select ti from Tasainteres ti where ti.tipotasa.idtipotasa = :parametro and ti.estado = true") })
 public class Tasainteres implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -38,21 +40,19 @@ public class Tasainteres implements Serializable {
 	private Date fechainicio;
 
 	@Column(nullable = false)
-	private double montomaximo;
+	private BigDecimal montomaximo;
 
 	@Column(nullable = false)
-	private double montominimo;
+	private BigDecimal montominimo;
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tasa")) })
 	private TasaInteresTipoCambio tasa;
 
-	// bi-directional many-to-one association to Tiposervicio
 	@ManyToOne
 	@JoinColumn(name = "idtiposervicio", nullable = false)
 	private Tiposervicio tiposervicio;
 
-	// bi-directional many-to-one association to Tipotasa
 	@ManyToOne
 	@JoinColumn(name = "idtipotasa", nullable = false)
 	private Tipotasa tipotasa;
@@ -92,19 +92,19 @@ public class Tasainteres implements Serializable {
 		this.fechainicio = fechainicio;
 	}
 
-	public double getMontomaximo() {
+	public BigDecimal getMontomaximo() {
 		return this.montomaximo;
 	}
 
-	public void setMontomaximo(double montomaximo) {
+	public void setMontomaximo(BigDecimal montomaximo) {
 		this.montomaximo = montomaximo;
 	}
 
-	public double getMontominimo() {
+	public BigDecimal getMontominimo() {
 		return this.montominimo;
 	}
 
-	public void setMontominimo(double montominimo) {
+	public void setMontominimo(BigDecimal montominimo) {
 		this.montominimo = montominimo;
 	}
 

@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +21,8 @@ import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.entity.tasas.Tiposervicio;
 import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.util.logger.Log;
+import org.ventura.util.maestro.ProduceObjectTasainteres;
+import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 
 @Stateless
 @Local(TasainteresServiceLocal.class)
@@ -104,5 +107,37 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 		log.error("Error: tasa de interes no encontrada para el  monto enviado");
 		throw new Exception("Error: Error: tasa de interes no encontrada para el  monto enviado");
 	}
+
+	@Override
+	public BigDecimal getTasainteresCuentapersonal(TipotasaCuentasPersonalesType cuentasPersonalesType, BigDecimal monto) throws Exception {
+		BigDecimal result = BigDecimal.ZERO;
+		try {
+			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(cuentasPersonalesType);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idtipotasa", tipotasa.getIdtipotasa());
+			parameters.put("monto", monto);
+			
+			List<Tasainteres> resultList = tasainteresDAO.findByNamedQuery(Tasainteres.FindById, parameters);
+			
+			if(resultList.size() > 0){
+				if(resultList.size() == 1){
+					 Tasainteres tasainteres = resultList.get(0);
+					 result = tasainteres.getTasa().getValue();
+				} else {
+					throw new Exception("No se encontró ninguna tasa para los parametros especificados");
+				}
+			} else {
+				throw new Exception("No se encontró ninguna tasa para los parametros especificados");
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:"+e.getCause());
+			log.error("Class:"+e.getClass());
+			throw e;
+		}		
+		return result;
+	}
+
 
 }
