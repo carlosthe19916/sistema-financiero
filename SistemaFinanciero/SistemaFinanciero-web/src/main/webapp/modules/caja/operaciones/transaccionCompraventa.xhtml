@@ -24,10 +24,30 @@
 
 	<!-- Definiendo el cuerpo de la pagina -->
 	<ui:define name="content">
+		
+		<script type="text/javascript">
+		    $(document).ready(function () {
+			    $("#modal-dialog-bg").hide();
+			    $("#dlgCalculadora").hide();
+			 	$("#dlgCalculadora").draggable();
+			 	
+		    	$("#formTransaccion\\:btnCalculadora").click(function(){
+		    		$("#modal-dialog-bg").show();
+		    		$("#dlgCalculadora").show();  		
+		        });		        
+		    });
+
+		    function closeDlgCalculadora(){
+		    	$("#modal-dialog-bg").hide();
+	    		$("#dlgCalculadora").hide();  
+			}
+		</script>
 
 		<h:outputStylesheet library="css" name="main.css" />
-
+		
+		
 		<h:form id="formTransaccion">
+		<p:focus context="formTransaccion"></p:focus>
 			<br />
 			<div style="margin-left: 50px;">
 				<div>
@@ -193,8 +213,7 @@
 													var="val" itemLabel="#{val.value.denominacion}"
 													itemValue="#{val.key}" />
 													<f:ajax execute="@this" />
-													<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="inplace" />
-												<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
+													<f:ajax event = "change" listener = "#{transaccionCompraVentaCajaBean.cagarTipoCambio()}" render="inplace txtMontoRecibido :formCalculadora" />
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -264,7 +283,7 @@
 										</div>
 										
 										<div style="float: left;">
-											<h:outputLink id="btnCalculadoraMR" value="#"
+											<h:outputLink id="btnCalculadora" value="#"
 												styleClass="button" style="margin: 0 0 0 1px;">
 												<span class="icon icon32"></span>
 											</h:outputLink>
@@ -282,7 +301,7 @@
 												required="true" maxlenght="16" readonly = "true"
 												requiredMessage="Ingrese el monto entregado">
 												<f:converter converterId="MonedaConverter"></f:converter>
-												<f:ajax event="blur" render="@this" />
+												<f:ajax event="blur" render="@this"/>
 											</h:inputText>
 										</div> 
 									</div>
@@ -302,7 +321,77 @@
 			</div>
 		</h:form>
 
-		<!--Aqui va el dialog de la calculadora -->
+		<div id="dlgCalculadora" class="modal-dialog p6n-popup" style="left: 412.5px; top: 5px;">
+			<div class="p6n-api-consent-screen-title" style="text-align: center;">CALCULADORA</div>
+			
+			<h:form id="formCalculadora">
+				<div class="modal-dialog-content">
+					<div>
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<td style="text-align: right;">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 100px;">DENOMINACION</div>
+										</td>
+										<td style="width: 20px;"></td>
+										<td><div class="p6n-api-consent-screen-label"
+												style="width: 150px;">CANTIDAD</div></td>
+										<td style="width: 20px;"></td>
+										<td><div class="p6n-api-consent-screen-label"
+												style="width: 110px;">TOTAL</div></td>
+									</tr>
+								</thead>
+								<tbody>
+									<ui:repeat
+										value="#{transaccionCompraVentaCajaBean.calculadoraBeanRecibido.list}"
+										var="detalle">
+										<tr>
+											<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+													value="#{detalle.denominacionmoneda.denominacion}" /></td>
+											<td></td>
+											<td style="padding: 0px;"><h:inputText
+													value="#{detalle.cantidad}" required="true" maxlength="6"
+													styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+													style="width:150px;">
+													<f:ajax event="blur"
+														render="txtSubtotal :formCalculadora:panelTotalTransaccion" />
+												</h:inputText></td>
+											<td></td>
+											<td><h:outputLabel id="txtSubtotal"
+													value="#{detalle.getSubtotal()}"
+													style="width: 110px; vertical-align: middle;" /></td>
+										</tr>
+									</ui:repeat>
+								</tbody>
+							</table>
+						</div>
+						<h:panelGroup id="panelTotalTransaccion">
+							<div style="margin-left: 250px;">
+								<label>TOTAL:</label>
+								<h:outputLabel id="txtTotal"
+									value="#{transaccionCompraVentaCajaBean.calculadoraBeanRecibido.getTotal()}">
+								</h:outputLabel>
+							</div>
+						</h:panelGroup>
+					</div>
+				</div>
+				<div class="modal-dialog-buttons">
+					<h:commandButton value="Guardar" styleClass="action blue">
+						<f:ajax execute="@form"
+							listener="#{transaccionCompraVentaCajaBean.setMontoFromCalculadora()}"
+							render="formCalculadora :formTransaccion:txtMontoRecibido :formTransaccion:txtMontoEntregado"
+							onevent="closeDlgCalculadora" >
+						</f:ajax>
+					</h:commandButton>
+					<input type="button" value="Cancelar" class="action"
+						onclick="closeDlgCalculadora()" />
+				</div>
+			</h:form>
+		</div>
+		<div id="modal-dialog-bg" class="modal-dialog-bg"
+			style="opacity: 0.4; width: 1366px; height: 802px;"></div>
 	</ui:define>
 </ui:composition>
 </html>

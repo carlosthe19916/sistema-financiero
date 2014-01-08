@@ -18,7 +18,7 @@
 			<h:outputText value="Close Caja" />
 		</ui:define>
 		<!-- Definiendo el cuerpo de la pagina -->
-		<ui:define name="content">
+		<ui:define name="content">	
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
 			<h:form id="formClose">
@@ -171,7 +171,7 @@
 														<p:column headerText="Cantidad" width="100"
 															style="text-align:right;">
 															<h:inputText value="#{cajaDetalleSoles.cantidad}" id="aaaa"
-																required="true" maxlength="6" 
+																required="true" maxlength="6"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 																style="text-align:left; width:100px; height:20px">
 																<f:ajax event="blur" execute="@this" render="totalSoles tableTotalSoles"/>
