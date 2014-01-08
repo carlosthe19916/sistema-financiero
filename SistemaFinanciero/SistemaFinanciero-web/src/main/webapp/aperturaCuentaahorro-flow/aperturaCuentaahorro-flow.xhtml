@@ -90,12 +90,13 @@
 													<div>
 														<h:inputText id="txtDni"
 															value="#{aperturaCuentaahorroBean.numeroDocumentoPersonanatural}"
-															required="true" maxlength="8"
+															required="true" maxlength="15"
 															requiredMessage="Ingrese numero documento"
-															validatorMessage="Número de DNI Invalido"
+															validatorMessage="Número de documento Invalido"
+															converterMessage="Número de documento Invalido"
 															onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
 															pt:placeholder="12345678">
-															<f:validateRegex pattern="(^[0-9]{8}$)" />
+															<f:convertNumber type="number" integerOnly="true" />
 															<f:ajax
 																listener="#{aperturaCuentaahorroBean.buscarPersonanaturalSocio()}"
 																render="@form"></f:ajax>
@@ -151,7 +152,7 @@
 													<div>
 														<h:inputText id="txtNombres"
 															value="#{aperturaCuentaahorroBean.nombresPersonanatural}"
-															required="true" maxlength="50"
+															required="true" maxlength="60"
 															requiredMessage="Ingrese nombres"
 															onkeyup="this.value = this.value.toUpperCase();"
 															pt:placeholder="nombres" style="width:339px;">
@@ -228,7 +229,7 @@
 															<div>
 																<h:inputText
 																	value="#{aperturaCuentaahorroBean.ocupacionPersonanatural}"
-																	pt:placeholder="ocupacion" />
+																	maxlength="70" pt:placeholder="ocupacion" />
 															</div>
 														</div>
 													</div>
@@ -242,7 +243,7 @@
 															<h:inputText
 																value="#{aperturaCuentaahorroBean.direccionPersonanatural}"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="direccion">
+																maxlength="150" pt:placeholder="direccion">
 															</h:inputText>
 														</div>
 													</div>
@@ -254,7 +255,7 @@
 															<h:inputText
 																value="#{aperturaCuentaahorroBean.referenciaPersonanatural}"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="referencia">
+																maxlength="100" pt:placeholder="referencia">
 															</h:inputText>
 														</div>
 													</div>
@@ -267,7 +268,7 @@
 														<div>
 															<h:inputText
 																value="#{aperturaCuentaahorroBean.telefonoPersonanatural}"
-																pt:placeholder="066000000">
+																maxlength="25" pt:placeholder="066000000">
 															</h:inputText>
 														</div>
 													</div>
@@ -278,7 +279,7 @@
 														<div>
 															<h:inputText
 																value="#{aperturaCuentaahorroBean.celularPersonanatural}"
-																pt:placeholder="ceular/#rpm">
+																maxlength="25" pt:placeholder="ceular/#rpm">
 															</h:inputText>
 														</div>
 													</div>
@@ -290,7 +291,8 @@
 													<div>
 														<h:inputText
 															value="#{aperturaCuentaahorroBean.emailPersonanatural}"
-															pt:placeholder="example@domain.com" style="width:339px;" />
+															maxlength="50" pt:placeholder="example@domain.com"
+															style="width:339px;" />
 													</div>
 												</div>
 											</div>
@@ -299,7 +301,7 @@
 												<h:commandButton value="Cancelar" immediate="true"
 													styleClass="action" />
 												<h:commandButton value="Siguiente »"
-													action="aperturaCuentaahorro-flowA" styleClass="action" />
+													action="aperturaCuentaahorro-flowB" styleClass="action" />
 											</div>
 										</div>
 									</div>
@@ -348,12 +350,13 @@
 													<div>
 														<h:inputText id="txtNumerodocumentoPersonajuridica"
 															value="#{aperturaCuentaahorroBean.numeroDocumentoPersonajuridica}"
-															required="true" maxlength="11"
+															required="true" maxlength="15"
 															requiredMessage="Ingrese numero documento"
-															validatorMessage="Número de DNI Invalido"
+															validatorMessage="Número de documento Invalido"
+															converterMessage="Número de documento Invalido"
 															onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
 															pt:placeholder="123456789101">
-															<f:validateRegex pattern="(^[0-9]{11}$)" />
+															<f:convertNumber type="number" integerOnly="true" />
 															<f:ajax
 																listener="#{aperturaCuentaahorroBean.buscarPersonajuridicaSocio()}"
 																render="@form"></f:ajax>
@@ -497,7 +500,7 @@
 															<h:inputText
 																value="#{aperturaCuentaahorroBean.direccionPersonajuridica}"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Direccion">
+																maxlength="150" pt:placeholder="Direccion">
 															</h:inputText>
 														</div>
 													</div>
@@ -509,7 +512,7 @@
 															<h:inputText
 																value="#{aperturaCuentaahorroBean.referenciaPersonajuridica}"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Referencia">
+																maxlength="100" pt:placeholder="Referencia">
 															</h:inputText>
 														</div>
 													</div>
@@ -522,7 +525,7 @@
 														<div>
 															<h:inputText
 																value="#{aperturaCuentaahorroBean.telefonoPersonajuridica}"
-																pt:placeholder="066000000">
+																maxlength="20" pt:placeholder="066000000">
 															</h:inputText>
 														</div>
 													</div>
@@ -533,7 +536,7 @@
 														<div>
 															<h:inputText
 																value="#{aperturaCuentaahorroBean.celularPersonajuridica}"
-																pt:placeholder="celular/#rpm">
+																maxlength="20" pt:placeholder="celular/#rpm">
 															</h:inputText>
 														</div>
 													</div>
@@ -545,7 +548,8 @@
 													<div>
 														<h:inputText
 															value="#{aperturaCuentaahorroBean.emailPersonajuridica}"
-															pt:placeholder="example@domain.com" style="width:339px;" />
+															pt:placeholder="example@domain.com" style="width:339px;"
+															maxlength="50" />
 													</div>
 												</div>
 											</div>

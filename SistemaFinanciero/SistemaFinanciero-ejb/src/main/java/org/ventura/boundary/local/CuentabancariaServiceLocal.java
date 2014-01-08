@@ -7,11 +7,17 @@ import javax.ejb.Local;
 import org.ventura.boundary.remote.CuentabancariaServiceRemote;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
 
 @Local
 public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote {
 
 	public Cuentabancaria create(Cuentabancaria cuentabancaria) throws Exception;
+	
+	public Cuentabancaria createCuentaahorroPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural) throws Exception;
+	
+	public Cuentabancaria createCuentaahorroPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica) throws Exception;
 	
 	public List<Cuentabancaria> findAll() throws Exception;
 	

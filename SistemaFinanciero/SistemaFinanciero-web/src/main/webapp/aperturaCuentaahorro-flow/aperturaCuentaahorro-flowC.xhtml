@@ -45,7 +45,7 @@
 												<br />
 												<p>
 													Tipo cuenta: <label class="sf-label-bold">CUENTA DE
-														APORTE</label>
+														AHORROS</label>
 												</p>
 												<br />
 												<p>
@@ -227,19 +227,39 @@
 						<div class="p6n-main-pane ng-isolate-scope">
 							<div class="">
 								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">CUENTA DE APORTE</h2>
+									<h2 class="p6n-page-section-title">CUENTA DE AHORROS</h2>
 									<div class="ng-isolate-scope">
 										<div class="">
 											<div class="ng-scope ng-hide">
 												<br />
 												<p>
 													Tipo cuenta: <label class="sf-label-bold">CUENTA DE
-														APORTE</label>
+														AHORROS</label>
 												</p>
 												<br />
 												<p>
-													Moneda: <label class="sf-label-bold">NUEVOS SOLES
-														(S/.)</label>
+													Moneda:
+													<h:selectOneMenu id="cmbTipomonedaCuentaahorro2"
+														value="#{aperturaCuentaahorroBean.comboTipomoneda.itemSelected}"
+														valueChangeListener="#{aperturaCuentaahorroBean.changeTipomoneda}"
+														required="true"
+														requiredMessage="Seleccione tipo de moneda">
+														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+														<f:selectItems
+															value="#{aperturaCuentaahorroBean.comboTipomoneda.items.entrySet()}"
+															var="val"
+															itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
+															itemValue="#{val.key}" />
+														<f:ajax></f:ajax>
+													</h:selectOneMenu>
+												</p>
+												<div
+													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+													<h:message for="cmbTipomonedaCuentaahorro2" />
+												</div>
+												<br />
+												<p>
+													Saldo: <label class="sf-label-bold">0.00</label>
 												</p>
 											</div>
 										</div>

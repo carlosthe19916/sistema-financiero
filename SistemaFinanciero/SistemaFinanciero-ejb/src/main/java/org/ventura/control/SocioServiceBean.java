@@ -395,6 +395,10 @@ public class SocioServiceBean implements SocioServiceLocal {
 				personajuridicaServiceLocal.create(personajuridica);
 			}
 			
+			for (Accionista accionista : personajuridica.getAccionistas()) {
+				accionistaDAO.delete(accionista);
+			}
+			
 			for (Accionista accionista : accionistas) {
 				Personanatural accionistaPersonanatural = accionista.getPersonanatural();
 				Tipodocumento tipodocumentoAccionista = accionistaPersonanatural.getTipodocumento();
@@ -412,7 +416,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 					personanaturalServiceLocal.update(accionistaPersonanaturalBD);
 					accionistaPersonanatural = accionistaPersonanaturalBD;
 				} else {
-					personanaturalServiceLocal.create(accionistaPersonanaturalBD);
+					personanaturalServiceLocal.create(accionistaPersonanatural);
 				}
 				
 				Accionista accionistaNew = new Accionista();		
@@ -420,7 +424,6 @@ public class SocioServiceBean implements SocioServiceLocal {
 				accionistaNew.setPersonajuridica(personajuridica);
 				accionistaNew.setPorcentajeparticipacion(accionista.getPorcentajeparticipacion());
 				accionistaDAO.create(accionistaNew);
-				accionistaDAO.delete(accionista);
 			}
 			
 			Cuentaaporte cuentaaporte = new Cuentaaporte();		

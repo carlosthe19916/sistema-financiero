@@ -46,7 +46,10 @@
 												<h:inputText id="txtCantidadRetirantes"
 													value="#{aperturaCuentaahorroBean.cantidadRetirantes}"
 													required="true" requiredMessage="Ingrese cantidad"
-													pt:placeholder="Minimo 1" />
+													converterMessage="Número invalido"
+													pt:placeholder="Minimo 1">
+													<f:convertNumber type="number" integerOnly="true" />
+												</h:inputText>
 											</div>
 										</div>
 									</div>
@@ -295,7 +298,7 @@
 													</a></td>
 													<td><a href="javascript:;"
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
-																value="#{beneficiario.porcentajebeneficio}" />
+																value="#{beneficiario.porcentajebeneficio}%" />
 													</a></td>
 													<td><h:commandButton value="Edit"
 															styleClass="action green" style="margin: 0px;">
@@ -338,12 +341,24 @@
 				<!-- END BENEFICIARIOS -->
 
 				<div class="sf-buttons" style="float: left;">
-					<h:commandButton value="« Anterior"
-						action="aperturaCuentaahorro-flowA.xhtml" styleClass="action" />
-					<h:commandButton value="Siguiente »"
-						action="aperturaCuentaahorro-flowC.xhtml"
-						actionListener="#{aperturaCuentaahorroBean.addTitularDefecto()}"
-						styleClass="action" />
+					<h:panelGroup rendered="#{aperturaCuentaahorroBean.personanatural}">
+						<h:commandButton value="« Anterior" immediate="true"
+							action="aperturaCuentaahorro-flow" styleClass="action" />
+						<h:commandButton value="Siguiente »"
+							action="aperturaCuentaahorro-flowC"
+							actionListener="#{aperturaCuentaahorroBean.addTitularDefecto()}"
+							styleClass="action" />
+					</h:panelGroup>
+					<h:panelGroup
+						rendered="#{aperturaCuentaahorroBean.personajuridica}">
+						<h:commandButton value="« Anterior"
+							action="aperturaCuentaahorro-flowA" styleClass="action" />
+						<h:commandButton value="Siguiente »"
+							action="aperturaCuentaahorro-flowC"
+							actionListener="#{aperturaCuentaahorroBean.addTitularDefecto()}"
+							styleClass="action" />
+					</h:panelGroup>
+
 				</div>
 
 			</h:form>
@@ -387,10 +402,13 @@
 											<div>
 												<h:inputText id="txtDniTitular"
 													value="#{aperturaCuentaahorroBean.numeroDocumentoTitular}"
-													required="true" maxlength="8" requiredMessage="Ingrese dni"
-													validatorMessage="Número de DNI Invalido"
-													onkeypress="if (event.keyCode == 13) {onchange(); return false; }">
-													<f:validateRegex pattern="(^[0-9]{8}$)" />
+													required="true" maxlength="15"
+													requiredMessage="Ingrese numero documento"
+													validatorMessage="Número de documento Invalido"
+													converterMessage="Número de documento Invalido"
+													onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+													pt:placeholder="12345678">
+													<f:convertNumber type="number" integerOnly="true" />
 													<f:ajax
 														listener="#{aperturaCuentaahorroBean.buscarPersonanaturalTitular()}"
 														render="@form"></f:ajax>
@@ -413,7 +431,8 @@
 														value="#{aperturaCuentaahorroBean.apellidoPaternoTitular}"
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido paterno"
-														onkeyup="this.value = this.value.toUpperCase();">
+														onkeyup="this.value = this.value.toUpperCase();"
+														pt:placeholder="Apellido paterno">
 													</h:inputText>
 												</div>
 											</div>
@@ -427,7 +446,8 @@
 														value="#{aperturaCuentaahorroBean.apellidoMaternoTitular}"
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido materno"
-														onkeyup="this.value = this.value.toUpperCase();">
+														onkeyup="this.value = this.value.toUpperCase();"
+														pt:placeholder="Apellido materno">
 													</h:inputText>
 												</div>
 											</div>
@@ -449,7 +469,7 @@
 													required="true" maxlength="50"
 													requiredMessage="Ingrese nombres"
 													onkeyup="this.value = this.value.toUpperCase();"
-													style="width:339px;">
+													style="width:339px;" pt:placeholder="Nombres">
 												</h:inputText>
 											</div>
 										</div>
@@ -485,7 +505,8 @@
 														value="#{aperturaCuentaahorroBean.fechaNacimientoTitular}"
 														navigator="true" pattern="dd/MM/yy" required="true"
 														requiredMessage="Ingrese fecha de nacimiento"
-														converterMessage="formato incorrecto">
+														converterMessage="formato incorrecto"
+														pt:placeholder="dd/mm/yyyy">
 														<f:convertDateTime pattern="dd/MM/yy" />
 													</p:calendar>
 												</div>
@@ -534,7 +555,13 @@
 											DOCUMENTO</div>
 										<div>
 											<h:inputText id="txtNumerodocumentoBeneficiario"
-												value="#{aperturaCuentaahorroBean.numeroDocumentoBeneficiario}" />
+												value="#{aperturaCuentaahorroBean.numeroDocumentoBeneficiario}"
+												maxlength="15"
+												validatorMessage="Número de documento Invalido"
+												converterMessage="Número de documento Invalido"
+												pt:placeholder="12345678">
+												<f:convertNumber type="number" integerOnly="true" />
+											</h:inputText>
 										</div>
 									</div>
 									<div
@@ -551,7 +578,8 @@
 														value="#{aperturaCuentaahorroBean.apellidoPaternoBeneficiario}"
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido paterno"
-														onkeyup="this.value = this.value.toUpperCase();">
+														onkeyup="this.value = this.value.toUpperCase();"
+														pt:placeholder="Apellido paterno">
 													</h:inputText>
 												</div>
 											</div>
@@ -565,7 +593,8 @@
 														value="#{aperturaCuentaahorroBean.apellidoMaternoBeneficiario}"
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido materno"
-														onkeyup="this.value = this.value.toUpperCase();">
+														onkeyup="this.value = this.value.toUpperCase();"
+														pt:placeholder="Apellido materno">
 													</h:inputText>
 												</div>
 											</div>
@@ -587,7 +616,7 @@
 													required="true" maxlength="50"
 													requiredMessage="Ingrese nombres"
 													onkeyup="this.value = this.value.toUpperCase();"
-													style="width:339px;">
+													style="width:339px;" pt:placeholder="Nombres">
 												</h:inputText>
 											</div>
 										</div>
@@ -602,7 +631,10 @@
 										<div>
 											<div>
 												<h:inputText id="txtPorcentajebeneficiarioBeneficiario"
-													value="#{aperturaCuentaahorroBean.porcentajeBeneficio}" />
+													value="#{aperturaCuentaahorroBean.porcentajeBeneficio}"
+													maxlength="2" pt:placeholder="(%)">
+													<f:convertNumber type="number" integerOnly="true" />
+												</h:inputText>
 											</div>
 										</div>
 									</div>

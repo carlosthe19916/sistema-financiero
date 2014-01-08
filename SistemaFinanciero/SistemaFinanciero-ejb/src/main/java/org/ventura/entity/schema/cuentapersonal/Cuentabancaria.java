@@ -2,17 +2,21 @@ package org.ventura.entity.schema.cuentapersonal;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,6 +24,7 @@ import javax.persistence.TemporalType;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.socio.Socio;
 
 /**
  * The persistent class for the cuentabancaria database table.
@@ -36,8 +41,12 @@ public class Cuentabancaria implements Serializable {
 	public final static String findByNumerocuenta = "org.ventura.entity.schema.cuentapersonal.Cuentabancaria.findByNumerocuenta";
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idcuentabancaria;
+
+	@Column(nullable = false)
+	private Integer cantidadretirantes;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
@@ -47,15 +56,16 @@ public class Cuentabancaria implements Serializable {
 	@Column
 	private Date fechacierre;
 
-	@Column(nullable = false)
-	private Integer idsocio;
-
 	@Column(nullable = false, length = 14)
 	private String numerocuenta;
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldo")) })
 	private Moneda saldo;
+
+	@ManyToOne
+	@JoinColumn(name = "idsocio", nullable = false)
+	private Socio socio;
 
 	@ManyToOne
 	@JoinColumn(name = "idtipocuentabancaria", nullable = false)
@@ -68,6 +78,12 @@ public class Cuentabancaria implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idestadocuenta", nullable = false)
 	private Estadocuenta estadocuenta;
+
+	@OneToMany(mappedBy = "cuentabancaria")
+	private List<Titular> titulares;
+
+	@OneToMany(mappedBy = "cuentabancaria")
+	private List<Beneficiario> beneficiarios;
 
 	public Cuentabancaria() {
 	}
@@ -94,14 +110,6 @@ public class Cuentabancaria implements Serializable {
 
 	public void setFechacierre(Date fechacierre) {
 		this.fechacierre = fechacierre;
-	}
-
-	public Integer getIdsocio() {
-		return idsocio;
-	}
-
-	public void setIdsocio(Integer idsocio) {
-		this.idsocio = idsocio;
 	}
 
 	public String getNumerocuenta() {
@@ -157,5 +165,37 @@ public class Cuentabancaria implements Serializable {
 	@Override
 	public int hashCode() {
 		return idcuentabancaria;
+	}
+
+	public Integer getCantidadretirantes() {
+		return cantidadretirantes;
+	}
+
+	public void setCantidadretirantes(Integer cantidadretirantes) {
+		this.cantidadretirantes = cantidadretirantes;
+	}
+
+	public List<Titular> getTitulares() {
+		return titulares;
+	}
+
+	public void setTitulares(List<Titular> titulares) {
+		this.titulares = titulares;
+	}
+
+	public List<Beneficiario> getBeneficiarios() {
+		return beneficiarios;
+	}
+
+	public void setBeneficiarios(List<Beneficiario> beneficiarios) {
+		this.beneficiarios = beneficiarios;
+	}
+
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
 	}
 }

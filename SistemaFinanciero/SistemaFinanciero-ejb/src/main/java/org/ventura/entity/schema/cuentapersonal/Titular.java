@@ -49,6 +49,9 @@ public class Titular implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer idtitular;
 
+	@Column(nullable = false)
+	private Boolean estado;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fechaactiva;
@@ -120,5 +123,13 @@ public class Titular implements Serializable {
 	@Override
 	public int hashCode() {
 		return idtitular;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 }

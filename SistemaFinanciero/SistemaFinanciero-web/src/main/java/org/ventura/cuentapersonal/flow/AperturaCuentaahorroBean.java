@@ -16,12 +16,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Min;
 
+import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
+import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.cuentapersonal.Titular;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.maestro.Tipomoneda;
@@ -132,12 +135,10 @@ public class AperturaCuentaahorroBean implements Serializable {
 	private String nombresBeneficiario;
 	private Integer porcentajeBeneficio;
 	
-	@EJB private SocioServiceLocal socioServiceLocal;
+	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 	@EJB private MaestrosServiceLocal maestrosServiceLocal;
-	@Inject private AgenciaBean agenciaBean;
-	@Inject private Agencia agencia;
 	
 	public AperturaCuentaahorroBean() {
 		cuentaValida = true;
@@ -162,8 +163,6 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	@PostConstruct
 	private void initialize(){
-		agencia = agenciaBean.getAgencia();
-		
 		this.comboTipopersona.putItem(0, "--SELECCIONE--");
 		this.comboTipopersona.putItem(1, "PERSONA NATURAL");
 		this.comboTipopersona.putItem(2, "PERSONA JURIDICA");
@@ -201,6 +200,10 @@ public class AperturaCuentaahorroBean implements Serializable {
 	
 	public String crearCuentaahorro(){
 		try {
+			if(this.cantidadRetirantes > titulares.size()){
+				throw new Exception("La cantidad de retirantes exece a la cantidad de titulares");
+			}
+			
 			if (isPersonanatural) {
 				Personanatural personaNaturalSocio = new Personanatural();
 				personaNaturalSocio.setTipodocumento(comboTipodocumentoPersonanatural.getObjectItemSelected());
@@ -216,24 +219,22 @@ public class AperturaCuentaahorroBean implements Serializable {
 				personaNaturalSocio.setTelefono(telefonoPersonanatural);				personaNaturalSocio.setCelular(celularPersonanatural);
 				personaNaturalSocio.setEmail(emailPersonanatural);
 				
-				Personanatural apoderado = null;
-				if(existeApoderado){
-					apoderado = new Personanatural();
-					apoderado.setTipodocumento(comboTipodocumentoApoderado.getObjectItemSelected());
-					apoderado.setNumerodocumento(numeroDocumentoApoderado);
-					apoderado.setApellidopaterno(apellidoPaternoApoderado);
-					apoderado.setApellidomaterno(apellidoMaternoApoderado);
-					apoderado.setNombres(nombresApoderado);
-					apoderado.setSexo(comboSexoApoderado.getObjectItemSelected());
-					apoderado.setFechanacimiento(fechaNacimientoApoderado);
+				Cuentabancaria cuentabancaria = new Cuentabancaria();
+				List<Titular> listTitulares = new ArrayList<Titular>();
+				List<Beneficiario> listBeneficiarios = listBeneficiarios();
+				List<Personanatural> listpersonaTitulares = listTitulares();
+				for (Personanatural personanatural : listpersonaTitulares) {
+					Titular titular = new Titular();
+					titular.setPersonanatural(personanatural);
+					listTitulares.add(titular);
 				}
 				
-				Socio socio = new Socio();
-				socio.setPersonanatural(personaNaturalSocio);
-				socio.setApoderado(apoderado);
-				socio.setAgencia(agencia);
+				cuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
+				cuentabancaria.setCantidadretirantes(cantidadRetirantes);
+				cuentabancaria.setTitulares(listTitulares);
+				cuentabancaria.setBeneficiarios(listBeneficiarios);
 				
-				socioServiceLocal.createSocioPersonanatural(socio);
+				cuentabancariaServiceLocal.createCuentaahorroPersonanatural(cuentabancaria, personaNaturalSocio);
 			} else {
 				if (isPersonajuridica) {
 					
@@ -266,11 +267,22 @@ public class AperturaCuentaahorroBean implements Serializable {
 					personaJuridicaSocio.setRepresentanteLegal(representanteLegal);
 					personaJuridicaSocio.setAccionistas(listAccionistas);
 					
-					Socio socio = new Socio();
-					socio.setPersonajuridica(personaJuridicaSocio);
-					socio.setAgencia(agencia);
+					Cuentabancaria cuentabancaria = new Cuentabancaria();
+					List<Titular> listTitulares = new ArrayList<Titular>();
+					List<Beneficiario> listBeneficiarios = listBeneficiarios();
+					List<Personanatural> listpersonaTitulares = listTitulares();
+					for (Personanatural personanatural : listpersonaTitulares) {
+						Titular titular = new Titular();
+						titular.setPersonanatural(personanatural);
+						listTitulares.add(titular);
+					}
 					
-					socioServiceLocal.createSocioPersonajuridica(socio);
+					cuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
+					cuentabancaria.setCantidadretirantes(cantidadRetirantes);
+					cuentabancaria.setTitulares(listTitulares);
+					cuentabancaria.setBeneficiarios(listBeneficiarios);
+					
+					cuentabancariaServiceLocal.createCuentaahorroPersonajuridica(cuentabancaria, personaJuridicaSocio);
 				} else {
 					throw new Exception("El tipo de persona no es valido");
 				}
@@ -281,7 +293,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 			return null;
 		}
 
-		return "returnFromAperturaCuentaaporteFlow";
+		return "returnFromAperturaCuentaahorroFlow";
 	}
 	
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
