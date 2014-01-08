@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Apertura Cta. Plazo fijo" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+
+		<h:outputStylesheet library="css" name="main.css" />
+
+		<h:form>
+			<div style="margin-left: 50px;">
+				<div>
+					<div>
+						<div class="p6n-api-consent-screen-inputs">
+							<div class="sf-separator">
+								<div>
+									<h3 class="p6n-api-consent-screen-title"
+										style="color: #298B11;">DATOS DE PLAZO FIJO</h3>
+								</div>
+							</div>
+							<div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">MONEDA</div>
+									<div>
+										<div>
+											<h:selectOneMenu id="cmbTipomonedaCuentaplazofijo"
+												value="#{aperturaCuentaplazofijoBean.comboTipomoneda.itemSelected}"
+												valueChangeListener="#{aperturaCuentaplazofijoBean.changeTipomoneda}"
+												required="true" requiredMessage="Seleccione tipo de moneda">
+												<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+												<f:selectItems
+													value="#{aperturaCuentaplazofijoBean.comboTipomoneda.items.entrySet()}"
+													var="val"
+													itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
+													itemValue="#{val.key}" />
+												<f:ajax></f:ajax>
+											</h:selectOneMenu>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipomonedaCuentaplazofijo" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">MONTO APERTURA</div>
+									<div>
+										<div>
+											<h:inputText id="txtMonto"
+												value="#{aperturaCuentaplazofijoBean.montoApertura}" />
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtMonto" />
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipomonedaCuentaplazofijo" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">PERIODO DE
+										DEPOSITO</div>
+									<div>
+										<div>
+											<h:inputText id="txtPeriodo"
+												value="#{aperturaCuentaplazofijoBean.periodoDeposito}" />
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtPeriodo" />
+								</div>
+							</div>
+
+							<br />
+							<div class="sf-buttons" style="float: left;">
+								<h:commandButton value="« Anterior" immediate="true"
+									action="aperturaCuentaaporte-flowB.xhtml" styleClass="action" />
+								<h:commandButton value="Siguiente »"
+									action="aperturaCuentaaporte-flowD.xhtml" styleClass="action" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
