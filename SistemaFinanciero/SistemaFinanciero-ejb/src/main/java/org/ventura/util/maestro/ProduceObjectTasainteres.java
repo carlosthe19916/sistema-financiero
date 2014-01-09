@@ -14,6 +14,12 @@ public class ProduceObjectTasainteres {
 		case CUENTA_CORRIENTE_TASA_INTERES:
 			tipotasa.setIdtipotasa(5);
 			break;
+		case TEA:
+			tipotasa.setIdtipotasa(14);
+			break;
+		case TREA:
+			tipotasa.setIdtipotasa(3);
+			break;
 		default:
 			tipotasa.setIdtipotasa(null);
 			break;
@@ -30,6 +36,12 @@ public class ProduceObjectTasainteres {
 			break;
 		case 2:
 			tipotasaCuentasPersonalesType = TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES;
+			break;
+		case 14:
+			tipotasaCuentasPersonalesType = TipotasaCuentasPersonalesType.TEA;
+			break;
+		case 3:
+			tipotasaCuentasPersonalesType = TipotasaCuentasPersonalesType.TREA;
 			break;
 		default:
 			tipotasaCuentasPersonalesType = null;

@@ -2,7 +2,9 @@ package org.ventura.cuentapersonal.flow;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +24,7 @@ import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
@@ -35,6 +38,7 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
+import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -58,7 +62,9 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	@Inject private ComboBean<Tipomoneda> comboTipomoneda;
 	private BigDecimal montoApertura;
 	private Integer periodoDeposito;
-
+	private BigDecimal trea;
+	private BigDecimal itf;
+	
 	@Inject private ComboBean<Tipodocumento> comboTipodocumentoPersonanatural;
 	private String numeroDocumentoPersonanatural;
 	private String apellidoPaternoPersonanatural;
@@ -131,6 +137,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
+	@EJB private TasainteresServiceLocal tasainteresServiceLocal;
 	@EJB private MaestrosServiceLocal maestrosServiceLocal;
 	
 	public AperturaCuentaplazofijoBean() {
@@ -138,6 +145,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		
 		montoApertura = null;
 		periodoDeposito = null;
+		trea = null;
 		
 		isPersonanatural = false;
 		isPersonajuridica = false;
@@ -167,6 +175,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		this.comboFinsocial.putItem(2, "SIN FINES DE LUCRO");
 		
 		try {
+			trea = tasainteresServiceLocal.getTasainteresCuentapersonal(TipotasaCuentasPersonalesType.TEA, BigDecimal.ZERO);
+			
 			List<Tipodocumento> listTipodocumentoPersonanatural = maestrosServiceLocal.getTipodocumentoForPersonaNatural();
 			comboTipodocumentoPersonanatural.setItems(listTipodocumentoPersonanatural);
 			comboTipodocumentoAccionista.setItems(listTipodocumentoPersonanatural);
@@ -301,6 +311,38 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		}
 
 		return "returnFromAperturaCuentaplazofijoFlow";
+	}
+	
+	public BigDecimal calcularItf(){
+		BigDecimal result;
+		if(montoApertura != null && itf != null){
+			result =  montoApertura.multiply(itf);
+			result.setScale(2, RoundingMode.DOWN);
+		} else {
+			result = new BigDecimal("0.00");
+		}
+		//String resultadoString="";
+		/*resultadoString = resultadoString + result.intValue()+".";
+		
+		BigDecimal resultFractionpart = result.remainder(BigDecimal.ONE);
+		
+		resultadoString = resultadoString + resultFractionpart.intValue();
+		
+		BigDecimal ultimoDigito = resultFractionpart.remainder(BigDecimal.ONE);
+		BigDecimal ley = new BigDecimal(5);
+		ley.setScale(0);
+		if(ultimoDigito.compareTo(ley) >= 1){
+			ultimoDigito = new BigDecimal(5);
+		} else {
+			ultimoDigito = new BigDecimal(0);
+		}*/
+		return result;
+	}
+	
+	public String calcularFecha(){
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		return sdf.format(calendar.getTime());
 	}
 	
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
@@ -1411,6 +1453,14 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setPeriodoDeposito(Integer periodoDeposito) {
 		this.periodoDeposito = periodoDeposito;
+	}
+
+	public BigDecimal getTrea() {
+		return trea;
+	}
+
+	public void setTrea(BigDecimal trea) {
+		this.trea = trea;
 	}
 
 }

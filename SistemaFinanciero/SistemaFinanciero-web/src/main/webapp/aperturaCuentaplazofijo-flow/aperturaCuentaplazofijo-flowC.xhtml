@@ -74,6 +74,30 @@
 									<h:message for="txtMonto" />
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">ITF</div>
+									<div>
+										<div>
+											<h:outputLabel value="#{aperturaCuentaplazofijoBean.calcularItf()}" />
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtItf" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">FECHA</div>
+									<div>
+										<div>
+											<h:outputLabel value="#{aperturaCuentaplazofijoBean.calcularFecha()}" />
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtItf" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
 									<div class="p6n-api-consent-screen-label">PERIODO DE
 										DEPOSITO (dias)</div>
 									<div>
@@ -91,6 +115,24 @@
 								<div
 									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 									<h:message for="txtPeriodo" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">TREA</div>
+									<div>
+										<div>
+											<h:inputText id="txtTrea" required="true"
+												requiredMessage="Ingrese una tasa"
+												converterMessage="Ingrese tasa de dias valido Ejemplo: 9.99"
+												pt:placeholder="0.00"
+												value="#{aperturaCuentaplazofijoBean.trea}">
+												<f:convertNumber integerOnly="true" type="number" />
+											</h:inputText>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtTrea" />
 								</div>
 							</div>
 

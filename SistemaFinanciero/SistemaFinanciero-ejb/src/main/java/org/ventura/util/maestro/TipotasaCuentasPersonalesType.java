@@ -1,7 +1,7 @@
 package org.ventura.util.maestro;
 
 public enum TipotasaCuentasPersonalesType {
-	
+
 	/**
 	 * Tasas de interes para una cuenta de ahorros
 	 */
@@ -10,6 +10,16 @@ public enum TipotasaCuentasPersonalesType {
 	/**
 	 * Tasas de interes para una cuenta de corriente
 	 */
-	CUENTA_CORRIENTE_TASA_INTERES
+	CUENTA_CORRIENTE_TASA_INTERES,
+
+	/**
+	 * Tasa efectiva anual
+	 */
+	TEA,
+
+	/**
+	 * Tasa de rendimiento efectiva anual
+	 */
+	TREA
 
 }
