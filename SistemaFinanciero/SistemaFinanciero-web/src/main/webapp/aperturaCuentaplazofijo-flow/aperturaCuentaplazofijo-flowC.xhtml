@@ -18,8 +18,54 @@
 	<ui:define name="content">
 
 		<h:outputStylesheet library="css" name="main.css" />
-
 		<h:form>
+			<div id="p6n-cloudsql-content">
+				<div>
+					<div class="p6n-cloudsql-create-summary" style="top: 150px;">
+						<h1>RESUMEN</h1>
+						<hr />
+						<div class="p6n-cloudsql-summary">
+							<div class="p6n-cloudsql-summary-bold">Moneda</div>
+							<div class="p6n-cloudsql-summary-light">
+								<h:outputLabel
+									value="#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura} #{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.denominacion}" />
+							</div>
+							<div class="p6n-cloudsql-summary-bold">Monto</div>
+							<div class="p6n-cloudsql-summary-light">
+								<h:outputLabel
+									value="#{aperturaCuentaplazofijoBean.montoApertura}" />
+							</div>
+							<div class="p6n-cloudsql-summary-bold">Fecha apertura</div>
+							<div class="p6n-cloudsql-summary-light">
+								<h:outputLabel
+									value="#{aperturaCuentaplazofijoBean.calcularFecha()}" />
+							</div>
+							<div class="p6n-cloudsql-summary-bold">Periodo</div>
+							<div class="p6n-cloudsql-summary-light">
+								<h:outputLabel
+									value="#{aperturaCuentaplazofijoBean.periodoDeposito} dias" />
+							</div>
+							<div class="p6n-cloudsql-summary-bold">Interes</div>
+							<div class="p6n-cloudsql-summary-light">
+								<h:outputLabel
+									value="#{aperturaCuentaplazofijoBean.calcularFecha()}" />
+							</div>
+							<div class="p6n-cloudsql-summary-bold">TOTAL</div>
+							<div class="p6n-cloudsql-summary-light">
+								<h:outputLabel
+									value="#{aperturaCuentaplazofijoBean.calcularFecha()}" />
+							</div>
+						</div>
+						<div class="p6n-cloudsql-buttonbar">
+							<h:commandButton value="Recalcular" styleClass="action blue">
+								<f:ajax execute=":formDatos" render="@form" />
+							</h:commandButton>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+		<h:form id="formDatos">
 			<div style="margin-left: 50px;">
 				<div>
 					<div>
@@ -65,6 +111,7 @@
 												pt:placeholder="0.00">
 												<f:converter converterId="javax.faces.BigDecimal"
 													maxFractionDigits="2" minFractionDigits="2" pattern="0.00" />
+												<f:ajax event="blur" render="@this" />
 											</h:inputText>
 										</div>
 									</div>
@@ -72,30 +119,6 @@
 								<div
 									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 									<h:message for="txtMonto" />
-								</div>
-								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label">ITF</div>
-									<div>
-										<div>
-											<h:outputLabel value="#{aperturaCuentaplazofijoBean.calcularItf()}" />
-										</div>
-									</div>
-								</div>
-								<div
-									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-									<h:message for="txtItf" />
-								</div>
-								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label">FECHA</div>
-									<div>
-										<div>
-											<h:outputLabel value="#{aperturaCuentaplazofijoBean.calcularFecha()}" />
-										</div>
-									</div>
-								</div>
-								<div
-									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-									<h:message for="txtItf" />
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
 									<div class="p6n-api-consent-screen-label">PERIODO DE
@@ -108,6 +131,7 @@
 												pt:placeholder="0 dias"
 												value="#{aperturaCuentaplazofijoBean.periodoDeposito}">
 												<f:convertNumber integerOnly="true" type="number" />
+												<f:ajax event="blur" />
 											</h:inputText>
 										</div>
 									</div>
@@ -115,6 +139,25 @@
 								<div
 									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 									<h:message for="txtPeriodo" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">TEA</div>
+									<div>
+										<div>
+											<h:inputText id="txtTea" required="true"
+												requiredMessage="Ingrese una tasa"
+												converterMessage="Ingrese tasa de dias valido Ejemplo: 9.99"
+												pt:placeholder="0.00"
+												value="#{aperturaCuentaplazofijoBean.trea}">
+												<f:convertNumber integerOnly="true" type="number" />
+												<f:ajax event="blur" execute="@this" render="@this" />
+											</h:inputText>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtTea" />
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
 									<div class="p6n-api-consent-screen-label">TREA</div>
@@ -126,6 +169,7 @@
 												pt:placeholder="0.00"
 												value="#{aperturaCuentaplazofijoBean.trea}">
 												<f:convertNumber integerOnly="true" type="number" />
+												<f:ajax event="blur" execute="@this" render="@this" />
 											</h:inputText>
 										</div>
 									</div>
