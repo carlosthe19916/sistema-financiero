@@ -63,7 +63,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	private BigDecimal montoApertura;
 	private Integer periodoDeposito;
 	private BigDecimal trea;
-	private BigDecimal itf;
+	private BigDecimal tea;
 	
 	@Inject private ComboBean<Tipodocumento> comboTipodocumentoPersonanatural;
 	private String numeroDocumentoPersonanatural;
@@ -146,6 +146,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		montoApertura = null;
 		periodoDeposito = null;
 		trea = null;
+		tea = null;
 		
 		isPersonanatural = false;
 		isPersonajuridica = false;
@@ -175,8 +176,6 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		this.comboFinsocial.putItem(2, "SIN FINES DE LUCRO");
 		
 		try {
-			trea = tasainteresServiceLocal.getTasainteresCuentapersonal(TipotasaCuentasPersonalesType.TEA, BigDecimal.ZERO);
-			
 			List<Tipodocumento> listTipodocumentoPersonanatural = maestrosServiceLocal.getTipodocumentoForPersonaNatural();
 			comboTipodocumentoPersonanatural.setItems(listTipodocumentoPersonanatural);
 			comboTipodocumentoAccionista.setItems(listTipodocumentoPersonanatural);
@@ -244,7 +243,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 				cuentabancaria.setTitulares(listTitulares);
 				cuentabancaria.setBeneficiarios(listBeneficiarios);
 				
-				cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio);
+				cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio, tea, trea);
 			} else {
 				if (isPersonajuridica) {
 					
@@ -299,7 +298,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					cuentabancaria.setTitulares(listTitulares);
 					cuentabancaria.setBeneficiarios(listBeneficiarios);
 					
-					cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio);
+					cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio,tea, trea);
 				} else {
 					throw new Exception("El tipo de persona no es valido");
 				}
@@ -311,32 +310,6 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		}
 
 		return "returnFromAperturaCuentaplazofijoFlow";
-	}
-	
-	public BigDecimal calcularItf(){
-		BigDecimal result;
-		if(montoApertura != null && itf != null){
-			result =  montoApertura.multiply(itf);
-			result.setScale(2, RoundingMode.DOWN);
-		} else {
-			result = new BigDecimal("0.00");
-		}
-		//String resultadoString="";
-		/*resultadoString = resultadoString + result.intValue()+".";
-		
-		BigDecimal resultFractionpart = result.remainder(BigDecimal.ONE);
-		
-		resultadoString = resultadoString + resultFractionpart.intValue();
-		
-		BigDecimal ultimoDigito = resultFractionpart.remainder(BigDecimal.ONE);
-		BigDecimal ley = new BigDecimal(5);
-		ley.setScale(0);
-		if(ultimoDigito.compareTo(ley) >= 1){
-			ultimoDigito = new BigDecimal(5);
-		} else {
-			ultimoDigito = new BigDecimal(0);
-		}*/
-		return result;
 	}
 	
 	public String calcularFecha(){
@@ -1444,7 +1417,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setMontoApertura(BigDecimal montoApertura) {
 		this.montoApertura = montoApertura;
-		this.montoApertura.setScale(2, RoundingMode.HALF_UP);
+		this.montoApertura = this.montoApertura.setScale(2, RoundingMode.DOWN);
 	}
 
 	public Integer getPeriodoDeposito() {
@@ -1461,6 +1434,16 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setTrea(BigDecimal trea) {
 		this.trea = trea;
+		this.trea = trea.setScale(2, RoundingMode.DOWN);
+	}
+
+	public BigDecimal getTea() {
+		return tea;
+	}
+
+	public void setTea(BigDecimal tea) {
+		this.tea = tea;
+		this.tea = tea.setScale(2, RoundingMode.DOWN);
 	}
 
 }

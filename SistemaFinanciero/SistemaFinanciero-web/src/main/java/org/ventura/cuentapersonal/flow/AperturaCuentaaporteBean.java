@@ -133,7 +133,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 	}
 
 	@PostConstruct
-	private void initialize(){
+	private void initialize() throws Exception{
 		agencia = agenciaBean.getAgencia();
 		
 		this.comboTipopersona.putItem(0, "--SELECCIONE--");
@@ -163,6 +163,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 			comboTipoempresa.initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
+			throw e;
 		}		
 	}
 	
