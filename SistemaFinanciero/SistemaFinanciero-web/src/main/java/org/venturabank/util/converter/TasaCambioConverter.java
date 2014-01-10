@@ -5,18 +5,18 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
+import org.ventura.tipodato.TasaCambio;
 
 @FacesConverter("TasaInteresTipoCambioConverter")
-public class TasaInteresTipoCambioConverter implements Converter {
+public class TasaCambioConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		TasaInteresTipoCambio tasainterestipocambio = null;
+		TasaCambio tasainterestipocambio = null;
 		try {
-			tasainterestipocambio = new TasaInteresTipoCambio(value);
+			tasainterestipocambio = new TasaCambio(value);
 		} catch (Exception e) {
-			tasainterestipocambio = new TasaInteresTipoCambio();
+			tasainterestipocambio = new TasaCambio();
 		}
 		return tasainterestipocambio;
 	}

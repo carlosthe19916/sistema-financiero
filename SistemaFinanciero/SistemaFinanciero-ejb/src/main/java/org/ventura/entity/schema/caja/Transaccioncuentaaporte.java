@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.tipodato.Moneda;
 
 import java.util.Date;
 

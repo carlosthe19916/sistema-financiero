@@ -26,7 +26,6 @@ import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.dependent.ComboBean;
-import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Titular;
@@ -38,6 +37,7 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
+import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 import org.venturabank.util.JsfUtil;
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.ventura.entity.schema.caja.Moneda;
+import org.ventura.tipodato.Moneda;
 
 import java.util.Date;
 

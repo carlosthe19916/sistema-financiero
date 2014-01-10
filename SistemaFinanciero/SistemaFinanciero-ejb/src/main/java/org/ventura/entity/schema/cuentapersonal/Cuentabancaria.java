@@ -21,10 +21,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
+import org.ventura.tipodato.Moneda;
 
 /**
  * The persistent class for the cuentabancaria database table.

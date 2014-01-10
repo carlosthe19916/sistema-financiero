@@ -7,7 +7,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
 import org.ventura.entity.schema.caja.Denominacionmoneda;
-import org.ventura.entity.schema.caja.Moneda;
+import org.ventura.tipodato.Moneda;
 
 @Named
 @Dependent

@@ -39,6 +39,10 @@ public class Tipotasa implements Serializable {
 	//bi-directional many-to-one association to Tasaintere
 	@OneToMany(mappedBy="tipotasa")
 	private List<Tasainteres> tasainteres;
+	
+	//bi-directional many-to-one association to Tipocambio
+	@OneToMany(mappedBy="tipotasa")
+	private List<Tipocambio> tipocambio;
 
 	public Tipotasa() {
 	}

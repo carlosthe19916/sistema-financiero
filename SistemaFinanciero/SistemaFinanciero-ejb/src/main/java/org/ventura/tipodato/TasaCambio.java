@@ -1,4 +1,4 @@
-package org.ventura.entity.schema.caja;
+package org.ventura.tipodato;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,36 +9,36 @@ import javax.persistence.Embeddable;
 
 
 @Embeddable
-public class Moneda implements Serializable {
+public class TasaCambio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "value")
 	private BigDecimal value;
 
-	private final static int SCALE = 2;
+	private final static int SCALE = 3;
 
-	public Moneda() {
+	public TasaCambio() {
 		this.value = BigDecimal.ZERO;
 	}
 
-	public Moneda(double value) {
+	public TasaCambio(double value) {
 		this.value = new BigDecimal(value);
 		if (this.value.scale() > SCALE)
-			throw new IllegalArgumentException("Money can't have scale > 2");
+			throw new IllegalArgumentException("Money can't have scale > 3");
 		this.value.setScale(SCALE);
 	}
 
-	public Moneda(long value) {
+	public TasaCambio(long value) {
 		this.value = new BigDecimal(value);
 	}
 
-	public Moneda(long value, int scale) {
+	public TasaCambio(long value, int scale) {
 		this.value = new BigDecimal(value);
 		this.value.setScale(scale);
 	}
 
-	public Moneda(String value) {
+	public TasaCambio(String value) {
 		if (value.contains(",")) {
 			String r = "";
 			for (int i = 0; i < value.length(); i++) {
@@ -49,60 +49,61 @@ public class Moneda implements Serializable {
 		}
 		this.value = new BigDecimal(value);
 		if (this.value.scale() > SCALE)
-			throw new IllegalArgumentException("Money can't have scale > 2");
+			throw new IllegalArgumentException("Money can't have scale > 3");
 		this.value.setScale(SCALE);
 	}
 
-	public Moneda(BigDecimal value) {
+	public TasaCambio(BigDecimal value) {
 		this(value.toString());
 	}
 
-	public Moneda(Moneda moneda) {
-		this(moneda.getValue().toString());
+	public TasaCambio(TasaCambio tasainterestipocambio) {
+		this(tasainterestipocambio.getValue().toString());
 	}
 
-	public Moneda add(Moneda moneda) {
-		BigDecimal result = this.value.add(moneda.getValue());
-		return new Moneda(result);
+	public TasaCambio add(TasaCambio tasainterestipocambio) {
+		BigDecimal result = this.value.add(tasainterestipocambio.getValue());
+		return new TasaCambio(result);
 	}
 
-	public Moneda subtract(Moneda moneda) {
-		BigDecimal result = this.value.subtract(moneda.getValue());
-		return new Moneda(result);
+	public TasaCambio subtract(TasaCambio tasainterestipocambio) {
+		BigDecimal result = this.value.subtract(tasainterestipocambio.getValue());
+		return new TasaCambio(result);
 	}
 
-	public Moneda multiply(BigDecimal value) {
-		Moneda moneda = new Moneda(value);
-		BigDecimal result = this.value.multiply(moneda.getValue());
-		return new Moneda(result);
+	public TasaCambio multiply(double value) {
+		TasaCambio tasainterestipocambio = new TasaCambio(value);
+		BigDecimal result = this.value.multiply(tasainterestipocambio.getValue());
+		return new TasaCambio(result);
+	}
+
+	public TasaCambio multiply(long value) {
+		TasaCambio tasainterestipocambio = new TasaCambio(value);
+		BigDecimal result = this.value.multiply(tasainterestipocambio.getValue());
+		return new TasaCambio(result);
+	}
+
+	public TasaCambio multiply(int value) {
+		TasaCambio tasainterestipocambio = new TasaCambio(value);
+		BigDecimal result = this.value.multiply(tasainterestipocambio.getValue());
+		return new TasaCambio(result);
 	}
 	
-	public Moneda multiply(double value) {
+	public Moneda multiply(Moneda value) {
 		Moneda moneda = new Moneda(value);
 		BigDecimal result = this.value.multiply(moneda.getValue());
-		return new Moneda(result);
-	}
-
-	public Moneda multiply(long value) {
-		Moneda moneda = new Moneda(value);
-		BigDecimal result = this.value.multiply(moneda.getValue());
-		return new Moneda(result);
-	}
-
-	public Moneda multiply(int value) {
-		Moneda moneda = new Moneda(value);
-		BigDecimal result = this.value.multiply(moneda.getValue());
+		result = result.setScale(2, RoundingMode.HALF_UP);
 		return new Moneda(result);
 	}
 
 	public BigDecimal divide(double value) {
-		Moneda moneda = new Moneda(value);
-		return this.value.divide(moneda.getValue());
+		TasaCambio tasainterestipocambio = new TasaCambio(value);
+		return this.value.divide(tasainterestipocambio.getValue());
 	}
 
 	public BigDecimal divide(long value) {
-		Moneda moneda = new Moneda(value);
-		return this.value.divide(moneda.getValue());
+		TasaCambio tasainterestipocambio = new TasaCambio(value);
+		return this.value.divide(tasainterestipocambio.getValue());
 	}
 
 	public BigDecimal negate() {
@@ -125,24 +126,24 @@ public class Moneda implements Serializable {
 		return true;
 	}
 
-	public boolean isEqual(Moneda moneda) {
-		return value.compareTo(moneda.getValue()) == 0;
+	public boolean isEqual(TasaCambio tasainterestipocambio) {
+		return value.compareTo(tasainterestipocambio.getValue()) == 0;
 	}
 
-	public boolean isLessThan(Moneda moneda) {
-		return value.compareTo(moneda.getValue()) < 0;
+	public boolean isLessThan(TasaCambio tasainterestipocambio) {
+		return value.compareTo(tasainterestipocambio.getValue()) < 0;
 	}
 
-	public boolean isLessThanOrEqual(Moneda moneda) {
-		return this.value.compareTo(moneda.getValue()) <= 0;
+	public boolean isLessThanOrEqual(TasaCambio tasainterestipocambio) {
+		return this.value.compareTo(tasainterestipocambio.getValue()) <= 0;
 	}
 
-	public boolean isGreaterThan(Moneda moneda) {
-		return this.value.compareTo(moneda.getValue()) > 0;
+	public boolean isGreaterThan(TasaCambio tasainterestipocambio) {
+		return this.value.compareTo(tasainterestipocambio.getValue()) > 0;
 	}
 
-	public boolean isGreaterThanOrEqual(Moneda moneda) {
-		return this.value.compareTo(moneda.getValue()) >= 0;
+	public boolean isGreaterThanOrEqual(TasaCambio tasainterestipocambio) {
+		return this.value.compareTo(tasainterestipocambio.getValue()) >= 0;
 	}
 
 	public BigDecimal getValue() {
@@ -183,7 +184,7 @@ public class Moneda implements Serializable {
 			return null;
 		int realScale = value.scale();
 		
-		if (realScale == 2) {
+		if (realScale == 3) {
 			int doubleValue = getDecimalValue();
 
 			if (doubleValue % 10 == 0) {
@@ -210,17 +211,21 @@ public class Moneda implements Serializable {
 				}
 			}
 			return stringValue;
-		} else {
-			if (realScale == 1) {
+		}else {
+			if (realScale == 2) {
 				int doubleValue = getDecimalValue();
 
-				stringValue = "." + doubleValue + stringValue + "0";
+				if (doubleValue % 10 == 0) {
+					stringValue = "." + doubleValue + stringValue + "0";
+				} else {
+					stringValue = "." + doubleValue + stringValue + "0";
+				}
 
 				int intValue = getIntValue();
 				if (intValue == 0) {
 					stringValue = "0" + stringValue;
 				}
-				
+
 				int contador = 0;
 				while (intValue != 0) {
 					int q = intValue / 10;
@@ -235,8 +240,10 @@ public class Moneda implements Serializable {
 				}
 				return stringValue;
 			} else {
-				if (realScale == 0) {
-					stringValue = "." + stringValue + "00";
+				if (realScale == 1) {
+					int doubleValue = getDecimalValue();
+
+					stringValue = "." + doubleValue + stringValue + "00";
 
 					int intValue = getIntValue();
 					if (intValue == 0) {
@@ -257,27 +264,50 @@ public class Moneda implements Serializable {
 					}
 					return stringValue;
 				} else {
-					throw new RuntimeException(
-							"Scale of Money object is > 2, should never happen, Money object is faulty.");
+					if (realScale == 0) {
+						stringValue = "." + stringValue + "000";
+
+						int intValue = getIntValue();
+						if (intValue == 0) {
+							stringValue = "0" + stringValue;
+						}
+						
+						int contador = 0;
+						while (intValue != 0) {
+							int q = intValue / 10;
+							int r = intValue % 10;
+							intValue = q;
+							stringValue = r + stringValue;
+							contador++;
+							if (contador == 3 && intValue != 0) {
+								stringValue = "," + stringValue;
+								contador = 0;
+							}
+						}
+						return stringValue;
+					} else {
+						throw new RuntimeException(
+								"Scale of Money object is > 3, should never happen, Money object is faulty.");
+					}
 				}
 			}
 		}
 	}
 
-	public int compareTo(Moneda val) {
+	public int compareTo(TasaCambio val) {
 		return value.compareTo(val.getValue());
 	}
 
 	public int compareTo(Object o) {
-		return compareTo((Moneda) o);
+		return compareTo((TasaCambio) o);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if ((obj == null) || !(obj instanceof Moneda)) {
+		if ((obj == null) || !(obj instanceof TasaCambio)) {
 			return false;
 		}
-		final Moneda other = (Moneda) obj;
+		final TasaCambio other = (TasaCambio) obj;
 		return (value.compareTo(other.getValue()) == 0);
 	}
 }

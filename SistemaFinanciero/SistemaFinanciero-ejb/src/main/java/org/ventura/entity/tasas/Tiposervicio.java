@@ -38,6 +38,10 @@ public class Tiposervicio implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idservicio", nullable=false)
 	private Servicio servicio;
+	
+	//bi-directional many-to-one association to Tipocambio
+	@OneToMany(mappedBy="tiposervicio")
+	private List<Tipocambio> tipocambio;
 
 	public Tiposervicio() {
 	}

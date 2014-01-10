@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.tipodato.Moneda;
 
 /**
  * The persistent class for the transaccioncuentabancaria database table.

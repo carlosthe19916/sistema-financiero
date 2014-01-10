@@ -1,6 +1,5 @@
 package org.ventura.util.maestro;
 
-import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.entity.tasas.Tipotasa;
 
 public class ProduceObjectTasainteres {
@@ -50,26 +49,74 @@ public class ProduceObjectTasainteres {
 		return tipotasaCuentasPersonalesType;
 	}
 
-	public static Tasainteres getTasaInteres(TipotasaCompraVentaType tipotasaCompraVentaType) {
-		Tasainteres tasainteres = new Tasainteres();
+	public static Tipotasa getTipoCambioCompraVenta(TipoCambioCompraVentaType tipotasaCompraVentaType) {
+		Tipotasa tipotasa = new Tipotasa();
 		switch (tipotasaCompraVentaType) {
-		case COMPRA_DOLARES_SOLES:
-			tasainteres.setIdtasainteres(1);
+		case COMPRA_DOLAR_CON_SOL:
+			tipotasa.setIdtipotasa(6);
 			break;
-		case COMPRA_EUROS_SOLES:
-			tasainteres.setIdtasainteres(2);
+		case COMPRA_DOLAR_CON_EURO:
+			tipotasa.setIdtipotasa(7);
 			break;
-		case VENTA_DOLARES_SOLES:
-			tasainteres.setIdtasainteres(2);
+		case COMPRA_EURO_CON_SOL:
+			tipotasa.setIdtipotasa(8);
 			break;
-		case VENTA_EUROS_DOLARES:
-			tasainteres.setIdtasainteres(2);
+		case COMPRA_EURO_CON_DOLAR:
+			tipotasa.setIdtipotasa(9);
+			break;
+		case VENTA_DOLAR_CON_SOL:
+			tipotasa.setIdtipotasa(10);
+			break;
+		case VENTA_DOLAR_CON_EURO:
+			tipotasa.setIdtipotasa(11);
+			break;
+		case VENTA_EURO_CON_SOL:
+			tipotasa.setIdtipotasa(12);
+			break;
+		case VENTA_EURO_CON_DOLAR:
+			tipotasa.setIdtipotasa(13);
 			break;
 		default:
-			tasainteres.setIdtasainteres(null);
+			tipotasa.setIdtipotasa(null);
 			break;
 		}
-		return tasainteres;
+		return tipotasa;
 	}
+	
+	public static TipoCambioCompraVentaType getTipoCambioCompraVenta(Tipotasa tipotasa){
+		TipoCambioCompraVentaType tipoTasaCompraVentaType;
+		Integer id = tipotasa.getIdtipotasa();
+		switch (id) {
+		case 6:
+			tipoTasaCompraVentaType = TipoCambioCompraVentaType.COMPRA_DOLAR_CON_SOL;
+			break;
+		case 7:
+			tipoTasaCompraVentaType = TipoCambioCompraVentaType.COMPRA_DOLAR_CON_EURO;
+			break;
+		case 8:
+			tipoTasaCompraVentaType = TipoCambioCompraVentaType.COMPRA_EURO_CON_SOL;
+			break;
+		case 9:
+			tipoTasaCompraVentaType = TipoCambioCompraVentaType.COMPRA_EURO_CON_DOLAR;
+			break;
+		case 10:
+			tipoTasaCompraVentaType = TipoCambioCompraVentaType.VENTA_DOLAR_CON_SOL;
+			break;
+		case 11:
+			tipoTasaCompraVentaType = TipoCambioCompraVentaType.VENTA_DOLAR_CON_EURO;
+			break;
+		case 12:
+			tipoTasaCompraVentaType = TipoCambioCompraVentaType.VENTA_EURO_CON_SOL;
+			break;
+		case 13:
+			tipoTasaCompraVentaType = TipoCambioCompraVentaType.VENTA_EURO_CON_DOLAR;
+			break;
+		default:
+			tipoTasaCompraVentaType = null;
+			break;
+		}
+		return tipoTasaCompraVentaType;
+	}
+
 
 }

@@ -5,7 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import org.ventura.entity.schema.caja.Moneda;
+import org.ventura.tipodato.Moneda;
 
 @FacesConverter("MonedaConverter")
 public class MonedaConverter implements Converter {

@@ -5,9 +5,13 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
+<<<<<<< HEAD
 import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+=======
+import org.ventura.tipodato.TasaCambio;
+>>>>>>> branch 'master' of https://code.google.com/p/sistema-financiero/
 
 import java.util.Date;
 
@@ -32,6 +36,7 @@ public class Tasainteres implements Serializable {
 	public final static String f_tipotasa_moneda = "org.ventura.entity.tasas.Tasainteres.f_tipotasa_moneda";
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(unique = true, nullable = false)
 	private Integer idtasainteres;
 
@@ -59,7 +64,7 @@ public class Tasainteres implements Serializable {
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tasa")) })
-	private TasaInteresTipoCambio tasa;
+	private TasaCambio tasa;
 
 	@ManyToOne
 	@JoinColumn(name = "idtiposervicio", nullable = false)
@@ -140,11 +145,11 @@ public class Tasainteres implements Serializable {
 		this.tipotasa = tipotasa;
 	}
 
-	public TasaInteresTipoCambio getTasa() {
+	public TasaCambio getTasa() {
 		return tasa;
 	}
 
-	public void setTasa(TasaInteresTipoCambio tasa) {
+	public void setTasa(TasaCambio tasa) {
 		this.tasa = tasa;
 	}
 
