@@ -41,8 +41,7 @@
 		<class>org.ventura.entity.tasas.Tasainteres</class>
 		<class>org.ventura.entity.tasas.Tiposervicio</class>
 		<class>org.ventura.entity.tasas.Tipotasa</class>
-		<!-- <class>org.ventura.entity.schema.socio.ViewSocioPN</class>
-		<class>org.ventura.entity.schema.socio.ViewSocioPJ</class> --> 
+		<!-- <class>org.ventura.entity.schema.socio.ViewSocioPN</class> <class>org.ventura.entity.schema.socio.ViewSocioPJ</class> -->
 		<!-- <class>org.ventura.entity.schema.cuentapersonal.ViewCuentas</class> -->
 		<class>org.ventura.entity.schema.caja.Boveda</class>
 		<class>org.ventura.entity.schema.caja.Caja</class>
@@ -66,11 +65,11 @@
 		<class>org.ventura.entity.schema.caja.Tipotransaccioncompraventa</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncompraventa</class>
 		<class>org.ventura.entity.schema.caja.view.BovedaView</class>
-		<!-- <class>org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView</class> -->
+		<class>org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView</class>
 		<class>org.ventura.entity.schema.caja.view.CajaView</class>
 		<class>org.ventura.entity.schema.caja.BovedaCaja</class>
 		<class>org.ventura.entity.schema.caja.BovedaCajaPK</class>
-		<!--<class>org.ventura.entity.schema.caja.view.VouchercajaView</class>-->
+		<!--<class>org.ventura.entity.schema.caja.view.VouchercajaView</class> -->
 		<!-- <class>org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView</class> -->
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView</class>
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK</class>

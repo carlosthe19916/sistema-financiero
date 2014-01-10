@@ -19,6 +19,14 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public Cuentabancaria createCuentaahorroPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica) throws Exception;
 	
+	public Cuentabancaria createCuentacorrientePersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural) throws Exception;
+	
+	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica) throws Exception;
+	
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural) throws Exception;
+	
+	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica) throws Exception;
+	
 	public List<Cuentabancaria> findAll() throws Exception;
 	
 	public Cuentabancaria findById(Object id) throws Exception;

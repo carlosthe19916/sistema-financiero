@@ -20,7 +20,6 @@ import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
-import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
@@ -33,14 +32,11 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
-import org.ventura.entity.schema.socio.Socio;
-import org.ventura.entity.schema.sucursal.Agencia;
-import org.ventura.session.AgenciaBean;
 import org.venturabank.util.JsfUtil;
 
 @Named
-@FlowScoped("aperturaCuentaahorro-flow")
-public class AperturaCuentaahorroBean implements Serializable {
+@FlowScoped("aperturaCuentacorriente-flow")
+public class AperturaCuentacorrienteBean implements Serializable {
 
 	/**
 	 * 
@@ -131,7 +127,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 	@EJB private MaestrosServiceLocal maestrosServiceLocal;
 	
-	public AperturaCuentaahorroBean() {
+	public AperturaCuentacorrienteBean() {
 		cuentaValida = true;
 		
 		isPersonanatural = false;
@@ -186,7 +182,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 	}
 	
 	
-	public String crearCuentaahorro(){
+	public String crearCuentacorriente(){
 		try {
 			if(this.cantidadRetirantes > titulares.size()){
 				throw new Exception("La cantidad de retirantes exece a la cantidad de titulares");
@@ -222,7 +218,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 				cuentabancaria.setTitulares(listTitulares);
 				cuentabancaria.setBeneficiarios(listBeneficiarios);
 				
-				cuentabancariaServiceLocal.createCuentaahorroPersonanatural(cuentabancaria, personaNaturalSocio);
+				cuentabancariaServiceLocal.createCuentacorrientePersonanatural(cuentabancaria, personaNaturalSocio);
 			} else {
 				if (isPersonajuridica) {
 					
@@ -270,7 +266,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 					cuentabancaria.setTitulares(listTitulares);
 					cuentabancaria.setBeneficiarios(listBeneficiarios);
 					
-					cuentabancariaServiceLocal.createCuentaahorroPersonajuridica(cuentabancaria, personaJuridicaSocio);
+					cuentabancariaServiceLocal.createCuentacorrientePersonajuridica(cuentabancaria, personaJuridicaSocio);
 				} else {
 					throw new Exception("El tipo de persona no es valido");
 				}

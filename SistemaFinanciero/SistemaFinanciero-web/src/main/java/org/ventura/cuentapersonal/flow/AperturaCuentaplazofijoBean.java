@@ -2,7 +2,11 @@ package org.ventura.cuentapersonal.flow;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +24,9 @@ import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
-import org.ventura.boundary.local.SocioServiceLocal;
+import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.dependent.ComboBean;
+import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Titular;
@@ -33,14 +38,12 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
-import org.ventura.entity.schema.socio.Socio;
-import org.ventura.entity.schema.sucursal.Agencia;
-import org.ventura.session.AgenciaBean;
+import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 import org.venturabank.util.JsfUtil;
 
 @Named
-@FlowScoped("aperturaCuentaahorro-flow")
-public class AperturaCuentaahorroBean implements Serializable {
+@FlowScoped("aperturaCuentaplazofijo-flow")
+public class AperturaCuentaplazofijoBean implements Serializable {
 
 	/**
 	 * 
@@ -55,8 +58,13 @@ public class AperturaCuentaahorroBean implements Serializable {
 	// DATOS DE LA VISTA
 	// VISTA 01
 	@Inject private ComboBean<String> comboTipopersona;
+	
 	@Inject private ComboBean<Tipomoneda> comboTipomoneda;
-
+	private BigDecimal montoApertura;
+	private Integer periodoDeposito;
+	private BigDecimal trea;
+	private BigDecimal itf;
+	
 	@Inject private ComboBean<Tipodocumento> comboTipodocumentoPersonanatural;
 	private String numeroDocumentoPersonanatural;
 	private String apellidoPaternoPersonanatural;
@@ -129,10 +137,15 @@ public class AperturaCuentaahorroBean implements Serializable {
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
+	@EJB private TasainteresServiceLocal tasainteresServiceLocal;
 	@EJB private MaestrosServiceLocal maestrosServiceLocal;
 	
-	public AperturaCuentaahorroBean() {
+	public AperturaCuentaplazofijoBean() {
 		cuentaValida = true;
+		
+		montoApertura = null;
+		periodoDeposito = null;
+		trea = null;
 		
 		isPersonanatural = false;
 		isPersonajuridica = false;
@@ -162,6 +175,8 @@ public class AperturaCuentaahorroBean implements Serializable {
 		this.comboFinsocial.putItem(2, "SIN FINES DE LUCRO");
 		
 		try {
+			trea = tasainteresServiceLocal.getTasainteresCuentapersonal(TipotasaCuentasPersonalesType.TEA, BigDecimal.ZERO);
+			
 			List<Tipodocumento> listTipodocumentoPersonanatural = maestrosServiceLocal.getTipodocumentoForPersonaNatural();
 			comboTipodocumentoPersonanatural.setItems(listTipodocumentoPersonanatural);
 			comboTipodocumentoAccionista.setItems(listTipodocumentoPersonanatural);
@@ -186,7 +201,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 	}
 	
 	
-	public String crearCuentaahorro(){
+	public String crearCuentaplazofijo(){
 		try {
 			if(this.cantidadRetirantes > titulares.size()){
 				throw new Exception("La cantidad de retirantes exece a la cantidad de titulares");
@@ -217,12 +232,19 @@ public class AperturaCuentaahorroBean implements Serializable {
 					listTitulares.add(titular);
 				}
 				
+				Calendar calendarStart = Calendar.getInstance();
+				Calendar calendarEnd = Calendar.getInstance();
+				calendarEnd.add(periodoDeposito, Calendar.DAY_OF_MONTH);
+				
+				cuentabancaria.setFechaapertura(calendarStart.getTime());
+				cuentabancaria.setFechacierre(calendarEnd.getTime());
 				cuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
+				cuentabancaria.setSaldo(new Moneda(montoApertura));				
 				cuentabancaria.setCantidadretirantes(cantidadRetirantes);
 				cuentabancaria.setTitulares(listTitulares);
 				cuentabancaria.setBeneficiarios(listBeneficiarios);
 				
-				cuentabancariaServiceLocal.createCuentaahorroPersonanatural(cuentabancaria, personaNaturalSocio);
+				cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio);
 			} else {
 				if (isPersonajuridica) {
 					
@@ -265,12 +287,19 @@ public class AperturaCuentaahorroBean implements Serializable {
 						listTitulares.add(titular);
 					}
 					
+					Calendar calendarStart = Calendar.getInstance();
+					Calendar calendarEnd = Calendar.getInstance();
+					calendarEnd.add(periodoDeposito, Calendar.DAY_OF_MONTH);
+					
+					cuentabancaria.setFechaapertura(calendarStart.getTime());
+					cuentabancaria.setFechacierre(calendarEnd.getTime());
 					cuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
+					cuentabancaria.setSaldo(new Moneda(montoApertura));				
 					cuentabancaria.setCantidadretirantes(cantidadRetirantes);
 					cuentabancaria.setTitulares(listTitulares);
 					cuentabancaria.setBeneficiarios(listBeneficiarios);
 					
-					cuentabancariaServiceLocal.createCuentaahorroPersonajuridica(cuentabancaria, personaJuridicaSocio);
+					cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio);
 				} else {
 					throw new Exception("El tipo de persona no es valido");
 				}
@@ -281,7 +310,39 @@ public class AperturaCuentaahorroBean implements Serializable {
 			return null;
 		}
 
-		return "returnFromAperturaCuentaahorroFlow";
+		return "returnFromAperturaCuentaplazofijoFlow";
+	}
+	
+	public BigDecimal calcularItf(){
+		BigDecimal result;
+		if(montoApertura != null && itf != null){
+			result =  montoApertura.multiply(itf);
+			result.setScale(2, RoundingMode.DOWN);
+		} else {
+			result = new BigDecimal("0.00");
+		}
+		//String resultadoString="";
+		/*resultadoString = resultadoString + result.intValue()+".";
+		
+		BigDecimal resultFractionpart = result.remainder(BigDecimal.ONE);
+		
+		resultadoString = resultadoString + resultFractionpart.intValue();
+		
+		BigDecimal ultimoDigito = resultFractionpart.remainder(BigDecimal.ONE);
+		BigDecimal ley = new BigDecimal(5);
+		ley.setScale(0);
+		if(ultimoDigito.compareTo(ley) >= 1){
+			ultimoDigito = new BigDecimal(5);
+		} else {
+			ultimoDigito = new BigDecimal(0);
+		}*/
+		return result;
+	}
+	
+	public String calcularFecha(){
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		return sdf.format(calendar.getTime());
 	}
 	
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
@@ -1375,6 +1436,31 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	public void setComboTipomoneda(ComboBean<Tipomoneda> comboTipomoneda) {
 		this.comboTipomoneda = comboTipomoneda;
+	}
+
+	public BigDecimal getMontoApertura() {
+		return montoApertura;
+	}
+
+	public void setMontoApertura(BigDecimal montoApertura) {
+		this.montoApertura = montoApertura;
+		this.montoApertura.setScale(2, RoundingMode.HALF_UP);
+	}
+
+	public Integer getPeriodoDeposito() {
+		return periodoDeposito;
+	}
+
+	public void setPeriodoDeposito(Integer periodoDeposito) {
+		this.periodoDeposito = periodoDeposito;
+	}
+
+	public BigDecimal getTrea() {
+		return trea;
+	}
+
+	public void setTrea(BigDecimal trea) {
+		this.trea = trea;
 	}
 
 }

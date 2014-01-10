@@ -11,7 +11,7 @@
 
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
-		<h:outputText value="Apertura Cta. Ahorro" />
+		<h:outputText value="Apertura Cta. Plazo fijo" />
 	</ui:define>
 
 	<!-- Definiendo el cuerpo de la pagina -->
@@ -20,7 +20,7 @@
 		<h:outputStylesheet library="css" name="main.css" />
 
 		<h:form>
-			<h:panelGroup rendered="#{!aperturaCuentaahorroBean.cuentaValida}">
+			<h:panelGroup rendered="#{!aperturaCuentaplazofijoBean.cuentaValida}">
 				<div class="p6n-api-access-in-page-error" style="left: 516px;">
 					<div>
 						<div>
@@ -32,45 +32,42 @@
 				</div>
 			</h:panelGroup>
 
-			<h:panelGroup rendered="#{aperturaCuentaahorroBean.personanatural}">
+			<h:panelGroup
+				rendered="#{aperturaCuentaplazofijoBean.personanatural}">
 				<div class="p6n-content ng-scope">
 					<div class="p6n-content-no-nav ng-scope">
 						<div class="p6n-main-pane ng-isolate-scope">
 							<div class="">
 								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">CUENTA DE AHORROS</h2>
+									<h2 class="p6n-page-section-title">CUENTA A PLAZO FIJO</h2>
 									<div class="ng-isolate-scope">
 										<div class="">
 											<div class="ng-scope ng-hide">
 												<br />
 												<p>
-													Tipo cuenta: <label class="sf-label-bold">CUENTA DE
-														AHORROS</label>
+													Tipo cuenta: <label class="sf-label-bold">CUENTA A
+														PLAZO FIJO</label>
 												</p>
 												<br />
 												<p>
 													Moneda:
-													<h:selectOneMenu id="cmbTipomonedaCuentaahorro"
-														value="#{aperturaCuentaahorroBean.comboTipomoneda.itemSelected}"
-														valueChangeListener="#{aperturaCuentaahorroBean.changeTipomoneda}"
-														required="true"
-														requiredMessage="Seleccione tipo de moneda">
-														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
-														<f:selectItems
-															value="#{aperturaCuentaahorroBean.comboTipomoneda.items.entrySet()}"
-															var="val"
-															itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
-															itemValue="#{val.key}" />
-														<f:ajax></f:ajax>
-													</h:selectOneMenu>
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura} #{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.denominacion}"
+														styleClass="sf-label-bold" />
 												</p>
-												<div
-													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-													<h:message for="cmbTipomonedaCuentaahorro" />
-												</div>
 												<br />
 												<p>
-													Saldo: <label class="sf-label-bold">0.00</label>
+													Monto:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.montoApertura}"
+														styleClass="sf-label-bold" />
+												</p>
+												<br />
+												<p>
+													Periodo:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.periodoDeposito} Dias"
+														styleClass="sf-label-bold" />
 												</p>
 											</div>
 										</div>
@@ -88,7 +85,7 @@
 												<p>
 													Tipo y numero documento:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboTipodocumentoPersonanatural.getObjectItemSelected().abreviatura} #{aperturaCuentaahorroBean.numeroDocumentoPersonanatural}"
+														value="#{aperturaCuentaplazofijoBean.comboTipodocumentoPersonanatural.getObjectItemSelected().abreviatura} #{aperturaCuentaplazofijoBean.numeroDocumentoPersonanatural}"
 														styleClass="sf-label-bold" />
 												</p>
 											</div>
@@ -97,7 +94,7 @@
 												<p>
 													Apellidos y nombres:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.apellidoPaterno} #{aperturaCuentaahorroBean.apellidoMaterno} , #{aperturaCuentaahorroBean.nombres}"
+														value="#{aperturaCuentaplazofijoBean.apellidoPaterno} #{aperturaCuentaplazofijoBean.apellidoMaterno} , #{aperturaCuentaplazofijoBean.nombres}"
 														styleClass="sf-label-bold" />
 												</p>
 											</div>
@@ -106,11 +103,11 @@
 												<p>
 													Sexo:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboSexo.getObjectItemSelected().denominacion}"
+														value="#{aperturaCuentaplazofijoBean.comboSexo.getObjectItemSelected().denominacion}"
 														styleClass="sf-label-bold" />
 													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. nacimiento:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.fechaNacimiento}"
+														value="#{aperturaCuentaplazofijoBean.fechaNacimiento}"
 														styleClass="sf-label-bold">
 														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
@@ -121,11 +118,11 @@
 												<p>
 													E. civil:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboEstadocivil.getObjectItemSelected().denominacion}"
+														value="#{aperturaCuentaplazofijoBean.comboEstadocivil.getObjectItemSelected().denominacion}"
 														styleClass="sf-label-bold" />
 													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ocupacion:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.ocupacion}"
+														value="#{aperturaCuentaplazofijoBean.ocupacion}"
 														styleClass="sf-label-bold" />
 												</p>
 											</div>
@@ -134,7 +131,7 @@
 												<p>
 													Direccion:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.direccionPersonanatural} - #{aperturaCuentaahorroBean.referenciaPersonanatural}"
+														value="#{aperturaCuentaplazofijoBean.direccionPersonanatural} - #{aperturaCuentaplazofijoBean.referenciaPersonanatural}"
 														styleClass="sf-label-bold" />
 
 												</p>
@@ -144,7 +141,7 @@
 												<p>
 													Telefono:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.telefonoPersonanatural} - #{aperturaCuentaahorroBean.celularPersonanatural}"
+														value="#{aperturaCuentaplazofijoBean.telefonoPersonanatural} - #{aperturaCuentaplazofijoBean.celularPersonanatural}"
 														styleClass="sf-label-bold" />
 
 												</p>
@@ -154,7 +151,7 @@
 												<p>
 													Email:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.emailPersonanatural}"
+														value="#{aperturaCuentaplazofijoBean.emailPersonanatural}"
 														styleClass="sf-label-bold" />
 												</p>
 											</div>
@@ -169,32 +166,33 @@
 					</div>
 				</div>
 			</h:panelGroup>
-			<h:panelGroup rendered="#{aperturaCuentaahorroBean.personajuridica}">
+			<h:panelGroup
+				rendered="#{aperturaCuentaplazofijoBean.personajuridica}">
 				<div class="p6n-content ng-scope">
 					<div class="p6n-content-no-nav ng-scope">
 						<div class="p6n-main-pane ng-isolate-scope">
 							<div class="">
 								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">CUENTA DE AHORROS</h2>
+									<h2 class="p6n-page-section-title">CUENTA A PLAZO FIJO</h2>
 									<div class="ng-isolate-scope">
 										<div class="">
 											<div class="ng-scope ng-hide">
 												<br />
 												<p>
-													Tipo cuenta: <label class="sf-label-bold">CUENTA DE
-														AHORROS</label>
+													Tipo cuenta: <label class="sf-label-bold">CUENTA
+														PLAZO FIJO</label>
 												</p>
 												<br />
 												<p>
 													Moneda:
-													<h:selectOneMenu id="cmbTipomonedaCuentaahorro2"
-														value="#{aperturaCuentaahorroBean.comboTipomoneda.itemSelected}"
-														valueChangeListener="#{aperturaCuentaahorroBean.changeTipomoneda}"
+													<h:selectOneMenu id="cmbTipomonedaCuentacorriente2"
+														value="#{aperturaCuentaplazofijoBean.comboTipomoneda.itemSelected}"
+														valueChangeListener="#{aperturaCuentaplazofijoBean.changeTipomoneda}"
 														required="true"
 														requiredMessage="Seleccione tipo de moneda">
 														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 														<f:selectItems
-															value="#{aperturaCuentaahorroBean.comboTipomoneda.items.entrySet()}"
+															value="#{aperturaCuentaplazofijoBean.comboTipomoneda.items.entrySet()}"
 															var="val"
 															itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
 															itemValue="#{val.key}" />
@@ -203,7 +201,7 @@
 												</p>
 												<div
 													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-													<h:message for="cmbTipomonedaCuentaahorro2" />
+													<h:message for="cmbTipomonedaCuentacorriente2" />
 												</div>
 												<br />
 												<p>
@@ -225,7 +223,7 @@
 												<p>
 													Tipo y numero documento:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboTipodocumentoPersonajuridica.getObjectItemSelected().abreviatura} #{aperturaCuentaahorroBean.numeroDocumentoPersonajuridica}"
+														value="#{aperturaCuentaplazofijoBean.comboTipodocumentoPersonajuridica.getObjectItemSelected().abreviatura} #{aperturaCuentaplazofijoBean.numeroDocumentoPersonajuridica}"
 														styleClass="sf-label-bold" />
 												</p>
 											</div>
@@ -234,11 +232,11 @@
 												<p>
 													Razon social:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.razonSocial}"
+														value="#{aperturaCuentaplazofijoBean.razonSocial}"
 														styleClass="sf-label-bold" />
 													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Nombre comercial:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.nombreComercial}"
+														value="#{aperturaCuentaplazofijoBean.nombreComercial}"
 														styleClass="sf-label-bold">
 														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
@@ -249,11 +247,11 @@
 												<p>
 													Actividad principal:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.actividadPrincipal}"
+														value="#{aperturaCuentaplazofijoBean.actividadPrincipal}"
 														styleClass="sf-label-bold" />
 													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. constitucion:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.fechaConstitucion}"
+														value="#{aperturaCuentaplazofijoBean.fechaConstitucion}"
 														styleClass="sf-label-bold">
 														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
@@ -264,11 +262,11 @@
 												<p>
 													Tipo empresa:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboTipoempresa.getObjectItemSelected().denominacion}"
+														value="#{aperturaCuentaplazofijoBean.comboTipoempresa.getObjectItemSelected().denominacion}"
 														styleClass="sf-label-bold" />
 													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin social:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboFinsocial.getObjectItemSelected()}"
+														value="#{aperturaCuentaplazofijoBean.comboFinsocial.getObjectItemSelected()}"
 														styleClass="sf-label-bold" />
 												</p>
 											</div>
@@ -277,7 +275,7 @@
 												<p>
 													Direccion:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.direccionPersonajuridica} - #{aperturaCuentaahorroBean.referenciaPersonajuridica}"
+														value="#{aperturaCuentaplazofijoBean.direccionPersonajuridica} - #{aperturaCuentaplazofijoBean.referenciaPersonajuridica}"
 														styleClass="sf-label-bold" />
 
 												</p>
@@ -287,7 +285,7 @@
 												<p>
 													Telefono:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.telefonoPersonajuridica} - #{aperturaCuentaahorroBean.celularPersonajuridica}"
+														value="#{aperturaCuentaplazofijoBean.telefonoPersonajuridica} - #{aperturaCuentaplazofijoBean.celularPersonajuridica}"
 														styleClass="sf-label-bold" />
 
 												</p>
@@ -297,7 +295,7 @@
 												<p>
 													Email:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.emailPersonajuridica}"
+														value="#{aperturaCuentaplazofijoBean.emailPersonajuridica}"
 														styleClass="sf-label-bold" />
 												</p>
 											</div>
@@ -316,7 +314,7 @@
 												<p>
 													Tipo y numero documento:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboTipodocumentoRepresentantelegal.getObjectItemSelected().abreviatura} #{aperturaCuentaahorroBean.numeroDocumentoRepresentantelegal}"
+														value="#{aperturaCuentaplazofijoBean.comboTipodocumentoRepresentantelegal.getObjectItemSelected().abreviatura} #{aperturaCuentaplazofijoBean.numeroDocumentoRepresentantelegal}"
 														styleClass="sf-label-bold" />
 												</p>
 											</div>
@@ -325,7 +323,7 @@
 												<p>
 													Apellidos y nombres:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.apellidoPaternoRepresentantelegal} #{aperturaCuentaahorroBean.apellidoMaternoRepresentantelegal}, #{aperturaCuentaahorroBean.nombresRepresentantelegal}"
+														value="#{aperturaCuentaplazofijoBean.apellidoPaternoRepresentantelegal} #{aperturaCuentaplazofijoBean.apellidoMaternoRepresentantelegal}, #{aperturaCuentaplazofijoBean.nombresRepresentantelegal}"
 														styleClass="sf-label-bold" />
 												</p>
 											</div>
@@ -334,11 +332,11 @@
 												<p>
 													Sexo:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboSexoRepresentantelegal.getObjectItemSelected().denominacion}"
+														value="#{aperturaCuentaplazofijoBean.comboSexoRepresentantelegal.getObjectItemSelected().denominacion}"
 														styleClass="sf-label-bold" />
 													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. nacimiento:
 													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.fechaNacimientoRepresentantelegal}"
+														value="#{aperturaCuentaplazofijoBean.fechaNacimientoRepresentantelegal}"
 														styleClass="sf-label-bold">
 														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
@@ -387,7 +385,7 @@
 																		</thead>
 																		<tbody>
 																			<ui:repeat
-																				value="#{aperturaCuentaahorroBean.listAccionistas()}"
+																				value="#{aperturaCuentaplazofijoBean.listAccionistas()}"
 																				var="accionista">
 																				<tr class="ng-scope">
 																					<td><h:outputLabel
@@ -486,7 +484,7 @@
 																	</thead>
 																	<tbody>
 																		<ui:repeat
-																			value="#{aperturaCuentaahorroBean.listTitulares()}"
+																			value="#{aperturaCuentaplazofijoBean.listTitulares()}"
 																			var="persona">
 																			<tr class="ng-scope">
 																				<td><h:outputLabel
@@ -561,7 +559,7 @@
 																	</thead>
 																	<tbody>
 																		<ui:repeat
-																			value="#{aperturaCuentaahorroBean.listBeneficiarios()}"
+																			value="#{aperturaCuentaplazofijoBean.listBeneficiarios()}"
 																			var="beneficiario">
 																			<tr class="ng-scope">
 																				<td><h:outputLabel value="#{beneficiario.dni}" /></td>
@@ -597,12 +595,12 @@
 
 			<div style="margin-left: 40px;">
 
-				<h:commandButton action="aperturaCuentaahorro-flowB"
+				<h:commandButton action="aperturaCuentaplazofijo-flowC"
 					immediate="true"
-					actionListener="#{aperturaCuentaahorroBean.removeTitularDefecto()}"
+					actionListener="#{aperturaCuentaplazofijoBean.removeTitularDefecto()}"
 					value="« Anterior " />
 				<h:commandButton
-					action="#{aperturaCuentaahorroBean.crearCuentaahorro()}"
+					action="#{aperturaCuentaplazofijoBean.crearCuentaplazofijo()}"
 					value="Crear Cuenta" styleClass="action blue" />
 
 			</div>
