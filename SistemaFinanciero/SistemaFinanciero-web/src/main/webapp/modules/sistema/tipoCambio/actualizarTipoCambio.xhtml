@@ -18,14 +18,14 @@
 		<ui:define name="content">
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
-			<h:form id="formDialog">
+			<h:form id="formTipoCambio">
 
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
 							<div class="p6n-api-consent-screen-title">CONFIGURAR TIPO DE CAMBIO</div>
 							
-							<h:panelGroup rendered = "">
+							<h:panelGroup rendered = "#{!actualizarTasasBean.validBean}">
 								<div class="p6n-api-access-in-page-error" style="left: 516px;">
 									<div>
 										<div>
@@ -65,7 +65,7 @@
 													CAMBIO</div>
 												<div style="float: left; width: 200px; text-align: center;">
 													<h:inputText id="tipoCambioCompraDS" required="true"
-														requiredMessage="Ingrese el tipo de cambio" value=""
+														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasasBean.tipoCambioCompraDolarSol.tasa}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
 														<p:ajax event="blur" render="@this"></p:ajax>
@@ -91,7 +91,7 @@
 													CAMBIO</div>
 												<div style="float: left; width: 200px; text-align: center;">
 													<h:inputText id="tipoCambioCompraES" required="true"
-														requiredMessage="Ingrese el tipo de cambio" value=""
+														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasasBean.tipoCambioCompraEuroSol.tasa}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
 														<p:ajax event="blur" render="@this"></p:ajax>
@@ -117,7 +117,7 @@
 													CAMBIO</div>
 												<div style="float: left; width: 200px; text-align: center;">
 													<h:inputText id="tipoCambioCompraDE" required="true"
-														requiredMessage="Ingrese el tipo de cambio" value=""
+														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasasBean.tipoCambioCompraDolarEuro.tasa}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
 														<p:ajax event="blur" render="@this"></p:ajax>
@@ -143,7 +143,7 @@
 													CAMBIO</div>
 												<div style="float: left; width: 200px; text-align: center;">
 													<h:inputText id="tipoCambioCompraED" required="true"
-														requiredMessage="Ingrese el tipo de cambio" value=""
+														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasasBean.tipoCambioCompraEuroDolar.tasa}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
 														<p:ajax event="blur" render="@this"></p:ajax>
@@ -170,7 +170,7 @@
 													CAMBIO</div>
 												<div style="float: left; width: 300px; text-align: center;">
 													<h:inputText id="tipoCambioVentaDS" required="true"
-														requiredMessage="Ingrese el tipo de cambio" value=""
+														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasasBean.tipoCambioVentaDolarSol.tasa}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
 														<p:ajax event="blur" render="@this"></p:ajax>
@@ -196,7 +196,7 @@
 													CAMBIO</div>
 												<div style="float: left; width: 300px; text-align: center;">
 													<h:inputText id="tipoCambioVentaES" required="true"
-														requiredMessage="Ingrese el tipo de cambio" value=""
+														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasasBean.tipoCambioVentaEuroSol.tasa}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
 														<p:ajax event="blur" render="@this"></p:ajax>
@@ -222,7 +222,7 @@
 													CAMBIO</div>
 												<div style="float: left; width: 300px; text-align: center;">
 													<h:inputText id="tipoCambioVentaDE" required="true"
-														requiredMessage="Ingrese el tipo de cambio" value=""
+														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasasBean.tipoCambioVentaDolarEuro.tasa}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
 														<p:ajax event="blur" render="@this"></p:ajax>
@@ -248,7 +248,7 @@
 													CAMBIO</div>
 												<div style="float: left; width: 300px; text-align: center;">
 													<h:inputText id="tipoCambioVentaED" required="true"
-														requiredMessage="Ingrese el tipo de cambio" value=""
+														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasasBean.tipoCambioVentaEuroSol.tasa}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
 														<p:ajax event="blur" render="@this"></p:ajax>
@@ -265,9 +265,8 @@
 								</div>
 
 								<div class="sf-buttons" style="float: left;">
-									<h:commandButton action="#" value="Aceptar"
+									<h:commandButton action="" value="Aceptar"
 										styleClass="action blue" />
-
 									<h:commandButton action="cancel" value="Cancelar"
 										styleClass="action" />
 								</div>

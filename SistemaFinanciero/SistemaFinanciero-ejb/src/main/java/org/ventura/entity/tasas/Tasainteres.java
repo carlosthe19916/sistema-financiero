@@ -26,6 +26,7 @@ public class Tasainteres implements Serializable {
 	public final static String TASA_INTERES_BY_CV = "org.ventura.entity.tasas.Tasainteres.TASA_INTERES_BY_CV";
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(unique = true, nullable = false)
 	private Integer idtasainteres;
 

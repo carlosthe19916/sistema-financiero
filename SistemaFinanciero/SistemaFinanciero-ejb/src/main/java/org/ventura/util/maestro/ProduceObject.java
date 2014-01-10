@@ -227,7 +227,7 @@ public class ProduceObject {
 		}
 		return tipomoneda;
 	}
-
+/*
 	public static TipotasaPasivaType getTipoTasaPasiva(Tipotasa tipotasapasiva) {
 		TipotasaPasivaType tipotasapasivaType;
 		Integer id = tipotasapasiva.getIdtipotasa();
@@ -298,7 +298,7 @@ public class ProduceObject {
 		}
 		return tipotasapasiva;
 	}
-
+*/
 	public static Tipotransaccioncompraventa getTipotransaccioncompraventa(
 			TipoTransaccionCompraVentaType tipoTransaccioncompraventaType) {
 		Tipotransaccioncompraventa tipotransaccioncompraventa = new Tipotransaccioncompraventa();
@@ -333,22 +333,6 @@ public class ProduceObject {
 			break;
 		}
 		return tipotransaccioncompraventaType;
-	}
-
-	public static Tipotasa getTipotasa(TipotasaCompraVentaType tipotasaType) {
-		Tipotasa tipotasa = new Tipotasa();
-		switch (tipotasaType) {
-		case CUENTA_AHORRO_TASA_INTERES:
-			tipotasa.setIdtipotasa(1);
-			break;
-		case CUENTA_CORRIENTE_TASA_INTERES:
-			tipotasa.setIdtipotasa(1);
-			break;
-		default:
-			tipotasa = null;
-			break;
-		}
-		return tipotasa;
 	}
 
 	public static Tipodocumento getTipodocumento(TipodocumentoType tipodocumentoType) {
