@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
-import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
+import org.ventura.tipodato.TasaCambio;
 
 import java.util.Date;
 
@@ -48,7 +48,7 @@ public class Tasainteres implements Serializable {
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tasa")) })
-	private TasaInteresTipoCambio tasa;
+	private TasaCambio tasa;
 
 	@ManyToOne
 	@JoinColumn(name = "idtiposervicio", nullable = false)
@@ -125,11 +125,11 @@ public class Tasainteres implements Serializable {
 		this.tipotasa = tipotasa;
 	}
 
-	public TasaInteresTipoCambio getTasa() {
+	public TasaCambio getTasa() {
 		return tasa;
 	}
 
-	public void setTasa(TasaInteresTipoCambio tasa) {
+	public void setTasa(TasaCambio tasa) {
 		this.tasa = tasa;
 	}
 

@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import org.ventura.entity.schema.caja.Moneda;
+import org.ventura.tipodato.Moneda;
 
 
 @Embeddable

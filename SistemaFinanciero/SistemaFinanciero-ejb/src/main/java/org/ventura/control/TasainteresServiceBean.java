@@ -16,10 +16,10 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.boundary.remote.TasainteresServiceRemote;
 import org.ventura.dao.impl.TasainteresDAO;
-import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.entity.tasas.Tiposervicio;
 import org.ventura.entity.tasas.Tipotasa;
+import org.ventura.tipodato.TasaCambio;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipoCambioCompraVentaType;
@@ -94,7 +94,7 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 */
 
 	@Override
-	public TasaInteresTipoCambio getTasainteres(Tiposervicio tiposervicio, Tipotasa tipotasa, Double monto) throws Exception {
+	public TasaCambio getTasainteres(Tiposervicio tiposervicio, Tipotasa tipotasa, Double monto) throws Exception {
 		Map<String, Object> parameters = new HashMap<String, Object>();		
 		parameters.put("idtiposervicio", tiposervicio.getIdtiposervicio());
 		parameters.put("idtipotasa", tipotasa.getIdtipotasa());
@@ -141,8 +141,8 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 	}
 
 	@Override
-	public TasaInteresTipoCambio getTipoCambioCompraVenta(TipoCambioCompraVentaType compraVentaType, BigDecimal monto) throws Exception {
-		TasaInteresTipoCambio result = new TasaInteresTipoCambio();
+	public TasaCambio getTipoCambioCompraVenta(TipoCambioCompraVentaType compraVentaType, BigDecimal monto) throws Exception {
+		TasaCambio result = new TasaCambio();
 		//BigDecimal result = BigDecimal.ZERO;
 		try {
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(compraVentaType);

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.tipodato.Moneda;
+import org.ventura.tipodato.TasaCambio;
 
 /**
  * The persistent class for the transaccioncompraventa database table.
@@ -37,7 +39,7 @@ public class Transaccioncompraventa implements Serializable {
 	
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tipocambio")) }) 
-	private TasaInteresTipoCambio tipocambio;
+	private TasaCambio tipocambio;
 
 	@ManyToOne
 	@JoinColumn(name = "idtransaccioncaja", nullable = false)
@@ -131,11 +133,11 @@ public class Transaccioncompraventa implements Serializable {
 		this.nombresRazonSocial = nombresRazonSocial;
 	}
 
-	public TasaInteresTipoCambio getTipocambio() {
+	public TasaCambio getTipocambio() {
 		return tipocambio;
 	}
 
-	public void setTipocambio(TasaInteresTipoCambio tipocambio) {
+	public void setTipocambio(TasaCambio tipocambio) {
 		this.tipocambio = tipocambio;
 	}
 }

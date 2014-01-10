@@ -10,9 +10,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.TasainteresServiceLocal;
-import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.entity.tasas.Tipotasa;
+import org.ventura.tipodato.TasaCambio;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipoCambioCompraVentaType;
 import org.venturabank.util.JsfUtil;
@@ -76,7 +76,7 @@ public class ActualizarTasasBean implements Serializable {
 	//tipos de cambio para la compra de monedas
 	public void cargarTipoCambioCompraDolaresSoles() {
 		BigDecimal monto = BigDecimal.ZERO; 
-		TasaInteresTipoCambio tipoCambio = null;
+		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_DOLAR_CON_SOL);
 		TipoCambioCompraVentaType compraVentaType = ProduceObjectTasainteres.getTipoCambioCompraVenta(tipotasa);
@@ -91,7 +91,7 @@ public class ActualizarTasasBean implements Serializable {
 	
 	public void cargarTipoCambioCompraDolaresEuros() {
 		BigDecimal monto = BigDecimal.ZERO; 
-		TasaInteresTipoCambio tipoCambio = null;
+		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_DOLAR_CON_EURO);
 		TipoCambioCompraVentaType compraVentaType = ProduceObjectTasainteres.getTipoCambioCompraVenta(tipotasa);
@@ -106,7 +106,7 @@ public class ActualizarTasasBean implements Serializable {
 	
 	private void cargarTipoCambioCompraEurosSoles() {
 		BigDecimal monto = BigDecimal.ZERO; 
-		TasaInteresTipoCambio tipoCambio = null;
+		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_EURO_CON_SOL);
 		TipoCambioCompraVentaType compraVentaType = ProduceObjectTasainteres.getTipoCambioCompraVenta(tipotasa);
@@ -121,7 +121,7 @@ public class ActualizarTasasBean implements Serializable {
 	
 	private void cargarTipoCambioCompraEurosDolares() {
 		BigDecimal monto = BigDecimal.ZERO; 
-		TasaInteresTipoCambio tipoCambio = null;
+		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_EURO_CON_DOLAR);
 		TipoCambioCompraVentaType compraVentaType = ProduceObjectTasainteres.getTipoCambioCompraVenta(tipotasa);
@@ -138,7 +138,7 @@ public class ActualizarTasasBean implements Serializable {
 	//tipos de cambio para la venta de monedas
 	private void cargarTipoCambioVentaDolaresSoles() {
 		BigDecimal monto = BigDecimal.ZERO; 
-		TasaInteresTipoCambio tipoCambio = null;
+		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_DOLAR_CON_SOL);
 		TipoCambioCompraVentaType compraVentaType = ProduceObjectTasainteres.getTipoCambioCompraVenta(tipotasa);
@@ -153,7 +153,7 @@ public class ActualizarTasasBean implements Serializable {
 	
 	private void cargarTipoCambioVentaDolaresEuros() {
 		BigDecimal monto = BigDecimal.ZERO; 
-		TasaInteresTipoCambio tipoCambio = null;
+		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_DOLAR_CON_EURO);
 		TipoCambioCompraVentaType compraVentaType = ProduceObjectTasainteres.getTipoCambioCompraVenta(tipotasa);
@@ -168,7 +168,7 @@ public class ActualizarTasasBean implements Serializable {
 	
 	private void cargarTipoCambioVentaEurosSoles() {
 		BigDecimal monto = BigDecimal.ZERO; 
-		TasaInteresTipoCambio tipoCambio = null;
+		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_EURO_CON_SOL);
 		TipoCambioCompraVentaType compraVentaType = ProduceObjectTasainteres.getTipoCambioCompraVenta(tipotasa);
@@ -183,7 +183,7 @@ public class ActualizarTasasBean implements Serializable {
 	
 	private void cargarTipoCambioVentaEurosDolares() {
 		BigDecimal monto = BigDecimal.ZERO; 
-		TasaInteresTipoCambio tipoCambio = null;
+		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_EURO_CON_DOLAR);
 		TipoCambioCompraVentaType compraVentaType = ProduceObjectTasainteres.getTipoCambioCompraVenta(tipotasa);

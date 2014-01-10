@@ -19,8 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.ventura.entity.schema.caja.Moneda;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.tipodato.Moneda;
 
 @Entity
 @Table(name = "cuentaaporte", schema = "cuentapersonal")

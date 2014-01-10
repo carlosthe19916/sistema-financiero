@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.tipodato.Moneda;
+
 import java.util.Date;
 import java.util.List;
 

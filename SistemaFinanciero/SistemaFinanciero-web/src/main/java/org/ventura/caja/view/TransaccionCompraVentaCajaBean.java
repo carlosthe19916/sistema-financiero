@@ -23,13 +23,13 @@ import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
-import org.ventura.entity.schema.caja.Moneda;
-import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.session.CajaBean;
+import org.ventura.tipodato.Moneda;
+import org.ventura.tipodato.TasaCambio;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
@@ -77,7 +77,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	@Inject
 	private CalculadoraBean calculadoraBeanRecibido;
 	@Inject
-	private TasaInteresTipoCambio tipoCambio;
+	private TasaCambio tipoCambio;
 	@Inject
 	private Moneda montoEntregadoNew;
 	
@@ -215,7 +215,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	public void cagarTipoCambio(){
 		try {
 			if (comboTipotransaccion.getItemSelected() != -1 && comboTipomonedaRecibido.getItemSelected() != -1 && comboTipomonedaEntregado.getItemSelected() != -1) {
-				TasaInteresTipoCambio tipocambio;
+				TasaCambio tipocambio;
 				tipocambio = transaccionCompraVentaServiceLocal.retornarTipoCambio(Tasainteres.TASA_INTERES_BY_CV, tipotransaccioncompraventa, tipomonedaRecibido, tipomonedaEntregado);
 				setTipoCambio(tipocambio);
 			}
@@ -437,11 +437,11 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		this.nombresRazonSocial = nombresRazonSocial;
 	}
 
-	public TasaInteresTipoCambio getTipoCambio() {
+	public TasaCambio getTipoCambio() {
 		return tipoCambio;
 	}
 
-	public void setTipoCambio(TasaInteresTipoCambio tipoCambio) {
+	public void setTipoCambio(TasaCambio tipoCambio) {
 		this.tipoCambio = tipoCambio;
 	}
 

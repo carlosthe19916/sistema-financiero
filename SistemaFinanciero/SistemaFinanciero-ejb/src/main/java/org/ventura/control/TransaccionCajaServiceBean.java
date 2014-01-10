@@ -35,8 +35,6 @@ import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.BovedaCaja;
 import org.ventura.entity.schema.caja.BovedaCajaPK;
 import org.ventura.entity.schema.caja.Caja;
-import org.ventura.entity.schema.caja.Moneda;
-import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncaja;
@@ -50,6 +48,8 @@ import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.entity.tasas.Tipotasa;
+import org.ventura.tipodato.Moneda;
+import org.ventura.tipodato.TasaCambio;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.InsufficientMoneyForTransactionException;
 import org.ventura.util.exception.InvalidTransactionBovedaException;
@@ -726,8 +726,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 	
 	@Override
-	public TasaInteresTipoCambio retornarTipoCambio(String query, Tipotransaccioncompraventa tipotransaccionCV, Tipomoneda tipoMonedaRecibido, Tipomoneda tipoMonedaEntregado) throws Exception {
-		TasaInteresTipoCambio tipocambio = new TasaInteresTipoCambio();
+	public TasaCambio retornarTipoCambio(String query, Tipotransaccioncompraventa tipotransaccionCV, Tipomoneda tipoMonedaRecibido, Tipomoneda tipoMonedaEntregado) throws Exception {
+		TasaCambio tipocambio = new TasaCambio();
 		
 		TipoTransaccionCompraVentaType tipoTransaccioncompraventa = ProduceObject.getTipotransaccioncompraventa(tipotransaccionCV);
 		TipomonedaType tipomonedarecibido = ProduceObject.getTipomoneda(tipoMonedaRecibido);

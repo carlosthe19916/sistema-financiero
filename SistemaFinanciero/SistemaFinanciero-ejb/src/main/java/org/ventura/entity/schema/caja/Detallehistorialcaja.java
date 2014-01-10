@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.tipodato.Moneda;
+
 
 /**
  * The persistent class for the detallehistorialcaja database table.
