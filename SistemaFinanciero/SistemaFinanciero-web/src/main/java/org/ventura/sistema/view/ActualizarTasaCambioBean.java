@@ -19,7 +19,7 @@ import org.venturabank.util.JsfUtil;
 
 @Named
 @ViewScoped
-public class ActualizarTasasBean implements Serializable {
+public class ActualizarTasaCambioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -45,7 +45,7 @@ public class ActualizarTasasBean implements Serializable {
 	
 	private boolean isValidBean;
 	
-	public ActualizarTasasBean() {
+	public ActualizarTasaCambioBean() {
 		setValidBean(true);
 	}
 

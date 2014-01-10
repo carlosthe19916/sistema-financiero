@@ -8,7 +8,7 @@ import javax.faces.convert.FacesConverter;
 import org.ventura.tipodato.TasaCambio;
 
 @FacesConverter("TasaInteresTipoCambioConverter")
-public class TasaInteresTipoCambioConverter implements Converter {
+public class TasaCambioConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
