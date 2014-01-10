@@ -5,18 +5,9 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-import org.ventura.entity.schema.caja.Moneda;
-import org.ventura.entity.schema.caja.TasaInteresTipoCambio;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-=======
-import org.ventura.tipodato.TasaCambio;
->>>>>>> branch 'master' of https://code.google.com/p/sistema-financiero/
-=======
-import org.ventura.tipodato.TasaCambio;
->>>>>>> branch 'master' of https://code.google.com/p/sistema-financiero/
 
+import org.ventura.tipodato.TasaCambio;
 import java.util.Date;
 
 /**
