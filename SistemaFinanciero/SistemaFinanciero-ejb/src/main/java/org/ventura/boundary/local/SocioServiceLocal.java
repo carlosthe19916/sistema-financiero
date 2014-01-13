@@ -7,8 +7,6 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.SocioServiceRemote;
-import org.ventura.entity.schema.persona.Personajuridica;
-import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.socio.ViewSocioPJ;
 import org.ventura.entity.schema.socio.ViewSocioPN;
@@ -16,9 +14,9 @@ import org.ventura.entity.schema.socio.ViewSocioPN;
 @Local
 public interface SocioServiceLocal extends SocioServiceRemote{
 	
-	public void createSocioPersonanatural(Socio socio) throws Exception;
+	public Socio createSocioPersonanatural(Socio socio) throws Exception;
 	
-	public void createSocioPersonajuridica(Socio socio) throws Exception;
+	public Socio createSocioPersonajuridica(Socio socio) throws Exception;
 	
 	public Socio find(Object id)throws Exception;
 	

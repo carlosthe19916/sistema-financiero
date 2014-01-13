@@ -7,18 +7,18 @@ import javax.faces.convert.FacesConverter;
 
 import org.ventura.tipodato.TasaCambio;
 
-@FacesConverter("TasaInteresTipoCambioConverter")
+@FacesConverter("TasaCambioConverter")
 public class TasaCambioConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		TasaCambio tasainterestipocambio = null;
+		TasaCambio tasacambio = null;
 		try {
-			tasainterestipocambio = new TasaCambio(value);
+			tasacambio = new TasaCambio(value);
 		} catch (Exception e) {
-			tasainterestipocambio = new TasaCambio();
+			tasacambio = new TasaCambio();
 		}
-		return tasainterestipocambio;
+		return tasacambio;
 	}
 
 	@Override

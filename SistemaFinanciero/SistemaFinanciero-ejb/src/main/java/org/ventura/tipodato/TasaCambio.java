@@ -57,35 +57,35 @@ public class TasaCambio implements Serializable {
 		this(value.toString());
 	}
 
-	public TasaCambio(TasaCambio tasainterestipocambio) {
-		this(tasainterestipocambio.getValue().toString());
+	public TasaCambio(TasaCambio tasacambio) {
+		this(tasacambio.getValue().toString());
 	}
 
-	public TasaCambio add(TasaCambio tasainterestipocambio) {
-		BigDecimal result = this.value.add(tasainterestipocambio.getValue());
+	public TasaCambio add(TasaCambio tasacambio) {
+		BigDecimal result = this.value.add(tasacambio.getValue());
 		return new TasaCambio(result);
 	}
 
-	public TasaCambio subtract(TasaCambio tasainterestipocambio) {
-		BigDecimal result = this.value.subtract(tasainterestipocambio.getValue());
+	public TasaCambio subtract(TasaCambio tasacambio) {
+		BigDecimal result = this.value.subtract(tasacambio.getValue());
 		return new TasaCambio(result);
 	}
 
 	public TasaCambio multiply(double value) {
-		TasaCambio tasainterestipocambio = new TasaCambio(value);
-		BigDecimal result = this.value.multiply(tasainterestipocambio.getValue());
+		TasaCambio tasacambio = new TasaCambio(value);
+		BigDecimal result = this.value.multiply(tasacambio.getValue());
 		return new TasaCambio(result);
 	}
 
 	public TasaCambio multiply(long value) {
-		TasaCambio tasainterestipocambio = new TasaCambio(value);
-		BigDecimal result = this.value.multiply(tasainterestipocambio.getValue());
+		TasaCambio tasacambio = new TasaCambio(value);
+		BigDecimal result = this.value.multiply(tasacambio.getValue());
 		return new TasaCambio(result);
 	}
 
 	public TasaCambio multiply(int value) {
-		TasaCambio tasainterestipocambio = new TasaCambio(value);
-		BigDecimal result = this.value.multiply(tasainterestipocambio.getValue());
+		TasaCambio tasacambio = new TasaCambio(value);
+		BigDecimal result = this.value.multiply(tasacambio.getValue());
 		return new TasaCambio(result);
 	}
 	
@@ -97,13 +97,13 @@ public class TasaCambio implements Serializable {
 	}
 
 	public BigDecimal divide(double value) {
-		TasaCambio tasainterestipocambio = new TasaCambio(value);
-		return this.value.divide(tasainterestipocambio.getValue());
+		TasaCambio tasacambio = new TasaCambio(value);
+		return this.value.divide(tasacambio.getValue());
 	}
 
 	public BigDecimal divide(long value) {
-		TasaCambio tasainterestipocambio = new TasaCambio(value);
-		return this.value.divide(tasainterestipocambio.getValue());
+		TasaCambio tasacambio = new TasaCambio(value);
+		return this.value.divide(tasacambio.getValue());
 	}
 
 	public BigDecimal negate() {
@@ -126,24 +126,24 @@ public class TasaCambio implements Serializable {
 		return true;
 	}
 
-	public boolean isEqual(TasaCambio tasainterestipocambio) {
-		return value.compareTo(tasainterestipocambio.getValue()) == 0;
+	public boolean isEqual(TasaCambio tasacambio) {
+		return value.compareTo(tasacambio.getValue()) == 0;
 	}
 
-	public boolean isLessThan(TasaCambio tasainterestipocambio) {
-		return value.compareTo(tasainterestipocambio.getValue()) < 0;
+	public boolean isLessThan(TasaCambio tasacambio) {
+		return value.compareTo(tasacambio.getValue()) < 0;
 	}
 
-	public boolean isLessThanOrEqual(TasaCambio tasainterestipocambio) {
-		return this.value.compareTo(tasainterestipocambio.getValue()) <= 0;
+	public boolean isLessThanOrEqual(TasaCambio tasacambio) {
+		return this.value.compareTo(tasacambio.getValue()) <= 0;
 	}
 
-	public boolean isGreaterThan(TasaCambio tasainterestipocambio) {
-		return this.value.compareTo(tasainterestipocambio.getValue()) > 0;
+	public boolean isGreaterThan(TasaCambio tasacambio) {
+		return this.value.compareTo(tasacambio.getValue()) > 0;
 	}
 
-	public boolean isGreaterThanOrEqual(TasaCambio tasainterestipocambio) {
-		return this.value.compareTo(tasainterestipocambio.getValue()) >= 0;
+	public boolean isGreaterThanOrEqual(TasaCambio tasacambio) {
+		return this.value.compareTo(tasacambio.getValue()) >= 0;
 	}
 
 	public BigDecimal getValue() {

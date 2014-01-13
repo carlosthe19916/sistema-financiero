@@ -22,7 +22,6 @@ import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.tipodato.TasaCambio;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
-import org.ventura.util.maestro.TipoCambioCompraVentaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 
 @Stateless
@@ -139,37 +138,4 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 		}		
 		return result;
 	}
-
-	@Override
-	public TasaCambio getTipoCambioCompraVenta(TipoCambioCompraVentaType compraVentaType, BigDecimal monto) throws Exception {
-		TasaCambio result = new TasaCambio();
-		//BigDecimal result = BigDecimal.ZERO;
-		try {
-			Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(compraVentaType);
-			
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("idtipotasa", tipotasa.getIdtipotasa());
-			parameters.put("monto", monto);
-			
-			List<Tasainteres> resultList = tasainteresDAO.findByNamedQuery(Tasainteres.FindById, parameters);
-			
-			if(resultList.size() >= 0){
-				if(resultList.size() == 1){
-					 Tasainteres tasainteres = resultList.get(0);
-					 result = tasainteres.getTasa();
-				} else {
-					throw new Exception("Se encontró muchas tasas de cambio para los parametros especificados");
-				}
-			} else {
-				throw new Exception("No se encontró ninguna tasa de cambio para los parametros especificados");
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			log.error("Cause:"+e.getCause());
-			log.error("Class:"+e.getClass());
-			throw e;
-		}		
-		return result;
-	}
-
 }

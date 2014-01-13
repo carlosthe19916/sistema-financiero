@@ -8,7 +8,6 @@ import org.ventura.boundary.remote.TasainteresServiceRemote;
 import org.ventura.entity.tasas.Tiposervicio;
 import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.tipodato.TasaCambio;
-import org.ventura.util.maestro.TipoCambioCompraVentaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 
 @Local
@@ -17,6 +16,5 @@ public interface TasainteresServiceLocal extends TasainteresServiceRemote{
 	public TasaCambio getTasainteres(Tiposervicio tiposervicio, Tipotasa tipotasa, Double monto) throws Exception;
 	
 	public BigDecimal getTasainteresCuentapersonal(TipotasaCuentasPersonalesType cuentasPersonalesType,BigDecimal monto) throws Exception;
-	
-	public TasaCambio getTipoCambioCompraVenta(TipoCambioCompraVentaType compraVentaType, BigDecimal monto) throws Exception;
+
 }

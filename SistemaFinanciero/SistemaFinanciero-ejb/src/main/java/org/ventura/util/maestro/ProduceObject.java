@@ -1,7 +1,6 @@
 package org.ventura.util.maestro;
 
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
-import org.ventura.entity.GeneratedTipotasaPasiva.TipotasaPasivaType;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
@@ -10,7 +9,6 @@ import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Tipodocumento;
-import org.ventura.entity.tasas.Tipotasa;
 
 public class ProduceObject {
 
@@ -227,78 +225,7 @@ public class ProduceObject {
 		}
 		return tipomoneda;
 	}
-/*
-	public static TipotasaPasivaType getTipoTasaPasiva(Tipotasa tipotasapasiva) {
-		TipotasaPasivaType tipotasapasivaType;
-		Integer id = tipotasapasiva.getIdtipotasa();
-		switch (id) {
-		case 6:
-			tipotasapasivaType = TipotasaPasivaType.COMPRA_DOLAR_CON_SOL;
-			break;
-		case 7:
-			tipotasapasivaType = TipotasaPasivaType.COMPRA_DOLAR_CON_EURO;
-			break;
-		case 8:
-			tipotasapasivaType = TipotasaPasivaType.COMPRA_EURO_CON_SOL;
-			break;
-		case 9:
-			tipotasapasivaType = TipotasaPasivaType.COMPRA_EURO_CON_DOLAR;
-			break;
-		case 10:
-			tipotasapasivaType = TipotasaPasivaType.VENTA_DOLAR_CON_SOL;
-			break;
-		case 11:
-			tipotasapasivaType = TipotasaPasivaType.VENTA_DOLAR_CON_EURO;
-			break;
-		case 12:
-			tipotasapasivaType = TipotasaPasivaType.VENTA_EURO_CON_SOL;
-			break;
-		case 13:
-			tipotasapasivaType = TipotasaPasivaType.VENTA_EURO_CON_DOLAR;
-			break;
-		default:
-			tipotasapasivaType = null;
-			break;
-		}
-		return tipotasapasivaType;
-	}
 
-	public static Tipotasa getTipoTasaPasiva(
-			TipotasaPasivaType tipotasapasivaType) {
-		Tipotasa tipotasapasiva = new Tipotasa();
-
-		switch (tipotasapasivaType) {
-		case COMPRA_DOLAR_CON_SOL:
-			tipotasapasiva.setIdtipotasa(6);
-			break;
-		case COMPRA_DOLAR_CON_EURO:
-			tipotasapasiva.setIdtipotasa(7);
-			break;
-		case COMPRA_EURO_CON_SOL:
-			tipotasapasiva.setIdtipotasa(8);
-			break;
-		case COMPRA_EURO_CON_DOLAR:
-			tipotasapasiva.setIdtipotasa(9);
-			break;
-		case VENTA_DOLAR_CON_SOL:
-			tipotasapasiva.setIdtipotasa(10);
-			break;
-		case VENTA_DOLAR_CON_EURO:
-			tipotasapasiva.setIdtipotasa(11);
-			break;
-		case VENTA_EURO_CON_SOL:
-			tipotasapasiva.setIdtipotasa(12);
-			break;
-		case VENTA_EURO_CON_DOLAR:
-			tipotasapasiva.setIdtipotasa(13);
-			break;
-		default:
-			tipotasapasiva.setIdtipotasa(null);
-			break;
-		}
-		return tipotasapasiva;
-	}
-*/
 	public static Tipotransaccioncompraventa getTipotransaccioncompraventa(
 			TipoTransaccionCompraVentaType tipoTransaccioncompraventaType) {
 		Tipotransaccioncompraventa tipotransaccioncompraventa = new Tipotransaccioncompraventa();

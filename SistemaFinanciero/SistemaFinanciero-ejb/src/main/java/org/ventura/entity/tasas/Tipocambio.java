@@ -1,14 +1,22 @@
 package org.ventura.entity.tasas;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
-import org.ventura.entity.schema.maestro.Tipomoneda;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.ventura.entity.schema.maestro.Tipomoneda;
 
 /**
  * The persistent class for the tipocambio database table.
@@ -16,12 +24,12 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "tipocambio", schema = "tasas")
-@NamedQuery(name="Tipocambio.findAll", query="SELECT t FROM Tipocambio t")
+@NamedQuery(name = "Tipocambio.findAll", query = "SELECT t FROM Tipocambio t")
 public class Tipocambio implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public final static String findAll = "org.ventura.entity.tasas.Tipocambio.findAll";
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(unique = true, nullable = false)
@@ -35,7 +43,7 @@ public class Tipocambio implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	private Date fechainicio;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idtipomonedaentregado", nullable = false)
 	private Tipomoneda tipomonedaentregado;

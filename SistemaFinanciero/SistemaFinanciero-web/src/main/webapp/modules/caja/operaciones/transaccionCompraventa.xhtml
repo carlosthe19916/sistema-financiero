@@ -259,7 +259,7 @@
 										<h:inputText id="txtTipoCambio"
 											value="#{transaccionCompraVentaCajaBean.tipoCambio}"
 											required="true" maxlenght="5" requiredMessage="Ingrese el tipo de cambio"> 
-											<f:converter converterId="TasaInteresTipoCambioConverter"></f:converter>
+											<f:converter converterId="TasaCambioConverter"></f:converter>
 											<f:ajax event="blur" listener = "#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}" render="txtMontoEntregado @this" />
 										</h:inputText>	
 									</p:inplace>

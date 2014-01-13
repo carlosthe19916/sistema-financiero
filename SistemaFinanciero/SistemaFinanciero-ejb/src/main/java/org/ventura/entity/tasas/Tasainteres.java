@@ -5,8 +5,9 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
-import org.ventura.tipodato.TasaCambio;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 
+import org.ventura.tipodato.TasaCambio;
 import java.util.Date;
 
 /**
@@ -18,12 +19,16 @@ import java.util.Date;
 @NamedQuery(name = "Tasainteres.findAll", query = "SELECT t FROM Tasainteres t")
 @NamedQueries({
 		@NamedQuery(name = Tasainteres.FindById, query = "Select ti From Tasainteres ti INNER JOIN ti.tiposervicio ts INNER JOIN ts.servicio s INNER JOIN ti.tipotasa tt WHERE s.estado = TRUE and ts.estado = TRUE and ti.estado = TRUE and tt.estado = TRUE and tt.idtipotasa=:idtipotasa AND :monto BETWEEN ti.montominimo and ti.montomaximo"),
-		@NamedQuery(name = Tasainteres.TASA_INTERES_BY_CV, query = "select ti from Tasainteres ti where ti.tipotasa.idtipotasa = :parametro and ti.estado = true") })
+		@NamedQuery(name = Tasainteres.TASA_INTERES_BY_CV, query = "select ti from Tasainteres ti where ti.tipotasa.idtipotasa = :parametro and ti.estado = true"),
+		@NamedQuery(name = Tasainteres.f_tipotasa_moneda_periodo_monto, query = "SELECT t FROM Tasainteres t INNER JOIN t.tipotasa tt WHERE t.tipotasa = :tipotasa AND t.tipomoneda = :tipomoneda AND :periodo BETWEEN t.periodoinicial AND t.periodofinal AND :monto BETWEEN t.montominimo AND t.montomaximo"),
+		@NamedQuery(name = Tasainteres.f_tipotasa_moneda, query = "SELECT t FROM Tasainteres t INNER JOIN t.tipotasa tt WHERE t.tipotasa = :tipotasa AND t.tipomoneda = :tipomoneda") })
 public class Tasainteres implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String FindById = "org.ventura.entity.tasas.Tasainteres.FindById";
 	public final static String TASA_INTERES_BY_CV = "org.ventura.entity.tasas.Tasainteres.TASA_INTERES_BY_CV";
+	public final static String f_tipotasa_moneda_periodo_monto = "org.ventura.entity.tasas.Tasainteres.f_moneda_periodo_monto";
+	public final static String f_tipotasa_moneda = "org.ventura.entity.tasas.Tasainteres.f_tipotasa_moneda";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -46,6 +51,12 @@ public class Tasainteres implements Serializable {
 	@Column(nullable = false)
 	private BigDecimal montominimo;
 
+	@Column
+	private Integer periodoinicial;
+
+	@Column
+	private Integer periodofinal;
+
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tasa")) })
 	private TasaCambio tasa;
@@ -57,6 +68,10 @@ public class Tasainteres implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idtipotasa", nullable = false)
 	private Tipotasa tipotasa;
+
+	@ManyToOne
+	@JoinColumn(name = "idtipomoneda")
+	private Tipomoneda tipomoneda;
 
 	public Tasainteres() {
 	}
@@ -131,6 +146,30 @@ public class Tasainteres implements Serializable {
 
 	public void setTasa(TasaCambio tasa) {
 		this.tasa = tasa;
+	}
+
+	public Integer getPeriodoinicial() {
+		return periodoinicial;
+	}
+
+	public void setPeriodoinicial(Integer periodoinicial) {
+		this.periodoinicial = periodoinicial;
+	}
+
+	public Integer getPeriodofinal() {
+		return periodofinal;
+	}
+
+	public void setPeriodofinal(Integer periodofinal) {
+		this.periodofinal = periodofinal;
+	}
+
+	public Tipomoneda getTipomoneda() {
+		return tipomoneda;
+	}
+
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
 	}
 
 }
