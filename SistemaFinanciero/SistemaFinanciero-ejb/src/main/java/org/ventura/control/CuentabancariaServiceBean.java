@@ -614,8 +614,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaDAO.create(cuentabancaria);
 			
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda(), monto);
+			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -793,8 +792,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaDAO.create(cuentabancaria);
 			
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda(), monto);
+			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
