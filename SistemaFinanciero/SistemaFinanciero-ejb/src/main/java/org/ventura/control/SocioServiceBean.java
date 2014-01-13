@@ -245,7 +245,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 	}
 
 	@Override
-	public void createSocioPersonanatural(Socio socio) throws Exception {
+	public Socio createSocioPersonanatural(Socio socio) throws Exception {
 		try {				
 			socio.setPersonajuridica(null);
 			
@@ -319,6 +319,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 			
 			socioDAO.create(socio);
 			
+			return socio;
 		} catch (IllegalEntityException | PreexistingEntityException e) {			
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -335,7 +336,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 	}
 
 	@Override
-	public void createSocioPersonajuridica(Socio socio) throws Exception {
+	public Socio createSocioPersonajuridica(Socio socio) throws Exception {
 		try {				
 			socio.setPersonanatural(null);
 			
@@ -440,7 +441,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 			socio.setPersonajuridica(personajuridica);
 			
 			socioDAO.create(socio);
-			
+			return socio;
 		} catch (IllegalEntityException | PreexistingEntityException e) {					
 			socio.setIdsocio(null);
 			log.error("Exception:" + e.getClass());

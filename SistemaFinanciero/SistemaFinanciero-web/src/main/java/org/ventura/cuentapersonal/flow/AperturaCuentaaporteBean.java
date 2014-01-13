@@ -45,6 +45,9 @@ public class AperturaCuentaaporteBean implements Serializable {
 	private boolean isPersonajuridica;
 	
 	private boolean cuentaValida;
+	private boolean cuentaCreada;
+	private String numeroCuenta;
+	private Date fechaApertura;
 	
 	// DATOS DE LA VISTA
 	// VISTA 01
@@ -119,6 +122,8 @@ public class AperturaCuentaaporteBean implements Serializable {
 	
 	public AperturaCuentaaporteBean() {
 		cuentaValida = true;
+		cuentaCreada = false;
+		fechaApertura = null;
 		
 		isPersonanatural = false;
 		isPersonajuridica = false;
@@ -202,7 +207,11 @@ public class AperturaCuentaaporteBean implements Serializable {
 				socio.setApoderado(apoderado);
 				socio.setAgencia(agencia);
 				
-				socioServiceLocal.createSocioPersonanatural(socio);
+				socio = socioServiceLocal.createSocioPersonanatural(socio);
+				
+				cuentaCreada = true;
+				numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
+				fechaApertura = socio.getCuentaaporte().getFechaapertura();
 			} else {
 				if (isPersonajuridica) {
 					
@@ -239,7 +248,11 @@ public class AperturaCuentaaporteBean implements Serializable {
 					socio.setPersonajuridica(personaJuridicaSocio);
 					socio.setAgencia(agencia);
 					
-					socioServiceLocal.createSocioPersonajuridica(socio);
+					socio = socioServiceLocal.createSocioPersonajuridica(socio);
+					
+					cuentaCreada = true;
+					numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
+					fechaApertura = socio.getCuentaaporte().getFechaapertura();
 				} else {
 					throw new Exception("El tipo de persona no es valido");
 				}
@@ -250,7 +263,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 			return null;
 		}
 
-		return "returnFromAperturaCuentaaporteFlow";
+		return null;
 	}
 	
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
@@ -1065,6 +1078,30 @@ public class AperturaCuentaaporteBean implements Serializable {
 
 	public void setCuentaValida(boolean cuentaValida) {
 		this.cuentaValida = cuentaValida;
+	}
+
+	public boolean isCuentaCreada() {
+		return cuentaCreada;
+	}
+
+	public void setCuentaCreada(boolean cuentaCreada) {
+		this.cuentaCreada = cuentaCreada;
+	}
+
+	public String getNumeroCuenta() {
+		return numeroCuenta;
+	}
+
+	public void setNumeroCuenta(String numeroCuenta) {
+		this.numeroCuenta = numeroCuenta;
+	}
+
+	public Date getFechaApertura() {
+		return fechaApertura;
+	}
+
+	public void setFechaApertura(Date fechaApertura) {
+		this.fechaApertura = fechaApertura;
 	}
 
 }
