@@ -45,7 +45,6 @@ import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
-import org.ventura.util.helper.TasaInteres;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadocuentaType;
 import org.ventura.util.maestro.ProduceObject;
@@ -313,8 +312,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaDAO.create(cuentabancaria);
 			
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda(), monto);
+			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -491,8 +489,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			
 
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda(), monto);
+			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();

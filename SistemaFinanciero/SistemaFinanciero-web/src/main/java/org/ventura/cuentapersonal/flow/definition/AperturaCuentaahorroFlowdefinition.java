@@ -19,7 +19,7 @@ public class AperturaCuentaahorroFlowdefinition implements Serializable {
 				.markAsStartNode();
 
 		flowBuilder.returnNode("returnFromAperturaCuentaahorroFlow")
-				.fromOutcome("aperturaCuentaahorro-flowD");
+				.fromOutcome("aperturaCuentaahorro-flowE");
 
 		return flowBuilder.getFlow();
 	}

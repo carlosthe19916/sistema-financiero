@@ -125,7 +125,7 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 	}
 
 	@Override
-	public BigDecimal getTasainteresCuentaahorro(Tipomoneda tipomoneda, BigDecimal monto) throws Exception {
+	public BigDecimal getTasainteresCuentaahorro(Tipomoneda tipomoneda) throws Exception {
 		BigDecimal result = BigDecimal.ZERO;
 		try {
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
@@ -133,7 +133,6 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("tipotasa", tipotasa);
 			parameters.put("tipomoneda", tipomoneda);
-			parameters.put("monto", monto);
 			
 			List<Tasainteres> resultList = tasainteresDAO.findByNamedQuery(Tasainteres.f_tipotasa_moneda, parameters);
 			

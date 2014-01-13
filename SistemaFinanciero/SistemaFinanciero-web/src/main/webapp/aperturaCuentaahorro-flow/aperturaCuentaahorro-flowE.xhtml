@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Apertura Cta. Aporte" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+
+		<h:outputStylesheet library="css" name="main.css" />
+
+		<div>CREACION FINALIZADA</div>
+		<h:form>
+			<h:commandButton value="Crear nueva cuenta de ahorros"
+				action="aperturaCuentaahorro-flow" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -24,7 +24,7 @@ public interface TasainteresServiceLocal extends TasainteresServiceRemote{
 	
 	public BigDecimal getTrea(Tipomoneda tipomoneda, Integer periodo,BigDecimal monto) throws Exception;
 	
-	public BigDecimal getTasainteresCuentaahorro(Tipomoneda tipomoneda, BigDecimal monto) throws Exception;
+	public BigDecimal getTasainteresCuentaahorro(Tipomoneda tipomoneda) throws Exception;
 	
 	public BigDecimal getTasainteresCuentacorriente(Tipomoneda tipomoneda, BigDecimal monto) throws Exception;
 	

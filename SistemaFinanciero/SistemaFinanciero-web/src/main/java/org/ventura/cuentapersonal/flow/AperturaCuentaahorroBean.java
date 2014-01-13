@@ -2,7 +2,9 @@ package org.ventura.cuentapersonal.flow;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +49,9 @@ public class AperturaCuentaahorroBean implements Serializable {
 	private boolean isPersonajuridica;
 	
 	private boolean cuentaValida;
+	private boolean cuentaCreada;
+	private String numeroCuenta;
+	private Date fechaApertura;
 	
 	// DATOS DE LA VISTA
 	// VISTA 01
@@ -129,6 +134,8 @@ public class AperturaCuentaahorroBean implements Serializable {
 	
 	public AperturaCuentaahorroBean() {
 		cuentaValida = true;
+		cuentaCreada = false;
+		fechaApertura = null;
 		
 		isPersonanatural = false;
 		isPersonajuridica = false;
@@ -218,7 +225,10 @@ public class AperturaCuentaahorroBean implements Serializable {
 				cuentabancaria.setTitulares(listTitulares);
 				cuentabancaria.setBeneficiarios(listBeneficiarios);
 				
-				cuentabancariaServiceLocal.createCuentaahorroPersonanatural(cuentabancaria, personaNaturalSocio);
+				cuentabancaria = cuentabancariaServiceLocal.createCuentaahorroPersonanatural(cuentabancaria, personaNaturalSocio);
+				cuentaCreada = true;
+				numeroCuenta = cuentabancaria.getNumerocuenta();
+				fechaApertura = cuentabancaria.getFechaapertura();
 			} else {
 				if (isPersonajuridica) {
 					
@@ -266,7 +276,11 @@ public class AperturaCuentaahorroBean implements Serializable {
 					cuentabancaria.setTitulares(listTitulares);
 					cuentabancaria.setBeneficiarios(listBeneficiarios);
 					
-					cuentabancariaServiceLocal.createCuentaahorroPersonajuridica(cuentabancaria, personaJuridicaSocio);
+					cuentabancaria = cuentabancariaServiceLocal.createCuentaahorroPersonajuridica(cuentabancaria, personaJuridicaSocio);
+					
+					cuentaCreada = true;
+					numeroCuenta = cuentabancaria.getNumerocuenta();
+					fechaApertura = cuentabancaria.getFechaapertura();
 				} else {
 					throw new Exception("El tipo de persona no es valido");
 				}
@@ -277,7 +291,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 			return null;
 		}
 
-		return "returnFromAperturaCuentaahorroFlow";
+		return null;
 	}
 	
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
@@ -697,6 +711,12 @@ public class AperturaCuentaahorroBean implements Serializable {
 			String keyMap = beneficiario.getApellidopaterno()+beneficiario.getApellidomaterno()+beneficiario.getNombres();
 			this.beneficiarios.remove(keyMap);
 		} 
+	}
+	
+	public String calcularFecha(){
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		return sdf.format(calendar.getTime());
 	}
 	
 	public void changeTipomoneda(ValueChangeEvent event) {
@@ -1371,6 +1391,30 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	public void setComboTipomoneda(ComboBean<Tipomoneda> comboTipomoneda) {
 		this.comboTipomoneda = comboTipomoneda;
+	}
+
+	public String getNumeroCuenta() {
+		return numeroCuenta;
+	}
+
+	public void setNumeroCuenta(String numeroCuenta) {
+		this.numeroCuenta = numeroCuenta;
+	}
+
+	public Date getFechaApertura() {
+		return fechaApertura;
+	}
+
+	public void setFechaApertura(Date fechaApertura) {
+		this.fechaApertura = fechaApertura;
+	}
+
+	public boolean isCuentaCreada() {
+		return cuentaCreada;
+	}
+
+	public void setCuentaCreada(boolean cuentaCreada) {
+		this.cuentaCreada = cuentaCreada;
 	}
 
 }
