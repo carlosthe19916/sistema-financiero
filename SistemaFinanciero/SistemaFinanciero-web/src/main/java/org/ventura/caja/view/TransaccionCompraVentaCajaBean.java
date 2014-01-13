@@ -15,6 +15,7 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
+import org.ventura.boundary.local.TipocambioServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
@@ -26,13 +27,15 @@ import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.entity.tasas.Tasainteres;
+import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.session.CajaBean;
 import org.ventura.tipodato.Moneda;
 import org.ventura.tipodato.TasaCambio;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.ProduceObjectTipocambio;
+import org.ventura.util.maestro.TipoCambioCompraVentaType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -47,6 +50,8 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	private CajaServiceLocal cajaServiceLocal;
 	@EJB
 	private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
+	@EJB
+	private TipocambioServiceLocal tipocambioServiceLocal;
 	
 	@Inject
 	private CajaBean cajaBean;
@@ -213,11 +218,19 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	}
 
 	public void cagarTipoCambio(){
+		Moneda monto = new Moneda();
+		TasaCambio tasacambio = null;
+		Tipotasa tipoTasa = null;
+		
 		try {
 			if (comboTipotransaccion.getItemSelected() != -1 && comboTipomonedaRecibido.getItemSelected() != -1 && comboTipomonedaEntregado.getItemSelected() != -1) {
-				TasaCambio tipocambio;
-				tipocambio = transaccionCompraVentaServiceLocal.retornarTipoCambio(Tasainteres.TASA_INTERES_BY_CV, tipotransaccioncompraventa, tipomonedaRecibido, tipomonedaEntregado);
-				setTipoCambio(tipocambio);
+				if (comboTipotransaccion.getItemSelected() == 1) {
+					tipoTasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
+				}if (comboTipotransaccion.getItemSelected() == 2) {
+					tipoTasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
+				}
+				tasacambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipoTasa, monto, tipomonedaRecibido, tipomonedaEntregado); 
+				setTipoCambio(tasacambio);
 			}
 		} catch (Exception e) {}
 	} 
