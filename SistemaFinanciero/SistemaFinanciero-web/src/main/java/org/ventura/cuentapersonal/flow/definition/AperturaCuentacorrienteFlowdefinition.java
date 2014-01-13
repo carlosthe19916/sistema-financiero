@@ -19,7 +19,7 @@ public class AperturaCuentacorrienteFlowdefinition implements Serializable {
 				.markAsStartNode();
 
 		flowBuilder.returnNode("returnFromAperturaCuentacorrienteFlow")
-				.fromOutcome("aperturaCuentacorriente-flowD");
+				.fromOutcome("aperturaCuentacorriente-flowE");
 
 		return flowBuilder.getFlow();
 	}

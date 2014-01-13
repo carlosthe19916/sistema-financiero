@@ -35,6 +35,7 @@ import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasaPK;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.cuentapersonal.Titular;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
@@ -44,7 +45,6 @@ import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
-import org.ventura.util.helper.TasaInteres;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadocuentaType;
 import org.ventura.util.maestro.ProduceObject;
@@ -311,18 +311,13 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
 			
-			TipotasaCuentasPersonalesType tipotasaType = TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES;
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentapersonal(tipotasaType, monto);
-			
-			TasaInteres tasainteres = new TasaInteres();
-			tasainteres.setValue(tasaValor);
+			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasainteres);
+			cuentabancariaTipotasa.setTasainteres(tasaValor);
 			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
@@ -492,21 +487,16 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
 			
-			TipotasaCuentasPersonalesType tipotasaType = TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES;
+
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentapersonal(tipotasaType, monto);
-			
-			TasaInteres tasainteres = new TasaInteres();
-			tasainteres.setValue(tasaValor);
+			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasainteres);
+			cuentabancariaTipotasa.setTasainteres(tasaValor);
 			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
-			pk.setIdtipotasa(tipotasa.getIdtipotasa());
-			
+			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
 			
 			for (Titular titular : titulares) {
@@ -623,18 +613,13 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
 			
-			TipotasaCuentasPersonalesType tipotasaType = TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES;
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentapersonal(tipotasaType, monto);
-			
-			TasaInteres tasainteres = new TasaInteres();
-			tasainteres.setValue(tasaValor);
+			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasainteres);
+			cuentabancariaTipotasa.setTasainteres(tasaValor);
 			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
@@ -806,21 +791,15 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
 			
-			TipotasaCuentasPersonalesType tipotasaType = TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES;
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentapersonal(tipotasaType, monto);
-			
-			TasaInteres tasainteres = new TasaInteres();
-			tasainteres.setValue(tasaValor);
+			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasainteres);
+			cuentabancariaTipotasa.setTasainteres(tasaValor);
 			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
-			pk.setIdtipotasa(tipotasa.getIdtipotasa());
-			
+			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
 			
 			for (Titular titular : titulares) {
@@ -883,7 +862,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	
 	@Override
 	public Cuentabancaria createCuentaplazofijoPersonanatural(
-			Cuentabancaria cuentabancaria, Personanatural personanatural)
+			Cuentabancaria cuentabancaria, Personanatural personanatural, BigDecimal tea, BigDecimal trea)
 			throws Exception {
 		try {				
 			Map<String,Object> parameters = new HashMap<String, Object>();
@@ -935,22 +914,37 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
+					
+			Calendar start = Calendar.getInstance();
+			start.setTime(cuentabancaria.getFechaapertura());
+			Calendar end = Calendar.getInstance();
+			start.setTime(cuentabancaria.getFechacierre());
 			
-			TipotasaCuentasPersonalesType tipotasaType = TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES;
-			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
+			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
+			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+			Tipomoneda tipomoneda = cuentabancaria.getTipomoneda();
+			int periodo = start.get(Calendar.DAY_OF_YEAR) - end.get(Calendar.DAY_OF_YEAR);
 			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentapersonal(tipotasaType, monto);
 			
-			TasaInteres tasainteres = new TasaInteres();
-			tasainteres.setValue(tasaValor);
+			BigDecimal teaValor = tasainteresServiceLocal.getTea(tipomoneda, periodo, monto);
+			BigDecimal treaValor = tasainteresServiceLocal.getTrea(tipomoneda, periodo, monto);
+						
+			CuentabancariaTipotasa cuentabancariaTipotasaTEA =  new CuentabancariaTipotasa();
+			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();
+			cuentabancariaTipotasaTEA.setId(pkTEA);
+			cuentabancariaTipotasaTEA.setTasainteres(teaValor);
+			pkTEA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
+			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
 			
-			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
-			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
-			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasainteres);
-			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
-			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
-			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
+			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
+			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();	
+			cuentabancariaTipotasaTREA.setId(pkTREA);
+			cuentabancariaTipotasaTREA.setTasainteres(treaValor);	
+			pkTREA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
+			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
+			
+			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTEA);
+			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
 			
 			for (Titular titular : titulares) {
 				Personanatural titularPersonanatural = titular.getPersonanatural();
@@ -1011,8 +1005,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonajuridica(
-			Cuentabancaria cuentabancaria, Personajuridica personajuridica)
+	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea)
 			throws Exception {
 		try {				
 			Map<String,Object> parameters = new HashMap<String, Object>();
@@ -1113,27 +1106,40 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
 			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
 			cuentabancaria.setEstadocuenta(estadocuenta);
-			cuentabancaria.setFechaapertura(Calendar.getInstance().getTime());
 			cuentabancaria.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
 			
-			TipotasaCuentasPersonalesType tipotasaType = TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES;
-			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
+			Calendar start = Calendar.getInstance();
+			start.setTime(cuentabancaria.getFechaapertura());
+			Calendar end = Calendar.getInstance();
+			start.setTime(cuentabancaria.getFechacierre());
+			
+			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
+			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+			Tipomoneda tipomoneda = cuentabancaria.getTipomoneda();
+			int periodo = start.get(Calendar.DAY_OF_YEAR) - end.get(Calendar.DAY_OF_YEAR);
 			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentapersonal(tipotasaType, monto);
 			
-			TasaInteres tasainteres = new TasaInteres();
-			tasainteres.setValue(tasaValor);
+			BigDecimal teaValor = tasainteresServiceLocal.getTea(tipomoneda, periodo, monto);
+			BigDecimal treaValor = tasainteresServiceLocal.getTrea(tipomoneda, periodo, monto);
+						
+			CuentabancariaTipotasa cuentabancariaTipotasaTEA =  new CuentabancariaTipotasa();
+			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();
+			cuentabancariaTipotasaTEA.setId(pkTEA);
+			cuentabancariaTipotasaTEA.setTasainteres(teaValor);
+			pkTEA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
+			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
 			
-			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
-			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
-			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasainteres);
-			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
-			pk.setIdtipotasa(tipotasa.getIdtipotasa());
+			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
+			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();	
+			cuentabancariaTipotasaTREA.setId(pkTREA);
+			cuentabancariaTipotasaTREA.setTasainteres(treaValor);	
+			pkTREA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
+			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
 			
-			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
+			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTEA);
+			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
 			
 			for (Titular titular : titulares) {
 				Personanatural titularPersonanatural = titular.getPersonanatural();

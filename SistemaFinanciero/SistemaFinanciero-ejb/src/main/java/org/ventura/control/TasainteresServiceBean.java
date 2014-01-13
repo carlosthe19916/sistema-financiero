@@ -16,12 +16,14 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.boundary.remote.TasainteresServiceRemote;
 import org.ventura.dao.impl.TasainteresDAO;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.tasas.Tasainteres;
 import org.ventura.entity.tasas.Tiposervicio;
 import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.tipodato.TasaCambio;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
+import org.ventura.util.maestro.TipoCambioCompraVentaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 
 @Stateless
@@ -34,63 +36,6 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 	private Log log;
 	@Inject
 	private TasainteresDAO tasainteresDAO;
-/*
-	@Override
-	public Double getTasainteres(TiposervicioType tiposervicioType, TipotasaPasivaType tipotasa, Double monto) throws Exception {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		
-		switch (tiposervicioType) {
-		case CUENTA_APORTE:
-			parameters.put("tiposervicio", TiposervicioType.CUENTA_APORTE.toString());
-			break;
-		case CUENTA_AHORRO:
-			parameters.put("tiposervicio", TiposervicioType.CUENTA_AHORRO.toString());
-			break;
-		case CUENTA_CORRIENTE:
-			parameters.put("tiposervicio", TiposervicioType.CUENTA_CORRIENTE.toString());
-			break;
-		case CUENTA_PLAZO_FIJO:
-			parameters.put("tiposervicio", TiposervicioType.CUENTA_PLAZO_FIJO.toString());
-			break;
-		default:
-			log.error("Error: tiposervicioType no valido");
-			throw new Exception("Error: TipotasaPasivaType not found");
-		}
-				
-		switch (tipotasa) {
-		case TICAH:
-			parameters.put("tipotasa", TipotasaPasivaType.TICAH.toString());
-			break;
-		case TICC:
-			parameters.put("tipotasa", TipotasaPasivaType.TICC.toString());
-			break;
-		case TICEAF:
-			parameters.put("tipotasa", TipotasaPasivaType.TICEAF.toString());
-			break;
-		case TREA:
-			parameters.put("tipotasa", TipotasaPasivaType.TREA.toString());
-			break;
-		case ITF:
-			parameters.put("tipotasa", TipotasaPasivaType.ITF.toString());
-			break;				
-			
-		default:
-			log.error("Error: TipotasaPasivaType no valido");
-			throw new Exception("Error: TipotasaPasivaType not found");
-		}
-			
-		List<Tasainteres> resultList = tasainteresDAO.findByNamedQuery(Tasainteres.FindByAbreviatura, parameters);
-		for (Iterator<Tasainteres> iterator = resultList.iterator(); iterator.hasNext();) {
-			Tasainteres tasainteres = iterator.next();
-			if(monto>=tasainteres.getMontominimo() && monto<=tasainteres.getMontomaximo()){
-				return tasainteres.getTasa();
-			}
-		}
-		
-		log.error("Error: tasa de interes no encontrada para el  monto enviado");
-		throw new Exception("Error: Error: tasa de interes no encontrada para el  monto enviado");
-	}
-*/
 
 	@Override
 	public TasaCambio getTasainteres(Tiposervicio tiposervicio, Tipotasa tipotasa, Double monto) throws Exception {
@@ -129,6 +74,139 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 				}
 			} else {
 				throw new Exception("No se encontró ninguna tasa para los parametros especificados");
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:"+e.getCause());
+			log.error("Class:"+e.getClass());
+			throw e;
+		}		
+		return result;
+	}
+
+	@Override
+	public BigDecimal getTea(Tipomoneda tipomoneda, Integer periodo, BigDecimal monto) throws Exception {
+		BigDecimal result = BigDecimal.ZERO;
+		try {
+			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("tipotasa", tipotasa);
+			parameters.put("moneda", tipomoneda);
+			parameters.put("periodo", periodo);
+			parameters.put("monto", monto);
+			
+			List<Tasainteres> resultList = tasainteresDAO.findByNamedQuery(Tasainteres.f_tipotasa_moneda_periodo_monto, parameters);
+			
+			if(resultList.size() > 0){
+				if(resultList.size() == 1){
+					 Tasainteres tasainteres = resultList.get(0);
+					 result = tasainteres.getTasa().getValue();
+				} else {
+					throw new Exception("No se encontró ninguna tasa para los parametros especificados");
+				}
+			} else {
+				throw new Exception("No se encontró ninguna tasa para los parametros especificados");
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:"+e.getCause());
+			log.error("Class:"+e.getClass());
+			throw e;
+		}		
+		return result;
+	}
+
+	@Override
+	public BigDecimal getTrea(Tipomoneda tipomoneda, Integer periodo, BigDecimal monto)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BigDecimal getTasainteresCuentaahorro(Tipomoneda tipomoneda) throws Exception {
+		BigDecimal result = BigDecimal.ZERO;
+		try {
+			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("tipotasa", tipotasa);
+			parameters.put("tipomoneda", tipomoneda);
+			
+			List<Tasainteres> resultList = tasainteresDAO.findByNamedQuery(Tasainteres.f_tipotasa_moneda, parameters);
+			
+			if(resultList.size() > 0){
+				if(resultList.size() == 1){
+					 Tasainteres tasainteres = resultList.get(0);
+					 result = tasainteres.getTasa().getValue();
+				} else {
+					throw new Exception("No se encontró ninguna tasa para los parametros especificados");
+				}
+			} else {
+				throw new Exception("No se encontró ninguna tasa para los parametros especificados");
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:"+e.getCause());
+			log.error("Class:"+e.getClass());
+			throw e;
+		}		
+		return result;
+	}
+
+	@Override
+	public BigDecimal getTasainteresCuentacorriente(Tipomoneda tipomoneda) throws Exception {
+		BigDecimal result = BigDecimal.ZERO;
+		try {
+			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("tipotasa", tipotasa);
+			parameters.put("tipomoneda", tipomoneda);
+			
+			List<Tasainteres> resultList = tasainteresDAO.findByNamedQuery(Tasainteres.f_tipotasa_moneda, parameters);
+			
+			if(resultList.size() > 0){
+				if(resultList.size() == 1){
+					 Tasainteres tasainteres = resultList.get(0);
+					 result = tasainteres.getTasa().getValue();
+				} else {
+					throw new Exception("No se encontró ninguna tasa para los parametros especificados");
+				}
+			} else {
+				throw new Exception("No se encontró ninguna tasa para los parametros especificados");
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:"+e.getCause());
+			log.error("Class:"+e.getClass());
+			throw e;
+		}		
+		return result;
+	}
+
+	public TasaCambio getTipoCambioCompraVenta(TipoCambioCompraVentaType compraVentaType, BigDecimal monto) throws Exception {
+		TasaCambio result = new TasaCambio();
+		//BigDecimal result = BigDecimal.ZERO;
+		try {
+			Tipotasa tipotasa = ProduceObjectTasainteres.getTipoCambioCompraVenta(compraVentaType);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idtipotasa", tipotasa.getIdtipotasa());
+			parameters.put("monto", monto);
+			
+			List<Tasainteres> resultList = tasainteresDAO.findByNamedQuery(Tasainteres.FindById, parameters);
+			
+			if(resultList.size() >= 0){
+				if(resultList.size() == 1){
+					 Tasainteres tasainteres = resultList.get(0);
+					 result = tasainteres.getTasa();
+				} else {
+					throw new Exception("Se encontró muchas tasas de cambio para los parametros especificados");
+				}
+			} else {
+				throw new Exception("No se encontró ninguna tasa de cambio para los parametros especificados");
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());

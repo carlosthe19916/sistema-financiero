@@ -19,592 +19,72 @@
 
 		<h:outputStylesheet library="css" name="main.css" />
 
-		<h:form>
-			<h:panelGroup rendered="#{!aperturaCuentaahorroBean.cuentaValida}">
-				<div class="p6n-api-access-in-page-error" style="left: 516px;">
+		<h:form id="formDatos">
+			<div style="margin-left: 50px;">
+				<div>
 					<div>
-						<div>
-							<p>
-								<h:messages />
-							</p>
-						</div>
-					</div>
-				</div>
-			</h:panelGroup>
-
-			<h:panelGroup rendered="#{aperturaCuentaahorroBean.personanatural}">
-				<div class="p6n-content ng-scope">
-					<div class="p6n-content-no-nav ng-scope">
-						<div class="p6n-main-pane ng-isolate-scope">
-							<div class="">
-								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">CUENTA DE AHORROS</h2>
-									<div class="ng-isolate-scope">
-										<div class="">
-											<div class="ng-scope ng-hide">
-												<br />
-												<p>
-													Tipo cuenta: <label class="sf-label-bold">CUENTA DE
-														AHORROS</label>
-												</p>
-												<br />
-												<p>
-													Moneda:
-													<h:selectOneMenu id="cmbTipomonedaCuentaahorro"
-														value="#{aperturaCuentaahorroBean.comboTipomoneda.itemSelected}"
-														valueChangeListener="#{aperturaCuentaahorroBean.changeTipomoneda}"
-														required="true"
-														requiredMessage="Seleccione tipo de moneda">
-														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
-														<f:selectItems
-															value="#{aperturaCuentaahorroBean.comboTipomoneda.items.entrySet()}"
-															var="val"
-															itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
-															itemValue="#{val.key}" />
-														<f:ajax></f:ajax>
-													</h:selectOneMenu>
-												</p>
-												<div
-													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-													<h:message for="cmbTipomonedaCuentaahorro" />
-												</div>
-												<br />
-												<p>
-													Saldo: <label class="sf-label-bold">0.00</label>
-												</p>
-											</div>
+						<div class="p6n-api-consent-screen-inputs">
+							<div class="sf-separator">
+								<div>
+									<h3 class="p6n-api-consent-screen-title"
+										style="color: #298B11;">DATOS DE CUENTA DE AHORROS</h3>
+								</div>
+							</div>
+							<div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">MONEDA</div>
+									<div>
+										<div>
+											<h:selectOneMenu id="cmbTipomonedaCuentaplazofijo"
+												value="#{aperturaCuentaahorroBean.comboTipomoneda.itemSelected}"
+												valueChangeListener="#{aperturaCuentaahorroBean.changeTipomoneda}"
+												required="true" requiredMessage="Seleccione tipo de moneda">
+												<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+												<f:selectItems
+													value="#{aperturaCuentaahorroBean.comboTipomoneda.items.entrySet()}"
+													var="val"
+													itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
+													itemValue="#{val.key}" />
+												<f:ajax></f:ajax>
+											</h:selectOneMenu>
 										</div>
 									</div>
-									<div class="p6n-page-section-divider">
-										<div class="p6n-line"></div>
-									</div>
 								</div>
-								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">SOCIO</h2>
-									<div class="ng-isolate-scope">
-										<div class="">
-											<div class="ng-scope">
-												<br />
-												<p>
-													Tipo y numero documento:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboTipodocumentoPersonanatural.getObjectItemSelected().abreviatura} #{aperturaCuentaahorroBean.numeroDocumentoPersonanatural}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Apellidos y nombres:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.apellidoPaterno} #{aperturaCuentaahorroBean.apellidoMaterno} , #{aperturaCuentaahorroBean.nombres}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Sexo:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboSexo.getObjectItemSelected().denominacion}"
-														styleClass="sf-label-bold" />
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. nacimiento:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.fechaNacimiento}"
-														styleClass="sf-label-bold">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputLabel>
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													E. civil:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboEstadocivil.getObjectItemSelected().denominacion}"
-														styleClass="sf-label-bold" />
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ocupacion:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.ocupacion}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Direccion:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.direccionPersonanatural} - #{aperturaCuentaahorroBean.referenciaPersonanatural}"
-														styleClass="sf-label-bold" />
-
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Telefono:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.telefonoPersonanatural} - #{aperturaCuentaahorroBean.celularPersonanatural}"
-														styleClass="sf-label-bold" />
-
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Email:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.emailPersonanatural}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipomonedaCuentaplazofijo" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">MONTO APERTURA</div>
+									<div>
+										<div>
+											<label>0.00</label>
 										</div>
 									</div>
-									<div class="p6n-page-section-divider">
-										<div class="p6n-line"></div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">FECHA APERTURA</div>
+									<div>
+										<div>
+											<h:outputLabel
+												value="#{aperturaCuentaahorroBean.calcularFecha()}" />
+										</div>
 									</div>
 								</div>
+							</div>
+
+							<br />
+							<div class="sf-buttons" style="float: left;">
+								<h:commandButton value="« Anterior" immediate="true"
+									action="aperturaCuentaahorro-flowB"
+									actionListener="#{aperturaCuentaahorroBean.removeTitularDefecto()}"
+									styleClass="action" />
+								<h:commandButton value="Siguiente »"
+									action="aperturaCuentaahorro-flowD" styleClass="action" />
 							</div>
 						</div>
 					</div>
 				</div>
-			</h:panelGroup>
-			<h:panelGroup rendered="#{aperturaCuentaahorroBean.personajuridica}">
-				<div class="p6n-content ng-scope">
-					<div class="p6n-content-no-nav ng-scope">
-						<div class="p6n-main-pane ng-isolate-scope">
-							<div class="">
-								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">CUENTA DE AHORROS</h2>
-									<div class="ng-isolate-scope">
-										<div class="">
-											<div class="ng-scope ng-hide">
-												<br />
-												<p>
-													Tipo cuenta: <label class="sf-label-bold">CUENTA DE
-														AHORROS</label>
-												</p>
-												<br />
-												<p>
-													Moneda:
-													<h:selectOneMenu id="cmbTipomonedaCuentaahorro2"
-														value="#{aperturaCuentaahorroBean.comboTipomoneda.itemSelected}"
-														valueChangeListener="#{aperturaCuentaahorroBean.changeTipomoneda}"
-														required="true"
-														requiredMessage="Seleccione tipo de moneda">
-														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
-														<f:selectItems
-															value="#{aperturaCuentaahorroBean.comboTipomoneda.items.entrySet()}"
-															var="val"
-															itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
-															itemValue="#{val.key}" />
-														<f:ajax></f:ajax>
-													</h:selectOneMenu>
-												</p>
-												<div
-													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-													<h:message for="cmbTipomonedaCuentaahorro2" />
-												</div>
-												<br />
-												<p>
-													Saldo: <label class="sf-label-bold">0.00</label>
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="p6n-page-section-divider">
-										<div class="p6n-line"></div>
-									</div>
-								</div>
-								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">SOCIO</h2>
-									<div class="ng-isolate-scope">
-										<div class="">
-											<div class="ng-scope">
-												<br />
-												<p>
-													Tipo y numero documento:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboTipodocumentoPersonajuridica.getObjectItemSelected().abreviatura} #{aperturaCuentaahorroBean.numeroDocumentoPersonajuridica}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Razon social:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.razonSocial}"
-														styleClass="sf-label-bold" />
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Nombre comercial:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.nombreComercial}"
-														styleClass="sf-label-bold">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputLabel>
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Actividad principal:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.actividadPrincipal}"
-														styleClass="sf-label-bold" />
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. constitucion:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.fechaConstitucion}"
-														styleClass="sf-label-bold">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputLabel>
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Tipo empresa:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboTipoempresa.getObjectItemSelected().denominacion}"
-														styleClass="sf-label-bold" />
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin social:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboFinsocial.getObjectItemSelected()}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Direccion:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.direccionPersonajuridica} - #{aperturaCuentaahorroBean.referenciaPersonajuridica}"
-														styleClass="sf-label-bold" />
-
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Telefono:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.telefonoPersonajuridica} - #{aperturaCuentaahorroBean.celularPersonajuridica}"
-														styleClass="sf-label-bold" />
-
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Email:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.emailPersonajuridica}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="p6n-page-section-divider">
-										<div class="p6n-line"></div>
-									</div>
-								</div>
-								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">REPRESENTANTE LEGAL</h2>
-									<div class="ng-isolate-scope">
-										<div class="">
-											<div class="ng-scope">
-												<br />
-												<p>
-													Tipo y numero documento:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboTipodocumentoRepresentantelegal.getObjectItemSelected().abreviatura} #{aperturaCuentaahorroBean.numeroDocumentoRepresentantelegal}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Apellidos y nombres:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.apellidoPaternoRepresentantelegal} #{aperturaCuentaahorroBean.apellidoMaternoRepresentantelegal}, #{aperturaCuentaahorroBean.nombresRepresentantelegal}"
-														styleClass="sf-label-bold" />
-												</p>
-											</div>
-											<div class="ng-scope">
-												<br />
-												<p>
-													Sexo:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.comboSexoRepresentantelegal.getObjectItemSelected().denominacion}"
-														styleClass="sf-label-bold" />
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. nacimiento:
-													<h:outputLabel
-														value="#{aperturaCuentaahorroBean.fechaNacimientoRepresentantelegal}"
-														styleClass="sf-label-bold">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputLabel>
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="p6n-page-section-divider">
-										<div class="p6n-line"></div>
-									</div>
-								</div>
-								<div class="ng-scope">
-									<h2 class="p6n-page-section-title">ACCIONISTAS</h2>
-									<div class="ng-isolate-scope">
-										<div class="">
-											<div class="ng-scope">
-												<br />
-
-												<div class="p6n-content ng-scope">
-													<div class="p6n-content-no-nav ng-scope">
-														<div class="p6n-main-pane ng-isolate-scope"
-															style="margin-left: 0px;">
-															<div class="">
-																<div class="ng-scope">
-																	<table class="p6n-table">
-																		<thead>
-																			<tr>
-																				<th><label class="ng-isolate-scope"> T.
-																						documento </label></th>
-																				<th><label class="ng-isolate-scope ">
-																						Nro documento </label></th>
-																				<th><label class="ng-isolate-scope ">
-																						Apellido paterno </label></th>
-																				<th><label class="ng-isolate-scope ">
-																						Apellido materno </label></th>
-																				<th><label class="ng-isolate-scope ">
-																						Nombres </label></th>
-																				<th><label class="ng-isolate-scope">
-																						Sexo </label></th>
-																				<th><label class="ng-isolate-scope ">
-																						F.nacimiento </label></th>
-																				<th><label class="ng-isolate-scope ">
-																						(%) </label></th>
-
-																			</tr>
-																		</thead>
-																		<tbody>
-																			<ui:repeat
-																				value="#{aperturaCuentaahorroBean.listAccionistas()}"
-																				var="accionista">
-																				<tr class="ng-scope">
-																					<td><h:outputLabel
-																							value="#{accionista.personanatural.tipodocumento.abreviatura}" />
-																					</td>
-																					<td><h:outputLabel
-																							value="#{accionista.personanatural.numerodocumento}" /></td>
-																					<td><h:outputLabel
-																							value="#{accionista.personanatural.apellidopaterno}" /></td>
-																					<td><h:outputLabel
-																							value="#{accionista.personanatural.apellidomaterno}" /></td>
-																					<td><h:outputLabel
-																							value="#{accionista.personanatural.nombres}" /></td>
-																					<td><h:outputLabel
-																							value="#{accionista.personanatural.sexo.denominacion}" /></td>
-																					<td><h:outputLabel
-																							value="#{accionista.personanatural.fechanacimiento}">
-																							<f:convertDateTime pattern="dd/MM/yyyy" />
-																						</h:outputLabel></td>
-																					<td><h:outputLabel
-																							value="#{accionista.porcentajeparticipacion}" /></td>
-																				</tr>
-																			</ui:repeat>
-																		</tbody>
-																	</table>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-											</div>
-										</div>
-									</div>
-									<div class="p6n-page-section-divider">
-										<div class="p6n-line"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</h:panelGroup>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<div class="p6n-content ng-scope">
-				<div class="p6n-content-no-nav ng-scope">
-					<div class="p6n-main-pane ng-isolate-scope">
-						<div class="">
-							<div class="ng-scope">
-								<h2 class="p6n-page-section-title">TITULARES</h2>
-								<div class="ng-isolate-scope">
-									<div class="">
-										<div class="ng-scope">
-											<br />
-
-											<div class="p6n-content ng-scope">
-												<div class="p6n-content-no-nav ng-scope">
-													<div class="p6n-main-pane ng-isolate-scope"
-														style="margin-left: 0px;">
-														<div class="">
-															<div class="ng-scope">
-																<table class="p6n-table">
-																	<thead>
-																		<tr>
-																			<th><label class="ng-isolate-scope"> T.
-																					documento </label></th>
-																			<th><label class="ng-isolate-scope ">
-																					Nro documento </label></th>
-																			<th><label class="ng-isolate-scope ">
-																					Apellido paterno </label></th>
-																			<th><label class="ng-isolate-scope ">
-																					Apellido materno </label></th>
-																			<th><label class="ng-isolate-scope ">
-																					Nombres </label></th>
-																			<th><label class="ng-isolate-scope">
-																					Sexo </label></th>
-																			<th><label class="ng-isolate-scope ">
-																					F.nacimiento </label></th>
-																		</tr>
-																	</thead>
-																	<tbody>
-																		<ui:repeat
-																			value="#{aperturaCuentaahorroBean.listTitulares()}"
-																			var="persona">
-																			<tr class="ng-scope">
-																				<td><h:outputLabel
-																						value="#{persona.tipodocumento.abreviatura}" /></td>
-																				<td><h:outputLabel
-																						value="#{persona.numerodocumento}" /></td>
-																				<td><h:outputLabel
-																						value="#{persona.apellidopaterno}" /></td>
-																				<td><h:outputLabel
-																						value="#{persona.apellidomaterno}" /></td>
-																				<td><h:outputLabel value="#{persona.nombres}" /></td>
-																				<td><h:outputLabel
-																						value="#{persona.sexo.denominacion}" /></td>
-																				<td><h:outputLabel
-																						value="#{persona.fechanacimiento}">
-																						<f:convertDateTime pattern="dd/MM/yyyy" />
-																					</h:outputLabel></td>
-																			</tr>
-																		</ui:repeat>
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="p6n-page-section-divider">
-									<div class="p6n-line"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="p6n-content ng-scope">
-				<div class="p6n-content-no-nav ng-scope">
-					<div class="p6n-main-pane ng-isolate-scope">
-						<div class="">
-							<div class="ng-scope">
-								<h2 class="p6n-page-section-title">BENEFICIARIOS</h2>
-								<div class="ng-isolate-scope">
-									<div class="">
-										<div class="ng-scope">
-											<br />
-
-											<div class="p6n-content ng-scope">
-												<div class="p6n-content-no-nav ng-scope">
-													<div class="p6n-main-pane ng-isolate-scope"
-														style="margin-left: 0px;">
-														<div class="">
-															<div class="ng-scope">
-																<table class="p6n-table">
-																	<thead>
-																		<tr>
-																			<th><label class="ng-isolate-scope ">
-																					DNI </label></th>
-																			<th><label class="ng-isolate-scope ">
-																					Apellido paterno </label></th>
-																			<th><label class="ng-isolate-scope ">
-																					Apellido materno </label></th>
-																			<th><label class="ng-isolate-scope ">
-																					Nombres </label></th>
-																			<th><label class="ng-isolate-scope ">
-																					(%) </label></th>
-
-																		</tr>
-																	</thead>
-																	<tbody>
-																		<ui:repeat
-																			value="#{aperturaCuentaahorroBean.listBeneficiarios()}"
-																			var="beneficiario">
-																			<tr class="ng-scope">
-																				<td><h:outputLabel value="#{beneficiario.dni}" /></td>
-																				<td><h:outputLabel
-																						value="#{beneficiario.apellidopaterno}" /></td>
-																				<td><h:outputLabel
-																						value="#{beneficiario.apellidomaterno}" /></td>
-																				<td><h:outputLabel
-																						value="#{beneficiario.nombres}" /></td>
-																				<td><h:outputLabel
-																						value="#{beneficiario.porcentajebeneficio}" /></td>
-																			</tr>
-																		</ui:repeat>
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="p6n-page-section-divider">
-									<div class="p6n-line"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div style="margin-left: 40px;">
-
-				<h:commandButton action="aperturaCuentaahorro-flowB"
-					immediate="true"
-					actionListener="#{aperturaCuentaahorroBean.removeTitularDefecto()}"
-					value="« Anterior " />
-				<h:commandButton
-					action="#{aperturaCuentaahorroBean.crearCuentaahorro()}"
-					value="Crear Cuenta" styleClass="action blue" />
-
 			</div>
 		</h:form>
 	</ui:define>

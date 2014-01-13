@@ -1,17 +1,13 @@
 package org.ventura.entity.schema.cuentapersonal;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
-import org.ventura.util.helper.TasaInteres;
 
 /**
  * The persistent class for the cuentabancaria_tipotasa database table.
@@ -27,9 +23,8 @@ public class CuentabancariaTipotasa implements Serializable {
 	@EmbeddedId
 	private CuentabancariaTipotasaPK id;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tasainteres")) })
-	private TasaInteres tasainteres;
+	@Column
+	private BigDecimal tasainteres;
 
 	public CuentabancariaTipotasa() {
 	}
@@ -42,11 +37,11 @@ public class CuentabancariaTipotasa implements Serializable {
 		this.id = id;
 	}
 
-	public TasaInteres getTasainteres() {
+	public BigDecimal getTasainteres() {
 		return tasainteres;
 	}
 
-	public void setTasainteres(TasaInteres tasainteres) {
+	public void setTasainteres(BigDecimal tasainteres) {
 		this.tasainteres = tasainteres;
 	}
 

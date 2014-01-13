@@ -4,14 +4,14 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
-		<h:outputText value="Apertura Cta. Aporte" />
+		<h:outputText value="Apertura Cta. Corriente" />
 	</ui:define>
 
 	<!-- Definiendo el cuerpo de la pagina -->
@@ -19,8 +19,618 @@
 
 		<h:outputStylesheet library="css" name="main.css" />
 
-		<div>CREACION FINALIZADA</div>
 
+		<h:panelGroup rendered="#{!aperturaCuentacorrienteBean.cuentaValida}">
+			<div class="p6n-api-access-in-page-error" style="left: 516px;">
+				<div>
+					<div>
+						<p>
+							<h:messages />
+						</p>
+					</div>
+				</div>
+			</div>
+		</h:panelGroup>
+
+		<h:panelGroup id="panelGroupPrint">
+			<h:panelGroup
+				rendered="#{aperturaCuentacorrienteBean.personanatural}">
+				<div class="p6n-content ng-scope">
+					<div class="p6n-content-no-nav ng-scope">
+						<div class="p6n-main-pane ng-isolate-scope">
+							<div class="">
+								<div class="ng-scope">
+									<h2 class="p6n-page-section-title">CUENTA CORRIENTE</h2>
+									<div class="ng-isolate-scope">
+										<div class="">
+											<div class="ng-scope ng-hide">
+												<br />
+												<p>
+													Tipo cuenta: <label class="sf-label-bold">CUENTA
+														CORRIENTE</label> &nbsp; Nro cuenta:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.numeroCuenta}"
+														styleClass="sf-label-bold" />
+												</p>
+												<br />
+												<p>
+													Moneda:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboTipomoneda.objectItemSelected.abreviatura} #{aperturaCuentacorrienteBean.comboTipomoneda.objectItemSelected.denominacion}" />
+
+													&nbsp; Saldo: <label class="sf-label-bold">0.00</label>
+
+												</p>
+												<br />
+												<p>
+													Fecha apertura:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.fechaApertura}">
+														<f:convertDateTime pattern="dd/MM/yy" />
+													</h:outputLabel>
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
+										<div class="p6n-line"></div>
+									</div>
+								</div>
+								<div class="ng-scope">
+									<h2 class="p6n-page-section-title">SOCIO</h2>
+									<div class="ng-isolate-scope">
+										<div class="">
+											<div class="ng-scope">
+												<br />
+												<p>
+													Tipo y numero documento:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboTipodocumentoPersonanatural.getObjectItemSelected().abreviatura} #{aperturaCuentacorrienteBean.numeroDocumentoPersonanatural}"
+														styleClass="sf-label-bold" />
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Apellidos y nombres:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.apellidoPaterno} #{aperturaCuentacorrienteBean.apellidoMaterno} , #{aperturaCuentacorrienteBean.nombres}"
+														styleClass="sf-label-bold" />
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Sexo:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboSexo.getObjectItemSelected().denominacion}"
+														styleClass="sf-label-bold" />
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. nacimiento:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.fechaNacimiento}"
+														styleClass="sf-label-bold">
+														<f:convertDateTime pattern="dd/MM/yyyy" />
+													</h:outputLabel>
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													E. civil:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboEstadocivil.getObjectItemSelected().denominacion}"
+														styleClass="sf-label-bold" />
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ocupacion:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.ocupacion}"
+														styleClass="sf-label-bold" />
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Direccion:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.direccionPersonanatural} - #{aperturaCuentacorrienteBean.referenciaPersonanatural}"
+														styleClass="sf-label-bold" />
+
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Telefono:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.telefonoPersonanatural} - #{aperturaCuentacorrienteBean.celularPersonanatural}"
+														styleClass="sf-label-bold" />
+
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Email:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.emailPersonanatural}"
+														styleClass="sf-label-bold" />
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
+										<div class="p6n-line"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+			<h:panelGroup
+				rendered="#{aperturaCuentacorrienteBean.personajuridica}">
+				<div class="p6n-content ng-scope">
+					<div class="p6n-content-no-nav ng-scope">
+						<div class="p6n-main-pane ng-isolate-scope">
+							<div class="">
+								<div class="ng-scope">
+									<h2 class="p6n-page-section-title">CUENTA CORRIENTE</h2>
+									<div class="ng-isolate-scope">
+										<div class="">
+											<div class="ng-scope ng-hide">
+												<br />
+												<p>
+													Tipo cuenta: <label class="sf-label-bold">CUENTA
+														CORRIENTE</label> &nbsp; Nro cuenta:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.numeroCuenta}"
+														styleClass="sf-label-bold" />
+												</p>
+												<br />
+												<p>
+													Moneda:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboTipomoneda.objectItemSelected.abreviatura} #{aperturaCuentacorrienteBean.comboTipomoneda.objectItemSelected.denominacion}" />
+
+													&nbsp; Saldo: <label class="sf-label-bold">0.00</label>
+
+												</p>
+												<br />
+												<p>
+													Fecha apertura:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.fechaApertura}">
+														<f:convertDateTime pattern="dd/MM/yy" />
+													</h:outputLabel>
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
+										<div class="p6n-line"></div>
+									</div>
+								</div>
+								<div class="ng-scope">
+									<h2 class="p6n-page-section-title">SOCIO</h2>
+									<div class="ng-isolate-scope">
+										<div class="">
+											<div class="ng-scope">
+												<br />
+												<p>
+													Tipo y numero documento:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboTipodocumentoPersonajuridica.getObjectItemSelected().abreviatura} #{aperturaCuentacorrienteBean.numeroDocumentoPersonajuridica}"
+														styleClass="sf-label-bold" />
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Razon social:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.razonSocial}"
+														styleClass="sf-label-bold" />
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Nombre comercial:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.nombreComercial}"
+														styleClass="sf-label-bold">
+														<f:convertDateTime pattern="dd/MM/yyyy" />
+													</h:outputLabel>
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Actividad principal:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.actividadPrincipal}"
+														styleClass="sf-label-bold" />
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. constitucion:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.fechaConstitucion}"
+														styleClass="sf-label-bold">
+														<f:convertDateTime pattern="dd/MM/yyyy" />
+													</h:outputLabel>
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Tipo empresa:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboTipoempresa.getObjectItemSelected().denominacion}"
+														styleClass="sf-label-bold" />
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin social:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboFinsocial.getObjectItemSelected()}"
+														styleClass="sf-label-bold" />
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Direccion:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.direccionPersonajuridica} - #{aperturaCuentacorrienteBean.referenciaPersonajuridica}"
+														styleClass="sf-label-bold" />
+
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Telefono:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.telefonoPersonajuridica} - #{aperturaCuentacorrienteBean.celularPersonajuridica}"
+														styleClass="sf-label-bold" />
+
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Email:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.emailPersonajuridica}"
+														styleClass="sf-label-bold" />
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
+										<div class="p6n-line"></div>
+									</div>
+								</div>
+								<div class="ng-scope">
+									<h2 class="p6n-page-section-title">REPRESENTANTE LEGAL</h2>
+									<div class="ng-isolate-scope">
+										<div class="">
+											<div class="ng-scope">
+												<br />
+												<p>
+													Tipo y numero documento:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboTipodocumentoRepresentantelegal.getObjectItemSelected().abreviatura} #{aperturaCuentacorrienteBean.numeroDocumentoRepresentantelegal}"
+														styleClass="sf-label-bold" />
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Apellidos y nombres:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.apellidoPaternoRepresentantelegal} #{aperturaCuentacorrienteBean.apellidoMaternoRepresentantelegal}, #{aperturaCuentacorrienteBean.nombresRepresentantelegal}"
+														styleClass="sf-label-bold" />
+												</p>
+											</div>
+											<div class="ng-scope">
+												<br />
+												<p>
+													Sexo:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.comboSexoRepresentantelegal.getObjectItemSelected().denominacion}"
+														styleClass="sf-label-bold" />
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. nacimiento:
+													<h:outputLabel
+														value="#{aperturaCuentacorrienteBean.fechaNacimientoRepresentantelegal}"
+														styleClass="sf-label-bold">
+														<f:convertDateTime pattern="dd/MM/yyyy" />
+													</h:outputLabel>
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
+										<div class="p6n-line"></div>
+									</div>
+								</div>
+								<div class="ng-scope">
+									<h2 class="p6n-page-section-title">ACCIONISTAS</h2>
+									<div class="ng-isolate-scope">
+										<div class="">
+											<div class="ng-scope">
+												<br />
+
+												<div class="p6n-content ng-scope">
+													<div class="p6n-content-no-nav ng-scope">
+														<div class="p6n-main-pane ng-isolate-scope"
+															style="margin-left: 0px;">
+															<div class="">
+																<div class="ng-scope">
+																	<table class="p6n-table">
+																		<thead>
+																			<tr>
+																				<th><label class="ng-isolate-scope"> T.
+																						documento </label></th>
+																				<th><label class="ng-isolate-scope ">
+																						Nro documento </label></th>
+																				<th><label class="ng-isolate-scope ">
+																						Apellido paterno </label></th>
+																				<th><label class="ng-isolate-scope ">
+																						Apellido materno </label></th>
+																				<th><label class="ng-isolate-scope ">
+																						Nombres </label></th>
+																				<th><label class="ng-isolate-scope">
+																						Sexo </label></th>
+																				<th><label class="ng-isolate-scope ">
+																						F.nacimiento </label></th>
+																				<th><label class="ng-isolate-scope ">
+																						(%) </label></th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<ui:repeat
+																				value="#{aperturaCuentacorrienteBean.listAccionistas()}"
+																				var="accionista">
+																				<tr class="ng-scope">
+																					<td><h:outputLabel
+																							value="#{accionista.personanatural.tipodocumento.abreviatura}" />
+																					</td>
+																					<td><h:outputLabel
+																							value="#{accionista.personanatural.numerodocumento}" /></td>
+																					<td><h:outputLabel
+																							value="#{accionista.personanatural.apellidopaterno}" /></td>
+																					<td><h:outputLabel
+																							value="#{accionista.personanatural.apellidomaterno}" /></td>
+																					<td><h:outputLabel
+																							value="#{accionista.personanatural.nombres}" /></td>
+																					<td><h:outputLabel
+																							value="#{accionista.personanatural.sexo.denominacion}" /></td>
+																					<td><h:outputLabel
+																							value="#{accionista.personanatural.fechanacimiento}">
+																							<f:convertDateTime pattern="dd/MM/yyyy" />
+																						</h:outputLabel></td>
+																					<td><h:outputLabel
+																							value="#{accionista.porcentajeparticipacion}" /></td>
+																				</tr>
+																			</ui:repeat>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
+										<div class="p6n-line"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<div class="p6n-content ng-scope">
+				<div class="p6n-content-no-nav ng-scope">
+					<div class="p6n-main-pane ng-isolate-scope">
+						<div class="">
+							<div class="ng-scope">
+								<h2 class="p6n-page-section-title">TITULARES</h2>
+								<div class="ng-isolate-scope">
+									<div class="">
+										<div class="ng-scope">
+											<br />
+
+											<div class="p6n-content ng-scope">
+												<div class="p6n-content-no-nav ng-scope">
+													<div class="p6n-main-pane ng-isolate-scope"
+														style="margin-left: 0px;">
+														<div class="">
+															<div class="ng-scope">
+																<table class="p6n-table">
+																	<thead>
+																		<tr>
+																			<th><label class="ng-isolate-scope"> T.
+																					documento </label></th>
+																			<th><label class="ng-isolate-scope ">
+																					Nro documento </label></th>
+																			<th><label class="ng-isolate-scope ">
+																					Apellido paterno </label></th>
+																			<th><label class="ng-isolate-scope ">
+																					Apellido materno </label></th>
+																			<th><label class="ng-isolate-scope ">
+																					Nombres </label></th>
+																			<th><label class="ng-isolate-scope">
+																					Sexo </label></th>
+																			<th><label class="ng-isolate-scope ">
+																					F.nacimiento </label></th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<ui:repeat
+																			value="#{aperturaCuentacorrienteBean.listTitulares()}"
+																			var="persona">
+																			<tr class="ng-scope">
+																				<td><h:outputLabel
+																						value="#{persona.tipodocumento.abreviatura}" /></td>
+																				<td><h:outputLabel
+																						value="#{persona.numerodocumento}" /></td>
+																				<td><h:outputLabel
+																						value="#{persona.apellidopaterno}" /></td>
+																				<td><h:outputLabel
+																						value="#{persona.apellidomaterno}" /></td>
+																				<td><h:outputLabel value="#{persona.nombres}" /></td>
+																				<td><h:outputLabel
+																						value="#{persona.sexo.denominacion}" /></td>
+																				<td><h:outputLabel
+																						value="#{persona.fechanacimiento}">
+																						<f:convertDateTime pattern="dd/MM/yyyy" />
+																					</h:outputLabel></td>
+																			</tr>
+																		</ui:repeat>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<div class="p6n-page-section-divider"
+									style="padding: 20px 0 20px 0;">
+									<div class="p6n-line"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="p6n-content ng-scope">
+				<div class="p6n-content-no-nav ng-scope">
+					<div class="p6n-main-pane ng-isolate-scope">
+						<div class="">
+							<div class="ng-scope">
+								<h2 class="p6n-page-section-title">BENEFICIARIOS</h2>
+								<div class="ng-isolate-scope">
+									<div class="">
+										<div class="ng-scope">
+											<br />
+
+											<div class="p6n-content ng-scope">
+												<div class="p6n-content-no-nav ng-scope">
+													<div class="p6n-main-pane ng-isolate-scope"
+														style="margin-left: 0px;">
+														<div class="">
+															<div class="ng-scope">
+																<table class="p6n-table">
+																	<thead>
+																		<tr>
+																			<th><label class="ng-isolate-scope ">
+																					DNI </label></th>
+																			<th><label class="ng-isolate-scope ">
+																					Apellido paterno </label></th>
+																			<th><label class="ng-isolate-scope ">
+																					Apellido materno </label></th>
+																			<th><label class="ng-isolate-scope ">
+																					Nombres </label></th>
+																			<th><label class="ng-isolate-scope ">
+																					(%) </label></th>
+
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<ui:repeat
+																			value="#{aperturaCuentacorrienteBean.listBeneficiarios()}"
+																			var="beneficiario">
+																			<tr class="ng-scope">
+																				<td><h:outputLabel value="#{beneficiario.dni}" /></td>
+																				<td><h:outputLabel
+																						value="#{beneficiario.apellidopaterno}" /></td>
+																				<td><h:outputLabel
+																						value="#{beneficiario.apellidomaterno}" /></td>
+																				<td><h:outputLabel
+																						value="#{beneficiario.nombres}" /></td>
+																				<td><h:outputLabel
+																						value="#{beneficiario.porcentajebeneficio}" /></td>
+																			</tr>
+																		</ui:repeat>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<div class="p6n-page-section-divider"
+									style="padding: 20px 0 20px 0;">
+									<div class="p6n-line"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:panelGroup>
+
+		<h:form>
+			<div style="margin-left: 40px;">
+				<h:commandButton action="aperturaCuentacorriente-flowB"
+					immediate="true"
+					actionListener="#{aperturaCuentacorrienteBean.removeTitularDefecto()}"
+					value="« Anterior " />
+				<h:commandButton
+					action="#{aperturaCuentacorrienteBean.crearCuentacorriente()}"
+					value="Crear Cuenta" styleClass="action blue" />
+
+			</div>
+		</h:form>
+
+		<h:panelGroup rendered="#{aperturaCuentacorrienteBean.cuentaCreada}">
+			<h:form>
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1666px; height: 1302px;"></div>
+				<div class="modal-dialog p6n-popup" style="left: 502px; top: 200px;">
+					<div class="modal-dialog-title modal-dialog-title-draggable">
+						<span class="modal-dialog-title-text">Creacion
+							satisfactoria</span><span class="modal-dialog-title-close"></span>
+					</div>
+					<div class="modal-dialog-content ng-binding">La cuenta
+						corriente fue creada satistactoriamente.</div>
+					<div class="modal-dialog-buttons" ng-transclude="">
+						<h:commandButton value="Imprimir" icon="ui-icon-print">
+							<p:printer target=":panelGroupPrint" />
+						</h:commandButton>
+						<h:commandButton value="Salir"
+							action="returnFromAperturaCuentacorrienteFlow" />
+					</div>
+				</div>
+			</h:form>
+		</h:panelGroup>
 	</ui:define>
 
 </ui:composition>
