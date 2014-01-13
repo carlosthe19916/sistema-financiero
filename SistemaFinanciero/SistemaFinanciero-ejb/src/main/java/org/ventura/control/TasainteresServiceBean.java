@@ -1,6 +1,7 @@
 package org.ventura.control;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipoCambioCompraVentaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
+import org.ventura.util.math.BigDecimalMath;
 
 @Stateless
 @Local(TasainteresServiceLocal.class)
@@ -214,6 +216,35 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 			log.error("Class:"+e.getClass());
 			throw e;
 		}		
+		return result;
+	}
+
+	@Override
+	public BigDecimal getInteresGeneradoPlazofijo(BigDecimal montoApertura, Integer cantidadDias, BigDecimal tea) throws Exception {
+		BigDecimal result = BigDecimal.ZERO;
+		try {
+			//a¨b
+			BigDecimal a;
+			
+			BigDecimal potencia = new BigDecimal(cantidadDias);
+			BigDecimal potenciaDivisor = new BigDecimal(360);
+			potenciaDivisor.setScale(50);
+			potencia.setScale(50);
+
+			a = tea.add(BigDecimal.ONE);
+			potencia = potencia.divide(potenciaDivisor, 50, RoundingMode.HALF_UP);
+			
+			result = BigDecimalMath.pow(a, potencia);
+			result = result.subtract(BigDecimal.ONE);
+			result = result.multiply(montoApertura);
+			
+			result = result.setScale(2, BigDecimal.ROUND_HALF_UP);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:"+e.getCause());
+			log.error("Class:"+e.getClass());
+			throw e;
+		}
 		return result;
 	}
 }

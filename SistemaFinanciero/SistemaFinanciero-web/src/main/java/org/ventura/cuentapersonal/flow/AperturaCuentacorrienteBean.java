@@ -195,72 +195,21 @@ public class AperturaCuentacorrienteBean implements Serializable {
 				throw new Exception("La cantidad de retirantes exece a la cantidad de titulares");
 			}
 			
-			if (isPersonanatural) {
-				Personanatural personaNaturalSocio = new Personanatural();
-				personaNaturalSocio.setTipodocumento(comboTipodocumentoPersonanatural.getObjectItemSelected());
-				personaNaturalSocio.setNumerodocumento(numeroDocumentoPersonanatural);
-				personaNaturalSocio.setApellidopaterno(apellidoPaternoPersonanatural);
-				personaNaturalSocio.setApellidomaterno(apellidoMaternoPersonanatural);
-				personaNaturalSocio.setNombres(nombresPersonanatural);
-				personaNaturalSocio.setFechanacimiento(fechaNacimientoPersonanatural);
-				personaNaturalSocio.setEstadocivil(comboEstadocivilPersonanatural.getObjectItemSelected());
-				personaNaturalSocio.setOcupacion(ocupacionPersonanatural);
-				personaNaturalSocio.setDireccion(direccionPersonanatural);
-				personaNaturalSocio.setReferencia(referenciaPersonanatural);
-				personaNaturalSocio.setTelefono(telefonoPersonanatural);				personaNaturalSocio.setCelular(celularPersonanatural);
-				personaNaturalSocio.setEmail(emailPersonanatural);
-				
-				Cuentabancaria cuentabancaria = new Cuentabancaria();
-				List<Titular> listTitulares = new ArrayList<Titular>();
-				List<Beneficiario> listBeneficiarios = listBeneficiarios();
-				List<Personanatural> listpersonaTitulares = listTitulares();
-				for (Personanatural personanatural : listpersonaTitulares) {
-					Titular titular = new Titular();
-					titular.setPersonanatural(personanatural);
-					listTitulares.add(titular);
-				}
-				
-				cuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
-				cuentabancaria.setCantidadretirantes(cantidadRetirantes);
-				cuentabancaria.setTitulares(listTitulares);
-				cuentabancaria.setBeneficiarios(listBeneficiarios);
-				
-				cuentabancaria = cuentabancariaServiceLocal.createCuentacorrientePersonanatural(cuentabancaria, personaNaturalSocio);
-				
-				cuentaCreada = true;
-				numeroCuenta = cuentabancaria.getNumerocuenta();
-				fechaApertura = cuentabancaria.getFechaapertura();
-			} else {
-				if (isPersonajuridica) {
-					
-					Personajuridica personaJuridicaSocio = new Personajuridica();
-					personaJuridicaSocio.setTipodocumento(comboTipodocumentoPersonajuridica.getObjectItemSelected());
-					personaJuridicaSocio.setNumerodocumento(numeroDocumentoPersonajuridica);
-					personaJuridicaSocio.setRazonsocial(razonSocial);
-					personaJuridicaSocio.setNombrecomercial(nombreComercial);
-					personaJuridicaSocio.setActividadprincipal(actividadPrincipal);
-					personaJuridicaSocio.setFechaconstitucion(fechaConstitucion);
-					personaJuridicaSocio.setTipoempresa(comboTipoempresa.getObjectItemSelected());
-					personaJuridicaSocio.setFindelucro(comboFinsocial.getItemSelected() == 1 ? true : false);		
-					personaJuridicaSocio.setDireccion(direccionPersonajuridica);
-					personaJuridicaSocio.setReferencia(referenciaPersonajuridica);
-					personaJuridicaSocio.setTelefono(telefonoPersonajuridica);
-					personaJuridicaSocio.setCelular(celularPersonajuridica);
-					personaJuridicaSocio.setEmail(emailPersonajuridica);
-													
-					Personanatural representanteLegal = new Personanatural();
-					representanteLegal.setTipodocumento(comboTipodocumentoRepresentantelegal.getObjectItemSelected());
-					representanteLegal.setNumerodocumento(numeroDocumentoRepresentantelegal);
-					representanteLegal.setApellidopaterno(apellidoPaternoRepresentantelegal);
-					representanteLegal.setApellidomaterno(apellidoMaternoRepresentantelegal);
-					representanteLegal.setNombres(nombresRepresentantelegal);
-					representanteLegal.setFechanacimiento(fechaNacimientoRepresentantelegal);
-					
-					List<Accionista> listAccionistas = new ArrayList<Accionista>();
-					listAccionistas.addAll(accionistas.values());
-					
-					personaJuridicaSocio.setRepresentanteLegal(representanteLegal);
-					personaJuridicaSocio.setAccionistas(listAccionistas);
+			if(cuentaCreada == false){
+				if (isPersonanatural) {
+					Personanatural personaNaturalSocio = new Personanatural();
+					personaNaturalSocio.setTipodocumento(comboTipodocumentoPersonanatural.getObjectItemSelected());
+					personaNaturalSocio.setNumerodocumento(numeroDocumentoPersonanatural);
+					personaNaturalSocio.setApellidopaterno(apellidoPaternoPersonanatural);
+					personaNaturalSocio.setApellidomaterno(apellidoMaternoPersonanatural);
+					personaNaturalSocio.setNombres(nombresPersonanatural);
+					personaNaturalSocio.setFechanacimiento(fechaNacimientoPersonanatural);
+					personaNaturalSocio.setEstadocivil(comboEstadocivilPersonanatural.getObjectItemSelected());
+					personaNaturalSocio.setOcupacion(ocupacionPersonanatural);
+					personaNaturalSocio.setDireccion(direccionPersonanatural);
+					personaNaturalSocio.setReferencia(referenciaPersonanatural);
+					personaNaturalSocio.setTelefono(telefonoPersonanatural);					personaNaturalSocio.setCelular(celularPersonanatural);
+					personaNaturalSocio.setEmail(emailPersonanatural);
 					
 					Cuentabancaria cuentabancaria = new Cuentabancaria();
 					List<Titular> listTitulares = new ArrayList<Titular>();
@@ -277,13 +226,66 @@ public class AperturaCuentacorrienteBean implements Serializable {
 					cuentabancaria.setTitulares(listTitulares);
 					cuentabancaria.setBeneficiarios(listBeneficiarios);
 					
-					cuentabancaria = cuentabancariaServiceLocal.createCuentacorrientePersonajuridica(cuentabancaria, personaJuridicaSocio);
+					cuentabancaria = cuentabancariaServiceLocal.createCuentacorrientePersonanatural(cuentabancaria, personaNaturalSocio);
 					
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();
 					fechaApertura = cuentabancaria.getFechaapertura();
 				} else {
-					throw new Exception("El tipo de persona no es valido");
+					if (isPersonajuridica) {
+						
+						Personajuridica personaJuridicaSocio = new Personajuridica();
+						personaJuridicaSocio.setTipodocumento(comboTipodocumentoPersonajuridica.getObjectItemSelected());
+						personaJuridicaSocio.setNumerodocumento(numeroDocumentoPersonajuridica);
+						personaJuridicaSocio.setRazonsocial(razonSocial);
+						personaJuridicaSocio.setNombrecomercial(nombreComercial);
+						personaJuridicaSocio.setActividadprincipal(actividadPrincipal);
+						personaJuridicaSocio.setFechaconstitucion(fechaConstitucion);
+						personaJuridicaSocio.setTipoempresa(comboTipoempresa.getObjectItemSelected());
+						personaJuridicaSocio.setFindelucro(comboFinsocial.getItemSelected() == 1 ? true : false);		
+						personaJuridicaSocio.setDireccion(direccionPersonajuridica);
+						personaJuridicaSocio.setReferencia(referenciaPersonajuridica);
+						personaJuridicaSocio.setTelefono(telefonoPersonajuridica);
+						personaJuridicaSocio.setCelular(celularPersonajuridica);
+						personaJuridicaSocio.setEmail(emailPersonajuridica);
+														
+						Personanatural representanteLegal = new Personanatural();
+						representanteLegal.setTipodocumento(comboTipodocumentoRepresentantelegal.getObjectItemSelected());
+						representanteLegal.setNumerodocumento(numeroDocumentoRepresentantelegal);
+						representanteLegal.setApellidopaterno(apellidoPaternoRepresentantelegal);
+						representanteLegal.setApellidomaterno(apellidoMaternoRepresentantelegal);
+						representanteLegal.setNombres(nombresRepresentantelegal);
+						representanteLegal.setFechanacimiento(fechaNacimientoRepresentantelegal);
+						
+						List<Accionista> listAccionistas = new ArrayList<Accionista>();
+						listAccionistas.addAll(accionistas.values());
+						
+						personaJuridicaSocio.setRepresentanteLegal(representanteLegal);
+						personaJuridicaSocio.setAccionistas(listAccionistas);
+						
+						Cuentabancaria cuentabancaria = new Cuentabancaria();
+						List<Titular> listTitulares = new ArrayList<Titular>();
+						List<Beneficiario> listBeneficiarios = listBeneficiarios();
+						List<Personanatural> listpersonaTitulares = listTitulares();
+						for (Personanatural personanatural : listpersonaTitulares) {
+							Titular titular = new Titular();
+							titular.setPersonanatural(personanatural);
+							listTitulares.add(titular);
+						}
+						
+						cuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
+						cuentabancaria.setCantidadretirantes(cantidadRetirantes);
+						cuentabancaria.setTitulares(listTitulares);
+						cuentabancaria.setBeneficiarios(listBeneficiarios);
+						
+						cuentabancaria = cuentabancariaServiceLocal.createCuentacorrientePersonajuridica(cuentabancaria, personaJuridicaSocio);
+						
+						cuentaCreada = true;
+						numeroCuenta = cuentabancaria.getNumerocuenta();
+						fechaApertura = cuentabancaria.getFechaapertura();
+					} else {
+						throw new Exception("El tipo de persona no es valido");
+					}
 				}
 			}
 		} catch (Exception e) {

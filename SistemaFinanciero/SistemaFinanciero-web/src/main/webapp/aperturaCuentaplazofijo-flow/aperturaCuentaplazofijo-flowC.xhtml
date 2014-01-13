@@ -45,20 +45,23 @@
 								<h:outputLabel
 									value="#{aperturaCuentaplazofijoBean.periodoDeposito} dias" />
 							</div>
-							<div class="p6n-cloudsql-summary-bold">Interes</div>
+							<div class="p6n-cloudsql-summary-bold">Interes generado</div>
 							<div class="p6n-cloudsql-summary-light">
 								<h:outputLabel
-									value="#{aperturaCuentaplazofijoBean.calcularFecha()}" />
+									value="#{aperturaCuentaplazofijoBean.interesGenerado}">
+								</h:outputLabel>
 							</div>
 							<div class="p6n-cloudsql-summary-bold">TOTAL</div>
 							<div class="p6n-cloudsql-summary-light">
 								<h:outputLabel
-									value="#{aperturaCuentaplazofijoBean.calcularFecha()}" />
+									value="#{aperturaCuentaplazofijoBean.calcularTotal()}" />
 							</div>
 						</div>
 						<div class="p6n-cloudsql-buttonbar">
 							<h:commandButton value="Recalcular" styleClass="action blue">
-								<f:ajax execute=":formDatos" render="@form" />
+								<f:ajax execute=":formDatos"
+									listener="#{aperturaCuentaplazofijoBean.calcularInteresGenerado()}"
+									render="@form" />
 							</h:commandButton>
 						</div>
 					</div>
@@ -141,15 +144,16 @@
 									<h:message for="txtPeriodo" />
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label">TEA</div>
+									<div class="p6n-api-consent-screen-label">TEA (%)</div>
 									<div>
 										<div>
 											<h:inputText id="txtTea" required="true"
 												requiredMessage="Ingrese una tasa"
 												converterMessage="Ingrese tasa de dias valido Ejemplo: 9.99"
 												pt:placeholder="0.00"
-												value="#{aperturaCuentaplazofijoBean.trea}">
-												<f:convertNumber integerOnly="true" type="number" />
+												value="#{aperturaCuentaplazofijoBean.tea}">
+												<f:converter converterId="javax.faces.BigDecimal"
+													maxFractionDigits="2" minFractionDigits="2" pattern="0.00" />
 												<f:ajax event="blur" execute="@this" render="@this" />
 											</h:inputText>
 										</div>
@@ -160,7 +164,7 @@
 									<h:message for="txtTea" />
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label">TREA</div>
+									<div class="p6n-api-consent-screen-label">TREA (%)</div>
 									<div>
 										<div>
 											<h:inputText id="txtTrea" required="true"
@@ -183,10 +187,11 @@
 							<br />
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton value="« Anterior" immediate="true"
-									action="aperturaCuentaplazofijo-flowB.xhtml"
-									styleClass="action" />
+									action="aperturaCuentaplazofijo-flowB" styleClass="action" />
 								<h:commandButton value="Siguiente »"
-									action="aperturaCuentaplazofijo-flowD.xhtml"
+									action="aperturaCuentaplazofijo-flowD"
+									actionListener="#{aperturaCuentaplazofijoBean.removeTitularDefecto()}"
+									
 									styleClass="action" />
 							</div>
 						</div>

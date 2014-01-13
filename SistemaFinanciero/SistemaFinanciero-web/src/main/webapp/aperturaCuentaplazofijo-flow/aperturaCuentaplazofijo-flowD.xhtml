@@ -4,8 +4,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -19,19 +19,19 @@
 
 		<h:outputStylesheet library="css" name="main.css" />
 
-		<h:form>
-			<h:panelGroup rendered="#{!aperturaCuentaplazofijoBean.cuentaValida}">
-				<div class="p6n-api-access-in-page-error" style="left: 516px;">
+
+		<h:panelGroup rendered="#{!aperturaCuentaplazofijoBean.cuentaValida}">
+			<div class="p6n-api-access-in-page-error" style="left: 516px;">
+				<div>
 					<div>
-						<div>
-							<p>
-								<h:messages />
-							</p>
-						</div>
+						<p>
+							<h:messages />
+						</p>
 					</div>
 				</div>
-			</h:panelGroup>
-
+			</div>
+		</h:panelGroup>
+		<h:panelGroup id="panelGroupPrint">
 			<h:panelGroup
 				rendered="#{aperturaCuentaplazofijoBean.personanatural}">
 				<div class="p6n-content ng-scope">
@@ -46,7 +46,10 @@
 												<br />
 												<p>
 													Tipo cuenta: <label class="sf-label-bold">CUENTA A
-														PLAZO FIJO</label>
+														PLAZO FIJO</label> &nbsp; Nro cuenta:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.numeroCuenta}"
+														styleClass="sf-label-bold" />
 												</p>
 												<br />
 												<p>
@@ -54,10 +57,7 @@
 													<h:outputLabel
 														value="#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura} #{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.denominacion}"
 														styleClass="sf-label-bold" />
-												</p>
-												<br />
-												<p>
-													Monto:
+													&nbsp; Monto apertura:
 													<h:outputLabel
 														value="#{aperturaCuentaplazofijoBean.montoApertura}"
 														styleClass="sf-label-bold" />
@@ -68,11 +68,29 @@
 													<h:outputLabel
 														value="#{aperturaCuentaplazofijoBean.periodoDeposito} Dias"
 														styleClass="sf-label-bold" />
+													&nbsp; Fecha apertura:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.fechaApertura}"
+														styleClass="sf-label-bold">
+														<f:convertDateTime pattern="dd/MM/yy" />
+													</h:outputLabel>
+												</p>
+												<br />
+												<p>
+													Interes:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.interesGenerado}"
+														styleClass="sf-label-bold" />
+													&nbsp; Monto total:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.calcularTotal()}"
+														styleClass="sf-label-bold" />
 												</p>
 											</div>
 										</div>
 									</div>
-									<div class="p6n-page-section-divider">
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
 										<div class="p6n-line"></div>
 									</div>
 								</div>
@@ -157,7 +175,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="p6n-page-section-divider">
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
 										<div class="p6n-line"></div>
 									</div>
 								</div>
@@ -179,38 +198,52 @@
 											<div class="ng-scope ng-hide">
 												<br />
 												<p>
-													Tipo cuenta: <label class="sf-label-bold">CUENTA
-														PLAZO FIJO</label>
+													Tipo cuenta: <label class="sf-label-bold">CUENTA A
+														PLAZO FIJO</label> &nbsp; Nro cuenta:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.numeroCuenta}"
+														styleClass="sf-label-bold" />
 												</p>
 												<br />
 												<p>
 													Moneda:
-													<h:selectOneMenu id="cmbTipomonedaCuentacorriente2"
-														value="#{aperturaCuentaplazofijoBean.comboTipomoneda.itemSelected}"
-														valueChangeListener="#{aperturaCuentaplazofijoBean.changeTipomoneda}"
-														required="true"
-														requiredMessage="Seleccione tipo de moneda">
-														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
-														<f:selectItems
-															value="#{aperturaCuentaplazofijoBean.comboTipomoneda.items.entrySet()}"
-															var="val"
-															itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
-															itemValue="#{val.key}" />
-														<f:ajax></f:ajax>
-													</h:selectOneMenu>
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura} #{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.denominacion}"
+														styleClass="sf-label-bold" />
+													&nbsp; Monto apertura:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.montoApertura}"
+														styleClass="sf-label-bold" />
 												</p>
-												<div
-													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-													<h:message for="cmbTipomonedaCuentacorriente2" />
-												</div>
 												<br />
 												<p>
-													Saldo: <label class="sf-label-bold">0.00</label>
+													Periodo:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.periodoDeposito} Dias"
+														styleClass="sf-label-bold" />
+													&nbsp; Fecha apertura:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.fechaApertura}"
+														styleClass="sf-label-bold">
+														<f:convertDateTime pattern="dd/MM/yy" />
+													</h:outputLabel>
+												</p>
+												<br />
+												<p>
+													Interes:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.interesGenerado}"
+														styleClass="sf-label-bold" />
+													&nbsp; Monto total:
+													<h:outputLabel
+														value="#{aperturaCuentaplazofijoBean.calcularTotal()}"
+														styleClass="sf-label-bold" />
 												</p>
 											</div>
 										</div>
 									</div>
-									<div class="p6n-page-section-divider">
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
 										<div class="p6n-line"></div>
 									</div>
 								</div>
@@ -301,7 +334,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="p6n-page-section-divider">
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
 										<div class="p6n-line"></div>
 									</div>
 								</div>
@@ -344,7 +378,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="p6n-page-section-divider">
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
 										<div class="p6n-line"></div>
 									</div>
 								</div>
@@ -420,7 +455,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="p6n-page-section-divider">
+									<div class="p6n-page-section-divider"
+										style="padding: 20px 0 20px 0;">
 										<div class="p6n-line"></div>
 									</div>
 								</div>
@@ -429,22 +465,6 @@
 					</div>
 				</div>
 			</h:panelGroup>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 			<div class="p6n-content ng-scope">
 				<div class="p6n-content-no-nav ng-scope">
@@ -515,7 +535,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="p6n-page-section-divider">
+								<div class="p6n-page-section-divider"
+									style="padding: 20px 0 20px 0;">
 									<div class="p6n-line"></div>
 								</div>
 							</div>
@@ -584,7 +605,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="p6n-page-section-divider">
+								<div class="p6n-page-section-divider"
+									style="padding: 20px 0 20px 0;">
 									<div class="p6n-line"></div>
 								</div>
 							</div>
@@ -592,19 +614,39 @@
 					</div>
 				</div>
 			</div>
+		</h:panelGroup>
 
+		<h:form>
 			<div style="margin-left: 40px;">
-
 				<h:commandButton action="aperturaCuentaplazofijo-flowC"
-					immediate="true"
-					actionListener="#{aperturaCuentaplazofijoBean.removeTitularDefecto()}"
-					value="« Anterior " />
+					immediate="true" value="« Anterior " />
 				<h:commandButton
 					action="#{aperturaCuentaplazofijoBean.crearCuentaplazofijo()}"
 					value="Crear Cuenta" styleClass="action blue" />
-
 			</div>
 		</h:form>
+
+		<h:panelGroup rendered="#{aperturaCuentaplazofijoBean.cuentaCreada}">
+			<h:form>
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 1602px;"></div>
+				<div class="modal-dialog p6n-popup" style="left: 502px; top: 200px;">
+					<div class="modal-dialog-title modal-dialog-title-draggable">
+						<span class="modal-dialog-title-text">Creacion
+							satisfactoria</span><span class="modal-dialog-title-close"></span>
+					</div>
+					<div class="modal-dialog-content ng-binding">La cuenta a
+						plazo fijo fue creada satistactoriamente.</div>
+					<div class="modal-dialog-buttons">
+						<h:commandButton value="Imprimir" icon="ui-icon-print">
+							<p:printer target=":panelGroupPrint" />
+						</h:commandButton>
+						<h:commandButton value="Salir"
+							action="returnFromAperturaCuentaplazofijoFlow" />
+					</div>
+				</div>
+			</h:form>
+		</h:panelGroup>
 	</ui:define>
 
 </ui:composition>

@@ -175,86 +175,88 @@ public class AperturaCuentaaporteBean implements Serializable {
 	
 	public String crearCuentaaporte(){
 		try {
-			if (isPersonanatural) {
-				Personanatural personaNaturalSocio = new Personanatural();
-				personaNaturalSocio.setTipodocumento(comboTipodocumentoPersonanatural.getObjectItemSelected());
-				personaNaturalSocio.setNumerodocumento(numeroDocumentoPersonanatural);
-				personaNaturalSocio.setApellidopaterno(apellidoPaterno);
-				personaNaturalSocio.setApellidomaterno(apellidoMaterno);
-				personaNaturalSocio.setNombres(nombres);
-				personaNaturalSocio.setFechanacimiento(fechaNacimiento);
-				personaNaturalSocio.setEstadocivil(comboEstadocivil.getObjectItemSelected());
-				personaNaturalSocio.setOcupacion(ocupacion);
-				personaNaturalSocio.setDireccion(direccionPersonanatural);
-				personaNaturalSocio.setReferencia(referenciaPersonanatural);
-				personaNaturalSocio.setTelefono(telefonoPersonanatural);				personaNaturalSocio.setCelular(celularPersonanatural);
-				personaNaturalSocio.setEmail(emailPersonanatural);
-				
-				Personanatural apoderado = null;
-				if(existeApoderado){
-					apoderado = new Personanatural();
-					apoderado.setTipodocumento(comboTipodocumentoApoderado.getObjectItemSelected());
-					apoderado.setNumerodocumento(numeroDocumentoApoderado);
-					apoderado.setApellidopaterno(apellidoPaternoApoderado);
-					apoderado.setApellidomaterno(apellidoMaternoApoderado);
-					apoderado.setNombres(nombresApoderado);
-					apoderado.setSexo(comboSexoApoderado.getObjectItemSelected());
-					apoderado.setFechanacimiento(fechaNacimientoApoderado);
-				}
-				
-				Socio socio = new Socio();
-				socio.setPersonanatural(personaNaturalSocio);
-				socio.setApoderado(apoderado);
-				socio.setAgencia(agencia);
-				
-				socio = socioServiceLocal.createSocioPersonanatural(socio);
-				
-				cuentaCreada = true;
-				numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
-				fechaApertura = socio.getCuentaaporte().getFechaapertura();
-			} else {
-				if (isPersonajuridica) {
+			if(cuentaCreada == false){	
+				if (isPersonanatural) {
+					Personanatural personaNaturalSocio = new Personanatural();
+					personaNaturalSocio.setTipodocumento(comboTipodocumentoPersonanatural.getObjectItemSelected());
+					personaNaturalSocio.setNumerodocumento(numeroDocumentoPersonanatural);
+					personaNaturalSocio.setApellidopaterno(apellidoPaterno);
+					personaNaturalSocio.setApellidomaterno(apellidoMaterno);
+					personaNaturalSocio.setNombres(nombres);
+					personaNaturalSocio.setFechanacimiento(fechaNacimiento);
+					personaNaturalSocio.setEstadocivil(comboEstadocivil.getObjectItemSelected());
+					personaNaturalSocio.setOcupacion(ocupacion);
+					personaNaturalSocio.setDireccion(direccionPersonanatural);
+					personaNaturalSocio.setReferencia(referenciaPersonanatural);
+					personaNaturalSocio.setTelefono(telefonoPersonanatural);					personaNaturalSocio.setCelular(celularPersonanatural);
+					personaNaturalSocio.setEmail(emailPersonanatural);
 					
-					Personajuridica personaJuridicaSocio = new Personajuridica();
-					personaJuridicaSocio.setTipodocumento(comboTipodocumentoPersonajuridica.getObjectItemSelected());
-					personaJuridicaSocio.setNumerodocumento(numeroDocumentoPersonajuridica);
-					personaJuridicaSocio.setRazonsocial(razonSocial);
-					personaJuridicaSocio.setNombrecomercial(nombreComercial);
-					personaJuridicaSocio.setActividadprincipal(actividadPrincipal);
-					personaJuridicaSocio.setFechaconstitucion(fechaConstitucion);
-					personaJuridicaSocio.setTipoempresa(comboTipoempresa.getObjectItemSelected());
-					personaJuridicaSocio.setFindelucro(comboFinsocial.getItemSelected() == 1 ? true : false);		
-					personaJuridicaSocio.setDireccion(direccionPersonajuridica);
-					personaJuridicaSocio.setReferencia(referenciaPersonajuridica);
-					personaJuridicaSocio.setTelefono(telefonoPersonajuridica);
-					personaJuridicaSocio.setCelular(celularPersonajuridica);
-					personaJuridicaSocio.setEmail(emailPersonajuridica);
-													
-					Personanatural representanteLegal = new Personanatural();
-					representanteLegal.setTipodocumento(comboTipodocumentoRepresentantelegal.getObjectItemSelected());
-					representanteLegal.setNumerodocumento(numeroDocumentoRepresentantelegal);
-					representanteLegal.setApellidopaterno(apellidoPaternoRepresentantelegal);
-					representanteLegal.setApellidomaterno(apellidoMaternoRepresentantelegal);
-					representanteLegal.setNombres(nombresRepresentantelegal);
-					representanteLegal.setFechanacimiento(fechaNacimientoRepresentantelegal);
-					
-					List<Accionista> listAccionistas = new ArrayList<Accionista>();
-					listAccionistas.addAll(accionistas.values());
-					
-					personaJuridicaSocio.setRepresentanteLegal(representanteLegal);
-					personaJuridicaSocio.setAccionistas(listAccionistas);
+					Personanatural apoderado = null;
+					if(existeApoderado){
+						apoderado = new Personanatural();
+						apoderado.setTipodocumento(comboTipodocumentoApoderado.getObjectItemSelected());
+						apoderado.setNumerodocumento(numeroDocumentoApoderado);
+						apoderado.setApellidopaterno(apellidoPaternoApoderado);
+						apoderado.setApellidomaterno(apellidoMaternoApoderado);
+						apoderado.setNombres(nombresApoderado);
+						apoderado.setSexo(comboSexoApoderado.getObjectItemSelected());
+						apoderado.setFechanacimiento(fechaNacimientoApoderado);
+					}
 					
 					Socio socio = new Socio();
-					socio.setPersonajuridica(personaJuridicaSocio);
+					socio.setPersonanatural(personaNaturalSocio);
+					socio.setApoderado(apoderado);
 					socio.setAgencia(agencia);
 					
-					socio = socioServiceLocal.createSocioPersonajuridica(socio);
+					socio = socioServiceLocal.createSocioPersonanatural(socio);
 					
 					cuentaCreada = true;
 					numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
 					fechaApertura = socio.getCuentaaporte().getFechaapertura();
 				} else {
-					throw new Exception("El tipo de persona no es valido");
+					if (isPersonajuridica) {
+						
+						Personajuridica personaJuridicaSocio = new Personajuridica();
+						personaJuridicaSocio.setTipodocumento(comboTipodocumentoPersonajuridica.getObjectItemSelected());
+						personaJuridicaSocio.setNumerodocumento(numeroDocumentoPersonajuridica);
+						personaJuridicaSocio.setRazonsocial(razonSocial);
+						personaJuridicaSocio.setNombrecomercial(nombreComercial);
+						personaJuridicaSocio.setActividadprincipal(actividadPrincipal);
+						personaJuridicaSocio.setFechaconstitucion(fechaConstitucion);
+						personaJuridicaSocio.setTipoempresa(comboTipoempresa.getObjectItemSelected());
+						personaJuridicaSocio.setFindelucro(comboFinsocial.getItemSelected() == 1 ? true : false);		
+						personaJuridicaSocio.setDireccion(direccionPersonajuridica);
+						personaJuridicaSocio.setReferencia(referenciaPersonajuridica);
+						personaJuridicaSocio.setTelefono(telefonoPersonajuridica);
+						personaJuridicaSocio.setCelular(celularPersonajuridica);
+						personaJuridicaSocio.setEmail(emailPersonajuridica);
+														
+						Personanatural representanteLegal = new Personanatural();
+						representanteLegal.setTipodocumento(comboTipodocumentoRepresentantelegal.getObjectItemSelected());
+						representanteLegal.setNumerodocumento(numeroDocumentoRepresentantelegal);
+						representanteLegal.setApellidopaterno(apellidoPaternoRepresentantelegal);
+						representanteLegal.setApellidomaterno(apellidoMaternoRepresentantelegal);
+						representanteLegal.setNombres(nombresRepresentantelegal);
+						representanteLegal.setFechanacimiento(fechaNacimientoRepresentantelegal);
+						
+						List<Accionista> listAccionistas = new ArrayList<Accionista>();
+						listAccionistas.addAll(accionistas.values());
+						
+						personaJuridicaSocio.setRepresentanteLegal(representanteLegal);
+						personaJuridicaSocio.setAccionistas(listAccionistas);
+						
+						Socio socio = new Socio();
+						socio.setPersonajuridica(personaJuridicaSocio);
+						socio.setAgencia(agencia);
+						
+						socio = socioServiceLocal.createSocioPersonajuridica(socio);
+						
+						cuentaCreada = true;
+						numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
+						fechaApertura = socio.getCuentaaporte().getFechaapertura();
+					} else {
+						throw new Exception("El tipo de persona no es valido");
+					}
 				}
 			}
 		} catch (Exception e) {
