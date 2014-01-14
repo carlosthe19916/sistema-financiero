@@ -28,8 +28,6 @@ public interface TasainteresServiceLocal extends TasainteresServiceRemote{
 	
 	public BigDecimal getTasainteresCuentacorriente(Tipomoneda tipomoneda) throws Exception;
 	
-	public TasaCambio getTipoCambioCompraVenta(TipoCambioCompraVentaType compraVentaType, BigDecimal monto) throws Exception;
-	
 	/*operaciones*/
 	
 	public BigDecimal getInteresGeneradoPlazofijo(BigDecimal montoApertura, Integer cantidadDias, BigDecimal tea) throws Exception;
