@@ -318,8 +318,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 			for (Detallehistorialcaja s : detalleSoles) {
 				totalCajaSoles = totalCajaSoles.add(s.getSubtotal());
 				historialcaja.addDetallehistorialcaja(s);
-				System.out.println("total soles " + totalCajaSoles + "*******************");
-				System.out.println("Subtotal " + s.getSubtotal() + "*******************");
 			}
 			
 			for (Detallehistorialcaja e : detalleEuros) {

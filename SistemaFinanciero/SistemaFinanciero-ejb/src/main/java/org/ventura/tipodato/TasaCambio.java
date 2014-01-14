@@ -89,11 +89,11 @@ public class TasaCambio implements Serializable {
 		return new TasaCambio(result);
 	}
 	
-	public Moneda multiply(Moneda value) {
-		Moneda moneda = new Moneda(value);
-		BigDecimal result = this.value.multiply(moneda.getValue());
-		result = result.setScale(2, RoundingMode.HALF_UP);
-		return new Moneda(result);
+	public TasaCambio multiply(TasaCambio value) {
+		TasaCambio tasacambio = new TasaCambio(value);
+		BigDecimal result = this.value.multiply(tasacambio.getValue());
+		result = result.setScale(3, RoundingMode.HALF_UP);
+		return new TasaCambio(result);
 	}
 
 	public BigDecimal divide(double value) {
@@ -104,6 +104,12 @@ public class TasaCambio implements Serializable {
 	public BigDecimal divide(long value) {
 		TasaCambio tasacambio = new TasaCambio(value);
 		return this.value.divide(tasacambio.getValue());
+	}
+	
+	public TasaCambio divide(TasaCambio value) {
+		TasaCambio tasacambio = new TasaCambio(value);
+		BigDecimal result = this.value.divide(tasacambio.getValue(), 3, RoundingMode.HALF_UP);
+		return new TasaCambio(result);
 	}
 
 	public BigDecimal negate() {

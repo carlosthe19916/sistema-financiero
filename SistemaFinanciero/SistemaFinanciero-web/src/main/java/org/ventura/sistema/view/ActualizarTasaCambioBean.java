@@ -1,6 +1,7 @@
 package org.ventura.sistema.view;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -47,9 +48,11 @@ public class ActualizarTasaCambioBean implements Serializable {
 	private Tipocambio tipoCambioVentaEuroDolar;
 	
 	private boolean isValidBean;
+	private boolean validUpdateAndCreate;
 	
 	public ActualizarTasaCambioBean() {
 		setValidBean(true);
+		setValidUpdateAndCreate(true);
 	}
 
 	@PostConstruct
@@ -82,32 +85,15 @@ public class ActualizarTasaCambioBean implements Serializable {
 		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
-		Tipomoneda tipoMonedaDolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
-		Tipomoneda tipoMonedaSoles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+		Tipomoneda tipoMonedaRecibida = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		Tipomoneda tipoMonedaEntregada = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 		
 		try {
-			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaDolares, tipoMonedaSoles);
+			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibida, tipoMonedaEntregada);
 			tipoCambioCompraDolarSol.setTipocambio(tipoCambio);
 		} catch (Exception e) {
 			setBeanInvalid();
 			JsfUtil.addErrorMessage(e, "Error al obtener el tipo de cambio para la compra de dolares por soles");
-		}
-	}
-	
-	public void cargarTipoCambioCompraDolaresEuros() {
-		Moneda monto = new Moneda(); 
-		TasaCambio tipoCambio = null;
-		
-		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
-		Tipomoneda tipoMonedaDolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
-		Tipomoneda tipoMonedaEuros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
-		
-		try {
-			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaDolares, tipoMonedaEuros);
-			tipoCambioCompraDolarEuro.setTipocambio(tipoCambio);
-		} catch (Exception e) {
-			setBeanInvalid();
-			JsfUtil.addErrorMessage(e, "Error al obtener el tipo de cambio para la compra de dolares por euros");
 		}
 	}
 	
@@ -116,15 +102,32 @@ public class ActualizarTasaCambioBean implements Serializable {
 		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
-		Tipomoneda tipoMonedaEuros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
-		Tipomoneda tipoMonedaSoles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+		Tipomoneda tipoMonedaRecibida = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+		Tipomoneda tipoMonedaEntregada = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 		
 		try {
-			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaEuros, tipoMonedaSoles);
+			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibida, tipoMonedaEntregada);
 			tipoCambioCompraEuroSol.setTipocambio(tipoCambio);
 		} catch (Exception e) {
 			setBeanInvalid();
 			JsfUtil.addErrorMessage(e, "Error al obtener el tipo de cambio para la compra de euros por soles");
+		}
+	}
+	
+	public void cargarTipoCambioCompraDolaresEuros() {
+		Moneda monto = new Moneda(); 
+		TasaCambio tipoCambio = null;
+		
+		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
+		Tipomoneda tipoMonedaRecibida = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		Tipomoneda tipoMonedaEntregada = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+		
+		try {
+			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibida, tipoMonedaEntregada);
+			tipoCambioCompraDolarEuro.setTipocambio(tipoCambio);
+		} catch (Exception e) {
+			setBeanInvalid();
+			JsfUtil.addErrorMessage(e, "Error al obtener el tipo de cambio para la compra de dolares por euros");
 		}
 	}
 	
@@ -133,11 +136,11 @@ public class ActualizarTasaCambioBean implements Serializable {
 		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
-		Tipomoneda tipoMonedaEuros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
-		Tipomoneda tipoMonedaDolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		Tipomoneda tipoMonedaRecibida = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+		Tipomoneda tipoMonedaEntregada = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
 		
 		try {
-			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaEuros, tipoMonedaDolares);
+			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibida, tipoMonedaEntregada);
 			tipoCambioCompraEuroDolar.setTipocambio(tipoCambio);
 		} catch (Exception e) {
 			setBeanInvalid();
@@ -151,32 +154,15 @@ public class ActualizarTasaCambioBean implements Serializable {
 		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
-		Tipomoneda tipoMonedaDolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
-		Tipomoneda tipoMonedaSoles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+		Tipomoneda tipoMonedaRecibida = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+		Tipomoneda tipoMonedaEntregada = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
 		
 		try {
-			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaSoles, tipoMonedaDolares);
+			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibida, tipoMonedaEntregada);
 			tipoCambioVentaDolarSol.setTipocambio(tipoCambio);
 		} catch (Exception e) {
 			setBeanInvalid();
 			JsfUtil.addErrorMessage(e, "Error al obtener el tipo de cambio para la venta de dolares por soles");
-		}
-	}
-	
-	private void cargarTipoCambioVentaDolaresEuros() {
-		Moneda monto = new Moneda(); 
-		TasaCambio tipoCambio = null;
-		
-		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
-		Tipomoneda tipoMonedaDolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
-		Tipomoneda tipoMonedaEuros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
-		
-		try {
-			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaDolares, tipoMonedaEuros);
-			tipoCambioVentaDolarEuro.setTipocambio(tipoCambio);
-		} catch (Exception e) {
-			setBeanInvalid();
-			JsfUtil.addErrorMessage(e, "Error al obtener el tipo de cambio para la venta de dolares por euros");
 		}
 	}
 	
@@ -185,15 +171,32 @@ public class ActualizarTasaCambioBean implements Serializable {
 		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
-		Tipomoneda tipoMonedaEuros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
-		Tipomoneda tipoMonedaSoles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+		Tipomoneda tipoMonedaRecibida = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+		Tipomoneda tipoMonedaEntregada = ProduceObject.getTipomoneda(TipomonedaType.EURO);
 		
 		try {
-			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaSoles, tipoMonedaEuros);
+			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibida, tipoMonedaEntregada);
 			tipoCambioVentaEuroSol.setTipocambio(tipoCambio);
 		} catch (Exception e) {
 			setBeanInvalid();
 			JsfUtil.addErrorMessage(e, "Error al obtener el tipo de cambio para la venta de euros por soles");
+		}
+	}
+	
+	private void cargarTipoCambioVentaDolaresEuros() {
+		Moneda monto = new Moneda(); 
+		TasaCambio tipoCambio = null;
+		
+		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
+		Tipomoneda tipoMonedaRecibida = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+		Tipomoneda tipoMonedaEntregada = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		
+		try {
+			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibida, tipoMonedaEntregada);
+			tipoCambioVentaDolarEuro.setTipocambio(tipoCambio);
+		} catch (Exception e) {
+			setBeanInvalid();
+			JsfUtil.addErrorMessage(e, "Error al obtener el tipo de cambio para la venta de dolares por euros");
 		}
 	}
 	
@@ -202,11 +205,11 @@ public class ActualizarTasaCambioBean implements Serializable {
 		TasaCambio tipoCambio = null;
 		
 		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
-		Tipomoneda tipoMonedaEuros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
-		Tipomoneda tipoMonedaDolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		Tipomoneda tipoMonedaRecibida = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		Tipomoneda tipoMonedaEntregada = ProduceObject.getTipomoneda(TipomonedaType.EURO);
 		
 		try {
-			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaEuros, tipoMonedaDolares);
+			tipoCambio = tipocambioServiceLocal.getTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibida, tipoMonedaEntregada);
 			tipoCambioVentaEuroDolar.setTipocambio(tipoCambio);
 		} catch (Exception e) {
 			setBeanInvalid();
@@ -214,12 +217,221 @@ public class ActualizarTasaCambioBean implements Serializable {
 		}
 	}
 	
-	public void configurarTasasDeCambio(){
-		configurarTasaCambioCompraDolarSOl();
+	public void actualizarTasasDeCambio(){
+		actualizarTasaCambioCompraDolarSol();
+		actualizarTasaCambioCompraEuroSol();
+		actualizarTasaCambioCompraDolarEuro();
+		actualizarTasaCambioCompraEuroDolar();
+		actualizarTasaCambioVentaDolarSol();
+		actualizarTasaCambioVentaEuroSol();
+		actualizarTasaCambioVentaDolarEuro();
+		actualizarTasaCambioVentaEuroDolar();
 	}
+	
+	//actulizando y creando tipos de cambio compra
+	public void actualizarTasaCambioCompraDolarSol() {
+		Moneda monto = new Moneda(); 
 
-	public void configurarTasaCambioCompraDolarSOl() {
+		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
+		Tipomoneda tipoMonedaRecibido = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		Tipomoneda tipoMonedaEntregado = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 		
+		try {
+			Tipocambio tipocambio = tipocambioServiceLocal.retornarObjetoTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibido, tipoMonedaEntregado);
+			tipocambio.setEstado(false);
+			tipocambio.setFechafin(Calendar.getInstance().getTime());
+			updateTipoCambio(tipocambio);
+			
+			createTipoCambio(tipocambio, tipoCambioCompraDolarSol.getTipocambio());
+		} catch (Exception e) {
+			setValidUpdateCreate();
+			JsfUtil.addErrorMessage(e, "Error al actualizar la tasa de cambio compra $ x S/.");
+		}
+	}
+	
+	public void actualizarTasaCambioCompraEuroSol() {
+		Moneda monto = new Moneda(); 
+
+		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
+		Tipomoneda tipoMonedaRecibido = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+		Tipomoneda tipoMonedaEntregado = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+		
+		try {
+			Tipocambio tipocambio = tipocambioServiceLocal.retornarObjetoTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibido, tipoMonedaEntregado);
+			tipocambio.setEstado(false);
+			tipocambio.setFechafin(Calendar.getInstance().getTime());
+			updateTipoCambio(tipocambio);
+			
+			createTipoCambio(tipocambio, tipoCambioCompraEuroSol.getTipocambio());
+		} catch (Exception e) {
+			setValidUpdateCreate();
+			JsfUtil.addErrorMessage(e, "Error al actualizar la tasa de cambio compra € x S/.");
+		}
+	}
+	
+	public void actualizarTasaCambioCompraDolarEuro() {
+		Moneda monto = new Moneda(); 
+
+		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
+		Tipomoneda tipoMonedaRecibido = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		Tipomoneda tipoMonedaEntregado = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+		
+		try {
+			Tipocambio tipocambio = tipocambioServiceLocal.retornarObjetoTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibido, tipoMonedaEntregado);
+			tipocambio.setEstado(false);
+			tipocambio.setFechafin(Calendar.getInstance().getTime());
+			updateTipoCambio(tipocambio);
+			
+			createTipoCambio(tipocambio, tipoCambioCompraDolarEuro.getTipocambio());
+		} catch (Exception e) {
+			setValidUpdateCreate();
+			JsfUtil.addErrorMessage(e, "Error al actualizar la tasa de cambio compra $ x €");
+		}
+	}
+	
+	public void actualizarTasaCambioCompraEuroDolar() {
+		Moneda monto = new Moneda(); 
+
+		Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.COMPRA_MONEDA);
+		Tipomoneda tipoMonedaRecibido = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+		Tipomoneda tipoMonedaEntregado = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		
+		try {
+			Tipocambio tipocambio = tipocambioServiceLocal.retornarObjetoTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibido, tipoMonedaEntregado);
+			tipocambio.setEstado(false);
+			tipocambio.setFechafin(Calendar.getInstance().getTime());
+			updateTipoCambio(tipocambio);
+			
+			createTipoCambio(tipocambio, tipoCambioCompraEuroDolar.getTipocambio());
+		} catch (Exception e) {
+			setValidUpdateCreate();
+			JsfUtil.addErrorMessage(e, "Error al actualizar la tasa de cambio compra € x $");
+		}
+	}
+	
+	//actulizando y creando tipos de cambio venta
+		public void actualizarTasaCambioVentaDolarSol() {
+			Moneda monto = new Moneda(); 
+
+			Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
+			Tipomoneda tipoMonedaRecibido = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			Tipomoneda tipoMonedaEntregado = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+			
+			try {
+				Tipocambio tipocambio = tipocambioServiceLocal.retornarObjetoTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibido, tipoMonedaEntregado);
+				tipocambio.setEstado(false);
+				tipocambio.setFechafin(Calendar.getInstance().getTime());
+				updateTipoCambio(tipocambio);
+				
+				createTipoCambio(tipocambio, tipoCambioVentaDolarSol.getTipocambio());
+			} catch (Exception e) {
+				setValidUpdateCreate();
+				JsfUtil.addErrorMessage(e, "Error al actualizar la tasa de cambio venta $ x S/.");
+			}
+		}
+		
+		public void actualizarTasaCambioVentaEuroSol() {
+			Moneda monto = new Moneda(); 
+
+			Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
+			Tipomoneda tipoMonedaRecibido = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			Tipomoneda tipoMonedaEntregado = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+			
+			try {
+				Tipocambio tipocambio = tipocambioServiceLocal.retornarObjetoTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibido, tipoMonedaEntregado);
+				tipocambio.setEstado(false);
+				tipocambio.setFechafin(Calendar.getInstance().getTime());
+				updateTipoCambio(tipocambio);
+				
+				createTipoCambio(tipocambio, tipoCambioVentaEuroSol.getTipocambio());
+			} catch (Exception e) {
+				setValidUpdateCreate();
+				JsfUtil.addErrorMessage(e, "Error al actualizar la tasa de cambio venta € x S/.");
+			}
+		}
+		
+		public void actualizarTasaCambioVentaDolarEuro() {
+			Moneda monto = new Moneda(); 
+
+			Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
+			Tipomoneda tipoMonedaRecibido = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+			Tipomoneda tipoMonedaEntregado = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+			
+			try {
+				Tipocambio tipocambio = tipocambioServiceLocal.retornarObjetoTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibido, tipoMonedaEntregado);
+				tipocambio.setEstado(false);
+				tipocambio.setFechafin(Calendar.getInstance().getTime());
+				updateTipoCambio(tipocambio);
+				
+				createTipoCambio(tipocambio, tipoCambioVentaDolarEuro.getTipocambio());
+			} catch (Exception e) {
+				setValidUpdateCreate();
+				JsfUtil.addErrorMessage(e, "Error al actualizar la tasa de cambio venta $ x €");
+			}
+		}
+		
+		public void actualizarTasaCambioVentaEuroDolar() {
+			Moneda monto = new Moneda(); 
+
+			Tipotasa tipotasa = ProduceObjectTipocambio.getTipoCambioCompraVenta(TipoCambioCompraVentaType.VENTA_MONEDA);
+			Tipomoneda tipoMonedaRecibido = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+			Tipomoneda tipoMonedaEntregado = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+			
+			try {
+				Tipocambio tipocambio = tipocambioServiceLocal.retornarObjetoTipoCambioCompraVenta(tipotasa, monto, tipoMonedaRecibido, tipoMonedaEntregado);
+				tipocambio.setEstado(false);
+				tipocambio.setFechafin(Calendar.getInstance().getTime());
+				updateTipoCambio(tipocambio);
+				
+				createTipoCambio(tipocambio, tipoCambioVentaEuroDolar.getTipocambio());
+			} catch (Exception e) {
+				setValidUpdateCreate();
+				JsfUtil.addErrorMessage(e, "Error al actualizar la tasa de cambio compra € x $");
+			}
+		}
+	
+	public void updateTipoCambio(Tipocambio tipocambio) {
+		try {
+			tipocambioServiceLocal.update(tipocambio);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void createTipoCambio(Tipocambio tipocambio, TasaCambio tasacambio) {
+		Tipocambio tipocambioNew = new Tipocambio();
+		tipocambioNew.setTiposervicio(tipocambio.getTiposervicio());
+		tipocambioNew.setTipotasa(tipocambio.getTipotasa());
+		tipocambioNew.setTipocambio(tasacambio);
+		tipocambioNew.setEstado(true);
+		tipocambioNew.setFechainicio(Calendar.getInstance().getTime());
+		tipocambioNew.setMontominimo(tipocambio.getMontominimo());
+		tipocambioNew.setMontomaximo(tipocambio.getMontomaximo());
+		tipocambioNew.setTipomonedarecibida(tipocambio.getTipomonedarecibida());
+		tipocambioNew.setTipomonedaentregado(tipocambio.getTipomonedaentregado());
+		
+		try {
+			tipocambioServiceLocal.create(tipocambioNew);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//calcula las tasas de dolar a euro y viceversa en compra
+	public void calculateTasaCambioCompra(){
+		TasaCambio compraDolarSol = tipoCambioCompraDolarSol.getTipocambio();
+		TasaCambio compraEuroSol = tipoCambioCompraEuroSol.getTipocambio();
+	 	tipoCambioCompraDolarEuro.setTipocambio(compraDolarSol.divide(compraEuroSol));
+		tipoCambioCompraEuroDolar.setTipocambio(compraEuroSol.divide(compraDolarSol));
+	}
+	
+	//calcula las tasas de dolar a euro y viceversa en venta
+	public void calculateTasaCambioVenta(){
+		TasaCambio ventaDolarSol = tipoCambioVentaDolarSol.getTipocambio();
+		TasaCambio ventaEuroSol = tipoCambioVentaEuroSol.getTipocambio();
+	 	tipoCambioVentaDolarEuro.setTipocambio(ventaEuroSol.divide(ventaDolarSol));
+		tipoCambioVentaEuroDolar.setTipocambio(ventaDolarSol.divide(ventaEuroSol));
 	}
 
 	public boolean isValidBean() {
@@ -296,5 +508,17 @@ public class ActualizarTasaCambioBean implements Serializable {
 
 	public void setTipoCambioVentaEuroDolar(Tipocambio tipoCambioVentaEuroDolar) {
 		this.tipoCambioVentaEuroDolar = tipoCambioVentaEuroDolar;
+	}
+
+	public boolean isValidUpdateAndCreate() {
+		return validUpdateAndCreate;
+	}
+
+	public void setValidUpdateAndCreate(boolean validUpdateAndCreate) {
+		this.validUpdateAndCreate = validUpdateAndCreate;
+	}
+	
+	public void setValidUpdateCreate() {
+		this.validUpdateAndCreate = false;
 	}
 }

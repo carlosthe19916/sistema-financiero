@@ -94,6 +94,13 @@ public class Moneda implements Serializable {
 		BigDecimal result = this.value.multiply(moneda.getValue());
 		return new Moneda(result);
 	}
+	
+	public Moneda multiply(TasaCambio value) {
+		TasaCambio tasacambio = new TasaCambio(value);
+		BigDecimal result = this.value.multiply(tasacambio.getValue());
+		result = result.setScale(2, RoundingMode.HALF_UP);
+		return new Moneda(result);
+	}
 
 	public BigDecimal divide(double value) {
 		Moneda moneda = new Moneda(value);

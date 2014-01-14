@@ -128,7 +128,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	}
 	
 	public void calculateMontoEntregado(){
-		Moneda money = getTipoCambio().multiply(montoRecibido);
+		Moneda money = montoRecibido.multiply(tipoCambio);
 		setMontoEntregado(money);
 		setMontoEntregadoNew(money);
 	}

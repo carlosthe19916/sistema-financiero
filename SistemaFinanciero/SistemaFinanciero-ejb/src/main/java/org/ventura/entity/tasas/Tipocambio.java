@@ -1,22 +1,15 @@
 package org.ventura.entity.tasas;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.tipodato.Moneda;
+import org.ventura.tipodato.TasaCambio;
+
+import java.util.Date;
+
 
 /**
  * The persistent class for the tipocambio database table.
@@ -24,12 +17,16 @@ import org.ventura.entity.schema.maestro.Tipomoneda;
  */
 @Entity
 @Table(name = "tipocambio", schema = "tasas")
-@NamedQuery(name = "Tipocambio.findAll", query = "SELECT t FROM Tipocambio t")
+@NamedQuery(name="Tipocambio.findAll", query="SELECT t FROM Tipocambio t")
+@NamedQueries({
+	@NamedQuery(name = Tipocambio.FindById, query = "Select tc From Tipocambio tc INNER JOIN tc.tiposervicio ts INNER JOIN ts.servicio s INNER JOIN tc.tipotasa tt WHERE s.estado = TRUE and ts.estado = TRUE and tc.estado = TRUE and tt.estado = TRUE and tt.idtipotasa=:idtipotasa AND :monto BETWEEN tc.montominimo and tc.montomaximo and tc.tipomonedarecibida.idtipomoneda = :idtipomonedarecibida and tc.tipomonedaentregado.idtipomoneda = :idtipomonedaentregado")})
+
 public class Tipocambio implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	public final static String findAll = "org.ventura.entity.tasas.Tipocambio.findAll";
-
+	public final static String FindById = "org.ventura.entity.tasas.Tipocambio.FindById";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(unique = true, nullable = false)
@@ -43,7 +40,7 @@ public class Tipocambio implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	private Date fechainicio;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "idtipomonedaentregado", nullable = false)
 	private Tipomoneda tipomonedaentregado;
@@ -60,11 +57,17 @@ public class Tipocambio implements Serializable {
 	@JoinColumn(name = "idtipotasa", nullable = false)
 	private Tipotasa tipotasa;
 
-	private BigDecimal montomaximo;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "montomaximo")) })
+	private Moneda montomaximo;
 
-	private BigDecimal montominimo;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "montominimo")) })
+	private Moneda montominimo;
 
-	private BigDecimal tipocambio;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tipocambio")) })
+	private TasaCambio tipocambio;
 
 	public Tipocambio() {
 	}
@@ -101,30 +104,6 @@ public class Tipocambio implements Serializable {
 		this.fechainicio = fechainicio;
 	}
 
-	public BigDecimal getMontomaximo() {
-		return this.montomaximo;
-	}
-
-	public void setMontomaximo(BigDecimal montomaximo) {
-		this.montomaximo = montomaximo;
-	}
-
-	public BigDecimal getMontominimo() {
-		return this.montominimo;
-	}
-
-	public void setMontominimo(BigDecimal montominimo) {
-		this.montominimo = montominimo;
-	}
-
-	public BigDecimal getTipocambio() {
-		return this.tipocambio;
-	}
-
-	public void setTipocambio(BigDecimal tipocambio) {
-		this.tipocambio = tipocambio;
-	}
-
 	public Tipotasa getTipotasa() {
 		return tipotasa;
 	}
@@ -155,6 +134,30 @@ public class Tipocambio implements Serializable {
 
 	public void setTipomonedaentregado(Tipomoneda tipomonedaentregado) {
 		this.tipomonedaentregado = tipomonedaentregado;
+	}
+
+	public Moneda getMontomaximo() {
+		return montomaximo;
+	}
+
+	public void setMontomaximo(Moneda montomaximo) {
+		this.montomaximo = montomaximo;
+	}
+
+	public Moneda getMontominimo() {
+		return montominimo;
+	}
+
+	public void setMontominimo(Moneda montominimo) {
+		this.montominimo = montominimo;
+	}
+
+	public TasaCambio getTipocambio() {
+		return tipocambio;
+	}
+
+	public void setTipocambio(TasaCambio tipocambio) {
+		this.tipocambio = tipocambio;
 	}
 
 }

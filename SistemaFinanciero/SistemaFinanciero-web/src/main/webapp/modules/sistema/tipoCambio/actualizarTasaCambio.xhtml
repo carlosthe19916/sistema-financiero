@@ -9,6 +9,11 @@
 <f:view>
 
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+	
+	<f:metadata>
+		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
+		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+	</f:metadata>
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
 			<h:outputText value="Configurar Tipo de Cambio" />
@@ -19,7 +24,7 @@
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
 			<h:form id="formTipoCambio">
-
+				<p:focus context="formTipoCambio"/>  
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
@@ -68,7 +73,7 @@
 														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasaCambioBean.tipoCambioCompraDolarSol.tipocambio}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaCambioConverter"></f:converter>
-														<p:ajax event="blur" render="@this"></p:ajax>
+														<f:ajax event="blur" render="@this tipoCambioCompraDE tipoCambioCompraED" listener="#{actualizarTasaCambioBean.cargarTipoCambioCompra()}"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>
@@ -94,7 +99,7 @@
 														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasaCambioBean.tipoCambioCompraEuroSol.tipocambio}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaCambioConverter"></f:converter>
-														<p:ajax event="blur" render="@this"></p:ajax>
+														<f:ajax event="blur" render="@this tipoCambioCompraDE tipoCambioCompraED" listener="#{actualizarTasaCambioBean.calculateTasaCambioCompra()}"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>
@@ -173,7 +178,7 @@
 														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasaCambioBean.tipoCambioVentaDolarSol.tipocambio}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaCambioConverter"></f:converter>
-														<p:ajax event="blur" render="@this"></p:ajax>
+														<f:ajax event="blur" render="@this tipoCambioVentaDE tipoCambioVentaED" listener="#{actualizarTasaCambioBean.calculateTasaCambioVenta()}"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>
@@ -199,7 +204,7 @@
 														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasaCambioBean.tipoCambioVentaEuroSol.tipocambio}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaCambioConverter"></f:converter>
-														<p:ajax event="blur" render="@this"></p:ajax>
+														<f:ajax event="blur" render="@this tipoCambioVentaDE tipoCambioVentaED" listener="#{actualizarTasaCambioBean.calculateTasaCambioVenta()}"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>
@@ -265,10 +270,23 @@
 								</div>
 
 								<div class="sf-buttons" style="float: left;">
-									<h:commandButton  value="Aceptar"
-										styleClass="action blue" />
-									<h:commandButton action="cancel" value="Cancelar"
+									<h:commandButton action = "#{actualizarTasaCambioBean.actualizarTasasDeCambio()}" value="Aceptar"
+										styleClass="action blue" onclick="confirmation.show()">
+									<p:ajax render="formTipoCambio"></p:ajax>
+									</h:commandButton>
+									<h:commandButton action="/index.xhtml" value="Cancelar"
 										styleClass="action" />
+								</div>
+								<div>
+									<p:confirmDialog
+										message="Los tipos de cambio se actualizaron correctamente..."
+										showEffect="Drop" hideEffect="explode"
+										header="Confirmation" severity="check"
+										widgetVar="confirmation">
+										<p:commandButton value="Aceptar"
+											oncomplete="confirmation.hide()"/>
+										<p:commandButton value="Camcelar" onclick="confirmation.hide()" type="button" />
+									</p:confirmDialog>
 								</div>
 							</div>
 						</div>
