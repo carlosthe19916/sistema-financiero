@@ -914,32 +914,21 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
-					
-			Calendar start = Calendar.getInstance();
-			start.setTime(cuentabancaria.getFechaapertura());
-			Calendar end = Calendar.getInstance();
-			start.setTime(cuentabancaria.getFechacierre());
 			
 			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
 			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
-			Tipomoneda tipomoneda = cuentabancaria.getTipomoneda();
-			int periodo = start.get(Calendar.DAY_OF_YEAR) - end.get(Calendar.DAY_OF_YEAR);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			
-			BigDecimal teaValor = tasainteresServiceLocal.getTea(tipomoneda, periodo, monto);
-			BigDecimal treaValor = tasainteresServiceLocal.getTrea(tipomoneda, periodo, monto);
 						
 			CuentabancariaTipotasa cuentabancariaTipotasaTEA =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasaTEA.setId(pkTEA);
-			cuentabancariaTipotasaTEA.setTasainteres(teaValor);
+			cuentabancariaTipotasaTEA.setTasainteres(tea);
 			pkTEA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
 			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();	
 			cuentabancariaTipotasaTREA.setId(pkTREA);
-			cuentabancariaTipotasaTREA.setTasainteres(treaValor);	
+			cuentabancariaTipotasaTREA.setTasainteres(trea);	
 			pkTREA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
 			
