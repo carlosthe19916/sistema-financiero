@@ -8,7 +8,6 @@ import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * The persistent class for the personanatural database table.
@@ -17,12 +16,12 @@ import java.util.List;
 @Entity
 @Table(name = "personanatural", schema = "persona")
 @NamedQuery(name = "Personanatural.findAll", query = "SELECT p FROM Personanatural p")
-@NamedQueries({ @NamedQuery(name = Personanatural.FindByTipodocumentoNumerodocumento, query = "SELECT p FROM Personanatural p WHERE p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento") })
+@NamedQueries({ @NamedQuery(name = Personanatural.f_tipodocumento_numerodocumento, query = "SELECT p FROM Personanatural p WHERE p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento") })
 public class Personanatural implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static String FindByTipodocumentoNumerodocumento = "org.ventura.entity.schema.persona.personanatural.FindByDni";
+	public final static String f_tipodocumento_numerodocumento = "org.ventura.entity.schema.persona.personanatural.f_tipodocumento_numerodocumento";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -65,13 +64,8 @@ public class Personanatural implements Serializable {
 	@Column(length = 30)
 	private String telefono;
 
-	// bi-directional many-to-one association to Accionista
-	@OneToMany(mappedBy = "personanatural")
-	private List<Accionista> accionistas;
-
-	// bi-directional many-to-one association to Tipodocumento
 	@ManyToOne
-	@JoinColumn(name = "idtipodocumento", nullable = false)
+	@JoinColumn(name = "idtipodocumento")
 	private Tipodocumento tipodocumento;
 
 	@ManyToOne
@@ -179,28 +173,6 @@ public class Personanatural implements Serializable {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}
-
-	public List<Accionista> getAccionistas() {
-		return this.accionistas;
-	}
-
-	public void setAccionistas(List<Accionista> accionistas) {
-		this.accionistas = accionistas;
-	}
-
-	public Accionista addAccionista(Accionista accionista) {
-		getAccionistas().add(accionista);
-		accionista.setPersonanatural(this);
-
-		return accionista;
-	}
-
-	public Accionista removeAccionista(Accionista accionista) {
-		getAccionistas().remove(accionista);
-		accionista.setPersonanatural(null);
-
-		return accionista;
 	}
 
 	public Tipodocumento getTipodocumento() {

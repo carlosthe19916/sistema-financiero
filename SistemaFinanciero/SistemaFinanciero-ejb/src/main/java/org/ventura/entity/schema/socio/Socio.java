@@ -22,14 +22,9 @@ import java.util.Date;
 @NamedQuery(name = "Socio.findAll", query = "SELECT s FROM Socio s")
 @NamedQueries({
 		@NamedQuery(name = Socio.ALL, query = "SELECT s FROM Socio s"),
-		@NamedQuery(name = Socio.FindSocioPNByTipodocumentoNumerodocumento, query = "Select s From Socio s INNER JOIN s.personanatural p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento"),
-		@NamedQuery(name = Socio.FindSocioPJByTipodocumentoNumerodocumento, query = "Select s From Socio s INNER JOIN s.personajuridica p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento")
+		@NamedQuery(name = Socio.fPN_tipodocumento_numerodocumento, query = "Select s From Socio s INNER JOIN s.personanatural p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento"),
+		@NamedQuery(name = Socio.fPJ_tipodocumento_numerodocumento, query = "Select s From Socio s INNER JOIN s.personajuridica p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento")
 /*
- * @NamedQuery(name = Socio.FindByDni, query =
- * "Select s From Socio s WHERE s.estado=true AND s.dni=:dni"),
- * 
- * @NamedQuery(name = Socio.FindByRuc, query =
- * "Select s From Socio s WHERE s.estado=true AND s.ruc=:ruc"),
  * 
  * @NamedQuery(name = Socio.SOCIOSPN, query =
  * "select s from ViewSocioPN s where s.estado=true and (s.idsocio like :datoIngresado or s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado or s.personanatural.nombres like :datoIngresado or s.nombrecompleto like :datoIngresado)"
@@ -44,13 +39,11 @@ public class Socio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String ALL = "org.ventura.model.Socio.ALL";
-	public final static String FindByDni = "org.ventura.model.Socio.FindByDni";
-	public final static String FindByRuc = "org.ventura.model.Socio.FindByRuc";
 	public final static String SOCIOSPN = "org.ventura.model.Socio.SOCIOSPN";
 	public final static String SOCIOSPJ = "org.ventura.model.Socio.SOCIOSPJ";
 
-	public final static String FindSocioPNByTipodocumentoNumerodocumento = "org.ventura.entity.schema.socio.socio.FindSocioPNByTipodocumentoNumerodocumento";
-	public final static String FindSocioPJByTipodocumentoNumerodocumento = "org.ventura.entity.schema.socio.socio.FindSocioPJByTipodocumentoNumerodocumento";
+	public final static String fPN_tipodocumento_numerodocumento = "org.ventura.entity.schema.socio.socio.fPN_tipodocumento_numerodocumento";
+	public final static String fPJ_tipodocumento_numerodocumento = "org.ventura.entity.schema.socio.socio.fPJ_tipodocumento_numerodocumento";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -80,7 +73,7 @@ public class Socio implements Serializable {
 	@JoinColumn(name = "idpersonajuridica", nullable = false)
 	private Personajuridica personajuridica;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "idcuentaaporte", nullable = false)
 	private Cuentaaporte cuentaaporte;
 

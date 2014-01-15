@@ -66,44 +66,6 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	
 	@Inject
 	private Log log;
-
-	@Override
-	public Cuentaaporte createCuentaAporteWithPersonanatural(Cuentaaporte cuentaaporte) throws Exception {
-		try {	
-			cuentaaporteDAO.create(cuentaaporte);
-			
-			//Socio socio = cuentaaporte.getSocio();
-			//socio.setCuentaaporte(cuentaaporte);
-			//socio = buscarSocioPersonaNatural(socio);			
-		} catch(PreexistingEntityException e){
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getMessage());
-		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error al insertar los datos");
-		}
-		return cuentaaporte;
-	}
-
-	@Override
-	public Cuentaaporte createCuentaAporteWithPersonajuridica(Cuentaaporte cuentaaporte) throws Exception {
-		try {	
-			cuentaaporteDAO.create(cuentaaporte);
-			
-			/*Socio socio = new Socio();
-			socio.setCuentaaporte(cuentaaporte);
-			socio = buscarSocioPersonaNatural(socio);
-						
-			cuentaaporteDAO.create(cuentaaporte);		*/	
-		} catch(PreexistingEntityException e){
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getMessage());
-		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error al insertar los datos");
-		}
-		return cuentaaporte;
-	}
 	
 	protected Socio buscarSocioPersonaNatural(Socio socio) throws PreexistingEntityException, Exception {
 		/*if (socio != null) {
@@ -133,6 +95,19 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		return socio;
 	}
 
+	@Override
+	public Cuentaaporte create(Cuentaaporte cuentaaporte) throws Exception {
+		try {
+			cuentaaporteDAO.create(cuentaaporte);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporte;
+	}
+	
 	@Override
 	public Cuentaaporte find(Object id) {
 		try {
@@ -246,51 +221,6 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		}
 		return null;
 	}
-	
-	@Override
-	public void removeBeneficiario(String cuentaAporte, Object parameters) throws Exception {
-		try {
-			cuentaaporteDAO.executeQuerry(cuentaAporte, parameters);
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-	
-	@Override
-	public void updateBeneficiario(Socio oSocio) throws Exception{
-		try{
-			/*List<Beneficiario> beneficiarios = oSocio.getCuentaaporte().getBeneficiarios();
-			if(beneficiarios != null){
-				for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-					Beneficiario beneficiariocuenta = (Beneficiario) iterator.next();
-					beneficiariocuenta.setIdbeneficiariocuenta(null);
-					beneficiariocuenta.setCuentaaporte(oSocio.getCuentaaporte());
-					
-					createBeneficiario(beneficiariocuenta);
-				}
-			}*/
-		}catch(Exception e){
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-
-	private void createBeneficiario(Beneficiario beneficiariocuenta) throws Exception{
-		try {
-			beneficiariocuentaDAO.create(beneficiariocuenta);
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-	
 	
 	@Override
 	public Cuentaaporte findByNumerocuenta(String numerocuenta) throws Exception {
@@ -441,7 +371,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			aportesCuentaaporteViews = aportesCuentaaporteViewDAO.findByNamedQuery(AportesCuentaaporteView.findBetweenDates,parameters);
 						
 			
-			
+	
 			//completando las fechas
 			Calendar beginCalendar = Calendar.getInstance();
 			Calendar endCalendar = Calendar.getInstance();
@@ -574,5 +504,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		
 		return aportesCuentaaporteViews;
 	}
+
+	
 
 }

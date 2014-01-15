@@ -281,6 +281,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 						representanteLegal.setApellidomaterno(apellidoMaternoRepresentantelegal);
 						representanteLegal.setNombres(nombresRepresentantelegal);
 						representanteLegal.setFechanacimiento(fechaNacimientoRepresentantelegal);
+						representanteLegal.setSexo(comboSexoRepresentantelegal.getObjectItemSelected());
 						
 						List<Accionista> listAccionistas = new ArrayList<Accionista>();
 						listAccionistas.addAll(accionistas.values());
@@ -367,7 +368,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
 		Personanatural personanatural = null;
 		try {
-			personanatural = personanaturalServiceLocal.findByTipodocumento(tipodocumento, numeroDocumento);
+			personanatural = personanaturalServiceLocal.find(tipodocumento, numeroDocumento);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}
@@ -377,7 +378,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	public Personajuridica buscarPersonajuridica(Tipodocumento tipodocumento, String numeroDocumento){
 		Personajuridica personajuridica = null;
 		try {
-			personajuridica = personajuridicaServiceLocal.findByTipodocumento(tipodocumento, numeroDocumento);
+			personajuridica = personajuridicaServiceLocal.find(tipodocumento, numeroDocumento);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}

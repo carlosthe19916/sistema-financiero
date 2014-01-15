@@ -2,11 +2,13 @@ package org.ventura.control;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -44,43 +46,16 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	private PersonanaturalServiceLocal personanaturalServiceLocal;
 
 	@Override
-	public Personajuridica create(Personajuridica oPersonajuridica) throws Exception  {
+	public Personajuridica create(Personajuridica personajuridica) throws Exception  {
 		try{
-			/*Personanatural representantelegal = oPersonajuridica.getRepresentanteLegal();
-			if (representantelegal != null) {
-				Object key = representantelegal.getDni();
-				Object result = personanaturalServiceLocal.find(key);
-				if (result == null) {
-					personanaturalServiceLocal.create(representantelegal);
-				}
-			}
-			
-			oPersonajuridicaDAO.create(oPersonajuridica);
-			
-			List<Accionista> accionistas = oPersonajuridica.getListAccionista();
-			if (accionistas != null) {
-				for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
-					Accionista accionista = (Accionista) iterator.next();
-					
-					Personanatural personanatural = accionista.getPersonanatural();
-					if(personanatural != null){
-						Object key = personanatural.getDni();
-						Object result = personanaturalServiceLocal.find(key);
-						if(result == null){
-							personanaturalServiceLocal.create(personanatural);
-						}
-						createAccionista(accionista);				
-					}
-					
-				}
-			}*/
+			oPersonajuridicaDAO.create(personajuridica);
 		}catch(Exception e){
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
-		return oPersonajuridica;		
+		return personajuridica;		
 	}
 	
 	@Override
@@ -91,58 +66,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-
-	protected void createAccionista(Accionista accionista) throws Exception{
-		try {
-			accionistaDAO.create(accionista);
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-	
-	@Override
-	public void updateAccionista(Personajuridica oPersonaJuridica) throws Exception{
-		try{
-			/*List<Accionista> accionistas = oPersonaJuridica.getListAccionista();
-			if (accionistas != null) {
-				for (Iterator<Accionista> iterator = accionistas.iterator(); iterator.hasNext();) {
-					Accionista accionista = (Accionista) iterator.next();
-					accionista.setPersonajuridica(oPersonaJuridica);
-			
-					Personanatural personanatural = accionista.getPersonanatural();
-					if(personanatural != null){
-						Object key = personanatural.getDni();
-						Object result = personanaturalServiceLocal.find(key);
-						if(result == null){
-							createAccionista(accionista);
-						}
-						accionistaDAO.update(accionista);			
-					}
-				}
-			}*/
-		}catch(Exception e){
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-	
-	@Override
-	public void deleteAccionista(String Personajuridica, Object parameters) throws Exception {
-		try {
-			oPersonajuridicaDAO.executeQuerry(Personajuridica, parameters);
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 	}
 	
@@ -154,7 +78,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 	}
 
@@ -165,7 +89,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 	}
 
@@ -178,7 +102,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		return Personajuridica;
 	}
@@ -191,7 +115,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		return collection;
 	}
@@ -205,7 +129,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		return collection;
 	}
@@ -219,7 +143,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		return list;
 	}
@@ -233,15 +157,14 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 
 		return list;
 	}
 
 	@Override
-	public Personajuridica findByTipodocumento(Tipodocumento tipodocumento,
-			String numerodocumento) throws Exception {
+	public Personajuridica find(Tipodocumento tipodocumento, String numerodocumento) throws Exception {
 		Personajuridica personajuridica = null;
 		try{
 			Map<String, Object> parameters = new HashMap<String, Object>();
@@ -273,6 +196,137 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			log.error("Cause:" + e.getCause());
 			log.error("Class:" + e.getClass());
 			throw e;
+		}
+		return personajuridica;
+	}
+
+	@Override
+	public Personajuridica createIfNotExistsUpdateIfExist(Personajuridica personajuridica)throws Exception {
+		try {		
+			Personanatural representanteLegal = personajuridica.getRepresentanteLegal();
+			List<Accionista> listAccionistasView = personajuridica.getAccionistas();
+			representanteLegal = personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(representanteLegal);
+				
+			Tipodocumento tipodocumento = personajuridica.getTipodocumento();
+			String numerodocumento = personajuridica.getNumerodocumento();			
+			Personajuridica personajuridicaBD = find(tipodocumento, numerodocumento);
+			if(personajuridicaBD != null){
+				personajuridicaBD.setTipodocumento(personajuridica.getTipodocumento());
+				personajuridicaBD.setNumerodocumento(personajuridica.getNumerodocumento());
+				personajuridicaBD.setRepresentanteLegal(representanteLegal);
+				personajuridicaBD.setRazonsocial(personajuridica.getRazonsocial());
+				personajuridicaBD.setNombrecomercial(personajuridica.getNombrecomercial());
+				personajuridicaBD.setActividadprincipal(personajuridica.getActividadprincipal());
+				personajuridicaBD.setFechaconstitucion(personajuridica.getFechaconstitucion());
+				personajuridicaBD.setTipoempresa(personajuridica.getTipoempresa());
+				personajuridicaBD.setFindelucro(personajuridicaBD.getFindelucro());
+				personajuridicaBD.setDireccion(personajuridica.getDireccion());
+				personajuridicaBD.setReferencia(personajuridica.getReferencia());
+				personajuridicaBD.setTelefono(personajuridica.getTelefono());
+				personajuridicaBD.setCelular(personajuridica.getCelular());
+				personajuridicaBD.setEmail(personajuridica.getEmail());
+				update(personajuridicaBD);
+				personajuridica = personajuridicaBD;
+			} else {
+				create(personajuridica);
+			}	
+				
+			Map<String, Accionista> mapFromView = new HashMap<String, Accionista>();
+			for (Accionista accionista : listAccionistasView) {
+				Personanatural personanatural = accionista.getPersonanatural();
+				String key = personanatural.getNumerodocumento() + personanatural.getTipodocumento().hashCode();
+				mapFromView.put(key, accionista);
+			}
+			
+			Map<String, Accionista> mapFromDB = new HashMap<String, Accionista>();
+			for (Accionista accionista : personajuridica.getAccionistas()) {
+				Personanatural personanatural = accionista.getPersonanatural();
+				String key = personanatural.getNumerodocumento() + personanatural.getTipodocumento().hashCode();
+				mapFromDB.put(key, accionista);
+			}
+			
+			Set<String> union = new HashSet<String>(mapFromView.keySet());
+			union.addAll(mapFromDB.keySet());
+			
+			Set<String> intersection = new HashSet<String>(mapFromView.keySet());
+			intersection.retainAll(mapFromDB.keySet());
+			
+			Set<String> restDelete = new HashSet<String>(union);
+			restDelete.removeAll(mapFromView.keySet());
+			
+			Set<String> restCreate = new HashSet<String>(union);
+			restCreate.removeAll(mapFromDB.keySet());
+				
+			for (String key : restDelete) {
+				Accionista accionista = mapFromDB.get(key);
+				accionistaDAO.delete(accionista);
+			}
+			
+			for (String key : intersection) {
+				Accionista accionistaView = mapFromView.get(key);
+				Personanatural personanatural = accionistaView.getPersonanatural();			
+				personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(personanatural);		
+				
+				Accionista accionistaDB = mapFromDB.get(key);
+				accionistaDB.setPorcentajeparticipacion(accionistaView.getPorcentajeparticipacion());
+				accionistaDAO.update(accionistaDB);
+			}
+			
+			for (String key : restCreate) {
+				Accionista accionista = mapFromView.get(key);
+				Personanatural accionistaPersonanatural = accionista.getPersonanatural();			
+				personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(accionistaPersonanatural);				
+				accionista.setPersonajuridica(personajuridica);
+				accionistaDAO.create(accionista);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:" + e.getCause());
+			log.error("Class:" + e.getClass());
+			throw new EJBException(e);
+		}
+		return personajuridica;
+	}
+
+	@Override
+	public Personajuridica createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(Personajuridica personajuridica) throws Exception {
+		try {		
+			Personanatural representanteLegal = personajuridica.getRepresentanteLegal();
+			personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(representanteLegal);
+			
+			Tipodocumento tipodocumento = personajuridica.getTipodocumento();
+			String numerodocumento = personajuridica.getNumerodocumento();			
+			Personajuridica personajuridicaBD = find(tipodocumento, numerodocumento);
+			if(personajuridicaBD != null){
+				personajuridicaBD.setTipodocumento(personajuridica.getTipodocumento());
+				personajuridicaBD.setNumerodocumento(personajuridica.getNumerodocumento());
+				personajuridicaBD.setRepresentanteLegal(personajuridica.getRepresentanteLegal());
+				personajuridicaBD.setRazonsocial(personajuridica.getRazonsocial());				
+				personajuridicaBD.setFechaconstitucion(personajuridica.getFechaconstitucion());
+				personajuridicaBD.setTipoempresa(personajuridica.getTipoempresa());	
+				update(personajuridicaBD);
+				personajuridica = personajuridicaBD;
+			} else {
+				create(personajuridica);
+			}					
+			List<Accionista> listAccionistas = personajuridica.getAccionistas();
+			for (Accionista accionista : listAccionistas) {
+				accionistaDAO.delete(accionista);
+			}	
+			for (Accionista accionista : listAccionistas) {
+				Personanatural accionistaPersonanatural = accionista.getPersonanatural();			
+				personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(accionistaPersonanatural);		
+				Accionista accionistaNew = new Accionista();		
+				accionistaNew.setPersonanatural(accionistaPersonanatural);
+				accionistaNew.setPersonajuridica(personajuridica);
+				accionistaNew.setPorcentajeparticipacion(accionista.getPorcentajeparticipacion());
+				accionistaDAO.create(accionistaNew);
+			}	
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:" + e.getCause());
+			log.error("Class:" + e.getClass());
+			throw new EJBException(e);
 		}
 		return personajuridica;
 	}
