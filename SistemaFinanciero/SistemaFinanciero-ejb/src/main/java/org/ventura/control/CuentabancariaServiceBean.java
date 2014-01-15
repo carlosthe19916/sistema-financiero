@@ -1365,4 +1365,56 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		return cuentabancariaNew;
 	}
 
+	@Override
+	public Cuentabancaria cancelacionAnticipadaCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea,BigDecimal trea) throws Exception {
+		Cuentabancaria cuentabancariaBD;
+		try {							
+			cuentabancariaBD = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+						
+			//actualizar datos de cuenta OLD			
+			cuentabancariaBD.setFechacierre(fechaRecalculo);
+			cuentabancariaDAO.update(cuentabancariaBD);
+				
+			//actualizar los intereses para la nueva cuenta a plazo fijo
+			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
+			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+									
+			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();		
+			pkTEA.setIdcuentabancaria(cuentabancariaBD.getIdcuentabancaria());
+			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
+			CuentabancariaTipotasa cuentabancariaTipotasaTEA = cuentabancariaTipotasaDAO.find(pkTEA);
+			cuentabancariaTipotasaTEA.setTasainteres(tea);
+			cuentabancariaTipotasaDAO.update(cuentabancariaTipotasaTEA);
+			
+			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();		
+			pkTREA.setIdcuentabancaria(cuentabancariaBD.getIdcuentabancaria());
+			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
+			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  cuentabancariaTipotasaDAO.find(pkTREA);	
+			cuentabancariaTipotasaTREA.setTasainteres(trea);
+			cuentabancariaTipotasaDAO.update(cuentabancariaTipotasaTREA);		
+			
+			//generar interes de cuenta OLD
+			BigDecimal interes = getInteresGeneradoPlazofijo(cuentabancariaBD.getIdcuentabancaria());
+			BigDecimal capital = cuentabancariaBD.getSaldo().getValue();		
+			Interesdiario interesGenerado = new Interesdiario();
+			interesGenerado.setCapital(new Moneda(capital));
+			interesGenerado.setInteres(new Moneda(interes));
+			interesGenerado.setFecha(Calendar.getInstance().getTime());
+			interesGenerado.setIdcuentabancaria(cuentabancariaBD.getIdcuentabancaria());		
+			interesdiarioDAO.create(interesGenerado);
+			
+			//desactivar la cuenta de plazo fijo
+			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);
+			cuentabancariaBD.setEstadocuenta(estadocuenta);
+			cuentabancariaBD.setSaldo(new Moneda());
+			cuentabancariaDAO.update(cuentabancariaBD);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		}		
+		return cuentabancariaBD;
+	}
+
 }

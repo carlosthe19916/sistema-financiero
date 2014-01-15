@@ -71,13 +71,13 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 	public void cancelarCuentaaporte(){
 		try {
 			if(cuentaCreada == false){	
-				/*Cuentabancaria cuentabancaria = new Cuentabancaria();
+				Cuentabancaria cuentabancaria = new Cuentabancaria();
 				cuentabancaria.setIdcuentabancaria(cuentabancariaViewSelected.getIdCuentabancaria());
 				BigDecimal teaReal = tea.divide(new BigDecimal(100));
 				BigDecimal treaReal = trea.divide(new BigDecimal(100));
 				
-				cuentaPlazofijoCreado = cuentabancariaServiceLocal.renovarCuentaplazofijo(cuentabancaria,periodoDeposito, teaReal, treaReal);
-				cuentaCreada = true;*/
+				cuentaPlazofijoCreado = cuentabancariaServiceLocal.cancelacionAnticipadaCuentaplazofijo(cuentabancaria, fechaRecalculo, teaReal, treaReal);
+				cuentaCreada = true;
 			}
 		} catch (Exception e) {
 			this.cuentaValida = false;

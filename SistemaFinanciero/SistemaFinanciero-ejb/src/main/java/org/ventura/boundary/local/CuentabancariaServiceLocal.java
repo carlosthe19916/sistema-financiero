@@ -1,6 +1,7 @@
 package org.ventura.boundary.local;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -31,6 +32,8 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea) throws Exception;
 	
 	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria, int periodo, BigDecimal tea, BigDecimal trea) throws Exception;
+	
+	public Cuentabancaria cancelacionAnticipadaCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea, BigDecimal trea) throws Exception;
 	
 	public List<Cuentabancaria> findAll() throws Exception;
 	
