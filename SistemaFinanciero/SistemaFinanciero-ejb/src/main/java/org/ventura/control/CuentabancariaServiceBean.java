@@ -1,7 +1,9 @@
 package org.ventura.control;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.CuentabancariaTipotasaDAO;
 import org.ventura.dao.impl.CuentabancariaViewDAO;
+import org.ventura.dao.impl.InteresdiarioDAO;
 import org.ventura.dao.impl.SocioDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
@@ -33,6 +36,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasa;
 import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasaPK;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
+import org.ventura.entity.schema.cuentapersonal.Interesdiario;
 import org.ventura.entity.schema.cuentapersonal.Titular;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
@@ -51,6 +55,7 @@ import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
+import org.ventura.util.math.BigDecimalMath;
 
 @Stateless
 @Local(CuentabancariaServiceLocal.class)
@@ -75,6 +80,9 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	private TitularcuentaDAO titularcuentaDAO;
 	@EJB
 	private BeneficiariocuentaDAO beneficiariocuentaDAO;
+	
+	@EJB
+	private InteresdiarioDAO interesdiarioDAO;
 	
 	@EJB
 	private CuentabancariaTipotasaDAO cuentabancariaTipotasaDAO;
@@ -1186,6 +1194,175 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw new EJBException(e);
 		} 
+	}
+
+	@Override
+	public List<CuentabancariaView> findCuentabancariaView(TipocuentabancariaType tipocuentabancariaType,Tipodocumento tipodocumento, String campoBusqueda) throws Exception {	
+		List<CuentabancariaView> cuentabancariaViews;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(tipocuentabancariaType);
+			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);
+			
+			parameters.put("idtipocuentabancaria", tipocuentabancaria.getIdtipocuentabancaria());
+			parameters.put("idestadocuenta", estadocuenta.getIdestadocuenta());
+			parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
+			parameters.put("numerodocumento", "%" + campoBusqueda + "%");
+
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.f_tipocuentabancaria_tipodocumento_estado_searched, parameters, 10);
+
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentabancariaViews;
+	}
+
+	@Override
+	public BigDecimal getInteresGeneradoPlazofijo(Integer idcuentaplazofijo) throws Exception {
+		BigDecimal result = BigDecimal.ZERO;
+		try {
+			Cuentabancaria cuentabancaria = cuentabancariaDAO.find(idcuentaplazofijo);
+			BigDecimal montoApertura = cuentabancaria.getSaldo().getValue();
+			BigDecimal tea;
+			int cantidadDias;
+			
+			Calendar calStart = Calendar.getInstance();
+			Calendar calEnd = Calendar.getInstance();
+			calStart.setTime(cuentabancaria.getFechaapertura());
+			calEnd.setTime(cuentabancaria.getFechacierre());
+			long milis1 = calStart.getTimeInMillis();
+			long milis2 = calEnd.getTimeInMillis();	
+			long diff = milis2 - milis1;
+			
+			cantidadDias = (int) (diff / (24 * 60 * 60 * 1000));
+			
+			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
+			CuentabancariaTipotasa cuentabancariaTipotasa;
+			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
+			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
+			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
+			cuentabancariaTipotasa = cuentabancariaTipotasaDAO.find(pk);
+			tea = cuentabancariaTipotasa.getTasainteres();
+			
+			BigDecimal a;
+			
+			BigDecimal potencia = new BigDecimal(cantidadDias);
+			BigDecimal potenciaDivisor = new BigDecimal(360);
+			potenciaDivisor.setScale(50);
+			potencia.setScale(50);
+
+			a = tea.add(BigDecimal.ONE);
+			potencia = potencia.divide(potenciaDivisor, 50, RoundingMode.HALF_UP);
+			
+			result = BigDecimalMath.pow(a, potencia);
+			result = result.subtract(BigDecimal.ONE);
+			result = result.multiply(montoApertura);
+			
+			result = result.setScale(2, BigDecimal.ROUND_HALF_UP);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}	
+		return result;
+	}
+
+	@Override
+	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria,int periodo, BigDecimal tea, BigDecimal trea) throws Exception {
+		Cuentabancaria cuentabancariaNew = null;
+		try {							
+			Cuentabancaria cuentabancariaOld = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+			cuentabancariaNew = new Cuentabancaria();
+				
+			//generar interes de cuenta OLD
+			BigDecimal interes = getInteresGeneradoPlazofijo(cuentabancariaOld.getIdcuentabancaria());
+			BigDecimal capital = cuentabancariaOld.getSaldo().getValue();		
+			Interesdiario interesGenerado = new Interesdiario();
+			interesGenerado.setCapital(new Moneda(capital));
+			interesGenerado.setInteres(new Moneda(interes));
+			interesGenerado.setFecha(Calendar.getInstance().getTime());
+			interesGenerado.setIdcuentabancaria(cuentabancariaOld.getIdcuentabancaria());		
+			interesdiarioDAO.create(interesGenerado);
+			
+			//actualizar datos de cuenta OLD			
+			cuentabancariaOld.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
+			cuentabancariaOld.setSaldo(new Moneda());
+			cuentabancariaDAO.update(cuentabancariaOld);
+			
+			//crear la nueva cuenta a Plazo fijo
+			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
+			Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
+			Date fechaApertura = Calendar.getInstance().getTime();
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.DATE, periodo);
+			Date fechaCierre = calendar.getTime();
+			
+			BigDecimal saldo = interes.add(capital);
+			
+			cuentabancariaNew.setTipocuentabancaria(tipocuentabancaria);
+			cuentabancariaNew.setSocio(cuentabancariaOld.getSocio());
+			cuentabancariaNew.setSaldo(new Moneda(saldo));
+			cuentabancariaNew.setCantidadretirantes(cuentabancariaOld.getCantidadretirantes());
+			cuentabancariaNew.setEstadocuenta(estadocuenta);
+			cuentabancariaNew.setFechaapertura(fechaApertura);
+			cuentabancariaNew.setFechacierre(fechaCierre);
+			cuentabancariaNew.setTipomoneda(cuentabancariaOld.getTipomoneda());			
+			cuentabancariaDAO.create(cuentabancariaNew);
+			
+			for (Titular titular : cuentabancariaOld.getTitulares()) {
+				Titular titularNew = new Titular();
+				titularNew.setCuentabancaria(cuentabancariaNew);
+				titularNew.setEstado(true);
+				titularNew.setFechaactiva(Calendar.getInstance().getTime());
+				titularNew.setPersonanatural(titular.getPersonanatural());
+				titularcuentaDAO.create(titularNew);
+			}
+			
+			for (Beneficiario beneficiario : cuentabancariaOld.getBeneficiarios()) {
+				Beneficiario beneficiarioNew = new Beneficiario();
+				beneficiarioNew.setApellidopaterno(beneficiario.getApellidopaterno());
+				beneficiarioNew.setApellidomaterno(beneficiario.getApellidomaterno());
+				beneficiarioNew.setNombres(beneficiario.getNombres());
+				beneficiarioNew.setCuentabancaria(cuentabancariaNew);
+				beneficiarioNew.setDni(beneficiario.getDni());
+				beneficiarioNew.setEstado(true);
+				beneficiarioNew.setPorcentajebeneficio(beneficiario.getPorcentajebeneficio());
+				beneficiariocuentaDAO.create(beneficiarioNew);
+			}
+			
+			//crear los intereses para la nueva cuenta a plazo fijo
+			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
+			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+						
+			CuentabancariaTipotasa cuentabancariaTipotasaTEA =  new CuentabancariaTipotasa();
+			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();
+			cuentabancariaTipotasaTEA.setId(pkTEA);
+			cuentabancariaTipotasaTEA.setTasainteres(tea);
+			pkTEA.setIdcuentabancaria(cuentabancariaNew.getIdcuentabancaria());
+			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
+			
+			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
+			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();	
+			cuentabancariaTipotasaTREA.setId(pkTREA);
+			cuentabancariaTipotasaTREA.setTasainteres(trea);	
+			pkTREA.setIdcuentabancaria(cuentabancariaNew.getIdcuentabancaria());
+			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
+			
+			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTEA);
+			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		}		
+		return cuentabancariaNew;
 	}
 
 }

@@ -19,7 +19,9 @@ import java.util.Date;
 		@NamedQuery(name = CuentabancariaView.findByLikeDni, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.numeroDocumento LIKE :dni"),
 		@NamedQuery(name = CuentabancariaView.findByLikeRuc, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.numeroDocumento LIKE :ruc"),
 		@NamedQuery(name = CuentabancariaView.findByLikeNombre, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
-		@NamedQuery(name = CuentabancariaView.findByLikeRazonsocial, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial") })
+		@NamedQuery(name = CuentabancariaView.findByLikeRazonsocial, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial"),
+
+		@NamedQuery(name = CuentabancariaView.f_tipocuentabancaria_tipodocumento_estado_searched, query = "SELECT c FROM CuentabancariaView c WHERE c.idTipocuentabancaria = :idtipocuentabancaria AND c.idTipodocumento = :idtipodocumento AND NOT (c.idEstadocuenta = :idestadocuenta) AND c.numeroDocumento LIKE :numerodocumento") })
 public class CuentabancariaView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +31,8 @@ public class CuentabancariaView implements Serializable {
 	public final static String findByLikeRuc = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByLikeRuc";
 	public final static String findByLikeNombre = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByLikeNombre";
 	public final static String findByLikeRazonsocial = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByLikeRazonsocial";
+
+	public final static String f_tipocuentabancaria_tipodocumento_estado_searched = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.f_tipocuentabancaria_tipodocumento_searched";
 
 	@Id
 	@Column(name = "id_cuentabancaria")
@@ -74,13 +78,13 @@ public class CuentabancariaView implements Serializable {
 
 	@Column(name = "id_tipodocumento")
 	private Integer idTipodocumento;
-	
+
 	@Column(name = "denominacion_tipodocumento")
 	private String denominacionTipodocumento;
-	
+
 	@Column(name = "abreviatura_tipodocumento")
 	private String abreviaturaTipodocumento;
-	
+
 	@Column(length = 14)
 	private String numerocuenta;
 

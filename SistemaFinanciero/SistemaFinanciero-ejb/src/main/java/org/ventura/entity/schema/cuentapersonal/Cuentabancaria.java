@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
@@ -84,7 +85,7 @@ public class Cuentabancaria implements Serializable {
 
 	@OneToMany(mappedBy = "cuentabancaria")
 	private List<Beneficiario> beneficiarios;
-
+	
 	public Cuentabancaria() {
 	}
 
