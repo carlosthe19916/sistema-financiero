@@ -11,6 +11,8 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Accionista;
+import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.util.maestro.TipocuentabancariaType;
 
 public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 			
@@ -34,6 +36,8 @@ public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 
 		public List<Cuentaaporte> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
 		
+		
+		public List<CuentaaporteView> findCuentaaporteView(Tipodocumento tipodocumento, String campoBusqueda)throws Exception;
 		
 		public Cuentaaporte findByNumerocuenta(String numerocuenta) throws Exception;
 

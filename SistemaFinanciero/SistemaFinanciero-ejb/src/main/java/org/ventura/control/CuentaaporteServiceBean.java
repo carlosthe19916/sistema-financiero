@@ -34,10 +34,9 @@ import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Accionista;
-import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.IllegalEntityException;
-import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
@@ -475,6 +474,26 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		}
 		
 		return aportesCuentaaporteViews;
+	}
+
+	@Override
+	public List<CuentaaporteView> findCuentaaporteView(Tipodocumento tipodocumento, String campoBusqueda) throws Exception {
+		List<CuentaaporteView> cuentaaporteViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
+			parameters.put("estado", true);
+			parameters.put("searched", "%" + campoBusqueda + "%");
+
+			cuentaaporteViews = cuentaaporteViewDAO.findByNamedQuery(CuentaaporteView.f_tipodocumento_estado_searched,parameters,10);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporteViews;
 	}
 
 	
