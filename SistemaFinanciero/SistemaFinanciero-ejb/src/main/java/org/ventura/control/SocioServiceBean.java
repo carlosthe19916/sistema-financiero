@@ -180,7 +180,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 				if(resultList.size() == 1){
 					socio = resultList.get(0);
 				} else {
-					throw new PreexistingEntityException("Existen mas de un resultado para la persona indicada");
+					throw new PreexistingEntityException("Existen mas de un socio para la persona indicada");
 				}	
 			}
 		} catch (Exception e) {
@@ -194,8 +194,28 @@ public class SocioServiceBean implements SocioServiceLocal {
 
 	@Override
 	public Socio find(Personajuridica personajuridica) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Socio socio = null;
+		try {
+			Map<String,Object> parameters = new HashMap<String, Object>();
+			parameters.put("tipodocumento", personajuridica.getTipodocumento());
+			parameters.put("numerodocumento", personajuridica.getNumerodocumento());			
+			List<Socio> resultList = findByNamedQuery(Socio.fPJ_tipodocumento_numerodocumento,parameters,2);
+			if(resultList.size() == 0){
+				socio = null;
+			} else {
+				if(resultList.size() == 1){
+					socio = resultList.get(0);
+				} else {
+					throw new PreexistingEntityException("Existen mas de un socio para la persona indicada");
+				}	
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return socio;	
 	}
 
 	@Override

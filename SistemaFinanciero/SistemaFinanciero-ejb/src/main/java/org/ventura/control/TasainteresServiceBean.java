@@ -191,9 +191,7 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 	public BigDecimal getInteresGeneradoPlazofijo(BigDecimal montoApertura, Integer cantidadDias, BigDecimal tea) throws Exception {
 		BigDecimal result = BigDecimal.ZERO;
 		try {
-			//a¨b
-			BigDecimal a;
-			
+			/*BigDecimal a;	
 			BigDecimal potencia = new BigDecimal(cantidadDias);
 			BigDecimal potenciaDivisor = new BigDecimal(360);
 			potenciaDivisor.setScale(50);
@@ -206,6 +204,11 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 			result = result.subtract(BigDecimal.ONE);
 			result = result.multiply(montoApertura);
 			
+			result = result.setScale(2, BigDecimal.ROUND_HALF_UP);*/
+			Double base = tea.add(BigDecimal.ONE).doubleValue();
+			Double potencia = (new Double(cantidadDias)/360);
+			Double a = Math.pow(base, potencia) - 1;
+			result = montoApertura.multiply(new BigDecimal(a));
 			result = result.setScale(2, BigDecimal.ROUND_HALF_UP);
 		} catch (Exception e) {
 			log.error(e.getMessage());

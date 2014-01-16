@@ -66,34 +66,6 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	
 	@Inject
 	private Log log;
-	
-	protected Socio buscarSocioPersonaNatural(Socio socio) throws PreexistingEntityException, Exception {
-		/*if (socio != null) {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("dni", socio.getDni());
-			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
-			if (result.size() == 0) {
-				socioServiceLocal.create(socio);
-			} else {
-				throw new PreexistingEntityException("La Persona Natural ya tiene una cuenta de aportes Activa");
-			}
-		}*/
-		return socio;
-	}
-
-	protected Socio buscarSocioPersonaJuridica(Socio socio) throws PreexistingEntityException, Exception {
-		/*if (socio != null) {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("ruc", socio.getDni());
-			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
-			if (result.size() == 0) {
-				socioServiceLocal.create(socio);
-			} else {
-				throw new PreexistingEntityException("La Persona Juridica ya tiene una cuenta de aportes Activa");
-			}
-		}*/
-		return socio;
-	}
 
 	@Override
 	public Cuentaaporte create(Cuentaaporte cuentaaporte) throws Exception {

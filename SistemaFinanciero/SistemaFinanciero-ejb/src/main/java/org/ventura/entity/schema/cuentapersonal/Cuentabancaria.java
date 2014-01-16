@@ -21,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.socio.Socio;
@@ -153,21 +152,6 @@ public class Cuentabancaria implements Serializable {
 		this.estadocuenta = estadocuenta;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if ((obj == null) || !(obj instanceof Cuentabancaria)) {
-			return false;
-		}
-		final Cuentabancaria other = (Cuentabancaria) obj;
-		return other.getIdcuentabancaria() == this.idcuentabancaria ? true
-				: false;
-	}
-
-	@Override
-	public int hashCode() {
-		return idcuentabancaria;
-	}
-
 	public Integer getCantidadretirantes() {
 		return cantidadretirantes;
 	}
@@ -198,5 +182,20 @@ public class Cuentabancaria implements Serializable {
 
 	public void setSocio(Socio socio) {
 		this.socio = socio;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Cuentabancaria)) {
+			return false;
+		}
+		final Cuentabancaria other = (Cuentabancaria) obj;
+		return other.getIdcuentabancaria() == this.idcuentabancaria ? true
+				: false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idcuentabancaria;
 	}
 }

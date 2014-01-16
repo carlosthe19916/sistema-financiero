@@ -343,7 +343,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 				}
 			}			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			JsfUtil.addErrorMessage(e, e.getMessage());
 			e.printStackTrace();
 		}
 		this.interesGenerado = result;
@@ -784,11 +784,6 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 			String keyMap = beneficiario.getApellidopaterno()+beneficiario.getApellidomaterno()+beneficiario.getNombres();
 			this.beneficiarios.remove(keyMap);
 		} 
-	}
-	
-	public void changeTipomoneda(ValueChangeEvent event) {
-		Integer key = (Integer) event.getNewValue();
-		Tipomoneda tipodocumentoSelected = comboTipomoneda.getObjectItemSelected(key);
 	}
 	
 	public void changeTipodocumentoPersonanatural(ValueChangeEvent event) {
@@ -1483,7 +1478,6 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setTrea(BigDecimal trea) {
 		this.trea = trea;
-		this.trea = trea.setScale(2, RoundingMode.DOWN);
 	}
 
 	public BigDecimal getTea() {
@@ -1492,15 +1486,10 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setTea(BigDecimal tea) {
 		this.tea = tea;
-		this.tea = tea.setScale(2, RoundingMode.DOWN);
 	}
 
 	public BigDecimal getInteresGenerado() {
 		return interesGenerado;
-	}
-
-	public void setInteresGenerado(BigDecimal interesGenerado) {
-		interesGenerado = interesGenerado;
 	}
 
 	public boolean isCuentaCreada() {
