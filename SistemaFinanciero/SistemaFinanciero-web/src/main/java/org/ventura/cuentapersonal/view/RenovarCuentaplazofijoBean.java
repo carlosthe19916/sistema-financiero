@@ -2,6 +2,8 @@ package org.ventura.cuentapersonal.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -37,13 +39,18 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 	@Inject private TablaBean<CuentabancariaView> tablaCuentabancaria;
 	private CuentabancariaView cuentabancariaViewSelected;
 	
-	private BigDecimal interesGenerado;
-	private BigDecimal totalSaldo;
+	private BigDecimal interesCuenta;
+	private BigDecimal totalCuenta;
+	private Integer periodoCuenta;
 
-	private Integer periodoDeposito;
-	private BigDecimal montoApertura;
-	private BigDecimal tea;
-	private BigDecimal trea;
+	private Integer periodoRenovacion;
+	private BigDecimal montoRenovacion;
+	private BigDecimal teaRenovacion;
+	private BigDecimal treaRenovacion;
+	private Date fechaAperturaRenovacion;
+	private Date fechaCierreRenovacion;
+	private BigDecimal interesRenovacion;
+	private BigDecimal totalRenovacion;
 	
 	private Cuentabancaria cuentaPlazofijoCreado;
 	
@@ -51,7 +58,11 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 	@EJB private TasainteresServiceLocal tasainteresServiceLocal;
 	
 	public RenovarCuentaplazofijoBean() {
+		cuentaValida = true;
+		cuentaCreada = false;
 		dlgBusquedaOpen = false;
+		fechaAperturaRenovacion = Calendar.getInstance().getTime();
+		fechaCierreRenovacion = Calendar.getInstance().getTime();
 	}
 
 	@PostConstruct
@@ -68,15 +79,15 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 			if(cuentaCreada == false){	
 				Cuentabancaria cuentabancaria = new Cuentabancaria();
 				cuentabancaria.setIdcuentabancaria(cuentabancariaViewSelected.getIdCuentabancaria());
-				BigDecimal teaReal = tea.divide(new BigDecimal(100));
-				BigDecimal treaReal = trea.divide(new BigDecimal(100));
+				BigDecimal teaReal = teaRenovacion.divide(new BigDecimal(100));
+				BigDecimal treaReal = treaRenovacion.divide(new BigDecimal(100));
 				
-				cuentaPlazofijoCreado = cuentabancariaServiceLocal.renovarCuentaplazofijo(cuentabancaria,periodoDeposito, teaReal, treaReal);
+				cuentaPlazofijoCreado = cuentabancariaServiceLocal.renovarCuentaplazofijo(cuentabancaria,periodoRenovacion, teaReal, treaReal);
 				cuentaCreada = true;
 			}
 		} catch (Exception e) {
 			this.cuentaValida = false;
-			JsfUtil.addErrorMessage(e, e.getMessage());
+			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
 	
@@ -95,9 +106,30 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 	public void setCuentabancariaSelected(){
 		if(cuentabancariaViewSelected != null){
 			try {
-				interesGenerado = cuentabancariaServiceLocal.getInteresGeneradoPlazofijo(cuentabancariaViewSelected.getIdCuentabancaria());
-				totalSaldo = interesGenerado.add(cuentabancariaViewSelected.getSaldoCuentabancaria());
-				montoApertura = new BigDecimal(totalSaldo.toString());
+				interesCuenta = cuentabancariaServiceLocal.getInteresGeneradoPlazofijo(cuentabancariaViewSelected.getIdCuentabancaria());
+				totalCuenta = interesCuenta.add(cuentabancariaViewSelected.getSaldoCuentabancaria());
+				
+				Calendar calStart = Calendar.getInstance();
+				Calendar calEnd = Calendar.getInstance();
+				calStart.setTime(cuentabancariaViewSelected.getFechaaperturaCuentabancaria());
+				calEnd.setTime(cuentabancariaViewSelected.getFechacierreCuentabancaria());
+				
+				calStart.set(Calendar.HOUR, 0);
+				calStart.set(Calendar.MINUTE, 0);
+				calStart.set(Calendar.SECOND, 0);
+				calStart.set(Calendar.MILLISECOND, 0);
+				
+				calEnd.set(Calendar.HOUR, 0);
+				calEnd.set(Calendar.MINUTE, 0);
+				calEnd.set(Calendar.SECOND, 0);
+				calEnd.set(Calendar.MILLISECOND, 0);
+				
+				long milis1 = calStart.getTimeInMillis();
+				long milis2 = calEnd.getTimeInMillis();	
+				long diff = milis2 - milis1;
+				
+				periodoCuenta = (int) (diff / (24 * 60 * 60 * 1000));
+				montoRenovacion = new BigDecimal(totalCuenta.toString());
 			} catch (Exception e) {
 				JsfUtil.addErrorMessage(e, e.getMessage());
 				e.printStackTrace();
@@ -106,16 +138,52 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 		setDlgBusquedaOpen(false);
 	}
 	
+	public void calcularInteresGenerado(){
+		BigDecimal result = BigDecimal.ZERO;
+		try {
+			if(montoRenovacion != null){
+				if(periodoRenovacion != null){
+					if(teaRenovacion != null){
+						BigDecimal teaReal = teaRenovacion.divide(new BigDecimal(100));
+						result = tasainteresServiceLocal.getInteresGeneradoPlazofijo(montoRenovacion, periodoRenovacion, teaReal);
+						
+						this.interesRenovacion = result;
+						this.totalRenovacion = interesRenovacion.add(montoRenovacion);
+					}
+				}
+			}			
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, e.getMessage());
+			e.printStackTrace();
+		}	
+	}
+	
 	public void changeTipodocumento(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 	}
-	
-	public ComboBean<Tipodocumento> getComboTipodocumento() {
-		return comboTipodocumento;
+
+	public boolean isCuentaValida() {
+		return cuentaValida;
 	}
 
-	public void setComboTipodocumento(ComboBean<Tipodocumento> comboTipodocumento) {
-		this.comboTipodocumento = comboTipodocumento;
+	public void setCuentaValida(boolean cuentaValida) {
+		this.cuentaValida = cuentaValida;
+	}
+
+	public boolean isCuentaCreada() {
+		return cuentaCreada;
+	}
+
+	public void setCuentaCreada(boolean cuentaCreada) {
+		this.cuentaCreada = cuentaCreada;
+	}
+
+	public boolean isDlgBusquedaOpen() {
+		return dlgBusquedaOpen;
+	}
+
+	public void setDlgBusquedaOpen(boolean dlgBusquedaOpen) {
+		this.dlgBusquedaOpen = dlgBusquedaOpen;
 	}
 
 	public String getCampoBusqueda() {
@@ -124,6 +192,14 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 
 	public void setCampoBusqueda(String campoBusqueda) {
 		this.campoBusqueda = campoBusqueda;
+	}
+
+	public ComboBean<Tipodocumento> getComboTipodocumento() {
+		return comboTipodocumento;
+	}
+
+	public void setComboTipodocumento(ComboBean<Tipodocumento> comboTipodocumento) {
+		this.comboTipodocumento = comboTipodocumento;
 	}
 
 	public TablaBean<CuentabancariaView> getTablaCuentabancaria() {
@@ -135,14 +211,6 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 		this.tablaCuentabancaria = tablaCuentabancaria;
 	}
 
-	public boolean isDlgBusquedaOpen() {
-		return dlgBusquedaOpen;
-	}
-
-	public void setDlgBusquedaOpen(boolean dlgBusquedaOpen) {
-		this.dlgBusquedaOpen = dlgBusquedaOpen;
-	}
-
 	public CuentabancariaView getCuentabancariaViewSelected() {
 		return cuentabancariaViewSelected;
 	}
@@ -152,68 +220,64 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 		this.cuentabancariaViewSelected = cuentabancariaViewSelected;
 	}
 
-	public BigDecimal getInteresGenerado() {
-		return interesGenerado;
+	public BigDecimal getInteresCuenta() {
+		return interesCuenta;
 	}
 
-	public void setInteresGenerado(BigDecimal interesGenerado) {
-		this.interesGenerado = interesGenerado;
+	public void setInteresCuenta(BigDecimal interesCuenta) {
+		this.interesCuenta = interesCuenta;
 	}
 
-	public BigDecimal getTotalSaldo() {
-		return totalSaldo;
+	public BigDecimal getTotalCuenta() {
+		return totalCuenta;
 	}
 
-	public void setTotalSaldo(BigDecimal totalSaldo) {
-		this.totalSaldo = totalSaldo;
+	public void setTotalCuenta(BigDecimal totalCuenta) {
+		this.totalCuenta = totalCuenta;
 	}
 
-	public BigDecimal getTea() {
-		return tea;
+	public Integer getPeriodoCuenta() {
+		return periodoCuenta;
 	}
 
-	public void setTea(BigDecimal tea) {
-		this.tea = tea;
+	public void setPeriodoCuenta(Integer periodoCuenta) {
+		this.periodoCuenta = periodoCuenta;
 	}
 
-	public BigDecimal getTrea() {
-		return trea;
+	public Integer getPeriodoRenovacion() {
+		return periodoRenovacion;
 	}
 
-	public void setTrea(BigDecimal trea) {
-		this.trea = trea;
+	public void setPeriodoRenovacion(Integer periodoRenovacion) {
+		this.periodoRenovacion = periodoRenovacion;
+		Calendar calEnd = Calendar.getInstance();
+		calEnd.setTime(fechaCierreRenovacion);
+		calEnd.add(Calendar.DAY_OF_MONTH, periodoRenovacion);	
+		this.fechaCierreRenovacion = calEnd.getTime();
 	}
 
-	public boolean isCuentaCreada() {
-		return cuentaCreada;
+	public BigDecimal getMontoRenovacion() {
+		return montoRenovacion;
 	}
 
-	public void setCuentaCreada(boolean cuentaCreada) {
-		this.cuentaCreada = cuentaCreada;
+	public void setMontoRenovacion(BigDecimal montoRenovacion) {
+		this.montoRenovacion = montoRenovacion;
 	}
 
-	public boolean isCuentaValida() {
-		return cuentaValida;
+	public BigDecimal getTeaRenovacion() {
+		return teaRenovacion;
 	}
 
-	public void setCuentaValida(boolean cuentaValida) {
-		this.cuentaValida = cuentaValida;
+	public void setTeaRenovacion(BigDecimal teaRenovacion) {
+		this.teaRenovacion = teaRenovacion;
 	}
 
-	public BigDecimal getMontoApertura() {
-		return montoApertura;
+	public BigDecimal getTreaRenovacion() {
+		return treaRenovacion;
 	}
 
-	public void setMontoApertura(BigDecimal montoApertura) {
-		this.montoApertura = montoApertura;
-	}
-
-	public Integer getPeriodoDeposito() {
-		return periodoDeposito;
-	}
-
-	public void setPeriodoDeposito(Integer periodoDeposito) {
-		this.periodoDeposito = periodoDeposito;
+	public void setTreaRenovacion(BigDecimal treaRenovacion) {
+		this.treaRenovacion = treaRenovacion;
 	}
 
 	public Cuentabancaria getCuentaPlazofijoCreado() {
@@ -222,6 +286,38 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 
 	public void setCuentaPlazofijoCreado(Cuentabancaria cuentaPlazofijoCreado) {
 		this.cuentaPlazofijoCreado = cuentaPlazofijoCreado;
+	}
+
+	public Date getFechaAperturaRenovacion() {
+		return fechaAperturaRenovacion;
+	}
+
+	public void setFechaAperturaRenovacion(Date fechaAperturaRenovacion) {
+		this.fechaAperturaRenovacion = fechaAperturaRenovacion;
+	}
+
+	public Date getFechaCierreRenovacion() {
+		return fechaCierreRenovacion;
+	}
+
+	public void setFechaCierreRenovacion(Date fechaCierreRenovacion) {
+		this.fechaCierreRenovacion = fechaCierreRenovacion;
+	}
+
+	public BigDecimal getInteresRenovacion() {
+		return interesRenovacion;
+	}
+
+	public void setInteresRenovacion(BigDecimal interesRenovacion) {
+		this.interesRenovacion = interesRenovacion;
+	}
+
+	public BigDecimal getTotalRenovacion() {
+		return totalRenovacion;
+	}
+
+	public void setTotalRenovacion(BigDecimal totalRenovacion) {
+		this.totalRenovacion = totalRenovacion;
 	}
 
 }

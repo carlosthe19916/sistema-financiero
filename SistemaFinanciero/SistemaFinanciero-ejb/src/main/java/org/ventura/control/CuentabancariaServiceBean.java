@@ -2,6 +2,7 @@ package org.ventura.control;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -351,9 +352,15 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		try {
 			List<Beneficiario> beneficiarios = cuentabancaria.getBeneficiarios();
 			for (Beneficiario beneficiario : beneficiarios) {
-				beneficiario.setEstado(true);
-				beneficiario.setCuentabancaria(cuentabancaria);
-				beneficiariocuentaDAO.create(beneficiario);
+				Beneficiario beneficiarioNew = new Beneficiario();					
+				beneficiarioNew.setCuentabancaria(cuentabancaria);
+				beneficiarioNew.setEstado(true);
+				beneficiarioNew.setApellidopaterno(beneficiario.getApellidopaterno());
+				beneficiarioNew.setApellidomaterno(beneficiario.getApellidomaterno());
+				beneficiarioNew.setNombres(beneficiario.getNombres());
+				beneficiarioNew.setDni(beneficiario.getDni());
+				beneficiarioNew.setPorcentajebeneficio(beneficiario.getPorcentajebeneficio());
+				beneficiariocuentaDAO.create(beneficiarioNew);
 			}
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
@@ -532,51 +539,18 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, BigDecimal tea, BigDecimal trea)
-			throws Exception {
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, BigDecimal tea, BigDecimal trea) throws Exception {
 		try {				
-			Map<String,Object> parameters = new HashMap<String, Object>();
-			parameters.put("tipodocumento", personanatural.getTipodocumento());
-			parameters.put("numerodocumento", personanatural.getNumerodocumento());			
-			List<Socio> resultList = socioDAO.findByNamedQuery(Socio.fPN_tipodocumento_numerodocumento,parameters,2);
-			
-			Socio socio;
-			if(resultList.size() == 0){
+			Socio socio = socioServiceLocal.find(personanatural);
+			if(socio == null){
 				throw new PreexistingEntityException("El cliente necesita ser socio antes de obtener una cuenta de ahorros");
-			} else {
-				if(resultList.size() == 1){
-					socio = resultList.get(0);
-				} else {
-					throw new PreexistingEntityException("Existen dos socios para la persona indicada");
-				}	
 			}
 			
-			List<Titular> titulares = cuentabancaria.getTitulares();
-			List<Beneficiario> beneficiarios = cuentabancaria.getBeneficiarios();
+			personanaturalServiceLocal.createIfNotExistsUpdateIfExist(personanatural);
+			List<Titular> listTitulares = cuentabancaria.getTitulares();
+			List<Beneficiario> listBeneficiarios = cuentabancaria.getBeneficiarios();
 			
-			Tipodocumento tipodocumentoSocio = personanatural.getTipodocumento();
-			String numerodocumentoSocio = personanatural.getNumerodocumento();
-			Personanatural personanaturalBD = personanaturalServiceLocal.find(tipodocumentoSocio, numerodocumentoSocio);
-			if(personanaturalBD != null){
-				personanaturalBD.setTipodocumento(personanatural.getTipodocumento());
-				personanaturalBD.setNumerodocumento(personanatural.getNumerodocumento());
-				personanaturalBD.setApellidopaterno(personanatural.getApellidopaterno());
-				personanaturalBD.setApellidomaterno(personanatural.getApellidomaterno());
-				personanaturalBD.setNombres(personanatural.getNombres());
-				personanaturalBD.setFechanacimiento(personanatural.getFechanacimiento());
-				personanaturalBD.setSexo(personanatural.getSexo());
-				personanaturalBD.setEstadocivil(personanatural.getEstadocivil());
-				personanaturalBD.setOcupacion(personanatural.getOcupacion());
-				personanaturalBD.setDireccion(personanatural.getDireccion());
-				personanaturalBD.setReferencia(personanatural.getReferencia());
-				personanaturalBD.setTelefono(personanatural.getTelefono());
-				personanaturalBD.setCelular(personanatural.getCelular());
-				personanaturalServiceLocal.update(personanaturalBD);
-				personanatural = personanaturalBD;
-			} else {
-				personanaturalServiceLocal.create(personanatural);
-			}
-			
+			//crear cuenta bancaria
 			Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
 			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
 			cuentabancaria.setEstadocuenta(estadocuenta);
@@ -584,7 +558,14 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
+				
+			//crear titulares y beneficiarios
+			cuentabancaria.setTitulares(listTitulares);
+			cuentabancaria.setBeneficiarios(listBeneficiarios);
+			this.createTitulares(cuentabancaria);
+			this.createBeneficiarios(cuentabancaria);
 			
+			//crear tasas de interes 
 			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
 			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
 						
@@ -605,48 +586,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTEA);
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
 			
-			for (Titular titular : titulares) {
-				Personanatural titularPersonanatural = titular.getPersonanatural();
-				Tipodocumento tipodocumentoTitular = titularPersonanatural.getTipodocumento();
-				String numeroDocumentoTitular = titularPersonanatural.getNumerodocumento();
-				Personanatural titularPersonanaturalBD = personanaturalServiceLocal.find(tipodocumentoTitular, numeroDocumentoTitular);
-				
-				if(titularPersonanaturalBD != null){
-					titularPersonanaturalBD.setTipodocumento(titularPersonanatural.getTipodocumento());
-					titularPersonanaturalBD.setNumerodocumento(titularPersonanatural.getNumerodocumento());
-					titularPersonanaturalBD.setApellidopaterno(titularPersonanatural.getApellidopaterno());
-					titularPersonanaturalBD.setApellidomaterno(titularPersonanatural.getApellidomaterno());
-					titularPersonanaturalBD.setNombres(titularPersonanatural.getNombres());
-					titularPersonanaturalBD.setFechanacimiento(titularPersonanatural.getFechanacimiento());
-					titularPersonanaturalBD.setSexo(titularPersonanatural.getSexo());
-					titularPersonanaturalBD.setEstadocivil(titularPersonanatural.getEstadocivil());
-					titularPersonanaturalBD.setOcupacion(titularPersonanatural.getOcupacion());
-					titularPersonanaturalBD.setDireccion(titularPersonanatural.getDireccion());
-					titularPersonanaturalBD.setReferencia(titularPersonanatural.getReferencia());
-					titularPersonanaturalBD.setTelefono(titularPersonanatural.getTelefono());
-					titularPersonanaturalBD.setCelular(titularPersonanatural.getCelular());
-					titularPersonanaturalBD.setEmail(titularPersonanatural.getEmail());
-					personanaturalServiceLocal.update(titularPersonanaturalBD);
-					titularPersonanatural = titularPersonanaturalBD;
-				} else {
-					personanaturalServiceLocal.create(titularPersonanaturalBD);
-				}
-				
-				Titular titularNew = new Titular();	
-				titularNew.setEstado(true);
-				titularNew.setFechaactiva(Calendar.getInstance().getTime());
-				titularNew.setPersonanatural(titularPersonanatural);
-				titularNew.setCuentabancaria(cuentabancaria);
-				
-				titularcuentaDAO.create(titularNew);
-			}
-			
-			for (Beneficiario beneficiario : beneficiarios) {
-				beneficiario.setEstado(true);
-				beneficiario.setCuentabancaria(cuentabancaria);
-				beneficiariocuentaDAO.create(beneficiario);
-			}
-			
 			return cuentabancaria;
 		} catch (IllegalEntityException | PreexistingEntityException e) {		
 			cuentabancaria.setIdcuentabancaria(null);
@@ -664,104 +603,18 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea)
-			throws Exception {
+	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea) throws Exception {
 		try {				
-			Map<String,Object> parameters = new HashMap<String, Object>();
-			parameters.put("tipodocumento", personajuridica.getTipodocumento());
-			parameters.put("numerodocumento", personajuridica.getNumerodocumento());			
-			List<Socio> resultList = socioDAO.findByNamedQuery(Socio.fPJ_tipodocumento_numerodocumento,parameters,2);
-			
-			Socio socio;
-			if(resultList.size() == 0){
+			Socio socio = socioServiceLocal.find(personajuridica);
+			if(socio == null){
 				throw new PreexistingEntityException("El cliente necesita ser socio antes de obtener una cuenta de ahorros");
-			} else {
-				if(resultList.size() == 1){
-					socio = resultList.get(0);
-				} else {
-					throw new PreexistingEntityException("Existen dos socios para la persona indicada");
-				}	
 			}
 			
-			Personanatural representanteLegal = personajuridica.getRepresentanteLegal();
-			List<Accionista> accionistas = personajuridica.getAccionistas();	
-			List<Titular> titulares = cuentabancaria.getTitulares();
-			List<Beneficiario> beneficiarios = cuentabancaria.getBeneficiarios();
+			personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
+			List<Titular> listTitulares = cuentabancaria.getTitulares();
+			List<Beneficiario> listBeneficiarios = cuentabancaria.getBeneficiarios();
 			
-			Tipodocumento tipodocumentoRepresentanteLegal = representanteLegal.getTipodocumento();
-			String numeroDocumentoRepresentanteLegal = representanteLegal.getNumerodocumento();
-			Personanatural representanteLegalBD = personanaturalServiceLocal.find(tipodocumentoRepresentanteLegal, numeroDocumentoRepresentanteLegal);
-			
-			if(representanteLegalBD != null){
-				representanteLegalBD.setTipodocumento(representanteLegal.getTipodocumento());
-				representanteLegalBD.setNumerodocumento(representanteLegal.getNumerodocumento());
-				representanteLegalBD.setApellidopaterno(representanteLegal.getApellidopaterno());
-				representanteLegalBD.setApellidomaterno(representanteLegal.getApellidomaterno());
-				representanteLegalBD.setNombres(representanteLegal.getNombres());
-				representanteLegalBD.setFechanacimiento(representanteLegal.getFechanacimiento());
-				representanteLegalBD.setSexo(representanteLegal.getSexo());		
-				personanaturalServiceLocal.update(representanteLegalBD);
-				
-				representanteLegal = representanteLegalBD;
-			} else {
-				personanaturalServiceLocal.create(representanteLegal);
-			}
-			
-			Tipodocumento tipodocumentoSocio = personajuridica.getTipodocumento();
-			String numerodocumentoSocio = personajuridica.getNumerodocumento();
-			Personajuridica personajuridicaBD =  personajuridicaServiceLocal.find(tipodocumentoSocio, numerodocumentoSocio);
-			
-			if(personajuridicaBD != null){
-				personajuridicaBD.setTipodocumento(personajuridica.getTipodocumento());
-				personajuridicaBD.setNumerodocumento(personajuridica.getNumerodocumento());
-				personajuridicaBD.setRazonsocial(personajuridica.getRazonsocial());
-				personajuridicaBD.setNombrecomercial(personajuridica.getNombrecomercial());
-				personajuridicaBD.setActividadprincipal(personajuridica.getActividadprincipal());
-				personajuridicaBD.setFechaconstitucion(personajuridica.getFechaconstitucion());
-				personajuridicaBD.setTipoempresa(personajuridica.getTipoempresa());
-				personajuridicaBD.setFindelucro(personajuridicaBD.getFindelucro());
-				personajuridicaBD.setDireccion(personajuridica.getDireccion());
-				personajuridicaBD.setReferencia(personajuridica.getReferencia());
-				personajuridicaBD.setTelefono(personajuridica.getTelefono());
-				personajuridicaBD.setCelular(personajuridica.getCelular());
-				personajuridicaBD.setEmail(personajuridica.getEmail());
-				personajuridicaServiceLocal.update(personajuridicaBD);
-				personajuridica = personajuridicaBD;
-			} else {
-				personajuridicaServiceLocal.create(personajuridica);
-			}
-			
-			for (Accionista accionista : personajuridica.getAccionistas()) {
-				accionistaDAO.delete(accionista);
-			}
-			
-			for (Accionista accionista : accionistas) {
-				Personanatural accionistaPersonanatural = accionista.getPersonanatural();
-				Tipodocumento tipodocumentoAccionista = accionistaPersonanatural.getTipodocumento();
-				String numeroDocumentoAccionista = accionistaPersonanatural.getNumerodocumento();
-				Personanatural accionistaPersonanaturalBD = personanaturalServiceLocal.find(tipodocumentoAccionista, numeroDocumentoAccionista);
-				
-				if(accionistaPersonanaturalBD != null){
-					accionistaPersonanaturalBD.setTipodocumento(accionistaPersonanatural.getTipodocumento());
-					accionistaPersonanaturalBD.setNumerodocumento(accionistaPersonanatural.getNumerodocumento());
-					accionistaPersonanaturalBD.setApellidopaterno(accionistaPersonanatural.getApellidopaterno());
-					accionistaPersonanaturalBD.setApellidomaterno(accionistaPersonanatural.getApellidomaterno());
-					accionistaPersonanaturalBD.setNombres(accionistaPersonanatural.getNombres());
-					accionistaPersonanaturalBD.setFechanacimiento(accionistaPersonanatural.getFechanacimiento());
-					accionistaPersonanaturalBD.setSexo(accionistaPersonanatural.getSexo());		
-					personanaturalServiceLocal.update(accionistaPersonanaturalBD);
-					accionistaPersonanatural = accionistaPersonanaturalBD;
-				} else {
-					personanaturalServiceLocal.create(accionistaPersonanatural);
-				}
-				
-				Accionista accionistaNew = new Accionista();		
-				accionistaNew.setPersonanatural(accionistaPersonanatural);
-				accionistaNew.setPersonajuridica(personajuridica);
-				accionistaNew.setPorcentajeparticipacion(accionista.getPorcentajeparticipacion());
-				accionistaDAO.create(accionistaNew);
-			}
-				
+			//crear cuenta bancaria
 			Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
 			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
 			cuentabancaria.setEstadocuenta(estadocuenta);
@@ -769,79 +622,33 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setSocio(socio);
 			cuentabancariaDAO.create(cuentabancaria);
 			
-			Calendar start = Calendar.getInstance();
-			start.setTime(cuentabancaria.getFechaapertura());
-			Calendar end = Calendar.getInstance();
-			start.setTime(cuentabancaria.getFechacierre());
+			//crear titulares y beneficiarios
+			cuentabancaria.setTitulares(listTitulares);
+			cuentabancaria.setBeneficiarios(listBeneficiarios);
+			this.createTitulares(cuentabancaria);
+			this.createBeneficiarios(cuentabancaria);
 			
+			//crear tasas de interes 
 			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
 			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
-			Tipomoneda tipomoneda = cuentabancaria.getTipomoneda();
-			int periodo = start.get(Calendar.DAY_OF_YEAR) - end.get(Calendar.DAY_OF_YEAR);
-			BigDecimal monto = cuentabancaria.getSaldo().getValue();
-			
-			BigDecimal teaValor = tasainteresServiceLocal.getTea(tipomoneda, periodo, monto);
-			BigDecimal treaValor = tasainteresServiceLocal.getTrea(tipomoneda, periodo, monto);
-						
+					
 			CuentabancariaTipotasa cuentabancariaTipotasaTEA =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasaTEA.setId(pkTEA);
-			cuentabancariaTipotasaTEA.setTasainteres(teaValor);
+			cuentabancariaTipotasaTEA.setTasainteres(tea);
 			pkTEA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
 			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();	
 			cuentabancariaTipotasaTREA.setId(pkTREA);
-			cuentabancariaTipotasaTREA.setTasainteres(treaValor);	
+			cuentabancariaTipotasaTREA.setTasainteres(trea);	
 			pkTREA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
 			
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTEA);
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
-			
-			for (Titular titular : titulares) {
-				Personanatural titularPersonanatural = titular.getPersonanatural();
-				Tipodocumento tipodocumentoTitular = titularPersonanatural.getTipodocumento();
-				String numeroDocumentoTitular = titularPersonanatural.getNumerodocumento();
-				Personanatural titularPersonanaturalBD = personanaturalServiceLocal.find(tipodocumentoTitular, numeroDocumentoTitular);
 				
-				if(titularPersonanaturalBD != null){
-					titularPersonanaturalBD.setTipodocumento(titularPersonanatural.getTipodocumento());
-					titularPersonanaturalBD.setNumerodocumento(titularPersonanatural.getNumerodocumento());
-					titularPersonanaturalBD.setApellidopaterno(titularPersonanatural.getApellidopaterno());
-					titularPersonanaturalBD.setApellidomaterno(titularPersonanatural.getApellidomaterno());
-					titularPersonanaturalBD.setNombres(titularPersonanatural.getNombres());
-					titularPersonanaturalBD.setFechanacimiento(titularPersonanatural.getFechanacimiento());
-					titularPersonanaturalBD.setSexo(titularPersonanatural.getSexo());
-					titularPersonanaturalBD.setEstadocivil(titularPersonanatural.getEstadocivil());
-					titularPersonanaturalBD.setOcupacion(titularPersonanatural.getOcupacion());
-					titularPersonanaturalBD.setDireccion(titularPersonanatural.getDireccion());
-					titularPersonanaturalBD.setReferencia(titularPersonanatural.getReferencia());
-					titularPersonanaturalBD.setTelefono(titularPersonanatural.getTelefono());
-					titularPersonanaturalBD.setCelular(titularPersonanatural.getCelular());
-					titularPersonanaturalBD.setEmail(titularPersonanatural.getEmail());
-					personanaturalServiceLocal.update(titularPersonanaturalBD);
-					titularPersonanatural = titularPersonanaturalBD;
-				} else {
-					personanaturalServiceLocal.create(titularPersonanaturalBD);
-				}
-				
-				Titular titularNew = new Titular();	
-				titularNew.setEstado(true);
-				titularNew.setFechaactiva(Calendar.getInstance().getTime());
-				titularNew.setPersonanatural(titularPersonanatural);
-				titularNew.setCuentabancaria(cuentabancaria);
-				
-				titularcuentaDAO.create(titularNew);
-			}
-			
-			for (Beneficiario beneficiario : beneficiarios) {
-				beneficiario.setEstado(true);
-				beneficiario.setCuentabancaria(cuentabancaria);
-				beneficiariocuentaDAO.create(beneficiario);
-			}
-			
 			return cuentabancaria;
 		} catch (IllegalEntityException | PreexistingEntityException e) {		
 			cuentabancaria.setIdcuentabancaria(null);
@@ -909,22 +716,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaTipotasa = cuentabancariaTipotasaDAO.find(pk);
 			tea = cuentabancariaTipotasa.getTasainteres();
 			
-			BigDecimal a;
-			
-			BigDecimal potencia = new BigDecimal(cantidadDias);
-			BigDecimal potenciaDivisor = new BigDecimal(360);
-			potenciaDivisor.setScale(50);
-			potencia.setScale(50);
-
-			a = tea.add(BigDecimal.ONE);
-			potencia = potencia.divide(potenciaDivisor, 50, RoundingMode.HALF_UP);
-			
-			result = BigDecimalMath.pow(a, potencia);
-			result = result.subtract(BigDecimal.ONE);
-			result = result.multiply(montoApertura);
-			
-			result = result.setScale(2, BigDecimal.ROUND_HALF_UP);
-			
+			result = tasainteresServiceLocal.getInteresGeneradoPlazofijo(montoApertura, cantidadDias, tea);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -939,6 +731,16 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		Cuentabancaria cuentabancariaNew = null;
 		try {							
 			Cuentabancaria cuentabancariaOld = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+			Date fechaAperturaCuenta = cuentabancariaOld.getFechaapertura();
+			Date fechaVencimientoCuenta = cuentabancariaOld.getFechacierre();
+			Date fechaRenovacion = Calendar.getInstance().getTime();
+			if(fechaAperturaCuenta.compareTo(fechaRenovacion)*fechaRenovacion.compareTo(fechaVencimientoCuenta) > 0){
+				throw new Exception("La cuenta no puede ser renovada porque no vencio aun");
+			}
+			
+			List<Titular> listTitulares = cuentabancariaOld.getTitulares();
+			List<Beneficiario> listBeneficiarios = cuentabancariaOld.getBeneficiarios();
+			
 			cuentabancariaNew = new Cuentabancaria();
 				
 			//generar interes de cuenta OLD
@@ -976,27 +778,12 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaNew.setTipomoneda(cuentabancariaOld.getTipomoneda());			
 			cuentabancariaDAO.create(cuentabancariaNew);
 			
-			for (Titular titular : cuentabancariaOld.getTitulares()) {
-				Titular titularNew = new Titular();
-				titularNew.setCuentabancaria(cuentabancariaNew);
-				titularNew.setEstado(true);
-				titularNew.setFechaactiva(Calendar.getInstance().getTime());
-				titularNew.setPersonanatural(titular.getPersonanatural());
-				titularcuentaDAO.create(titularNew);
-			}
-			
-			for (Beneficiario beneficiario : cuentabancariaOld.getBeneficiarios()) {
-				Beneficiario beneficiarioNew = new Beneficiario();
-				beneficiarioNew.setApellidopaterno(beneficiario.getApellidopaterno());
-				beneficiarioNew.setApellidomaterno(beneficiario.getApellidomaterno());
-				beneficiarioNew.setNombres(beneficiario.getNombres());
-				beneficiarioNew.setCuentabancaria(cuentabancariaNew);
-				beneficiarioNew.setDni(beneficiario.getDni());
-				beneficiarioNew.setEstado(true);
-				beneficiarioNew.setPorcentajebeneficio(beneficiario.getPorcentajebeneficio());
-				beneficiariocuentaDAO.create(beneficiarioNew);
-			}
-			
+			//crear titulares y beneficiarios
+			cuentabancariaNew.setTitulares(new ArrayList<Titular>(listTitulares));
+			cuentabancariaNew.setBeneficiarios(new ArrayList<Beneficiario>(listBeneficiarios));
+			this.createTitulares(cuentabancariaNew);
+			this.createBeneficiarios(cuentabancariaNew);
+				
 			//crear los intereses para la nueva cuenta a plazo fijo
 			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
 			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);

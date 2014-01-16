@@ -39,14 +39,15 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 	@Inject private TablaBean<CuentabancariaView> tablaCuentabancaria;
 	private CuentabancariaView cuentabancariaViewSelected;
 	
-	private BigDecimal interesGenerado;
-	private BigDecimal totalSaldo;
+	private BigDecimal interesCuenta;
+	private BigDecimal totalCuenta;
+	private Integer periodoCuenta;
 
 	//datos de entrada
 	private BigDecimal interesRecalculado;
 	private BigDecimal totalRecalculado;
-	private BigDecimal tea;
-	private BigDecimal trea;
+	private BigDecimal teaRecalculo;
+	private BigDecimal treaRecalculo;
 	private Date fechaRecalculo;
 	private Integer periodoRecalculo;
 	
@@ -56,6 +57,8 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 	@EJB private TasainteresServiceLocal tasainteresServiceLocal;
 	
 	public CancelacionAnticipadaCuentaplazofijoBean() {
+		cuentaValida = true;
+		cuentaCreada = false;
 		dlgBusquedaOpen = false;
 	}
 
@@ -71,10 +74,11 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 	public void cancelarCuentaaporte(){
 		try {
 			if(cuentaCreada == false){	
+				
 				Cuentabancaria cuentabancaria = new Cuentabancaria();
 				cuentabancaria.setIdcuentabancaria(cuentabancariaViewSelected.getIdCuentabancaria());
-				BigDecimal teaReal = tea.divide(new BigDecimal(100));
-				BigDecimal treaReal = trea.divide(new BigDecimal(100));
+				BigDecimal teaReal = teaRecalculo.divide(new BigDecimal(100));
+				BigDecimal treaReal = treaRecalculo.divide(new BigDecimal(100));
 				
 				cuentaPlazofijoCreado = cuentabancariaServiceLocal.cancelacionAnticipadaCuentaplazofijo(cuentabancaria, fechaRecalculo, teaReal, treaReal);
 				cuentaCreada = true;
@@ -89,8 +93,7 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 		BigDecimal result = BigDecimal.ZERO;
 		try {
 			if(cuentabancariaViewSelected != null){			
-				if (tea != null) {
-					int periodoDeposito = 0;
+				if (teaRecalculo != null) {
 					Calendar calStart = Calendar.getInstance();
 					Calendar calEnd = Calendar.getInstance();
 					calStart.setTime(cuentabancariaViewSelected.getFechaaperturaCuentabancaria());
@@ -100,11 +103,10 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 					long milis2 = calEnd.getTimeInMillis();	
 					long diff = milis2 - milis1;
 					
-					periodoDeposito = (int) (diff / (24 * 60 * 60 * 1000));
-					this.periodoRecalculo = periodoDeposito;
-					
-					BigDecimal teaReal = tea.divide(new BigDecimal(100));
-					result = tasainteresServiceLocal.getInteresGeneradoPlazofijo(cuentabancariaViewSelected.getSaldoCuentabancaria(), periodoDeposito, teaReal);
+					this.periodoRecalculo = (int) (diff / (24 * 60 * 60 * 1000));
+								
+					BigDecimal teaReal = teaRecalculo.divide(new BigDecimal(100));
+					result = tasainteresServiceLocal.getInteresGeneradoPlazofijo(cuentabancariaViewSelected.getSaldoCuentabancaria(), periodoRecalculo, teaReal);
 					
 					this.interesRecalculado = result;
 					this.totalRecalculado = interesRecalculado.add(cuentabancariaViewSelected.getSaldoCuentabancaria());
@@ -132,9 +134,35 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 	public void setCuentabancariaSelected(){
 		if(cuentabancariaViewSelected != null){
 			try {
-				interesGenerado = cuentabancariaServiceLocal.getInteresGeneradoPlazofijo(cuentabancariaViewSelected.getIdCuentabancaria());
-				totalSaldo = interesGenerado.add(cuentabancariaViewSelected.getSaldoCuentabancaria());
-				totalRecalculado = new BigDecimal(totalSaldo.toString());
+				interesCuenta = cuentabancariaServiceLocal.getInteresGeneradoPlazofijo(cuentabancariaViewSelected.getIdCuentabancaria());
+				totalCuenta = interesCuenta.add(cuentabancariaViewSelected.getSaldoCuentabancaria());
+				totalRecalculado = new BigDecimal(totalCuenta.toString());
+				
+				interesRecalculado = new BigDecimal(interesCuenta.toString());
+				totalRecalculado = new BigDecimal(totalRecalculado.toString());
+				
+				fechaRecalculo = cuentabancariaViewSelected.getFechacierreCuentabancaria();
+				
+				Calendar calStart = Calendar.getInstance();
+				Calendar calEnd = Calendar.getInstance();
+				calStart.setTime(cuentabancariaViewSelected.getFechaaperturaCuentabancaria());
+				calEnd.setTime(cuentabancariaViewSelected.getFechacierreCuentabancaria());
+				
+				calStart.set(Calendar.HOUR, 0);
+				calStart.set(Calendar.MINUTE, 0);
+				calStart.set(Calendar.SECOND, 0);
+				calStart.set(Calendar.MILLISECOND, 0);		
+				calEnd.set(Calendar.HOUR, 0);
+				calEnd.set(Calendar.MINUTE, 0);
+				calEnd.set(Calendar.SECOND, 0);
+				calEnd.set(Calendar.MILLISECOND, 0);
+				
+				long milis1 = calStart.getTimeInMillis();
+				long milis2 = calEnd.getTimeInMillis();	
+				long diff = milis2 - milis1;
+				
+				periodoCuenta = (int) (diff / (24 * 60 * 60 * 1000));
+				periodoRecalculo = new Integer(periodoCuenta);
 			} catch (Exception e) {
 				JsfUtil.addErrorMessage(e, e.getMessage());
 				e.printStackTrace();
@@ -142,19 +170,33 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 		}	
 		setDlgBusquedaOpen(false);
 	}
-	
-	
-	
+		
 	public void changeTipodocumento(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 	}
-	
-	public ComboBean<Tipodocumento> getComboTipodocumento() {
-		return comboTipodocumento;
+
+	public boolean isCuentaValida() {
+		return cuentaValida;
 	}
 
-	public void setComboTipodocumento(ComboBean<Tipodocumento> comboTipodocumento) {
-		this.comboTipodocumento = comboTipodocumento;
+	public void setCuentaValida(boolean cuentaValida) {
+		this.cuentaValida = cuentaValida;
+	}
+
+	public boolean isCuentaCreada() {
+		return cuentaCreada;
+	}
+
+	public void setCuentaCreada(boolean cuentaCreada) {
+		this.cuentaCreada = cuentaCreada;
+	}
+
+	public boolean isDlgBusquedaOpen() {
+		return dlgBusquedaOpen;
+	}
+
+	public void setDlgBusquedaOpen(boolean dlgBusquedaOpen) {
+		this.dlgBusquedaOpen = dlgBusquedaOpen;
 	}
 
 	public String getCampoBusqueda() {
@@ -163,6 +205,14 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 
 	public void setCampoBusqueda(String campoBusqueda) {
 		this.campoBusqueda = campoBusqueda;
+	}
+
+	public ComboBean<Tipodocumento> getComboTipodocumento() {
+		return comboTipodocumento;
+	}
+
+	public void setComboTipodocumento(ComboBean<Tipodocumento> comboTipodocumento) {
+		this.comboTipodocumento = comboTipodocumento;
 	}
 
 	public TablaBean<CuentabancariaView> getTablaCuentabancaria() {
@@ -174,77 +224,28 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 		this.tablaCuentabancaria = tablaCuentabancaria;
 	}
 
-	public boolean isDlgBusquedaOpen() {
-		return dlgBusquedaOpen;
+	public BigDecimal getInteresCuenta() {
+		return interesCuenta;
 	}
 
-	public void setDlgBusquedaOpen(boolean dlgBusquedaOpen) {
-		this.dlgBusquedaOpen = dlgBusquedaOpen;
+	public void setInteresCuenta(BigDecimal interesCuenta) {
+		this.interesCuenta = interesCuenta;
 	}
 
-	public CuentabancariaView getCuentabancariaViewSelected() {
-		return cuentabancariaViewSelected;
+	public BigDecimal getTotalCuenta() {
+		return totalCuenta;
 	}
 
-	public void setCuentabancariaViewSelected(
-			CuentabancariaView cuentabancariaViewSelected) {
-		this.cuentabancariaViewSelected = cuentabancariaViewSelected;
+	public void setTotalCuenta(BigDecimal totalCuenta) {
+		this.totalCuenta = totalCuenta;
 	}
 
-	public BigDecimal getInteresGenerado() {
-		return interesGenerado;
+	public Integer getPeriodoCuenta() {
+		return periodoCuenta;
 	}
 
-	public void setInteresGenerado(BigDecimal interesGenerado) {
-		this.interesGenerado = interesGenerado;
-	}
-
-	public BigDecimal getTotalSaldo() {
-		return totalSaldo;
-	}
-
-	public void setTotalSaldo(BigDecimal totalSaldo) {
-		this.totalSaldo = totalSaldo;
-	}
-
-	public BigDecimal getTea() {
-		return tea;
-	}
-
-	public void setTea(BigDecimal tea) {
-		this.tea = tea;
-	}
-
-	public BigDecimal getTrea() {
-		return trea;
-	}
-
-	public void setTrea(BigDecimal trea) {
-		this.trea = trea;
-	}
-
-	public boolean isCuentaCreada() {
-		return cuentaCreada;
-	}
-
-	public void setCuentaCreada(boolean cuentaCreada) {
-		this.cuentaCreada = cuentaCreada;
-	}
-
-	public boolean isCuentaValida() {
-		return cuentaValida;
-	}
-
-	public void setCuentaValida(boolean cuentaValida) {
-		this.cuentaValida = cuentaValida;
-	}
-
-	public Cuentabancaria getCuentaPlazofijoCreado() {
-		return cuentaPlazofijoCreado;
-	}
-
-	public void setCuentaPlazofijoCreado(Cuentabancaria cuentaPlazofijoCreado) {
-		this.cuentaPlazofijoCreado = cuentaPlazofijoCreado;
+	public void setPeriodoCuenta(Integer periodoCuenta) {
+		this.periodoCuenta = periodoCuenta;
 	}
 
 	public BigDecimal getInteresRecalculado() {
@@ -263,6 +264,22 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 		this.totalRecalculado = totalRecalculado;
 	}
 
+	public BigDecimal getTeaRecalculo() {
+		return teaRecalculo;
+	}
+
+	public void setTeaRecalculo(BigDecimal teaRecalculo) {
+		this.teaRecalculo = teaRecalculo;
+	}
+
+	public BigDecimal getTreaRecalculo() {
+		return treaRecalculo;
+	}
+
+	public void setTreaRecalculo(BigDecimal treaRecalculo) {
+		this.treaRecalculo = treaRecalculo;
+	}
+
 	public Date getFechaRecalculo() {
 		return fechaRecalculo;
 	}
@@ -278,5 +295,24 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 	public void setPeriodoRecalculo(Integer periodoRecalculo) {
 		this.periodoRecalculo = periodoRecalculo;
 	}
+
+	public Cuentabancaria getCuentaPlazofijoCreado() {
+		return cuentaPlazofijoCreado;
+	}
+
+	public void setCuentaPlazofijoCreado(Cuentabancaria cuentaPlazofijoCreado) {
+		this.cuentaPlazofijoCreado = cuentaPlazofijoCreado;
+	}
+
+	public CuentabancariaView getCuentabancariaViewSelected() {
+		return cuentabancariaViewSelected;
+	}
+
+	public void setCuentabancariaViewSelected(
+			CuentabancariaView cuentabancariaViewSelected) {
+		this.cuentabancariaViewSelected = cuentabancariaViewSelected;
+	}
+	
+
 
 }
