@@ -122,7 +122,7 @@
 												<div>
 													<div>
 														<h:inputText id="txtNombresRepresentantelegal"
-															value="#{aperturaCuentaplazofijoBean.apellidoMaternoRepresentantelegal}"
+															value="#{aperturaCuentaplazofijoBean.nombresRepresentantelegal}"
 															required="true" maxlength="50"
 															requiredMessage="Ingrese nombres"
 															onkeyup="this.value = this.value.toUpperCase();"
@@ -514,7 +514,8 @@
 								</div>
 								<div class="modal-dialog-buttons">
 									<h:commandButton value="Guardar" styleClass="action blue">
-										<f:ajax listener="#{aperturaCuentaplazofijoBean.addAccionista()}"
+										<f:ajax
+											listener="#{aperturaCuentaplazofijoBean.addAccionista()}"
 											execute="@form"
 											render="@form :panelGroupPersonajuridica :formPersonajuridica" />
 									</h:commandButton>

@@ -16,12 +16,15 @@ import java.util.Date;
 @Entity
 @Table(name = "personanatural", schema = "persona")
 @NamedQuery(name = "Personanatural.findAll", query = "SELECT p FROM Personanatural p")
-@NamedQueries({ @NamedQuery(name = Personanatural.f_tipodocumento_numerodocumento, query = "SELECT p FROM Personanatural p WHERE p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento") })
+@NamedQueries({
+		@NamedQuery(name = Personanatural.f_tipodocumento_numerodocumento, query = "SELECT p FROM Personanatural p WHERE p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento"),
+		@NamedQuery(name = Personanatural.f_searched, query = "SELECT p FROM Personanatural p WHERE p.numerodocumento LIKE :searched OR p.apellidopaterno LIKE :searched OR p.apellidomaterno LIKE :searched OR p.nombres LIKE :searched") })
 public class Personanatural implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String f_tipodocumento_numerodocumento = "org.ventura.entity.schema.persona.personanatural.f_tipodocumento_numerodocumento";
+	public final static String f_searched = "org.ventura.entity.schema.persona.personanatural.f_search";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

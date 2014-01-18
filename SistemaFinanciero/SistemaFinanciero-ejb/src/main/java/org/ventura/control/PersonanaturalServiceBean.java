@@ -83,6 +83,22 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	}
 
 	@Override
+	public List<Personanatural> find(String searched, int resultLimit) throws Exception {
+		List<Personanatural> resultList = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("searched", "%" + searched + "%");
+			resultList = personanaturalDAO.findByNamedQuery(Personanatural.f_searched, parameters, resultLimit);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return resultList;
+	}
+
+	@Override
 	public Collection<Personanatural> findByNamedQuery(String queryName) throws Exception {
 		Collection<Personanatural> collection = null;
 		try {

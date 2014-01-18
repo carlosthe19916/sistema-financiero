@@ -1,0 +1,800 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Boveda" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+
+		<h:outputStylesheet library="css" name="main.css" />
+
+		<br />
+		<h:panelGroup rendered="#{personajuridicaCRUDBean.pageOne}">
+			<h:form>
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">PERSONA JURIDICA</div>
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="sf-separator">
+									<h3 class="p6n-api-consent-screen-title"
+										style="color: #298B11;">Datos generales</h3>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label">TIPO DOCUMENTO</div>
+										<div>
+											<h:selectOneMenu id="cmbTipodocumentoPersonajuridica"
+												value="#{personajuridicaCRUDBean.comboTipodocumentoPersonajuridica.itemSelected}"
+												required="true"
+												requiredMessage="Seleccione tipo de documento">
+												<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+												<f:selectItems
+													value="#{personajuridicaCRUDBean.comboTipodocumentoPersonajuridica.items.entrySet()}"
+													var="val" itemLabel="#{val.value.abreviatura}"
+													itemValue="#{val.key}" />
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label">NUMERO
+											DOCUMENTO</div>
+										<div>
+											<h:inputText id="txtNumerodocumentoPersonajuridica"
+												value="#{personajuridicaCRUDBean.numerodocumentoPersonajuridica}"
+												required="true" maxlength="15"
+												requiredMessage="Ingrese numero documento"
+												validatorMessage="Número de documento Invalido"
+												converterMessage="Número de documento Invalido"
+												pt:placeholder="Numero documento">
+												<f:convertNumber type="number" integerOnly="true"
+													groupingUsed="false" />
+											</h:inputText>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipodocumentoPersonajuridica" />
+									<h:message for="txtNumerodocumentoPersonajuridica" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label">RAZON SOCIAL</div>
+										<div>
+											<div>
+												<h:inputText id="txtTazonsocial"
+													value="#{personajuridicaCRUDBean.razonsocial}"
+													required="true" maxlength="50"
+													requiredMessage="Ingrese la razon social"
+													onkeyup="this.value = this.value.toUpperCase();"
+													pt:placeholder="Razon social">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label">NOMBRE
+											COMERCIAL</div>
+										<div>
+											<div>
+												<h:inputText id="txtNombrecomercial"
+													value="#{personajuridicaCRUDBean.nombrecomercial}"
+													maxlength="50"
+													onkeyup="this.value = this.value.toUpperCase();"
+													pt:placeholder="Nombre comercial">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtTazonsocial" />
+									<h:message for="txtNombrecomercial" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label">ACTIVIDAD
+											PRINCIPAL</div>
+										<div>
+											<div>
+												<h:inputText id="txtActividadprincipal"
+													value="#{personajuridicaCRUDBean.actividadprincipal}"
+													maxlength="50"
+													onkeyup="this.value = this.value.toUpperCase();"
+													pt:placeholder="actividad principal">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label">FECHA
+											CONSTITUCION</div>
+										<div>
+											<div>
+												<p:calendar id="txtFechaconstitucion"
+													value="#{personajuridicaCRUDBean.fechaconstitucion}"
+													navigator="true" pattern="dd/MM/yy" required="true"
+													requiredMessage="Ingrese Fecha de constitucion"
+													converterMessage="El formato de la fecha no es correcto"
+													pt:placeholder="dd/mm/yyyy">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</p:calendar>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtActividadprincipal" />
+									<h:message for="txtFechaconstitucion" />
+								</div>
+								<br />
+								<div class="sf-separator">
+									<h3 class="p6n-api-consent-screen-title"
+										style="color: #298B11;">Datos comerciales</h3>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label">TIPO EMPRESA</div>
+										<div>
+											<div>
+												<h:selectOneMenu id="cmbTipoempresa"
+													value="#{personajuridicaCRUDBean.comboTipoempresa.itemSelected}"
+													required="true" requiredMessage="Ingrese tipo empresa"
+													pt:placeholder="Tipo empresa">
+													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+													<f:selectItems
+														value="#{personajuridicaCRUDBean.comboTipoempresa.items.entrySet()}"
+														var="val" itemLabel="#{val.value.denominacion}"
+														itemValue="#{val.key}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label">FIN SOCIAL</div>
+										<div>
+											<div>
+												<h:selectOneMenu id="cmbFinsocial"
+													value="#{personajuridicaCRUDBean.comboFinsocial.itemSelected}">
+													<f:selectItems
+														value="#{personajuridicaCRUDBean.comboFinsocial.items.entrySet()}"
+														var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipoempresa" />
+									<h:message for="cmbFinsocial" />
+								</div>
+								<br />
+								<div class="sf-separator">
+									<h3 class="p6n-api-consent-screen-title"
+										style="color: #298B11;">Datos adicionales</h3>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label">DIRECCION</div>
+										<div>
+											<div>
+												<h:inputText
+													value="#{personajuridicaCRUDBean.direccionPersonajuridica}"
+													onkeyup="this.value = this.value.toUpperCase();"
+													maxlength="150" pt:placeholder="Direccion">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label">REFERENCIA</div>
+										<div>
+											<div>
+												<h:inputText
+													value="#{personajuridicaCRUDBean.referenciaPersonajuridica}"
+													onkeyup="this.value = this.value.toUpperCase();"
+													maxlength="100" pt:placeholder="Referencia">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label">TELEFONO</div>
+										<div>
+											<div>
+												<h:inputText
+													value="#{personajuridicaCRUDBean.telefonoPersonajuridica}"
+													maxlength="20" pt:placeholder="066000000">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label">CELULAR</div>
+										<div>
+											<div>
+												<h:inputText
+													value="#{personajuridicaCRUDBean.celularPersonajuridica}"
+													maxlength="20" pt:placeholder="celular/#rpm">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">EMAIL</div>
+									<div>
+										<div>
+											<h:inputText
+												value="#{personajuridicaCRUDBean.emailPersonajuridica}"
+												pt:placeholder="example@domain.com" style="width:339px;"
+												maxlength="50" />
+										</div>
+									</div>
+								</div>
+								<br /> <br />
+								<div class="sf-buttons" style="float: left;">
+									<h:commandButton value="Cancelar"
+										action="list?faces-redirect=true" immediate="true"
+										styleClass="action" />
+									<h:commandButton value="Siguiente »"
+										action="#{personajuridicaCRUDBean.changeToTwo()}"
+										styleClass="action" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{personajuridicaCRUDBean.pageTwo}">
+			<h:form>
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="sf-separator">
+									<div>
+										<h3 class="p6n-api-consent-screen-title"
+											style="color: #298B11;">Representante legal</h3>
+									</div>
+								</div>
+								<h:panelGroup id="formRepresentantelegal">
+									<div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label">TIPO
+													DOCUMENTO</div>
+												<div>
+													<h:selectOneMenu id="cmbTipodocumentoRepresentantelegal"
+														value="#{personajuridicaCRUDBean.comboTipodocumentoRepresentantelegal.itemSelected}"
+														valueChangeListener="#{personajuridicaCRUDBean.changeTipodocumentoRepresentantelegal}"
+														required="true"
+														requiredMessage="Seleccione tipo de documento">
+														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+														<f:selectItems
+															value="#{personajuridicaCRUDBean.comboTipodocumentoRepresentantelegal.items.entrySet()}"
+															var="val" itemLabel="#{val.value.abreviatura}"
+															itemValue="#{val.key}" />
+														<f:ajax></f:ajax>
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label">NUMERO
+													DOCUMENTO</div>
+												<div>
+													<h:inputText id="txtNumerodocumentoRepresentantelegal"
+														value="#{personajuridicaCRUDBean.numerodocumentoRepresentantelegal}"
+														required="true" maxlength="15"
+														requiredMessage="Ingrese numero de documento"
+														validatorMessage="Número de documento Invalido"
+														converterMessage="Número de documento Invalido"
+														pt:placeholder="Numero documento">
+														<f:convertNumber integerOnly="true" type="number"
+															groupingUsed="false" />
+														<f:ajax
+															listener="#{personajuridicaCRUDBean.buscarPersonanaturalRepresentantelegal()}"
+															render="@form" />
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="cmbTipodocumentoRepresentantelegal" />
+											<h:message for="txtNumerodocumentoRepresentantelegal" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label">APELLIDO
+													PATERNO</div>
+												<div>
+													<div>
+														<h:inputText id="txtApellidoPaternoRepresentantelegal"
+															value="#{personajuridicaCRUDBean.apellidopaternoRepresentantelegal}"
+															required="true" maxlength="50"
+															requiredMessage="Ingrese apellido paterno"
+															onkeyup="this.value = this.value.toUpperCase();"
+															pt:placeholder="Apellido paterno">
+														</h:inputText>
+													</div>
+												</div>
+											</div>
+											<div style="display: inline-block;">
+												<div class="p6n-api-consent-screen-label">APELLIDO
+													MATERNO</div>
+												<div>
+													<div>
+														<h:inputText id="txtApellidoMaternoRepresentantelegal"
+															value="#{personajuridicaCRUDBean.apellidomaternoRepresentantelegal}"
+															required="true" maxlength="50"
+															requiredMessage="Ingrese apellido materno"
+															onkeyup="this.value = this.value.toUpperCase();"
+															pt:placeholder="Apellido materno">
+														</h:inputText>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtApellidoPaternoRepresentantelegal" />
+											<h:message for="txtApellidoMaternoRepresentantelegal" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div class="p6n-api-consent-screen-label">NOMBRES</div>
+											<div>
+												<div>
+													<h:inputText id="txtNombresRepresentantelegal"
+														value="#{personajuridicaCRUDBean.apellidomaternoRepresentantelegal}"
+														required="true" maxlength="50"
+														requiredMessage="Ingrese nombres"
+														onkeyup="this.value = this.value.toUpperCase();"
+														style="width:339px;" pt:placeholder="Nombres">
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtNombresRepresentantelegal" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label">SEXO</div>
+												<div>
+													<div>
+														<h:selectOneMenu id="cmbSexoRepresentantelegal"
+															value="#{personajuridicaCRUDBean.comboSexoRepresentantelegal.itemSelected}"
+															required="true" requiredMessage="Seleccione sexo">
+															<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+															<f:selectItems
+																value="#{personajuridicaCRUDBean.comboSexoRepresentantelegal.items.entrySet()}"
+																var="val" itemLabel="#{val.value.denominacion}"
+																itemValue="#{val.key}" />
+														</h:selectOneMenu>
+													</div>
+												</div>
+											</div>
+											<div style="display: inline-block;">
+												<div class="p6n-api-consent-screen-label">FECHA DE
+													NACIMIENTO</div>
+												<div>
+													<div>
+														<p:calendar id="txtFechanacimientoRepresentantelegal"
+															value="#{personajuridicaCRUDBean.fechanacimientoRepresentantelegal}"
+															navigator="true" pattern="dd/MM/yy" required="true"
+															requiredMessage="Ingrese fecha de nacimiento"
+															converterMessage="formato incorrecto"
+															pt:placeholder="dd/mm/yyyy">
+															<f:convertDateTime pattern="dd/MM/yy" />
+														</p:calendar>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="cmbSexoRepresentantelegal" />
+											<h:message for="txtFechanacimientoRepresentantelegal" />
+										</div>
+										<br />
+									</div>
+									<br />
+								</h:panelGroup>
+
+								<div class="sf-separator">
+									<div>
+										<h3 class="p6n-api-consent-screen-title"
+											style="color: #298B11;">Accionistas</h3>
+									</div>
+								</div>
+								<div>
+									<div class="p6n-api-consent-screen-input-section">
+										<!-- ACCIONISTAS -->
+										<h:panelGroup id="tablaAccionistas">
+											<div class="p6n-content ng-scope">
+												<div class="p6n-content-no-nav ng-scope">
+													<div class="p6n-main-pane ng-isolate-scope"
+														style="margin-left: 0px;">
+														<div class="">
+															<div class="ng-scope">
+																<table class="p6n-table">
+																	<thead>
+																		<tr>
+																			<th><a href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link">
+																					Tipo documento </a></th>
+																			<th><a href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link"> Nro
+																					documento </a></th>
+																			<th><a href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link">
+																					Apellido paterno </a></th>
+																			<th><a href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link">
+																					Apellido materno </a></th>
+																			<th><a href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link">
+																					Nombres </a></th>
+																			<th><a href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link">
+																					Sexo </a></th>
+																			<th><a href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link">
+																					F.nacimiento </a></th>
+																			<th><a href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link"> (%)
+																			</a></th>
+																			<th class="p6n-api-list-col-status"><a
+																				href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link">
+																					Status </a></th>
+
+																			<th class="p6n-api-list-col-status"><a
+																				href="javascript:;"
+																				class="ng-isolate-scope p6n-clickable-link">
+																					Status </a></th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<ui:repeat
+																			value="#{personajuridicaCRUDBean.listAccionistas()}"
+																			var="accionista">
+																			<tr class="ng-scope">
+																				<td><a href="javascript:;"
+																					class="p6n-clickable-link ng-binding"> <h:outputLabel
+																							value="#{accionista.personanatural.tipodocumento.abreviatura}" />
+																				</a></td>
+																				<td><a href="javascript:;"
+																					class="p6n-clickable-link ng-binding"> <h:outputLabel
+																							value="#{accionista.personanatural.numerodocumento}" />
+																				</a></td>
+																				<td><a href="javascript:;"
+																					class="p6n-clickable-link ng-binding"> <h:outputLabel
+																							value="#{accionista.personanatural.apellidopaterno}" />
+																				</a></td>
+																				<td><a href="javascript:;"
+																					class="p6n-clickable-link ng-binding"> <h:outputLabel
+																							value="#{accionista.personanatural.apellidomaterno}" />
+																				</a></td>
+																				<td><a href="javascript:;"
+																					class="p6n-clickable-link ng-binding"> <h:outputLabel
+																							value="#{accionista.personanatural.nombres}" />
+																				</a></td>
+																				<td><a href="javascript:;"
+																					class="p6n-clickable-link ng-binding"> <h:outputLabel
+																							value="#{accionista.personanatural.sexo.denominacion}" />
+																				</a></td>
+																				<td><a href="javascript:;"
+																					class="p6n-clickable-link ng-binding"> <h:outputLabel
+																							value="#{accionista.personanatural.fechanacimiento}">
+																							<f:convertDateTime pattern="dd/MM/yy" />
+																						</h:outputLabel>
+																				</a></td>
+																				<td><a href="javascript:;"
+																					class="p6n-clickable-link ng-binding"> <h:outputLabel
+																							value="#{accionista.porcentajeparticipacion}%">
+																						</h:outputLabel>
+																				</a></td>
+																				<td><h:commandButton value="Edit"
+																						action="#{personajuridicaCRUDBean.editAccionista(accionista)}"
+																						styleClass="action green" style="margin: 0px;">
+																					</h:commandButton></td>
+																				<td><h:commandButton value="Remove"
+																						styleClass="action red" style="margin: 0px;">
+																						<f:ajax
+																							listener="#{personajuridicaCRUDBean.removeAccionista(accionista)}"
+																							render="@form" />
+																					</h:commandButton></td>
+																			</tr>
+																		</ui:repeat>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</h:panelGroup>
+
+										<div class="p6n-content ng-scope">
+											<div class="p6n-envelope">
+												<div class="p6n-content-no-nav">
+													<div class="p6n-main-pane p6n-acl-pane"
+														style="margin-left: 0px;">
+														<div class="p6n-action-bar" style="padding-bottom: 45px;">
+															<h:commandButton value="Añadir Accionista"
+																immediate="true"
+																action="#{personajuridicaCRUDBean.setDlgAccionistaOpen(true)}"
+																class="actionn red">
+															</h:commandButton>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- END TITULARES -->
+									</div>
+								</div>
+								<div class="sf-buttons" style="float: left;">
+									<h:commandButton value="« Anterior" immediate="true"
+										action="#{personajuridicaCRUDBean.changeToPageOne()}" styleClass="action" />
+									<h:commandButton value="Guardar"
+										action="#{personajuridicaCRUDBean.createPersona()}" styleClass="action" />
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</h:panelGroup>
+
+		<h:panelGroup id="panelGroupDlgAccionista">
+			<h:panelGroup rendered="#{personajuridicaCRUDBean.dlgAccionistaOpen}">
+				<h:form id="formDialogAccionista">
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+					<div class="modal-dialog p6n-popup" style="left: 402px; top: 50px;">
+						<div class="modal-dialog-content p6n-acl-add-member-popup"
+							style="width: 385px;">
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="sf-separator">
+									<h3 class="p6n-api-consent-screen-title">Accionista</h3>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label">TIPO DOCUMENTO</div>
+										<div>
+											<h:selectOneMenu id="cmbTipodocumentoTitular"
+												value="#{personajuridicaCRUDBean.comboTipodocumentoAccionista.itemSelected}"
+												valueChangeListener="#{personajuridicaCRUDBean.changeTipodocumentoAccionista}"
+												required="true"
+												requiredMessage="Seleccione tipo de documento">
+												<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+												<f:selectItems
+													value="#{personajuridicaCRUDBean.comboTipodocumentoAccionista.items.entrySet()}"
+													var="val" itemLabel="#{val.value.abreviatura}"
+													itemValue="#{val.key}" />
+												<f:ajax></f:ajax>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 180px;">NUMERO DOCUMENTO</div>
+										<div>
+											<h:inputText id="txtDniTitular"
+												value="#{personajuridicaCRUDBean.numeroDocumentoAccionista}"
+												required="true" maxlength="15" requiredMessage="Ingrese dni"
+												validatorMessage="Número de documento Invalido"
+												converterMessage="Número de documento Invalido"
+												onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+												pt:placeholder="12345678">
+												<f:convertNumber type="number" integerOnly="true" />
+												<f:ajax
+													listener="#{personajuridicaCRUDBean.buscarPersonanaturalAccionista()}"
+													render="@form"></f:ajax>
+											</h:inputText>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipodocumentoTitular" />
+									<h:message for="txtDniTitular" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 190px;">APELLIDO PATERNO</div>
+										<div>
+											<div>
+												<h:inputText id="txtApellidoPaternoTitular"
+													value="#{personajuridicaCRUDBean.apellidoPaternoAccionista}"
+													required="true" maxlength="50"
+													requiredMessage="Ingrese apellido paterno"
+													onkeyup="this.value = this.value.toUpperCase();"
+													pt:placeholder="Apellido paterno">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 180px;">APELLIDO MATERNO</div>
+										<div>
+											<div>
+												<h:inputText id="txtApellidoMaternoTitular"
+													value="#{personajuridicaCRUDBean.apellidoMaternoAccionista}"
+													required="true" maxlength="50"
+													requiredMessage="Ingrese apellido materno"
+													onkeyup="this.value = this.value.toUpperCase();"
+													pt:placeholder="Apellido materno">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtApellidoPaternoTitular" />
+									<h:message for="txtApellidoMaternoTitular" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section"
+									style="width: 190px;">
+									<div class="p6n-api-consent-screen-label" style="width: 190px;">NOMBRES</div>
+									<div>
+										<div>
+											<h:inputText id="txtNombresTitular"
+												value="#{personajuridicaCRUDBean.nombresAccionista}"
+												required="true" maxlength="50"
+												requiredMessage="Ingrese nombres"
+												onkeyup="this.value = this.value.toUpperCase();"
+												style="width:339px;" pt:placeholder="Nombres">
+											</h:inputText>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtNombresTitular" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 190px;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 190px;">SEXO</div>
+										<div>
+											<div>
+												<h:selectOneMenu id="cmbSexoTitular"
+													value="#{personajuridicaCRUDBean.comboSexoAccionista.itemSelected}"
+													required="true" requiredMessage="Seleccione sexo">
+													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+													<f:selectItems
+														value="#{personajuridicaCRUDBean.comboSexoAccionista.items.entrySet()}"
+														var="val" itemLabel="#{val.value.denominacion}"
+														itemValue="#{val.key}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 180px;">FECHA DE NACIMIENTO</div>
+										<div>
+											<div>
+												<p:calendar id="txtFechanacimientoTitular"
+													value="#{personajuridicaCRUDBean.fechaNacimientoAccionista}"
+													navigator="true" pattern="dd/MM/yy" required="true"
+													requiredMessage="Ingrese fecha de nacimiento"
+													converterMessage="formato incorrecto"
+													pt:placeholder="dd/mm/yyyy">
+													<f:convertDateTime pattern="dd/MM/yy" />
+												</p:calendar>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbSexoTitular" />
+									<h:message for="txtFechanacimientoTitular" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section"
+									style="width: 190px;">
+									<div class="p6n-api-consent-screen-label" style="width: 190px;">PORCENTAJE
+										PARTICIPACION(%)</div>
+									<div>
+										<div>
+											<h:inputText id="txtPorcentajeParticipacion"
+												value="#{personajuridicaCRUDBean.porcentajeParticipacionAccionista}"
+												required="true" maxlength="6"
+												requiredMessage="Ingrese porcentaje"
+												converterMessage="Número invalido" pt:placeholder="(%)">
+												<f:convertNumber type="number" maxIntegerDigits="2"
+													minIntegerDigits="1" />
+											</h:inputText>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtPorcentajeParticipacion" />
+								</div>
+							</div>
+							<br />
+						</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Guardar"
+								action="#{personajuridicaCRUDBean.addAccionista()}"
+								styleClass="action blue">
+							</h:commandButton>
+							<h:commandButton value="Cancelar" styleClass="action">
+								<f:ajax
+									listener="#{personajuridicaCRUDBean.setDlgAccionistaOpen(false)}"
+									render="@form :panelGroupDlgAccionista" />
+							</h:commandButton>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{personajuridicaCRUDBean.success}">
+			<h:form>
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+				<div class="modal-dialog p6n-popup" style="left: 502px; top: 200px;">
+					<div class="modal-dialog-title modal-dialog-title-draggable">
+						<span class="modal-dialog-title-text">Creacion
+							satisfactoria</span><span class="modal-dialog-title-close"></span>
+					</div>
+					<div class="modal-dialog-content ng-binding">La persona fue
+						creada satistactoriamente.</div>
+					<div class="modal-dialog-buttons">
+						<h:commandButton value="Crear nuevo"
+							action="create?faces-redirect=true" icon="ui-icon-print" />
+						<h:commandButton value="Volver" action="list" immediate="true" />
+					</div>
+				</div>
+			</h:form>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{personajuridicaCRUDBean.failure}">
+			<h:form>
+				<div class="p6n-api-access-in-page-error" style="left: 516px;">
+					<div>
+						<div>
+							<p>
+								<h:messages />
+							</p>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</h:panelGroup>
+
+	</ui:define>
+
+</ui:composition>
+</html>

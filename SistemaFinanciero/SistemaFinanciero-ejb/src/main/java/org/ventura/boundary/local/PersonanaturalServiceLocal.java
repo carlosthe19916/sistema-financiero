@@ -17,6 +17,8 @@ public interface PersonanaturalServiceLocal extends PersonanaturalServiceRemote{
 
 	public Personanatural find(Object id) throws Exception;
 	
+	public List<Personanatural> find(String searched, int resultLimit) throws Exception;
+	
 	public Personanatural find(Tipodocumento tipodocumento, String numerodocumento) throws Exception;
 	
 	public void update(Personanatural personanatural) throws Exception;

@@ -37,7 +37,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	private Log log;
 
 	@EJB
-	private PersonajuridicaDAO oPersonajuridicaDAO;
+	private PersonajuridicaDAO personajuridicaDAO;
 	
 	@EJB
 	private AccionistaDAO accionistaDAO;
@@ -48,7 +48,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	@Override
 	public Personajuridica create(Personajuridica personajuridica) throws Exception  {
 		try{
-			oPersonajuridicaDAO.create(personajuridica);
+			personajuridicaDAO.create(personajuridica);
 		}catch(Exception e){
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -61,7 +61,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	@Override
 	public void update(Personajuridica oPersonajuridica) throws Exception {
 		try {
-			oPersonajuridicaDAO.update(oPersonajuridica);
+			personajuridicaDAO.update(oPersonajuridica);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -73,7 +73,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	@Override
 	public void delete(Personajuridica oPersonajuridica) throws Exception {
 		try {
-			oPersonajuridicaDAO.delete(oPersonajuridica);
+			personajuridicaDAO.delete(oPersonajuridica);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -97,7 +97,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	public Personajuridica find(Object id) throws Exception {
 		Personajuridica Personajuridica = null;
 		try {
-			Personajuridica = oPersonajuridicaDAO.find(id);
+			Personajuridica = personajuridicaDAO.find(id);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -110,7 +110,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	@Override
 	public Collection<Personajuridica> findByNamedQuery(String queryName) throws Exception { Collection<Personajuridica> collection = null;
 		try {
-			collection = oPersonajuridicaDAO.findByNamedQuery(queryName);
+			collection = personajuridicaDAO.findByNamedQuery(queryName);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -124,7 +124,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	public Collection<Personajuridica> findByNamedQuery(String queryName, int resultLimit) throws Exception {
 		Collection<Personajuridica> collection = null;
 		try {
-			collection = oPersonajuridicaDAO.findByNamedQuery(queryName, resultLimit);
+			collection = personajuridicaDAO.findByNamedQuery(queryName, resultLimit);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -138,7 +138,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	public List<Personajuridica> findByNamedQuery(String Personajuridica, Map<String, Object> parameters) throws Exception {
 		List<Personajuridica> list = null;
 		try {
-			list = oPersonajuridicaDAO.findByNamedQuery(Personajuridica, parameters);
+			list = personajuridicaDAO.findByNamedQuery(Personajuridica, parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -152,7 +152,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	public List<Personajuridica> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception {
 		List<Personajuridica> list = null;
 		try {
-			list = oPersonajuridicaDAO.findByNamedQuery(namedQueryName, parameters);
+			list = personajuridicaDAO.findByNamedQuery(namedQueryName, parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -164,13 +164,29 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	}
 
 	@Override
+	public List<Personajuridica> find(String searched, int resultLimit) throws Exception {
+		List<Personajuridica> resultList = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("searched", "%" + searched + "%");
+			resultList = personajuridicaDAO.findByNamedQuery(Personajuridica.f_searched, parameters, resultLimit);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return resultList;
+	}
+	
+	@Override
 	public Personajuridica find(Tipodocumento tipodocumento, String numerodocumento) throws Exception {
 		Personajuridica personajuridica = null;
 		try{
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("tipodocumento", tipodocumento);
 			parameters.put("numerodocumento", numerodocumento);
-			List<Personajuridica> list = oPersonajuridicaDAO.findByNamedQuery(Personajuridica.FindByTipodocumentoNumerodocumento, parameters);
+			List<Personajuridica> list = personajuridicaDAO.findByNamedQuery(Personajuridica.FindByTipodocumentoNumerodocumento, parameters);
 			if(list.size() == 1){
 				personajuridica = list.get(0);
 				
@@ -330,5 +346,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 		}
 		return personajuridica;
 	}
+
+
 	
 }

@@ -8,6 +8,7 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.PersonajuridicaServiceRemote;
 import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 
 @Local
@@ -21,6 +22,8 @@ public interface PersonajuridicaServiceLocal extends PersonajuridicaServiceRemot
 	
 	public Personajuridica find(Object id) throws Exception;
 
+	public List<Personajuridica> find(String searched, int resultLimit) throws Exception;
+	
 	public Personajuridica find(Tipodocumento tipodocumento, String numerodocumento) throws Exception;
 	
 	public void delete(Personajuridica personajuridica) throws Exception;
