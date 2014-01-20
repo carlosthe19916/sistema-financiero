@@ -281,6 +281,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 						representanteLegal.setApellidomaterno(apellidoMaternoRepresentantelegal);
 						representanteLegal.setNombres(nombresRepresentantelegal);
 						representanteLegal.setFechanacimiento(fechaNacimientoRepresentantelegal);
+						representanteLegal.setSexo(comboSexoRepresentantelegal.getObjectItemSelected());
 						
 						List<Accionista> listAccionistas = new ArrayList<Accionista>();
 						listAccionistas.addAll(accionistas.values());
@@ -342,7 +343,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 				}
 			}			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			JsfUtil.addErrorMessage(e, e.getMessage());
 			e.printStackTrace();
 		}
 		this.interesGenerado = result;
@@ -367,7 +368,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
 		Personanatural personanatural = null;
 		try {
-			personanatural = personanaturalServiceLocal.findByTipodocumento(tipodocumento, numeroDocumento);
+			personanatural = personanaturalServiceLocal.find(tipodocumento, numeroDocumento);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}
@@ -377,7 +378,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	public Personajuridica buscarPersonajuridica(Tipodocumento tipodocumento, String numeroDocumento){
 		Personajuridica personajuridica = null;
 		try {
-			personajuridica = personajuridicaServiceLocal.findByTipodocumento(tipodocumento, numeroDocumento);
+			personajuridica = personajuridicaServiceLocal.find(tipodocumento, numeroDocumento);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}
@@ -783,11 +784,6 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 			String keyMap = beneficiario.getApellidopaterno()+beneficiario.getApellidomaterno()+beneficiario.getNombres();
 			this.beneficiarios.remove(keyMap);
 		} 
-	}
-	
-	public void changeTipomoneda(ValueChangeEvent event) {
-		Integer key = (Integer) event.getNewValue();
-		Tipomoneda tipodocumentoSelected = comboTipomoneda.getObjectItemSelected(key);
 	}
 	
 	public void changeTipodocumentoPersonanatural(ValueChangeEvent event) {
@@ -1482,7 +1478,6 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setTrea(BigDecimal trea) {
 		this.trea = trea;
-		this.trea = trea.setScale(2, RoundingMode.DOWN);
 	}
 
 	public BigDecimal getTea() {
@@ -1491,15 +1486,10 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setTea(BigDecimal tea) {
 		this.tea = tea;
-		this.tea = tea.setScale(2, RoundingMode.DOWN);
 	}
 
 	public BigDecimal getInteresGenerado() {
 		return interesGenerado;
-	}
-
-	public void setInteresGenerado(BigDecimal interesGenerado) {
-		interesGenerado = interesGenerado;
 	}
 
 	public boolean isCuentaCreada() {

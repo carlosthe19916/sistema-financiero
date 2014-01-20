@@ -16,12 +16,14 @@ import java.util.List;
 @Table(name = "tipodocumento", schema = "persona")
 @NamedQuery(name = "Tipodocumento.findAll", query = "SELECT t FROM Tipodocumento t")
 @NamedQueries({
-		@NamedQuery(name = Tipodocumento.AllForPersonaNatural, query = "SELECT t FROM Tipodocumento t WHERE t.tipopersona = 'PN'"),
-		@NamedQuery(name = Tipodocumento.AllForPersonaJuridica, query = "SELECT t FROM Tipodocumento t WHERE t.tipopersona = 'PJ'") })
+		@NamedQuery(name = Tipodocumento.AllForPersonaNatural, query = "SELECT t FROM Tipodocumento t WHERE t.tipopersona = 'PN' AND t.estado = TRUE"),
+		@NamedQuery(name = Tipodocumento.AllForPersonaJuridica, query = "SELECT t FROM Tipodocumento t WHERE t.tipopersona = 'PJ' AND t.estado = TRUE"),
+		@NamedQuery(name = Tipodocumento.All_active, query = "SELECT t FROM Tipodocumento t WHERE t.estado = TRUE") })
 public class Tipodocumento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public final static String All_active = "org.ventura.entity.schema.persona.Tipodocumento.All_active";
 	public final static String AllForPersonaNatural = "org.ventura.entity.schema.persona.Tipodocumento.AllForPersonaNatural";
 	public final static String AllForPersonaJuridica = "org.ventura.entity.schema.persona.Tipodocumento.AllForPersonaJuridica";
 

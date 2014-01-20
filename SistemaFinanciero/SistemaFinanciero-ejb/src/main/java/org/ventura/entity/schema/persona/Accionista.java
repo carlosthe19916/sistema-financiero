@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+
 import java.math.BigDecimal;
 
 /**
@@ -25,12 +26,10 @@ public class Accionista implements Serializable {
 	@Column(nullable = false, precision = 4, scale = 2)
 	private BigDecimal porcentajeparticipacion;
 
-	// bi-directional many-to-one association to Personajuridica
 	@ManyToOne
 	@JoinColumn(name = "idpersonajuridica", nullable = false)
 	private Personajuridica personajuridica;
 
-	// bi-directional many-to-one association to Personanatural
 	@ManyToOne
 	@JoinColumn(name = "idpersonanatural", nullable = false)
 	private Personanatural personanatural;
@@ -70,4 +69,20 @@ public class Accionista implements Serializable {
 		this.idaccionista = idaccionista;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Accionista)) {
+			return false;
+		}
+		// a room can be uniquely identified by it's number and the building it
+		// belongs to
+		final Accionista other = (Accionista) obj;
+		return other.getIdaccionista() == idaccionista ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idaccionista;
+	}
+	
 }

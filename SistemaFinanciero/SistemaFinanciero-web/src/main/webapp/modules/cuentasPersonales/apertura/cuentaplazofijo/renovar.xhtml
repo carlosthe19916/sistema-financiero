@@ -1,0 +1,497 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Renovar Cta. Plazo fijo" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+
+		<h:outputStylesheet library="css" name="main.css" />
+		<div>
+
+			<br />
+			<div>
+				<h:panelGroup rendered="#{!renovarCuentaplazofijoBean.cuentaValida}">
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">RENOVAR CUENTA
+								PLAZO FIJO</div>
+							<div class="p6n-api-consent-screen-inputs">
+								<h:form>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
+										<div>
+											<div style="float: left;">
+												<h:inputText
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.numerocuenta}"
+													readonly="true" />
+											</div>
+											<div style="float: left;">
+												<h:commandLink styleClass="button"
+													style="margin: 0 0 0 1px;">
+													<span class="icon icon198"></span>
+													<f:ajax render=":panelGroupDialog :formDialog"
+														listener="#{renovarCuentaplazofijoBean.setDlgBusquedaOpen(true)}" />
+												</h:commandLink>
+											</div>
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+										style="float: inherit;">
+										<h:message for="txtNumeroCuenta" />
+									</div>
+								</h:form>
+
+								<h:panelGroup id="panelGroupDialog">
+									<h:panelGroup
+										rendered="#{renovarCuentaplazofijoBean.dlgBusquedaOpen}">
+										<h:form id="formDialog">
+											<div class="modal-dialog-bg"
+												style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+											<div class="modal-dialog p6n-popup"
+												style="left: 302px; top: 50px;">
+												<div class="modal-dialog-title modal-dialog-title-draggable">
+													<span class="modal-dialog-title-text">Buscar Cuenta</span><span
+														class="modal-dialog-title-close"></span>
+												</div>
+												<div class="modal-dialog-content">
+													<div id="p6n-cloudsql-content">
+														<div>
+															<div>
+																<div>
+																	<div>
+																		<h:inputText
+																			value="#{renovarCuentaplazofijoBean.campoBusqueda}"
+																			style="width: 250px;float: left;" />
+																		&nbsp;
+																		<h:commandLink styleClass="button"
+																			style="margin: 0px;float: left;">
+																			<span class="icon icon198"></span>
+																			<span class="label"></span>
+																			<f:ajax execute="@form"
+																				listener="#{renovarCuentaplazofijoBean.buscarCuentabancaria()}"
+																				render="tblResultadoBusqueda" />
+																		</h:commandLink>
+																		<h:selectOneMenu id="cmbTipoBusqueda"
+																			value="#{renovarCuentaplazofijoBean.comboTipodocumento.itemSelected}"
+																			valueChangeListener="#{renovarCuentaplazofijoBean.changeTipodocumento}"
+																			required="true"
+																			requiredMessage="Seleccione un Tipo de Busueda">
+																			<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+																			<f:selectItems
+																				value="#{renovarCuentaplazofijoBean.comboTipodocumento.items.entrySet()}"
+																				var="val" itemLabel="#{val.value.abreviatura}"
+																				itemValue="#{val.key}" />
+																			<f:ajax execute="@this" />
+																		</h:selectOneMenu>
+																	</div>
+																	<div
+																		class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+																		<h:messages />
+																	</div>
+																</div>
+															</div>
+														</div>
+														<hr />
+														<div class="p6n-cloudsql-form" style="width: 705px;">
+															<div
+																class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
+																<div class="p6n-cloudsql-name-input ">
+																	<div class="p6n-input-prepend"
+																		style="display: initial;">
+																		<p:dataTable id="tblResultadoBusqueda" var="cuenta"
+																			value="#{renovarCuentaplazofijoBean.tablaCuentabancaria.rows}"
+																			selectionMode="single"
+																			selection="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected}"
+																			rowKey="#{cuenta}" rowIndexVar="row">
+
+																			<p:column headerText="Nro" style="text-align:center;">
+																				<h:outputText value="#{row + 1}" />
+																			</p:column>
+																			<p:column headerText="Nro Cuenta">
+																				<h:outputText value="#{cuenta.numerocuenta}" />
+																			</p:column>
+																			<p:column headerText="Tipo Cta">
+																				<h:outputText
+																					value="#{cuenta.denominacionTipocuentabancaria}" />
+																			</p:column>
+																			<p:column headerText="Moneda">
+																				<h:outputText
+																					value="#{cuenta.denominacionTipomoneda}" />
+																			</p:column>
+																			<p:column headerText="Titular">
+																				<h:outputText value="#{cuenta.titular}" />
+																			</p:column>
+																			<p:column headerText="Nro Documento">
+																				<h:outputText
+																					value="#{cuenta.abreviaturaTipodocumento}: #{cuenta.numeroDocumento}" />
+																			</p:column>
+																		</p:dataTable>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="modal-dialog-buttons">
+													<h:commandButton value="Aceptar"
+														action="#{renovarCuentaplazofijoBean.setCuentabancariaSelected()}"
+														styleClass="action blue">
+													</h:commandButton>
+													<h:commandButton value="Cancelar" styleClass="action">
+														<f:ajax render=":panelGroupDialog :formDialog"
+															listener="#{renovarCuentaplazofijoBean.setDlgBusquedaOpen(false)}" />
+													</h:commandButton>
+												</div>
+											</div>
+										</h:form>
+									</h:panelGroup>
+								</h:panelGroup>
+
+								<br />
+								<div class="sf-separator p6n-api-consent-screen-input-section">
+									<h3 class="p6n-api-consent-screen-title"
+										style="color: #298B11;">Datos de cuenta</h3>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 300px;">
+										<div class="p6n-api-consent-screen-label">SOCIO</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.titular}" />
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label">DOCUMENTO</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.abreviaturaTipodocumento}" />
+												<h:outputLabel value=":"
+													rendered="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected != null}" />
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.numeroDocumento}" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 300px;">
+										<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.numerocuenta}" />
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block; width: 300px;">
+										<div class="p6n-api-consent-screen-label">TIPO CUENTA</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.denominacionTipocuentabancaria}" />
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block; width: 300px;">
+										<div class="p6n-api-consent-screen-label">TIPO MONEDA</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.abreviaturaTipomomeda} #{renovarCuentaplazofijoBean.cuentabancariaViewSelected.denominacionTipomoneda}" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 300px;">
+										<div class="p6n-api-consent-screen-label">DEPOSITO</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.saldoCuentabancaria}"
+													styleClass="sf-label-bold" />
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block; width: 300px;">
+										<div class="p6n-api-consent-screen-label">INTERES</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.interesCuenta}"
+													styleClass="sf-label-bold" />
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label">TOTAL</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.totalCuenta}"
+													styleClass="sf-label-bold" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block; width: 300px;">
+										<div class="p6n-api-consent-screen-label">FECHA APERTURA</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.fechaaperturaCuentabancaria}">
+													<f:convertDateTime pattern="dd/MM/yy" />
+												</h:outputLabel>
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block; width: 300px;">
+										<div class="p6n-api-consent-screen-label">FECHA CIERRE</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.fechacierreCuentabancaria}">
+													<f:convertDateTime pattern="dd/MM/yy" />
+												</h:outputLabel>
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label">PERIODO</div>
+										<div>
+											<div>
+												<h:outputLabel
+													value="#{renovarCuentaplazofijoBean.periodoCuenta}" />
+
+												<h:outputLabel value=" dias"
+													rendered="#{renovarCuentaplazofijoBean.periodoCuenta != null}" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<br />
+
+								<div class="sf-separator">
+									<h3 class="p6n-api-consent-screen-title"
+										style="color: #298B11;">Datos de renovacion</h3>
+								</div>
+								<h:form>
+									<div style="display: inline-block; width: 300px;">
+										<div class="p6n-api-consent-screen-input-section">
+											<div class="p6n-api-consent-screen-label">MONTO
+												RENOVACION</div>
+											<div>
+												<h:inputText id="txtMonto" required="true"
+													requiredMessage="Ingrese monto"
+													converterMessage="Ingrese monto valido Ejemplo: 999.00"
+													value="#{renovarCuentaplazofijoBean.montoRenovacion}"
+													pt:placeholder="0.00">
+													<f:converter converterId="javax.faces.BigDecimal"
+														maxFractionDigits="2" minFractionDigits="2" pattern="0.00" />
+												</h:inputText>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtMonto" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div class="p6n-api-consent-screen-label">PERIODO
+												DEPOSITO(dias)</div>
+											<div>
+												<h:inputText id="txtPeriodo" required="true"
+													requiredMessage="Ingrese un periodo"
+													converterMessage="Ingrese cantidad de dias valido Ejemplo: 360"
+													pt:placeholder="0 dias"
+													value="#{renovarCuentaplazofijoBean.periodoRenovacion}">
+													<f:convertNumber integerOnly="true" type="number" />
+												</h:inputText>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtPeriodo" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div class="p6n-api-consent-screen-label">TEA</div>
+											<div>
+												<h:inputText id="txtTea" required="true"
+													requiredMessage="Ingrese tea"
+													converterMessage="Ingrese tea valido Ejemplo: 9.00"
+													value="#{renovarCuentaplazofijoBean.teaRenovacion}"
+													pt:placeholder="0.00">
+													<f:converter converterId="javax.faces.BigDecimal"
+														maxFractionDigits="2" minFractionDigits="2" pattern="0.00" />
+												</h:inputText>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtTea" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div class="p6n-api-consent-screen-label">TREA</div>
+											<div>
+												<h:inputText id="txtTrea" required="true"
+													requiredMessage="Ingrese trea"
+													converterMessage="Ingrese trea valido Ejemplo: 9.00"
+													value="#{renovarCuentaplazofijoBean.treaRenovacion}"
+													pt:placeholder="0.00">
+													<f:converter converterId="javax.faces.BigDecimal"
+														maxFractionDigits="2" minFractionDigits="2" pattern="0.00" />
+												</h:inputText>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtTrea" />
+										</div>
+										<br />
+										<div class="sf-buttons" style="float: left;">
+											<h:commandButton value="Guardar"
+												action="#{renovarCuentaplazofijoBean.renovarCuentaaporte()}"
+												styleClass="action blue" />
+											<h:commandButton value="Cancelar" immediate="true"
+												styleClass="action" />
+										</div>
+									</div>
+
+									<div
+										style="display: inline-block; margin-top: 25px; vertical-align: top;">
+
+										<h1 class="sf-label-bold">RESUMEN</h1>
+										<div class="p6n-cloudsql-summary">
+											<div>
+												<div class="p6n-cloudsql-summary-bold">Moneda</div>
+												<div class="p6n-cloudsql-summary-light">
+													<h:outputLabel
+														value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.abreviaturaTipomomeda} #{renovarCuentaplazofijoBean.cuentabancariaViewSelected.denominacionTipomoneda}" />
+												</div>
+											</div>
+											<div>
+												<div style="display: inline-block; width: 150px;">
+													<div class="p6n-cloudsql-summary-bold">Fecha apertura</div>
+													<div class="p6n-cloudsql-summary-light">
+														<h:outputLabel
+															value="#{renovarCuentaplazofijoBean.fechaAperturaRenovacion}">
+															<f:convertDateTime pattern="dd/MM/yy" />
+														</h:outputLabel>
+													</div>
+												</div>
+												<div style="display: inline-block; width: 150px;">
+													<div class="p6n-cloudsql-summary-bold">Fecha cierre</div>
+													<div class="p6n-cloudsql-summary-light">
+														<h:outputLabel
+															value="#{renovarCuentaplazofijoBean.fechaCierreRenovacion}">
+															<f:convertDateTime pattern="dd/MM/yy" />
+														</h:outputLabel>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-cloudsql-summary-bold">Periodo</div>
+													<div class="p6n-cloudsql-summary-light">
+														<h:outputLabel
+															value="#{renovarCuentaplazofijoBean.periodoRenovacion}" />
+														<h:outputLabel value="dias"
+															rendered="#{renovarCuentaplazofijoBean.periodoRenovacion != null}" />
+													</div>
+												</div>
+											</div>
+											<div>
+												<div style="display: inline-block; width: 150px;">
+													<div class="p6n-cloudsql-summary-bold">Deposito</div>
+													<div class="p6n-cloudsql-summary-light">
+														<h:outputLabel
+															value="#{renovarCuentaplazofijoBean.montoRenovacion}"
+															styleClass="sf-label-bold" />
+													</div>
+												</div>
+												<div style="display: inline-block; width: 150px;">
+													<div class="p6n-cloudsql-summary-bold">Interes</div>
+													<div class="p6n-cloudsql-summary-light">
+														<h:outputLabel
+															value="#{renovarCuentaplazofijoBean.interesRenovacion}"
+															styleClass="sf-label-bold" />
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-cloudsql-summary-bold">Total</div>
+													<div class="p6n-cloudsql-summary-light">
+														<h:outputLabel
+															value="#{renovarCuentaplazofijoBean.totalRenovacion}"
+															styleClass="sf-label-bold" />
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<div class="p6n-cloudsql-buttonbar">
+											<h:commandButton value="Recalcular"
+												action="#{renovarCuentaplazofijoBean.calcularInteresGenerado}"
+												styleClass="action" />
+										</div>
+									</div>
+								</h:form>
+
+								<h:panelGroup
+									rendered="#{renovarCuentaplazofijoBean.cuentaCreada}">
+									<h:form>
+										<div class="modal-dialog-bg"
+											style="opacity: 0.4; width: 1366px; height: 1102px;"></div>
+										<div class="modal-dialog p6n-popup"
+											style="left: 502px; top: 200px;">
+											<div class="modal-dialog-title modal-dialog-title-draggable">
+												<span class="modal-dialog-title-text">Creacion
+													satisfactoria</span><span class="modal-dialog-title-close"></span>
+											</div>
+											<div class="modal-dialog-content ng-binding">La cuenta
+												a plazo fijo fue creada satistactoriamente.</div>
+											<div class="modal-dialog-buttons">
+												<h:commandButton value="Imprimir" icon="ui-icon-print">
+
+												</h:commandButton>
+												<h:commandButton value="Salir"
+													action="returnFromAperturaCuentaplazofijoFlow" />
+											</div>
+										</div>
+									</h:form>
+								</h:panelGroup>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

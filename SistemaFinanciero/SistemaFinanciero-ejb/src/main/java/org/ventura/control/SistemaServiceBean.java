@@ -33,8 +33,10 @@ import org.ventura.tipodato.Moneda;
 import org.ventura.util.helper.TasaInteres;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipoCambioCompraVentaType;
+import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 import org.ventura.util.math.BigDecimalMath;
 
 @Named
@@ -101,10 +103,10 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 				Tipotasa tipotasa = null;
 				
 				if(cuentabancaria.getTipocuentabancaria().equals(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_AHORRO))){
-					tipotasa = ProduceObject.getTipotasa(TipoCambioCompraVentaType.CUENTA_AHORRO_TASA_INTERES);
+					tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
 				}
 				if(cuentabancaria.getTipocuentabancaria().equals(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_CORRIENTE))){
-					tipotasa = ProduceObject.getTipotasa(TipoCambioCompraVentaType.CUENTA_CORRIENTE_TASA_INTERES);
+					tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
 				}
 							
 				CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -118,10 +120,10 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 						
 				//calculo de interes
 				Moneda capital = cuentabancaria.getSaldo();	
-				TasaInteres i = cuentabancariaTipotasa.getTasainteres();
+				BigDecimal i = cuentabancariaTipotasa.getTasainteres();
 				
 				//operaciones
-				BigDecimal x = i.getValue().divide(new BigDecimal(100));
+				BigDecimal x = i.divide(new BigDecimal(100));
 				x = x.add(new BigDecimal(1));
 				
 				BigDecimal potencia = new BigDecimal(1);

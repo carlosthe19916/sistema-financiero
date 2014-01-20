@@ -11,15 +11,12 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Accionista;
-import org.ventura.entity.schema.persona.Personajuridica;
-import org.ventura.entity.schema.persona.Personanatural;
-import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.util.maestro.TipocuentabancariaType;
 
 public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 			
-		public Cuentaaporte createCuentaAporteWithPersonanatural(Cuentaaporte cuentaaporte) throws Exception;
-
-		public Cuentaaporte createCuentaAporteWithPersonajuridica(Cuentaaporte cuentaaporte) throws Exception;
+		public Cuentaaporte create(Cuentaaporte cuentaaporte) throws Exception;
 
 		public Cuentaaporte find(Object id) throws Exception;
 
@@ -35,14 +32,12 @@ public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 		
 		public List<Beneficiario> findByNamedQueryBeneficiario(String beneficiario, Map<String, Object> parameters) throws Exception;
 		
-		public void removeBeneficiario(String cuentaAporte, Object parameters) throws Exception;
-		
-		public void updateBeneficiario(Socio oSocio) throws Exception;
-		
 		public List<Accionista> findByNamedQueryAccionista(String accionista, Map<String, Object> parameters) throws Exception;
 
 		public List<Cuentaaporte> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception;
 		
+		
+		public List<CuentaaporteView> findCuentaaporteView(Tipodocumento tipodocumento, String campoBusqueda)throws Exception;
 		
 		public Cuentaaporte findByNumerocuenta(String numerocuenta) throws Exception;
 

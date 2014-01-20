@@ -1,14 +1,10 @@
 package org.ventura.control;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +17,11 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.TemporalType;
 import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
-import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.dao.impl.AportesCuentaaporteViewDAO;
@@ -38,14 +33,10 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
-import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Accionista;
-import org.ventura.entity.schema.persona.Personajuridica;
-import org.ventura.entity.schema.persona.Personanatural;
-import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.IllegalEntityException;
-import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
 
@@ -76,71 +67,18 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	private Log log;
 
 	@Override
-	public Cuentaaporte createCuentaAporteWithPersonanatural(Cuentaaporte cuentaaporte) throws Exception {
-		try {	
+	public Cuentaaporte create(Cuentaaporte cuentaaporte) throws Exception {
+		try {
 			cuentaaporteDAO.create(cuentaaporte);
-			
-			//Socio socio = cuentaaporte.getSocio();
-			//socio.setCuentaaporte(cuentaaporte);
-			//socio = buscarSocioPersonaNatural(socio);			
-		} catch(PreexistingEntityException e){
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getMessage());
 		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error al insertar los datos");
-		}
-		return cuentaaporte;
-	}
-
-	@Override
-	public Cuentaaporte createCuentaAporteWithPersonajuridica(Cuentaaporte cuentaaporte) throws Exception {
-		try {	
-			cuentaaporteDAO.create(cuentaaporte);
-			
-			/*Socio socio = new Socio();
-			socio.setCuentaaporte(cuentaaporte);
-			socio = buscarSocioPersonaNatural(socio);
-						
-			cuentaaporteDAO.create(cuentaaporte);		*/	
-		} catch(PreexistingEntityException e){
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error:" + e.getMessage());
-		} catch (Exception e) {
-			log.error("Error:" + e.getClass() + " " + e.getCause());
-			throw new Exception("Error al insertar los datos");
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
 		}
 		return cuentaaporte;
 	}
 	
-	protected Socio buscarSocioPersonaNatural(Socio socio) throws PreexistingEntityException, Exception {
-		/*if (socio != null) {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("dni", socio.getDni());
-			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByDni, parameters);
-			if (result.size() == 0) {
-				socioServiceLocal.create(socio);
-			} else {
-				throw new PreexistingEntityException("La Persona Natural ya tiene una cuenta de aportes Activa");
-			}
-		}*/
-		return socio;
-	}
-
-	protected Socio buscarSocioPersonaJuridica(Socio socio) throws PreexistingEntityException, Exception {
-		/*if (socio != null) {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("ruc", socio.getDni());
-			List<Socio> result = socioServiceLocal.findByNamedQuery(Socio.FindByRuc, parameters);
-			if (result.size() == 0) {
-				socioServiceLocal.create(socio);
-			} else {
-				throw new PreexistingEntityException("La Persona Juridica ya tiene una cuenta de aportes Activa");
-			}
-		}*/
-		return socio;
-	}
-
 	@Override
 	public Cuentaaporte find(Object id) {
 		try {
@@ -254,51 +192,6 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		}
 		return null;
 	}
-	
-	@Override
-	public void removeBeneficiario(String cuentaAporte, Object parameters) throws Exception {
-		try {
-			cuentaaporteDAO.executeQuerry(cuentaAporte, parameters);
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-	
-	@Override
-	public void updateBeneficiario(Socio oSocio) throws Exception{
-		try{
-			/*List<Beneficiario> beneficiarios = oSocio.getCuentaaporte().getBeneficiarios();
-			if(beneficiarios != null){
-				for (Iterator<Beneficiario> iterator = beneficiarios.iterator(); iterator.hasNext();) {
-					Beneficiario beneficiariocuenta = (Beneficiario) iterator.next();
-					beneficiariocuenta.setIdbeneficiariocuenta(null);
-					beneficiariocuenta.setCuentaaporte(oSocio.getCuentaaporte());
-					
-					createBeneficiario(beneficiariocuenta);
-				}
-			}*/
-		}catch(Exception e){
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-
-	private void createBeneficiario(Beneficiario beneficiariocuenta) throws Exception{
-		try {
-			beneficiariocuentaDAO.create(beneficiariocuenta);
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-	}
-	
 	
 	@Override
 	public Cuentaaporte findByNumerocuenta(String numerocuenta) throws Exception {
@@ -449,7 +342,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			aportesCuentaaporteViews = aportesCuentaaporteViewDAO.findByNamedQuery(AportesCuentaaporteView.findBetweenDates,parameters);
 						
 			
-			
+	
 			//completando las fechas
 			Calendar beginCalendar = Calendar.getInstance();
 			Calendar endCalendar = Calendar.getInstance();
@@ -582,5 +475,27 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		
 		return aportesCuentaaporteViews;
 	}
+
+	@Override
+	public List<CuentaaporteView> findCuentaaporteView(Tipodocumento tipodocumento, String campoBusqueda) throws Exception {
+		List<CuentaaporteView> cuentaaporteViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
+			parameters.put("estado", true);
+			parameters.put("searched", "%" + campoBusqueda + "%");
+
+			cuentaaporteViews = cuentaaporteViewDAO.findByNamedQuery(CuentaaporteView.f_tipodocumento_estado_searched,parameters,10);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporteViews;
+	}
+
+	
 
 }

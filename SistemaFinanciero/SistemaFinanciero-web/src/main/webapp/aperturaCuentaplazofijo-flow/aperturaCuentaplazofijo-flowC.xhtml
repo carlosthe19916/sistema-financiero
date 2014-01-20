@@ -58,17 +58,14 @@
 							</div>
 						</div>
 						<div class="p6n-cloudsql-buttonbar">
-							<h:commandButton value="Recalcular" styleClass="action blue">
-								<f:ajax execute=":formDatos"
-									listener="#{aperturaCuentaplazofijoBean.calcularInteresGenerado()}"
-									render="@form" />
-							</h:commandButton>
+							<h:commandButton value="Recalcular"
+								action="#{aperturaCuentaplazofijoBean.calcularInteresGenerado()}"
+								styleClass="action blue" />
 						</div>
 					</div>
 				</div>
 			</div>
-		</h:form>
-		<h:form id="formDatos">
+
 			<div style="margin-left: 50px;">
 				<div>
 					<div>
@@ -86,7 +83,6 @@
 										<div>
 											<h:selectOneMenu id="cmbTipomonedaCuentaplazofijo"
 												value="#{aperturaCuentaplazofijoBean.comboTipomoneda.itemSelected}"
-												valueChangeListener="#{aperturaCuentaplazofijoBean.changeTipomoneda}"
 												required="true" requiredMessage="Seleccione tipo de moneda">
 												<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 												<f:selectItems
@@ -94,7 +90,6 @@
 													var="val"
 													itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
 													itemValue="#{val.key}" />
-												<f:ajax></f:ajax>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -114,7 +109,6 @@
 												pt:placeholder="0.00">
 												<f:converter converterId="javax.faces.BigDecimal"
 													maxFractionDigits="2" minFractionDigits="2" pattern="0.00" />
-												<f:ajax event="blur" render="@this" />
 											</h:inputText>
 										</div>
 									</div>
@@ -131,10 +125,10 @@
 											<h:inputText id="txtPeriodo" required="true"
 												requiredMessage="Ingrese un periodo"
 												converterMessage="Ingrese cantidad de dias valido Ejemplo: 360"
-												pt:placeholder="0 dias"
+												maxlength="3" pt:placeholder="0 dias"
 												value="#{aperturaCuentaplazofijoBean.periodoDeposito}">
-												<f:convertNumber integerOnly="true" type="number" />
-												<f:ajax event="blur" />
+												<f:convertNumber integerOnly="true" type="number"
+													groupingUsed="false" />
 											</h:inputText>
 										</div>
 									</div>
@@ -153,8 +147,7 @@
 												pt:placeholder="0.00"
 												value="#{aperturaCuentaplazofijoBean.tea}">
 												<f:converter converterId="javax.faces.BigDecimal"
-													maxFractionDigits="2" minFractionDigits="2" pattern="0.00" />
-												<f:ajax event="blur" execute="@this" render="@this" />
+													maxFractionDigits="2" minFractionDigits="2" />
 											</h:inputText>
 										</div>
 									</div>
@@ -172,8 +165,8 @@
 												converterMessage="Ingrese tasa de dias valido Ejemplo: 9.99"
 												pt:placeholder="0.00"
 												value="#{aperturaCuentaplazofijoBean.trea}">
-												<f:convertNumber integerOnly="true" type="number" />
-												<f:ajax event="blur" execute="@this" render="@this" />
+												<f:converter converterId="javax.faces.BigDecimal"
+													maxFractionDigits="2" minFractionDigits="2" pattern="0.00" />
 											</h:inputText>
 										</div>
 									</div>
@@ -187,12 +180,11 @@
 							<br />
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton value="« Anterior" immediate="true"
-									action="aperturaCuentaplazofijo-flowB" styleClass="action" />
-								<h:commandButton value="Siguiente »"
-									action="aperturaCuentaplazofijo-flowD"
+									action="aperturaCuentaplazofijo-flowB"
 									actionListener="#{aperturaCuentaplazofijoBean.removeTitularDefecto()}"
-									
 									styleClass="action" />
+								<h:commandButton value="Siguiente »"
+									action="aperturaCuentaplazofijo-flowD" styleClass="action" />
 							</div>
 						</div>
 					</div>

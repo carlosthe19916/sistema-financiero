@@ -19,8 +19,6 @@ import org.ventura.dao.impl.PersonanaturalDAO;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.util.logger.Log;
-import org.ventura.util.maestro.ProduceObject;
-import org.ventura.util.maestro.TipodocumentoType;
 
 @Stateless
 @Local(PersonanaturalServiceLocal.class)
@@ -32,41 +30,41 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	private Log log;
 
 	@EJB
-	private PersonanaturalDAO oPersonanaturalDAO;
+	private PersonanaturalDAO personanaturalDAO;
 
 	@Override
-	public void create(Personanatural oPersonanatural) throws Exception {
+	public void create(Personanatural personanatural) throws Exception {
 		try {
-			oPersonanaturalDAO.create(oPersonanatural);
+			personanaturalDAO.create(personanatural);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}	
 	}
 
 	@Override
-	public void update(Personanatural oPersonanatural) throws Exception {
+	public void update(Personanatural personanatural) throws Exception {
 		try {
-			oPersonanaturalDAO.update(oPersonanatural);
+			personanaturalDAO.update(personanatural);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 	}
 	
 	@Override
-	public void delete(Personanatural oPersonanatural) throws Exception {
+	public void delete(Personanatural personanatural) throws Exception {
 		try {
-			oPersonanaturalDAO.delete(oPersonanatural);
+			personanaturalDAO.delete(personanatural);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 	}
 	
@@ -74,26 +72,42 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	public Personanatural find(Object id) throws Exception {
 		Personanatural Personanatural = null;		
 		try {
-			Personanatural = oPersonanaturalDAO.find(id);
+			Personanatural = personanaturalDAO.find(id);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		return Personanatural;
+	}
+
+	@Override
+	public List<Personanatural> find(String searched, int resultLimit) throws Exception {
+		List<Personanatural> resultList = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("searched", "%" + searched + "%");
+			resultList = personanaturalDAO.findByNamedQuery(Personanatural.f_searched, parameters, resultLimit);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return resultList;
 	}
 
 	@Override
 	public Collection<Personanatural> findByNamedQuery(String queryName) throws Exception {
 		Collection<Personanatural> collection = null;
 		try {
-			collection = oPersonanaturalDAO.findByNamedQuery(queryName);
+			collection = personanaturalDAO.findByNamedQuery(queryName);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		return collection;
 	}
@@ -102,12 +116,12 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	public Collection<Personanatural> findByNamedQuery(String queryName, int resultLimit) throws Exception {
 		Collection<Personanatural> collection = null;
 		try {
-			collection = oPersonanaturalDAO.findByNamedQuery(queryName, resultLimit);
+			collection = personanaturalDAO.findByNamedQuery(queryName, resultLimit);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		return collection;
 	}
@@ -116,12 +130,12 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	public List<Personanatural> findByNamedQuery(String Personanatural, Map<String, Object> parameters) throws Exception {
 		List<Personanatural> list = null;
 		try {
-			list = oPersonanaturalDAO.findByNamedQuery(Personanatural, parameters);
+			list = personanaturalDAO.findByNamedQuery(Personanatural, parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		return list;
 	}
@@ -130,56 +144,98 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 	public List<Personanatural> findByNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws Exception {
 		List<Personanatural> list = null;
 		try {
-			list = oPersonanaturalDAO.findByNamedQuery(namedQueryName, parameters);
+			list = personanaturalDAO.findByNamedQuery(namedQueryName, parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
-
 		return list;
 	}
 
 	@Override
-	public Personanatural findByDni(String dni) throws Exception {
-		Personanatural personanatural = null;
-		try{
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("tipodocumento", ProduceObject.getTipodocumento(TipodocumentoType.DNI));
-			parameters.put("numerodocumento", dni);
-			List<Personanatural> list = oPersonanaturalDAO.findByNamedQuery(Personanatural.FindByTipodocumentoNumerodocumento, parameters);
-			if(list.size() == 1){
-				personanatural = list.get(0);
-			} else {
-				personanatural = null;
-			}
-		} catch(Exception e){
-			log.error(e.getMessage());
-			log.error("Cause:" + e.getCause());
-			log.error("Class:" + e.getClass());
-		}
-		return personanatural;
-	}
-
-	@Override
-	public Personanatural findByTipodocumento(Tipodocumento tipodocumento,String numerodocumento) throws Exception {
+	public Personanatural find(Tipodocumento tipodocumento,String numerodocumento) throws Exception {
 		Personanatural personanatural = null;
 		try{
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("tipodocumento", tipodocumento);
 			parameters.put("numerodocumento", numerodocumento);
-			List<Personanatural> list = oPersonanaturalDAO.findByNamedQuery(Personanatural.FindByTipodocumentoNumerodocumento, parameters);
+			List<Personanatural> list = personanaturalDAO.findByNamedQuery(Personanatural.f_tipodocumento_numerodocumento, parameters);
 			if(list.size() == 1){
 				personanatural = list.get(0);
 			} else {
 				if(list.size() == 0){
 					personanatural = null;
 				} else {
-					throw new Exception("Existen dos personas duplicadas");	
+					throw new Exception("Existen 2 o mas resultados para la consulta");	
 				}
 			}
 		} catch(Exception e){
+			log.error(e.getMessage());
+			log.error("Cause:" + e.getCause());
+			log.error("Class:" + e.getClass());
+			throw e;
+		}
+		return personanatural;
+	}
+
+	@Override
+	public Personanatural createIfNotExistsUpdateIfExist(Personanatural personanatural) throws Exception {
+		try {
+			Tipodocumento tipodocumento = personanatural.getTipodocumento();
+			String numerodocumento = personanatural.getNumerodocumento();			
+			Personanatural personanaturalBD = find(tipodocumento, numerodocumento);
+			if(personanaturalBD != null){
+				personanaturalBD.setTipodocumento(personanatural.getTipodocumento());
+				personanaturalBD.setNumerodocumento(personanatural.getNumerodocumento());
+				personanaturalBD.setApellidopaterno(personanatural.getApellidopaterno());
+				personanaturalBD.setApellidomaterno(personanatural.getApellidomaterno());
+				personanaturalBD.setNombres(personanatural.getNombres());
+				personanaturalBD.setFechanacimiento(personanatural.getFechanacimiento());
+				personanaturalBD.setSexo(personanatural.getSexo());
+				personanaturalBD.setEstadocivil(personanatural.getEstadocivil());
+				personanaturalBD.setOcupacion(personanatural.getOcupacion());
+				personanaturalBD.setDireccion(personanatural.getDireccion());
+				personanaturalBD.setReferencia(personanatural.getReferencia());
+				personanaturalBD.setTelefono(personanatural.getTelefono());
+				personanaturalBD.setCelular(personanatural.getCelular());
+				personanaturalBD.setEmail(personanatural.getEmail());
+				update(personanaturalBD);
+				personanatural = personanaturalBD;
+			} else {
+				create(personanatural);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:" + e.getCause());
+			log.error("Class:" + e.getClass());
+			throw e;
+		}
+		return personanatural;
+	}
+
+	@Override
+	public Personanatural createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(Personanatural personanatural) throws Exception {
+		try {
+			Tipodocumento tipodocumento = personanatural.getTipodocumento();
+			String numerodocumento = personanatural.getNumerodocumento();			
+			Personanatural personanaturalBD = find(tipodocumento, numerodocumento);
+			if(personanaturalBD != null){
+				personanaturalBD.setTipodocumento(personanatural.getTipodocumento());
+				personanaturalBD.setNumerodocumento(personanatural.getNumerodocumento());
+				personanaturalBD.setApellidopaterno(personanatural.getApellidopaterno());
+				personanaturalBD.setApellidomaterno(personanatural.getApellidomaterno());
+				personanaturalBD.setNombres(personanatural.getNombres());
+				personanaturalBD.setFechanacimiento(personanatural.getFechanacimiento());
+				personanaturalBD.setSexo(personanatural.getSexo());
+				update(personanaturalBD);
+				personanatural = personanaturalBD;
+			} else {
+				create(personanatural);
+			}
+			
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			log.error("Cause:" + e.getCause());
 			log.error("Class:" + e.getClass());

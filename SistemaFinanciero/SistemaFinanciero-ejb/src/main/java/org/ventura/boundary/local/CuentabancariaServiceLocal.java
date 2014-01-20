@@ -1,6 +1,7 @@
 package org.ventura.boundary.local;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -10,6 +11,8 @@ import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.util.maestro.TipocuentabancariaType;
 
 @Local
 public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote {
@@ -28,6 +31,10 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea) throws Exception;
 	
+	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria, int periodo, BigDecimal tea, BigDecimal trea) throws Exception;
+	
+	public Cuentabancaria cancelacionAnticipadaCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea, BigDecimal trea) throws Exception;
+	
 	public List<Cuentabancaria> findAll() throws Exception;
 	
 	public Cuentabancaria findById(Object id) throws Exception;
@@ -35,6 +42,8 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	public Cuentabancaria findByNumerocuenta(String numerocuenta) throws Exception;
 	
 	public CuentabancariaView findCuentabancariaViewByNumerocuenta(String numerocuenta) throws Exception;
+	
+	public List<CuentabancariaView> findCuentabancariaView(TipocuentabancariaType tipocuentabancariaType, Tipodocumento tipodocumento, String campoBusqueda) throws Exception;
 	
 	public List<CuentabancariaView> findCuentabancariaViewByDni(String dni) throws Exception;
 	
@@ -45,5 +54,7 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	public List<CuentabancariaView> findCuentabancariaViewByRazonsocial(String razonsocial) throws Exception;
 	
 	public List<CuentabancariaView> findByDni(String dni) throws Exception;
+	
+	public BigDecimal getInteresGeneradoPlazofijo(Integer idcuentaplazofijo) throws Exception;
 	
 }

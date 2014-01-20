@@ -29,34 +29,6 @@
 		<h:outputStylesheet library="js" name="bootstrap.js" />
 		<h:outputStylesheet library="js" name="angular.min.js" />
 
-		<script type="text/javascript">
-		    $(document).ready(function () {
-			    $("#modal-dialog-bg").hide();
-			    $("#dlgCalculadora").hide();
-		    	$("#dlbBuscarCuentabancaria").hide();
-			 	$("#dlgCalculadora").draggable();
-			 	$("#dlbBuscarCuentabancaria").draggable();
-			 	
-		    	$("#formTransaccion\\:btnBuscarCuentabancaria").click(function(){
-		    		$("#modal-dialog-bg").show();
-		    		$("#dlbBuscarCuentabancaria").show();  		
-		        });
-		    	$("#formTransaccion\\:btnCalculadora").click(function(){
-		    		$("#modal-dialog-bg").show();
-		    		$("#dlgCalculadora").show();  		
-		        });		        
-		    });
-
-		    function closeDlgCalculadora(){
-		    	$("#modal-dialog-bg").hide();
-	    		$("#dlgCalculadora").hide();  
-			}
-		    function closeDlgBuscarCuentabancaria(){
-		    	$("#modal-dialog-bg").hide();
-	    		$("#dlbBuscarCuentabancaria").hide();  
-			}
-		</script>
-
 		<h:form id="formTransaccion">
 			<br />
 			<div style="margin-left: 50px;">
@@ -122,7 +94,6 @@
 								<div>
 									<h:selectOneMenu id="cmbTipoTransaccion"
 										value="#{transaccionCuentaaporteCajaBean.comboTipotransaccion.itemSelected}"
-										valueChangeListener="#{transaccionCuentaaporteCajaBean.changeTipotransaccion}"
 										required="true"
 										requiredMessage="Seleccione un tipo de transaccion">
 										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
@@ -146,19 +117,16 @@
 											value="#{transaccionCuentaaporteCajaBean.numeroCuenta}"
 											required="true" requiredMessage="Ingrese un numero de cuenta"
 											validatorMessage="Numero de cuenta no valida" maxlength="14"
-											onkeypress="if (event.keyCode == 13) { onchange(); return false; }">
-											<f:validateRegex pattern="(^[0-9]{14}$)" />
-											<f:ajax
-												listener="#{transaccionCuentaaporteCajaBean.findCuentabancariaByNumerocuenta()}"
-												execute="@this"
-												render="divCuentabancariaValid cuentabancariaResultadobusqueda tblAportes" />
+											readonly="true">
 										</h:inputText>
 									</div>
 									<div style="float: left;">
-										<h:outputLink id="btnBuscarCuentabancaria" value="#"
-											styleClass="button" style="margin: 0 0 0 1px;">
+										<h:commandLink styleClass="button" style="margin: 0 0 0 1px;">
 											<span class="icon icon198"></span>
-										</h:outputLink>
+											<f:ajax
+												listener="#{transaccionCuentaaporteCajaBean.setDlgBusquedaCuentaOpen(true)}"
+												render=":panelGroupDialogBuscarCuenta :formBuscarCuenta" />
+										</h:commandLink>
 									</div>
 								</div>
 							</div>
@@ -218,6 +186,7 @@
 							<div class="p6n-api-consent-screen-input-section">
 								<div class="p6n-api-consent-screen-label">MES APORTE
 									AFECTO</div>
+
 								<div style="width: 290px;">
 									<p:dataTable id="tblAportes" var="aportes"
 										value="#{transaccionCuentaaporteCajaBean.tablaAportes.rows}"
@@ -242,11 +211,12 @@
 										</p:column>
 									</p:dataTable>
 								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="tblAportes" />
+								</div>
 							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-								<h:message for="tblAportes" />
-							</div>
+
 							<div class="sf-separator"></div>
 
 							<div class="sf-buttons" style="float: left;">
@@ -269,7 +239,7 @@
 											<div
 												style="text-align: left; margin-left: 20px; font-size: 16px;">
 												<h:outputLabel
-													value="#{transaccionCuentaaporteCajaBean.cuentaaporteView.numerocuenta}" />
+													value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.numerocuenta}" />
 											</div>
 										</div>
 										<div class="p6n-api-consent-screen-input-section">
@@ -279,7 +249,7 @@
 											<div
 												style="text-align: left; margin-left: 20px; font-size: 16px;">
 												<h:outputLabel
-													value="#{transaccionCuentaaporteCajaBean.cuentaaporteView.tipoCuenta}" />
+													value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.tipoCuenta}" />
 											</div>
 										</div>
 										<div class="p6n-api-consent-screen-input-section">
@@ -288,7 +258,7 @@
 											<div
 												style="text-align: left; margin-left: 20px; font-size: 16px;">
 												<h:outputLabel
-													value="#{transaccionCuentaaporteCajaBean.cuentaaporteView.denominacionTipomoneda}" />
+													value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.denominacionTipomoneda}" />
 											</div>
 										</div>
 										<div class="p6n-api-consent-screen-input-section">
@@ -298,7 +268,7 @@
 											<div
 												style="text-align: left; margin-left: 20px; font-size: 16px;">
 												<h:outputLabel
-													value="#{transaccionCuentaaporteCajaBean.cuentaaporteView.denominacionEstadocuenta}" />
+													value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.denominacionEstadocuenta}" />
 											</div>
 										</div>
 										<div class="p6n-api-consent-screen-input-section">
@@ -307,7 +277,7 @@
 											<div
 												style="text-align: left; margin-left: 20px; font-size: 16px;">
 												<h:outputLabel
-													value="#{transaccionCuentaaporteCajaBean.cuentaaporteView.titular}" />
+													value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.titular}" />
 											</div>
 										</div>
 									</div>
@@ -319,93 +289,100 @@
 			</div>
 		</h:form>
 
-		<div id="dlbBuscarCuentabancaria" class="modal-dialog p6n-popup"
-			style="left: 412.5px; top: 100px;">
-			<h:form>
-				<div class="modal-dialog-content">
-					<div id="p6n-cloudsql-content">
-						<div>
-							<div>
+		<h:panelGroup id="panelGroupDialogBuscarCuenta">
+			<h:panelGroup
+				rendered="#{transaccionCuentaaporteCajaBean.dlgBusquedaCuentaOpen}">
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+				<div class="modal-dialog p6n-popup"
+					style="left: 412.5px; top: 100px;">
+					<h:form id="formBuscarCuenta">
+						<div class="modal-dialog-content">
+							<div id="p6n-cloudsql-content">
 								<div>
 									<div>
-										<h:inputText
-											value="#{transaccionCuentaaporteCajaBean.valorBusqueda}"
-											style="width: 250px;float: left;" />
-										&nbsp;
-										<h:commandLink styleClass="button"
-											style="margin: 0px;float: left;">
-											<span class="icon icon198"></span>
-											<span class="label"></span>
-											<f:ajax execute="@form"
-												listener="#{transaccionCuentaaporteCajaBean.searchCuentabancaria()}"
-												render="tblResultadoBusqueda" />
-										</h:commandLink>
-										<h:selectOneMenu id="cmbTipoBusqueda"
-											value="#{transaccionCuentaaporteCajaBean.comboTipobusqueda.itemSelected}"
-											valueChangeListener="#{transaccionCuentaaporteCajaBean.changeTipobusqueda}"
-											required="true"
-											requiredMessage="Seleccione un Tipo de Busueda">
-											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-											<f:selectItems
-												value="#{transaccionCuentaaporteCajaBean.comboTipobusqueda.items.entrySet()}"
-												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-											<f:ajax execute="@this" />
-										</h:selectOneMenu>
+										<div>
+											<div>
+												<h:inputText
+													value="#{transaccionCuentaaporteCajaBean.valorBusqueda}"
+													style="width: 250px;float: left;" />
+												&nbsp;
+												<h:commandLink styleClass="button"
+													style="margin: 0px;float: left;">
+													<span class="icon icon198"></span>
+													<span class="label"></span>
+													<f:ajax execute="@form"
+														listener="#{transaccionCuentaaporteCajaBean.searchCuentabancaria()}"
+														render="tblResultadoBusqueda" />
+												</h:commandLink>
+												<h:selectOneMenu id="cmbTipoBusqueda"
+													value="#{transaccionCuentaaporteCajaBean.comboTipodocumento.itemSelected}"
+													valueChangeListener="#{transaccionCuentaaporteCajaBean.changeTipobusqueda}"
+													required="true"
+													requiredMessage="Seleccione un Tipo de Busueda">
+													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+													<f:selectItems
+														value="#{transaccionCuentaaporteCajaBean.comboTipodocumento.items.entrySet()}"
+														var="val" itemLabel="#{val.value.abreviatura}"
+														itemValue="#{val.key}" />
+													<f:ajax execute="@this" />
+												</h:selectOneMenu>
+											</div>
+											<div
+												class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+												<h:messages />
+											</div>
+										</div>
 									</div>
+								</div>
+								<hr />
+								<div class="p6n-cloudsql-form">
 									<div
-										class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
-										<h:messages />
-									</div>
-								</div>
-							</div>
-						</div>
-						<hr />
-						<div class="p6n-cloudsql-form">
-							<div
-								class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
-								<div class="p6n-cloudsql-name-input ">
-									<div class="p6n-input-prepend">
-										<p:dataTable id="tblResultadoBusqueda" var="cuenta"
-											value="#{transaccionCuentaaporteCajaBean.tablaCuentaaporte.rows}"
-											selectionMode="single"
-											selection="#{transaccionCuentaaporteCajaBean.tablaCuentaaporte.selectedRow}"
-											rowKey="#{cuenta}" rowIndexVar="row">
+										class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
+										<div class="p6n-cloudsql-name-input ">
+											<div class="p6n-input-prepend" style="display: initial;">
+												<p:dataTable id="tblResultadoBusqueda" var="cuenta"
+													value="#{transaccionCuentaaporteCajaBean.tablaCuentaaporte.rows}"
+													selectionMode="single"
+													selection="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected}"
+													rowKey="#{cuenta}" rowIndexVar="row">
 
-											<p:column headerText="Nro" style="text-align:center;">
-												<h:outputText value="#{row + 1}" />
-											</p:column>
-											<p:column headerText="Nro Cuenta">
-												<h:outputText value="#{cuenta.numerocuenta}" />
-											</p:column>
-											<p:column headerText="Tipo Cta">
-												<h:outputText value="Cuenta aporte" />
-											</p:column>
-											<p:column headerText="Moneda">
-												<h:outputText value="#{cuenta.denominacionTipomoneda}" />
-											</p:column>
-											<p:column headerText="Titular">
-												<h:outputText value="#{cuenta.titular}" />
-											</p:column>
-										</p:dataTable>
+													<p:column headerText="Nro" style="text-align:center;">
+														<h:outputText value="#{row + 1}" />
+													</p:column>
+													<p:column headerText="Nro Cuenta">
+														<h:outputText value="#{cuenta.numerocuenta}" />
+													</p:column>
+													<p:column headerText="Tipo Cta">
+														<h:outputText value="Cuenta aporte" />
+													</p:column>
+													<p:column headerText="Moneda">
+														<h:outputText value="#{cuenta.denominacionTipomoneda}" />
+													</p:column>
+													<p:column headerText="Titular">
+														<h:outputText value="#{cuenta.titular}" />
+													</p:column>
+												</p:dataTable>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Aceptar"
+								action="#{transaccionCuentaaporteCajaBean.setRowSelectToTransaccion()}"
+								styleClass="action blue" />
+							<h:commandButton value="Cancelar" styleClass="action">
+								<f:ajax render=":panelGroupDialogBuscarCuenta :formBuscarCuenta"
+									listener="#{transaccionCuentaaporteCajaBean.setDlgBusquedaCuentaOpen(false)}" />
+							</h:commandButton>
+						</div>
+					</h:form>
 				</div>
-				<div class="modal-dialog-buttons">
-					<h:commandButton value="Aceptar" styleClass="action blue">
-						<f:ajax
-							listener="#{transaccionCuentaaporteCajaBean.setRowSelectToTransaccion()}"
-							render=":formTransaccion:txtNumerocuenta :formTransaccion:cuentabancariaResultadobusqueda :formTransaccion:tblAportes"
-							execute="tblResultadoBusqueda"
-							onevent="closeDlgBuscarCuentabancaria" />
-					</h:commandButton>
-					<input type="button" value="Cancelar" class="action"
-						onclick="closeDlgBuscarCuentabancaria()" />
-				</div>
-			</h:form>
-		</div>
+			</h:panelGroup>
+		</h:panelGroup>
+
 
 		<div id="dlgCalculadora" class="modal-dialog p6n-popup"
 			style="left: 412.5px; top: 5px;">
@@ -475,8 +452,7 @@
 				</div>
 			</h:form>
 		</div>
-		<div id="modal-dialog-bg" class="modal-dialog-bg"
-			style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+
 	</ui:define>
 </ui:composition>
 </html>

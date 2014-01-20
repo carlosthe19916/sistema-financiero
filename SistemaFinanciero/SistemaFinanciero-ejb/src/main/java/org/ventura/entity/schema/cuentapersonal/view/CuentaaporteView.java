@@ -11,15 +11,17 @@ import java.util.Date;
  * The persistent class for the cuentaaporte_view database table.
  * 
  */
-//@Entity
-//@Table(name = "cuentaaporte_view")
+@Entity
+@Table(name = "cuentaaporte_view", schema = "cuentapersonal")
 @NamedQuery(name = "CuentaaporteView.findAll", query = "SELECT c FROM CuentaaporteView c")
 @NamedQueries({
 		@NamedQuery(name = CuentaaporteView.findByNumerocuenta, query = "SELECT c FROM CuentaaporteView c WHERE c.numerocuenta = :numerocuenta"),
 		@NamedQuery(name = CuentaaporteView.findByLikeDni, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PN' AND c.numeroDocumento LIKE :dni"),
 		@NamedQuery(name = CuentaaporteView.findByLikeRuc, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PJ' AND c.numeroDocumento LIKE :ruc"),
 		@NamedQuery(name = CuentaaporteView.findByLikeNombre, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
-		@NamedQuery(name = CuentaaporteView.findByLikeRazonsocial, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial") })
+		@NamedQuery(name = CuentaaporteView.findByLikeRazonsocial, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial"),
+
+		@NamedQuery(name = CuentaaporteView.f_tipodocumento_estado_searched, query = "SELECT c FROM CuentaaporteView c WHERE c.idTipodocumento = :idtipodocumento AND c.numeroDocumento LIKE :searched AND c.estadoSocio = :estado") })
 public class CuentaaporteView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,13 +32,18 @@ public class CuentaaporteView implements Serializable {
 	public final static String findByLikeNombre = "org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView.findByLikeNombre";
 	public final static String findByLikeRazonsocial = "org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView.findByLikeRazonsocial";
 
+	public final static String f_tipodocumento_estado_searched = "org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView.f_tipodocumento_estado_searched";
+
 	@Id
 	@Column(name = "id_cuentaaporte")
 	private Integer idCuentaaporte;
 
+	@Column(name = "estado_socio")
+	private Boolean estadoSocio;
+
 	@Column(name = "tipo_cuenta")
 	private String tipoCuenta;
-	
+
 	@Column(name = "abreviatura_estadocuenta", length = 3)
 	private String abreviaturaEstadocuenta;
 
@@ -63,7 +70,7 @@ public class CuentaaporteView implements Serializable {
 	@Column(name = "id_tipomoneda")
 	private Integer idTipomoneda;
 
-	@Column(name = "numero_documento", length = 2147483647)
+	@Column(name = "numero_documento")
 	private String numeroDocumento;
 
 	@Column(length = 14)
@@ -72,11 +79,20 @@ public class CuentaaporteView implements Serializable {
 	@Column(name = "saldo_cuentaaporte", precision = 18, scale = 2)
 	private BigDecimal saldoCuentaaporte;
 
-	@Column(name = "tipo_persona", length = 2147483647)
+	@Column(name = "tipo_persona")
 	private String tipoPersona;
 
 	@Column(length = 2147483647)
 	private String titular;
+
+	@Column(name = "id_tipodocumento")
+	private Integer idTipodocumento;
+
+	@Column(name = "denominacion_tipodocumento")
+	private String denominacionTipodocumento;
+
+	@Column(name = "abreviatura_tipodocumento")
+	private String abreviaturaTipodocumento;
 
 	public CuentaaporteView() {
 	}
@@ -199,6 +215,38 @@ public class CuentaaporteView implements Serializable {
 
 	public void setTipoCuenta(String tipoCuenta) {
 		this.tipoCuenta = tipoCuenta;
+	}
+
+	public Integer getIdTipodocumento() {
+		return idTipodocumento;
+	}
+
+	public void setIdTipodocumento(Integer idTipodocumento) {
+		this.idTipodocumento = idTipodocumento;
+	}
+
+	public String getDenominacionTipodocumento() {
+		return denominacionTipodocumento;
+	}
+
+	public void setDenominacionTipodocumento(String denominacionTipodocumento) {
+		this.denominacionTipodocumento = denominacionTipodocumento;
+	}
+
+	public String getAbreviaturaTipodocumento() {
+		return abreviaturaTipodocumento;
+	}
+
+	public void setAbreviaturaTipodocumento(String abreviaturaTipodocumento) {
+		this.abreviaturaTipodocumento = abreviaturaTipodocumento;
+	}
+
+	public Boolean getEstadoSocio() {
+		return estadoSocio;
+	}
+
+	public void setEstadoSocio(Boolean estadoSocio) {
+		this.estadoSocio = estadoSocio;
 	}
 
 }

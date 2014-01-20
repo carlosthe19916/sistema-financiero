@@ -31,5 +31,5 @@ public interface TasainteresServiceLocal extends TasainteresServiceRemote{
 	/*operaciones*/
 	
 	public BigDecimal getInteresGeneradoPlazofijo(BigDecimal montoApertura, Integer cantidadDias, BigDecimal tea) throws Exception;
-
+	
 }

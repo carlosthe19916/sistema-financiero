@@ -84,7 +84,7 @@ public class Cuentabancaria implements Serializable {
 
 	@OneToMany(mappedBy = "cuentabancaria")
 	private List<Beneficiario> beneficiarios;
-
+	
 	public Cuentabancaria() {
 	}
 
@@ -152,21 +152,6 @@ public class Cuentabancaria implements Serializable {
 		this.estadocuenta = estadocuenta;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if ((obj == null) || !(obj instanceof Cuentabancaria)) {
-			return false;
-		}
-		final Cuentabancaria other = (Cuentabancaria) obj;
-		return other.getIdcuentabancaria() == this.idcuentabancaria ? true
-				: false;
-	}
-
-	@Override
-	public int hashCode() {
-		return idcuentabancaria;
-	}
-
 	public Integer getCantidadretirantes() {
 		return cantidadretirantes;
 	}
@@ -197,5 +182,20 @@ public class Cuentabancaria implements Serializable {
 
 	public void setSocio(Socio socio) {
 		this.socio = socio;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Cuentabancaria)) {
+			return false;
+		}
+		final Cuentabancaria other = (Cuentabancaria) obj;
+		return other.getIdcuentabancaria() == this.idcuentabancaria ? true
+				: false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idcuentabancaria;
 	}
 }

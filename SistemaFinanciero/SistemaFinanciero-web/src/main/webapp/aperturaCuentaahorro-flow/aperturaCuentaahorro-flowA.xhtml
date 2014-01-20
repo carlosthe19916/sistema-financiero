@@ -67,7 +67,8 @@
 															converterMessage="Número de documento Invalido"
 															onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
 															pt:placeholder="12345678">
-															<f:convertNumber integerOnly="true" type="number" />
+															<f:convertNumber integerOnly="true" type="number"
+																groupingUsed="false" />
 															<f:ajax
 																listener="#{aperturaCuentaahorroBean.buscarPersonanaturalRepresentantelegal()}"
 																render="formRepresentantelegal"></f:ajax>
@@ -122,7 +123,7 @@
 												<div>
 													<div>
 														<h:inputText id="txtNombresRepresentantelegal"
-															value="#{aperturaCuentaahorroBean.apellidoMaternoRepresentantelegal}"
+															value="#{aperturaCuentaahorroBean.nombresRepresentantelegal}"
 															required="true" maxlength="50"
 															requiredMessage="Ingrese nombres"
 															onkeyup="this.value = this.value.toUpperCase();"
