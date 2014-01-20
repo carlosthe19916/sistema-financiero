@@ -37,13 +37,15 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public List<Cuentabancaria> findAll() throws Exception;
 	
-	public Cuentabancaria findById(Object id) throws Exception;
+	public Cuentabancaria find(Object id) throws Exception;
 	
 	public Cuentabancaria findByNumerocuenta(String numerocuenta) throws Exception;
 	
 	public CuentabancariaView findCuentabancariaViewByNumerocuenta(String numerocuenta) throws Exception;
 	
 	public List<CuentabancariaView> findCuentabancariaView(TipocuentabancariaType tipocuentabancariaType, Tipodocumento tipodocumento, String campoBusqueda) throws Exception;
+	
+	public List<CuentabancariaView> findCuentabancariaView(Tipodocumento tipodocumento, String campoBusqueda) throws Exception;
 	
 	public List<CuentabancariaView> findCuentabancariaViewByDni(String dni) throws Exception;
 	

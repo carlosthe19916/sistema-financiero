@@ -70,7 +70,7 @@ public class Socio implements Serializable {
 	private Agencia agencia;
 
 	@ManyToOne
-	@JoinColumn(name = "idpersonajuridica", nullable = false)
+	@JoinColumn(name = "idpersonajuridica")
 	private Personajuridica personajuridica;
 
 	@ManyToOne

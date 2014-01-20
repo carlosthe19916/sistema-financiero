@@ -1,7 +1,6 @@
 package org.ventura.control;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,8 +40,6 @@ import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.cuentapersonal.Interesdiario;
 import org.ventura.entity.schema.cuentapersonal.Titular;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
-import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
@@ -57,7 +54,6 @@ import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
-import org.ventura.util.math.BigDecimalMath;
 
 @Stateless
 @Local(CuentabancariaServiceLocal.class)
@@ -108,10 +104,20 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria findById(Object id) throws Exception {
+	public Cuentabancaria find(Object id) throws Exception {
 		Cuentabancaria cuentabancaria;
 		try {
 			cuentabancaria = cuentabancariaDAO.find(id);
+			List<Titular> listTitulares = cuentabancaria.getTitulares();
+			List<Beneficiario> listBeneficiarios = cuentabancaria.getBeneficiarios();
+			
+			for (Titular titular : listTitulares) {
+				Personanatural personanatural = titular.getPersonanatural();
+				titular.setPersonanatural(personanatural);
+				titular.setCuentabancaria(cuentabancaria);
+			}
+			cuentabancaria.setTitulares(listTitulares);
+			cuentabancaria.setBeneficiarios(listBeneficiarios);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -128,9 +134,9 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("numerocuenta", numerocuenta);
 
-			List<Cuentabancaria> historialbovedaList = cuentabancariaDAO.findByNamedQuery(Cuentabancaria.findByNumerocuenta,parameters);
-			if (historialbovedaList.size() == 1) {
-				cuentabancaria = historialbovedaList.get(0);
+			List<Cuentabancaria> cuentabancarias = cuentabancariaDAO.findByNamedQuery(Cuentabancaria.findByNumerocuenta,parameters);
+			if (cuentabancarias.size() == 1) {
+				cuentabancaria = cuentabancarias.get(0);
 			} else {
 				throw new Exception("No se encontro cuenta bancaria valida");
 			}
@@ -679,6 +685,28 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			parameters.put("numerodocumento", "%" + campoBusqueda + "%");
 
 			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.f_tipocuentabancaria_tipodocumento_estado_searched, parameters, 10);
+
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentabancariaViews;
+	}
+	
+	@Override
+	public List<CuentabancariaView> findCuentabancariaView(Tipodocumento tipodocumento, String campoBusqueda) throws Exception {	
+		List<CuentabancariaView> cuentabancariaViews;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);
+			
+			parameters.put("idestadocuenta", estadocuenta.getIdestadocuenta());
+			parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
+			parameters.put("numerodocumento", "%" + campoBusqueda + "%");
+
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.f_tipodocumento_estado_searched, parameters, 10);
 
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
