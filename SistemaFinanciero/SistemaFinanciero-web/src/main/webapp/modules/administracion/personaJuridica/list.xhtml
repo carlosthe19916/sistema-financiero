@@ -72,18 +72,6 @@
 							<span class="icon icon3"></span>
 							<span class="label">Nuevo</span>
 						</h:commandLink>
-						<h:commandLink
-							action="#{administrarPersonajuridicaBean.editarPersona()}"
-							styleClass="button middle" title="Editar bóveda" target="_blank">
-							<span class="icon icon3"></span>
-							<span class="label">Editar</span>
-							<f:param name="id"
-								value="#{administrarPersonajuridicaBean.personajuridica.idpersonajuridica}" />
-						</h:commandLink>
-						<h:commandLink styleClass="button right" title="Eliminar Boveda">
-							<span class="icon icon186"></span>
-							<span class="label">Eliminar</span>
-						</h:commandLink>
 					</div>
 				</div>
 
@@ -124,14 +112,10 @@
 											</p:column>
 											<p:column headerText="STATUS">
 												<h:button value="Edit" outcome="update"
-													styleClass="action green" style="margin: 0px;">
+													styleClass="action green" style="margin: 0px;"
+													target="_blank">
 													<f:param name="id" value="#{persona.idpersonajuridica}" />
 												</h:button>
-											</p:column>
-											<p:column headerText="STATUS">
-												<h:commandButton value="Remove" styleClass="action red"
-													style="margin: 0px;">
-												</h:commandButton>
 											</p:column>
 										</p:dataTable>
 									</div>

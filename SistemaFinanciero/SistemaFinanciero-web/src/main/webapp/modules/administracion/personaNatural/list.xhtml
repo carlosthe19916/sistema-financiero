@@ -30,21 +30,7 @@
 				<div>
 					<div class="p6n-api-consent-screen-title">BUSCAR PERSONA
 						NATURAL</div>
-					<div class="">
-						<div>
-							<div class="p6n-envelope">
-								<div class="p6n-content-no-nav">
-									<div class="p6n-main-pane p6n-acl-pane">
-										<div class="p6n-action-bar" style="padding-bottom: 45px;">
-											<h:form>
-												<h:commandButton value="Crear persona natural"
-													action="create?faces-redirect=true" class="actionn red" />
-											</h:form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div>
 						<h:form>
 							<div class="p6n-api-consent-screen-input-section">
 								<div>
@@ -67,6 +53,9 @@
 								style="float: inherit;">
 								<h:message for="txtSearched" />
 							</div>
+							<br />
+							<br />
+							<br />
 						</h:form>
 					</div>
 				</div>
@@ -75,10 +64,21 @@
 
 		<!-- TITULARES -->
 		<h:form>
+			<div class="buttons p6n-api-consent-screen-inputs"
+				style="margin-left: 39px;">
+				<div class="tiptip">
+					<h:commandLink action="create" styleClass="button left"
+						title="Nueva bóveda" target="_blank">
+						<span class="icon icon3"></span>
+						<span class="label">Nuevo</span>
+					</h:commandLink>
+				</div>
+			</div>
 			<div class="p6n-api-consent-screen-inputs">
 				<div class="p6n-content ng-scope">
 					<div class="p6n-content-no-nav ng-scope">
-						<div class="p6n-main-pane ng-isolate-scope">
+						<div class="p6n-main-pane ng-isolate-scope"
+							style="margin-top: 0px;">
 							<div>
 								<div class="ng-scope">
 									<p:dataTable var="persona"
@@ -120,11 +120,6 @@
 												styleClass="action green" style="margin: 0px;">
 												<f:param name="id" value="#{persona.idpersonanatural}" />
 											</h:button>
-										</p:column>
-										<p:column headerText="STATUS">
-											<h:commandButton value="Remove" styleClass="action red"
-												style="margin: 0px;">
-											</h:commandButton>
 										</p:column>
 									</p:dataTable>
 								</div>

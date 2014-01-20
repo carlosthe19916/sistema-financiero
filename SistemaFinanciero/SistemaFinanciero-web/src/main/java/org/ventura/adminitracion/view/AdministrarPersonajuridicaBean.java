@@ -13,10 +13,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
-import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.persona.Personajuridica;
-import org.ventura.entity.schema.persona.Personanatural;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -32,10 +30,13 @@ public class AdministrarPersonajuridicaBean implements Serializable {
 	private Integer idpersonajuridica;
 	private Personajuridica personajuridica;
 	
+	boolean failure;
+	
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 
 	public AdministrarPersonajuridicaBean() {
 		idpersonajuridica = new Integer(-1);
+		failure = false;
 	}
 
 	@PostConstruct
@@ -49,6 +50,7 @@ public class AdministrarPersonajuridicaBean implements Serializable {
 			tablaPersonajuridica.clean();
 			tablaPersonajuridica.setRows(resultList);
 		} catch (Exception e) {
+			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
@@ -56,10 +58,12 @@ public class AdministrarPersonajuridicaBean implements Serializable {
 	public void editarPersona(){
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		try {
-			context.redirect(context.getRequestContextPath() + "update.xhtml?id=" + personajuridica.getIdpersonajuridica());
+			if(personajuridica != null){
+				context.redirect(context.getRequestContextPath() + "/modules/administracion/personaJuridica/update?id=" + personajuridica.getIdpersonajuridica());
+			}		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
 

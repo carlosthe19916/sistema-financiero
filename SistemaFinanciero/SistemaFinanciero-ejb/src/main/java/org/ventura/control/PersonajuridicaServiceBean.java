@@ -73,6 +73,11 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 	@Override
 	public void delete(Personajuridica oPersonajuridica) throws Exception {
 		try {
+			oPersonajuridica = find(oPersonajuridica.getIdpersonajuridica());
+			List<Accionista> listAccionistas = oPersonajuridica.getAccionistas();
+			for (Accionista accionista : listAccionistas) {
+				accionistaDAO.delete(accionista);
+			}
 			personajuridicaDAO.delete(oPersonajuridica);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
