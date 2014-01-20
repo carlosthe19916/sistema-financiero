@@ -29,6 +29,7 @@ import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.dao.impl.VouchercajaViewDAO;
+import org.ventura.dao.impl.VouchercompraventaViewDAO;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.BovedaCaja;
@@ -39,6 +40,7 @@ import org.ventura.entity.schema.caja.Transaccioncaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.view.ViewvouchercompraventaView;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
@@ -84,6 +86,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	private CuentaaporteDAO cuentaaporteDAO;
 	@EJB
 	private VouchercajaViewDAO vouchercajaViewDAO;
+	@EJB
+	private VouchercompraventaViewDAO vouchercompraventaDAO;
 	@EJB
 	private BovedaCajaDAO bovedaCajaDAO;
 	@EJB
@@ -589,10 +593,48 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 
 	@Override
-	public VouchercajaView getVoucherTransaccionCompraVentaMoneda(
-			Transaccioncompraventa transaccioncompraventa) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ViewvouchercompraventaView getVoucherTransaccionCompraVentaMoneda(Transaccioncompraventa transaccioncompraventa) throws Exception {
+		ViewvouchercompraventaView vouchercompraventaView = null;
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idtransaccioncompraventa", transaccioncompraventa.getIdtransaccioncompraventa());
+		List<ViewvouchercompraventaView> list;
+		try {
+			list = vouchercompraventaDAO.findByNamedQuery(ViewvouchercompraventaView.FindByIdTransaccioncompraventa, parameters);
+			if(list.size() == 1){
+				vouchercompraventaView = list.get(0);
+			} else {
+				if(list.size() == 0){
+					vouchercompraventaView = null;
+				} else {
+					throw new Exception("Error: Query resultado >= 2 transacciones compra venta");
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return vouchercompraventaView;		
+	}
+	
+	@Override
+	public ViewvouchercompraventaView find(Object id) throws Exception {	
+		ViewvouchercompraventaView vouchercompraventaView = null;
+		try {
+			vouchercompraventaView = vouchercompraventaDAO.find(id);
+			
+			//******************************************************
+			System.out.println("*************************************");
+			System.out.println("Voucher");
+			System.out.println("NUmero Operacion : " + vouchercompraventaView.getNumeroOperacion());
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+		return vouchercompraventaView;
 	}
 
 	@Override
