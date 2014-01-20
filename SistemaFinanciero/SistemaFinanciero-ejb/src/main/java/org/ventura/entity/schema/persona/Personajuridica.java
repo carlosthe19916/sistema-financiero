@@ -16,7 +16,7 @@ import java.util.List;
 @NamedQuery(name = "Personajuridica.findAll", query = "SELECT p FROM Personajuridica p")
 @NamedQueries({
 		@NamedQuery(name = Personajuridica.FindByTipodocumentoNumerodocumento, query = "SELECT pj FROM Personajuridica pj WHERE pj.tipodocumento = :tipodocumento AND pj.numerodocumento = :numerodocumento"),
-		@NamedQuery(name = Personajuridica.f_searched, query = "SELECT p FROM Personajuridica p INNER JOIN p.representanteLegal rl INNER JOIN p.accionistas ac WHERE p.numerodocumento LIKE :searched OR p.razonsocial LIKE :searched") })
+		@NamedQuery(name = Personajuridica.f_searched, query = "SELECT p FROM Personajuridica p INNER JOIN p.representanteLegal rl WHERE p.numerodocumento LIKE :searched OR p.razonsocial LIKE :searched") })
 public class Personajuridica implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +25,7 @@ public class Personajuridica implements Serializable {
 	public final static String f_searched = "org.ventura.entity.schema.persona.personajuridica.f_search";
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idpersonajuridica;
 

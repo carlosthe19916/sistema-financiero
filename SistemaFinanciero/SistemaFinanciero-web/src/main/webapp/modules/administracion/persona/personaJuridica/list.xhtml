@@ -30,21 +30,7 @@
 				<div>
 					<div class="p6n-api-consent-screen-title">BUSCAR PERSONA
 						JURIDICA</div>
-					<div class="">
-						<div>
-							<div class="p6n-envelope">
-								<div class="p6n-content-no-nav">
-									<div class="p6n-main-pane p6n-acl-pane">
-										<div class="p6n-action-bar" style="padding-bottom: 45px;">
-											<h:form>
-												<h:commandButton value="Crear persona juridica"
-													action="create?faces-redirect=true" class="actionn red" />
-											</h:form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div>
 						<h:form>
 							<div class="p6n-api-consent-screen-input-section">
 								<div>
@@ -67,66 +53,93 @@
 								style="float: inherit;">
 								<h:message for="txtSearched" />
 							</div>
+							<br />
+							<br />
 						</h:form>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<!-- TITULARES -->
+		<br />
 		<h:form>
-			<div class="p6n-api-consent-screen-inputs">
-				<div class="p6n-content ng-scope">
-					<div class="p6n-content-no-nav ng-scope">
-						<div class="p6n-main-pane ng-isolate-scope">
-							<div>
-								<div class="ng-scope">
-									<p:dataTable var="persona"
-										value="#{administrarPersonajuridicaBean.tablaPersonajuridica.rows}"
-										selectionMode="single"
-										selection="#{administrarPersonajuridicaBean.tablaPersonajuridica.selectedRow}"
-										rowKey="#{persona}" rowIndexVar="row">
-										<p:column headerText="Nro" width="5%"
-											style="text-align:center;">
-											<h:outputText value="#{row + 1}" />
-										</p:column>
-										<p:column headerText="TIPO DOCUMENTO"
-											style="text-align:center;">
-											<h:outputText value="#{persona.tipodocumento.abreviatura}" />
-										</p:column>
-										<p:column headerText="NUMERO DOCUMENTO">
-											<h:outputText value="#{persona.numerodocumento}" />
-										</p:column>
-										<p:column headerText="RAZON SOCIAL">
-											<h:outputText value="#{persona.razonsocial}" />
-										</p:column>
-										<p:column headerText="TIPO EMPRESA">
-											<h:outputText value="#{persona.tipoempresa.denominacion}" />
-										</p:column>
-										<p:column headerText="FECHA CONSTITUCION"
-											style="text-align:center;">
-											<h:outputText value="#{persona.fechaconstitucion}">
-												<f:convertDateTime pattern="dd/MM/yyyy" />
-											</h:outputText>
-										</p:column>
-										<p:column headerText="STATUS">
-											<h:button value="Edit" outcome="update"
-												styleClass="action green" style="margin: 0px;">
-												<f:param name="id" value="#{persona.idpersonajuridica}" />
-											</h:button>
-										</p:column>
-										<p:column headerText="STATUS">
-											<h:commandButton value="Remove" styleClass="action red"
-												style="margin: 0px;">
-											</h:commandButton>
-										</p:column>
-									</p:dataTable>
+			<div>
+				<div class="buttons p6n-api-consent-screen-inputs"
+					style="margin-left: 39px;">
+					<div class="tiptip">
+						<h:commandLink action="create" styleClass="button left"
+							title="Nueva bóveda" target="_blank">
+							<span class="icon icon3"></span>
+							<span class="label">Nuevo</span>
+						</h:commandLink>
+						<h:commandLink
+							action="#{administrarPersonajuridicaBean.editarPersona()}"
+							styleClass="button middle" title="Editar bóveda" target="_blank">
+							<span class="icon icon3"></span>
+							<span class="label">Editar</span>
+							<f:param name="id"
+								value="#{administrarPersonajuridicaBean.personajuridica.idpersonajuridica}" />
+						</h:commandLink>
+						<h:commandLink styleClass="button right" title="Eliminar Boveda">
+							<span class="icon icon186"></span>
+							<span class="label">Eliminar</span>
+						</h:commandLink>
+					</div>
+				</div>
+
+				<div class="p6n-api-consent-screen-inputs">
+					<div class="p6n-content ng-scope">
+						<div class="p6n-content-no-nav ng-scope">
+							<div class="p6n-main-pane ng-isolate-scope"
+								style="margin-top: 0px;">
+								<div>
+									<div class="ng-scope">
+										<p:dataTable var="persona"
+											value="#{administrarPersonajuridicaBean.tablaPersonajuridica.rows}"
+											selectionMode="single"
+											selection="#{administrarPersonajuridicaBean.personajuridica}"
+											rowKey="#{persona}" rowIndexVar="row">
+											<p:column headerText="Nro" width="5%"
+												style="text-align:center;">
+												<h:outputText value="#{row + 1}" />
+											</p:column>
+											<p:column headerText="TIPO DOCUMENTO"
+												style="text-align:center;">
+												<h:outputText value="#{persona.tipodocumento.abreviatura}" />
+											</p:column>
+											<p:column headerText="NUMERO DOCUMENTO">
+												<h:outputText value="#{persona.numerodocumento}" />
+											</p:column>
+											<p:column headerText="RAZON SOCIAL">
+												<h:outputText value="#{persona.razonsocial}" />
+											</p:column>
+											<p:column headerText="TIPO EMPRESA">
+												<h:outputText value="#{persona.tipoempresa.denominacion}" />
+											</p:column>
+											<p:column headerText="FECHA CONSTITUCION"
+												style="text-align:center;">
+												<h:outputText value="#{persona.fechaconstitucion}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</p:column>
+											<p:column headerText="STATUS">
+												<h:button value="Edit" outcome="update"
+													styleClass="action green" style="margin: 0px;">
+													<f:param name="id" value="#{persona.idpersonajuridica}" />
+												</h:button>
+											</p:column>
+											<p:column headerText="STATUS">
+												<h:commandButton value="Remove" styleClass="action red"
+													style="margin: 0px;">
+												</h:commandButton>
+											</p:column>
+										</p:dataTable>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- END TITULARES -->
 			</div>
 		</h:form>
 	</ui:define>

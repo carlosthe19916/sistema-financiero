@@ -1,10 +1,12 @@
 package org.ventura.adminitracion.view;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -28,6 +30,7 @@ public class AdministrarPersonajuridicaBean implements Serializable {
 
 	private String searched;
 	private Integer idpersonajuridica;
+	private Personajuridica personajuridica;
 	
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 
@@ -47,6 +50,16 @@ public class AdministrarPersonajuridicaBean implements Serializable {
 			tablaPersonajuridica.setRows(resultList);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void editarPersona(){
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		try {
+			context.redirect(context.getRequestContextPath() + "update.xhtml?id=" + personajuridica.getIdpersonajuridica());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -73,6 +86,14 @@ public class AdministrarPersonajuridicaBean implements Serializable {
 
 	public void setIdpersonajuridica(Integer idpersonajuridica) {
 		this.idpersonajuridica = idpersonajuridica;
+	}
+
+	public Personajuridica getPersonajuridica() {
+		return personajuridica;
+	}
+
+	public void setPersonajuridica(Personajuridica personajuridica) {
+		this.personajuridica = personajuridica;
 	}
 
 }

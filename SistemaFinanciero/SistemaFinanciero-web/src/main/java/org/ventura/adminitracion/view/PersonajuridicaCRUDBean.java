@@ -22,9 +22,6 @@ import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.dependent.ComboBean;
-import org.ventura.entity.schema.cuentapersonal.Beneficiario;
-import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
-import org.ventura.entity.schema.cuentapersonal.Titular;
 import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
@@ -85,8 +82,8 @@ public class PersonajuridicaCRUDBean implements Serializable {
 	private ComboBean<Sexo> comboSexoAccionista;
 	private BigDecimal porcentajeParticipacionAccionista;
 
-	private Personanatural personanatural;
-	private Integer idpersonanatural;
+	private Personajuridica personajuridica;
+	private Integer idpersonajuridica;
 	
 	private boolean success;
 	private boolean failure;
@@ -129,24 +126,41 @@ public class PersonajuridicaCRUDBean implements Serializable {
 		}	
 	}
 	
-	public void loadPersonanaturalForEdit() {		
-		/*try {
-			if (idpersonanatural != null && idpersonanatural != -1) {
-				personanatural = personanaturalServiceLocal.find(idpersonanatural);
+	public void loadPersonajuridicaForEdit() {		
+		try {
+			if (idpersonajuridica != null && idpersonajuridica != -1) {
+				personajuridica = personajuridicaServiceLocal.find(idpersonajuridica);
 				
-				comboTipodocumento.setItemSelected(personanatural.getTipodocumento());
-				numerodocumento = personanatural.getNumerodocumento();
-				apellidopaterno = personanatural.getApellidopaterno();
-				apellidomaterno = personanatural.getApellidomaterno();
-				nombres = personanatural.getNombres();
-				comboSexo.setItemSelected(personanatural.getSexo());
-				fechanacimiento = personanatural.getFechanacimiento();
-				comboEstadocivil.setItemSelected(personanatural.getEstadocivil());
-				ocupacion = personanatural.getOcupacion();
-				referencia = personanatural.getReferencia();
-				telefono = personanatural.getTelefono();
-				celular = personanatural.getCelular();
-				email = personanatural.getEmail();
+				comboTipodocumentoPersonajuridica.setItemSelected(personajuridica.getTipodocumento());
+				numerodocumentoPersonajuridica = personajuridica.getNumerodocumento();
+				razonsocial = personajuridica.getRazonsocial();
+				nombrecomercial = personajuridica.getNombrecomercial();
+				actividadprincipal = personajuridica.getActividadprincipal();
+				fechaconstitucion = personajuridica.getFechaconstitucion();
+				comboTipoempresa.setItemSelected(personajuridica.getTipoempresa());
+				comboFinsocial.setItemSelected(personajuridica.getFindelucro() ? 1 : 2);
+				direccionPersonajuridica = personajuridica.getDireccion();
+				referenciaPersonajuridica = personajuridica.getReferencia();
+				telefonoPersonajuridica = personajuridica.getTelefono();
+				celularPersonajuridica = personajuridica.getCelular();
+				emailPersonajuridica = personajuridica.getEmail();
+				
+				Personanatural representanteLegal = personajuridica.getRepresentanteLegal();
+				comboTipodocumentoRepresentantelegal.setItemSelected(representanteLegal.getTipodocumento());
+				numerodocumentoRepresentantelegal = representanteLegal.getNumerodocumento();
+				apellidopaternoRepresentantelegal = representanteLegal.getApellidopaterno();
+				apellidomaternoRepresentantelegal = representanteLegal.getApellidomaterno();
+				nombresRepresentantelegal = representanteLegal.getNombres();
+				fechanacimientoRepresentantelegal = representanteLegal.getFechanacimiento();
+				comboSexoRepresentantelegal.setItemSelected(representanteLegal.getSexo());	
+				
+				this.accionistas.clear();
+				List<Accionista> listAccionistas = personajuridica.getAccionistas();
+				for (Accionista accionista : listAccionistas) {
+					Personanatural personanatural = accionista.getPersonanatural();
+					String keyMap = personanatural.getTipodocumento().getIdtipodocumento() + personanatural.getNumerodocumento();
+					this.accionistas.put(keyMap, accionista);
+				}
 			} else {
 				failure = true;
 				JsfUtil.addErrorMessage("No se encontró la persona");
@@ -154,7 +168,7 @@ public class PersonajuridicaCRUDBean implements Serializable {
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
-		}*/
+		}
 	}
 
 	public void createPersona() throws Exception {
@@ -191,7 +205,7 @@ public class PersonajuridicaCRUDBean implements Serializable {
 				personajuridica.setAccionistas(listAccionistas);
 					
 				personajuridica = personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
-				
+				this.success = true;
 			}	
 		} catch (Exception e) {
 			this.failure = true;
@@ -200,36 +214,50 @@ public class PersonajuridicaCRUDBean implements Serializable {
 	}
 
 	public void updatePersona() throws Exception {
-		/*try {	
+		try {	
 			if(success == false){
-				personanatural.setTipodocumento(comboTipodocumento.getObjectItemSelected());
-				personanatural.setNumerodocumento(numerodocumento);
-				personanatural.setApellidopaterno(apellidopaterno);
-				personanatural.setApellidomaterno(apellidomaterno);
-				personanatural.setNombres(nombres);
-				personanatural.setSexo(comboSexo.getObjectItemSelected());
-				personanatural.setFechanacimiento(fechanacimiento);
-				personanatural.setEstadocivil(comboEstadocivil.getObjectItemSelected());
-				personanatural.setOcupacion(ocupacion);
-				personanatural.setDireccion(direccion);
-				personanatural.setReferencia(referencia);
-				personanatural.setTelefono(telefono);
-				personanatural.setCelular(celular);
-				personanatural.setEmail(email);
+				personajuridica.setTipodocumento(comboTipodocumentoPersonajuridica.getObjectItemSelected());
+				personajuridica.setNumerodocumento(numerodocumentoPersonajuridica);
+				personajuridica.setRazonsocial(razonsocial);
+				personajuridica.setNombrecomercial(nombrecomercial);
+				personajuridica.setActividadprincipal(actividadprincipal);
+				personajuridica.setFechaconstitucion(fechaconstitucion);
+				personajuridica.setTipoempresa(comboTipoempresa.getObjectItemSelected());
+				personajuridica.setFindelucro(comboFinsocial.getItemSelected() == 1 ? true : false);		
+				personajuridica.setDireccion(direccionPersonajuridica);
+				personajuridica.setReferencia(referenciaPersonajuridica);
+				personajuridica.setTelefono(telefonoPersonajuridica);
+				personajuridica.setCelular(celularPersonajuridica);
+				personajuridica.setEmail(emailPersonajuridica);
+												
+				Personanatural representanteLegal = new Personanatural();
+				representanteLegal.setTipodocumento(comboTipodocumentoRepresentantelegal.getObjectItemSelected());
+				representanteLegal.setNumerodocumento(numerodocumentoRepresentantelegal);
+				representanteLegal.setApellidopaterno(apellidopaternoRepresentantelegal);
+				representanteLegal.setApellidomaterno(apellidomaternoRepresentantelegal);
+				representanteLegal.setNombres(nombresRepresentantelegal);
+				representanteLegal.setFechanacimiento(fechanacimientoRepresentantelegal);
+				representanteLegal.setSexo(comboSexoRepresentantelegal.getObjectItemSelected());
 				
-				Object obj = this.personanaturalServiceLocal.find(idpersonanatural);
+				List<Accionista> listAccionistas = new ArrayList<Accionista>();
+				listAccionistas.addAll(accionistas.values());
+				
+				personajuridica.setRepresentanteLegal(representanteLegal);
+				personajuridica.setAccionistas(listAccionistas);
+				
+				Object obj = this.personajuridicaServiceLocal.find(idpersonajuridica);
 				if(obj != null){
-					this.personanaturalServiceLocal.update(personanatural);
+					this.personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
 					this.success = true;
 					JsfUtil.addSuccessMessage("Persona Actualizada");
 				} else {
-					throw new Exception("La no esta registrada, no se puede actualizar");
+					throw new Exception("La persona no esta registrada, no se puede actualizar");
 				}	
 			}	
 		} catch (Exception e) {
 			this.failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
-		}*/
+		}
 	}
 	
 	public void changeToPageOne(){
@@ -239,14 +267,19 @@ public class PersonajuridicaCRUDBean implements Serializable {
 	}
 	
 	public void changeToTwo(){	
-		Personajuridica personajuridica = buscarPersonajuridica();
-		if(personajuridica == null){
+		if(idpersonajuridica == null || idpersonajuridica == -1){
+			Personajuridica personajuridica = buscarPersonajuridica();
+			if(personajuridica == null){
+				pageOne = false;
+				pageTwo = true;
+				failure = false;
+			} else {
+				failure = true;
+				JsfUtil.addErrorMessage("La persona juridica ya existe, no se puede crear nuevamente");
+			}
+		} else {
 			pageOne = false;
 			pageTwo = true;
-			failure = false;
-		} else {
-			failure = true;
-			JsfUtil.addErrorMessage("La persona juridica ya existe, no se puede crear nuevamente");
 		}
 	}
 	
@@ -404,22 +437,6 @@ public class PersonajuridicaCRUDBean implements Serializable {
 	public void changeTipodocumentoAccionista(ValueChangeEvent event) {
 		//Integer key = (Integer) event.getNewValue();
 		//Tipodocumento tipodocumentoSelected = comboTipodocumentoRepresentantelegal.getObjectItemSelected(key);
-	}
-
-	public Personanatural getPersonanatural() {
-		return personanatural;
-	}
-
-	public void setPersonanatural(Personanatural personanatural) {
-		this.personanatural = personanatural;
-	}
-
-	public Integer getIdpersonanatural() {
-		return idpersonanatural;
-	}
-
-	public void setIdpersonanatural(Integer idpersonanatural) {
-		this.idpersonanatural = idpersonanatural;
 	}
 
 	public boolean isSuccess() {
@@ -702,6 +719,22 @@ public class PersonajuridicaCRUDBean implements Serializable {
 
 	public void setPageTwo(boolean pageTwo) {
 		this.pageTwo = pageTwo;
+	}
+
+	public Personajuridica getPersonajuridica() {
+		return personajuridica;
+	}
+
+	public void setPersonajuridica(Personajuridica personajuridica) {
+		this.personajuridica = personajuridica;
+	}
+
+	public Integer getIdpersonajuridica() {
+		return idpersonajuridica;
+	}
+
+	public void setIdpersonajuridica(Integer idpersonajuridica) {
+		this.idpersonajuridica = idpersonajuridica;
 	}
 
 }

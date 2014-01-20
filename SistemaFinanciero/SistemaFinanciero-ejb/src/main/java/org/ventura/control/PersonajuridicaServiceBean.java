@@ -82,29 +82,29 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 		}
 	}
 
-	public Accionista findAccionista(Object id) throws Exception{
-		try {
-			return accionistaDAO.find(id);
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw e;
-		}
-	}
-
 	@Override
 	public Personajuridica find(Object id) throws Exception {
-		Personajuridica Personajuridica = null;
+		Personajuridica personajuridica = null;
 		try {
-			Personajuridica = personajuridicaDAO.find(id);
+			personajuridica = personajuridicaDAO.find(id);
+			
+			Personanatural representanteLegal = personajuridica.getRepresentanteLegal();
+			List<Accionista> accionistas = personajuridica.getAccionistas();
+			
+			personajuridica.setRepresentanteLegal(representanteLegal);
+			
+			for (Accionista accionista : accionistas) {
+				Personanatural personanatural = accionista.getPersonanatural();
+				accionista.setPersonanatural(personanatural);
+			}
+			personajuridica.setAccionistas(accionistas);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
 			throw e;
 		}
-		return Personajuridica;
+		return personajuridica;
 	}
 
 	@Override

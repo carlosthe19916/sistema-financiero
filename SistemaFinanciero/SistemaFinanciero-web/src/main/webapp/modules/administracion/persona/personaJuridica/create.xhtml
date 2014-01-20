@@ -559,9 +559,11 @@
 								</div>
 								<div class="sf-buttons" style="float: left;">
 									<h:commandButton value="« Anterior" immediate="true"
-										action="#{personajuridicaCRUDBean.changeToPageOne()}" styleClass="action" />
+										action="#{personajuridicaCRUDBean.changeToPageOne()}"
+										styleClass="action" />
 									<h:commandButton value="Guardar"
-										action="#{personajuridicaCRUDBean.createPersona()}" styleClass="action" />
+										action="#{personajuridicaCRUDBean.createPersona()}"
+										styleClass="action blue" />
 								</div>
 
 							</div>
@@ -746,9 +748,9 @@
 							<br />
 						</div>
 						<div class="modal-dialog-buttons">
-							<h:commandButton value="Guardar"
-								action="#{personajuridicaCRUDBean.addAccionista()}"
-								styleClass="action blue">
+							<h:commandButton value="Guardar" styleClass="action blue">
+								<f:ajax listener="#{personajuridicaCRUDBean.addAccionista()}"
+									render="@form :panelGroupDlgAccionista" />
 							</h:commandButton>
 							<h:commandButton value="Cancelar" styleClass="action">
 								<f:ajax
@@ -764,7 +766,7 @@
 		<h:panelGroup rendered="#{personajuridicaCRUDBean.success}">
 			<h:form>
 				<div class="modal-dialog-bg"
-					style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+					style="opacity: 0.4; width: 1366px; height: 802px;"></div>
 				<div class="modal-dialog p6n-popup" style="left: 502px; top: 200px;">
 					<div class="modal-dialog-title modal-dialog-title-draggable">
 						<span class="modal-dialog-title-text">Creacion
