@@ -26,6 +26,7 @@ import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
+import org.ventura.entity.schema.caja.view.ViewvouchercompraventaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.session.CajaBean;
@@ -83,14 +84,14 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	private CalculadoraBean calculadoraBeanRecibido;
 	@Inject
 	private TasaCambio tipoCambio;
-	@Inject
-	private Moneda montoEntregadoNew;
 	
+	private ViewvouchercompraventaView voucherCompraVenta;
 	
 	private boolean isValidBean;
 	private String dniRuc;
 	private String nombresRazonSocial;
 	private boolean validateSaldoTotalCaja;
+	private boolean pageVoucher;
 	
 	public TransaccionCompraVentaCajaBean(){
 		isValidBean = true;
@@ -130,9 +131,12 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	public void calculateMontoEntregado(){
 		Moneda money = montoRecibido.multiply(tipoCambio);
 		setMontoEntregado(money);
-		setMontoEntregadoNew(money);
 	}
 	
+	public void calculateMontoRecibido(){
+		Moneda money = montoEntregado.multiply(tipoCambio);
+		setMontoRecibido(money);
+	}
 	
 	public void loadDenominacionmonedaCalculadora() {
 		List<Denominacionmoneda> list;
@@ -169,30 +173,35 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	public String createTransaccioncaja() {
 		validateBean();
 		if (isValidBean) {
-			if (validateCompraVenta()) {
+			if (validateCompraVenta()) {					
 					Transaccioncompraventa transaccionCompraVenta = new Transaccioncompraventa();
-
+					
 					transaccionCompraVenta.setTipotransaccioncompraventa(tipotransaccioncompraventa);
 					transaccionCompraVenta.setDniRuc(dniRuc);
 					transaccionCompraVenta.setNombresRazonSocial(nombresRazonSocial);
 					transaccionCompraVenta.setTipocambio(tipoCambio);
 					transaccionCompraVenta.setMontorecibido(montoRecibido);
-					transaccionCompraVenta.setMontoentregado(montoEntregadoNew);
+					transaccionCompraVenta.setMontoentregado(montoEntregado);
 					transaccionCompraVenta.setTipomonedaEntregado(tipomonedaEntregado);
 					transaccionCompraVenta.setTipomonedaRecibido(tipomonedaRecibido);
 
 					if (validateSaldoCaja(caja, transaccionCompraVenta)) {
 						try {
 							transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta);
-							//VouchercajaView vouchercajaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionBancaria(transaccionCompraVenta);
-							//imprimirVoucher(vouchercajaView);
+							ViewvouchercompraventaView vouchercompraventaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionCompraVentaMoneda(transaccionCompraVenta);
+							setVoucherCompraVenta(vouchercompraventaView);
+							
+							
+							System.out.println(voucherCompraVenta.getHora());
+
+							
 							
 						} catch (Exception e) {
 							JsfUtil.addErrorMessage(e, "Error al realizar la transacción");
 							return "failure";
 						}
-						JsfUtil.addSuccessMessage("La transaccion se realizó correctamente");
-						return "success";
+						pageVoucher = true;
+						return null;
 					}else {
 						JsfUtil.addErrorMessage("La caja no tiene suficiente dinero para realizar la transacción");
 						return null;
@@ -206,7 +215,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 			return null;
 		}
 	}
-	
+
 	public boolean validateSaldoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) {
 		boolean result = false;
 		try {
@@ -426,14 +435,6 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		this.estadomovimientoCaja = estadomovimientoCaja;
 	}
 
-	public Moneda getMontoEntregadoNew() {
-		return montoEntregadoNew;
-	}
-
-	public void setMontoEntregadoNew(Moneda montoEntregadoNew) {
-		this.montoEntregadoNew = montoEntregadoNew;
-	}
-
 	public String getDniRuc() {
 		return dniRuc;
 	}
@@ -464,5 +465,21 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 	public void setValidateSaldoTotalCaja(boolean validateSaldoTotalCaja) {
 		this.validateSaldoTotalCaja = validateSaldoTotalCaja;
+	}
+
+	public boolean isPageVoucher() {
+		return pageVoucher;
+	}
+
+	public void setPageVoucher(boolean pageVoucher) {
+		this.pageVoucher = pageVoucher;
+	}
+
+	public ViewvouchercompraventaView getVoucherCompraVenta() {
+		return voucherCompraVenta;
+	}
+
+	public void setVoucherCompraVenta(ViewvouchercompraventaView voucherCompraVenta) {
+		this.voucherCompraVenta = voucherCompraVenta;
 	}
 }
