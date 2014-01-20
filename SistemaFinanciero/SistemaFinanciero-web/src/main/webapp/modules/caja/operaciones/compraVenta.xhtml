@@ -1,0 +1,409 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:rich="http://richfaces.org/rich">
+
+<h:panelGroup rendered="#{!transaccionCompraVentaCajaBean.pageVoucher}">
+
+	<script type="text/javascript">
+		    $(document).ready(function () {
+			    $("#modal-dialog-bg").hide();
+			    $("#dlgCalculadora").hide();
+			 	$("#dlgCalculadora").draggable();
+			 	
+		    	$("#formTransaccion\\:btnCalculadora").click(function(){
+		    		$("#modal-dialog-bg").show();
+		    		$("#dlgCalculadora").show();  		
+		        });		        
+		    });
+
+		    function closeDlgCalculadora(){
+		    	$("#modal-dialog-bg").hide();
+	    		$("#dlgCalculadora").hide();  
+			}
+		</script>
+
+	<h:outputStylesheet library="css" name="main.css" />
+
+	<h:form id="formTransaccion">
+		<p:focus context="formTransaccion"></p:focus>
+		<br />
+		<div style="margin-left: 50px;">
+			<div>
+				<div>
+					<div class="p6n-api-app-section-box editable"
+						style="margin-right: 380px;">
+						<div class="p6n-api-app-section-title">
+							<div class="p6n-api-app-section-collapse-icon"></div>
+							<div class="p6n-api-app-section-title-text">
+								<h:outputLabel
+									value="#{transaccionCompraVentaCajaBean.caja.denominacion}" />
+								<label>(<h:outputLabel
+										value="#{transaccionCompraVentaCajaBean.caja.abreviatura}" />)
+								</label>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<label>Estado:&nbsp;<h:outputLabel
+										value="#{transaccionCompraVentaCajaBean.estadoaperturaCaja.denominacion}" />&nbsp;|&nbsp;<h:outputLabel
+										value="#{transaccionCompraVentaCajaBean.estadomovimientoCaja.denominacion}" />
+								</label>
+							</div>
+							<div class="p6n-api-app-section-description">Todas las
+								operaciones son de responsabilidad del usuario en session</div>
+						</div>
+					</div>
+
+					<h:panelGroup
+						rendered="#{!transaccionCompraVentaCajaBean.validBean}">
+						<div class="p6n-api-access-in-page-error" style="left: 416px;">
+							<div>
+								<div>
+									<p>
+										<h:messages />
+									</p>
+								</div>
+								<div style="text-align: center;">
+									<h:commandLink value="Cerrar"
+										action="transaccionCompraVenta.xhtml"
+										styleClass="p6n-api-access-in-page-error-link" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+					</h:panelGroup>
+
+					<h:panelGroup
+						rendered="#{!transaccionCompraVentaCajaBean.validateCompraVenta()}">
+						<div class="p6n-api-access-in-page-error" style="left: 416px;">
+							<div>
+								<div>
+									<p>
+										<h:messages />
+									</p>
+								</div>
+								<div style="text-align: center;">
+									<h:commandLink value="Cerrar"
+										action="transaccionCompraVenta.xhtml"
+										styleClass="p6n-api-access-in-page-error-link" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+					</h:panelGroup>
+
+					<h:panelGroup
+						rendered="#{!transaccionCompraVentaCajaBean.validateSaldoTotalCaja}">
+						<div class="p6n-api-access-in-page-error" style="left: 416px;">
+							<div>
+								<div>
+									<p>
+										<h:messages />
+									</p>
+								</div>
+								<div style="text-align: center;">
+									<h:commandLink value="Cerrar"
+										action="transaccionCompraVenta.xhtml"
+										styleClass="p6n-api-access-in-page-error-link" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+					</h:panelGroup>
+
+					<br /> <br />
+					<div class="p6n-api-consent-screen-title">COMPRA Y VENTA DE
+						MONEDA EXTRANJERA</div>
+					<div class="p6n-api-consent-screen-inputs">
+
+						<div class="p6n-api-consent-screen-input-section">
+							<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+								TRANSACCION</div>
+							<div>
+								<h:selectOneMenu id="cmbTipoTransaccionCV"
+									value="#{transaccionCompraVentaCajaBean.comboTipotransaccion.itemSelected}"
+									valueChangeListener="#{transaccionCompraVentaCajaBean.changeTipoTransaccion}"
+									required="true"
+									requiredMessage="Seleccione tipo de transaccion">
+									<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+									<f:selectItems
+										value="#{transaccionCompraVentaCajaBean.comboTipotransaccion.items.entrySet()}"
+										var="val" itemLabel="#{val.value.abreviatura}"
+										itemValue="#{val.key}" />
+									<f:ajax execute="@this" />
+									<f:ajax event="change"
+										listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
+										render="inplace" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+						<div
+							class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+							<h:message for="cmbTipoTransaccionCV" />
+						</div>
+
+						<h:panelGrid columns="3">
+							<p:outputPanel>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 100px;">DNI
+										o RUC</div>
+									<div style="float: left;">
+										<h:inputText id="txtDniRuc" required="true"
+											requiredMessage="Ingrese DNI o Ruc"
+											value="#{transaccionCompraVentaCajaBean.dniRuc}" size="15"
+											maxlength="11" validatorMessage="Dni o Ruc Invalido">
+											<f:validateRegex pattern="((?=.*[0-9]).{8,})" />
+											<p:ajax event="blur" render="@this"></p:ajax>
+										</h:inputText>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtDniRuc" />
+								</div>
+							</p:outputPanel>
+
+
+							<p:outputPanel>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">NOMBRES
+										o RAZON SOCIAL</div>
+									<div style="float: left;">
+										<h:inputText id="txtNombresRazonSocial" required="true"
+											requiredMessage="Ingrese Nombres o Razon Social"
+											value="#{transaccionCompraVentaCajaBean.nombresRazonSocial}"
+											onkeyup="this.value = this.value.toUpperCase();" size="50"
+											maxlenght="200" />
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtNombresRazonSocial" />
+								</div>
+							</p:outputPanel>
+						</h:panelGrid>
+
+						<div class="sf-separator"></div>
+
+						<h:panelGrid columns="3">
+							<p:outputPanel>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 190px;">TIPO
+										MONEDA RECIBIDA</div>
+									<div>
+										<h:selectOneMenu id="cmbTipomonedaRecibida"
+											value="#{transaccionCompraVentaCajaBean.comboTipomonedaRecibido.itemSelected}"
+											valueChangeListener="#{transaccionCompraVentaCajaBean.changeTipomonedaRecibido}"
+											required="true"
+											requiredMessage="Seleccione tipo de moneda recibida">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionCompraVentaCajaBean.comboTipomonedaRecibido.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+											<f:ajax execute="@this" />
+											<f:ajax event="change"
+												listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
+												render="inplace txtMontoRecibido :formCalculadora" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipomonedaRecibida" />
+								</div>
+							</p:outputPanel>
+
+							<p:outputPanel>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+										MONEDA ENTREGADO</div>
+									<div>
+										<h:selectOneMenu id="cmbTipomonedaEntregada"
+											value="#{transaccionCompraVentaCajaBean.comboTipomonedaEntregado.itemSelected}"
+											valueChangeListener="#{transaccionCompraVentaCajaBean.changeTipomonedaEntregado}"
+											required="true"
+											requiredMessage="Seleccione tipo de moneda entregada">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionCompraVentaCajaBean.comboTipomonedaEntregado.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+											<f:ajax execute="@this" />
+											<f:ajax event="change"
+												listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
+												render="inplace" />
+											<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipomonedaEntregada" />
+								</div>
+							</p:outputPanel>
+						</h:panelGrid>
+
+						<div class="p6n-api-consent-screen-input-section">
+							<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+								DE CAMBIO</div>
+							<div style="float: left;">
+								&nbsp;
+								<p:inplace id="inplace">
+									<h:inputText id="txtTipoCambio"
+										value="#{transaccionCompraVentaCajaBean.tipoCambio}"
+										required="true" maxlenght="5"
+										requiredMessage="Ingrese el tipo de cambio">
+										<f:converter converterId="TasaCambioConverter"></f:converter>
+										<f:ajax event="blur"
+											listener="#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}"
+											render="txtMontoEntregado @this" />
+									</h:inputText>
+								</p:inplace>
+							</div>
+						</div>
+
+						<h:panelGrid columns="2">
+							<p:outputPanel>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 100px;">MONTO
+										RECIBIDO</div>
+									<div style="float: left;">
+										<h:inputText id="txtMontoRecibido"
+											value="#{transaccionCompraVentaCajaBean.montoRecibido}"
+											required="true" maxlenght="16"
+											requiredMessage="Ingrese el monto a recibir"
+											validatorMessage="Monto recibido Invalido">
+											<f:converter converterId="MonedaConverter"></f:converter>
+											<f:ajax event="blur"
+												listener="#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}"
+												render="txtMontoEntregado @this" />
+										</h:inputText>
+									</div>
+
+									<div style="float: left;">
+										<h:outputLink id="btnCalculadora" value="#"
+											styleClass="button" style="margin: 0 0 0 1px;">
+											<span class="icon icon32"></span>
+										</h:outputLink>
+									</div>
+								</div>
+							</p:outputPanel>
+
+							<p:outputPanel>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">MONTO
+										ENTREGADO</div>
+									<div style="float: left;">
+										<h:inputText id="txtMontoEntregado"
+											value="#{transaccionCompraVentaCajaBean.montoEntregado}"
+											required="true" maxlenght="16"
+											requiredMessage="Ingrese el monto entregado">
+											<f:converter converterId="MonedaConverter"></f:converter>
+											<f:ajax event="blur"
+												listener="#{transaccionCompraVentaCajaBean.calculateMontoRecibido()}"
+												render="txtMontoRecibido @this" />
+										</h:inputText>
+									</div>
+								</div>
+							</p:outputPanel>
+						</h:panelGrid>
+
+						<div class="sf-separator"></div>
+
+						<div class="sf-buttons" style="float: left;">
+							<h:commandButton
+								action="#{transaccionCompraVentaCajaBean.createTransaccioncaja()}"
+								value="Aceptar" styleClass="action blue">
+							</h:commandButton>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</h:form>
+
+	<div id="dlgCalculadora" class="modal-dialog p6n-popup"
+		style="left: 412.5px; top: 5px;">
+		<div class="p6n-api-consent-screen-title" style="text-align: center;">CALCULADORA</div>
+
+		<h:form id="formCalculadora">
+			<div class="modal-dialog-content">
+				<div>
+					<div>
+						<table>
+							<thead>
+								<tr>
+									<td style="text-align: right;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 100px;">DENOMINACION</div>
+									</td>
+									<td style="width: 20px;"></td>
+									<td><div class="p6n-api-consent-screen-label"
+											style="width: 150px;">CANTIDAD</div></td>
+									<td style="width: 20px;"></td>
+									<td><div class="p6n-api-consent-screen-label"
+											style="width: 110px;">TOTAL</div></td>
+								</tr>
+							</thead>
+							<tbody>
+								<ui:repeat
+									value="#{transaccionCompraVentaCajaBean.calculadoraBeanRecibido.list}"
+									var="detalle">
+									<tr>
+										<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+												value="#{detalle.denominacionmoneda.denominacion}" /></td>
+										<td></td>
+										<td style="padding: 0px;"><h:inputText
+												value="#{detalle.cantidad}" required="true" maxlength="6"
+												styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+												style="width:150px;">
+												<f:ajax event="blur"
+													render="txtSubtotal :formCalculadora:panelTotalTransaccion" />
+											</h:inputText></td>
+										<td></td>
+										<td><h:outputLabel id="txtSubtotal"
+												value="#{detalle.getSubtotal()}"
+												style="width: 110px; vertical-align: middle;" /></td>
+									</tr>
+								</ui:repeat>
+							</tbody>
+						</table>
+					</div>
+					<h:panelGroup id="panelTotalTransaccion">
+						<div style="margin-left: 250px;">
+							<label>TOTAL:</label>
+							<h:outputLabel id="txtTotal"
+								value="#{transaccionCompraVentaCajaBean.calculadoraBeanRecibido.getTotal()}">
+							</h:outputLabel>
+						</div>
+					</h:panelGroup>
+				</div>
+			</div>
+			<div class="modal-dialog-buttons">
+				<h:commandButton value="Guardar" styleClass="action blue">
+					<f:ajax execute="@form"
+						listener="#{transaccionCompraVentaCajaBean.setMontoFromCalculadora()}"
+						render="formCalculadora :formTransaccion:txtMontoRecibido :formTransaccion:txtMontoEntregado"
+						onevent="closeDlgCalculadora">
+					</f:ajax>
+					<f:ajax
+						listener="#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}"
+						render=":formTransaccion:txtMontoRecibido :formTransaccion:txtMontoEntregado">
+					</f:ajax>
+				</h:commandButton>
+				<input type="button" value="Cancelar" class="action"
+					onclick="closeDlgCalculadora()" />
+			</div>
+		</h:form>
+	</div>
+	<div id="modal-dialog-bg" class="modal-dialog-bg"
+		style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+</h:panelGroup>
+</html>
