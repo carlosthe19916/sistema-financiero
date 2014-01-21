@@ -20,6 +20,11 @@
 
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
+			<h:outputText value="Listar Persona Natural" />
+		</ui:define>
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
 			<h:outputText value="Boveda" />
 		</ui:define>
 
@@ -37,7 +42,6 @@
 			<div style="margin-left: 50px;">
 				<div>
 					<div>
-
 						<div class="p6n-api-consent-screen-title">BUSCAR PERSONA
 							NATURAL</div>
 						<div>
@@ -49,13 +53,6 @@
 												value="#{administrarPersonanaturalBean.searched}"
 												maxlength="50" size="50" required="true"
 												onkeyup="this.value = this.value.toUpperCase();" />
-										</div>
-										<div style="float: left;">
-											<h:commandLink
-												action="#{administrarPersonanaturalBean.buscarPersona()}"
-												styleClass="button" style="margin: 0 0 0 1px;">
-												<span class="icon icon198"></span>
-											</h:commandLink>
 
 										</div>
 									</div>
