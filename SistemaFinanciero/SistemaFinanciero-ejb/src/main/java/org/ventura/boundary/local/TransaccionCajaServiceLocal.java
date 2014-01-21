@@ -25,5 +25,7 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	
 	public boolean validateSaldoBovedaCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
 	
-	public ViewvouchercompraventaView find(Object id) throws Exception;
+	public Transaccioncompraventa find(Object id) throws Exception;
+	
+	public void extornarTransaccionCompraVenta(Transaccioncompraventa transaccioncompraventa) throws Exception;
 }

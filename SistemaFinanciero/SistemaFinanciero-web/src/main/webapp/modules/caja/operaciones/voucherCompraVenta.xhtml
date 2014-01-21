@@ -107,15 +107,27 @@
 	</h:form>
 	<h:form>
 		<div class="sf-buttons" style="float: left;">
-			<h:commandButton
-				action="#{transaccionCompraVentaCajaBean.imprimir()}" value="Extornar"
-				styleClass="action red">
+			<p:commandButton
+				actionListener="#{transaccionCompraVentaCajaBean.extornarTransaccionCompraVenta()}"
+				value="Extornar" styleClass="action red">
+				<p:confirm header="Confirmation"
+					message="¿Estas seguro de extornar la transacción?"
+					icon="ui-icon-alert" />
+			</p:commandButton>
+			<h:commandButton value="Imprimir" type="button" icon="ui-icon-print"
+				styleClass="action blue">
+				<p:printer target=":print" />
 			</h:commandButton>
-			<h:commandButton value="Imprimir" type="button" icon="ui-icon-print" styleClass="action blue">  
-       			<p:printer target=":print" />  
-	    	</h:commandButton>  
+		</div>
+
+		<div>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="Si" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</div>
 	</h:form>
-	
 </h:panelGroup>
 </html>

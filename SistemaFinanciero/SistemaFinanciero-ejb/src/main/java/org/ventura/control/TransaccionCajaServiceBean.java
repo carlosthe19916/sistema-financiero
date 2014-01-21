@@ -398,6 +398,18 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		return transaccioncompraventa;
 	}
 	
+	@Override
+	public void extornarTransaccionCompraVenta(Transaccioncompraventa transaccioncompraventa) throws Exception{
+		try {
+			transaccioncompraventaDAO.update(transaccioncompraventa);
+		} catch (Exception e) {
+			transaccioncompraventa.setIdtransaccioncompraventa(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error Interno: No se pudo extornar la transacción compra venta");
+		}
+	}
 	
 	// actualizar el saldo de boveda caja con el monto recibido
 	public void actualizarMontoRecibidoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception {
@@ -617,25 +629,6 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		}
 		return vouchercompraventaView;		
 	}
-	
-	@Override
-	public ViewvouchercompraventaView find(Object id) throws Exception {	
-		ViewvouchercompraventaView vouchercompraventaView = null;
-		try {
-			vouchercompraventaView = vouchercompraventaDAO.find(id);
-			
-			//******************************************************
-			System.out.println("*************************************");
-			System.out.println("Voucher");
-			System.out.println("NUmero Operacion : " + vouchercompraventaView.getNumeroOperacion());
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
-		}
-		return vouchercompraventaView;
-	}
 
 	@Override
 	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception {
@@ -758,7 +751,20 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		}
 		return transaccioncuentaaporte;
 	}
-	
+
+	@Override
+	public Transaccioncompraventa find(Object id) throws Exception {
+		Transaccioncompraventa transaccioncompraventa = null;
+		try {
+			transaccioncompraventa = transaccioncompraventaDAO.find(id);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+		return transaccioncompraventa;
+	}
 }
 
 

@@ -254,6 +254,19 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		return numOperacion;
 	}
 	
+	public String extornarTransaccionCompraVenta(){
+		try {
+			Transaccioncompraventa transaccioncompraventa;
+			transaccioncompraventa = transaccionCompraVentaServiceLocal.find(voucherCompraVenta.getIdTransaccioncompraventa());
+			transaccioncompraventa.setEstado(false);
+			transaccionCompraVentaServiceLocal.extornarTransaccionCompraVenta(transaccioncompraventa);
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, "Error al extornar la transacción");
+			return "failure";
+		}
+		return null;
+	}
+	
 	//valida que la compra o venta no sea del nuevo sol o tipos de monedas iguales
 	public boolean validateCompraVenta() {
 		boolean validate = true;
