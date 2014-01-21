@@ -70,6 +70,9 @@ public class ViewvouchercompraventaView implements Serializable {
 	
 	@Column(name="nombres_razonsocial")
 	private String nombresRazonsocial;
+	
+	@Column(name="estado")
+	private boolean estado;
 
 	@ManyToOne
 	@JoinColumn(name = "id_tipomonedaentregado", nullable = false)

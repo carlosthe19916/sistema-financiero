@@ -184,6 +184,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 					transaccionCompraVenta.setMontoentregado(montoEntregado);
 					transaccionCompraVenta.setTipomonedaEntregado(tipomonedaEntregado);
 					transaccionCompraVenta.setTipomonedaRecibido(tipomonedaRecibido);
+					transaccionCompraVenta.setEstado(true);
 
 					if (validateSaldoCaja(caja, transaccionCompraVenta)) {
 						try {
