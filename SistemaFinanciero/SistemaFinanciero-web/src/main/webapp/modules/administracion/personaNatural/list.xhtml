@@ -16,7 +16,7 @@
 
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
-		<h:outputText value="Boveda" />
+		<h:outputText value="Listar Persona Natural" />
 	</ui:define>
 
 	<!-- Definiendo el cuerpo de la pagina -->
@@ -37,7 +37,7 @@
 									<div style="float: left;">
 										<h:inputText id="txtSearched"
 											value="#{administrarPersonanaturalBean.searched}"
-											maxlength="50" size="50" required="true" />
+											maxlength="50" size="50" required="true" onkeyup="this.value = this.value.toUpperCase();"/>
 									</div>
 									<div style="float: left;">
 										<h:commandLink
