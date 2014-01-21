@@ -19,8 +19,15 @@
 			<h:outputText value="Boveda" />
 		</ui:define>
 
+
 		<!-- Definiendo el cuerpo de la pagina -->
 		<ui:define name="content">
+
+			<!-- Definiendo la cabecera de la pagina -->
+			<ui:define name="title">
+				<h:outputText value="Crear Persona Natural" />
+			</ui:define>
+
 
 			<!-- Definiendo la cabecera de la pagina -->
 			<ui:define name="title">
@@ -116,7 +123,6 @@
 												<h:inputText value="#{personanaturalCRUDBean.ocupacion}"
 													maxlength="70" pt:placeholder="ocupacion"
 													onkeyup="this.value = this.value.toUpperCase();" />
-
 											</div>
 										</div>
 									</div>
