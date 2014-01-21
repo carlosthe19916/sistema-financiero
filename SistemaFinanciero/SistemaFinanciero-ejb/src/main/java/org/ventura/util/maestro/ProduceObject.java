@@ -268,6 +268,9 @@ public class ProduceObject {
 		case DNI:
 			tipodocumento.setIdtipodocumento(1);
 			break;
+		case RUC:
+			tipodocumento.setIdtipodocumento(5);
+			break;
 		default:
 			tipodocumento = null;
 			break;

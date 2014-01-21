@@ -10,7 +10,7 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:rich="http://richfaces.org/rich">
 
-<h:panelGroup rendered="#{!transaccionCompraVentaCajaBean.pageVoucher}">
+<h:panelGroup id="panelgroup" rendered="#{!transaccionCompraVentaCajaBean.pageVoucher}">
 
 	<script type="text/javascript">
 		    $(document).ready(function () {
@@ -159,7 +159,7 @@
 											value="#{transaccionCompraVentaCajaBean.dniRuc}" size="15"
 											maxlength="11" validatorMessage="Dni o Ruc Invalido">
 											<f:validateRegex pattern="((?=.*[0-9]).{8,})" />
-											<p:ajax event="blur" render="@this"></p:ajax>
+											<f:ajax event="blur" render="@this txtNombresRazonSocial" listener="#{transaccionCompraVentaCajaBean.retornarNombresRazonSocial()}"/>
 										</h:inputText>
 									</div>
 								</div>
@@ -179,7 +179,8 @@
 											requiredMessage="Ingrese Nombres o Razon Social"
 											value="#{transaccionCompraVentaCajaBean.nombresRazonSocial}"
 											onkeyup="this.value = this.value.toUpperCase();" size="50"
-											maxlenght="200" />
+											maxlenght="200" >
+										</h:inputText>
 									</div>
 								</div>
 								<div
@@ -318,7 +319,7 @@
 						<div class="sf-separator"></div>
 
 						<div class="sf-buttons" style="float: left;">
-							<h:commandButton
+							<h:commandButton id="btnAceptar"
 								action="#{transaccionCompraVentaCajaBean.createTransaccioncaja()}"
 								value="Aceptar" styleClass="action blue">
 							</h:commandButton>
@@ -406,4 +407,5 @@
 	<div id="modal-dialog-bg" class="modal-dialog-bg"
 		style="opacity: 0.4; width: 1366px; height: 802px;"></div>
 </h:panelGroup>
+
 </html>
