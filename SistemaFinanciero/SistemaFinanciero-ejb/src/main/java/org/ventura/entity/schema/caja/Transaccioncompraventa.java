@@ -143,4 +143,12 @@ public class Transaccioncompraventa implements Serializable {
 	public void setTipocambio(TasaCambio tipocambio) {
 		this.tipocambio = tipocambio;
 	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
 }
