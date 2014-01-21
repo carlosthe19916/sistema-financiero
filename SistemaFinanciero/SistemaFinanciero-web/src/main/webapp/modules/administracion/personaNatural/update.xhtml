@@ -8,12 +8,14 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
+
 <f:view>
 	<f:metadata>
 		<f:viewParam name="id"
 			value="#{personanaturalCRUDBean.idpersonanatural}" />
 		<f:viewAction
 			action="#{personanaturalCRUDBean.loadPersonanaturalForEdit()}" />
+		<f:viewAction action="#{menuMB.updateMenu(4)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 

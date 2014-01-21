@@ -11,6 +11,7 @@
 	<f:metadata>
 		<f:viewParam name="idboveda" value="#{openCloseBovedaBean.idboveda}" />
 		<f:viewAction action="#{openCloseBovedaBean.loadBovedaForOpen()}" />
+		<f:viewAction action="#{menuMB.updateMenu(3)}" />
 	</f:metadata>
 
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">

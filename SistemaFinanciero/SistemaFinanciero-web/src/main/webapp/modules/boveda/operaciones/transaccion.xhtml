@@ -6,210 +6,216 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:jsf="http://xmlns.jcp.org/jsf">
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
-<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Boveda" />
+		</ui:define>
 
-	<!-- Definiendo la cabecera de la pagina -->
-	<ui:define name="title">
-		<h:outputText value="Boveda" />
-	</ui:define>
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
 
-	<!-- Definiendo el cuerpo de la pagina -->
-	<ui:define name="content">
+			<h:outputStylesheet library="css" name="main.css" />
 
-		<h:outputStylesheet library="css" name="main.css" />
-
-		<h:form id="formTransaccion">
-			<br />
-			<div style="margin-left: 50px;">
-				<div>
+			<h:form id="formTransaccion">
+				<br />
+				<div style="margin-left: 50px;">
 					<div>
-						<div class="p6n-api-consent-screen-title">TRANSACCIÓN BÓVEDA</div>
-						<div class="p6n-api-consent-screen-inputs">
-							<div class="p6n-api-consent-screen-input-section">
-								<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDA</div>
-								<div>
-									<h:selectOneMenu id="cmbBoveda"
-										value="#{transaccionBovedaBean.comboBoveda.itemSelected}"
-										valueChangeListener="#{transaccionBovedaBean.changeBoveda}"
-										required="true" requiredMessage="Seleccione una Boveda">
-										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems
-											value="#{transaccionBovedaBean.comboBoveda.items.entrySet()}"
-											var="val" itemLabel="#{val.value.denominacion}"
-											itemValue="#{val.key}" />
-										<f:ajax
-											render="panelDetalletransaccion cmbTipoEntidad panelOrigen"
-											execute="@this" />
-									</h:selectOneMenu>
-								</div>
-							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-								<h:message for="cmbBoveda" />
-							</div>
-							<div class="p6n-api-consent-screen-input-section">
-								<div style="display: inline-block;">
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
-										TRANSACCION</div>
+						<div>
+							<div class="p6n-api-consent-screen-title">TRANSACCIÓN
+								BÓVEDA</div>
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDA</div>
 									<div>
-										<h:selectOneMenu id="cmbTipoTransaccion"
-											value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}"
-											valueChangeListener="#{transaccionBovedaBean.changeTipotransaccion}"
-											required="true"
-											requiredMessage="Seleccione un Tipo de Transaccion">
+										<h:selectOneMenu id="cmbBoveda"
+											value="#{transaccionBovedaBean.comboBoveda.itemSelected}"
+											valueChangeListener="#{transaccionBovedaBean.changeBoveda}"
+											required="true" requiredMessage="Seleccione una Boveda">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
-												value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
+												value="#{transaccionBovedaBean.comboBoveda.items.entrySet()}"
 												var="val" itemLabel="#{val.value.denominacion}"
 												itemValue="#{val.key}" />
-											<f:ajax render="panelOrigen" execute="@this" />
+											<f:ajax
+												render="panelDetalletransaccion cmbTipoEntidad panelOrigen"
+												execute="@this" />
 										</h:selectOneMenu>
 									</div>
 								</div>
-								<div style="display: inline-block;">
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
-										ENTIDAD</div>
-									<div>
-										<h:selectOneMenu id="cmbTipoEntidad"
-											value="#{transaccionBovedaBean.comboTipoentidad.itemSelected}"
-											valueChangeListener="#{transaccionBovedaBean.changeTipoentidad}"
-											required="true"
-											requiredMessage="Seleccione el Tipo de Entidad que realiza la Transaccion">
-											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-											<f:selectItems
-												value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
-												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-											<f:ajax render="panelOrigen" execute="@this" />
-										</h:selectOneMenu>
-									</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbBoveda" />
 								</div>
-								<div style="display: inline-block;">
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">ENTIDAD</div>
-									<h:panelGroup id="panelOrigen">
-										<h:selectOneMenu id="cmbEntidad"
-											rendered="#{(!transaccionBovedaBean.isCaja()) and (!transaccionBovedaBean.isOtro())}"
-											required="true" requiredMessage="Seleccione una Entidad">
-											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										</h:selectOneMenu>
-										<h:selectOneMenu id="cmbCaja"
-											value="#{transaccionBovedaBean.comboCaja.itemSelected}"
-											rendered="#{transaccionBovedaBean.isCaja()}" required="true"
-											requiredMessage="Seleccione una caja">
-											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-											<f:selectItems
-												value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
-												var="val" itemLabel="#{val.value.denominacion}"
-												itemValue="#{val.key}" />
-											<f:ajax render="panelOrigen" execute="@this" />
-										</h:selectOneMenu>
-										<h:selectOneMenu id="cmbEntidadfinanciera"
-											value="#{transaccionBovedaBean.comboEntidadfinanciera.itemSelected}"
-											rendered="#{transaccionBovedaBean.isOtro()}" required="true"
-											requiredMessage="Seleccione una Entidad Financiera">
-											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-											<f:selectItems
-												value="#{transaccionBovedaBean.comboEntidadfinanciera.items.entrySet()}"
-												var="val" itemLabel="#{val.value.denominacion}"
-												itemValue="#{val.key}" />
-											<f:ajax render="panelOrigen" execute="@this" />
-										</h:selectOneMenu>
-									</h:panelGroup>
-								</div>
-							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-								<h:message for="cmbTipoTransaccion" />
-							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-								<h:message for="cmbTipoEntidad" />
-							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-								<h:message for="cmbEntidad" />
-							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-								<h:message for="cmbCaja" />
-							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-								<h:message for="cmbEntidadfinanciera" />
-							</div>
-
-							<div class="sf-separator"></div>
-							<div class="p6n-api-consent-screen-input-section">
-								<div>
-									<h:panelGroup id="panelDetalletransaccion">
-										<table>
-											<thead>
-												<tr>
-													<td style="text-align: right;">
-														<div class="p6n-api-consent-screen-label"
-															style="width: 100px;">DENOMINACION</div>
-													</td>
-													<td style="width: 20px;"></td>
-													<td><div class="p6n-api-consent-screen-label"
-															style="width: 150px;">CANTIDAD</div></td>
-													<td style="width: 20px;"></td>
-													<td><div class="p6n-api-consent-screen-label"
-															style="width: 110px;">TOTAL</div></td>
-												</tr>
-											</thead>
-											<tbody>
-												<ui:repeat
-													value="#{transaccionBovedaBean.tablaDetalletransaccionboveda.rows}"
-													var="detalle">
-													<tr>
-														<td style="text-align: right; vertical-align: middle;"><h:outputLabel
-																value="#{detalle.denominacionmoneda.denominacion}" /></td>
-														<td></td>
-														<td><h:inputText value="#{detalle.cantidad}"
-																required="true" maxlength="6"
-																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
-																style="width:150px;">
-																<f:ajax event="blur"
-																	render="txtTotal :formTransaccion:panelTotalTransaccion" />
-															</h:inputText></td>
-														<td></td>
-														<td><h:outputLabel id="txtTotal"
-																value="#{detalle.getSubtotal()}"
-																style="width: 110px; vertical-align: middle;" /></td>
-													</tr>
-												</ui:repeat>
-											</tbody>
-										</table>
-									</h:panelGroup>
-								</div>
-							</div>
-							<div class="p6n-api-consent-screen-input-section"
-								style="margin-left: 20px;">
-								<h:panelGroup id="panelTotalTransaccion">
-									<div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block;">
 										<div class="p6n-api-consent-screen-label"
-											style="width: 150px;">TOTAL TRANSACCION</div>
+											style="width: 150px;">TIPO TRANSACCION</div>
 										<div>
-											<h:outputLabel id="txtTotaltransaccion"
-												value="#{transaccionBovedaBean.getTotalTransaccion()}">
-											</h:outputLabel>
+											<h:selectOneMenu id="cmbTipoTransaccion"
+												value="#{transaccionBovedaBean.comboTipotransaccion.itemSelected}"
+												valueChangeListener="#{transaccionBovedaBean.changeTipotransaccion}"
+												required="true"
+												requiredMessage="Seleccione un Tipo de Transaccion">
+												<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+												<f:selectItems
+													value="#{transaccionBovedaBean.comboTipotransaccion.items.entrySet()}"
+													var="val" itemLabel="#{val.value.denominacion}"
+													itemValue="#{val.key}" />
+												<f:ajax render="panelOrigen" execute="@this" />
+											</h:selectOneMenu>
 										</div>
 									</div>
-								</h:panelGroup>
-							</div>
-							<div class="sf-separator"></div>
-							<div class="sf-buttons" style="float: left;">
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">TIPO ENTIDAD</div>
+										<div>
+											<h:selectOneMenu id="cmbTipoEntidad"
+												value="#{transaccionBovedaBean.comboTipoentidad.itemSelected}"
+												valueChangeListener="#{transaccionBovedaBean.changeTipoentidad}"
+												required="true"
+												requiredMessage="Seleccione el Tipo de Entidad que realiza la Transaccion">
+												<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+												<f:selectItems
+													value="#{transaccionBovedaBean.comboTipoentidad.items.entrySet()}"
+													var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+												<f:ajax render="panelOrigen" execute="@this" />
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">ENTIDAD</div>
+										<h:panelGroup id="panelOrigen">
+											<h:selectOneMenu id="cmbEntidad"
+												rendered="#{(!transaccionBovedaBean.isCaja()) and (!transaccionBovedaBean.isOtro())}"
+												required="true" requiredMessage="Seleccione una Entidad">
+												<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											</h:selectOneMenu>
+											<h:selectOneMenu id="cmbCaja"
+												value="#{transaccionBovedaBean.comboCaja.itemSelected}"
+												rendered="#{transaccionBovedaBean.isCaja()}" required="true"
+												requiredMessage="Seleccione una caja">
+												<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+												<f:selectItems
+													value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
+													var="val" itemLabel="#{val.value.denominacion}"
+													itemValue="#{val.key}" />
+												<f:ajax render="panelOrigen" execute="@this" />
+											</h:selectOneMenu>
+											<h:selectOneMenu id="cmbEntidadfinanciera"
+												value="#{transaccionBovedaBean.comboEntidadfinanciera.itemSelected}"
+												rendered="#{transaccionBovedaBean.isOtro()}" required="true"
+												requiredMessage="Seleccione una Entidad Financiera">
+												<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+												<f:selectItems
+													value="#{transaccionBovedaBean.comboEntidadfinanciera.items.entrySet()}"
+													var="val" itemLabel="#{val.value.denominacion}"
+													itemValue="#{val.key}" />
+												<f:ajax render="panelOrigen" execute="@this" />
+											</h:selectOneMenu>
+										</h:panelGroup>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipoTransaccion" />
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipoEntidad" />
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbEntidad" />
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbCaja" />
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbEntidadfinanciera" />
+								</div>
 
-								<h:commandButton
-									action="#{transaccionBovedaBean.createTransaccionboveda()}"
-									value="Guardar" styleClass="action blue" />
+								<div class="sf-separator"></div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div>
+										<h:panelGroup id="panelDetalletransaccion">
+											<table>
+												<thead>
+													<tr>
+														<td style="text-align: right;">
+															<div class="p6n-api-consent-screen-label"
+																style="width: 100px;">DENOMINACION</div>
+														</td>
+														<td style="width: 20px;"></td>
+														<td><div class="p6n-api-consent-screen-label"
+																style="width: 150px;">CANTIDAD</div></td>
+														<td style="width: 20px;"></td>
+														<td><div class="p6n-api-consent-screen-label"
+																style="width: 110px;">TOTAL</div></td>
+													</tr>
+												</thead>
+												<tbody>
+													<ui:repeat
+														value="#{transaccionBovedaBean.tablaDetalletransaccionboveda.rows}"
+														var="detalle">
+														<tr>
+															<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+																	value="#{detalle.denominacionmoneda.denominacion}" /></td>
+															<td></td>
+															<td><h:inputText value="#{detalle.cantidad}"
+																	required="true" maxlength="6"
+																	styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+																	style="width:150px;">
+																	<f:ajax event="blur"
+																		render="txtTotal :formTransaccion:panelTotalTransaccion" />
+																</h:inputText></td>
+															<td></td>
+															<td><h:outputLabel id="txtTotal"
+																	value="#{detalle.getSubtotal()}"
+																	style="width: 110px; vertical-align: middle;" /></td>
+														</tr>
+													</ui:repeat>
+												</tbody>
+											</table>
+										</h:panelGroup>
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section"
+									style="margin-left: 20px;">
+									<h:panelGroup id="panelTotalTransaccion">
+										<div>
+											<div class="p6n-api-consent-screen-label"
+												style="width: 150px;">TOTAL TRANSACCION</div>
+											<div>
+												<h:outputLabel id="txtTotaltransaccion"
+													value="#{transaccionBovedaBean.getTotalTransaccion()}">
+												</h:outputLabel>
+											</div>
+										</div>
+									</h:panelGroup>
+								</div>
+								<div class="sf-separator"></div>
+								<div class="sf-buttons" style="float: left;">
+
+									<h:commandButton
+										action="#{transaccionBovedaBean.createTransaccionboveda()}"
+										value="Guardar" styleClass="action blue" />
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</h:form>
-	</ui:define>
+			</h:form>
+		</ui:define>
 
-</ui:composition>
+	</ui:composition>
+</f:view>
 </html>

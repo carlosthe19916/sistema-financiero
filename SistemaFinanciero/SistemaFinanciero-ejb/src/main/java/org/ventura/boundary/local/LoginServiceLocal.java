@@ -21,9 +21,9 @@ public interface LoginServiceLocal extends LoginServiceRemote {
 
 	public Usuario findUserByNamedQuery(Usuario usuario);
 	
-	public Collection<Menu> getMenu(Usuario usuario);
+	public Collection<Menu> getMenu(Usuario usuario) throws Exception;
 
-	public Collection<Modulo> getModule(Usuario usuario);
+	public Collection<Modulo> getModule(Usuario usuario) throws Exception;
 	
 	public List<Caja> getCajas(Usuario usuario) throws Exception;
 }

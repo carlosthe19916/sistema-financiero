@@ -8,8 +8,12 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
+
+
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
- 
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{menuMB.updateMenu(1)}" />
+	</f:metadata>
 	<!-- Definiendo la cabecera de la pagina -->
 	<ui:define name="title">
 		<h:outputText value="Apertura Cta. Aporte" />
@@ -39,7 +43,9 @@
 											<f:selectItems
 												value="#{aperturaCuentaaporteBean.comboTipopersona.items.entrySet()}"
 												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-											<f:ajax render=":persona :formPersonaNatural :formPersonaJuridica" execute="@form"></f:ajax>
+											<f:ajax
+												render=":persona :formPersonaNatural :formPersonaJuridica"
+												execute="@form"></f:ajax>
 										</h:selectOneMenu>
 									</h:form>
 								</div>
@@ -550,4 +556,5 @@
 	</ui:define>
 
 </ui:composition>
+
 </html>

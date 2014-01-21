@@ -16,7 +16,7 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name = Menu.ALL, query = "SELECT m FROM Menu m"),
 		@NamedQuery(name = Menu.ALL_ACTIVE, query = "Select m From Menu m WHERE m.estado=true"),
-		@NamedQuery(name = Menu.ALL_FOR_USER, query = "Select me From Menu me INNER JOIN me.modulo mo INNER JOIN mo.rols r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE me.estado = true AND u.username = :username") })
+		@NamedQuery(name = Menu.ALL_FOR_USER, query = "Select DISTINCT me From Menu me INNER JOIN me.modulo mo INNER JOIN mo.rols r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE me.estado = true AND u.username = :username ORDER BY me.idmenu") })
 public class Menu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
