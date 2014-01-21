@@ -150,11 +150,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncaja.setHora(Calendar.getInstance().getTime());
 			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
 			transaccioncajaDAO.create(transaccioncaja);
-			
-			transaccioncuentabancaria.setTransaccioncaja(transaccioncaja);
-			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
-			transaccioncuentabancariaDAO.create(transaccioncuentabancaria);
-				
+						
 			Moneda saldoFinal = cuentabancaria.getSaldo();
 			Moneda montoTransaccion = transaccioncuentabancaria.getMonto();
 			switch (tipoTransaccion) {
@@ -165,6 +161,12 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 				saldoFinal = saldoFinal.subtract(montoTransaccion);
 				break;
 			}
+			
+			transaccioncuentabancaria.setTransaccioncaja(transaccioncaja);
+			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
+			transaccioncuentabancaria.setEstado(true);
+			transaccioncuentabancaria.setSaldodisponible(saldoFinal);
+			transaccioncuentabancariaDAO.create(transaccioncuentabancaria);
 			
 			cuentabancaria.setSaldo(saldoFinal);		
 			cuentabancariaDAO.update(cuentabancaria);
@@ -213,7 +215,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+			throw e;
 		}
 		return transaccioncuentabancaria;
 	}
@@ -580,7 +582,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 				if(list.size() == 0){
 					vouchercajaView = null;
 				} else {
-					throw new Exception("Error: Query resultado >= 2");
+					throw new Exception("Error: Voucher >= 2");
 				}
 			}
 		} catch (Exception e) {

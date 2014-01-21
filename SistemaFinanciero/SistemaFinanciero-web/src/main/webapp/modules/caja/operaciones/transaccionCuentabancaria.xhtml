@@ -53,6 +53,34 @@
 
 		<h:outputStylesheet library="css" name="main.css" />
 
+		<h:panelGroup
+			rendered="#{!transaccionCuentabancariaCajaBean.isValidBean()}">
+			<div class="p6n-api-access-in-page-error" style="left: 416px;">
+				<div>
+					<div>
+						<p>
+							<h:messages />
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="modal-dialog-bg"
+				style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{transaccionCuentabancariaCajaBean.failure}">
+			<div class="p6n-api-access-in-page-error" style="left: 416px;">
+				<div>
+					<div>
+						<p>
+							<h:messages />
+						</p>
+					</div>
+				</div>
+			</div>
+		</h:panelGroup>
+
+
 		<h:form id="formTransaccion">
 			<br />
 			<div style="margin-left: 50px;">
@@ -68,8 +96,7 @@
 									<label>(<h:outputLabel
 											value="#{transaccionCuentabancariaCajaBean.caja.abreviatura}" />)
 									</label>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<label>Estado:&nbsp;<h:outputLabel
-											value="#{transaccionCuentabancariaCajaBean.estadoaperturaCaja.denominacion}" />&nbsp;|&nbsp;<h:outputLabel
-											value="#{transaccionCuentabancariaCajaBean.estadomovimientoCaja.denominacion}" />
+											value="#{transaccionCuentabancariaCajaBean.caja.estadoapertura.denominacion}" />
 									</label>
 								</div>
 								<div class="p6n-api-app-section-description">Todas las
@@ -87,186 +114,286 @@
 								</div>
 							</h:panelGroup>
 						</h:panelGroup>
-						<h:panelGroup
-							rendered="#{!transaccionCuentabancariaCajaBean.isValidBean()}">
-							<div class="p6n-api-access-in-page-error" style="left: 416px;">
-								<div>
-									<div>
-										<p>
-											<h:messages />
-										</p>
-									</div>
-									<div style="text-align: center;">
-										<h:commandLink value="Volver"
-											action="/modules/caja/administracion/administrarCaja.xhtm?faces-redirect=true"
-											immediate="true"
-											styleClass="p6n-api-access-in-page-error-link" />
-									</div>
-								</div>
-							</div>
-							<div class="modal-dialog-bg"
-								style="opacity: 0.4; width: 1366px; height: 802px;"></div>
-						</h:panelGroup>
 
 						<br /> <br />
 						<div class="p6n-api-consent-screen-title">Transaccion Caja</div>
-						<div class="p6n-api-consent-screen-inputs">
-							<div class="p6n-api-consent-screen-input-section">
-								<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
-									TRANSACCION</div>
+						<h:panelGroup
+							rendered="#{transaccionCuentabancariaCajaBean.success}">
+							<br />
+							<div>
 								<div>
-									<h:selectOneMenu id="cmbTipoTransaccion"
-										value="#{transaccionCuentabancariaCajaBean.comboTipotransaccion.itemSelected}"
-										valueChangeListener="#{transaccionCuentabancariaCajaBean.changeTipotransaccion}"
-										required="true"
-										requiredMessage="Seleccione un tipo de transaccion">
-										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems
-											value="#{transaccionCuentabancariaCajaBean.comboTipotransaccion.items.entrySet()}"
-											var="val" itemLabel="#{val.value.denominacion}"
-											itemValue="#{val.key}" />
-										<f:ajax execute="@this" />
-									</h:selectOneMenu>
+									<div>
+										<h:panelGroup id="voucher2">
+											<h:panelGroup id="voucher1">
+												<table
+													style="width: 230px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
+													<tr style="vertical-align: center;">
+														<td colspan="1"
+															style="text-align: center; font-weight: bold; font-size: 12px;">
+															<p:graphicImage name="eye.png" library="images" />
+														</td>
+														<td colspan="3"
+															style="text-align: center; font-weight: bold; font-size: 12px;">COOPERATIVA
+															DE AHORRO Y CREDITO VENTURA</td>
+													</tr>
+													<tr>
+														<td style="font-weight: bold; font-size: 12px;">Nº
+															OP:</td>
+														<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.numeroOperacion}|#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionCaja}</td>
+														<td style="font-weight: bold; font-size: 12px;">Nº
+															TR:</td>
+														<td>#{transaccionCuentabancariaCajaBean.vouchercajaView.idTransaccioncuentabancaria}</td>
+													</tr>
+													<tr>
+														<td style="font-weight: bold; font-size: 12px;">FECHA:</td>
+														<td style="font-size: 12px;"><h:outputText
+																value="#{transaccionCuentabancariaCajaBean.vouchercajaView.fecha}">
+																<f:convertDateTime pattern="dd/MM/yyyy" />
+															</h:outputText></td>
+														<td style="font-weight: bold; font-size: 12px;">HORA:</td>
+														<td style="font-size: 12px;"><h:outputLabel
+																value="#{transaccionCuentabancariaCajaBean.getStringTime(transaccionCuentabancariaCajaBean.vouchercajaView.hora)}">
+															</h:outputLabel></td>
+													</tr>
+													<tr>
+														<td colspan="4"
+															style="text-align: center; text-decoration: underline;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionTipotransaccion}&nbsp;#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionTipocuentabancaria}</td>
+													</tr>
+													<tr>
+														<td colspan="1"
+															style="font-weight: bold; font-size: 12px;">CUENTA:</td>
+														<td colspan="3" style="font-size: 12px;"><h:outputLabel
+																value="#{transaccionCuentabancariaCajaBean.vouchercajaView.numeroCuenta}" />
+														</td>
+													</tr>
+													<tr>
+														<td colspan="1"
+															style="font-weight: bold; font-size: 12px;">T.CTA:</td>
+														<td colspan="3" style="font-size: 12px;"><h:outputLabel
+																value="#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionTipocuentabancaria}" />
+														</td>
+													</tr>
+													<tr>
+														<td colspan="1"
+															style="font-weight: bold; font-size: 12px;">TITULAR:</td>
+														<td colspan="3">#{transaccionCuentabancariaCajaBean.vouchercajaView.titular}</td>
+													</tr>
+													<tr>
+														<td colspan="1"
+															style="font-weight: bold; font-size: 12px;">REF:</td>
+														<td colspan="3" style="font-size: 10px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.referencia}</td>
+													</tr>
+													<tr>
+														<td colspan="1"
+															style="font-weight: bold; font-size: 12px;">MONEDA:</td>
+														<td colspan="3">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionMoneda}</td>
+													</tr>
+													<tr>
+														<td colspan="1"
+															style="font-weight: bold; font-size: 12px;">MONTO:</td>
+														<td colspan="3">*****#{transaccionCuentabancariaCajaBean.vouchercajaView.monto}</td>
+													</tr>
+												</table>
+											</h:panelGroup>
+											<table style="width: 230px; border: solid 1px #E9E6E6;">
+												<tr>
+													<td colspan="1"
+														style="font-weight: bold; font-size: 12px; width: 56px;">S.
+														DISP:</td>
+													<td>*****#{transaccionCuentabancariaCajaBean.vouchercajaView.saldo}</td>
+												</tr>
+											</table>
+										</h:panelGroup>
+									</div>
+								</div>
+								<div class="modal-dialog-buttons">
+									<h:commandButton value="Imprimir">
+										<p:printer target="voucher1" />
+									</h:commandButton>
+									<h:commandButton value="Imprimir Saldo">
+										<p:printer target="voucher2" />
+									</h:commandButton>
+									<h:commandButton value="Nueva transaccion"
+										styleClass="action red"
+										action="transaccionCuentabancaria?faces-redirect=true" />
 								</div>
 							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-								<h:message for="cmbTipoTransaccion" />
-							</div>
-							<div class="p6n-api-consent-screen-input-section">
-								<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
-								<div>
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{!transaccionCuentabancariaCajaBean.success}">
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+										TRANSACCION</div>
+									<div>
+										<h:selectOneMenu id="cmbTipoTransaccion"
+											value="#{transaccionCuentabancariaCajaBean.comboTipotransaccion.itemSelected}"
+											required="true"
+											requiredMessage="Seleccione un tipo de transaccion">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionCuentabancariaCajaBean.comboTipotransaccion.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipoTransaccion" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
+									<div>
+										<div style="float: left;">
+											<h:inputText id="txtNumerocuenta"
+												value="#{transaccionCuentabancariaCajaBean.cuentabancaria.numerocuenta}"
+												required="true"
+												requiredMessage="Ingrese un numero de cuenta"
+												validatorMessage="Numero de cuenta no valida" maxlength="14">
+												<f:validateRegex pattern="(^[0-9]{14}$)" />
+												<f:ajax
+													listener="#{transaccionCuentabancariaCajaBean.findCuentabancariaByNumerocuenta()}"
+													execute="@this"
+													render="divCuentabancariaValid cuentabancariaResultadobusqueda" />
+											</h:inputText>
+										</div>
+										<div style="float: left;">
+											<h:outputLink id="btnBuscarCuentabancaria" value="#"
+												styleClass="button" style="margin: 0 0 0 1px;">
+												<span class="icon icon198"></span>
+											</h:outputLink>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+									style="float: inherit;">
+									<h:message for="txtNumerocuenta" />
+								</div>
+								<br /> <br />
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+										MONEDA</div>
+									<div>
+										<h:selectOneMenu id="cmbTipomoneda"
+											value="#{transaccionCuentabancariaCajaBean.comboTipomoneda.itemSelected}"
+											valueChangeListener="#{transaccionCuentabancariaCajaBean.changeTipomoneda}"
+											required="true" requiredMessage="Seleccione una moneda">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{transaccionCuentabancariaCajaBean.comboTipomoneda.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+											<f:ajax render="txtMonto :formCalculadora" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipomoneda" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">MONTO</div>
 									<div style="float: left;">
-										<h:inputText id="txtNumerocuenta"
-											value="#{transaccionCuentabancariaCajaBean.numeroCuenta}"
-											required="true" requiredMessage="Ingrese un numero de cuenta"
-											validatorMessage="Numero de cuenta no valida" maxlength="14"
-											onkeypress="if (event.keyCode == 13) { onchange(); return false; }">
-											<f:validateRegex pattern="(^[0-9]{14}$)" />
-											<f:ajax
-												listener="#{transaccionCuentabancariaCajaBean.findCuentabancariaByNumerocuenta()}"
-												execute="@this"
-												render="divCuentabancariaValid cuentabancariaResultadobusqueda" />
+										<h:inputText id="txtMonto"
+											value="#{transaccionCuentabancariaCajaBean.monto}"
+											required="true" maxlenght="16">
+											<f:ajax event="blur" render="@this" />
 										</h:inputText>
 									</div>
 									<div style="float: left;">
-										<h:outputLink id="btnBuscarCuentabancaria" value="#"
+										<h:outputLink id="btnCalculadora" value="#"
 											styleClass="button" style="margin: 0 0 0 1px;">
-											<span class="icon icon198"></span>
+											<span class="icon icon32"></span>
 										</h:outputLink>
 									</div>
 								</div>
-							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
-								style="float: inherit;">
-								<h:message for="txtNumerocuenta" />
-							</div>
-							<br /> <br />
-							<div class="p6n-api-consent-screen-input-section">
-								<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
-									MONEDA</div>
-								<div>
-									<h:selectOneMenu id="cmbTipomoneda"
-										value="#{transaccionCuentabancariaCajaBean.comboTipomoneda.itemSelected}"
-										valueChangeListener="#{transaccionCuentabancariaCajaBean.changeTipomoneda}"
-										required="true" requiredMessage="Seleccione una moneda">
-										<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-										<f:selectItems
-											value="#{transaccionCuentabancariaCajaBean.comboTipomoneda.items.entrySet()}"
-											var="val" itemLabel="#{val.value.denominacion}"
-											itemValue="#{val.key}" />
-										<f:ajax render="txtMonto :formCalculadora" />
-									</h:selectOneMenu>
+								<br /> <br />
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">REFERENCIA</div>
+									<div>
+										<h:inputText
+											value="#{transaccionCuentabancariaCajaBean.referencia}"
+											size="30" maxlenght="200" />
+									</div>
+								</div>
+								<div class="sf-separator"></div>
+
+								<div class="sf-buttons" style="float: left;">
+									<h:commandButton
+										action="#{transaccionCuentabancariaCajaBean.createTransaccioncaja()}"
+										value="Guardar" styleClass="action blue" />
 								</div>
 							</div>
-							<div
-								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-								<h:message for="cmbTipomoneda" />
-							</div>
-							<div class="p6n-api-consent-screen-input-section">
-								<div class="p6n-api-consent-screen-label" style="width: 150px;">MONTO</div>
-								<div style="float: left;">
-									<h:inputText id="txtMonto"
-										value="#{transaccionCuentabancariaCajaBean.monto}"
-										required="true" maxlenght="16">
-										<f:converter converterId="MonedaConverter"></f:converter>
-										<f:ajax event="blur" render="@this" />
-									</h:inputText>
-								</div>
-								<div style="float: left;">
-									<h:outputLink id="btnCalculadora" value="#" styleClass="button"
-										style="margin: 0 0 0 1px;">
-										<span class="icon icon32"></span>
-									</h:outputLink>
-								</div>
-							</div>
-							<br /> <br />
-							<div class="p6n-api-consent-screen-input-section">
-								<div class="p6n-api-consent-screen-label">REFERENCIA</div>
-								<div>
-									<h:inputText
-										value="#{transaccionCuentabancariaCajaBean.referencia}"
-										size="30" maxlenght="200" />
-								</div>
-							</div>
-							<div class="sf-separator"></div>
-
-							<div class="sf-buttons" style="float: left;">
-								<h:commandButton
-									action="#{transaccionCuentabancariaCajaBean.createTransaccioncaja()}"
-									value="Guardar" styleClass="action blue" />
-							</div>
-						</div>
 
 
-						<h:panelGroup id="cuentabancariaResultadobusqueda">
-							<div class="p6n-api-consent-screen-preview-image">
-								<div class="p6n-api-consent-screen-preview-image-bg">
+							<h:panelGroup id="cuentabancariaResultadobusqueda">
+								<div class="p6n-api-consent-screen-preview-image">
+									<div class="p6n-api-consent-screen-preview-image-bg">
 
-									<div class="p6n-api-consent-screen-inputs">
-										<div class="p6n-api-consent-screen-input-section">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NRO
-												CUENTA</div>
-											<div
-												style="text-align: left; margin-left: 20px; font-size: 16px;">
-												<h:outputLabel
-													value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.numerocuenta}" />
+										<div class="p6n-api-consent-screen-inputs">
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NRO
+													CUENTA</div>
+												<div
+													style="text-align: left; margin-left: 20px; font-size: 16px;">
+													<h:outputLabel
+														value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.numerocuenta}" />
+												</div>
 											</div>
-										</div>
-										<div class="p6n-api-consent-screen-input-section">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TIPO
-												CUENTA</div>
-											<div
-												style="text-align: left; margin-left: 20px; font-size: 16px;">
-												<h:outputLabel
-													value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipocuentabancaria}" />
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TIPO
+													CUENTA</div>
+												<div
+													style="text-align: left; margin-left: 20px; font-size: 16px;">
+													<h:outputLabel
+														value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipocuentabancaria}" />
+												</div>
 											</div>
-										</div>
-										<div class="p6n-api-consent-screen-input-section">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">MONEDA</div>
-											<div
-												style="text-align: left; margin-left: 20px; font-size: 16px;">
-												<h:outputLabel
-													value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipomoneda}" />
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">MONEDA</div>
+												<div
+													style="text-align: left; margin-left: 20px; font-size: 16px;">
+													<h:outputLabel
+														value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipomoneda}" />
+												</div>
 											</div>
-										</div>
 
-										<div class="p6n-api-consent-screen-input-section">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TITULAR</div>
-											<div
-												style="text-align: left; margin-left: 20px; font-size: 16px;">
-												<h:outputLabel
-													value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.titular}" />
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TITULAR</div>
+												<div
+													style="text-align: left; margin-left: 20px; font-size: 16px;">
+													<h:outputLabel
+														value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.titular}" />
+												</div>
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">RETIRANTES</div>
+												<div
+													style="text-align: left; margin-left: 20px; font-size: 16px;">
+													<h:dataTable
+														value="#{transaccionCuentabancariaCajaBean.cuentabancaria.titulares}"
+														var="titular">
+														<h:column>
+														#{titular.personanatural.apellidopaterno}&nbsp;#{titular.personanatural.apellidomaterno},#{titular.personanatural.nombres}
+													</h:column>
+														<h:column>
+														&nbsp;|&nbsp;
+														#{titular.personanatural.tipodocumento.abreviatura}:#{titular.personanatural.numerodocumento}
+													</h:column>
+													</h:dataTable>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
+							</h:panelGroup>
 						</h:panelGroup>
 					</div>
 				</div>
@@ -295,15 +422,14 @@
 												render="tblResultadoBusqueda" />
 										</h:commandLink>
 										<h:selectOneMenu id="cmbTipoBusqueda"
-											value="#{transaccionCuentabancariaCajaBean.comboTipobusqueda.itemSelected}"
-											valueChangeListener="#{transaccionCuentabancariaCajaBean.changeTipobusqueda}"
+											value="#{transaccionCuentabancariaCajaBean.comboTipodocumento.itemSelected}"
 											required="true"
 											requiredMessage="Seleccione un Tipo de Busueda">
 											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 											<f:selectItems
-												value="#{transaccionCuentabancariaCajaBean.comboTipobusqueda.items.entrySet()}"
-												var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-											<f:ajax execute="@this" />
+												value="#{transaccionCuentabancariaCajaBean.comboTipodocumento.items.entrySet()}"
+												var="val" itemLabel="#{val.value.abreviatura}"
+												itemValue="#{val.key}" />
 										</h:selectOneMenu>
 									</div>
 									<div
@@ -322,11 +448,8 @@
 										<p:dataTable id="tblResultadoBusqueda" var="cuenta"
 											value="#{transaccionCuentabancariaCajaBean.tablaCuentabancaria.rows}"
 											selectionMode="single"
-											selection="#{transaccionCuentabancariaCajaBean.tablaCuentabancaria.selectedRow}"
+											selection="#{transaccionCuentabancariaCajaBean.cuentabancariaView}"
 											rowKey="#{cuenta}" rowIndexVar="row">
-
-											<p:ajax event="rowSelect"
-												listener="#{transaccionCuentabancariaCajaBean.setRowSelect()}" />
 
 											<p:column headerText="Nro" style="text-align:center;">
 												<h:outputText value="#{row + 1}" />
@@ -355,6 +478,7 @@
 					<h:commandButton value="Aceptar" styleClass="action blue">
 						<f:ajax
 							listener="#{transaccionCuentabancariaCajaBean.setRowSelectToTransaccion()}"
+							execute="@form"
 							render=":formTransaccion:txtNumerocuenta :formTransaccion:cuentabancariaResultadobusqueda"
 							onevent="closeDlgBuscarCuentabancaria" />
 					</h:commandButton>

@@ -69,7 +69,7 @@
 		<class>org.ventura.entity.schema.caja.view.CajaView</class>
 		<class>org.ventura.entity.schema.caja.BovedaCaja</class>
 		<class>org.ventura.entity.schema.caja.BovedaCajaPK</class>
-		<!--<class>org.ventura.entity.schema.caja.view.VouchercajaView</class> -->
+		<class>org.ventura.entity.schema.caja.view.VouchercajaView</class>
 		<class>org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView</class>
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView</class>
 		<class>org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK</class>
