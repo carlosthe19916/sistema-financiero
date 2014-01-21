@@ -250,7 +250,6 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		}if (numeroop >= 1000) {
 			numOperacion = "" + numeroop;
 		}
-		
 		return numOperacion;
 	}
 	

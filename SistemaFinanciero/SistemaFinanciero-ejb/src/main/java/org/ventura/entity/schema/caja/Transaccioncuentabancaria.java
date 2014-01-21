@@ -1,8 +1,6 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -44,18 +42,16 @@ public class Transaccioncuentabancaria implements Serializable {
 
 	@Column(length = 250)
 	private String referencia;
+	
+	private boolean estado;
+	
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldodisponible")) })
+	private Moneda saldodisponible;
 
 	@ManyToOne
 	@JoinColumn(name = "idtransaccioncaja", nullable = false)
 	private Transaccioncaja transaccioncaja;
-	
-	public Transaccioncaja getTransaccioncaja() {
-		return transaccioncaja;
-	}
-
-	public void setTransaccioncaja(Transaccioncaja transaccioncaja) {
-		this.transaccioncaja = transaccioncaja;
-	}
 
 	@ManyToOne
 	@JoinColumn(name = "idcuentabancaria", nullable = false)
@@ -70,6 +66,14 @@ public class Transaccioncuentabancaria implements Serializable {
 	private Tipomoneda tipomoneda;
 
 	public Transaccioncuentabancaria() {
+	}
+	
+	public Transaccioncaja getTransaccioncaja() {
+		return transaccioncaja;
+	}
+
+	public void setTransaccioncaja(Transaccioncaja transaccioncaja) {
+		this.transaccioncaja = transaccioncaja;
 	}
 
 	public Integer getIdtransaccioncuentabancaria() {
@@ -127,6 +131,22 @@ public class Transaccioncuentabancaria implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
+	public Moneda getSaldodisponible() {
+		return saldodisponible;
+	}
+
+	public void setSaldodisponible(Moneda saldodisponible) {
+		this.saldodisponible = saldodisponible;
 	}
 
 }

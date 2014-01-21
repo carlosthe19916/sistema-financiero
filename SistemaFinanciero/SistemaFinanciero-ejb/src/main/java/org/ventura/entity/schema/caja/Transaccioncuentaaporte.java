@@ -51,6 +51,8 @@ public class Transaccioncuentaaporte implements Serializable {
 
 	@Column(length = 200)
 	private String referencia;
+	
+	private boolean estado;
 
 	public Transaccioncuentaaporte() {
 	}
@@ -117,6 +119,14 @@ public class Transaccioncuentaaporte implements Serializable {
 
 	public void setMonto(Moneda monto) {
 		this.monto = monto;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 
 }

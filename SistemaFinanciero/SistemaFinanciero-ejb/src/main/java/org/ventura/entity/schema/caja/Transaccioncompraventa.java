@@ -37,6 +37,9 @@ public class Transaccioncompraventa implements Serializable {
 	@Column(length = 200, name="nombresrazonsocial")
 	private String nombresRazonSocial;
 	
+	@Column(name="estado")
+	private boolean estado;
+	
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tipocambio")) }) 
 	private TasaCambio tipocambio;
