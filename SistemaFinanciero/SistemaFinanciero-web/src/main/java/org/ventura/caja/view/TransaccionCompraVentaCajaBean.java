@@ -15,6 +15,8 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
+import org.ventura.boundary.local.PersonajuridicaServiceLocal;
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TipocambioServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.dependent.CalculadoraBean;
@@ -28,6 +30,9 @@ import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.view.ViewvouchercompraventaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.session.CajaBean;
 import org.ventura.tipodato.Moneda;
@@ -37,6 +42,7 @@ import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.ProduceObjectTipocambio;
 import org.ventura.util.maestro.TipoCambioCompraVentaType;
+import org.ventura.util.maestro.TipodocumentoType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -53,6 +59,10 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
 	@EJB
 	private TipocambioServiceLocal tipocambioServiceLocal;
+	@EJB 
+	private PersonanaturalServiceLocal personanaturalServiceLocal;
+	@EJB 
+	private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 	
 	@Inject
 	private CajaBean cajaBean;
@@ -265,6 +275,30 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 			return "failure";
 		}
 		return null;
+	}
+	
+	//recupera los nombres y apellidos o la razon social de la persona juridica
+	public void retornarNombresRazonSocial() throws Exception{
+		Integer dr = dniRuc.length();
+		try {
+			if(dr==8){
+				Tipodocumento dni = ProduceObject.getTipodocumento(TipodocumentoType.DNI);
+				Personanatural pn = personanaturalServiceLocal.find(dni, dniRuc);
+				if(pn == null){
+					setNombresRazonSocial("");
+				}
+				setNombresRazonSocial(pn.getApellidopaterno()+" "+pn.getApellidomaterno()+" "+pn.getNombres());
+			}
+			if(dr==11){
+				Tipodocumento ruc = ProduceObject.getTipodocumento(TipodocumentoType.RUC);
+				Personajuridica pj = personajuridicaServiceLocal.find(ruc, dniRuc);
+				if(pj == null){
+					setNombresRazonSocial("");
+				}
+				setNombresRazonSocial(pj.getRazonsocial());
+			}
+		} catch (Exception e) {
+		}
 	}
 	
 	//valida que la compra o venta no sea del nuevo sol o tipos de monedas iguales
