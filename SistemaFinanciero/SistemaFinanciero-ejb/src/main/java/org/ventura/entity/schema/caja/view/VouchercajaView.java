@@ -12,8 +12,8 @@ import java.util.Date;
  * The persistent class for the vouchercaja_view database table.
  * 
  */
-//@Entity
-//@Table(name = "vouchercaja_view")
+@Entity
+@Table(name = "vouchercaja_view", schema = "caja")
 @NamedQuery(name = "VouchercajaView.findAll", query = "SELECT v FROM VouchercajaView v")
 @NamedQueries({ @NamedQuery(name = VouchercajaView.FindByIdTransaccioncuentabancaria, query = "SELECT v FROM VouchercajaView v WHERE v.idTransaccioncuentabancaria = :idtransaccioncuentabancaria") })
 public class VouchercajaView implements Serializable {
@@ -22,7 +22,6 @@ public class VouchercajaView implements Serializable {
 
 	public final static String FindByIdTransaccioncuentabancaria = "org.ventura.entity.schema.caja.view.VouchercajaView.FindByIdTransaccioncuentabancaria";
 
-	
 	@Id
 	@Column(name = "id_transaccioncuentabancaria")
 	private Integer idTransaccioncuentabancaria;
