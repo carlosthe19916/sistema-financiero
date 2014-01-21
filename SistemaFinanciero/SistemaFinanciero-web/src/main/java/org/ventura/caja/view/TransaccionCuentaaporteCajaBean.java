@@ -1,13 +1,11 @@
 package org.ventura.caja.view;
 
-import java.awt.print.PrinterJob;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,17 +15,6 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.servlet.ServletContext;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
-import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
@@ -43,11 +30,9 @@ import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
-import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
-import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.session.CajaBean;
@@ -57,7 +42,6 @@ import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.util.DateUtil;
 import org.venturabank.util.JsfUtil;
-import org.venturabank.util.PrintUtil;
 
 @Named
 @ViewScoped
@@ -65,27 +49,16 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@EJB
-	private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
-	@EJB
-	private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
-	@EJB
-	private CuentaaporteServiceLocal cuentaaporteServiceLocal;
-	@EJB
-	private CajaServiceLocal cajaServiceLocal;
-
-	@Inject
-	private CajaBean cajaBean;
-	@Inject
-	private Caja caja;
-	@Inject
-	private Estadomovimiento estadomovimientoCaja;
-	@Inject
-	private Estadoapertura estadoaperturaCaja;
-
+	@Inject private CajaBean cajaBean;
+	@Inject private Caja caja;
+	@Inject private Estadomovimiento estadomovimientoCaja;
+	@Inject private Estadoapertura estadoaperturaCaja;
+	
 	private boolean isValidBean;
 	private boolean isCuentabancariaValid;
-
+	private boolean success;
+	private boolean failure;
+	
 	// busqueda de cuentabancaria
 	private boolean dlgBusquedaCuentaOpen;
 	@Inject private TablaBean<CuentaaporteView> tablaCuentaaporte;
@@ -94,29 +67,31 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	private String valorBusqueda;
 
 	// agrupadores pagina principal
-	@Inject
-	private ComboBean<Tipotransaccion> comboTipotransaccion;
-	@Inject
-	private ComboBean<Tipomoneda> comboTipomoneda;
-	@Inject
-	private CalculadoraBean calculadoraBean;
-	@Inject
-	private TablaBean<AportesCuentaaporteView> tablaAportes;
+	@Inject private ComboBean<Tipotransaccion> comboTipotransaccion;
+	@Inject private ComboBean<Tipomoneda> comboTipomoneda;
+	@Inject private CalculadoraBean calculadoraBean;
+	@Inject private TablaBean<AportesCuentaaporteView> tablaAportes;
 
 	// Datos pagina principal
 	@Inject
-	private Tipotransaccion tipotransaccion;
-	@Inject
+	private Tipotransaccion tipotransaccion; @Inject
 	private Tipomoneda tipomoneda;
-	@Inject
-	private Moneda monto;
+	@Inject private Moneda monto;
 	private String numeroCuentabancaria;
 	private String referencia;
+	
+	private Transaccioncuentaaporte transaccioncuentaaporte;
 
+	@EJB private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
+	@EJB private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
+	@EJB private CuentaaporteServiceLocal cuentaaporteServiceLocal;
+	@EJB private CajaServiceLocal cajaServiceLocal;
+	
 	public TransaccionCuentaaporteCajaBean() {
 		isValidBean = true;
 		isCuentabancariaValid = true;
-		
+		success = false;
+		failure = false;
 		dlgBusquedaCuentaOpen = false;
 	}
 
@@ -124,156 +99,88 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	private void initialize() {
 		try {
 			this.caja = cajaBean.getCaja();
+			if (caja == null) {
+				throw new Exception("El usuario o caja no tiene asinado cajas");
+			}	
 			this.estadoaperturaCaja = caja.getEstadoapertura();
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO);
+			if (!this.estadoaperturaCaja.equals(estadoapertura)) {
+				throw new Exception("La caja debe de estar ABIERTA para realizar transacciones");
+			}
 			Historialcaja historialcaja = cajaServiceLocal.getHistorialcajaLastActive(caja);
 			if (historialcaja != null) {
 				this.estadomovimientoCaja = historialcaja.getEstadomovimiento();
-			} else {
-				throw new Exception(
-						"Caja no fue abierta correctamente, no tiene un historial activo");
+				Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO);
+				if (!this.estadomovimientoCaja.equals(estadomovimiento)) {
+					throw new Exception("La caja debe de estar DESCONGELADA para realizar transacciones");
+				}	
+			} else {		
+				throw new Exception("Caja no fue abierta correctamente, no tiene un historial activo");
 			}
-
-			validateBean();
-
 			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 			comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
-			comboTipodocumento.initValuesFromNamedQueryName(Tipodocumento.All_active);
-			
-			//comboTipodocumento.putItem(1, "Dni");
-			//comboTipodocumento.putItem(2, "Ruc");
-			//comboTipodocumento.putItem(3, "Apellidos o Nombres");
-			//comboTipodocumento.putItem(4, "Razon social");
+			comboTipodocumento.initValuesFromNamedQueryName(Tipodocumento.All_active);	
 		} catch (Exception e) {
-			setBeanInvalid();
-			JsfUtil.addErrorMessage(e,
-					"El usuario o caja no tiene permitido realizar transacciones");
+			isValidBean = false;
+			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
 
-	public void validateBean() {
-		if (caja == null) {
-			setBeanInvalid();
-			JsfUtil.addErrorMessage("El usuario o caja no tiene permitido realizar transacciones");
-		}
-		Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO);
-		if (!this.estadoaperturaCaja.equals(estadoapertura)) {
-			setBeanInvalid();
-			JsfUtil.addErrorMessage("La caja debe de estar ABIERTA para realizar transacciones");
-		}
-		Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO);
-		if (!this.estadomovimientoCaja.equals(estadomovimiento)) {
-			setBeanInvalid();
-			JsfUtil.addErrorMessage("La caja debe de estar DESCONGELADA para realizar transacciones");
-		}	
-	}
-
-	public String createTransaccioncaja() {
-		if (isCuentabancariaValid == true) {
-			validateBean();
-			if (isValidBean()) {
-			
+	public void createTransaccioncaja() {
+		if (success == false) {
+			if (isCuentabancariaValid == true) {
 				Tipomoneda tipomoneda = new Tipomoneda();
 				tipomoneda.setIdtipomoneda(cuentaaporteViewSelected.getIdTipomoneda());
 				if (this.tipomoneda.equals(tipomoneda)) {
-					
+
 					AportesCuentaaporteView aportesCuentaaporteViewSelected;
 					Object object = tablaAportes.getSelectedRow();
 					if (object instanceof AportesCuentaaporteView) {
-						
-						aportesCuentaaporteViewSelected = (AportesCuentaaporteView) object;
-						
-						Transaccioncuentaaporte transaccioncuentaaporte = new Transaccioncuentaaporte();
-
-						Cuentaaporte cuentaaporte = new Cuentaaporte();
-						cuentaaporte.setNumerocuentaaporte(numeroCuentabancaria);
-
-						transaccioncuentaaporte.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
-						transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
-						transaccioncuentaaporte.setMonto(monto);
-						transaccioncuentaaporte.setReferencia(referencia);
-						transaccioncuentaaporte.setTipomoneda(tipomoneda);
-						transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getId().getMes());
-						
 						try {
+							aportesCuentaaporteViewSelected = (AportesCuentaaporteView) object;
+	
+							Transaccioncuentaaporte transaccioncuentaaporte = new Transaccioncuentaaporte();
+	
+							Cuentaaporte cuentaaporte = new Cuentaaporte();
+							cuentaaporte.setNumerocuentaaporte(numeroCuentabancaria);
+	
+							transaccioncuentaaporte.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
+							transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
+							transaccioncuentaaporte.setMonto(monto);
+							transaccioncuentaaporte.setReferencia(referencia);
+							transaccioncuentaaporte.setTipomoneda(tipomoneda);
+							transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getId().getMes());
+			
 							transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja,transaccioncuentaaporte);
-							//VouchercajaView vouchercajaView = transaccionCajaServiceLocal.getVoucherTransaccionBancaria(transaccioncuentabancaria);
-							//imprimirVoucher(vouchercajaView);
+							
+							this.transaccioncuentaaporte = transaccioncuentaaporte;
+							success = true;
 						} catch (Exception e) {
-							JsfUtil.addErrorMessage(e, "Error al actualizar Caja");
-							return "failure";
-						}
-						JsfUtil.addSuccessMessage("Aporte realizado");
-						return "successTransaccionCuentaaporte?faces-redirect=true";					
+							JsfUtil.addErrorMessage(e.getMessage());
+						}	
 					} else {
 						JsfUtil.addErrorMessage("No se selecciono el mes de pago");
-						return null;
-					}				
+					}
 				} else {
 					JsfUtil.addErrorMessage("Los tipos de moneda son incompatibles");
-					return null;
 				}
 			} else {
-				JsfUtil.addErrorMessage("La caja no tiene permitido realizar transacciones");
-				return null;
+				JsfUtil.addErrorMessage("La cuenta bancaria no es valida");
 			}
 		} else {
-			JsfUtil.addErrorMessage("La cuenta bancaria no es valida");
-			return null;
-		}		
+			cargarVoucher();
+		}
+	}
+
+	public void cargarVoucher(){
+		try {
+			//this.vouchercajaView = transaccionCajaServiceLocal.getVoucherTransaccionBancaria(transaccioncuentabancaria);
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e.getMessage());
+			failure = true;
+		}
 	}
 	
-	public void imprimirVoucher(VouchercajaView voucher){         
-        try {	
-        	Map<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put("numeroOperacion", voucher.getNumeroOperacion().toString());
-            parameters.put("fecha", voucher.getFecha());
-            parameters.put("hora", voucher.getHora());
-            parameters.put("title", voucher.getDenominacionTipotransaccion()+" EN CUENTA BANCARIA");
-            parameters.put("tipoCuenta", voucher.getDenominacionTipocuentabancaria());
-            parameters.put("numeroCuenta", voucher.getNumeroCuenta());
-            parameters.put("titular", voucher.getTitular());
-            parameters.put("referencia", voucher.getReferencia());
-            parameters.put("moneda", voucher.getDenominacionMoneda());
-            parameters.put("importe", voucher.getMonto().toString());
-            parameters.put("itf", "todavia");
-            parameters.put("codigoAgenciaCaja", voucher.getCodigoAgencia() + "|" + voucher.getAbreviaturaCaja());
-            
-        	ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();           
-            String serverContextPath = servletContext.getContextPath();
-            
-            String url = servletContext.getRealPath("WEB-INF/reports/Voucher.jasper");
-            JasperReport jasperReport = PrintUtil.getJasperReport(url);      
-            JasperPrint jp = PrintUtil.getJasperPrint(jasperReport, parameters);      
-            
-            PrinterJob job = PrinterJob.getPrinterJob();
-    				
-            PrintRequestAttributeSet printRequestAttributeSet = PrintUtil.getPrintRequest();
-            PrintServiceAttributeSet printServiceAttributeSet = PrintUtil.getPrintService();
-            
-            JRPrintServiceExporter exporter = new JRPrintServiceExporter();
-
-            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
-    		exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET,printRequestAttributeSet);
-    		exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET,printServiceAttributeSet);
-    		exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG,Boolean.FALSE);
-    		exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG,Boolean.TRUE);
-     
-    		JasperPrintManager.printReport(jp, false);
-    		 
-    		//exporter.exportReport();
-    		
-            //job.print(printRequestAttributeSet);       
-    	    
-        } catch (JRException ex) {
-        	// TODO Auto-generated catch block
-			ex.printStackTrace();
-        } catch (Exception e) {
-			// TODO: handle exception
-        	e.printStackTrace();
-		}
-		
-	}
-
 	public void searchCuentabancaria() {
 		List<CuentaaporteView> cuentaaporteViews;
 		Tipodocumento tipodocumento = comboTipodocumento.getObjectItemSelected();
@@ -292,20 +199,20 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 			cuentaaporteView = cuentaaporteServiceLocal.findCuentaaporteViewByNumerocuenta(this.numeroCuentabancaria);
 			if (cuentaaporteView != null) {
 				this.cuentaaporteViewSelected = cuentaaporteView;
-				setCuentabancariaValid();	
-				
+				isCuentabancariaValid = true;	
+	
 				//probando list para eliminar linea
 				loadDetalleAportesCuenta();
 			} else {
 				this.cuentaaporteViewSelected = new CuentaaporteView();
-				setCuentabancariaInvalid();
+				isCuentabancariaValid = false;
 
 				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Cuenta aporte no encontrada","Cuenta aporte no encontrada");
 				FacesContext.getCurrentInstance().addMessage("msgBuscarCuentabancaria", facesMsg);
 			}
 		} catch (Exception e) {
-			setCuentabancariaInvalid();
-			JsfUtil.addErrorMessage("Error al buscar Cuenta aporte");
+			isCuentabancariaValid = false;
+			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
 
@@ -373,6 +280,11 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 		// this.tipotransaccion = tipotransaccionSelected;
 	}
 
+	public String getStringTime(Date date) {
+	    SimpleDateFormat ft = new SimpleDateFormat ("hh:mm:ss");
+	    return ft.format(date);
+	}
+	
 	public void changeTipomoneda(ValueChangeEvent event) {
 		Integer key = (Integer) event.getNewValue();
 		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);
@@ -380,19 +292,6 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 		this.monto = new Moneda();
 		loadDenominacionmonedaCalculadora();
 	}
-
-	public void setBeanInvalid() {
-		this.isValidBean = false;
-	}
-
-	public void setCuentabancariaInvalid() {
-		this.isCuentabancariaValid = false;
-	}
-	
-	public void setCuentabancariaValid() {
-		this.isCuentabancariaValid = true;
-	}
-
 
 	public DenominacionmonedaServiceLocal getDenominacionmonedaServiceLocal() {
 		return denominacionmonedaServiceLocal;
@@ -586,6 +485,31 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	public void setCuentaaporteViewSelected(
 			CuentaaporteView cuentaaporteViewSelected) {
 		this.cuentaaporteViewSelected = cuentaaporteViewSelected;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public boolean isFailure() {
+		return failure;
+	}
+
+	public void setFailure(boolean failure) {
+		this.failure = failure;
+	}
+
+	public Transaccioncuentaaporte getTransaccioncuentaaporte() {
+		return transaccioncuentaaporte;
+	}
+
+	public void setTransaccioncuentaaporte(
+			Transaccioncuentaaporte transaccioncuentaaporte) {
+		this.transaccioncuentaaporte = transaccioncuentaaporte;
 	}
 
 }

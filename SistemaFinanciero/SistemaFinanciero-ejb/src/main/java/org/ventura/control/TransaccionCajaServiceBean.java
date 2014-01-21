@@ -685,6 +685,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			
 			transaccioncuentaaporte.setTransaccioncaja(transaccioncaja);
 			transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
+			transaccioncuentaaporte.setEstado(true);
 			transaccioncuentaaporteDAO.create(transaccioncuentaaporte);
 				
 			Moneda saldoFinal = cuentaaporte.getSaldo();

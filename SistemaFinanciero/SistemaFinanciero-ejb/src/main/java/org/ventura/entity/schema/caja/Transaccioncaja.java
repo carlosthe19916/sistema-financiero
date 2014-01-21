@@ -23,6 +23,9 @@ public class Transaccioncaja implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer idtransaccioncaja;
 
+	@Column(nullable = false)
+	private Integer numerooperacion;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date fecha;
@@ -68,6 +71,14 @@ public class Transaccioncaja implements Serializable {
 
 	public void setHistorialcaja(Historialcaja historialcaja) {
 		this.historialcaja = historialcaja;
+	}
+
+	public Integer getNumerooperacion() {
+		return numerooperacion;
+	}
+
+	public void setNumerooperacion(Integer numerooperacion) {
+		this.numerooperacion = numerooperacion;
 	}
 
 }
