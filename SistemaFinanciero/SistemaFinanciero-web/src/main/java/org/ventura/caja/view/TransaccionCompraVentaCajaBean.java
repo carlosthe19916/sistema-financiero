@@ -190,12 +190,6 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 							transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta);
 							ViewvouchercompraventaView vouchercompraventaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionCompraVentaMoneda(transaccionCompraVenta);
 							setVoucherCompraVenta(vouchercompraventaView);
-							
-							
-							System.out.println(voucherCompraVenta.getHora());
-
-							
-							
 						} catch (Exception e) {
 							JsfUtil.addErrorMessage(e, "Error al realizar la transacción");
 							return "failure";
@@ -243,6 +237,22 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 			}
 		} catch (Exception e) {}
 	} 
+	
+	public String returnNumOperacion(){
+		String numOperacion = null;
+		Integer numeroop = voucherCompraVenta.getNumeroOperacion();
+		if (numeroop > 0 && numeroop < 10) {
+			numOperacion = "000" + numeroop;
+		}if (numeroop >= 10 && numeroop < 100) {
+			numOperacion = "00" + numeroop;
+		}if (numeroop >= 100 && numeroop < 1000) {
+			numOperacion = "0" + numeroop;
+		}if (numeroop >= 1000) {
+			numOperacion = "" + numeroop;
+		}
+		
+		return numOperacion;
+	}
 	
 	//valida que la compra o venta no sea del nuevo sol o tipos de monedas iguales
 	public boolean validateCompraVenta() {
