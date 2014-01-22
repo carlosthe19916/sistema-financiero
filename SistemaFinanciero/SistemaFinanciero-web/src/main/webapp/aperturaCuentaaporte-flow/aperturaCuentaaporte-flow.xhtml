@@ -70,7 +70,7 @@
 											<div class="p6n-api-consent-screen-inputs">
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos generales</h3>
+														style="color: #298B11;">Datos Generales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div style="display: inline-block; width: 190px;">
@@ -192,7 +192,7 @@
 																	navigator="true" pattern="dd/MM/yyyy" required="true"
 																	requiredMessage="Ingrese fecha de nacimiento"
 																	converterMessage="formato incorrecto">
-																	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
+																	<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 																</p:calendar>
 															</div>
 														</div>
@@ -206,7 +206,7 @@
 												<br />
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos adicionales</h3>
+														style="color: #298B11;">Datos Adicionales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div class="p6n-api-consent-screen-label">ESTADO
@@ -229,6 +229,7 @@
 															<div>
 																<div>
 																	<h:inputText
+																	onkeyup="this.value = this.value.toUpperCase();"
 																		value="#{aperturaCuentaaporteBean.ocupacion}" />
 																</div>
 															</div>
@@ -286,6 +287,7 @@
 													<div>
 														<div>
 															<h:inputText
+															onkeyup="this.value = this.value.toUpperCase();"
 																value="#{aperturaCuentaaporteBean.emailPersonanatural}"
 																style="width:339px;" />
 														</div>
@@ -320,7 +322,7 @@
 											<div class="p6n-api-consent-screen-inputs">
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos generales</h3>
+														style="color: #298B11;">Datos Generales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div style="display: inline-block; width: 190px;">
@@ -422,7 +424,7 @@
 																	navigator="true" pattern="dd/MM/yyyy" required="true"
 																	requiredMessage="Ingrese Fecha de constitucion"
 																	converterMessage="El formato de la fecha no es correcto">
-																	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
+																	<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 																</p:calendar>
 															</div>
 														</div>
@@ -436,7 +438,7 @@
 												<br />
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos comerciales</h3>
+														style="color: #298B11;">Datos Comerciales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div style="display: inline-block; width: 190px;">
@@ -480,7 +482,7 @@
 												<br />
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos adicionales</h3>
+														style="color: #298B11;">Datos Adicionales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div style="display: inline-block; width: 190px;">
@@ -533,6 +535,7 @@
 													<div>
 														<div>
 															<h:inputText
+															onkeyup="this.value = this.value.toUpperCase();"
 																value="#{aperturaCuentaaporteBean.emailPersonajuridica}"
 																style="width:339px;" />
 														</div>
