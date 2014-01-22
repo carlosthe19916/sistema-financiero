@@ -173,7 +173,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 		List<Personajuridica> resultList = null;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("searched", "%" + searched + "%");
+			parameters.put("searched", "%" + searched.toUpperCase() + "%");
 			resultList = personajuridicaDAO.findByNamedQuery(Personajuridica.f_searched, parameters, resultLimit);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());

@@ -87,7 +87,7 @@ public class PersonanaturalServiceBean implements PersonanaturalServiceLocal {
 		List<Personanatural> resultList = null;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("searched", "%" + searched + "%");
+			parameters.put("searched", "%" + searched.toUpperCase() + "%");
 			resultList = personanaturalDAO.findByNamedQuery(Personanatural.f_searched, parameters, resultLimit);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());

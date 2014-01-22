@@ -275,7 +275,7 @@
 				</h:form>
 			</h:panelGroup>
 			<h:panelGroup rendered="#{personajuridicaCRUDBean.pageTwo}">
-				<h:form>
+				<h:form id="formPage2">
 					<div style="margin-left: 50px;">
 						<div>
 							<div>
@@ -517,7 +517,7 @@
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.fechanacimiento}">
-																								<f:convertDateTime pattern="dd/MM/yy" />
+																								<f:convertDateTime pattern="dd/MM/yyyy" />
 																							</h:outputLabel>
 																					</a></td>
 																					<td><a href="javascript:;"
@@ -553,9 +553,10 @@
 															style="margin-left: 0px;">
 															<div class="p6n-action-bar" style="padding-bottom: 45px;">
 																<h:commandButton value="Añadir Accionista"
-																	immediate="true"
-																	action="#{personajuridicaCRUDBean.setDlgAccionistaOpen(true)}"
 																	class="actionn red">
+																	<f:ajax
+																		render=":panelGroupDlgAccionista :formDialogAccionista"
+																		listener="#{personajuridicaCRUDBean.setDlgAccionistaOpen(true)}" />
 																</h:commandButton>
 															</div>
 														</div>
@@ -627,7 +628,7 @@
 													onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
 													pt:placeholder="12345678">
 													<f:convertNumber type="number" integerOnly="true" />
-													<f:ajax
+													<f:ajax event="blur"
 														listener="#{personajuridicaCRUDBean.buscarPersonanaturalAccionista()}"
 														render="@form"></f:ajax>
 												</h:inputText>
@@ -762,8 +763,9 @@
 							</div>
 							<div class="modal-dialog-buttons">
 								<h:commandButton value="Guardar" styleClass="action blue">
-									<f:ajax listener="#{personajuridicaCRUDBean.addAccionista()}"
-										render="@form :panelGroupDlgAccionista" />
+									<f:ajax execute="@form"
+										listener="#{personajuridicaCRUDBean.addAccionista()}"
+										render="@form :panelGroupDlgAccionista :formPage2:tablaAccionistas" />
 								</h:commandButton>
 								<h:commandButton value="Cancelar" styleClass="action">
 									<f:ajax
@@ -783,11 +785,11 @@
 					<div class="modal-dialog p6n-popup"
 						style="left: 502px; top: 200px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Creacion
+							<span class="modal-dialog-title-text">Actualizacion
 								satisfactoria</span><span class="modal-dialog-title-close"></span>
 						</div>
 						<div class="modal-dialog-content ng-binding">La persona fue
-							creada satistactoriamente.</div>
+							actualizada satistactoriamente.</div>
 						<div class="modal-dialog-buttons">
 							<h:commandButton value="Volver" action="list?faces-redirect=true"
 								immediate="true" />

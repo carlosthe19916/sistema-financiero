@@ -381,7 +381,7 @@ public class PersonajuridicaCRUDBean implements Serializable {
 		
 		Accionista accionista = new Accionista();
 		accionista.setPersonanatural(personanatural);
-		accionista.setPorcentajeparticipacion(porcentajeParticipacionAccionista);
+		accionista.setPorcentajeparticipacion(new BigDecimal(porcentajeParticipacionAccionista.toString()));
 		
 		this.accionistas.put(keyMap, accionista);
 		
@@ -629,6 +629,19 @@ public class PersonajuridicaCRUDBean implements Serializable {
 
 	public void setDlgAccionistaOpen(boolean isDlgAccionistaOpen) {
 		this.isDlgAccionistaOpen = isDlgAccionistaOpen;
+		
+		if(isDlgAccionistaOpen == false){
+			this.comboTipodocumentoAccionista.setItemSelected(-1);
+			this.numeroDocumentoAccionista = "";
+			this.apellidoPaternoAccionista = "";
+			this.apellidoMaternoAccionista = "";
+			this.nombresAccionista = "";
+			this.fechaNacimientoAccionista = null;
+			this.comboSexoAccionista.setItemSelected(-1);
+			BigDecimal bigDecimal = new BigDecimal(0);
+			bigDecimal.setScale(2);
+			this.porcentajeParticipacionAccionista = bigDecimal;
+		}	
 	}
 
 	public Map<String, Accionista> getAccionistas() {
