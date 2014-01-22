@@ -39,87 +39,99 @@
 												maxlength="50" size="50" required="true"
 												onkeyup="this.value = this.value.toUpperCase();" />
 										</div>
-									</div>
-								</div>
-							</h:form>
-
-
-
-							<!-- TITULARES -->
-							<h:form>
-								<div class="buttons p6n-api-consent-screen-inputs"
-									style="margin-left: 39px;">
-									<div class="tiptip">
-										<h:commandLink action="create" styleClass="button left"
-											title="Nueva bóveda" target="_blank">
-											<span class="icon icon3"></span>
-											<span class="label">Nuevo</span>
-										</h:commandLink>
-									</div>
-								</div>
-								<div class="p6n-api-consent-screen-inputs">
-									<div class="p6n-content ng-scope">
-										<div class="p6n-content-no-nav ng-scope">
-											<div class="p6n-main-pane ng-isolate-scope"
-												style="margin-top: 0px;">
-												<div>
-													<div class="ng-scope">
-														<p:dataTable var="persona"
-															value="#{administrarPersonanaturalBean.tablaPersonanatural.rows}"
-															selectionMode="single"
-															selection="#{administrarPersonanaturalBean.tablaPersonanatural.selectedRow}"
-															rowKey="#{persona}" rowIndexVar="row">
-															<p:column headerText="Nro" width="5%"
-																style="text-align:center;">
-																<h:outputText value="#{row + 1}" />
-															</p:column>
-															<p:column headerText="TIPO DOCUMENTO"
-																style="text-align:center;">
-																<h:outputText
-																	value="#{persona.tipodocumento.abreviatura}" />
-															</p:column>
-															<p:column headerText="NUMERO DOCUMENTO">
-																<h:outputText value="#{persona.numerodocumento}" />
-															</p:column>
-															<p:column headerText="APELLIDO PATERNO">
-																<h:outputText value="#{persona.apellidopaterno}" />
-															</p:column>
-															<p:column headerText="APELLIDO MATERNO">
-																<h:outputText value="#{persona.apellidomaterno}" />
-															</p:column>
-															<p:column headerText="NOMBRES">
-																<h:outputText value="#{persona.nombres}" />
-															</p:column>
-															<p:column headerText="SEXO">
-																<h:outputText value="#{persona.sexo.denominacion}" />
-															</p:column>
-															<p:column headerText="FECHA NACIMIENTO"
-																style="text-align:center;">
-																<h:outputText value="#{persona.fechanacimiento}">
-																	<f:convertDateTime pattern="dd/MM/yyyy" />
-																</h:outputText>
-															</p:column>
-															<p:column headerText="STATUS">
-																<h:button value="Edit" outcome="update"
-																	styleClass="action green" style="margin: 0px;">
-																	<f:param name="id" value="#{persona.idpersonanatural}" />
-																</h:button>
-															</p:column>
-														</p:dataTable>
-													</div>
-												</div>
-											</div>
+										<div style="float: left;">
+											<h:commandLink
+												action="#{administrarPersonanaturalBean.buscarPersona()}"
+												styleClass="button" style="margin: 0 0 0 1px;">
+												<span class="icon icon198"></span>
+											</h:commandLink>
 										</div>
 									</div>
-									<!-- END TITULARES -->
 								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+									style="float: inherit;">
+									<h:message for="txtSearched" />
+								</div>
+								<br />
+								<br />
 							</h:form>
 						</div>
 					</div>
 				</div>
 			</div>
-		</ui:define>
 
+			<br />
+			<!-- PERSONA NATURAL -->
+			<h:form>
+
+				<div class="buttons p6n-api-consent-screen-inputs"
+					style="margin-left: 39px;">
+					<div class="tiptip">
+						<h:commandLink action="create" styleClass="button left"
+							title="Nueva bóveda" target="_blank">
+							<span class="icon icon3"></span>
+							<span class="label">Nuevo</span>
+						</h:commandLink>
+					</div>
+				</div>
+				<div class="p6n-api-consent-screen-inputs">
+					<div class="p6n-content ng-scope">
+						<div class="p6n-content-no-nav ng-scope">
+							<div class="p6n-main-pane ng-isolate-scope"
+								style="margin-top: 0px;">
+								<div>
+									<div class="ng-scope">
+										<p:dataTable var="persona"
+											value="#{administrarPersonanaturalBean.tablaPersonanatural.rows}"
+											selectionMode="single"
+											selection="#{administrarPersonanaturalBean.tablaPersonanatural.selectedRow}"
+											rowKey="#{persona}" rowIndexVar="row">
+											<p:column headerText="Nro" width="5%"
+												style="text-align:center;">
+												<h:outputText value="#{row + 1}" />
+											</p:column>
+											<p:column headerText="TIPO DOCUMENTO"
+												style="text-align:center;">
+												<h:outputText value="#{persona.tipodocumento.abreviatura}" />
+											</p:column>
+											<p:column headerText="NUMERO DOCUMENTO">
+												<h:outputText value="#{persona.numerodocumento}" />
+											</p:column>
+											<p:column headerText="APELLIDO PATERNO">
+												<h:outputText value="#{persona.apellidopaterno}" />
+											</p:column>
+											<p:column headerText="APELLIDO MATERNO">
+												<h:outputText value="#{persona.apellidomaterno}" />
+											</p:column>
+											<p:column headerText="NOMBRES">
+												<h:outputText value="#{persona.nombres}" />
+											</p:column>
+											<p:column headerText="SEXO">
+												<h:outputText value="#{persona.sexo.denominacion}" />
+											</p:column>
+											<p:column headerText="FECHA NACIMIENTO"
+												style="text-align:center;">
+												<h:outputText value="#{persona.fechanacimiento}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</p:column>
+											<p:column headerText="STATUS">
+												<h:button value="Edit" outcome="update"
+													styleClass="action green" style="margin: 0px;">
+													<f:param name="id" value="#{persona.idpersonanatural}" />
+												</h:button>
+											</p:column>
+										</p:dataTable>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+			<!-- END PERSONA NATURAL -->
+		</ui:define>
 	</ui:composition>
 </f:view>
 </html>
