@@ -120,7 +120,7 @@
 														value="#{personajuridicaCRUDBean.actividadprincipal}"
 														maxlength="50"
 														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="actividad principal">
+														pt:placeholder="Actividad Principal">
 													</h:inputText>
 												</div>
 											</div>
@@ -238,7 +238,7 @@
 												<div>
 													<h:inputText
 														value="#{personajuridicaCRUDBean.celularPersonajuridica}"
-														maxlength="20" pt:placeholder="celular/#rpm">
+														maxlength="20" pt:placeholder="Celular/rpm">
 													</h:inputText>
 												</div>
 											</div>
@@ -314,7 +314,7 @@
 															requiredMessage="Ingrese numero de documento"
 															validatorMessage="Número de documento Invalido"
 															converterMessage="Número de documento Invalido"
-															pt:placeholder="Numero documento">
+															pt:placeholder="Numero Documento">
 															<f:convertNumber integerOnly="true" type="number"
 																groupingUsed="false" />
 															<f:ajax
@@ -340,7 +340,7 @@
 																required="true" maxlength="50"
 																requiredMessage="Ingrese apellido paterno"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Apellido paterno">
+																pt:placeholder="Apellido Paterno">
 															</h:inputText>
 														</div>
 													</div>
@@ -355,7 +355,7 @@
 																required="true" maxlength="50"
 																requiredMessage="Ingrese apellido materno"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Apellido materno">
+																pt:placeholder="Apellido Materno">
 															</h:inputText>
 														</div>
 													</div>
@@ -624,7 +624,7 @@
 													validatorMessage="Número de documento Invalido"
 													converterMessage="Número de documento Invalido"
 													onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-													pt:placeholder="12345678">
+													pt:placeholder="Número Documento">
 													<f:convertNumber type="number" integerOnly="true" />
 													<f:ajax event="blur"
 														listener="#{personajuridicaCRUDBean.buscarPersonanaturalAccionista()}"
@@ -649,7 +649,7 @@
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido paterno"
 														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="Apellido paterno">
+														pt:placeholder="Apellido Paterno">
 													</h:inputText>
 												</div>
 											</div>
@@ -664,7 +664,7 @@
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido materno"
 														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="Apellido materno">
+														pt:placeholder="Apellido Materno">
 													</h:inputText>
 												</div>
 											</div>
@@ -746,7 +746,7 @@
 													required="true" maxlength="6"
 													requiredMessage="Ingrese porcentaje"
 													converterMessage="Número invalido" pt:placeholder="(%)">
-													<f:convertNumber type="number" maxIntegerDigits="2"
+													<f:convertNumber type="number" maxIntegerDigits="3"
 														minIntegerDigits="1" />
 												</h:inputText>
 											</div>
