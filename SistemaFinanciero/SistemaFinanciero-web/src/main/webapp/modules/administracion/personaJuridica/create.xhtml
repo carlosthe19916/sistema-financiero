@@ -34,7 +34,7 @@
 								<div class="p6n-api-consent-screen-inputs">
 									<div class="sf-separator">
 										<h3 class="p6n-api-consent-screen-title"
-											style="color: #298B11;">Datos generales</h3>
+											style="color: #298B11;">Datos Generales</h3>
 									</div>
 									<div class="p6n-api-consent-screen-input-section">
 										<div style="display: inline-block; width: 190px;">
@@ -120,7 +120,7 @@
 														value="#{personajuridicaCRUDBean.actividadprincipal}"
 														maxlength="50"
 														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="actividad principal">
+														pt:placeholder="Actividad Principal">
 													</h:inputText>
 												</div>
 											</div>
@@ -150,7 +150,7 @@
 									<br />
 									<div class="sf-separator">
 										<h3 class="p6n-api-consent-screen-title"
-											style="color: #298B11;">Datos comerciales</h3>
+											style="color: #298B11;">Datos Comerciales</h3>
 									</div>
 									<div class="p6n-api-consent-screen-input-section">
 										<div style="display: inline-block; width: 190px;">
@@ -192,7 +192,7 @@
 									<br />
 									<div class="sf-separator">
 										<h3 class="p6n-api-consent-screen-title"
-											style="color: #298B11;">Datos adicionales</h3>
+											style="color: #298B11;">Datos Adicionales</h3>
 									</div>
 									<div class="p6n-api-consent-screen-input-section">
 										<div style="display: inline-block; width: 190px;">
@@ -238,7 +238,7 @@
 												<div>
 													<h:inputText
 														value="#{personajuridicaCRUDBean.celularPersonajuridica}"
-														maxlength="20" pt:placeholder="celular/#rpm">
+														maxlength="20" pt:placeholder="Celular/RPM">
 													</h:inputText>
 												</div>
 											</div>
@@ -250,6 +250,7 @@
 											<div>
 												<h:inputText
 													value="#{personajuridicaCRUDBean.emailPersonajuridica}"
+													onkeyup="this.value = this.value.toUpperCase();"
 													pt:placeholder="example@domain.com" style="width:339px;"
 													maxlength="50" />
 											</div>
@@ -279,7 +280,7 @@
 									<div class="sf-separator">
 										<div>
 											<h3 class="p6n-api-consent-screen-title"
-												style="color: #298B11;">Representante legal</h3>
+												style="color: #298B11;">Representante Legal</h3>
 										</div>
 									</div>
 									<h:panelGroup id="formRepresentantelegal">
@@ -313,7 +314,7 @@
 															requiredMessage="Ingrese numero de documento"
 															validatorMessage="Número de documento Invalido"
 															converterMessage="Número de documento Invalido"
-															pt:placeholder="Numero documento">
+															pt:placeholder="Numero Documento">
 															<f:convertNumber integerOnly="true" type="number"
 																groupingUsed="false" />
 															<f:ajax
@@ -339,7 +340,7 @@
 																required="true" maxlength="50"
 																requiredMessage="Ingrese apellido paterno"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Apellido paterno">
+																pt:placeholder="Apellido Paterno">
 															</h:inputText>
 														</div>
 													</div>
@@ -354,7 +355,7 @@
 																required="true" maxlength="50"
 																requiredMessage="Ingrese apellido materno"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Apellido materno">
+																pt:placeholder="Apellido Materno">
 															</h:inputText>
 														</div>
 													</div>
@@ -623,7 +624,7 @@
 													validatorMessage="Número de documento Invalido"
 													converterMessage="Número de documento Invalido"
 													onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-													pt:placeholder="12345678">
+													pt:placeholder="Número Documento">
 													<f:convertNumber type="number" integerOnly="true" />
 													<f:ajax event="blur"
 														listener="#{personajuridicaCRUDBean.buscarPersonanaturalAccionista()}"
@@ -648,7 +649,7 @@
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido paterno"
 														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="Apellido paterno">
+														pt:placeholder="Apellido Paterno">
 													</h:inputText>
 												</div>
 											</div>
@@ -663,7 +664,7 @@
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido materno"
 														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="Apellido materno">
+														pt:placeholder="Apellido Materno">
 													</h:inputText>
 												</div>
 											</div>
@@ -745,7 +746,7 @@
 													required="true" maxlength="6"
 													requiredMessage="Ingrese porcentaje"
 													converterMessage="Número invalido" pt:placeholder="(%)">
-													<f:convertNumber type="number" maxIntegerDigits="2"
+													<f:convertNumber type="number" maxIntegerDigits="3"
 														minIntegerDigits="1" />
 												</h:inputText>
 											</div>

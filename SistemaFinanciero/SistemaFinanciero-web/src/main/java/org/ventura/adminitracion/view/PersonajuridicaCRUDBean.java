@@ -225,7 +225,7 @@ public class PersonajuridicaCRUDBean implements Serializable {
 		for (Accionista accionista : listAccionista) {
 			porcentajeTotal = porcentajeTotal.add(accionista.getPorcentajeparticipacion());
 		}
-		return porcentajeTotal.compareTo(new BigDecimal(100)) == 0 ? true : false;
+		return porcentajeTotal.compareTo(new BigDecimal(100)) <= 0 ? true : false;
 	}
 
 	public void updatePersona() throws Exception {
@@ -272,7 +272,7 @@ public class PersonajuridicaCRUDBean implements Serializable {
 					}	
 				} else {
 					this.failure = true;
-					JsfUtil.addErrorMessage("El porcentaje de participacion supera 100%");
+					JsfUtil.addErrorMessage("El porcentaje de participacion supera el 100%");
 				}
 			}	
 		} catch (Exception e) {
