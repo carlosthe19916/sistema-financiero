@@ -77,9 +77,9 @@ public class SocioServiceBean implements SocioServiceLocal {
 			
 			Personanatural personanatural = socio.getPersonanatural();
 			Personanatural apoderado = socio.getApoderado();	
-			personanaturalServiceLocal.createIfNotExistsUpdateIfExist(personanatural);
+			personanatural = personanaturalServiceLocal.createIfNotExistsUpdateIfExist(personanatural);
 			if(apoderado != null){
-				personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(apoderado);
+				apoderado = personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(apoderado);
 			}
 							
 			Cuentaaporte cuentaaporte = new Cuentaaporte();		
@@ -88,13 +88,15 @@ public class SocioServiceBean implements SocioServiceLocal {
 			cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
 			cuentaaporte.setFechacierre(null);
 			cuentaaporte.setSaldo(new Moneda());				
-			cuentaaporteServiceLocal.create(cuentaaporte);
+			cuentaaporte = cuentaaporteServiceLocal.create(cuentaaporte);
 			
 			socio.setEstado(true);
 			socio.setFechaasociado(Calendar.getInstance().getTime());
 			socio.setCuentaaporte(cuentaaporte);
 			socio.setPersonanatural(personanatural);
-			socio.setApoderado(apoderado);			
+			if(apoderado != null) {
+				socio.setApoderado(apoderado);
+			}					
 			socioDAO.create(socio);
 			
 			return socio;
@@ -128,7 +130,7 @@ public class SocioServiceBean implements SocioServiceLocal {
 			cuentaaporte.setFechaapertura(Calendar.getInstance().getTime());
 			cuentaaporte.setFechacierre(null);
 			cuentaaporte.setSaldo(new Moneda());				
-			cuentaaporteServiceLocal.create(cuentaaporte);
+			cuentaaporte = cuentaaporteServiceLocal.create(cuentaaporte);
 			
 			socio.setEstado(true);
 			socio.setFechaasociado(Calendar.getInstance().getTime());

@@ -30,7 +30,6 @@ import org.ventura.entity.schema.persona.Tipoempresa;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
-import org.ventura.session.MenuMB;
 import org.venturabank.util.JsfUtil;
 
 @Named
