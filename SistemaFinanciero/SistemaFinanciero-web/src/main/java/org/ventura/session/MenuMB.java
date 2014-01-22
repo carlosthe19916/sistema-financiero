@@ -16,6 +16,7 @@ import javax.inject.Named;
 import org.ventura.boundary.local.LoginServiceLocal;
 import org.ventura.entity.schema.seguridad.Menu;
 import org.ventura.entity.schema.seguridad.Modulo;
+import org.venturabank.util.JsfUtil;
 
 @Named
 @ViewScoped
@@ -43,10 +44,15 @@ public class MenuMB implements Serializable{
 	
 	@PostConstruct
 	private void init(){
-		menus = (List<Menu>) loginServiceLocal.getMenu(usuarioMB.getUsuario());
+		try {
+			menus = (List<Menu>) loginServiceLocal.getMenu(usuarioMB.getUsuario());
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
 	}
 	
-	public void updateMenu(){
+	public void updateMenu(Integer idmodulo){
+		this.modulo.setIdmodulo(idmodulo);
 		menuFinal = orderMenu();
 	}
 	

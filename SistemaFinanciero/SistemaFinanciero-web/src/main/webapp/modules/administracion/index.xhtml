@@ -6,41 +6,41 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-
-<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
-
+<f:view>
 	<f:metadata>
-		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
-		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+		<f:viewAction action="#{menuMB.updateMenu(4)}" />
 	</f:metadata>
-	
-	<!-- Definiendo la cabecera de la pagina -->
-	<ui:define name="title">
-		<h:outputText value="BOVEDA" />
-	</ui:define>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
-	<!-- Definiendo el cuerpo de la pagina -->
-	<ui:define name="content">
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="BOVEDA" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
 
 
 
-
-		<div id="homepage">
-			<div>
+			<div id="homepage">
 				<div>
-					<h1>Modulo BOVEDA</h1>
-					<p>Google Apps es un paquete de productividad basado en la nube
-						que lo ayuda a usted y también a su equipo a estar comunicados y
-						agilizar el trabajo estén donde estén, con cualquier dispositivo.
-						Es fácil de configurar, utilizar y administrar, lo que le permite
-						trabajar de forma más inteligente y concentrarse en lo que
-						realmente importa.</p>
+					<div>
+						<h1>Modulo BOVEDA</h1>
+						<p>Google Apps es un paquete de productividad basado en la
+							nube que lo ayuda a usted y también a su equipo a estar
+							comunicados y agilizar el trabajo estén donde estén, con
+							cualquier dispositivo. Es fácil de configurar, utilizar y
+							administrar, lo que le permite trabajar de forma más inteligente
+							y concentrarse en lo que realmente importa.</p>
+					</div>
 				</div>
+				<div></div>
+				<div></div>
 			</div>
-			<div></div>
-			<div></div>
-		</div>
-	</ui:define>
+		</ui:define>
 
-</ui:composition>
+	</ui:composition>
+</f:view>
 </html>

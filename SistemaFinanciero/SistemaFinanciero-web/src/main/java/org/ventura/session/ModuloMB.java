@@ -14,6 +14,7 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.LoginServiceLocal;
 import org.ventura.entity.schema.seguridad.Modulo;
+import org.venturabank.util.JsfUtil;
 
 @Named
 @SessionScoped
@@ -37,7 +38,11 @@ public class ModuloMB implements Serializable {
 	private void init() {
 		Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
 		if (principal != null) {
-			modulosUsuario = (List<Modulo>) loginServiceLocal.getModule(usuarioMB.getUsuario());
+			try {
+				modulosUsuario = (List<Modulo>) loginServiceLocal.getModule(usuarioMB.getUsuario());
+			} catch (Exception e) {
+				JsfUtil.addErrorMessage(e.getMessage());
+			}
 		} 
 	}
 

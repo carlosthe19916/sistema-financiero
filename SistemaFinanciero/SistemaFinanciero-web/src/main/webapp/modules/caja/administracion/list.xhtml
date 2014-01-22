@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(2)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Caja" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+			<h:outputStylesheet library="css" name="main.css" />
+
+			<br />
+			<div>
+				<div>
+					<div class="p6n-api-consent-screen-title">Administrar Caja</div>
+					<h:messages />
+					<br />
+					<div>
+						<h:form id="formToolbar">
+							<div class="buttons">
+								<div class="tiptip">
+									<p:commandLink action="create" styleClass="button left"
+										title="Nueva Caja">
+										<span class="icon icon3"></span>
+										<span class="label">Nuevo</span>
+									</p:commandLink>
+									<p:commandLink action="update" styleClass="button middle"
+										title="Editar Caja">
+										<span class="icon icon3"></span>
+										<span class="label">Editar</span>
+									</p:commandLink>
+									<p:commandLink
+										actionListener="#{administrarCajaBeanReplace.deleteCaja()}"
+										update=":formTablaCaja" styleClass="button right"
+										title="Eliminar Caja">
+										<p:confirm header="Confirmation"
+											message="¿Estas seguro de eliminar la Caja?"
+											icon="ui-icon-alert" />
+										<span class="icon icon186"></span>
+										<span class="label">Eliminar</span>
+									</p:commandLink>
+									<p:commandLink
+										actionListener="#{administrarCajaBeanReplace.desactivarMovimiento()}"
+										update=":formTablaCaja:tblCaja" styleClass="button left"
+										title="Congelar Boveda">
+										<p:confirm header="Confirmation"
+											message="¿Estas seguro de Congelar la Caja?"
+											icon="ui-icon-alert" />
+										<span class="icon icon125"></span>
+										<span class="label">Congelar</span>
+									</p:commandLink>
+									<p:commandLink
+										actionListener="#{administrarCajaBeanReplace.activarMovimiento()}"
+										update=":formTablaCaja:tblCaja" styleClass="button right"
+										title="Descongelar Caja">
+										<p:confirm header="Confirmation"
+											message="¿Estas seguro de Descongelar la Caja?"
+											icon="ui-icon-alert" />
+										<span class="icon icon126"></span>
+										<span class="label">Descongelar</span>
+									</p:commandLink>
+								</div>
+								<div>
+									<p:confirmDialog global="true">
+										<p:commandButton value="Si" type="button"
+											styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+										<p:commandButton value="No" type="button"
+											styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+									</p:confirmDialog>
+								</div>
+								<div class="dropdown">
+									<h:outputLink styleClass="button">
+										<span class="icon icon96">&nbsp;</span>
+										<span class="label">Operaciones</span>
+										<span class="toggle">&nbsp;</span>
+									</h:outputLink>
+									<div class="dropdown-slider">
+										<h:commandLink action="open" styleClass="ddm">
+											<span class="icon icon123">&nbsp;</span>
+											<span class="label">Abrir Caja</span>
+										</h:commandLink>
+										<h:commandLink action="close" styleClass="ddm">
+											<span class="icon icon122">&nbsp;</span>
+											<span class="label">Cerrar Caja</span>
+										</h:commandLink>
+									</div>
+									<!-- /.dropdown-slider -->
+								</div>
+							</div>
+						</h:form>
+						<h:form id="formTablaCaja">
+							<div style="margin: 5px;">
+								<p:dataTable id="tblCaja" var="caja"
+									value="#{administrarCajaBeanReplace.tablaCaja.rows}"
+									selectionMode="single"
+									selection="#{administrarCajaBeanReplace.tablaCaja.selectedRow}"
+									rowKey="#{caja}" rowIndexVar="row">
+
+									<p:ajax event="rowSelect"
+										listener="#{administrarCajaBeanReplace.setRowSelect()}" />
+
+									<p:column headerText="Nro" width="5%"
+										style="text-align:center;">
+										<h:outputText value="#{row + 1}" />
+									</p:column>
+
+									<p:column headerText="Denominacion"
+										sortBy="#{caja.denominacionCaja}">
+										<h:outputText value="#{caja.denominacionCaja}" />
+									</p:column>
+
+									<p:column headerText="Abreviatura"
+										sortBy="#{caja.abreviaturaCaja}">
+										<h:outputText value="#{caja.abreviaturaCaja}" />
+									</p:column>
+
+									<p:column headerText="Estado Apertura" width="200"
+										sortBy="#{caja.denominacionEstadoapertura}">
+										<h:outputText value="#{caja.denominacionEstadoapertura}" />
+									</p:column>
+									<p:column headerText="Estado Movimiento" width="200"
+										sortBy="#{caja.denominacionEstadomovimiento}">
+										<h:outputText value="#{caja.denominacionEstadomovimiento}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</h:form>
+
+					</div>
+				</div>
+			</div>
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+</html>

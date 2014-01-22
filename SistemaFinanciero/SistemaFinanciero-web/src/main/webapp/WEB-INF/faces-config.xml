@@ -12,7 +12,7 @@
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
-  <from-view-id>/modules/boveda/administracion/administrarBoveda.xhtml</from-view-id>
+  <from-view-id>/modules/boveda/administracion/list.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>create</from-outcome>
    <to-view-id>/modules/boveda/administracion/create.xhtml</to-view-id>
@@ -53,12 +53,12 @@
   <from-view-id>/modules/boveda/administracion/create.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>success</from-outcome>
-   <to-view-id>/modules/boveda/administracion/administrarBoveda.xhtml</to-view-id>
+   <to-view-id>/modules/boveda/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
    <from-outcome>cancel</from-outcome>
-   <to-view-id>/modules/boveda/administracion/administrarBoveda.xhtml</to-view-id>
+   <to-view-id>/modules/boveda/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -66,12 +66,12 @@
   <from-view-id>/modules/boveda/administracion/update.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>success</from-outcome>
-   <to-view-id>/modules/boveda/administracion/administrarBoveda.xhtml</to-view-id>
+   <to-view-id>/modules/boveda/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
    <from-outcome>cancel</from-outcome>
-   <to-view-id>/modules/boveda/administracion/administrarBoveda.xhtml</to-view-id>
+   <to-view-id>/modules/boveda/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -79,12 +79,12 @@
   <from-view-id>/modules/boveda/operaciones/open.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>success</from-outcome>
-   <to-view-id>/modules/boveda/administracion/administrarBoveda.xhtml</to-view-id>
+   <to-view-id>/modules/boveda/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
    <from-outcome>cancel</from-outcome>
-   <to-view-id>/modules/boveda/administracion/administrarBoveda.xhtml</to-view-id>
+   <to-view-id>/modules/boveda/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -92,12 +92,12 @@
   <from-view-id>/modules/boveda/operaciones/close.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>success</from-outcome>
-   <to-view-id>/modules/boveda/administracion/administrarBoveda.xhtml</to-view-id>
+   <to-view-id>/modules/boveda/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
    <from-outcome>cancel</from-outcome>
-   <to-view-id>/modules/boveda/administracion/administrarBoveda.xhtml</to-view-id>
+   <to-view-id>/modules/boveda/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -130,7 +130,7 @@
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
-  <from-view-id>/modules/caja/administracion/administrarCaja.xhtml</from-view-id>
+  <from-view-id>/modules/caja/administracion/list.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>create</from-outcome>
    <to-view-id>/modules/caja/administracion/create.xhtml</to-view-id>
@@ -171,12 +171,12 @@
   <from-view-id>/modules/caja/administracion/create.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>success</from-outcome>
-   <to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+   <to-view-id>/modules/caja/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
    <from-outcome>cancel</from-outcome>
-   <to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+   <to-view-id>/modules/caja/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -184,12 +184,12 @@
   <from-view-id>/modules/caja/administracion/update.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>success</from-outcome>
-   <to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+   <to-view-id>/modules/caja/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
    <from-outcome>cancel</from-outcome>
-   <to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+   <to-view-id>/modules/caja/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -197,12 +197,12 @@
   <from-view-id>/modules/caja/operaciones/open.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>success</from-outcome>
-   <to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+   <to-view-id>/modules/caja/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
    <from-outcome>cancel</from-outcome>
-   <to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+   <to-view-id>/modules/caja/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -210,14 +210,13 @@
   <from-view-id>/modules/caja/operaciones/close.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>success</from-outcome>
-   <to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+   <to-view-id>/modules/caja/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
    <from-outcome>cancel</from-outcome>
-   <to-view-id>/modules/caja/administracion/administrarCaja.xhtml</to-view-id>
+   <to-view-id>/modules/caja/administracion/list.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
-
 </faces-config>

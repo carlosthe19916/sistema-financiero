@@ -16,7 +16,7 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name = Modulo.ALL, query = "Select m From Modulo m"),
 		@NamedQuery(name = Modulo.ALL_ACTIVE, query = "Select m From Modulo m WHERE m.estado=true"),
-		@NamedQuery(name = Modulo.ALL_FOR_USER, query = "Select m From Modulo m INNER JOIN m.rols r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE m.estado = true AND m.modulo = null AND u.username = :username") })
+		@NamedQuery(name = Modulo.ALL_FOR_USER, query = "Select distinct m From Modulo m INNER JOIN m.rols r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE m.estado = true AND m.modulo = null AND u.username = :username ORDER BY m.idmodulo") })
 public class Modulo implements Serializable {
 
 	public final static String ALL = "org.ventura.model.Modulo.ALL";
