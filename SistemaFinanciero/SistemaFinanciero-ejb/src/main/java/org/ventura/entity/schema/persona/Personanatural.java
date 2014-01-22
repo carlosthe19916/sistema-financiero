@@ -18,7 +18,7 @@ import java.util.Date;
 @NamedQuery(name = "Personanatural.findAll", query = "SELECT p FROM Personanatural p")
 @NamedQueries({
 		@NamedQuery(name = Personanatural.f_tipodocumento_numerodocumento, query = "SELECT p FROM Personanatural p WHERE p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento"),
-		@NamedQuery(name = Personanatural.f_searched, query = "SELECT p FROM Personanatural p WHERE p.numerodocumento LIKE :searched OR UPPER(p.apellidopaterno) LIKE :searched OR UPPER(p.apellidomaterno) LIKE :searched OR UPPER(p.nombres) LIKE :searched") })
+		@NamedQuery(name = Personanatural.f_searched, query = "SELECT p FROM Personanatural p WHERE p.numerodocumento LIKE :searched OR UPPER(CONCAT(p.apellidopaterno,' ', p.apellidomaterno,' ', p.nombres)) LIKE :searched") })
 public class Personanatural implements Serializable {
 
 	private static final long serialVersionUID = 1L;

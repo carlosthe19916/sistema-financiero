@@ -5,7 +5,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
 		<f:viewAction action="#{menuMB.updateMenu(4)}" />
@@ -34,7 +35,8 @@
 										<div style="float: left;">
 											<h:inputText id="txtSearched"
 												value="#{administrarPersonajuridicaBean.searched}"
-												maxlength="50" size="50" required="true" />
+												maxlength="50" size="50" required="true"
+												pt:placeholder="RUC / RAZON SOCIAL" />
 										</div>
 										<div style="float: left;">
 											<h:commandLink
