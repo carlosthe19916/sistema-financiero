@@ -31,7 +31,7 @@
 									<div class="sf-separator">
 										<div>
 											<h3 class="p6n-api-consent-screen-title"
-												style="color: #298B11;">Representante legal</h3>
+												style="color: #298B11;">Representante Legal</h3>
 										</div>
 									</div>
 									<h:panelGroup id="formRepresentantelegal">
@@ -66,7 +66,7 @@
 															validatorMessage="Número de documento Invalido"
 															converterMessage="Número de documento Invalido"
 															onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-															pt:placeholder="12345678">
+															pt:placeholder="Número Documento">
 															<f:convertNumber integerOnly="true" type="number"
 																groupingUsed="false" />
 															<f:ajax
@@ -92,7 +92,7 @@
 																required="true" maxlength="50"
 																requiredMessage="Ingrese apellido paterno"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Apellido paterno">
+																pt:placeholder="Apellido Paterno">
 															</h:inputText>
 														</div>
 													</div>
@@ -107,7 +107,7 @@
 																required="true" maxlength="50"
 																requiredMessage="Ingrese apellido materno"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="Apellido materno">
+																pt:placeholder="Apellido Materno">
 															</h:inputText>
 														</div>
 													</div>
@@ -162,9 +162,9 @@
 																value="#{aperturaCuentaahorroBean.fechaNacimientoRepresentantelegal}"
 																navigator="true" pattern="dd/MM/yyyy" required="true"
 																requiredMessage="Ingrese fecha de nacimiento"
-																converterMessage="formato incorrecto"
+																converterMessage="Formato incorrecto"
 																pt:placeholder="dd/mm/yyyy">
-																<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
+																<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 															</p:calendar>
 														</div>
 													</div>
@@ -378,7 +378,7 @@
 														validatorMessage="Número de documento Invalido"
 														converterMessage="Número de documento Invalido"
 														onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-														pt:placeholder="12345678">
+														pt:placeholder="Numero Documento">
 														<f:convertNumber type="number" integerOnly="true" />
 														<f:ajax
 															listener="#{aperturaCuentaahorroBean.buscarPersonanaturalAccionista()}"
@@ -403,7 +403,7 @@
 															required="true" maxlength="50"
 															requiredMessage="Ingrese apellido paterno"
 															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Apellido paterno">
+															pt:placeholder="Apellido Paterno">
 														</h:inputText>
 													</div>
 												</div>
@@ -418,7 +418,7 @@
 															required="true" maxlength="50"
 															requiredMessage="Ingrese apellido materno"
 															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Apellido materno">
+															pt:placeholder="Apellido Materno">
 														</h:inputText>
 													</div>
 												</div>
@@ -478,7 +478,7 @@
 															requiredMessage="Ingrese fecha de nacimiento"
 															converterMessage="formato incorrecto"
 															pt:placeholder="dd/mm/yyyy">
-															<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
+															<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 														</p:calendar>
 													</div>
 												</div>
@@ -500,7 +500,7 @@
 														required="true" maxlength="6"
 														requiredMessage="Ingrese porcentaje"
 														converterMessage="Número invalido" pt:placeholder="(%)">
-														<f:convertNumber type="number" maxIntegerDigits="2"
+														<f:convertNumber type="number" maxIntegerDigits="3"
 															minIntegerDigits="1" />
 													</h:inputText>
 												</div>

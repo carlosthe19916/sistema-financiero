@@ -375,7 +375,7 @@
 								style="width: 385px;">
 								<div class="p6n-api-consent-screen-inputs">
 									<div class="sf-separator">
-										<h3 class="p6n-api-consent-screen-title">Datos generales</h3>
+										<h3 class="p6n-api-consent-screen-title">Datos Generales</h3>
 									</div>
 									<div class="p6n-api-consent-screen-input-section">
 										<div style="display: inline-block; width: 190px;">
@@ -407,7 +407,7 @@
 													validatorMessage="Número de documento Invalido"
 													converterMessage="Número de documento Invalido"
 													onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-													pt:placeholder="12345678">
+													pt:placeholder="Número Documento">
 													<f:convertNumber type="number" integerOnly="true" />
 													<f:ajax
 														listener="#{aperturaCuentaahorroBean.buscarPersonanaturalTitular()}"
@@ -432,7 +432,7 @@
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido paterno"
 														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="Apellido paterno">
+														pt:placeholder="Apellido Paterno">
 													</h:inputText>
 												</div>
 											</div>
@@ -447,7 +447,7 @@
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido materno"
 														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="Apellido materno">
+														pt:placeholder="Apellido Paterno">
 													</h:inputText>
 												</div>
 											</div>
@@ -507,7 +507,7 @@
 														requiredMessage="Ingrese fecha de nacimiento"
 														converterMessage="formato incorrecto"
 														pt:placeholder="dd/mm/yyyy">
-														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
+														<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 													</p:calendar>
 												</div>
 											</div>
@@ -559,7 +559,7 @@
 												maxlength="15"
 												validatorMessage="Número de documento Invalido"
 												converterMessage="Número de documento Invalido"
-												pt:placeholder="12345678">
+												pt:placeholder="Número Documento">
 												<f:convertNumber type="number" integerOnly="true" />
 											</h:inputText>
 										</div>
@@ -579,7 +579,7 @@
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido paterno"
 														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="Apellido paterno">
+														pt:placeholder="Apellido Paterno">
 													</h:inputText>
 												</div>
 											</div>
@@ -632,7 +632,7 @@
 											<div>
 												<h:inputText id="txtPorcentajebeneficiarioBeneficiario"
 													value="#{aperturaCuentaahorroBean.porcentajeBeneficio}"
-													maxlength="2" pt:placeholder="(%)">
+													maxlength="3" pt:placeholder="(%)">
 													<f:convertNumber type="number" integerOnly="true" />
 												</h:inputText>
 											</div>
