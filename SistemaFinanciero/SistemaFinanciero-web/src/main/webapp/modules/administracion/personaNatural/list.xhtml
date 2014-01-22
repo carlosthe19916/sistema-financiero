@@ -70,7 +70,7 @@
 				<div class="buttons p6n-api-consent-screen-inputs"
 					style="margin-left: 39px;">
 					<div class="tiptip">
-						<h:commandLink action="create" styleClass="button left"
+						<h:commandLink action="create?faces-redirect=true" styleClass="button left"
 							title="Nueva bóveda" target="_blank">
 							<span class="icon icon3"></span>
 							<span class="label">Nuevo</span>
@@ -120,7 +120,7 @@
 											</p:column>
 											<p:column headerText="STATUS">
 												<h:button value="Edit" outcome="update"
-													styleClass="action green" style="margin: 0px;">
+													styleClass="action green" style="margin: 0px;" target="_blank">
 													<f:param name="id" value="#{persona.idpersonanatural}" />
 												</h:button>
 											</p:column>
