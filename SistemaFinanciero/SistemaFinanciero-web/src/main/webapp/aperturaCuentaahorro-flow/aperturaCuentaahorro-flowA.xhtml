@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Apertura Cta. Ahorro" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+
+		<h:outputStylesheet library="css" name="main.css" />
+
+		<br />
+		<div>
+			<h:panelGroup id="panelGroupPersonajuridica"
+				rendered="#{aperturaCuentaahorroBean.personajuridica}">
+				<h:form id="formPersonajuridica">
+					<div style="margin-left: 50px;">
+						<div>
+							<div>
+								<div class="p6n-api-consent-screen-inputs">
+									<div class="sf-separator">
+										<div>
+											<h3 class="p6n-api-consent-screen-title"
+												style="color: #298B11;">Representante Legal</h3>
+										</div>
+									</div>
+									<h:panelGroup id="formRepresentantelegal">
+										<div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">TIPO
+														DOCUMENTO</div>
+													<div>
+														<h:selectOneMenu id="cmbTipodocumentoRepresentantelegal"
+															value="#{aperturaCuentaahorroBean.comboTipodocumentoRepresentantelegal.itemSelected}"
+															valueChangeListener="#{aperturaCuentaahorroBean.changeTipodocumentoRepresentantelegal}"
+															required="true"
+															requiredMessage="Seleccione tipo de documento">
+															<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+															<f:selectItems
+																value="#{aperturaCuentaahorroBean.comboTipodocumentoRepresentantelegal.items.entrySet()}"
+																var="val" itemLabel="#{val.value.abreviatura}"
+																itemValue="#{val.key}" />
+															<f:ajax></f:ajax>
+														</h:selectOneMenu>
+													</div>
+												</div>
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">NUMERO
+														DOCUMENTO</div>
+													<div>
+														<h:inputText id="txtNumerodocumentoRepresentantelegal"
+															value="#{aperturaCuentaahorroBean.numeroDocumentoRepresentantelegal}"
+															required="true" maxlength="15"
+															requiredMessage="Ingrese numero de documento"
+															validatorMessage="Número de documento Invalido"
+															converterMessage="Número de documento Invalido"
+															onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+															pt:placeholder="numero documento">
+															<f:convertNumber integerOnly="true" type="number"
+																groupingUsed="false" />
+															<f:ajax
+																listener="#{aperturaCuentaahorroBean.buscarPersonanaturalRepresentantelegal()}"
+																render="formRepresentantelegal"></f:ajax>
+														</h:inputText>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="cmbTipodocumentoRepresentantelegal" />
+												<h:message for="txtNumerodocumentoRepresentantelegal" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">APELLIDO
+														PATERNO</div>
+													<div>
+														<div>
+															<h:inputText id="txtApellidoPaternoRepresentantelegal"
+																value="#{aperturaCuentaahorroBean.apellidoPaternoRepresentantelegal}"
+																required="true" maxlength="50"
+																requiredMessage="Ingrese apellido paterno"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="Apellido Paterno">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">APELLIDO
+														MATERNO</div>
+													<div>
+														<div>
+															<h:inputText id="txtApellidoMaternoRepresentantelegal"
+																value="#{aperturaCuentaahorroBean.apellidoMaternoRepresentantelegal}"
+																required="true" maxlength="50"
+																requiredMessage="Ingrese apellido materno"
+																onkeyup="this.value = this.value.toUpperCase();"
+																pt:placeholder="Apellido Materno">
+															</h:inputText>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="txtApellidoPaternoRepresentantelegal" />
+												<h:message for="txtApellidoMaternoRepresentantelegal" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label">NOMBRES</div>
+												<div>
+													<div>
+														<h:inputText id="txtNombresRepresentantelegal"
+															value="#{aperturaCuentaahorroBean.nombresRepresentantelegal}"
+															required="true" maxlength="50"
+															requiredMessage="Ingrese nombres"
+															onkeyup="this.value = this.value.toUpperCase();"
+															style="width:339px;" pt:placeholder="Nombres">
+														</h:inputText>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="txtNombresRepresentantelegal" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">SEXO</div>
+													<div>
+														<div>
+															<h:selectOneMenu id="cmbSexoRepresentantelegal"
+																value="#{aperturaCuentaahorroBean.comboSexoRepresentantelegal.itemSelected}"
+																required="true" requiredMessage="Seleccione sexo">
+																<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+																<f:selectItems
+																	value="#{aperturaCuentaahorroBean.comboSexoRepresentantelegal.items.entrySet()}"
+																	var="val" itemLabel="#{val.value.denominacion}"
+																	itemValue="#{val.key}" />
+															</h:selectOneMenu>
+														</div>
+													</div>
+												</div>
+												<div style="display: inline-block;">
+													<div class="p6n-api-consent-screen-label">FECHA DE
+														NACIMIENTO</div>
+													<div>
+														<div>
+															<p:calendar id="txtFechanacimientoRepresentantelegal"
+																value="#{aperturaCuentaahorroBean.fechaNacimientoRepresentantelegal}"
+																navigator="true" pattern="dd/MM/yyyy" required="true"
+																requiredMessage="Ingrese fecha de nacimiento"
+																converterMessage="Formato incorrecto"
+																pt:placeholder="dd/mm/yyyy">
+																<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
+															</p:calendar>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="cmbSexoRepresentantelegal" />
+												<h:message for="txtFechanacimientoRepresentantelegal" />
+											</div>
+											<br />
+										</div>
+										<br />
+									</h:panelGroup>
+
+									<div class="sf-separator">
+										<div>
+											<h3 class="p6n-api-consent-screen-title"
+												style="color: #298B11;">Accionistas</h3>
+										</div>
+									</div>
+									<div>
+										<div class="p6n-api-consent-screen-input-section">
+											<!-- ACCIONISTAS -->
+											<h:panelGroup id="tablaAccionistas">
+												<div class="p6n-content ng-scope">
+													<div class="p6n-content-no-nav ng-scope">
+														<div class="p6n-main-pane ng-isolate-scope"
+															style="margin-left: 0px;">
+															<div class="">
+																<div class="ng-scope">
+																	<table class="p6n-table">
+																		<thead>
+																			<tr>
+																				<th><a href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						Tipo documento </a></th>
+																				<th><a href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						Nro documento </a></th>
+																				<th><a href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						Apellido paterno </a></th>
+																				<th><a href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						Apellido materno </a></th>
+																				<th><a href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						Nombres </a></th>
+																				<th><a href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						Sexo </a></th>
+																				<th><a href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						F.nacimiento </a></th>
+																				<th><a href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						(%) </a></th>
+																				<th class="p6n-api-list-col-status"><a
+																					href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						Status </a></th>
+
+																				<th class="p6n-api-list-col-status"><a
+																					href="javascript:;"
+																					class="ng-isolate-scope p6n-clickable-link">
+																						Status </a></th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<ui:repeat
+																				value="#{aperturaCuentaahorroBean.listAccionistas()}"
+																				var="accionista">
+																				<tr class="ng-scope">
+																					<td><a href="javascript:;"
+																						class="p6n-clickable-link ng-binding"> <h:outputLabel
+																								value="#{accionista.personanatural.tipodocumento.abreviatura}" />
+																					</a></td>
+																					<td><a href="javascript:;"
+																						class="p6n-clickable-link ng-binding"> <h:outputLabel
+																								value="#{accionista.personanatural.numerodocumento}" />
+																					</a></td>
+																					<td><a href="javascript:;"
+																						class="p6n-clickable-link ng-binding"> <h:outputLabel
+																								value="#{accionista.personanatural.apellidopaterno}" />
+																					</a></td>
+																					<td><a href="javascript:;"
+																						class="p6n-clickable-link ng-binding"> <h:outputLabel
+																								value="#{accionista.personanatural.apellidomaterno}" />
+																					</a></td>
+																					<td><a href="javascript:;"
+																						class="p6n-clickable-link ng-binding"> <h:outputLabel
+																								value="#{accionista.personanatural.nombres}" />
+																					</a></td>
+																					<td><a href="javascript:;"
+																						class="p6n-clickable-link ng-binding"> <h:outputLabel
+																								value="#{accionista.personanatural.sexo.denominacion}" />
+																					</a></td>
+																					<td><a href="javascript:;"
+																						class="p6n-clickable-link ng-binding"> <h:outputLabel
+																								value="#{accionista.personanatural.fechanacimiento}">
+																								<f:convertDateTime pattern="dd/MM/yy" />
+																							</h:outputLabel>
+																					</a></td>
+																					<td><a href="javascript:;"
+																						class="p6n-clickable-link ng-binding"> <h:outputLabel
+																								value="#{accionista.porcentajeparticipacion}%">
+																							</h:outputLabel>
+																					</a></td>
+																					<td><h:commandButton value="Edit"
+																							styleClass="action green" style="margin: 0px;">
+																							<f:ajax
+																								listener="#{aperturaCuentaahorroBean.editAccionista(accionista)}"
+																								render=":panelGroupDlgAccionista :formDialogAccionista" />
+																						</h:commandButton></td>
+																					<td><h:commandButton value="Remove"
+																							styleClass="action red" style="margin: 0px;">
+																							<f:ajax
+																								listener="#{aperturaCuentaahorroBean.removeAccionista(accionista)}"
+																								render="@form" />
+																						</h:commandButton></td>
+																				</tr>
+																			</ui:repeat>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</h:panelGroup>
+
+
+											<div class="p6n-content ng-scope">
+
+												<div class="p6n-envelope">
+													<div class="p6n-content-no-nav">
+														<div class="p6n-main-pane p6n-acl-pane"
+															style="margin-left: 0px;">
+															<div class="p6n-action-bar" style="padding-bottom: 45px;">
+																<h:commandButton value="Añadir Accionista"
+																	class="actionn red">
+																	<f:ajax
+																		listener="#{aperturaCuentaahorroBean.setDlgAccionistaOpen(true)}"
+																		render=":panelGroupDlgAccionista :formDialogAccionista" />
+																</h:commandButton>
+
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- END TITULARES -->
+										</div>
+									</div>
+
+									<div class="sf-buttons" style="float: left;">
+										<h:commandButton value="« Anterior" immediate="true"
+											action="aperturaCuentaahorro-flow" styleClass="action" />
+										<h:commandButton value="Siguiente »"
+											action="aperturaCuentaahorro-flowB" styleClass="action" />
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+
+				<h:panelGroup id="panelGroupDlgAccionista">
+					<h:panelGroup
+						rendered="#{aperturaCuentaahorroBean.dlgAccionistaOpen}">
+						<h:form id="formDialogAccionista">
+							<div class="modal-dialog-bg"
+								style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+							<div class="modal-dialog p6n-popup"
+								style="left: 402px; top: 50px;">
+								<div class="modal-dialog-content p6n-acl-add-member-popup"
+									style="width: 385px;">
+									<div class="p6n-api-consent-screen-inputs">
+										<div class="sf-separator">
+											<h3 class="p6n-api-consent-screen-title">Accionista</h3>
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label">TIPO
+													DOCUMENTO</div>
+												<div>
+													<h:selectOneMenu id="cmbTipodocumentoTitular"
+														value="#{aperturaCuentaahorroBean.comboTipodocumentoAccionista.itemSelected}"
+														valueChangeListener="#{aperturaCuentaahorroBean.changeTipodocumentoAccionista}"
+														required="true"
+														requiredMessage="Seleccione tipo de documento">
+														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+														<f:selectItems
+															value="#{aperturaCuentaahorroBean.comboTipodocumentoAccionista.items.entrySet()}"
+															var="val" itemLabel="#{val.value.abreviatura}"
+															itemValue="#{val.key}" />
+														<f:ajax></f:ajax>
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 180px;">NUMERO DOCUMENTO</div>
+												<div>
+													<h:inputText id="txtDniTitular"
+														value="#{aperturaCuentaahorroBean.numeroDocumentoAccionista}"
+														required="true" maxlength="15"
+														requiredMessage="Ingrese dni"
+														validatorMessage="Número de documento Invalido"
+														converterMessage="Número de documento Invalido"
+														onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+														pt:placeholder="12345678">
+														<f:convertNumber type="number" integerOnly="true"
+															groupingUsed="false" />
+														<f:ajax
+															listener="#{aperturaCuentaahorroBean.buscarPersonanaturalAccionista()}"
+															render="@form"></f:ajax>
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="cmbTipodocumentoTitular" />
+											<h:message for="txtDniTitular" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 190px;">APELLIDO PATERNO</div>
+												<div>
+													<div>
+														<h:inputText id="txtApellidoPaternoTitular"
+															value="#{aperturaCuentaahorroBean.apellidoPaternoAccionista}"
+															required="true" maxlength="50"
+															requiredMessage="Ingrese apellido paterno"
+															onkeyup="this.value = this.value.toUpperCase();"
+															pt:placeholder="Apellido Paterno">
+														</h:inputText>
+													</div>
+												</div>
+											</div>
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 180px;">APELLIDO MATERNO</div>
+												<div>
+													<div>
+														<h:inputText id="txtApellidoMaternoTitular"
+															value="#{aperturaCuentaahorroBean.apellidoMaternoAccionista}"
+															required="true" maxlength="50"
+															requiredMessage="Ingrese apellido materno"
+															onkeyup="this.value = this.value.toUpperCase();"
+															pt:placeholder="Apellido Materno">
+														</h:inputText>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtApellidoPaternoTitular" />
+											<h:message for="txtApellidoMaternoTitular" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section"
+											style="width: 190px;">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 190px;">NOMBRES</div>
+											<div>
+												<div>
+													<h:inputText id="txtNombresTitular"
+														value="#{aperturaCuentaahorroBean.nombresAccionista}"
+														required="true" maxlength="50"
+														requiredMessage="Ingrese nombres"
+														onkeyup="this.value = this.value.toUpperCase();"
+														style="width:339px;" pt:placeholder="Nombres">
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtNombresTitular" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 190px;">SEXO</div>
+												<div>
+													<div>
+														<h:selectOneMenu id="cmbSexoTitular"
+															value="#{aperturaCuentaahorroBean.comboSexoAccionista.itemSelected}"
+															required="true" requiredMessage="Seleccione sexo">
+															<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+															<f:selectItems
+																value="#{aperturaCuentaahorroBean.comboSexoAccionista.items.entrySet()}"
+																var="val" itemLabel="#{val.value.denominacion}"
+																itemValue="#{val.key}" />
+														</h:selectOneMenu>
+													</div>
+												</div>
+											</div>
+											<div style="display: inline-block;">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 180px;">FECHA DE NACIMIENTO</div>
+												<div>
+													<div>
+														<p:calendar id="txtFechanacimientoTitular"
+															value="#{aperturaCuentaahorroBean.fechaNacimientoAccionista}"
+															navigator="true" pattern="dd/MM/yyyy" required="true"
+															requiredMessage="Ingrese fecha de nacimiento"
+															converterMessage="formato incorrecto"
+															pt:placeholder="dd/mm/yyyy">
+															<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
+														</p:calendar>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="cmbSexoTitular" />
+											<h:message for="txtFechanacimientoTitular" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section"
+											style="width: 190px;">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 190px;">PORCENTAJE PARTICIPACION(%)</div>
+											<div>
+												<div>
+													<h:inputText id="txtPorcentajeParticipacion"
+														value="#{aperturaCuentaahorroBean.porcentajeParticipacionAccionista}"
+														required="true" maxlength="6"
+														requiredMessage="Ingrese porcentaje"
+														converterMessage="Número invalido" pt:placeholder="(%)">
+														<f:convertNumber type="number" maxIntegerDigits="3"
+															minIntegerDigits="1" />
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtPorcentajeParticipacion" />
+										</div>
+									</div>
+									<br />
+								</div>
+								<div class="modal-dialog-buttons">
+									<h:commandButton value="Guardar" styleClass="action blue">
+										<f:ajax listener="#{aperturaCuentaahorroBean.addAccionista()}"
+											execute="@form"
+											render="@form :formPersonajuridica:tablaAccionistas" />
+									</h:commandButton>
+									<h:commandButton value="Cancelar" styleClass="action">
+										<f:ajax
+											listener="#{aperturaCuentaahorroBean.setDlgAccionistaOpen(false)}"
+											render="@form :panelGroupDlgAccionista" />
+									</h:commandButton>
+								</div>
+							</div>
+						</h:form>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
