@@ -297,9 +297,13 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 			for (String key : restCreate) {
 				Accionista accionista = mapFromView.get(key);
 				Personanatural accionistaPersonanatural = accionista.getPersonanatural();			
-				personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(accionistaPersonanatural);				
-				accionista.setPersonajuridica(personajuridica);
-				accionistaDAO.create(accionista);
+				accionistaPersonanatural = personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(accionistaPersonanatural);				
+				
+				Accionista accionistaDB = new Accionista();
+				accionistaDB.setPersonajuridica(personajuridica);
+				accionistaDB.setPersonanatural(accionistaPersonanatural);
+				accionistaDB.setPorcentajeparticipacion(accionista.getPorcentajeparticipacion());
+				accionistaDAO.create(accionistaDB);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());

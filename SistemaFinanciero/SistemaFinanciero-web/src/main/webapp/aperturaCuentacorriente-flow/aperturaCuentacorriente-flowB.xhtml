@@ -121,7 +121,7 @@
 													<td><a href="javascript:;"
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentacorrienteBean.fechaNacimientoPersonanatural}">
-																<f:convertDateTime pattern="dd/MM/yy" />
+																<f:convertDateTime pattern="dd/MM/yyyy" />
 															</h:outputLabel>
 													</a></td>
 													<td colspan="2">No editable</td>
@@ -157,7 +157,7 @@
 													<td><a href="javascript:;"
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentacorrienteBean.fechaNacimientoRepresentantelegal}">
-																<f:convertDateTime pattern="dd/MM/yy" />
+																<f:convertDateTime pattern="dd/MM/yyyy" />
 															</h:outputLabel>
 													</a></td>
 													<td colspan="2">No editable</td>
@@ -194,7 +194,7 @@
 													<td><a href="javascript:;"
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{persona.fechanacimiento}">
-																<f:convertDateTime pattern="dd/MM/yy" />
+																<f:convertDateTime pattern="dd/MM/yyyy" />
 															</h:outputLabel>
 													</a></td>
 													<td><h:commandButton value="Edit"
@@ -341,7 +341,8 @@
 				<!-- END BENEFICIARIOS -->
 
 				<div class="sf-buttons" style="float: left;">
-					<h:panelGroup rendered="#{aperturaCuentacorrienteBean.personanatural}">
+					<h:panelGroup
+						rendered="#{aperturaCuentacorrienteBean.personanatural}">
 						<h:commandButton value="« Anterior" immediate="true"
 							action="aperturaCuentacorriente-flow" styleClass="action" />
 						<h:commandButton value="Siguiente »"
@@ -366,7 +367,8 @@
 
 
 			<h:panelGroup id="panelGroupDlgTitular">
-				<h:panelGroup rendered="#{aperturaCuentacorrienteBean.dlgTitularOpen}">
+				<h:panelGroup
+					rendered="#{aperturaCuentacorrienteBean.dlgTitularOpen}">
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 702px;"></div>
 					<div class="modal-dialog p6n-popup" style="left: 402px; top: 50px;">
@@ -503,11 +505,11 @@
 												<div>
 													<p:calendar id="txtFechanacimientoTitular"
 														value="#{aperturaCuentacorrienteBean.fechaNacimientoTitular}"
-														navigator="true" pattern="dd/MM/yy" required="true"
+														navigator="true" pattern="dd/MM/yyyy" required="true"
 														requiredMessage="Ingrese fecha de nacimiento"
 														converterMessage="formato incorrecto"
 														pt:placeholder="dd/mm/yyyy">
-														<f:convertDateTime pattern="dd/MM/yy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 													</p:calendar>
 												</div>
 											</div>

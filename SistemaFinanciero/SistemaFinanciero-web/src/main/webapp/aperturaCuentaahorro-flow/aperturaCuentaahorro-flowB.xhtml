@@ -121,7 +121,7 @@
 													<td><a href="javascript:;"
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.fechaNacimientoPersonanatural}">
-																<f:convertDateTime pattern="dd/MM/yy" />
+																<f:convertDateTime pattern="dd/MM/yyyy" />
 															</h:outputLabel>
 													</a></td>
 													<td colspan="2">No editable</td>
@@ -157,7 +157,7 @@
 													<td><a href="javascript:;"
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.fechaNacimientoRepresentantelegal}">
-																<f:convertDateTime pattern="dd/MM/yy" />
+																<f:convertDateTime pattern="dd/MM/yyyy" />
 															</h:outputLabel>
 													</a></td>
 													<td colspan="2">No editable</td>
@@ -194,7 +194,7 @@
 													<td><a href="javascript:;"
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{persona.fechanacimiento}">
-																<f:convertDateTime pattern="dd/MM/yy" />
+																<f:convertDateTime pattern="dd/MM/yyyy" />
 															</h:outputLabel>
 													</a></td>
 													<td><h:commandButton value="Edit"
@@ -503,11 +503,11 @@
 												<div>
 													<p:calendar id="txtFechanacimientoTitular"
 														value="#{aperturaCuentaahorroBean.fechaNacimientoTitular}"
-														navigator="true" pattern="dd/MM/yy" required="true"
+														navigator="true" pattern="dd/MM/yyyy" required="true"
 														requiredMessage="Ingrese fecha de nacimiento"
 														converterMessage="formato incorrecto"
 														pt:placeholder="dd/mm/yyyy">
-														<f:convertDateTime pattern="dd/MM/yy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 													</p:calendar>
 												</div>
 											</div>

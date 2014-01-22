@@ -163,12 +163,12 @@
 													<div>
 														<p:calendar id="txtFechanacimientoApoderado"
 															value="#{aperturaCuentaaporteBean.fechaNacimientoApoderado}"
-															navigator="true" pattern="dd/MM/yy"
+															navigator="true" pattern="dd/MM/yyyy"
 															required="#{aperturaCuentaaporteBean.existeApoderado}"
 															requiredMessage="Ingrese fecha de nacimiento"
 															converterMessage="formato incorrecto"
 															pt:placeholder="dd/mm/yyyy">
-															<f:convertDateTime pattern="dd/MM/yy" />
+															<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 														</p:calendar>
 													</div>
 												</div>
@@ -332,11 +332,11 @@
 														<div>
 															<p:calendar id="txtFechanacimientoRepresentantelegal"
 																value="#{aperturaCuentaaporteBean.fechaNacimientoRepresentantelegal}"
-																navigator="true" pattern="dd/MM/yy" required="true"
+																navigator="true" pattern="dd/MM/yyyy" required="true"
 																requiredMessage="Ingrese fecha de nacimiento"
 																converterMessage="formato incorrecto"
 																pt:placeholder="dd/mm/yyyy">
-																<f:convertDateTime pattern="dd/MM/yy" />
+																<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 															</p:calendar>
 														</div>
 													</div>
@@ -438,13 +438,12 @@
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.fechanacimiento}">
-																								<f:convertDateTime pattern="dd/MM/yy" />
+																								<f:convertDateTime pattern="dd/MM/yyyy" />
 																							</h:outputLabel>
 																					</a></td>
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.porcentajeparticipacion}">
-																								<f:convertDateTime pattern="dd/MM/yy" />
 																							</h:outputLabel>
 																					</a></td>
 																					<td><h:commandButton value="Edit"
@@ -649,7 +648,7 @@
 															requiredMessage="Ingrese fecha de nacimiento"
 															converterMessage="formato incorrecto"
 															pt:placeholder="dd/mm/yyyy">
-															<f:convertDateTime pattern="dd/MM/yy" />
+															<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 														</p:calendar>
 													</div>
 												</div>

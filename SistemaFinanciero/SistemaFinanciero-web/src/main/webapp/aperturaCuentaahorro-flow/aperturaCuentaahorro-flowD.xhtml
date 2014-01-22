@@ -66,7 +66,7 @@
 													Fecha apertura:
 													<h:outputLabel
 														value="#{aperturaCuentaahorroBean.fechaApertura}">
-														<f:convertDateTime pattern="dd/MM/yy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
 												</p>
 
@@ -201,7 +201,7 @@
 													Fecha apertura:
 													<h:outputLabel
 														value="#{aperturaCuentaahorroBean.fechaApertura}">
-														<f:convertDateTime pattern="dd/MM/yy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
 												</p>
 											</div>
@@ -596,7 +596,7 @@
 					</div>
 					<div class="modal-dialog-content ng-binding">La cuenta de
 						ahorros fue creada satistactoriamente.</div>
-					<div class="modal-dialog-buttons" ng-transclude="">
+					<div class="modal-dialog-buttons">
 						<h:commandButton value="Imprimir" icon="ui-icon-print">
 							<p:printer target=":panelGroupPrint" />
 						</h:commandButton>

@@ -59,7 +59,7 @@
 													Fecha apertura:
 													<h:outputLabel
 														value="#{aperturaCuentaaporteBean.fechaApertura}">
-														<f:convertDateTime pattern="dd/MM/yy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
 												</p>
 											</div>
@@ -241,7 +241,7 @@
 													Fecha apertura:
 													<h:outputLabel
 														value="#{aperturaCuentaaporteBean.fechaApertura}">
-														<f:convertDateTime pattern="dd/MM/yy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
 												</p>
 											</div>
@@ -490,7 +490,7 @@
 					</div>
 					<div class="modal-dialog-content ng-binding">El cliente fue
 						asociado satistactoriamente.</div>
-					<div class="modal-dialog-buttons" ng-transclude="">
+					<div class="modal-dialog-buttons">
 						<h:commandButton value="Imprimir" icon="ui-icon-print">
 							<p:printer target=":panelGroupPrint" />
 						</h:commandButton>

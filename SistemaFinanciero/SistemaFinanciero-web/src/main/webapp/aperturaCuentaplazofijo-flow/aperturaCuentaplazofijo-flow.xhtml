@@ -196,11 +196,11 @@
 															<div>
 																<p:calendar id="txtFechanacimiento"
 																	value="#{aperturaCuentaplazofijoBean.fechaNacimientoPersonanatural}"
-																	navigator="true" pattern="dd/MM/yy" required="true"
+																	navigator="true" pattern="dd/MM/yyyy" required="true"
 																	requiredMessage="Ingrese fecha de nacimiento"
 																	converterMessage="formato incorrecto"
 																	pt:placeholder="dd/mm/yyyy">
-																	<f:convertDateTime pattern="dd/MM/yy" />
+																	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 																</p:calendar>
 															</div>
 														</div>
@@ -436,11 +436,11 @@
 															<div>
 																<p:calendar id="txtFechaconstitucion"
 																	value="#{aperturaCuentaplazofijoBean.fechaConstitucion}"
-																	navigator="true" pattern="dd/MM/yy" required="true"
+																	navigator="true" pattern="dd/MM/yyyy" required="true"
 																	requiredMessage="Ingrese Fecha de constitucion"
 																	converterMessage="El formato de la fecha no es correcto"
 																	pt:placeholder="dd/mm/yyyy">
-																	<f:convertDateTime pattern="dd/MM/yy" />
+																	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 																</p:calendar>
 															</div>
 														</div>

@@ -59,7 +59,7 @@
 											<div>
 												<h:inputText id="txtNumerodocumentoPersonajuridica"
 													value="#{personajuridicaCRUDBean.numerodocumentoPersonajuridica}"
-													required="true" maxlength="15"
+													required="true" maxlength="11"
 													requiredMessage="Ingrese numero documento"
 													validatorMessage="Número de documento Invalido"
 													converterMessage="Número de documento Invalido"
@@ -760,7 +760,8 @@
 							</div>
 							<div class="modal-dialog-buttons">
 								<h:commandButton value="Guardar" styleClass="action blue">
-									<f:ajax listener="#{personajuridicaCRUDBean.addAccionista()}"
+									<f:ajax execute="@form"
+										listener="#{personajuridicaCRUDBean.addAccionista()}"
 										render="@form :panelGroupDlgAccionista :formPage2:tablaAccionistas" />
 								</h:commandButton>
 								<h:commandButton value="Cancelar" styleClass="action">
