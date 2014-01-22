@@ -909,7 +909,7 @@ input[type=checkbox],input[type=radio] {
 
 input[type=checkbox] {
 	background:
-		url(images/check_mark.png?v=df73f3ec7dd5a19cba1d98824f5cfc70)
+		url(#{resource['images:check-mark.png']})
 		no-repeat -9999px -9999px;
 	border-radius: 1px;
 	height: 14px;
@@ -937,7 +937,7 @@ input[type=checkbox]:hover,input[type=radio]:hover {
 }
 
 input[type=checkbox]:checked::after {
-	content: url(#{resource['images:check_mark.png']});
+	content: url(#{resource['images:check-mark.png']});
 	display: block;
 	left: -4px;
 	position: absolute;

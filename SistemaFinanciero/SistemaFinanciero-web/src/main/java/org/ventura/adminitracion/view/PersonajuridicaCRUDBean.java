@@ -174,7 +174,7 @@ public class PersonajuridicaCRUDBean implements Serializable {
 	public void createPersona() throws Exception {
 		Personajuridica personajuridica;
 		try {	
-			if(success == false){
+			if(success == false){		
 				personajuridica = new Personajuridica();
 				personajuridica.setTipodocumento(comboTipodocumentoPersonajuridica.getObjectItemSelected());
 				personajuridica.setNumerodocumento(numerodocumentoPersonajuridica);
@@ -204,13 +204,28 @@ public class PersonajuridicaCRUDBean implements Serializable {
 				personajuridica.setRepresentanteLegal(representanteLegal);
 				personajuridica.setAccionistas(listAccionistas);
 					
-				personajuridica = personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
-				this.success = true;
+				boolean result = validarPorcentaje(listAccionistas);
+				if(result == true){
+					personajuridica = personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
+					this.success = true;
+					this.failure = false;
+				} else {
+					this.failure = true;
+					JsfUtil.addErrorMessage("El porcentaje de participacion supera 100%");
+				}		
 			}	
 		} catch (Exception e) {
 			this.failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
+	}
+	
+	public boolean validarPorcentaje(List<Accionista> listAccionista){
+		BigDecimal porcentajeTotal = BigDecimal.ZERO;
+		for (Accionista accionista : listAccionista) {
+			porcentajeTotal = porcentajeTotal.add(accionista.getPorcentajeparticipacion());
+		}
+		return porcentajeTotal.compareTo(new BigDecimal(100)) == 0 ? true : false;
 	}
 
 	public void updatePersona() throws Exception {
@@ -245,14 +260,20 @@ public class PersonajuridicaCRUDBean implements Serializable {
 				personajuridica.setRepresentanteLegal(representanteLegal);
 				personajuridica.setAccionistas(listAccionistas);
 				
-				Object obj = this.personajuridicaServiceLocal.find(idpersonajuridica);
-				if(obj != null){
-					this.personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
-					this.success = true;
-					JsfUtil.addSuccessMessage("Persona Actualizada");
+				boolean result = validarPorcentaje(listAccionistas);
+				if(result == true){
+					Object obj = this.personajuridicaServiceLocal.find(idpersonajuridica);
+					if(obj != null){
+						this.personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
+						this.success = true;
+						this.failure = false;
+					} else {
+						throw new Exception("La persona no esta registrada, no se puede actualizar");
+					}	
 				} else {
-					throw new Exception("La persona no esta registrada, no se puede actualizar");
-				}	
+					this.failure = true;
+					JsfUtil.addErrorMessage("El porcentaje de participacion supera 100%");
+				}
 			}	
 		} catch (Exception e) {
 			this.failure = true;

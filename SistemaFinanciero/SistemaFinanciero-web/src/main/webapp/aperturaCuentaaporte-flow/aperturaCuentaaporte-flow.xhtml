@@ -95,12 +95,10 @@
 													<div>
 														<h:inputText id="txtDni"
 															value="#{aperturaCuentaaporteBean.numeroDocumentoPersonanatural}"
-															required="true" maxlength="8"
+															required="true" maxlength="14"
 															requiredMessage="Ingrese numero documento"
-															validatorMessage="Número de DNI Invalido"
-															onkeypress="if (event.keyCode == 13) {onchange(); return false; }">
-															<f:validateRegex pattern="(^[0-9]{8}$)" />
-															<f:ajax
+															validatorMessage="Número de DNI Invalido">
+															<f:ajax event="blur"
 																listener="#{aperturaCuentaaporteBean.buscarPersonanaturalSocio()}"
 																render="@form"></f:ajax>
 														</h:inputText>
@@ -189,10 +187,10 @@
 														<div>
 															<p:calendar id="txtFechanacimiento"
 																value="#{aperturaCuentaaporteBean.fechaNacimiento}"
-																navigator="true" pattern="dd/MM/yy" required="true"
+																navigator="true" pattern="dd/MM/yyyy" required="true"
 																requiredMessage="Ingrese fecha de nacimiento"
 																converterMessage="formato incorrecto">
-																<f:convertDateTime pattern="dd/MM/yy" />
+																<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 															</p:calendar>
 														</div>
 													</div>
