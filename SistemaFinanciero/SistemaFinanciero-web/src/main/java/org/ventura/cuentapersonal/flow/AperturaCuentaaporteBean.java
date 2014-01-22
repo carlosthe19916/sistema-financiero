@@ -30,6 +30,7 @@ import org.ventura.entity.schema.persona.Tipoempresa;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
+import org.ventura.session.MenuMB;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -166,6 +167,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 			comboEstadocivil.initValuesFromNamedQueryName(Estadocivil.ALL_ACTIVE);
 			
 			comboTipoempresa.initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
+			
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 			throw e;
