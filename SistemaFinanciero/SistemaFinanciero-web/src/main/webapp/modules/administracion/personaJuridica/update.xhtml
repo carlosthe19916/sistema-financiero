@@ -20,7 +20,7 @@
 
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
-			<h:outputText value="Boveda" />
+			<h:outputText value="Persona juridica" />
 		</ui:define>
 
 		<!-- Definiendo el cuerpo de la pagina -->
@@ -140,7 +140,7 @@
 														requiredMessage="Ingrese Fecha de constitucion"
 														converterMessage="El formato de la fecha no es correcto"
 														pt:placeholder="dd/mm/yyyy">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST"/>
 													</p:calendar>
 												</div>
 											</div>
@@ -415,7 +415,7 @@
 																requiredMessage="Ingrese fecha de nacimiento"
 																converterMessage="formato incorrecto"
 																pt:placeholder="dd/mm/yyyy">
-																<f:convertDateTime pattern="dd/MM/yy" />
+																<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST"/>
 															</p:calendar>
 														</div>
 													</div>
@@ -517,7 +517,7 @@
 																					<td><a href="javascript:;"
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.fechanacimiento}">
-																								<f:convertDateTime pattern="dd/MM/yyyy" />
+																								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST"/>
 																							</h:outputLabel>
 																					</a></td>
 																					<td><a href="javascript:;"
@@ -726,7 +726,7 @@
 														requiredMessage="Ingrese fecha de nacimiento"
 														converterMessage="formato incorrecto"
 														pt:placeholder="dd/mm/yyyy">
-														<f:convertDateTime pattern="dd/MM/yy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST"/>
 													</p:calendar>
 												</div>
 											</div>

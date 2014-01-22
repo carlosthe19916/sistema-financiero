@@ -249,6 +249,7 @@ public class PersonajuridicaServiceBean implements PersonajuridicaServiceLocal {
 				update(personajuridicaBD);
 				personajuridica = personajuridicaBD;
 			} else {
+				personajuridica.setRepresentanteLegal(representanteLegal);
 				create(personajuridica);
 			}	
 				
