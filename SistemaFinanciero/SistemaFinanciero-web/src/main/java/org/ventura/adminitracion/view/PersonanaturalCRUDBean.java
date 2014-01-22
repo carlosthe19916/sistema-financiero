@@ -117,7 +117,7 @@ public class PersonanaturalCRUDBean implements Serializable {
 				personanatural.setApellidomaterno(apellidomaterno);
 				personanatural.setNombres(nombres);
 				personanatural.setSexo(comboSexo.getObjectItemSelected());
-				personanatural.setFechanacimiento(fechanacimiento);
+				personanatural.setFechanacimiento(fechanacimiento);				
 				personanatural.setEstadocivil(comboEstadocivil.getObjectItemSelected());
 				personanatural.setOcupacion(ocupacion);
 				personanatural.setDireccion(direccion);

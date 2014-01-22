@@ -236,7 +236,7 @@ public class PersonajuridicaCRUDBean implements Serializable {
 				personajuridica.setRazonsocial(razonsocial);
 				personajuridica.setNombrecomercial(nombrecomercial);
 				personajuridica.setActividadprincipal(actividadprincipal);
-				personajuridica.setFechaconstitucion(fechaconstitucion);
+				personajuridica.setFechaconstitucion(fechaconstitucion);				
 				personajuridica.setTipoempresa(comboTipoempresa.getObjectItemSelected());
 				personajuridica.setFindelucro(comboFinsocial.getItemSelected() == 1 ? true : false);		
 				personajuridica.setDireccion(direccionPersonajuridica);
