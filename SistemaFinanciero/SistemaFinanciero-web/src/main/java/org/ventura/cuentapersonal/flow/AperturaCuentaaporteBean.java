@@ -185,6 +185,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 					personaNaturalSocio.setApellidomaterno(apellidoMaterno);
 					personaNaturalSocio.setNombres(nombres);
 					personaNaturalSocio.setFechanacimiento(fechaNacimiento);
+					personaNaturalSocio.setSexo(comboSexo.getObjectItemSelected());
 					personaNaturalSocio.setEstadocivil(comboEstadocivil.getObjectItemSelected());
 					personaNaturalSocio.setOcupacion(ocupacion);
 					personaNaturalSocio.setDireccion(direccionPersonanatural);
