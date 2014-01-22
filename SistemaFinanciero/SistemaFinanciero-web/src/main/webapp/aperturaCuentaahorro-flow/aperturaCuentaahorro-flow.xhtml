@@ -99,9 +99,14 @@
 																validatorMessage="Número de documento Invalido"
 																converterMessage="Número de documento Invalido"
 																onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+<<<<<<< HEAD
 																pt:placeholder="numero documento">
 																<f:convertNumber type="number" integerOnly="true"
 																	groupingUsed="false" />
+=======
+																pt:placeholder="Número Documento">
+																<f:convertNumber type="number" integerOnly="true" />
+>>>>>>> refs/remotes/origin/master
 																<f:ajax
 																	listener="#{aperturaCuentaahorroBean.buscarPersonanaturalSocio()}"
 																	render="@form"></f:ajax>
@@ -197,9 +202,13 @@
 																	requiredMessage="Ingrese fecha de nacimiento"
 																	converterMessage="Formato incorrecto"
 																	pt:placeholder="dd/mm/yyyy">
+<<<<<<< HEAD
 
 																	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 
+=======
+																	<f:convertDateTime pattern="dd/MM/yy" timeZone="EST"/>
+>>>>>>> refs/remotes/origin/master
 																</p:calendar>
 															</div>
 														</div>
@@ -237,8 +246,12 @@
 																<div>
 																	<h:inputText
 																		value="#{aperturaCuentaahorroBean.ocupacionPersonanatural}"
+<<<<<<< HEAD
 																		maxlength="70" pt:placeholder="ocupacion"
 																		onkeyup="this.value = this.value.toUpperCase();" />
+=======
+																		maxlength="70" pt:placeholder="Ocupacion" onkeyup="this.value = this.value.toUpperCase();"/>
+>>>>>>> refs/remotes/origin/master
 																</div>
 															</div>
 														</div>
@@ -365,9 +378,14 @@
 																validatorMessage="Número de documento Invalido"
 																converterMessage="Número de documento Invalido"
 																onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+<<<<<<< HEAD
 																pt:placeholder="123456789101">
 																<f:convertNumber type="number" integerOnly="true"
 																	groupingUsed="false" />
+=======
+																pt:placeholder="Número Documento">
+																<f:convertNumber type="number" integerOnly="true" />
+>>>>>>> refs/remotes/origin/master
 																<f:ajax
 																	listener="#{aperturaCuentaahorroBean.buscarPersonajuridicaSocio()}"
 																	render="@form"></f:ajax>
@@ -442,7 +460,11 @@
 																	requiredMessage="Ingrese Fecha de constitucion"
 																	converterMessage="El formato de la fecha no es correcto"
 																	pt:placeholder="dd/mm/yyyy">
+<<<<<<< HEAD
 																	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
+=======
+																	<f:convertDateTime pattern="dd/MM/yy" timeZone="EST"/>
+>>>>>>> refs/remotes/origin/master
 																</p:calendar>
 															</div>
 														</div>

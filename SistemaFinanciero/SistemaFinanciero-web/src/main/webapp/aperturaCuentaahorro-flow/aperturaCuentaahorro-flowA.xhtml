@@ -66,7 +66,11 @@
 															validatorMessage="Número de documento Invalido"
 															converterMessage="Número de documento Invalido"
 															onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+<<<<<<< HEAD
 															pt:placeholder="numero documento">
+=======
+															pt:placeholder="Número Documento">
+>>>>>>> refs/remotes/origin/master
 															<f:convertNumber integerOnly="true" type="number"
 																groupingUsed="false" />
 															<f:ajax
@@ -378,9 +382,14 @@
 														validatorMessage="Número de documento Invalido"
 														converterMessage="Número de documento Invalido"
 														onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
+<<<<<<< HEAD
 														pt:placeholder="12345678">
 														<f:convertNumber type="number" integerOnly="true"
 															groupingUsed="false" />
+=======
+														pt:placeholder="Numero Documento">
+														<f:convertNumber type="number" integerOnly="true" />
+>>>>>>> refs/remotes/origin/master
 														<f:ajax
 															listener="#{aperturaCuentaahorroBean.buscarPersonanaturalAccionista()}"
 															render="@form"></f:ajax>
