@@ -23,22 +23,42 @@
 			<div id="homepage">
 				<div>
 					<div>
-						<h1>Modulo Cuentas Personales</h1>
-						<p>Google Apps es un paquete de productividad basado en la
-							nube que lo ayuda a usted y también a su equipo a estar
-							comunicados y agilizar el trabajo estén donde estén, con
-							cualquier dispositivo. Es fácil de configurar, utilizar y
-							administrar, lo que le permite trabajar de forma más inteligente
-							y concentrarse en lo que realmente importa.</p>
+						<br></br>
+
+						<div class="p6n-api-consent-screen-header ng-scope">
+							<div class="p6n-api-consent-screen-title">APERTURA CUENTA
+								CORRIENTE</div>
+							<div>La creacion de cuentas corrientes es exclusivo para
+								personas juridicas.</div>
+							<div>
+								<span class="p6n-api-em">Note:</span> se puede hacer uso de
+								chequeras.
+							</div>
+						</div>
+						<table>
+							<tr>
+								<td></td>
+							</tr>
+						</table>
+						<div class="p6n-api-consent-screen-preview-image ng-scope">
+							<div class="p6n-api-consent-screen-preview-image-bg">
+								<h:graphicImage name="cuenta-corriente.jpg" library="images" />
+							</div>
+						</div>
 					</div>
 				</div>
 				<div></div>
 				<div></div>
+				<div class="sf-buttons" style="float: left;">
+					<h:form>
+						<div class="sf-separator">
+							<h:commandButton value="Crear cuenta corriente"
+								styleClass="action red" action="aperturaCuentacorriente-flow" />
+						</div>
+					</h:form>
+				</div>
 			</div>
-			<h:form>
-				<h:commandButton value="Crear cuenta aporte"
-					action="aperturaCuentacorriente-flow" />
-			</h:form>
+
 		</ui:define>
 	</ui:composition>
 </f:view>

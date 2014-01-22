@@ -66,11 +66,11 @@
 													<h:inputText id="txtNumerodocumentoApoderado"
 														value="#{aperturaCuentaaporteBean.numeroDocumentoApoderado}"
 														required="#{aperturaCuentaaporteBean.existeApoderado}"
-														maxlength="8"
+														maxlength="14"
 														requiredMessage="Ingrese numero de documento"
 														validatorMessage="Número de documento Invalido"
 														onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-														pt:placeholder="12345678">
+														pt:placeholder="numero documento">
 														<f:ajax
 															listener="#{aperturaCuentaaporteBean.buscarPersonanaturalApoderado()}"
 															render="@form"></f:ajax>
@@ -237,7 +237,7 @@
 													<div>
 														<h:inputText id="txtNumerodocumentoRepresentantelegal"
 															value="#{aperturaCuentaaporteBean.numeroDocumentoRepresentantelegal}"
-															required="true" maxlength="8"
+															required="true" maxlength="14"
 															requiredMessage="Ingrese numero de documento"
 															validatorMessage="Número de documento Invalido"
 															pt:placeholder="12345678910">
@@ -545,11 +545,10 @@
 												<div>
 													<h:inputText id="txtDniTitular"
 														value="#{aperturaCuentaaporteBean.numeroDocumentoAccionista}"
-														required="true" maxlength="8"
+														required="true" maxlength="14"
 														requiredMessage="Ingrese dni"
 														validatorMessage="Número de DNI Invalido"
-														pt:placeholder="12345678">
-														<f:validateRegex pattern="(^[0-9]{8}$)" />
+														pt:placeholder="numero documento">
 														<f:ajax
 															listener="#{aperturaCuentaaporteBean.buscarPersonanaturalAccionista()}"
 															render="@form"></f:ajax>
@@ -684,7 +683,7 @@
 									<h:commandButton value="Guardar" styleClass="action blue">
 										<f:ajax listener="#{aperturaCuentaaporteBean.addAccionista()}"
 											execute="@form"
-											render="@form :panelGroupPersonajuridica :formPersonajuridica" />
+											render="@form :formPersonajuridica:tablaAccionistas" />
 									</h:commandButton>
 									<h:commandButton value="Cancelar" styleClass="action">
 										<f:ajax

@@ -351,7 +351,7 @@
 																requiredMessage="Ingrese numero documento"
 																validatorMessage="Número de documento Invalido"
 																onkeypress="if (event.keyCode == 13) {onchange(); return false; }">
-																<f:validateRegex pattern="(^[0-9]{11}$)" />
+
 																<f:ajax
 																	listener="#{aperturaCuentaaporteBean.buscarPersonajuridicaSocio()}"
 																	render="@form"></f:ajax>

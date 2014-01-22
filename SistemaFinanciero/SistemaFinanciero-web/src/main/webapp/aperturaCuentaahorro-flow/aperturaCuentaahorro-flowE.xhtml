@@ -17,12 +17,34 @@
 	<ui:define name="content">
 
 		<h:outputStylesheet library="css" name="main.css" />
+		<div id="homepage">
+			<div>
+				<div>
+					<br></br>
+					<div class="p6n-api-consent-screen-header ng-scope">
+						<div class="p6n-api-consent-screen-title">APERTURA
+							FINALIZADA CORRECTAMENTE</div>
+						<div>La cuenta de ahorro fue creada.</div>
+					</div>
 
-		<div>CREACION FINALIZADA</div>
-		<h:form>
-			<h:commandButton value="Crear nueva cuenta de ahorros"
-				action="aperturaCuentaahorro-flow" />
-		</h:form>
+				</div>
+				<div>
+					<h:form>
+						<div class="sf-separator">
+							<h:commandButton value="Crear nueva Cuenta de ahorro"
+								styleClass="action green" action="aperturaCuentaahorro-flow" />
+							<h:commandButton
+								action="/modules/cuentasPersonales/index?faces-redirect=true"
+								value="Volver" />
+						</div>
+					</h:form>
+				</div>
+			</div>
+			<div></div>
+			<div></div>
+			<div class="sf-buttons" style="float: left;"></div>
+		</div>
+
 
 	</ui:define>
 

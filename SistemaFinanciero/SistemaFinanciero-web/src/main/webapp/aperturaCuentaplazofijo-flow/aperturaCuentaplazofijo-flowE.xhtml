@@ -19,11 +19,35 @@
 
 		<h:outputStylesheet library="css" name="main.css" />
 
-		<div>CREACION FINALIZADA</div>
-		<h:form>
-			<h:commandButton action="aperturaCuentaplazofijo-flow"
-				value="Crear nueva cuenta a plazo fijo" />
-		</h:form>
+		<div id="homepage">
+			<div>
+				<div>
+					<br></br>
+					<div class="p6n-api-consent-screen-header ng-scope">
+						<div class="p6n-api-consent-screen-title">APERTURA
+							FINALIZADA CORRECTAMENTE</div>
+						<div>La cuenta a plazo fijo fue creada.</div>
+					</div>
+
+				</div>
+				<div>
+					<h:form>
+						<div class="sf-separator">
+							<h:commandButton value="Crear nueva Cuenta a Plazo fijo"
+								styleClass="action green" action="aperturaCuentaplazofijo-flow" />
+							<h:commandButton
+								action="/modules/cuentasPersonales/index?faces-redirect=true"
+								value="Volver" />
+						</div>
+					</h:form>
+				</div>
+			</div>
+			<div></div>
+			<div></div>
+			<div class="sf-buttons" style="float: left;"></div>
+		</div>
+
+
 	</ui:define>
 
 </ui:composition>
