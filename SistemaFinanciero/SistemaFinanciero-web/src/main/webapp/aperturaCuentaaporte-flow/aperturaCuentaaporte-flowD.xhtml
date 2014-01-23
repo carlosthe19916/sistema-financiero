@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+	<!-- Definiendo la cabecera de la pagina -->
+	<ui:define name="title">
+		<h:outputText value="Apertura Cta. Aporte" />
+	</ui:define>
+
+	<!-- Definiendo el cuerpo de la pagina -->
+	<ui:define name="content">
+
+		<h:outputStylesheet library="css" name="main.css" />
+
+		<h:panelGroup rendered="#{!aperturaCuentaaporteBean.cuentaValida}">
+			<div class="p6n-api-access-in-page-error" style="left: 516px;">
+				<div>
+					<div>
+						<p>
+							<h:messages />
+						</p>
+					</div>
+				</div>
+			</div>
+		</h:panelGroup>
+
+		<h:panelGroup id="panelGroupPrint">
+			<h:panelGroup rendered="#{aperturaCuentaaporteBean.personanatural}">
+				<table style="width: 2480px; height: 3405px; border: solid 1px #E9E6E6;">
+					<tr>
+						<td colspan="1" style="text-align: center; font-weight: bold; font-size: 12px;">
+							<p:graphicImage name="eye.png" library="images" />
+						</td>
+						<td colspan="3" style="text-align: center; font-weight: bold; font-size: 12px;">COOPERATIVA
+							DE AHORRO Y CREDITO VENTURA
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">APERTURA DE CUENTA DE APORTE
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="4"><p:outputPanel deferred="true">
+								<h3>Datos Básicos del Socio</h3>
+							</p:outputPanel>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="1">Codigo Socio:</td>
+						<td colspan="3">#{aperturaCuentaaporteBean.socio.idsocio}</td>
+					</tr>
+					<tr>
+						<td colspan="1">Apellidos y Nombres:</td>
+						<td colspan="3">#{aperturaCuentaaporteBean.apellidoPaterno} #{aperturaCuentaaporteBean.apellidoMaterno} #{aperturaCuentaaporteBean.nombres}</td>
+					</tr>
+					<tr>
+						<td colspan="1">Dirección:</td>
+						<td colspan="3">#{aperturaCuentaaporteBean.direccionPersonanatural} - #{aperturaCuentaaporteBean.referenciaPersonanatural}</td>
+					</tr>
+					<tr>
+						<td colspan="1">#{aperturaCuentaaporteBean.comboTipodocumentoPersonanatural.objectItemSelected.abreviatura}:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.numeroDocumentoPersonanatural}</td>
+						<td colspan="1">Fecha de Nacimiento:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.fechaNacimiento}</td>
+					</tr>
+					<tr>
+						<td colspan="1">Telefono Fijo:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.telefonoPersonanatural}</td>
+						<td colspan="1">Estado Civil:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.comboEstadocivil.objectItemSelected.denominacion}</td>
+					</tr>
+					<tr>
+						<td colspan="1">Celular:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.celularPersonanatural}</td>
+						<td colspan="1">Email:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.emailPersonanatural}</td>
+					</tr>
+					
+					<tr>
+						<td colspan="4"><p:outputPanel deferred="true">
+								<h3>Datos Básicos del Apoderado</h3>
+							</p:outputPanel>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="1">Apellidos y Nombres:</td>
+						<td colspan="3">#{aperturaCuentaaporteBean.apellidoPaternoApoderado} #{aperturaCuentaaporteBean.apellidoMaternoApoderado} #{aperturaCuentaaporteBean.nombresApoderado}</td>
+					</tr>
+					<tr>
+						<td colspan="1">#{aperturaCuentaaporteBean.comboTipodocumentoApoderado.objectItemSelected.abreviatura}:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.numeroDocumentoApoderado}</td>
+						<td colspan="1">Fecha de Nacimiento</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.fechaNacimientoApoderado}</td>
+					</tr>
+					
+					<tr>
+						<td colspan="4"><p:outputPanel deferred="true">
+								<h3>Productos y Servicios</h3>
+							</p:outputPanel>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="1">Producto</td>
+						<td colspan="1">Moneda</td>
+						<td colspan="1">Número de Cuenta</td>
+						<td colspan="1">Fecha de Apertura</td>
+					</tr>
+					<tr>
+						<td colspan="1">Cuenta de Aporte</td>
+						<td colspan="1">Nuevos Soles (S/.)</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.numeroCuenta}</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.fechaApertura}</td>
+					</tr>
+					
+					<tr>
+						<td colspan="4"><p:outputPanel deferred="true">
+								<h3>Declaraciones y Firmas</h3>
+							</p:outputPanel>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">Son los aportes individuales que han sido
+							pagadas por los Asociados en forma periódica de conformidad con
+							lo establecido en el Estatuto y el Reglamento de Aportes Sociales
+							de la Cooperativa. El aporte social ordinario de cada Asociado
+							será mínimo el equivalente al 3% y máximo al 10% del salario
+							mensual certificado. Los asociados sin vinculación laboral,
+							aportarán como mínimo sobre el Salario Mínimo Legal Mensual
+							Vigente.
+						</td>
+						<td colspan="4">Cuando los aportes sociales individuales del
+							Asociado superen la suma equivalente a los 10 salarios mínimos
+							legales mensuales vigentes, su aporte mensual podrá reducirse al
+							2% del sueldo. Cuando los aportes sociales individuales superen
+							los 15 salarios mínimos mensuales legales vigentes, su aporte
+							mensual podrá reducirse al 1.5% del sueldo. Si los aportes
+							individuales superan los 20 salarios mínimos mensuales legales
+							vigentes, su aporte mensual podrá ser del 1% del sueldo.
+						</td>
+						<td colspan="1">Cuando el sueldo básico del Asociado sea
+							modificado, automáticamente su aportación periódica se reajustará
+							al valor que corresponda, conservando el mismo porcentaje, previa
+							certificación del nuevo sueldo. Si un Asociado omite informar su
+							nuevo sueldo por uno o varios años y si al efectuar el ajuste
+							este supera el 50% de la base de aportes, entonces no se tendrán
+							en cuenta las nuevas condiciones hasta tanto hayan transcurrido 6
+							meses para efectos de crédito.
+						</td>
+					</tr>
+				</table>
+			</h:panelGroup>
+
+
+			<h:panelGroup rendered="#{aperturaCuentaaporteBean.personajuridica}">
+				<table style="width: 2480px; height: 3405px; border: solid 1px #E9E6E6;">
+					<tr>
+						<td colspan="1"
+							style="text-align: center; font-weight: bold; font-size: 12px;">
+							<p:graphicImage name="eye.png" library="images" />
+						</td>
+						<td colspan="3"
+							style="text-align: center; font-weight: bold; font-size: 12px;">COOPERATIVA
+							DE AHORRO Y CREDITO VENTURA</td>
+					</tr>
+					<tr>
+						<td colspan="4">APERTURA DE CUENTA DE APORTE</td>
+					</tr>
+
+					<tr>
+						<td colspan="4"><p:outputPanel deferred="true">
+								<h3>Datos Básicos del Socio</h3>
+							</p:outputPanel></td>
+					</tr>
+					<tr>
+						<td colspan="1">Codigo Socio:</td>
+						<td colspan="3">#{aperturaCuentaaporteBean.socio.idsocio}</td>
+					</tr>
+					<tr>
+						<td colspan="1">Razón Social:</td>
+						<td colspan="3">#{aperturaCuentaaporteBean.razonSocial}</td>
+					</tr>
+					<tr>
+						<td colspan="1">Dirección:</td>
+						<td colspan="3">#{aperturaCuentaaporteBean.direccionPersonajuridica} - #{aperturaCuentaaporteBean.referenciaPersonajuridica}</td>
+					</tr>
+					<tr>
+						<td colspan="1">#{aperturaCuentaaporteBean.comboTipodocumentoPersonajuridica.objectItemSelected.abreviatura}:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.numeroDocumentoPersonajuridica}</td>
+						<td colspan="1">Fecha de Constitución:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.fechaConstitucion}</td>
+					</tr>
+					<tr>
+						<td colspan="1">Telefono Fijo:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.telefonoPersonajuridica}</td>
+						<td colspan="1">Tipo Empresa:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.comboTipoempresa.objectItemSelected.denominacion}</td>
+					</tr>
+					<tr>
+						<td colspan="1">Celular:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.celularPersonajuridica}</td>
+						<td colspan="1">Email:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.emailPersonajuridica}</td>
+					</tr>
+
+					<tr>
+						<td colspan="4"><p:outputPanel deferred="true">
+								<h3>Datos Básicos del Representante Legal</h3>
+							</p:outputPanel></td>
+					</tr>
+					<tr>
+						<td colspan="1">Apellidos y Nombres:</td>
+						<td colspan="3">#{aperturaCuentaaporteBean.apellidoPaternoApoderado}
+							#{aperturaCuentaaporteBean.apellidoMaternoApoderado}
+							#{aperturaCuentaaporteBean.nombresApoderado}</td>
+					</tr>
+					<tr>
+						<td colspan="1">#{aperturaCuentaaporteBean.comboTipodocumentoApoderado.objectItemSelected.abreviatura}:</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.numeroDocumentoApoderado}</td>
+						<td colspan="1">Fecha de Nacimiento</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.fechaNacimientoApoderado}</td>
+					</tr>
+
+					<tr>
+						<td colspan="4"><p:outputPanel deferred="true">
+								<h3>Productos y Servicios</h3>
+							</p:outputPanel></td>
+					</tr>
+					<tr>
+						<td colspan="1">Producto</td>
+						<td colspan="1">Moneda</td>
+						<td colspan="1">Número de Cuenta</td>
+						<td colspan="1">Fecha de Apertura</td>
+					</tr>
+					<tr>
+						<td colspan="1">Cuenta de Aporte</td>
+						<td colspan="1">Nuevos Soles (S/.)</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.numeroCuenta}</td>
+						<td colspan="1">#{aperturaCuentaaporteBean.fechaApertura}</td>
+					</tr>
+
+					<tr>
+						<td colspan="4"><p:outputPanel deferred="true">
+								<h3>Declaraciones y Firmas</h3>
+							</p:outputPanel></td>
+					</tr>
+					<tr>
+						<td colspan="4">Son los aportes individuales que han sido
+							pagadas por los Asociados en forma periódica de conformidad con
+							lo establecido en el Estatuto y el Reglamento de Aportes Sociales
+							de la Cooperativa. El aporte social ordinario de cada Asociado
+							será mínimo el equivalente al 3% y máximo al 10% del salario
+							mensual certificado. Los asociados sin vinculación laboral,
+							aportarán como mínimo sobre el Salario Mínimo Legal Mensual
+							Vigente.</td>
+						<td colspan="4">Cuando los aportes sociales individuales del
+							Asociado superen la suma equivalente a los 10 salarios mínimos
+							legales mensuales vigentes, su aporte mensual podrá reducirse al
+							2% del sueldo. Cuando los aportes sociales individuales superen
+							los 15 salarios mínimos mensuales legales vigentes, su aporte
+							mensual podrá reducirse al 1.5% del sueldo. Si los aportes
+							individuales superan los 20 salarios mínimos mensuales legales
+							vigentes, su aporte mensual podrá ser del 1% del sueldo.</td>
+						<td colspan="1">Cuando el sueldo básico del Asociado sea
+							modificado, automáticamente su aportación periódica se reajustará
+							al valor que corresponda, conservando el mismo porcentaje, previa
+							certificación del nuevo sueldo. Si un Asociado omite informar su
+							nuevo sueldo por uno o varios años y si al efectuar el ajuste
+							este supera el 50% de la base de aportes, entonces no se tendrán
+							en cuenta las nuevas condiciones hasta tanto hayan transcurrido 6
+							meses para efectos de crédito.</td>
+					</tr>
+				</table>
+			</h:panelGroup>
+
+
+		</h:panelGroup>
+		<div style="margin-left: 40px;">
+			<h:form id="formCreacion">
+				<h:commandButton action="aperturaCuentaaporte-flowA"
+					value="« Anterior " />
+				<h:commandButton
+					action="#{aperturaCuentaaporteBean.crearCuentaaporte()}"
+					value="Crear Cuenta" styleClass="action blue">
+				</h:commandButton>
+			</h:form>
+		</div>
+
+		<h:panelGroup rendered="#{aperturaCuentaaporteBean.cuentaCreada}">
+			<h:form>
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 1202px;"></div>
+				<div class="modal-dialog p6n-popup" style="left: 502px; top: 200px;">
+					<div class="modal-dialog-title modal-dialog-title-draggable">
+						<span class="modal-dialog-title-text">Creacion
+							satisfactoria</span><span class="modal-dialog-title-close"></span>
+					</div>
+					<div class="modal-dialog-content ng-binding">El cliente fue
+						asociado satistactoriamente.</div>
+					<div class="modal-dialog-buttons">
+						<h:commandButton value="Imprimir" icon="ui-icon-print">
+							<p:printer target=":panelGroupPrint" />
+						</h:commandButton>
+						<h:commandButton value="Salir"
+							action="returnFromAperturaCuentaaporteFlow" />
+					</div>
+				</div>
+			</h:form>
+		</h:panelGroup>
+		
+	</ui:define>
+
+</ui:composition>
+</html>
