@@ -260,6 +260,8 @@ public class AperturaCuentaaporteBean implements Serializable {
 						cuentaCreada = true;
 						numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
 						fechaApertura = socio.getCuentaaporte().getFechaapertura();
+						
+						this.socio = socio;
 					} else {
 						throw new Exception("El tipo de persona no es valido");
 					}
