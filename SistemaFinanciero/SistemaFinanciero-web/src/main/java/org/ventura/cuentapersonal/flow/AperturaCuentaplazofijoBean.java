@@ -220,6 +220,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					personaNaturalSocio.setApellidomaterno(apellidoMaternoPersonanatural);
 					personaNaturalSocio.setNombres(nombresPersonanatural);
 					personaNaturalSocio.setFechanacimiento(fechaNacimientoPersonanatural);
+					personaNaturalSocio.setSexo(comboSexoPersonanatural.getObjectItemSelected());
 					personaNaturalSocio.setEstadocivil(comboEstadocivilPersonanatural.getObjectItemSelected());
 					personaNaturalSocio.setOcupacion(ocupacionPersonanatural);
 					personaNaturalSocio.setDireccion(direccionPersonanatural);
