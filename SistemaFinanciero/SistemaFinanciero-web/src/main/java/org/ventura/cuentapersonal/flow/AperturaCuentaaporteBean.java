@@ -48,6 +48,7 @@ public class AperturaCuentaaporteBean implements Serializable {
 	private boolean cuentaCreada;
 	private String numeroCuenta;
 	private Date fechaApertura;
+	private Socio socio;
 	
 	// DATOS DE LA VISTA
 	// VISTA 01
@@ -215,6 +216,8 @@ public class AperturaCuentaaporteBean implements Serializable {
 					cuentaCreada = true;
 					numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
 					fechaApertura = socio.getCuentaaporte().getFechaapertura();
+					
+					this.socio = socio;
 				} else {
 					if (isPersonajuridica) {
 						
@@ -1107,6 +1110,14 @@ public class AperturaCuentaaporteBean implements Serializable {
 
 	public void setFechaApertura(Date fechaApertura) {
 		this.fechaApertura = fechaApertura;
+	}
+
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
 	}
 
 }
