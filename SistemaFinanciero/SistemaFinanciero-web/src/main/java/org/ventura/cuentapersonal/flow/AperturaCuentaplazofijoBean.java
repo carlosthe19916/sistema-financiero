@@ -37,6 +37,7 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
+import org.ventura.entity.schema.socio.Socio;
 import org.ventura.session.CajaBean;
 import org.ventura.tipodato.Moneda;
 import org.venturabank.util.JsfUtil;
@@ -57,6 +58,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	private boolean cuentaCreada;
 	private String numeroCuenta;
 	private Date fechaApertura;
+	private Cuentabancaria cuentabancariaCreada;
 	
 	// DATOS DE LA VISTA
 	// VISTA 01
@@ -263,7 +265,9 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();
-					fechaApertura = cuentabancaria.getFechaapertura();		
+					fechaApertura = cuentabancaria.getFechaapertura();	
+					
+					this.cuentabancariaCreada = cuentabancaria;
 				} else {
 					if (isPersonajuridica) {
 						
@@ -324,6 +328,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 						cuentaCreada = true;
 						numeroCuenta = cuentabancaria.getNumerocuenta();
 						fechaApertura = cuentabancaria.getFechaapertura();
+						
+						this.cuentabancariaCreada = cuentabancaria;
 					} else {
 						throw new Exception("El tipo de persona no es valido");
 					}
@@ -1522,6 +1528,14 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setFechaApertura(Date fechaApertura) {
 		this.fechaApertura = fechaApertura;
+	}
+
+	public Cuentabancaria getCuentabancariaCreada() {
+		return cuentabancariaCreada;
+	}
+
+	public void setCuentabancariaCreada(Cuentabancaria cuentabancariaCreada) {
+		this.cuentabancariaCreada = cuentabancariaCreada;
 	}
 
 }
