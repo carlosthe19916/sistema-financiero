@@ -44,7 +44,6 @@
 												value="#{bovedaCRUDBean.denominacion}" maxlength="150"
 												required="true"
 												requiredMessage="Denominacion no debe de ser vacio" />
-
 										</div>
 									</div>
 								</div>
@@ -81,10 +80,10 @@
 									</div>
 								</div>
 								<br /> <br />
-
-								<div class="sf-buttons" style="float: left;">
-									<h:commandButton action="#{bovedaCRUDBean.createBoveda()}"
-										value="Guardar" styleClass="action blue" />
+								<div>
+									<h:commandButton id="btnGuardar"
+										action="#{bovedaCRUDBean.createBoveda()}" value="Guardar"
+										styleClass="action blue" onclick="onSubmitButton();" />
 									<h:commandButton value="Cancelar" action="cancel"
 										immediate="true" styleClass="action" />
 								</div>
