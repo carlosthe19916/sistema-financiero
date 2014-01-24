@@ -762,7 +762,14 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			Date fechaAperturaCuenta = cuentabancariaOld.getFechaapertura();
 			Date fechaVencimientoCuenta = cuentabancariaOld.getFechacierre();
 			Date fechaRenovacion = Calendar.getInstance().getTime();
-			if(fechaAperturaCuenta.compareTo(fechaRenovacion)*fechaRenovacion.compareTo(fechaVencimientoCuenta) > 0){
+			
+			if(fechaAperturaCuenta.compareTo(fechaRenovacion) == -1){
+				if(fechaRenovacion.compareTo(fechaVencimientoCuenta) == 1){
+					
+				} else {
+					throw new Exception("La cuenta no puede ser renovada porque no vencio aun");
+				}
+			} else {
 				throw new Exception("La cuenta no puede ser renovada porque no vencio aun");
 			}
 			

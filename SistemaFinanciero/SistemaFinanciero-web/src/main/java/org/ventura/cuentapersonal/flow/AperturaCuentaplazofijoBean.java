@@ -362,7 +362,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	
 	public String calcularFecha(){
 		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM//yyyy");
 		return sdf.format(calendar.getTime());
 	}
 	
