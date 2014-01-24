@@ -71,7 +71,7 @@
 											<div class="p6n-api-consent-screen-inputs">
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos generales</h3>
+														style="color: #298B11;">Datos Generales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div style="display: inline-block; width: 190px;">
@@ -103,7 +103,7 @@
 																validatorMessage="Número de documento Invalido"
 																converterMessage="Número de documento Invalido"
 																onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-																pt:placeholder="numero documento">
+																pt:placeholder="Número Documento">
 																<f:convertNumber type="number" integerOnly="true"
 																	groupingUsed="false" />
 																<f:ajax
@@ -129,7 +129,7 @@
 																	required="true" maxlength="50"
 																	requiredMessage="Ingrese apellido paterno"
 																	onkeyup="this.value = this.value.toUpperCase();"
-																	pt:placeholder="Apellido paterno">
+																	pt:placeholder="Apellido Paterno">
 																</h:inputText>
 															</div>
 														</div>
@@ -144,7 +144,7 @@
 																	required="true" maxlength="50"
 																	requiredMessage="Ingrese apellido materno"
 																	onkeyup="this.value = this.value.toUpperCase();"
-																	pt:placeholder="Apellido materno">
+																	pt:placeholder="Apellido Materno">
 																</h:inputText>
 															</div>
 														</div>
@@ -164,7 +164,7 @@
 																required="true" maxlength="60"
 																requiredMessage="Ingrese nombres"
 																onkeyup="this.value = this.value.toUpperCase();"
-																pt:placeholder="nombres" style="width:339px;">
+																pt:placeholder="Nombres" style="width:339px;">
 															</h:inputText>
 														</div>
 													</div>
@@ -199,7 +199,7 @@
 																	value="#{aperturaCuentaplazofijoBean.fechaNacimientoPersonanatural}"
 																	navigator="true" pattern="dd/MM/yyyy" required="true"
 																	requiredMessage="Ingrese fecha de nacimiento"
-																	converterMessage="formato incorrecto"
+																	converterMessage="Formato incorrecto"
 																	pt:placeholder="dd/mm/yyyy">
 																	<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 																</p:calendar>
@@ -215,7 +215,7 @@
 												<br />
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos adicionales</h3>
+														style="color: #298B11;">Datos Adicionales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div class="p6n-api-consent-screen-label">ESTADO
@@ -239,7 +239,8 @@
 																<div>
 																	<h:inputText
 																		value="#{aperturaCuentaplazofijoBean.ocupacionPersonanatural}"
-																		maxlength="70" pt:placeholder="ocupacion" />
+																		onkeyup="this.value = this.value.toUpperCase();"
+																		maxlength="70" pt:placeholder="Ocupacion" />
 																</div>
 															</div>
 														</div>
@@ -253,7 +254,7 @@
 																<h:inputText
 																	value="#{aperturaCuentaplazofijoBean.direccionPersonanatural}"
 																	onkeyup="this.value = this.value.toUpperCase();"
-																	maxlength="150" pt:placeholder="direccion">
+																	maxlength="150" pt:placeholder="Direccion">
 																</h:inputText>
 															</div>
 														</div>
@@ -265,7 +266,7 @@
 																<h:inputText
 																	value="#{aperturaCuentaplazofijoBean.referenciaPersonanatural}"
 																	onkeyup="this.value = this.value.toUpperCase();"
-																	maxlength="100" pt:placeholder="referencia">
+																	maxlength="100" pt:placeholder="Referencia">
 																</h:inputText>
 															</div>
 														</div>
@@ -289,7 +290,7 @@
 															<div>
 																<h:inputText
 																	value="#{aperturaCuentaplazofijoBean.celularPersonanatural}"
-																	maxlength="25" pt:placeholder="ceular/#rpm">
+																	maxlength="25" pt:placeholder="Celular/RPM">
 																</h:inputText>
 															</div>
 														</div>
@@ -301,6 +302,7 @@
 														<div>
 															<h:inputText
 																value="#{aperturaCuentaplazofijoBean.emailPersonanatural}"
+																onkeyup="this.value = this.value.toUpperCase();"
 																maxlength="50" pt:placeholder="example@domain.com"
 																style="width:339px;" />
 														</div>
@@ -334,7 +336,7 @@
 											<div class="p6n-api-consent-screen-inputs">
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos generales</h3>
+														style="color: #298B11;">Datos Generales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div style="display: inline-block; width: 190px;">
@@ -366,7 +368,7 @@
 																validatorMessage="Número de documento Invalido"
 																converterMessage="Número de documento Invalido"
 																onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-																pt:placeholder="numero documento">
+																pt:placeholder="Número Documento">
 																<f:convertNumber type="number" integerOnly="true"
 																	groupingUsed="false" />
 																<f:ajax
@@ -392,7 +394,7 @@
 																	required="true" maxlength="50"
 																	requiredMessage="Ingrese la razon social"
 																	onkeyup="this.value = this.value.toUpperCase();"
-																	pt:placeholder="Razon social">
+																	pt:placeholder="Razon Social">
 																</h:inputText>
 															</div>
 														</div>
@@ -406,7 +408,7 @@
 																	value="#{aperturaCuentaplazofijoBean.nombreComercial}"
 																	maxlength="50"
 																	onkeyup="this.value = this.value.toUpperCase();"
-																	pt:placeholder="Nombre comercial">
+																	pt:placeholder="Nombre Comercial">
 																</h:inputText>
 															</div>
 														</div>
@@ -427,7 +429,7 @@
 																	value="#{aperturaCuentaplazofijoBean.actividadPrincipal}"
 																	maxlength="50"
 																	onkeyup="this.value = this.value.toUpperCase();"
-																	pt:placeholder="actividad principal">
+																	pt:placeholder="Actividad Principal">
 																</h:inputText>
 															</div>
 														</div>
@@ -457,7 +459,7 @@
 												<br />
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos comerciales</h3>
+														style="color: #298B11;">Datos Comerciales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div style="display: inline-block; width: 190px;">
@@ -502,7 +504,7 @@
 												<br />
 												<div class="sf-separator">
 													<h3 class="p6n-api-consent-screen-title"
-														style="color: #298B11;">Datos adicionales</h3>
+														style="color: #298B11;">Datos Adicionales</h3>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div style="display: inline-block; width: 190px;">
@@ -548,7 +550,7 @@
 															<div>
 																<h:inputText
 																	value="#{aperturaCuentaplazofijoBean.celularPersonajuridica}"
-																	maxlength="20" pt:placeholder="celular/#rpm">
+																	maxlength="20" pt:placeholder="Celular/RPM">
 																</h:inputText>
 															</div>
 														</div>
