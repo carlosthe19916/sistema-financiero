@@ -58,7 +58,7 @@ import org.ventura.util.maestro.TipocuentabancariaType;
 @Stateless
 @Local(TransaccionCajaServiceLocal.class)
 @Remote(TransaccionCajaServiceRemote.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 	@Inject
@@ -116,10 +116,10 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			if(!estadocuentaCuentabancaria.equals(estadocuentaActivo)){
 				throw new Exception("La cuenta no esta ACTIVA y no se puede realizar transacciones");
 			}
-			Tipocuentabancaria tipocuentabancariaActive = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
+			/*Tipocuentabancaria tipocuentabancariaActive = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
 			if(tipocuentabancaria.equals(tipocuentabancariaActive)){
 				throw new Exception("No se puede hacer operaciones sobre una cuenta a plazo fijo");
-			}
+			}*/
 
 			TipoTransaccionType tipoTransaccion = ProduceObject.getTipotransaccion(transaccioncuentabancaria.getTipotransaccion());
 			boolean isTransaccionvalida = false;

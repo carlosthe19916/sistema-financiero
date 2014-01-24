@@ -19,7 +19,7 @@ import org.ventura.util.logger.Log;
 @Stateless
 @Local(MaestrosServiceLocal.class)
 @Remote(MaestrosServiceRemote.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class MaestrosServiceBean implements MaestrosServiceLocal {
 
 	@Inject

@@ -24,7 +24,7 @@ import org.ventura.util.logger.Log;
 @Stateless
 @Local(TipocambioServiceLocal.class)
 @Remote(TipocambioServiceRemote.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class TipocambioServiceBean implements TipocambioServiceLocal {
 
 	@Inject

@@ -17,11 +17,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
+import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.boundary.remote.CuentabancariaServiceRemote;
 import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
@@ -31,7 +33,10 @@ import org.ventura.dao.impl.CuentabancariaViewDAO;
 import org.ventura.dao.impl.InteresdiarioDAO;
 import org.ventura.dao.impl.SocioDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
+import org.ventura.entity.schema.caja.Transaccioncaja;
+import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasa;
@@ -52,13 +57,14 @@ import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadocuentaType;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
+import org.ventura.util.maestro.TipoTransaccionType;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 
 @Stateless
 @Local(CuentabancariaServiceLocal.class)
 @Remote(CuentabancariaServiceRemote.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 
 	@Inject
@@ -89,6 +95,8 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	private TasainteresServiceLocal tasainteresServiceLocal;
 	@EJB
 	private SocioServiceLocal socioServiceLocal;
+	@EJB
+	private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
 	
 	@Override
 	public Cuentabancaria create(Cuentabancaria cuentabancaria) throws Exception {
@@ -545,12 +553,14 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, BigDecimal tea, BigDecimal trea) throws Exception {
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, BigDecimal trea, Caja caja) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personanatural);
 			if(socio == null){
 				throw new PreexistingEntityException("El cliente necesita ser socio antes de obtener una cuenta de ahorros");
 			}
+			
+			Calendar fechaCreacion = Calendar.getInstance();
 			
 			personanaturalServiceLocal.createIfNotExistsUpdateIfExist(personanatural);
 			List<Titular> listTitulares = cuentabancaria.getTitulares();
@@ -560,11 +570,22 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
 			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
 			cuentabancaria.setEstadocuenta(estadocuenta);
-			cuentabancaria.setFechaapertura(Calendar.getInstance().getTime());
+			cuentabancaria.setFechaapertura(fechaCreacion.getTime());
 			cuentabancaria.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancaria.setSocio(socio);
+			cuentabancaria.setSaldo(new Moneda());
 			cuentabancariaDAO.create(cuentabancaria);
-				
+			
+			//crear transaccion del deposito 
+			Transaccioncuentabancaria transaccioncuentabancaria = new Transaccioncuentabancaria();
+			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
+			transaccioncuentabancaria.setEstado(true);
+			transaccioncuentabancaria.setMonto(new Moneda(monto));
+			transaccioncuentabancaria.setSaldodisponible(new Moneda(monto));
+			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
+			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO));
+			transaccionCajaServiceLocal.createTransaccionCuentabancaria(caja, transaccioncuentabancaria);
+			
 			//crear titulares y beneficiarios
 			cuentabancaria.setTitulares(listTitulares);
 			cuentabancaria.setBeneficiarios(listBeneficiarios);

@@ -44,7 +44,7 @@ import org.ventura.util.logger.Log;
 @Stateless
 @Local(CuentaaporteServiceLocal.class)
 @Remote(CuentaaporteServiceRemote.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 
 	@EJB

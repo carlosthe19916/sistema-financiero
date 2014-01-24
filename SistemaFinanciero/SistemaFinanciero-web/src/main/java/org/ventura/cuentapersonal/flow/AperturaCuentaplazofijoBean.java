@@ -25,6 +25,7 @@ import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.dependent.ComboBean;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Titular;
@@ -36,6 +37,7 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
+import org.ventura.session.CajaBean;
 import org.ventura.tipodato.Moneda;
 import org.venturabank.util.JsfUtil;
 
@@ -136,6 +138,9 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	private String nombresBeneficiario;
 	private Integer porcentajeBeneficio;
 	
+	@Inject private CajaBean cajaBean;
+	@Inject private Caja caja;
+	
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
@@ -199,6 +204,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 			comboTipoempresa.initValuesFromNamedQueryName(Tipoempresa.ALL_ACTIVE);
 			
 			comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
+			
+			caja = cajaBean.getCaja();
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}		
@@ -252,7 +259,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					
 					BigDecimal teaReal = tea.divide(new BigDecimal(100));
 					BigDecimal treaReal = trea.divide(new BigDecimal(100));
-					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio, teaReal, treaReal);
+					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio,montoApertura, teaReal, treaReal, caja);
 					
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();

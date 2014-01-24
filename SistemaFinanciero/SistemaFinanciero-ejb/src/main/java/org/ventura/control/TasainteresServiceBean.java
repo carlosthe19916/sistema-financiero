@@ -29,7 +29,7 @@ import org.ventura.util.math.BigDecimalMath;
 @Stateless
 @Local(TasainteresServiceLocal.class)
 @Remote(TasainteresServiceRemote.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class TasainteresServiceBean implements TasainteresServiceLocal {
 
 	@Inject

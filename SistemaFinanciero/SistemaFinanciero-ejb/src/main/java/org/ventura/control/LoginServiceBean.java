@@ -31,7 +31,7 @@ import org.ventura.util.logger.Log;
 @Stateless
 @Local(LoginServiceLocal.class)
 @Remote(LoginServiceRemote.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class LoginServiceBean implements LoginServiceLocal {
 
 	@EJB
