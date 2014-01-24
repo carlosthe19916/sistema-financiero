@@ -346,7 +346,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			List<Titular> titulares = cuentabancaria.getTitulares();
 			for (Titular titular : titulares) {
 				Personanatural titularPersonanatural = titular.getPersonanatural();		
-				titularPersonanatural = personanaturalServiceLocal.createIfNotExistsUpdateIfExist(titularPersonanatural);			
+				titularPersonanatural = personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(titularPersonanatural);			
 				Titular titularNew = new Titular();	
 				titularNew.setEstado(true);
 				titularNew.setFechaactiva(Calendar.getInstance().getTime());
