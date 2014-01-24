@@ -776,16 +776,26 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria,int periodo, BigDecimal tea, BigDecimal trea) throws Exception {
+	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria,int periodo, BigDecimal tea, BigDecimal trea, Caja caja) throws Exception {
 		Cuentabancaria cuentabancariaNew = null;
 		try {							
 			Cuentabancaria cuentabancariaOld = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
 			Date fechaAperturaCuenta = cuentabancariaOld.getFechaapertura();
 			Date fechaVencimientoCuenta = cuentabancariaOld.getFechacierre();
-			Date fechaRenovacion = Calendar.getInstance().getTime();
+			
+			Calendar calendarVencimiento = Calendar.getInstance();
+			calendarVencimiento.setTime(fechaVencimientoCuenta);
+			fechaVencimientoCuenta = calendarVencimiento.getTime();
+			
+			Calendar calendarRenovacion = Calendar.getInstance();
+			calendarRenovacion.set(Calendar.HOUR_OF_DAY, 0);
+			calendarRenovacion.set(Calendar.MINUTE, 0);
+			calendarRenovacion.set(Calendar.SECOND, 0);
+			calendarRenovacion.set(Calendar.MILLISECOND, 0);
+			Date fechaRenovacion = calendarRenovacion.getTime();
 			
 			if(fechaAperturaCuenta.compareTo(fechaRenovacion) == -1){
-				if(fechaRenovacion.compareTo(fechaVencimientoCuenta) == 1){
+				if(calendarRenovacion.compareTo(calendarVencimiento) == 1){
 					
 				} else {
 					throw new Exception("La cuenta no puede ser renovada porque no vencio aun");
@@ -808,10 +818,24 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			interesGenerado.setFecha(Calendar.getInstance().getTime());
 			interesGenerado.setIdcuentabancaria(cuentabancariaOld.getIdcuentabancaria());		
 			interesdiarioDAO.create(interesGenerado);
+						
+			//actualizar el saldo de la cuenta			
+			cuentabancariaOld.setSaldo(new Moneda(interes.add(capital)));
+			cuentabancariaDAO.update(cuentabancariaOld);
+			
+			//generar la transaccion de retiro de todo el dinero
+			Transaccioncuentabancaria transaccioncuentabancariaRetiro = new Transaccioncuentabancaria();
+			transaccioncuentabancariaRetiro.setCuentabancaria(cuentabancariaOld);
+			transaccioncuentabancariaRetiro.setEstado(true);
+			transaccioncuentabancariaRetiro.setMonto(cuentabancariaOld.getSaldo());
+			transaccioncuentabancariaRetiro.setSaldodisponible(cuentabancariaOld.getSaldo().subtract(transaccioncuentabancariaRetiro.getMonto()));
+			transaccioncuentabancariaRetiro.setTipomoneda(cuentabancariaOld.getTipomoneda());
+			transaccioncuentabancariaRetiro.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));
+			transaccionCajaServiceLocal.createTransaccionCuentabancaria(caja, transaccioncuentabancariaRetiro);
 			
 			//actualizar datos de cuenta OLD			
 			cuentabancariaOld.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
-			cuentabancariaOld.setSaldo(new Moneda());
+			/*cuentabancariaOld.setSaldo(new Moneda());*/
 			cuentabancariaDAO.update(cuentabancariaOld);
 			
 			//crear la nueva cuenta a Plazo fijo
@@ -826,13 +850,23 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			
 			cuentabancariaNew.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancariaNew.setSocio(cuentabancariaOld.getSocio());
-			cuentabancariaNew.setSaldo(new Moneda(saldo));
+			cuentabancariaNew.setSaldo(new Moneda());
 			cuentabancariaNew.setCantidadretirantes(cuentabancariaOld.getCantidadretirantes());
 			cuentabancariaNew.setEstadocuenta(estadocuenta);
 			cuentabancariaNew.setFechaapertura(fechaApertura);
 			cuentabancariaNew.setFechacierre(fechaCierre);
 			cuentabancariaNew.setTipomoneda(cuentabancariaOld.getTipomoneda());			
 			cuentabancariaDAO.create(cuentabancariaNew);
+			
+			//crear la transaccion de deposito a la nueva cuenta
+			Transaccioncuentabancaria transaccioncuentabancariaDeposito = new Transaccioncuentabancaria();
+			transaccioncuentabancariaDeposito.setCuentabancaria(cuentabancariaNew);
+			transaccioncuentabancariaDeposito.setEstado(true);
+			transaccioncuentabancariaDeposito.setMonto(transaccioncuentabancariaRetiro.getMonto());
+			transaccioncuentabancariaDeposito.setSaldodisponible(cuentabancariaNew.getSaldo().add(transaccioncuentabancariaRetiro.getMonto()));
+			transaccioncuentabancariaDeposito.setTipomoneda(cuentabancariaNew.getTipomoneda());
+			transaccioncuentabancariaDeposito.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO));
+			transaccionCajaServiceLocal.createTransaccionCuentabancaria(caja, transaccioncuentabancariaDeposito);
 			
 			//crear titulares y beneficiarios
 			cuentabancariaNew.setTitulares(new ArrayList<Titular>(listTitulares));

@@ -50,7 +50,7 @@
 											<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
 											<div>
 												<div style="float: left;">
-													<h:inputText
+													<h:inputText id="txtNumeroCuenta"
 														value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.numerocuenta}"
 														readonly="true" />
 												</div>
@@ -319,7 +319,7 @@
 												<div class="p6n-api-consent-screen-label">MONTO
 													RENOVACION</div>
 												<div>
-													<h:outputLabel
+													<h:outputLabel id="txtMonto"
 														value="#{renovarCuentaplazofijoBean.montoRenovacion}" />
 												</div>
 											</div>
@@ -486,7 +486,7 @@
 
 													</h:commandButton>
 													<h:commandButton value="Salir"
-														action="returnFromAperturaCuentaplazofijoFlow" />
+														action="/modules/cuentasPersonales/index?faces-redirect=true" />
 												</div>
 											</div>
 										</h:form>

@@ -17,9 +17,11 @@ import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.session.CajaBean;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.venturabank.util.JsfUtil;
 
@@ -54,6 +56,9 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 	
 	private Cuentabancaria cuentaPlazofijoCreado;
 	
+	@Inject CajaBean cajaBean;
+	@Inject Caja caja;
+	
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private TasainteresServiceLocal tasainteresServiceLocal;
 	
@@ -69,6 +74,7 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 	private void initialize(){	
 		try {
 			comboTipodocumento.initValuesFromNamedQueryName(Tipodocumento.All_active);
+			caja = cajaBean.getCaja();
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}		
@@ -82,7 +88,7 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 				BigDecimal teaReal = teaRenovacion.divide(new BigDecimal(100));
 				BigDecimal treaReal = treaRenovacion.divide(new BigDecimal(100));
 				
-				cuentaPlazofijoCreado = cuentabancariaServiceLocal.renovarCuentaplazofijo(cuentabancaria,periodoRenovacion, teaReal, treaReal);
+				cuentaPlazofijoCreado = cuentabancariaServiceLocal.renovarCuentaplazofijo(cuentabancaria,periodoRenovacion, teaReal, treaReal, caja);
 				cuentaCreada = true;
 			}
 		} catch (Exception e) {
