@@ -71,8 +71,8 @@ public class TransaccionBovedaBean implements Serializable {
 			comboBoveda.initValuesFromNamedQueryName(Boveda.ALL_ACTIVE_BY_AGENCIA_AND_ESTADOMOVIMIENTO, parameters);		
 			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 
-			comboTipoentidad.putItem(1, "Caja");
-			comboTipoentidad.putItem(2, "Otro");
+			comboTipoentidad.putItem(1, "CAJA");
+			comboTipoentidad.putItem(2, "OTRO");
 		} catch (Exception e) {
 		}		
 	}
