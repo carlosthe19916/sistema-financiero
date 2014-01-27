@@ -31,26 +31,14 @@
 						<h:form id="formToolbar">
 							<div class="buttons">
 								<div class="tiptip">
-									<p:commandLink action="create" styleClass="button left"
-										title="Nueva Caja">
-										<span class="icon icon3"></span>
-										<span class="label">Nuevo</span>
-									</p:commandLink>
-									<p:commandLink action="update" styleClass="button middle"
-										title="Editar Caja">
-										<span class="icon icon3"></span>
-										<span class="label">Editar</span>
-									</p:commandLink>
-									<p:commandLink
-										actionListener="#{administrarCajaBeanReplace.deleteCaja()}"
-										update=":formTablaCaja" styleClass="button right"
-										title="Eliminar Caja">
-										<p:confirm header="Confirmation"
-											message="¿Estas seguro de eliminar la Caja?"
-											icon="ui-icon-alert" />
-										<span class="icon icon186"></span>
-										<span class="label">Eliminar</span>
-									</p:commandLink>
+									<h:commandLink action="open" styleClass="button left" title="Abrir Caja">
+											<span class="icon icon123">&nbsp;</span>
+											<span class="label">Abrir Caja</span>
+										</h:commandLink>
+										<h:commandLink action="close" styleClass="button right" title="Abrir Cerrar">
+											<span class="icon icon122">&nbsp;</span>
+											<span class="label">Cerrar Caja</span>
+										</h:commandLink>
 									<p:commandLink
 										actionListener="#{administrarCajaBeanReplace.desactivarMovimiento()}"
 										update=":formTablaCaja:tblCaja" styleClass="button left"
@@ -87,14 +75,26 @@
 										<span class="toggle">&nbsp;</span>
 									</h:outputLink>
 									<div class="dropdown-slider">
-										<h:commandLink action="open" styleClass="ddm">
-											<span class="icon icon123">&nbsp;</span>
-											<span class="label">Abrir Caja</span>
-										</h:commandLink>
-										<h:commandLink action="close" styleClass="ddm">
-											<span class="icon icon122">&nbsp;</span>
-											<span class="label">Cerrar Caja</span>
-										</h:commandLink>
+										<p:commandLink action="create" styleClass="ddm"
+											title="Nueva Caja">
+											<span class="icon icon3"></span>
+											<span class="label">Nuevo</span>
+										</p:commandLink>
+										<p:commandLink action="update" styleClass="ddm"
+											title="Editar Caja">
+											<span class="icon icon3"></span>
+											<span class="label">Editar</span>
+										</p:commandLink>
+										<p:commandLink
+											actionListener="#{administrarCajaBeanReplace.deleteCaja()}"
+											update=":formTablaCaja" styleClass="ddm"
+											title="Eliminar Caja">
+											<p:confirm header="Confirmation"
+												message="¿Estas seguro de eliminar la Caja?"
+												icon="ui-icon-alert" />
+											<span class="icon icon186"></span>
+											<span class="label">Eliminar</span>
+										</p:commandLink>
 									</div>
 									<!-- /.dropdown-slider -->
 								</div>
