@@ -14,13 +14,17 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
+import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
+import org.ventura.entity.schema.persona.Personajuridica;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.schema.socio.Socio;
 import org.ventura.session.CajaBean;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.venturabank.util.JsfUtil;
@@ -59,8 +63,16 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 	@Inject CajaBean cajaBean;
 	@Inject Caja caja;
 	
+	/*datos de cuenta para persona natural*/
+	private Personanatural personanatural;
+	private Personajuridica personajuridica;
+	private boolean renderPersonanatural;
+	private boolean renderPersonajuridica;
+	/**/
+	
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private TasainteresServiceLocal tasainteresServiceLocal;
+	@EJB private SocioServiceLocal serviceLocal;
 	
 	public RenovarCuentaplazofijoBean() {
 		cuentaValida = true;
@@ -68,6 +80,9 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 		dlgBusquedaOpen = false;
 		fechaAperturaRenovacion = Calendar.getInstance().getTime();
 		fechaCierreRenovacion = Calendar.getInstance().getTime();
+		
+		renderPersonanatural = false;
+		renderPersonajuridica = false;
 	}
 
 	@PostConstruct
@@ -88,12 +103,32 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 				BigDecimal teaReal = teaRenovacion.divide(new BigDecimal(100));
 				BigDecimal treaReal = treaRenovacion.divide(new BigDecimal(100));
 				
-				cuentaPlazofijoCreado = cuentabancariaServiceLocal.renovarCuentaplazofijo(cuentabancaria,periodoRenovacion, teaReal, treaReal, caja);
+				cuentaPlazofijoCreado = cuentabancariaServiceLocal.renovarCuentaplazofijo(cuentabancaria,periodoRenovacion, teaReal, treaReal, caja);				
 				cuentaCreada = true;
+				cargarContrato();
+			} else {
+				cargarContrato();
 			}
 		} catch (Exception e) {
 			this.cuentaValida = false;
 			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void cargarContrato(){
+		try {
+			Socio socio = cuentaPlazofijoCreado.getSocio();
+			this.personanatural = socio.getPersonanatural();
+			this.personajuridica = socio.getPersonajuridica();
+			if(personanatural != null){
+				renderPersonanatural = true;
+			}
+			if(personajuridica != null){
+				renderPersonajuridica = true;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 	
@@ -162,6 +197,14 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 			e.printStackTrace();
 		}	
+	}
+	
+	public boolean renderPersonanatural(){
+		return renderPersonanatural;
+	}
+	
+	public boolean renderPersonajuridica(){
+		return renderPersonajuridica;
 	}
 	
 	public void changeTipodocumento(ValueChangeEvent event) {
@@ -324,6 +367,22 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 
 	public void setTotalRenovacion(BigDecimal totalRenovacion) {
 		this.totalRenovacion = totalRenovacion;
+	}
+
+	public Personanatural getPersonanatural() {
+		return personanatural;
+	}
+
+	public void setPersonanatural(Personanatural personanatural) {
+		this.personanatural = personanatural;
+	}
+
+	public Personajuridica getPersonajuridica() {
+		return personajuridica;
+	}
+
+	public void setPersonajuridica(Personajuridica personajuridica) {
+		this.personajuridica = personajuridica;
 	}
 
 }

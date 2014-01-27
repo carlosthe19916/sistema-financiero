@@ -45,6 +45,7 @@ import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.cuentapersonal.Interesdiario;
 import org.ventura.entity.schema.cuentapersonal.Titular;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
+import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
@@ -857,6 +858,23 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaNew.setFechacierre(fechaCierre);
 			cuentabancariaNew.setTipomoneda(cuentabancariaOld.getTipomoneda());			
 			cuentabancariaDAO.create(cuentabancariaNew);
+			
+			//cargar los datos de la cuenta 
+			Socio socio = cuentabancariaNew.getSocio();
+			Personanatural personanatural = socio.getPersonanatural();
+			Personajuridica personajuridica = socio.getPersonajuridica();
+			socio.setPersonanatural(personanatural);
+			socio.setPersonajuridica(personajuridica);
+			if(personajuridica != null) {
+				List<Accionista> listAccionista = personajuridica.getAccionistas();
+				for (Accionista accionista : listAccionista) {
+					Personanatural personanatural2 = accionista.getPersonanatural();
+					accionista.setPersonanatural(personanatural2);
+				}
+				personajuridica.setAccionistas(listAccionista);
+			}
+			cuentabancariaNew.setSocio(socio);
+			
 			
 			//crear la transaccion de deposito a la nueva cuenta
 			Transaccioncuentabancaria transaccioncuentabancariaDeposito = new Transaccioncuentabancaria();
