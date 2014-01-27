@@ -35,10 +35,21 @@
 								<h:outputLabel
 									value="#{aperturaCuentaplazofijoBean.montoApertura}" />
 							</div>
-							<div class="p6n-cloudsql-summary-bold">Fecha apertura</div>
-							<div class="p6n-cloudsql-summary-light">
-								<h:outputLabel
-									value="#{aperturaCuentaplazofijoBean.calcularFecha()}" />
+							<div>
+								<div style="display: inline-block; width: 150px;">
+									<div class="p6n-cloudsql-summary-bold">Fecha apertura</div>
+									<div class="p6n-cloudsql-summary-light">
+										<h:outputLabel
+											value="#{aperturaCuentaplazofijoBean.calcularFecha()}" />
+									</div>
+								</div>
+								<div style="display: inline-block; width: 150px;">
+									<div class="p6n-cloudsql-summary-bold">Fecha cierre</div>
+									<div class="p6n-cloudsql-summary-light">
+										<h:outputLabel
+											value="#{aperturaCuentaplazofijoBean.calcularFechaCierre()}" />
+									</div>
+								</div>
 							</div>
 							<div class="p6n-cloudsql-summary-bold">Periodo</div>
 							<div class="p6n-cloudsql-summary-light">

@@ -16,17 +16,25 @@ import javax.inject.Named;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
+import org.ventura.dao.impl.CuentabancariaTipotasaDAO;
+import org.ventura.dao.impl.PersonanaturalDAO;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasa;
+import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasaPK;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.session.CajaBean;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipocuentabancariaType;
+import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -48,6 +56,8 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 	private BigDecimal interesCuenta;
 	private BigDecimal totalCuenta;
 	private Integer periodoCuenta;
+	private BigDecimal treaCuenta;
+	private BigDecimal teaCuenta;
 
 	private Integer periodoRenovacion;
 	private BigDecimal montoRenovacion;
@@ -73,6 +83,7 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private TasainteresServiceLocal tasainteresServiceLocal;
 	@EJB private SocioServiceLocal serviceLocal;
+	@EJB private CuentabancariaTipotasaDAO cuentabancariaTipotasaDAO;
 	
 	public RenovarCuentaplazofijoBean() {
 		cuentaValida = true;
@@ -171,6 +182,13 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 				
 				periodoCuenta = (int) (diff / (24 * 60 * 60 * 1000));
 				montoRenovacion = new BigDecimal(totalCuenta.toString());
+				
+				//cargar las tasas de interes para la cuenta
+				this.teaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TEA, cuentabancariaViewSelected.getIdCuentabancaria());
+				this.treaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TREA, cuentabancariaViewSelected.getIdCuentabancaria());
+				
+				teaCuenta = teaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
+				treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
 			} catch (Exception e) {
 				JsfUtil.addErrorMessage(e, e.getMessage());
 				e.printStackTrace();
@@ -383,6 +401,22 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 
 	public void setPersonajuridica(Personajuridica personajuridica) {
 		this.personajuridica = personajuridica;
+	}
+
+	public BigDecimal getTreaCuenta() {
+		return treaCuenta;
+	}
+
+	public void setTreaCuenta(BigDecimal treaCuenta) {
+		this.treaCuenta = treaCuenta;
+	}
+
+	public BigDecimal getTeaCuenta() {
+		return teaCuenta;
+	}
+
+	public void setTeaCuenta(BigDecimal teaCuenta) {
+		this.teaCuenta = teaCuenta;
 	}
 
 }

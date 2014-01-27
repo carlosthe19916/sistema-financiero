@@ -375,8 +375,18 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	
 	public String calcularFecha(){
 		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM//yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(calendar.getTime());
+	}
+	
+	public String calcularFechaCierre(){
+		if(periodoDeposito != null){
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.DAY_OF_MONTH, periodoDeposito);
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			return sdf.format(calendar.getTime());
+		}
+		return null;
 	}
 	
 	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){

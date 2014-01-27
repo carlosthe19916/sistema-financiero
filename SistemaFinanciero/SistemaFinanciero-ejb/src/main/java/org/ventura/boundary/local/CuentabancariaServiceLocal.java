@@ -13,7 +13,9 @@ import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.util.maestro.TipocuentabancariaType;
+import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 
 @Local
 public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote {
@@ -43,6 +45,8 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	public Cuentabancaria findByNumerocuenta(String numerocuenta) throws Exception;
 	
 	public CuentabancariaView findCuentabancariaViewByNumerocuenta(String numerocuenta) throws Exception;
+	
+	public BigDecimal getTasainteres(TipotasaCuentasPersonalesType tipotasaCuentasPersonalesType, Object idCuenta) throws Exception;
 	
 	public List<CuentabancariaView> findCuentabancariaView(TipocuentabancariaType tipocuentabancariaType, Tipodocumento tipodocumento, String campoBusqueda) throws Exception;
 	

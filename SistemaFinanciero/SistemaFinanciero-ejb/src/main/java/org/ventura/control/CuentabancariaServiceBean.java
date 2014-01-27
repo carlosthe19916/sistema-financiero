@@ -974,4 +974,28 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		return cuentabancariaBD;
 	}
 
+	@Override
+	public BigDecimal getTasainteres(TipotasaCuentasPersonalesType tipotasaCuentasPersonalesType,Object idCuenta) throws Exception {
+		BigDecimal result;
+		try {
+			Cuentabancaria cuentabancaria = cuentabancariaDAO.find(idCuenta);
+			
+			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(tipotasaCuentasPersonalesType);
+			
+			CuentabancariaTipotasa cuentabancariaTipotasa;
+			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
+			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
+			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
+			cuentabancariaTipotasa = cuentabancariaTipotasaDAO.find(pk);
+			
+			result = cuentabancariaTipotasa.getTasainteres();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		}		
+		return result;
+	}
+
 }
