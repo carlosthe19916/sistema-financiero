@@ -41,6 +41,7 @@
 									<div>
 										<div>
 											<h:inputText id="txtDenominacion"
+												onkeyup="this.value = this.value.toUpperCase();"
 												value="#{bovedaCRUDBean.denominacion}" maxlength="150"
 												required="true"
 												requiredMessage="Denominacion no debe de ser vacio" />
