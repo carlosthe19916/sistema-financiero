@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -51,6 +52,9 @@ public class BovedaView implements Serializable {
 	@Column(name = "denominacion_tipomoneda", length = 35)
 	private String denominacionTipomoneda;
 
+	@Column(name = "saldo")
+	private BigDecimal saldo;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_agencia", nullable = false)
 	private Agencia agencia;
@@ -174,6 +178,14 @@ public class BovedaView implements Serializable {
 
 	public void setTipomoneda(Tipomoneda tipomoneda) {
 		this.tipomoneda = tipomoneda;
+	}
+
+	public BigDecimal getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(BigDecimal saldo) {
+		this.saldo = saldo;
 	}
 
 }

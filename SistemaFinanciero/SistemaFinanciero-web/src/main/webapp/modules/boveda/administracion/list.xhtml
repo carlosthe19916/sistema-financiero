@@ -30,26 +30,15 @@
 						<h:form id="formToolbar">
 							<div class="buttons">
 								<div class="tiptip">
-									<p:commandLink action="create" styleClass="button left"
-										title="Nueva bóveda">
-										<span class="icon icon3"></span>
-										<span class="label">Nuevo</span>
-									</p:commandLink>
-									<p:commandLink action="update" styleClass="button middle"
-										title="Editar bóveda">
-										<span class="icon icon3"></span>
-										<span class="label">Editar</span>
-									</p:commandLink>
-									<p:commandLink
-										actionListener="#{administrarBovedaBean.deleteBoveda()}"
-										update=":formTablaBoveda" styleClass="button right"
-										title="Eliminar Boveda">
-										<p:confirm header="Confirmation"
-											message="Estas seguro de eliminar la boveda?"
-											icon="ui-icon-alert" />
-										<span class="icon icon186"></span>
-										<span class="label">Eliminar</span>
-									</p:commandLink>
+									<h:commandLink action="open" styleClass="button left">
+										<span class="icon icon123">&nbsp;</span>
+										<span class="label">Abrir Boveda</span>
+									</h:commandLink>
+									<h:commandLink action="close" styleClass="button right">
+										<span class="icon icon122">&nbsp;</span>
+										<span class="label">Cerrar Boveda</span>
+									</h:commandLink>
+
 									<p:commandLink
 										actionListener="#{administrarBovedaBean.desactivarMovimiento()}"
 										update=":formTablaBoveda:tblBoveda" styleClass="button left"
@@ -85,15 +74,31 @@
 										<span class="label">Operaciones</span>
 										<span class="toggle">&nbsp;</span>
 									</h:outputLink>
+
 									<div class="dropdown-slider">
-										<h:commandLink action="open" styleClass="ddm">
-											<span class="icon icon123">&nbsp;</span>
-											<span class="label">Abrir Boveda</span>
-										</h:commandLink>
-										<h:commandLink action="close" styleClass="ddm">
-											<span class="icon icon122">&nbsp;</span>
-											<span class="label">Cerrar Boveda</span>
-										</h:commandLink>
+
+										<p:commandLink action="create" styleClass="ddm"
+											title="Nueva bóveda">
+											<span class="icon icon3"></span>
+											<span class="label">Nuevo</span>
+										</p:commandLink>
+										<p:commandLink action="update" styleClass="ddm"
+											title="Editar bóveda">
+											<span class="icon icon3"></span>
+											<span class="label">Editar</span>
+										</p:commandLink>
+										<p:commandLink
+											actionListener="#{administrarBovedaBean.deleteBoveda()}"
+											update=":formTablaBoveda" styleClass="ddm"
+											title="Eliminar Boveda">
+											<p:confirm header="Confirmation"
+												message="Estas seguro de eliminar la boveda?"
+												icon="ui-icon-alert" />
+											<span class="icon icon186"></span>
+											<span class="label">Eliminar</span>
+										</p:commandLink>
+
+
 									</div>
 									<!-- /.dropdown-slider -->
 								</div>
@@ -126,6 +131,9 @@
 									</p:column>
 									<p:column headerText="Estado Movimiento" width="200">
 										<h:outputText value="#{boveda.denominacionEstadomovimiento}" />
+									</p:column>
+									<p:column headerText="Saldo" width="200">
+										<h:outputText value="#{boveda.saldo}" />
 									</p:column>
 								</p:dataTable>
 							</div>
