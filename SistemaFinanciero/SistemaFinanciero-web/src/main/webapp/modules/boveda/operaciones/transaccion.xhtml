@@ -147,44 +147,79 @@
 								<div class="p6n-api-consent-screen-input-section">
 									<div>
 										<h:panelGroup id="panelDetalletransaccion">
-											<table>
-												<thead>
-													<tr>
-														<td style="text-align: right;">
-															<div class="p6n-api-consent-screen-label"
-																style="width: 100px;">DENOMINACION</div>
-														</td>
-														<td style="width: 20px;"></td>
-														<td><div class="p6n-api-consent-screen-label"
-																style="width: 150px;">CANTIDAD</div></td>
-														<td style="width: 20px;"></td>
-														<td><div class="p6n-api-consent-screen-label"
-																style="width: 110px;">TOTAL</div></td>
-													</tr>
-												</thead>
-												<tbody>
-													<ui:repeat
-														value="#{transaccionBovedaBean.tablaDetalletransaccionboveda.rows}"
-														var="detalle">
+											<div style="display: inline-block; vertical-align: top;">
+
+												<table>
+													<thead>
 														<tr>
-															<td style="text-align: right; vertical-align: middle;"><h:outputLabel
-																	value="#{detalle.denominacionmoneda.denominacion}" /></td>
-															<td></td>
-															<td><h:inputText value="#{detalle.cantidad}"
-																	required="true" maxlength="6"
-																	styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
-																	style="width:150px;">
-																	<f:ajax event="blur"
-																		render="txtTotal :formTransaccion:panelTotalTransaccion" />
-																</h:inputText></td>
-															<td></td>
-															<td><h:outputLabel id="txtTotal"
-																	value="#{detalle.getSubtotal()}"
-																	style="width: 110px; vertical-align: middle;" /></td>
+															<td style="text-align: right;">
+																<div class="p6n-api-consent-screen-label"
+																	style="width: 100px;">DENOMINACION</div>
+															</td>
+															<td style="width: 20px;"></td>
+															<td><div class="p6n-api-consent-screen-label"
+																	style="width: 150px;">CANTIDAD</div></td>
+															<td style="width: 20px;"></td>
+															<td><div class="p6n-api-consent-screen-label"
+																	style="width: 110px;">TOTAL</div></td>
 														</tr>
-													</ui:repeat>
-												</tbody>
-											</table>
+													</thead>
+													<tbody>
+														<ui:repeat
+															value="#{transaccionBovedaBean.tablaDetalletransaccionboveda.rows}"
+															var="detalle">
+															<tr>
+																<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+																		value="#{detalle.denominacionmoneda.denominacion}" /></td>
+																<td></td>
+																<td><h:inputText value="#{detalle.cantidad}"
+																		required="true" maxlength="6"
+																		styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+																		style="width:150px;">
+																		<f:ajax event="blur"
+																			render="txtTotal :formTransaccion:panelTotalTransaccion" />
+																	</h:inputText></td>
+																<td></td>
+																<td><h:outputLabel id="txtTotal"
+																		value="#{detalle.getSubtotal()}"
+																		style="width: 110px; vertical-align: middle;" /></td>
+															</tr>
+														</ui:repeat>
+													</tbody>
+												</table>
+											</div>
+											<div style="display: inline-block; width: 20px;"></div>
+											<div
+												style="display: inline-block; vertical-align: top; border: 1px solid; border-color: #C5C5C5;">
+												<table>
+													<thead>
+														<tr>
+															<td style="text-align: right;">
+																<div class="p6n-api-consent-screen-label"
+																	style="width: 100px;">DENOMINACION</div>
+															</td>
+															<td style="width: 20px;"></td>
+															<td><div class="p6n-api-consent-screen-label"
+																	style="width: 150px;">CANTIDAD DISPONIBLE</div></td>
+															<td style="width: 20px;"></td>
+														</tr>
+													</thead>
+													<tbody>
+														<ui:repeat
+															value="#{transaccionBovedaBean.tablaDetallehistorialboveda.rows}"
+															var="detalle">
+															<tr style="height: 34px;">
+																<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+																		value="#{detalle.denominacionmoneda.denominacion}" /></td>
+																<td></td>
+																<td style="vertical-align: middle;"><h:outputLabel
+																		value="#{detalle.cantidad}" /></td>
+																<td></td>
+															</tr>
+														</ui:repeat>
+													</tbody>
+												</table>
+											</div>
 										</h:panelGroup>
 									</div>
 								</div>
