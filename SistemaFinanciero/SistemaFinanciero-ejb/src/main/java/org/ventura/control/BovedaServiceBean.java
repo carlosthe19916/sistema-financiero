@@ -28,6 +28,7 @@ import org.ventura.dao.impl.DetallehistorialbovedaDAO;
 import org.ventura.dao.impl.DetalletransaccionbovedaDAO;
 import org.ventura.dao.impl.HistorialbovedaDAO;
 import org.ventura.dao.impl.TransaccionbovedaDAO;
+import org.ventura.dao.impl.VoucherbovedaViewDAO;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.BovedaCaja;
 import org.ventura.entity.schema.caja.BovedaCajaPK;
@@ -40,6 +41,7 @@ import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.entity.schema.caja.view.VoucherbovedaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.tipodato.Moneda;
@@ -70,6 +72,8 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	private BovedaDAO bovedaDAO;
 	@EJB
 	private BovedaCajaDAO bovedaCajaDAO;
+	@EJB
+	private VoucherbovedaViewDAO voucherbovedaViewDAO;
 	
 	@EJB
 	private TransaccionbovedaDAO transaccionbovedaDAO;
@@ -1095,7 +1099,30 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 
 		return list;
 	}
-
 	
-
+	@Override
+	public VoucherbovedaView getVoucherTransaccionBoveda(Transaccionboveda transaccionboveda) throws Exception {
+		VoucherbovedaView voucherbovedaView = null;
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idtransaccionboveda", transaccionboveda.getIdtransaccionboveda());
+		List<VoucherbovedaView> list;
+		try {
+			list = voucherbovedaViewDAO.findByNamedQuery(VoucherbovedaView.f_idtransaccionboveda, parameters);
+			if (list.size()==1) {
+				voucherbovedaView = list.get(0);
+			}else {
+				if (list.size()==0) {
+					voucherbovedaView = null;
+				}else {
+					throw new Exception("Error: voucher >= 2");
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return voucherbovedaView;		
+	}
 }
