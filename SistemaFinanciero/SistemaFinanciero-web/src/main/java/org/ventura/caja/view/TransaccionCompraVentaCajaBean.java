@@ -139,13 +139,25 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	}
 	
 	public void calculateMontoEntregado(){
-		Moneda money = montoRecibido.multiply(tipoCambio);
-		setMontoEntregado(money);
+		Moneda cero = new Moneda();
+		if (montoRecibido.isGreaterThan(cero)) {
+			Moneda money = montoRecibido.multiply(tipoCambio);
+			setMontoEntregado(money);
+		}else {
+			montoRecibido = new Moneda();
+			montoEntregado = new Moneda();
+		}
 	}
 	
 	public void calculateMontoRecibido(){
-		Moneda money = montoEntregado.multiply(tipoCambio);
-		setMontoRecibido(money);
+		Moneda cero = new Moneda();
+		if (montoEntregado.isGreaterThan(cero)) {
+			Moneda money = montoEntregado.multiply(tipoCambio);
+			setMontoRecibido(money);
+		}else {
+			montoRecibido = new Moneda();
+			montoEntregado = new Moneda();
+		}
 	}
 	
 	public void loadDenominacionmonedaCalculadora() {
