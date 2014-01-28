@@ -740,6 +740,27 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
+	public List<CuentabancariaView> findCuentabancariaView(String campoBusqueda) throws Exception {
+		List<CuentabancariaView> cuentabancariaViews;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);
+			
+			parameters.put("idestadocuenta", estadocuenta.getIdestadocuenta());
+			parameters.put("searched", "%" + campoBusqueda.toUpperCase() + "%");
+
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.f_estadocuenta_searched, parameters, 10);
+
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentabancariaViews;
+	}
+	
+	@Override
 	public BigDecimal getInteresGeneradoPlazofijo(Integer idcuentaplazofijo) throws Exception {
 		BigDecimal result = BigDecimal.ZERO;
 		try {
