@@ -1,7 +1,9 @@
 package org.ventura.entity.schema.caja.view;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,11 +15,13 @@ import java.util.Date;
 @Entity
 @Table(name = "voucherboveda_view", schema = "caja")
 @NamedQuery(name = "VoucherbovedaView.findAll", query = "SELECT v FROM VoucherbovedaView v")
+@NamedQueries({ @NamedQuery(name = VoucherbovedaView.f_idtransaccionboveda, query = "SELECT v FROM VoucherbovedaView v WHERE v.idTransaccionboveda = :idtransaccionboveda") })
 public class VoucherbovedaView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	
+
+	public final static String f_idtransaccionboveda = "org.ventura.entity.schema.caja.view.f_idtransaccionboveda";
+
 	@Id
 	@Column(name = "id_transaccionboveda")
 	private Integer idTransaccionboveda;
@@ -58,20 +62,19 @@ public class VoucherbovedaView implements Serializable {
 
 	@Column(name = "id_boveda")
 	private Integer idBoveda;
-	
+
 	@Column(name = "tipoentidad_transaccionboveda", length = 2147483647)
 	private String tipoentidadTransaccionboveda;
-	
+
 	@Column(name = "id_entidad")
 	private Integer idEntidad;
 
 	@Column(name = "abreviatura_entidad", length = 20)
 	private String abreviaturaEntidad;
-	
+
 	@Column(name = "denominacion_entidad", length = 150)
 	private String denominacionEntidad;
-	
-	
+
 	@Column(name = "id_historialboveda")
 	private Integer idHistorialboveda;
 
@@ -83,7 +86,6 @@ public class VoucherbovedaView implements Serializable {
 
 	@Column(name = "saldodisponible_transaccionboveda", precision = 18, scale = 2)
 	private BigDecimal saldodisponibleTransaccionboveda;
-
 
 	@Column(name = "total_transaccion", precision = 131089)
 	private BigDecimal totalTransaccion;
@@ -159,7 +161,8 @@ public class VoucherbovedaView implements Serializable {
 		return denominacionTipotransaccion;
 	}
 
-	public void setDenominacionTipotransaccion(String denominacionTipotransaccion) {
+	public void setDenominacionTipotransaccion(
+			String denominacionTipotransaccion) {
 		this.denominacionTipotransaccion = denominacionTipotransaccion;
 	}
 
@@ -199,7 +202,8 @@ public class VoucherbovedaView implements Serializable {
 		return tipoentidadTransaccionboveda;
 	}
 
-	public void setTipoentidadTransaccionboveda(String tipoentidadTransaccionboveda) {
+	public void setTipoentidadTransaccionboveda(
+			String tipoentidadTransaccionboveda) {
 		this.tipoentidadTransaccionboveda = tipoentidadTransaccionboveda;
 	}
 
@@ -267,7 +271,5 @@ public class VoucherbovedaView implements Serializable {
 	public void setTotalTransaccion(BigDecimal totalTransaccion) {
 		this.totalTransaccion = totalTransaccion;
 	}
-
-	
 
 }
