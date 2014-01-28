@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -848,9 +849,37 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 						
 				//actualizando el detalle de las transacciones
 				if (isTransaccionvalida == true) {
+				
+					//obteniendo monto transaccion y saldo disponible
+					List<Detallehistorialboveda> detallehistorialbovedasSaldo = historialboveda.getDetallehistorialbovedas();
+					BigDecimal saldoTotal = BigDecimal.ZERO;
+					BigDecimal transaccionTotal = BigDecimal.ZERO;
+					BigDecimal saldoDisponible = BigDecimal.ZERO;
+					for (Detallehistorialboveda d : detallehistorialbovedasSaldo) {
+						int cantidad = d.getCantidad();
+						BigDecimal valor = d.getDenominacionmoneda().getValor().getValue();
+						saldoTotal = saldoTotal.add(valor.multiply(new BigDecimal(cantidad)));
+					}
+					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
+						int cantidad = e.getCantidad();
+						BigDecimal valor = e.getDenominacionmoneda().getValor().getValue();
+						transaccionTotal = transaccionTotal.add(valor.multiply(new BigDecimal(cantidad)));
+					}			
+					switch (tipoTransaccion) {
+					case DEPOSITO:
+						saldoDisponible = saldoTotal.add(transaccionTotal);
+						break;
+					case RETIRO:
+						saldoDisponible = saldoTotal.subtract(transaccionTotal);
+						break;
+					default:
+						throw new Exception("Tipo de transaccion no valida");
+					}
+					
 					transaccionboveda.setHistorialboveda(historialboveda);
 					preCreateTransaccionboveda(transaccionboveda);
 					transaccionboveda.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+					transaccionboveda.setSaldodisponible(saldoDisponible);
 					transaccionbovedaDAO.create(transaccionboveda);
 
 					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
@@ -927,9 +956,37 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 				}
 
 				if (isTransaccionvalida == true) {
+					
+					//obteniendo monto transaccion y saldo disponible
+					List<Detallehistorialboveda> detallehistorialbovedasSaldo = historialboveda.getDetallehistorialbovedas();
+					BigDecimal saldoTotal = BigDecimal.ZERO;
+					BigDecimal transaccionTotal = BigDecimal.ZERO;
+					BigDecimal saldoDisponible = BigDecimal.ZERO;
+					for (Detallehistorialboveda d : detallehistorialbovedasSaldo) {
+						int cantidad = d.getCantidad();
+						BigDecimal valor = d.getDenominacionmoneda().getValor().getValue();
+						saldoTotal = saldoTotal.add(valor.multiply(new BigDecimal(cantidad)));
+					}
+					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
+						int cantidad = e.getCantidad();
+						BigDecimal valor = e.getDenominacionmoneda().getValor().getValue();
+						transaccionTotal = transaccionTotal.add(valor.multiply(new BigDecimal(cantidad)));
+					}			
+					switch (tipoTransaccion) {
+					case DEPOSITO:
+						saldoDisponible = saldoTotal.add(transaccionTotal);
+						break;
+					case RETIRO:
+						saldoDisponible = saldoTotal.subtract(transaccionTotal);
+						break;
+					default:
+						throw new Exception("Tipo de transaccion no valida");
+					}
+					
 					transaccionboveda.setHistorialboveda(historialboveda);
 					preCreateTransaccionboveda(transaccionboveda);
 					transaccionboveda.setEntidadfinanciera(entidadfinanciera);
+					transaccionboveda.setSaldodisponible(saldoDisponible);
 					transaccionbovedaDAO.create(transaccionboveda);
 
 					for (Detalletransaccionboveda e : detalletransaccionbovedas) {

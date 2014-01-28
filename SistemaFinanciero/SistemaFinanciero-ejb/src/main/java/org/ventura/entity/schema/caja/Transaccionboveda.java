@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -35,6 +36,9 @@ public class Transaccionboveda implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date hora;
+	
+	@Column(nullable = false)
+	private BigDecimal saldodisponible;
 
 	@OneToMany(mappedBy = "transaccionboveda")
 	private List<Detalletransaccionboveda> detalletransaccionbovedas;
@@ -144,6 +148,14 @@ public class Transaccionboveda implements Serializable {
 
 	public void setHistorialcaja(Historialcaja historialcaja) {
 		this.historialcaja = historialcaja;
+	}
+
+	public BigDecimal getSaldodisponible() {
+		return saldodisponible;
+	}
+
+	public void setSaldodisponible(BigDecimal saldodisponible) {
+		this.saldodisponible = saldodisponible;
 	}
 
 }
