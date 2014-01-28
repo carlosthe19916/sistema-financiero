@@ -17,7 +17,6 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
-import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
@@ -25,13 +24,13 @@ import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.entity.schema.caja.view.VoucherbovedaView;
 import org.ventura.session.AgenciaBean;
 import org.ventura.tipodato.Moneda;
-import org.ventura.util.exception.InsufficientMoneyForTransactionException;
-import org.ventura.util.exception.InvalidTransactionBovedaException;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
+import org.venturabank.util.JsfUtil;
 
 @Named
 @ViewScoped
@@ -64,6 +63,15 @@ public class TransaccionBovedaBean implements Serializable {
 	
 	@Inject
 	private TablaBean<Detallehistorialboveda> tablaDetallehistorialboveda;
+	
+	private boolean success;
+	private boolean failure;
+	private VoucherbovedaView voucherBovedaView;
+	
+	public TransaccionBovedaBean(){
+		success = false;
+		failure = false;
+	}
 
 	@PostConstruct
 	private void initialize() {
@@ -82,38 +90,58 @@ public class TransaccionBovedaBean implements Serializable {
 		}		
 	}
 
-	public String createTransaccionboveda() {
-		try {
-			boolean result;
-			result = this.validateBean();
-			if (result == true) {
-				Boveda boveda = this.boveda;
-				Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();
-				Caja caja = comboCaja.getObjectItemSelected();
-				Entidadfinanciera entidadfinanciera = comboEntidadfinanciera.getObjectItemSelected();
-				List<Detalletransaccionboveda> detalletransaccionbovedas = tablaDetalletransaccionboveda.getAllRows();
+	public void createTransaccionboveda() {
+		if (success == false) {
 
-				transaccionboveda.setTipotransaccion(tipotransaccion);
-				transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
-				
-				Transaccionboveda transaccionbovedaResult;
-				if(isCaja()){
-					transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,caja, transaccionboveda);
+			try {
+				boolean result;
+				result = this.validateBean();
+				if (result == true) {
+					Boveda boveda = this.boveda;
+					Tipotransaccion tipotransaccion = comboTipotransaccion
+							.getObjectItemSelected();
+					Caja caja = comboCaja.getObjectItemSelected();
+					Entidadfinanciera entidadfinanciera = comboEntidadfinanciera
+							.getObjectItemSelected();
+					List<Detalletransaccionboveda> detalletransaccionbovedas = tablaDetalletransaccionboveda
+							.getAllRows();
+
+					transaccionboveda.setTipotransaccion(tipotransaccion);
+					transaccionboveda
+							.setDetalletransaccionbovedas(detalletransaccionbovedas);
+
+					Transaccionboveda transaccionbovedaResult;
+					if (isCaja()) {
+						transaccionbovedaResult = bovedaServiceLocal
+								.createTransaccionboveda(boveda, caja,
+										transaccionboveda);
+					} else {
+						transaccionbovedaResult = bovedaServiceLocal
+								.createTransaccionboveda(boveda,
+										entidadfinanciera, transaccionboveda);
+					}
+					this.transaccionboveda = transaccionbovedaResult;
+					success = true;
+					cargarVoucherBoveda();
 				} else {
-					transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,entidadfinanciera, transaccionboveda);
-				}							
-				this.transaccionboveda = transaccionbovedaResult;
-			} else {
-				throw new Exception("Datos de Transaccion Invalidos");
+					throw new Exception("Datos de Transaccion Invalidos");
+				}
+			} catch (Exception e) {
+				JsfUtil.addErrorMessage(e.getMessage());
+				failure = true;
 			}
-		} catch (InsufficientMoneyForTransactionException e) {
-			return "retiroInvalido";
-		} catch (InvalidTransactionBovedaException e) {
-			return "invalidTransaction";
-		} catch (Exception e) {
-			return "failure";
+		} else {
+			cargarVoucherBoveda();
 		}
-		return "success";
+	}
+	
+	public void cargarVoucherBoveda() {
+		try {
+			this.voucherBovedaView = bovedaServiceLocal.getVoucherTransaccionBoveda(transaccionboveda);
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e.getMessage());
+			failure = true;
+		}
 	}
 	
 	public boolean validateBean() throws Exception {
@@ -327,6 +355,30 @@ public class TransaccionBovedaBean implements Serializable {
 	public void setTablaDetallehistorialboveda(
 			TablaBean<Detallehistorialboveda> tablaDetallehistorialboveda) {
 		this.tablaDetallehistorialboveda = tablaDetallehistorialboveda;
+	}
+
+	public VoucherbovedaView getVoucherBovedaView() {
+		return voucherBovedaView;
+	}
+
+	public void setVoucherBovedaView(VoucherbovedaView voucherBovedaView) {
+		this.voucherBovedaView = voucherBovedaView;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public boolean isFailure() {
+		return failure;
+	}
+
+	public void setFailure(boolean failure) {
+		this.failure = failure;
 	}
 
 }
