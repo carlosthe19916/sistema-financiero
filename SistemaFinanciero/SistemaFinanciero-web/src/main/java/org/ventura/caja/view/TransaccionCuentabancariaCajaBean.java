@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,7 @@ import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
+import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
@@ -40,6 +42,7 @@ import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipocuentabancariaType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -143,26 +146,39 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 				Tipomoneda tipomoneda = new Tipomoneda();
 				tipomoneda.setIdtipomoneda(cuentabancariaView.getIdTipomoneda());
 				if (comboTipomoneda.getObjectItemSelected().equals(tipomoneda)) {
-					try {
-						Transaccioncuentabancaria transaccioncuentabancaria = new Transaccioncuentabancaria();
+					Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
+					if(!tipocuentabancaria.equals(cuentabancaria.getTipocuentabancaria())){
+						if(monto.compareTo(BigDecimal.ZERO) > 0){
+							try {
+								Transaccioncuentabancaria transaccioncuentabancaria = new Transaccioncuentabancaria();
 
-						transaccioncuentabancaria.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
-						transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
-						transaccioncuentabancaria.setMonto(new Moneda(monto));
-						transaccioncuentabancaria.setReferencia(referencia);
-						transaccioncuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
-		
-						this.transaccioncuentabancaria = transaccionCajaServiceLocal.createTransaccionCuentabancaria(caja,transaccioncuentabancaria);
-						success = true;
-						cargarVoucher();
-					} catch (Exception e) {
-						JsfUtil.addErrorMessage(e.getMessage());
+								transaccioncuentabancaria.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
+								transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
+								transaccioncuentabancaria.setMonto(new Moneda(monto));
+								transaccioncuentabancaria.setReferencia(referencia);
+								transaccioncuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
+				
+								this.transaccioncuentabancaria = transaccionCajaServiceLocal.createTransaccionCuentabancaria(caja,transaccioncuentabancaria);
+								success = true;
+								cargarVoucher();
+							} catch (Exception e) {
+								JsfUtil.addErrorMessage(e.getMessage());
+								failure = true;
+							}
+						} else {
+							failure = true;
+							JsfUtil.addErrorMessage("El monto:" + monto + " no es un monto válido");
+						}					
+					} else {
 						failure = true;
-					}
+						JsfUtil.addErrorMessage("No se pueden realizar transacciones en cuentas a PLAZO FIJO a travez de esta ventana");
+					}				
 				} else {
+					failure = true;
 					JsfUtil.addErrorMessage("Los tipos de moneda son incompatibles");
 				}
 			} else {
+				failure = true;
 				JsfUtil.addErrorMessage("La cuenta bancaria no es valida");
 			}
 		} else {
@@ -182,9 +198,23 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	public void searchCuentabancaria() {
 		List<CuentabancariaView> cuentabancarias;
 		try {
-			cuentabancarias = cuentabancariaServiceLocal.findCuentabancariaView(comboTipodocumento.getObjectItemSelected(),valorBusqueda);
+			Tipodocumento tipodocumento = comboTipodocumento.getObjectItemSelected();
+			if(tipodocumento != null){
+				cuentabancarias = cuentabancariaServiceLocal.findCuentabancariaView(comboTipodocumento.getObjectItemSelected(),valorBusqueda);				
+			} else {
+				cuentabancarias = cuentabancariaServiceLocal.findCuentabancariaView(valorBusqueda);
+			}
+			
 			if (cuentabancarias != null) {
-				this.tablaCuentabancaria.setRows(cuentabancarias);
+				Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);					
+				for (Iterator<CuentabancariaView> iterator = cuentabancarias.iterator(); iterator.hasNext();) {
+					CuentabancariaView cuentabancariaView = (CuentabancariaView) iterator.next();
+					int idTipocuentabancaria = cuentabancariaView.getIdTipocuentabancaria();
+					if(tipocuentabancaria.getIdtipocuentabancaria() == idTipocuentabancaria){
+						iterator.remove();
+					}			
+				}				
+				this.tablaCuentabancaria.setRows(cuentabancarias);				
 			} else {
 				this.tablaCuentabancaria.clean();
 				JsfUtil.addErrorMessage("No se encontro resultados");

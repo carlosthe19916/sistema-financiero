@@ -52,6 +52,8 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public List<CuentabancariaView> findCuentabancariaView(Tipodocumento tipodocumento, String campoBusqueda) throws Exception;
 	
+	public List<CuentabancariaView> findCuentabancariaView(String campoBusqueda) throws Exception;
+	
 	public List<CuentabancariaView> findCuentabancariaViewByDni(String dni) throws Exception;
 	
 	public List<CuentabancariaView> findCuentabancariaViewByRuc(String ruc) throws Exception;
