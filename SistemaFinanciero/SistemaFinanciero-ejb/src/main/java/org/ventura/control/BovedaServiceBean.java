@@ -886,6 +886,8 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 						e.setTransaccionboveda(transaccionboveda);
 						detalletransaccionbovedaDAO.create(e);
 					}
+					
+					transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
 
 					// ACTUALIZAR DETALLEHISTORIALBOVEDA
 					List<Detallehistorialboveda> detallehistorialbovedas = historialboveda.getDetallehistorialbovedas();
