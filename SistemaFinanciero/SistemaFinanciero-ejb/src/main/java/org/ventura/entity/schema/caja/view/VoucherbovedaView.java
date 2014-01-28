@@ -17,15 +17,13 @@ public class VoucherbovedaView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	
 	@Id
 	@Column(name = "id_transaccionboveda")
 	private Integer idTransaccionboveda;
 
 	@Column(name = "abreviatura_agencia", length = 10)
 	private String abreviaturaAgencia;
-
-	@Column(name = "abreviatura_entidadfinanciera", length = 20)
-	private String abreviaturaEntidadfinanciera;
 
 	@Column(name = "abreviatura_tipomoneda", length = 3)
 	private String abreviaturaTipomoneda;
@@ -41,9 +39,6 @@ public class VoucherbovedaView implements Serializable {
 
 	@Column(name = "denominacion_boveda", length = 150)
 	private String denominacionBoveda;
-
-	@Column(name = "denominacion_entidadfinanciera", length = 150)
-	private String denominacionEntidadfinanciera;
 
 	@Column(name = "denominacion_tipomoneda", length = 35)
 	private String denominacionTipomoneda;
@@ -63,10 +58,20 @@ public class VoucherbovedaView implements Serializable {
 
 	@Column(name = "id_boveda")
 	private Integer idBoveda;
+	
+	@Column(name = "tipoentidad_transaccionboveda", length = 2147483647)
+	private String tipoentidadTransaccionboveda;
+	
+	@Column(name = "id_entidad")
+	private Integer idEntidad;
 
-	@Column(name = "id_entidadfinanciera")
-	private Integer idEntidadfinanciera;
-
+	@Column(name = "abreviatura_entidad", length = 20)
+	private String abreviaturaEntidad;
+	
+	@Column(name = "denominacion_entidad", length = 150)
+	private String denominacionEntidad;
+	
+	
 	@Column(name = "id_historialboveda")
 	private Integer idHistorialboveda;
 
@@ -79,8 +84,6 @@ public class VoucherbovedaView implements Serializable {
 	@Column(name = "saldodisponible_transaccionboveda", precision = 18, scale = 2)
 	private BigDecimal saldodisponibleTransaccionboveda;
 
-	@Column(name = "tipoentidad_transaccionboveda", length = 2147483647)
-	private String tipoentidadTransaccionboveda;
 
 	@Column(name = "total_transaccion", precision = 131089)
 	private BigDecimal totalTransaccion;
@@ -88,25 +91,24 @@ public class VoucherbovedaView implements Serializable {
 	public VoucherbovedaView() {
 	}
 
+	public Integer getIdTransaccionboveda() {
+		return idTransaccionboveda;
+	}
+
+	public void setIdTransaccionboveda(Integer idTransaccionboveda) {
+		this.idTransaccionboveda = idTransaccionboveda;
+	}
+
 	public String getAbreviaturaAgencia() {
-		return this.abreviaturaAgencia;
+		return abreviaturaAgencia;
 	}
 
 	public void setAbreviaturaAgencia(String abreviaturaAgencia) {
 		this.abreviaturaAgencia = abreviaturaAgencia;
 	}
 
-	public String getAbreviaturaEntidadfinanciera() {
-		return this.abreviaturaEntidadfinanciera;
-	}
-
-	public void setAbreviaturaEntidadfinanciera(
-			String abreviaturaEntidadfinanciera) {
-		this.abreviaturaEntidadfinanciera = abreviaturaEntidadfinanciera;
-	}
-
 	public String getAbreviaturaTipomoneda() {
-		return this.abreviaturaTipomoneda;
+		return abreviaturaTipomoneda;
 	}
 
 	public void setAbreviaturaTipomoneda(String abreviaturaTipomoneda) {
@@ -114,7 +116,7 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public String getAbreviaturaTipotransaccion() {
-		return this.abreviaturaTipotransaccion;
+		return abreviaturaTipotransaccion;
 	}
 
 	public void setAbreviaturaTipotransaccion(String abreviaturaTipotransaccion) {
@@ -122,7 +124,7 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public String getCodigoAgencia() {
-		return this.codigoAgencia;
+		return codigoAgencia;
 	}
 
 	public void setCodigoAgencia(String codigoAgencia) {
@@ -130,7 +132,7 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public String getDenominacionAgencia() {
-		return this.denominacionAgencia;
+		return denominacionAgencia;
 	}
 
 	public void setDenominacionAgencia(String denominacionAgencia) {
@@ -138,24 +140,15 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public String getDenominacionBoveda() {
-		return this.denominacionBoveda;
+		return denominacionBoveda;
 	}
 
 	public void setDenominacionBoveda(String denominacionBoveda) {
 		this.denominacionBoveda = denominacionBoveda;
 	}
 
-	public String getDenominacionEntidadfinanciera() {
-		return this.denominacionEntidadfinanciera;
-	}
-
-	public void setDenominacionEntidadfinanciera(
-			String denominacionEntidadfinanciera) {
-		this.denominacionEntidadfinanciera = denominacionEntidadfinanciera;
-	}
-
 	public String getDenominacionTipomoneda() {
-		return this.denominacionTipomoneda;
+		return denominacionTipomoneda;
 	}
 
 	public void setDenominacionTipomoneda(String denominacionTipomoneda) {
@@ -163,16 +156,15 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public String getDenominacionTipotransaccion() {
-		return this.denominacionTipotransaccion;
+		return denominacionTipotransaccion;
 	}
 
-	public void setDenominacionTipotransaccion(
-			String denominacionTipotransaccion) {
+	public void setDenominacionTipotransaccion(String denominacionTipotransaccion) {
 		this.denominacionTipotransaccion = denominacionTipotransaccion;
 	}
 
 	public Date getFechaTransaccionboveda() {
-		return this.fechaTransaccionboveda;
+		return fechaTransaccionboveda;
 	}
 
 	public void setFechaTransaccionboveda(Date fechaTransaccionboveda) {
@@ -180,7 +172,7 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public Timestamp getHoraTransaccionboveda() {
-		return this.horaTransaccionboveda;
+		return horaTransaccionboveda;
 	}
 
 	public void setHoraTransaccionboveda(Timestamp horaTransaccionboveda) {
@@ -188,7 +180,7 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public Integer getIdAgencia() {
-		return this.idAgencia;
+		return idAgencia;
 	}
 
 	public void setIdAgencia(Integer idAgencia) {
@@ -196,23 +188,47 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public Integer getIdBoveda() {
-		return this.idBoveda;
+		return idBoveda;
 	}
 
 	public void setIdBoveda(Integer idBoveda) {
 		this.idBoveda = idBoveda;
 	}
 
-	public Integer getIdEntidadfinanciera() {
-		return this.idEntidadfinanciera;
+	public String getTipoentidadTransaccionboveda() {
+		return tipoentidadTransaccionboveda;
 	}
 
-	public void setIdEntidadfinanciera(Integer idEntidadfinanciera) {
-		this.idEntidadfinanciera = idEntidadfinanciera;
+	public void setTipoentidadTransaccionboveda(String tipoentidadTransaccionboveda) {
+		this.tipoentidadTransaccionboveda = tipoentidadTransaccionboveda;
+	}
+
+	public Integer getIdEntidad() {
+		return idEntidad;
+	}
+
+	public void setIdEntidad(Integer idEntidad) {
+		this.idEntidad = idEntidad;
+	}
+
+	public String getAbreviaturaEntidad() {
+		return abreviaturaEntidad;
+	}
+
+	public void setAbreviaturaEntidad(String abreviaturaEntidad) {
+		this.abreviaturaEntidad = abreviaturaEntidad;
+	}
+
+	public String getDenominacionEntidad() {
+		return denominacionEntidad;
+	}
+
+	public void setDenominacionEntidad(String denominacionEntidad) {
+		this.denominacionEntidad = denominacionEntidad;
 	}
 
 	public Integer getIdHistorialboveda() {
-		return this.idHistorialboveda;
+		return idHistorialboveda;
 	}
 
 	public void setIdHistorialboveda(Integer idHistorialboveda) {
@@ -220,7 +236,7 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public Integer getIdTipomoneda() {
-		return this.idTipomoneda;
+		return idTipomoneda;
 	}
 
 	public void setIdTipomoneda(Integer idTipomoneda) {
@@ -228,23 +244,15 @@ public class VoucherbovedaView implements Serializable {
 	}
 
 	public Integer getIdTipotransaccion() {
-		return this.idTipotransaccion;
+		return idTipotransaccion;
 	}
 
 	public void setIdTipotransaccion(Integer idTipotransaccion) {
 		this.idTipotransaccion = idTipotransaccion;
 	}
 
-	public Integer getIdTransaccionboveda() {
-		return this.idTransaccionboveda;
-	}
-
-	public void setIdTransaccionboveda(Integer idTransaccionboveda) {
-		this.idTransaccionboveda = idTransaccionboveda;
-	}
-
 	public BigDecimal getSaldodisponibleTransaccionboveda() {
-		return this.saldodisponibleTransaccionboveda;
+		return saldodisponibleTransaccionboveda;
 	}
 
 	public void setSaldodisponibleTransaccionboveda(
@@ -252,21 +260,14 @@ public class VoucherbovedaView implements Serializable {
 		this.saldodisponibleTransaccionboveda = saldodisponibleTransaccionboveda;
 	}
 
-	public String getTipoentidadTransaccionboveda() {
-		return this.tipoentidadTransaccionboveda;
-	}
-
-	public void setTipoentidadTransaccionboveda(
-			String tipoentidadTransaccionboveda) {
-		this.tipoentidadTransaccionboveda = tipoentidadTransaccionboveda;
-	}
-
 	public BigDecimal getTotalTransaccion() {
-		return this.totalTransaccion;
+		return totalTransaccion;
 	}
 
 	public void setTotalTransaccion(BigDecimal totalTransaccion) {
 		this.totalTransaccion = totalTransaccion;
 	}
+
+	
 
 }
