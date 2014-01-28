@@ -289,6 +289,12 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
+	
+	public void validarMontoTransaccion(){
+		if (monto.compareTo(BigDecimal.ZERO)<=0) {
+			monto = new BigDecimal("0.00");
+		}
+	}
 
 	public void changeTipomoneda(ValueChangeEvent event) {	
 		Integer key = (Integer) event.getNewValue();
