@@ -25,10 +25,15 @@ public class VoucherTransaccionbovedaBean implements Serializable {
 	public void loadTransaccion() {
 		try {
 			transaccionboveda = bovedaServiceLocal.findTransaccionboveda(idtransaccionboveda);
+			imprimir();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void imprimir() {
+		System.out.println(transaccionboveda.getFecha());
 	}
 
 	public Transaccionboveda getTransaccionboveda() {
