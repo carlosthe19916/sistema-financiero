@@ -17,6 +17,8 @@ import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Denominacionmoneda;
+import org.ventura.entity.schema.caja.Detallehistorialboveda;
 import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Estadoapertura;
@@ -59,6 +61,9 @@ public class TransaccionBovedaBean implements Serializable {
 	private ComboBean<Caja> comboCaja;
 	@Inject
 	private TablaBean<Detalletransaccionboveda> tablaDetalletransaccionboveda;
+	
+	@Inject
+	private TablaBean<Detallehistorialboveda> tablaDetallehistorialboveda;
 
 	@PostConstruct
 	private void initialize() {
@@ -147,8 +152,12 @@ public class TransaccionBovedaBean implements Serializable {
 	public void loadDetalleTransaccionboveda() {
 		try {
 			List<Detalletransaccionboveda> detalletransaccionbovedas = bovedaServiceLocal.getDetalletransaccionboveda(boveda);
+			List<Detallehistorialboveda> detallehistorialbovedas = bovedaServiceLocal.getDetallehistorialbovedaLastActive(boveda);
+						
 			tablaDetalletransaccionboveda.setRows(detalletransaccionbovedas);
 			this.transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
+			
+			tablaDetallehistorialboveda.setRows(detallehistorialbovedas);
 		} catch (Exception e) {
 		}
 	}
@@ -309,6 +318,15 @@ public class TransaccionBovedaBean implements Serializable {
 
 	public void setComboCaja(ComboBean<Caja> comboCaja) {
 		this.comboCaja = comboCaja;
+	}
+
+	public TablaBean<Detallehistorialboveda> getTablaDetallehistorialboveda() {
+		return tablaDetallehistorialboveda;
+	}
+
+	public void setTablaDetallehistorialboveda(
+			TablaBean<Detallehistorialboveda> tablaDetallehistorialboveda) {
+		this.tablaDetallehistorialboveda = tablaDetallehistorialboveda;
 	}
 
 }
