@@ -107,7 +107,7 @@
 								<div class="sf-buttons" style="float: left;">
 									<h:commandButton action="#{cajaCRUDBean.updateCaja()}"
 										value="Guardar" styleClass="action blue"
-										disabled="#{!cajaCRUDBean.isValidBean()}" />
+										disabled="#{!cajaCRUDBean.isValidBean()}" onclick="onSubmitButton();"/>
 									<h:commandButton value="Cancelar" action="cancel"
 										styleClass="action" />
 								</div>
