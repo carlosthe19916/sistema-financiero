@@ -67,6 +67,7 @@ public class TransaccionBovedaBean implements Serializable {
 	private boolean success;
 	private boolean failure;
 	private VoucherbovedaView voucherBovedaView;
+	private List<Detalletransaccionboveda> voucherDetalleTransaccionBovedaView;
 	
 	public TransaccionBovedaBean(){
 		success = false;
@@ -121,6 +122,7 @@ public class TransaccionBovedaBean implements Serializable {
 										entidadfinanciera, transaccionboveda);
 					}
 					this.transaccionboveda = transaccionbovedaResult;
+					voucherDetalleTransaccionBovedaView = transaccionboveda.getDetalletransaccionbovedas();
 					success = true;
 					cargarVoucherBoveda();
 				} else {
@@ -379,6 +381,15 @@ public class TransaccionBovedaBean implements Serializable {
 
 	public void setFailure(boolean failure) {
 		this.failure = failure;
+	}
+
+	public List<Detalletransaccionboveda> getVoucherDetalleTransaccionBovedaView() {
+		return voucherDetalleTransaccionBovedaView;
+	}
+
+	public void setVoucherDetalleTransaccionBovedaView(
+			List<Detalletransaccionboveda> voucherDetalleTransaccionBovedaView) {
+		this.voucherDetalleTransaccionBovedaView = voucherDetalleTransaccionBovedaView;
 	}
 
 }

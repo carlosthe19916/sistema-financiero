@@ -28,11 +28,12 @@
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
-							<div class="p6n-api-consent-screen-title">TRANSACCIÓN
-								BÓVEDA</div>
-
-
-
+							<div class="p6n-api-consent-screen-title">
+								<h:outputText
+									value="TRANSACCION BOVEDA" rendered="#{!transaccionBovedaBean.success}">
+								</h:outputText>
+							</div>
+							
 							<h:panelGroup rendered="#{transaccionBovedaBean.success}">
 								<br />
 								<div>
@@ -40,20 +41,19 @@
 										<div>
 											<h:panelGroup id="voucherBoveda">
 												<table
-													style="width: 230px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
+													style="width: 420px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
 													<tr style="vertical-align: center;">
 														<td colspan="1"
 															style="text-align: center; font-weight: bold; font-size: 12px;">
 															<p:graphicImage name="eye.png" library="images" />
 														</td>
 														<td colspan="3"
-															style="text-align: center; font-weight: bold; font-size: 12px;">COOPERATIVA
+															style="text-align: center; font-weight: bold; font-size: 16px;">COOPERATIVA
 															DE AHORRO Y CREDITO VENTURA</td>
 													</tr>
 													<tr style="vertical-align: center;">
 														<td colspan="4"
-															style="text-align: center; font-weight: bold; font-size: 12px;">COMPROBANTE
-															DE TRANSFERENCIA</td>
+															style="text-align: center; font-weight: bold; font-size: 14px;">TRANSACCION BOVEDA</td>
 													</tr>
 													<tr>
 														<td style="font-weight: bold; font-size: 12px;"
@@ -61,13 +61,13 @@
 														<td colspan="3">#{transaccionBovedaBean.voucherBovedaView.idTransaccionboveda}</td>
 													</tr>
 													<tr>
-														<td style="font-weight: bold; font-size: 12px;">FECHA:</td>
-														<td style="font-size: 12px;"><h:outputText
+														<td colspan="1" style="width: 35%; font-weight: bold; font-size: 12px;">FECHA:</td>
+														<td colspan="1" style="width: 35%; font-size: 12px;"><h:outputText
 																value="#{transaccionBovedaBean.voucherBovedaView.fechaTransaccionboveda}">
 																<f:convertDateTime pattern="dd/MM/yyyy" />
 															</h:outputText></td>
-														<td style="font-weight: bold; font-size: 12px;">HORA:</td>
-														<td style="font-size: 12px;"><h:outputText
+														<td colspan="1" style="width: 15%; font-weight: bold; font-size: 12px;">HORA:</td>
+														<td colspan="1" style="width: 15%; font-size: 12px;"><h:outputText
 																value="#{transaccionBovedaBean.voucherBovedaView.horaTransaccionboveda}">
 																<f:convertDateTime dateStyle="full" timeZone="EST"
 																	type="time" />
@@ -84,63 +84,98 @@
 															style="font-weight: bold; font-size: 12px;"><h:outputText
 																value="TIPO DE TRANSACCION:"/></td>
 														<td colspan="3"
-															style="font-weight: bold; font-size: 12px;"><h:outputText
+															style="font-size: 12px;"><h:outputText
 																value="#{transaccionBovedaBean.voucherBovedaView.denominacionTipotransaccion}"/>
 														</td>
 													</tr>
 													<tr>
 														<td colspan="1"
 															style="font-weight: bold; font-size: 12px;">TIPO
-															ENTIDAD</td>
+															ENTIDAD:</td>
 														<td colspan="3" style="font-size: 12px;"><h:outputText
 																value="#{transaccionBovedaBean.voucherBovedaView.tipoentidadTransaccionboveda}" /></td>
 													</tr>
 													<tr>
 														<td colspan="1"
-															style="font-weight: bold; font-size: 12px;">ENTIDAD</td>
+															style="font-weight: bold; font-size: 12px;">ENTIDAD:</td>
 														<td colspan="3" style="font-size: 12px;"><h:outputText
 																value="#{transaccionBovedaBean.voucherBovedaView.denominacionEntidad}" /></td>
 													</tr>
 													<tr>
 														<td colspan="4">
-															<table class="p6n-table">
+															<table
+																style="width: 298px; border: solid 1px #E9E6E6; margin-bottom: 0px; margin: 0 auto;">
 																<thead>
 																	<tr>
-																		<th><label class="ng-isolate-scope">
-																				DENOMINACION </label></th>
-																		<th><label class="ng-isolate-scope ">
-																				CANTIDAD </label></th>
-																		<th><label class="ng-isolate-scope ">
-																				TOTAL </label></th>
+																		<th><label
+																			style="font-weight: bold; font-size: 12px;">
+																				DENOMINACION</label></th>
+																		<th><label
+																			style="font-weight: bold; font-size: 12px;">
+																				CANTIDAD</label></th>
+																		<th><label
+																			style="font-weight: bold; font-size: 12px;">
+																				TOTAL</label></th>
 																	</tr>
 																</thead>
 																<tbody>
-																	<ui:repeat value="" var="boveda">
+																	<ui:repeat
+																		value="#{transaccionBovedaBean.voucherDetalleTransaccionBovedaView}"
+																		var="voucherBoveda">
 																		<tr class="ng-scope">
-																			<td><h:outputLabel  /></td>
-																			<td><h:outputLabel  /></td>
-																			<td><h:outputLabel  /></td>
+																			<td><h:outputLabel
+																					value="#{voucherBoveda.denominacionmoneda.denominacion}" /></td>
+																			<td><h:outputLabel
+																					value="#{voucherBoveda.cantidad}" /></td>
+																			<td><h:outputLabel
+																					value="#{voucherBoveda.subtotal}" /></td>
 																		</tr>
 																	</ui:repeat>
 																</tbody>
 															</table>
 														</td>
 													</tr>
+													<tr>
+														<td colspan="1"
+															style="font-weight: bold; font-size: 12px;">TOTAL
+															TRANSACCION:</td>
+														<td colspan="3" style="font-size: 12px;"><h:outputText
+																value="#{transaccionBovedaBean.voucherBovedaView.totalTransaccion}" /></td>
+													</tr>
+													<tr>
+														<td colspan="1"
+															style="font-weight: bold; font-size: 12px;">TOTAL
+															DISPONIBLE:</td>
+														<td colspan="3" style="font-size: 12px;"><h:outputText
+																value="#{transaccionBovedaBean.voucherBovedaView.saldodisponibleTransaccionboveda}" /></td>
+													</tr>
+													<tr>
+														<td colspan="4">&nbsp;</td>
+													</tr>
+													<tr>
+														<td colspan="4">&nbsp;</td>
+													</tr>
+													
+													<tr>
+														<td colspan="2" style="text-align: center;">------------------------------</td>
+														<td colspan="2" style="text-align: left;">------------------------------</td>
+													</tr>
+													<tr>
+														<td colspan="2" style="text-align: center; font-weight: bold; font-size: 12px;">JEFE DE CAJA</td>
+														<td colspan="2" style="text-align: center; font-weight: bold; font-size: 12px;">CAJERO</td>
+													</tr>
 												</table>
 											</h:panelGroup>
 										</div>
 									</div>
-									<div class="modal-dialog-buttons">
-										<h:commandButton value="Imprimir">
+									<div style="margin-left: 280px;">
+										<h:commandButton value="Imprimir" styleClass="action blue">
 											<p:printer target="voucherBoveda" />
 										</h:commandButton>
-										<h:commandButton value="Salir" action="transaccion.xhtml" />
+										<h:commandButton value="Salir" action="transaccion?faces-redirect=true" />
 									</div>
 								</div>
 							</h:panelGroup>
-
-
-
 
 							<h:panelGroup rendered="#{!transaccionBovedaBean.success}">
 								<div class="p6n-api-consent-screen-inputs">
@@ -358,7 +393,7 @@
 
 										<h:commandButton
 											action="#{transaccionBovedaBean.createTransaccionboveda()}"
-											value="Guardar" styleClass="action blue" />
+											value="Aceptar" styleClass="action blue" />
 									</div>
 								</div>
 							</h:panelGroup>
