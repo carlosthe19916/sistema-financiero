@@ -56,6 +56,9 @@ public class CajaView implements Serializable {
 	private Integer idEstadomovimiento;
 
 	private Integer idagencia;
+	
+	@Column(name = "saldo")
+	private String saldo;
 
 	public CajaView() {
 	}
@@ -164,6 +167,14 @@ public class CajaView implements Serializable {
 
 	public void setIdagencia(Integer idagencia) {
 		this.idagencia = idagencia;
+	}
+
+	public String getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(String saldo) {
+		this.saldo = saldo;
 	}
 
 }

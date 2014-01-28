@@ -31,14 +31,16 @@
 						<h:form id="formToolbar">
 							<div class="buttons">
 								<div class="tiptip">
-									<h:commandLink action="open" styleClass="button left" title="Abrir Caja">
-											<span class="icon icon123">&nbsp;</span>
-											<span class="label">Abrir Caja</span>
-										</h:commandLink>
-										<h:commandLink action="close" styleClass="button right" title="Abrir Cerrar">
-											<span class="icon icon122">&nbsp;</span>
-											<span class="label">Cerrar Caja</span>
-										</h:commandLink>
+									<h:commandLink action="open" styleClass="button left"
+										title="Abrir Caja">
+										<span class="icon icon123">&nbsp;</span>
+										<span class="label">Abrir Caja</span>
+									</h:commandLink>
+									<h:commandLink action="close" styleClass="button right"
+										title="Abrir Cerrar">
+										<span class="icon icon122">&nbsp;</span>
+										<span class="label">Cerrar Caja</span>
+									</h:commandLink>
 									<p:commandLink
 										actionListener="#{administrarCajaBeanReplace.desactivarMovimiento()}"
 										update=":formTablaCaja:tblCaja" styleClass="button left"
@@ -133,6 +135,9 @@
 									<p:column headerText="Estado Movimiento" width="200"
 										sortBy="#{caja.denominacionEstadomovimiento}">
 										<h:outputText value="#{caja.denominacionEstadomovimiento}" />
+									</p:column>
+									<p:column headerText="Saldo">
+										<h:outputText value="#{caja.saldo}" />
 									</p:column>
 								</p:dataTable>
 							</div>
