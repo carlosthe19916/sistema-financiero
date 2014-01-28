@@ -20,7 +20,7 @@ public class AgenciaBean implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		agencia.setDenominacion("Agencia Quinuapata");
+		agencia.setDenominacion("QUINUAPATA");
 		agencia.setCodigoagencia("001");
 		agencia.setIdagencia(1);
 		agencia.setIdsucursal(1);
