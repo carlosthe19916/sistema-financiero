@@ -23,8 +23,6 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	
 	public Caja find(Object id)throws Exception;
 
-	public void delete(Caja oCaja)throws Exception;
-
 	public void update(Caja oCaja)throws Exception;
 	
 	public void openCaja(Caja oCaja) throws Exception;
@@ -34,6 +32,8 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	public void freezeCaja(Caja oCaja) throws Exception;
 	
 	public void defrostCaja(Caja oCaja) throws Exception;
+	
+	public void inactive(Caja oCaja)throws Exception;
 
 	public Collection<Caja> findByNamedQuery(String queryName) throws Exception;
 

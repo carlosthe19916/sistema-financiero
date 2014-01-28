@@ -134,10 +134,31 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 		return caja;
 	}
-
+	
 	@Override
-	public void delete(Caja oCaja) throws Exception {
-		// TODO Auto-generated method stub
+	public void inactive(Caja caja) throws Exception{
+		try {
+			Object id = caja.getIdcaja();
+			caja = cajaDAO.find(id);
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+			if(!caja.getEstadoapertura().equals(estadoapertura)){
+				throw new Exception("La caja no esta Cerrada, intentelo nuevamente");
+			}
+			Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+			if (historialcaja != null) {
+				Estadomovimiento estadomovimiento = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
+				historialcaja.setEstadomovimiento(estadomovimiento);
+				historialcajaDAO.update(historialcaja);
+			}
+			caja.setEstado(false);
+			caja.setEstadoapertura(estadoapertura);
+			cajaDAO.update(caja);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error al desactivar Caja");
+		}
 	}
 
 	@Override
@@ -781,5 +802,4 @@ public class CajaServiceBean implements CajaServiceLocal{
 	public void setTotalCajaEuros(Moneda totalCajaEuros) {
 		this.totalCajaEuros = totalCajaEuros;
 	}
-
 }

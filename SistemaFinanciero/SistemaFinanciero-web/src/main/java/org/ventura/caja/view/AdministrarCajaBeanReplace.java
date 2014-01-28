@@ -51,7 +51,7 @@ public class AdministrarCajaBeanReplace implements Serializable {
 			//loadBoveda();
 			Caja caja =  new Caja();
 			caja.setIdcaja(idcaja);
-			//cajaServiceLocal.inactive(caja);
+			cajaServiceLocal.inactive(caja);
 			refreshBean();
 
 			JsfUtil.addSuccessMessage("Caja Desactivada");
