@@ -10,30 +10,34 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:rich="http://richfaces.org/rich">
 
-<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+<f:view>
 	<f:metadata>
-		<f:viewParam name="module" value="#{menuMB.modulo.idmodulo}" />
-		<f:event type="preRenderView" listener="#{menuMB.updateMenu()}" />
+		<f:viewAction action="#{menuMB.updateMenu(2)}" />
 	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
-	<ui:define name="content">
-		<h:outputStylesheet library="css" name="main.css" />
 
-		<h:panelGroup id="panelDatos">
-			<!-- transaccion Compra Venta -->
-			<ui:include src="/modules/caja/operaciones/compraVenta.xhtml">
-				<ui:param name="managedBean" value="#{transaccionCompraVentaCajaBean}" />
-				<ui:param name="componentName" value="compraVenta" />
-			</ui:include>
-			<!-- end transaccion Compra Venta -->
-		
-			<!-- Voucher Compra Venta -->
-			<ui:include src="/modules/caja/operaciones/voucherCompraVenta.xhtml">
-				<ui:param name="managedBean" value="#{transaccionCompraVentaCajaBean}" />
-				<ui:param name="componentName" value="voucherCompraVenta" />
-			</ui:include>
-			<!-- end Voucher Compra Venta -->
-		</h:panelGroup>
-	</ui:define>
-</ui:composition>
+		<ui:define name="content">
+			<h:outputStylesheet library="css" name="main.css" />
+
+			<h:panelGroup id="panelDatos">
+				<!-- transaccion Compra Venta -->
+				<ui:include src="/modules/caja/operaciones/compraVenta.xhtml">
+					<ui:param name="managedBean"
+						value="#{transaccionCompraVentaCajaBean}" />
+					<ui:param name="componentName" value="compraVenta" />
+				</ui:include>
+				<!-- end transaccion Compra Venta -->
+
+				<!-- Voucher Compra Venta -->
+				<ui:include src="/modules/caja/operaciones/voucherCompraVenta.xhtml">
+					<ui:param name="managedBean"
+						value="#{transaccionCompraVentaCajaBean}" />
+					<ui:param name="componentName" value="voucherCompraVenta" />
+				</ui:include>
+				<!-- end Voucher Compra Venta -->
+			</h:panelGroup>
+		</ui:define>
+	</ui:composition>
+</f:view>
 </html>
