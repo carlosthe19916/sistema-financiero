@@ -297,7 +297,8 @@
 											<h:selectOneMenu id="cmbTipomoneda"
 												value="#{transaccionCuentaaporteCajaBean.comboTipomoneda.itemSelected}"
 												valueChangeListener="#{transaccionCuentaaporteCajaBean.changeTipomoneda}"
-												required="true" requiredMessage="Seleccione una moneda">
+												required="true" requiredMessage="Seleccione una moneda"
+												readonly="true">
 												<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 												<f:selectItems
 													value="#{transaccionCuentaaporteCajaBean.comboTipomoneda.items.entrySet()}"
@@ -458,6 +459,29 @@
 																value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.idSocio}" />
 														</div>
 													</div>
+												</div>
+												<h:panelGroup rendered="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.tipoPersona == 'PN' ? true : false}">
+													<div class="p6n-api-consent-screen-input-section">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">EDAD
+															SOCIO</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.edadTitular}" />
+														</div>
+													</div>
+												</h:panelGroup>
+												<div class="p6n-api-consent-screen-input-section">
+													<div class="p6n-api-consent-screen-label"
+														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">APORTES</div>
+													<div
+														style="text-align: left; margin-left: 20px; font-size: 16px; color: #FF0000;">
+														Menores de 18 años: S/.5</div>
+													<div
+														style="text-align: left; margin-left: 20px; font-size: 16px; color: #FF0000;">
+														Mayores de 18 años: S/.10</div>
+													<span></span> <span></span>
 												</div>
 											</div>
 										</div>
