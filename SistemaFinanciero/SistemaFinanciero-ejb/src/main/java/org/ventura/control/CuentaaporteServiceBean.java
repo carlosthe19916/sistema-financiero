@@ -496,6 +496,25 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		return cuentaaporteViews;
 	}
 
+	@Override
+	public List<CuentaaporteView> findCuentaaporteView(String campoBusqueda) throws Exception {
+		List<CuentaaporteView> cuentaaporteViews = null;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("estado", true);
+			parameters.put("searched", "%" + campoBusqueda.toUpperCase() + "%");
+
+			cuentaaporteViews = cuentaaporteViewDAO.findByNamedQuery(CuentaaporteView.f_estado_searched,parameters,10);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporteViews;
+	}
+
 	
 
 }

@@ -386,32 +386,46 @@
 
 											<div class="p6n-api-consent-screen-inputs">
 												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NRO
-														CUENTA</div>
-													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
-														<h:outputLabel
-															value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.numerocuenta}" />
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NRO
+															CUENTA</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.numerocuenta}" />
+														</div>
+													</div>
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TIPO
+															CUENTA</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.tipoCuenta}" />
+														</div>
 													</div>
 												</div>
+
 												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TIPO
-														CUENTA</div>
-													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
-														<h:outputLabel
-															value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.tipoCuenta}" />
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">MONEDA</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.denominacionTipomoneda}" />
+														</div>
 													</div>
-												</div>
-												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">MONEDA</div>
-													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
-														<h:outputLabel
-															value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.denominacionTipomoneda}" />
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SALDO</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.saldoCuentaaporte}" />
+														</div>
 													</div>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
@@ -425,12 +439,24 @@
 													</div>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TITULAR</div>
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SOCIO</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.titular}" />
+														</div>
+													</div>
 													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
-														<h:outputLabel
-															value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.titular}" />
+														style="display: inline-block; width: 190px; vertical-align: top;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">CODIGO</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected.idSocio}" />
+														</div>
 													</div>
 												</div>
 											</div>
@@ -472,7 +498,6 @@
 													<h:selectOneMenu id="cmbTipoBusqueda"
 														value="#{transaccionCuentaaporteCajaBean.comboTipodocumento.itemSelected}"
 														valueChangeListener="#{transaccionCuentaaporteCajaBean.changeTipobusqueda}"
-														required="true"
 														requiredMessage="Seleccione un Tipo de Busueda">
 														<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 														<f:selectItems

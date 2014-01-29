@@ -21,7 +21,8 @@ import java.util.Date;
 		@NamedQuery(name = CuentaaporteView.findByLikeNombre, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
 		@NamedQuery(name = CuentaaporteView.findByLikeRazonsocial, query = "SELECT c FROM CuentaaporteView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial"),
 
-		@NamedQuery(name = CuentaaporteView.f_tipodocumento_estado_searched, query = "SELECT c FROM CuentaaporteView c WHERE c.idTipodocumento = :idtipodocumento AND c.numeroDocumento LIKE :searched AND c.estadoSocio = :estado") })
+		@NamedQuery(name = CuentaaporteView.f_tipodocumento_estado_searched, query = "SELECT c FROM CuentaaporteView c WHERE c.idTipodocumento = :idtipodocumento AND c.numeroDocumento LIKE :searched AND c.estadoSocio = :estado"),
+		@NamedQuery(name = CuentaaporteView.f_estado_searched, query = "SELECT c FROM CuentaaporteView c WHERE (c.numeroDocumento LIKE :searched OR UPPER(c.titular) like :searched ) AND c.estadoSocio = :estado") })
 public class CuentaaporteView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,11 +34,15 @@ public class CuentaaporteView implements Serializable {
 	public final static String findByLikeRazonsocial = "org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView.findByLikeRazonsocial";
 
 	public final static String f_tipodocumento_estado_searched = "org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView.f_tipodocumento_estado_searched";
+	public final static String f_estado_searched = "org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView.f_estado_searched";
 
 	@Id
 	@Column(name = "id_cuentaaporte")
 	private Integer idCuentaaporte;
 
+	@Column(name = "id_socio")
+	private Integer idSocio;
+	
 	@Column(name = "estado_socio")
 	private Boolean estadoSocio;
 
@@ -247,6 +252,14 @@ public class CuentaaporteView implements Serializable {
 
 	public void setEstadoSocio(Boolean estadoSocio) {
 		this.estadoSocio = estadoSocio;
+	}
+
+	public Integer getIdSocio() {
+		return idSocio;
+	}
+
+	public void setIdSocio(Integer idSocio) {
+		this.idSocio = idSocio;
 	}
 
 }
