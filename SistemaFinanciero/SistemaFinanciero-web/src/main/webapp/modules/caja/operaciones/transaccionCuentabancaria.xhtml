@@ -300,7 +300,8 @@
 											<h:inputText id="txtMonto"
 												value="#{transaccionCuentabancariaCajaBean.monto}"
 												required="true" maxlenght="16">
-												<f:ajax event="blur" render="@this" listener="#{transaccionCuentabancariaCajaBean.validarMontoTransaccion()}"/>
+												<f:ajax event="blur" render="@this"
+													listener="#{transaccionCuentabancariaCajaBean.validarMontoTransaccion()}" />
 											</h:inputText>
 										</div>
 										<div style="float: left;">
@@ -363,7 +364,15 @@
 															value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipomoneda}" />
 													</div>
 												</div>
-
+												<div class="p6n-api-consent-screen-input-section">
+													<div class="p6n-api-consent-screen-label"
+														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SALDO</div>
+													<div
+														style="text-align: left; margin-left: 20px; font-size: 16px;">
+														<h:outputLabel
+															value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.saldoCuentabancaria}" />
+													</div>
+												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div class="p6n-api-consent-screen-label"
 														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TITULAR</div>
