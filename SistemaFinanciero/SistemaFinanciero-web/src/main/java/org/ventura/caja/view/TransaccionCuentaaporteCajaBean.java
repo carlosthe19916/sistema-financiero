@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -25,19 +24,18 @@ import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
-import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
-import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.session.CajaBean;
@@ -46,7 +44,6 @@ import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipoTransaccionType;
-import org.ventura.util.maestro.TipocuentabancariaType;
 import org.venturabank.util.DateUtil;
 import org.venturabank.util.JsfUtil;
 
@@ -129,6 +126,9 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 			comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 			comboTipodocumento.initValuesFromNamedQueryName(Tipodocumento.All_active);	
+			
+			Tipomoneda tipomoneda = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			comboTipomoneda.setItemSelected(tipomoneda);
 		} catch (Exception e) {
 			isValidBean = false;
 			JsfUtil.addErrorMessage(e.getMessage());

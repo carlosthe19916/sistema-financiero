@@ -43,6 +43,9 @@ public class CuentaaporteView implements Serializable {
 	@Column(name = "id_socio")
 	private Integer idSocio;
 	
+	@Column(name = "edad_titular")
+	private Integer edadTitular;
+	
 	@Column(name = "estado_socio")
 	private Boolean estadoSocio;
 
@@ -260,6 +263,14 @@ public class CuentaaporteView implements Serializable {
 
 	public void setIdSocio(Integer idSocio) {
 		this.idSocio = idSocio;
+	}
+
+	public Integer getEdadTitular() {
+		return edadTitular;
+	}
+
+	public void setEdadTitular(Integer edadTitular) {
+		this.edadTitular = edadTitular;
 	}
 
 }
