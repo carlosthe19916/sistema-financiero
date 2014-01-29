@@ -101,6 +101,12 @@ public class CuentabancariaView implements Serializable {
 	@Column(name = "tipo_persona")
 	private String tipoPersona;
 
+	@Column(name = "cantidadretirantes_cuentabancaria")
+	private Integer cantidadretirantesCuentabancaria;
+	
+	@Column(name = "id_socio")
+	private Integer idSocio;
+	
 	public CuentabancariaView() {
 	}
 
@@ -264,6 +270,23 @@ public class CuentabancariaView implements Serializable {
 
 	public void setAbreviaturaTipodocumento(String abreviaturaTipodocumento) {
 		this.abreviaturaTipodocumento = abreviaturaTipodocumento;
+	}
+
+	public Integer getCantidadretirantesCuentabancaria() {
+		return cantidadretirantesCuentabancaria;
+	}
+
+	public void setCantidadretirantesCuentabancaria(
+			Integer cantidadretirantesCuentabancaria) {
+		this.cantidadretirantesCuentabancaria = cantidadretirantesCuentabancaria;
+	}
+
+	public Integer getIdSocio() {
+		return idSocio;
+	}
+
+	public void setIdSocio(Integer idSocio) {
+		this.idSocio = idSocio;
 	}
 
 }
