@@ -162,6 +162,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 									
 									this.transaccioncuentaaporte = transaccioncuentaaporte;
 									success = true;
+									cargarVoucher();
 								} catch (Exception e) {
 									JsfUtil.addErrorMessage(e.getMessage());
 								}	

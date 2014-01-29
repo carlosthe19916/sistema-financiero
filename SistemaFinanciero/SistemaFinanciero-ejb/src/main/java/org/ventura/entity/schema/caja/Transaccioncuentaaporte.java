@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.*;
 
@@ -25,6 +26,9 @@ public class Transaccioncuentaaporte implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer idtransaccioncuentaaporte;
 
+	@Column(nullable = false)
+	private BigDecimal saldodisponible;
+	
 	@ManyToOne
 	@JoinColumn(name = "idcuentaaporte", nullable = false)
 	private Cuentaaporte cuentaaporte;
@@ -127,6 +131,14 @@ public class Transaccioncuentaaporte implements Serializable {
 
 	public void setEstado(boolean estado) {
 		this.estado = estado;
+	}
+
+	public BigDecimal getSaldodisponible() {
+		return saldodisponible;
+	}
+
+	public void setSaldodisponible(BigDecimal saldodisponible) {
+		this.saldodisponible = saldodisponible;
 	}
 
 }

@@ -708,17 +708,6 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			}
 			
 			//validacion superada
-			Transaccioncaja transaccioncaja = new Transaccioncaja();
-			transaccioncaja.setFecha(Calendar.getInstance().getTime());
-			transaccioncaja.setHora(Calendar.getInstance().getTime());
-			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
-			transaccioncajaDAO.create(transaccioncaja);
-			
-			transaccioncuentaaporte.setTransaccioncaja(transaccioncaja);
-			transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
-			transaccioncuentaaporte.setEstado(true);
-			transaccioncuentaaporteDAO.create(transaccioncuentaaporte);
-				
 			Moneda saldoFinal = cuentaaporte.getSaldo();
 			Moneda montoTransaccion = transaccioncuentaaporte.getMonto();
 			switch (tipoTransaccion) {
@@ -733,7 +722,19 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 					break;
 				}	
 			}
+				
+			Transaccioncaja transaccioncaja = new Transaccioncaja();
+			transaccioncaja.setFecha(Calendar.getInstance().getTime());
+			transaccioncaja.setHora(Calendar.getInstance().getTime());
+			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncajaDAO.create(transaccioncaja);
 			
+			transaccioncuentaaporte.setTransaccioncaja(transaccioncaja);
+			transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
+			transaccioncuentaaporte.setEstado(true);
+			transaccioncuentaaporte.setSaldodisponible(saldoFinal.getValue());
+			transaccioncuentaaporteDAO.create(transaccioncuentaaporte);
+										
 			cuentaaporte.setSaldo(saldoFinal);		
 			cuentaaporteDAO.update(cuentaaporte);
 			
@@ -781,7 +782,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+			throw e;
 		}
 		return transaccioncuentaaporte;
 	}
