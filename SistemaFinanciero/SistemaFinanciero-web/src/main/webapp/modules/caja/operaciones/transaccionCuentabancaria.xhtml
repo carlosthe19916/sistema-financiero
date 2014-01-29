@@ -136,70 +136,72 @@
 																DE AHORRO Y CREDITO VENTURA</td>
 														</tr>
 														<tr>
-															<td style="font-weight: bold; font-size: 12px;">Nº
-																OP:</td>
-															<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.numeroOperacion}|#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionCaja}</td>
-															<td style="font-weight: bold; font-size: 12px;">Nº
-																TR:</td>
-															<td>#{transaccionCuentabancariaCajaBean.vouchercajaView.idTransaccioncuentabancaria}</td>
+															<td colspan="1" style="width: 25%; font-weight: bold; font-size: 12px;">Nº OP:</td>
+															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.returnNumOperacion()}</td>
+															<td colspan="1" style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
+															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionCaja}</td>
 														</tr>
 														<tr>
-															<td style="font-weight: bold; font-size: 12px;">FECHA:</td>
+															<td style="font-weight: bold; font-size: 11px;">FECHA:</td>
 															<td style="font-size: 12px;"><h:outputText
 																	value="#{transaccionCuentabancariaCajaBean.vouchercajaView.fecha}">
 																	<f:convertDateTime pattern="dd/MM/yyyy" />
 																</h:outputText></td>
-															<td style="font-weight: bold; font-size: 12px;">HORA:</td>
+															<td style="font-weight: bold; font-size: 11px;">HORA:</td>
 															<td style="font-size: 12px;"><h:outputLabel
 																	value="#{transaccionCuentabancariaCajaBean.getStringTime(transaccionCuentabancariaCajaBean.vouchercajaView.hora)}">
 																</h:outputLabel></td>
 														</tr>
 														<tr>
+															<td colspan="1" style="font-weight: bold; font-size: 11px;">AGENCIA:</td>
+															<td colspan="3" style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionAgencia}</td>
+														</tr>
+														<tr>
 															<td colspan="4"
-																style="text-align: center; text-decoration: underline;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionTipotransaccion}&nbsp;#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionTipocuentabancaria}</td>
+																style="text-align: center; text-decoration: underline; font-weight: bold; font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionTipotransaccion}</td>
 														</tr>
 														<tr>
 															<td colspan="1"
-																style="font-weight: bold; font-size: 12px;">CUENTA:</td>
+																style="font-weight: bold; font-size: 11px;">CUENTA:</td>
 															<td colspan="3" style="font-size: 12px;"><h:outputLabel
 																	value="#{transaccionCuentabancariaCajaBean.vouchercajaView.numeroCuenta}" />
 															</td>
 														</tr>
 														<tr>
 															<td colspan="1"
-																style="font-weight: bold; font-size: 12px;">T.CTA:</td>
-															<td colspan="3" style="font-size: 12px;"><h:outputLabel
+																style="font-weight: bold; font-size: 11px;">T. CTA:</td>
+															<td colspan="3" style="font-size: 11px;"><h:outputLabel
 																	value="#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionTipocuentabancaria}" />
 															</td>
 														</tr>
 														<tr>
 															<td colspan="1"
-																style="font-weight: bold; font-size: 12px;">TITULAR:</td>
-															<td colspan="3">#{transaccionCuentabancariaCajaBean.vouchercajaView.titular}</td>
+																style="font-weight: bold; font-size: 11px;">SOCIO:</td>
+															<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.titular}</td>
 														</tr>
 														<tr>
 															<td colspan="1"
-																style="font-weight: bold; font-size: 12px;">REF:</td>
-															<td colspan="3" style="font-size: 10px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.referencia}</td>
+																style="font-weight: bold; font-size: 11px;">REF:</td>
+															<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.referencia}</td>
 														</tr>
 														<tr>
 															<td colspan="1"
-																style="font-weight: bold; font-size: 12px;">MONEDA:</td>
-															<td colspan="3">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionMoneda}</td>
+																style="font-weight: bold; font-size: 11px;">MONEDA:</td>
+															<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionMoneda}</td>
 														</tr>
 														<tr>
 															<td colspan="1"
-																style="font-weight: bold; font-size: 12px;">MONTO:</td>
-															<td colspan="3">*****#{transaccionCuentabancariaCajaBean.vouchercajaView.monto}</td>
+																style="font-weight: bold; font-size: 11px;">MONTO:</td>
+															<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.monto}</td>
 														</tr>
 													</table>
 												</h:panelGroup>
 												<table style="width: 230px; border: solid 1px #E9E6E6;">
 													<tr>
 														<td colspan="1"
-															style="font-weight: bold; font-size: 12px; width: 56px;">S.
+															style="font-weight: bold; font-size: 11px; width: 25%;">S.
 															DISP:</td>
-														<td>*****#{transaccionCuentabancariaCajaBean.vouchercajaView.saldo}</td>
+														<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.saldo}</td>
 													</tr>
 												</table>
 											</h:panelGroup>
