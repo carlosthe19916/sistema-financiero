@@ -61,6 +61,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	private boolean isCuentabancariaValid;
 	private boolean success;
 	private boolean failure;
+	private boolean isTitular;
 
 	// busqueda de cuentabancaria
 	@Inject
@@ -101,11 +102,10 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	public TransaccionCuentabancariaCajaBean() {
 		isValidBean = true;
 		isCuentabancariaValid = true;
-		
 		success = false;
 		failure = false;
-
 		monto = new BigDecimal("0.00");
+		isTitular = false;
 	}
 
 	@PostConstruct
@@ -499,4 +499,11 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		this.vouchercajaView = vouchercajaView;
 	}
 
+	public boolean isTitular() {
+		return isTitular;
+	}
+
+	public void setTitular(boolean isTitular) {
+		this.isTitular = isTitular;
+	}
 }

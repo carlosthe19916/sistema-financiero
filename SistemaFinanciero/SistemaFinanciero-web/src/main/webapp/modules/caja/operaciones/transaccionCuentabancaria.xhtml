@@ -123,8 +123,9 @@
 									<div>
 										<div>
 											<h:panelGroup id="voucher2">
+											
 												<h:panelGroup id="voucher1">
-													<table
+													<table id="t"
 														style="width: 230px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
 														<tr style="vertical-align: center;">
 															<td colspan="1"
@@ -194,39 +195,48 @@
 																style="font-weight: bold; font-size: 11px;">IMPORTE:</td>
 															<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.monto}</td>
 														</tr>
-													</table>
-												</h:panelGroup>
-												<table style="width: 230px; border: solid 1px #E9E6E6;">
-													<tr>
-														<td colspan="1"
-															style="font-weight: bold; font-size: 11px; width: 25%;">S.
-															TOTAL:</td>
-														<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.saldo}</td>
+														<tr>
+														<td colspan="1" style="font-weight: bold; font-size: 11px; width: 25%;">
+															<h:outputText id="textTotal" value="S. TOTAL" rendered="#{transaccionCuentabancariaCajaBean.titular}"/>
+														</td>
+														<td colspan="3" style="font-size: 11px;">
+															<h:outputText id="total" value="#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.saldo}" rendered="#{transaccionCuentabancariaCajaBean.titular}"/>
+														</td>
 													</tr>
 													<tr>
 														<td>&nbsp;</td>
 													</tr>
 													<tr>
-														<td colspan="3" style="font-size: 12px;">
-															<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.denominacion}" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
-															<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.denominacion}" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
-														</td>
-														<td colspan="4"	style="font-size: 11px; width: 25%; text-align: center;">------------------------------------------</td>
+														<td>&nbsp;</td>
 													</tr>
 													<tr>
-														<td colspan="4"	style="font-size: 11px; width: 25%; text-align: center;">#{transaccionCuentabancariaCajaBean.vouchercajaView.titular}</td>
+														<td colspan="4"	style="font-size: 11px; text-align: center;">
+															<h:outputText value="----------------------------------------" rendered="#{transaccionCuentabancariaCajaBean.retiro}"/>
+														</td>
 													</tr>
-												</table>
-												
+													<tr>
+														<td colspan="4"	style="font-size: 11px; text-align: center;">
+															<h:outputText value="Firma Titular(es)" rendered="#{transaccionCuentabancariaCajaBean.retiro}"/>
+														</td>
+													</tr>
+													
+													<tr>
+														<td colspan="4" style="text-align: center; font-size: 10px;">"Verifique su dinero antes de retirarse de la ventanilla"</td>
+													</tr>
+													</table>
+												</h:panelGroup>
+													
+        											<h:selectBooleanCheckbox id="titular" value="#{transaccionCuentabancariaCajaBean.titular}" style="vertical-align: text-bottom;">  
+											            <f:selectItem itemLabel="Es Titular"/>											           
+											            <f:ajax render="voucher1" />   
+												     </h:selectBooleanCheckbox>  
+													<h:outputLabel style="font-size: 11px; font-weight: bold;" value=" Es Titular" for="titular" />
 											</h:panelGroup>
 										</div>
 									</div>
 									<div class="modal-dialog-buttons">
 										<h:commandButton value="Imprimir">
 											<p:printer target="voucher1" />
-										</h:commandButton>
-										<h:commandButton value="Imprimir Saldo">
-											<p:printer target="voucher2" />
 										</h:commandButton>
 										<h:commandButton value="Salir"
 											styleClass="action red"
