@@ -28,6 +28,7 @@ import org.ventura.dao.impl.TransaccioncajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
+import org.ventura.dao.impl.VouchercajaCuentaaporteViewDAO;
 import org.ventura.dao.impl.VouchercajaViewDAO;
 import org.ventura.dao.impl.VouchercompraventaViewDAO;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
@@ -41,6 +42,7 @@ import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.ViewvouchercompraventaView;
+import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
@@ -86,6 +88,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	private CuentaaporteDAO cuentaaporteDAO;
 	@EJB
 	private VouchercajaViewDAO vouchercajaViewDAO;
+	@EJB
+	private VouchercajaCuentaaporteViewDAO vouchercajaCuentaaporteViewDAO;
 	@EJB
 	private VouchercompraventaViewDAO vouchercompraventaDAO;
 	@EJB
@@ -606,6 +610,33 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 		return vouchercajaView;		
 	}
 
+	@Override
+	public VouchercajaCuentaaporteView getVoucherTransaccionCuentaaporte(Transaccioncuentaaporte transaccioncuentaaporte) throws Exception {
+		VouchercajaCuentaaporteView vouchercajaCuentaaporteView = null;
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idtransaccioncuentaaporte", transaccioncuentaaporte.getIdtransaccioncuentaaporte());
+		List<VouchercajaCuentaaporteView> list;
+		try {
+			list = vouchercajaCuentaaporteViewDAO.findByNamedQuery(VouchercajaCuentaaporteView.FindByIdTransaccioncuentaaporte, parameters);
+			if(list.size() == 1){
+				vouchercajaCuentaaporteView = list.get(0);
+			} else {
+				if(list.size() == 0){
+					vouchercajaCuentaaporteView = null;
+				} else {
+					throw new Exception("Error: Voucher >= 2");
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		
+		return vouchercajaCuentaaporteView;		
+	}
+	
 	@Override
 	public ViewvouchercompraventaView getVoucherTransaccionCompraVentaMoneda(Transaccioncompraventa transaccioncompraventa) throws Exception {
 		ViewvouchercompraventaView vouchercompraventaView = null;

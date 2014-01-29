@@ -86,6 +86,7 @@
 		<class>org.ventura.entity.tasas.Tipocambio</class>
 		<class>org.ventura.entity.schema.caja.view.ViewvouchercompraventaView</class>
 		<class>org.ventura.entity.schema.caja.view.VoucherbovedaView</class>
+		<class>org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="validate" />

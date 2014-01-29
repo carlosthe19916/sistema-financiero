@@ -31,6 +31,7 @@ import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
+import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
@@ -84,7 +85,8 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	private String referencia;
 	
 	private Transaccioncuentaaporte transaccioncuentaaporte;
-
+	private VouchercajaCuentaaporteView vouchercajaCuentaaporteView;
+	
 	@EJB private DenominacionmonedaServiceLocal denominacionmonedaServiceLocal;
 	@EJB private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
 	@EJB private CuentaaporteServiceLocal cuentaaporteServiceLocal;
@@ -132,7 +134,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	public void createTransaccioncaja() {
 		if (success == false) {
 			if (isCuentabancariaValid == true) {
-				Tipotransaccion tipotransaccion = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+				Tipotransaccion tipotransaccion = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 				if(tipotransaccion.equals(comboTipotransaccion.getObjectItemSelected())){
 					Tipomoneda tipomoneda = new Tipomoneda();
 					tipomoneda.setIdtipomoneda(cuentaaporteViewSelected.getIdTipomoneda());
@@ -181,7 +183,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 				}		
 			} else {
 				failure = true;
-				JsfUtil.addErrorMessage("La cuenta de a`prtes no es valida");
+				JsfUtil.addErrorMessage("La cuenta de aoprtes no es valida");
 			}
 		} else {
 			cargarVoucher();
@@ -190,7 +192,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 
 	public void cargarVoucher(){
 		try {
-			//this.vouchercajaView = transaccionCajaServiceLocal.getVoucherTransaccionBancaria(transaccioncuentabancaria);
+			this.vouchercajaCuentaaporteView = transaccionCajaServiceLocal.getVoucherTransaccionCuentaaporte(transaccioncuentaaporte);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e.getMessage());
 			failure = true;
@@ -526,6 +528,15 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	public void setTransaccioncuentaaporte(
 			Transaccioncuentaaporte transaccioncuentaaporte) {
 		this.transaccioncuentaaporte = transaccioncuentaaporte;
+	}
+
+	public VouchercajaCuentaaporteView getVouchercajaCuentaaporteView() {
+		return vouchercajaCuentaaporteView;
+	}
+
+	public void setVouchercajaCuentaaporteView(
+			VouchercajaCuentaaporteView vouchercajaCuentaaporteView) {
+		this.vouchercajaCuentaaporteView = vouchercajaCuentaaporteView;
 	}
 
 }

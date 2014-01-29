@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.maestro.Tipomoneda;
+
 /**
  * The persistent class for the tipotransaccion database table.
  * 
@@ -65,5 +67,20 @@ public class Tipotransaccion implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Tipotransaccion)) {
+            return false;
+        }
+        // a room can be uniquely identified by it's number and the building it belongs to
+        final Tipotransaccion other = (Tipotransaccion) obj;
+        return other.getIdtipotransaccion()== idtipotransaccion ? true:false;
+	}
+	
+	@Override
+    public int hashCode() {
+        return idtipotransaccion;
+    }
 
 }
