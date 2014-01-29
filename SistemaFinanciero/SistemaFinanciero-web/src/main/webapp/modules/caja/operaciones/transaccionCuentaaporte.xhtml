@@ -265,8 +265,7 @@
 										<h:inputText id="txtMonto"
 											value="#{transaccionCuentaaporteCajaBean.monto}"
 											required="true" maxlenght="16">
-											<f:converter converterId="MonedaConverter"></f:converter>
-											<f:ajax event="blur" render="@this" />
+											<f:converter converterId="MonedaConverter"></f:converter>										
 										</h:inputText>
 									</div>
 									<div style="float: left;">

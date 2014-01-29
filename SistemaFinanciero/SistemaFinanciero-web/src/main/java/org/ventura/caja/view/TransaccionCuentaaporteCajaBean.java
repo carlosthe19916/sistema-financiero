@@ -1,6 +1,7 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,6 +41,7 @@ import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipoTransaccionType;
 import org.venturabank.util.DateUtil;
 import org.venturabank.util.JsfUtil;
 
@@ -74,7 +76,8 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 
 	// Datos pagina principal
 	@Inject
-	private Tipotransaccion tipotransaccion; @Inject
+	private Tipotransaccion tipotransaccion; 
+	@Inject
 	private Tipomoneda tipomoneda;
 	@Inject private Moneda monto;
 	private String numeroCuentabancaria;
@@ -129,43 +132,56 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	public void createTransaccioncaja() {
 		if (success == false) {
 			if (isCuentabancariaValid == true) {
-				Tipomoneda tipomoneda = new Tipomoneda();
-				tipomoneda.setIdtipomoneda(cuentaaporteViewSelected.getIdTipomoneda());
-				if (this.tipomoneda.equals(tipomoneda)) {
-
-					AportesCuentaaporteView aportesCuentaaporteViewSelected;
-					Object object = tablaAportes.getSelectedRow();
-					if (object instanceof AportesCuentaaporteView) {
-						try {
-							aportesCuentaaporteViewSelected = (AportesCuentaaporteView) object;
-	
-							Transaccioncuentaaporte transaccioncuentaaporte = new Transaccioncuentaaporte();
-	
-							Cuentaaporte cuentaaporte = new Cuentaaporte();
-							cuentaaporte.setNumerocuentaaporte(numeroCuentabancaria);
-	
-							transaccioncuentaaporte.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
-							transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
-							transaccioncuentaaporte.setMonto(monto);
-							transaccioncuentaaporte.setReferencia(referencia);
-							transaccioncuentaaporte.setTipomoneda(tipomoneda);
-							transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getId().getMes());
+				Tipotransaccion tipotransaccion = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+				if(tipotransaccion.equals(comboTipotransaccion.getObjectItemSelected())){
+					Tipomoneda tipomoneda = new Tipomoneda();
+					tipomoneda.setIdtipomoneda(cuentaaporteViewSelected.getIdTipomoneda());
+					if (this.tipomoneda.equals(tipomoneda)) {
+						if(monto.isGreaterThan(new Moneda(BigDecimal.ZERO))){
+							AportesCuentaaporteView aportesCuentaaporteViewSelected;
+							Object object = tablaAportes.getSelectedRow();
+							if (object instanceof AportesCuentaaporteView) {
+								try {
+									aportesCuentaaporteViewSelected = (AportesCuentaaporteView) object;
 			
-							transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja,transaccioncuentaaporte);
-							
-							this.transaccioncuentaaporte = transaccioncuentaaporte;
-							success = true;
-						} catch (Exception e) {
-							JsfUtil.addErrorMessage(e.getMessage());
-						}	
+									Transaccioncuentaaporte transaccioncuentaaporte = new Transaccioncuentaaporte();
+			
+									Cuentaaporte cuentaaporte = new Cuentaaporte();
+									cuentaaporte.setNumerocuentaaporte(numeroCuentabancaria);
+			
+									transaccioncuentaaporte.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
+									transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
+									transaccioncuentaaporte.setMonto(monto);
+									transaccioncuentaaporte.setReferencia(referencia);
+									transaccioncuentaaporte.setTipomoneda(tipomoneda);
+									transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getId().getMes());
+					
+									transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja,transaccioncuentaaporte);
+									
+									this.transaccioncuentaaporte = transaccioncuentaaporte;
+									success = true;
+								} catch (Exception e) {
+									JsfUtil.addErrorMessage(e.getMessage());
+								}	
+							} else {
+								failure = true;
+								JsfUtil.addErrorMessage("No se selecciono el mes de pago");
+							}
+						} else {
+							failure = true;
+							JsfUtil.addErrorMessage("El monto:" + monto + " no es un monto válido");
+						}
 					} else {
-						JsfUtil.addErrorMessage("No se selecciono el mes de pago");
+						failure = true;
+						JsfUtil.addErrorMessage("Los tipos de moneda son incompatibles");
 					}
 				} else {
-					JsfUtil.addErrorMessage("Los tipos de moneda son incompatibles");
-				}
+					failure = true;
+					JsfUtil.addErrorMessage("No se permiten RETIROS de una cuenta de aportes. Debe de cancelar la cuenta para realizar la operación");
+				}		
 			} else {
-				JsfUtil.addErrorMessage("La cuenta bancaria no es valida");
+				failure = true;
+				JsfUtil.addErrorMessage("La cuenta de a`prtes no es valida");
 			}
 		} else {
 			cargarVoucher();
