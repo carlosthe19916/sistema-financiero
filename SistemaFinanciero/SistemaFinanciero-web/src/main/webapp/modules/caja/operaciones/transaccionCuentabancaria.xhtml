@@ -247,7 +247,7 @@
 											<div style="float: left;">
 												<h:inputText id="txtNumerocuenta"
 													value="#{transaccionCuentabancariaCajaBean.cuentabancaria.numerocuenta}"
-													required="true"
+													required="true" pt:placeholder="Número de Cuenta"
 													requiredMessage="Ingrese un numero de cuenta"
 													validatorMessage="Numero de cuenta no valida"
 													maxlength="14">
@@ -316,6 +316,8 @@
 										<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 										<div>
 											<h:inputText
+												pt:placeholder="Referencia"
+												onkeyup="this.value = this.value.toUpperCase();"
 												value="#{transaccionCuentabancariaCajaBean.referencia}"
 												size="30" maxlenght="200" />
 										</div>
@@ -337,7 +339,7 @@
 											<div class="p6n-api-consent-screen-inputs">
 												<div class="p6n-api-consent-screen-input-section">
 													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NRO
+														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NUMERO
 														CUENTA</div>
 													<div
 														style="text-align: left; margin-left: 20px; font-size: 16px;">
@@ -366,7 +368,7 @@
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SALDO</div>
+														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SALDO DISPONIBLE</div>
 													<div
 														style="text-align: left; margin-left: 20px; font-size: 16px;">
 														<h:outputLabel
@@ -375,7 +377,7 @@
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TITULAR</div>
+														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SOCIO</div>
 													<div
 														style="text-align: left; margin-left: 20px; font-size: 16px;">
 														<h:outputLabel
@@ -384,14 +386,14 @@
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
 													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">RETIRANTES</div>
+														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TITULAR(ES)</div>
 													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
+														style="text-align: left; margin-left: 20px; font-size: 14px;">
 														<h:dataTable
 															value="#{transaccionCuentabancariaCajaBean.cuentabancaria.titulares}"
 															var="titular">
 															<h:column>
-														#{titular.personanatural.apellidopaterno}&nbsp;#{titular.personanatural.apellidomaterno},#{titular.personanatural.nombres}
+														#{titular.personanatural.apellidopaterno}&nbsp;#{titular.personanatural.apellidomaterno}, #{titular.personanatural.nombres}
 													</h:column>
 															<h:column>
 														&nbsp;|&nbsp;
@@ -420,6 +422,8 @@
 									<div>
 										<div>
 											<h:inputText
+												onkeyup="this.value = this.value.toUpperCase();"
+												pt:placeholder="Apellido y Nombres / Razón Social"
 												value="#{transaccionCuentabancariaCajaBean.valorBusqueda}"
 												style="width: 250px;float: left;" />
 											&nbsp;
@@ -460,20 +464,20 @@
 												selection="#{transaccionCuentabancariaCajaBean.cuentabancariaView}"
 												rowKey="#{cuenta}" rowIndexVar="row">
 
-												<p:column headerText="Nro" style="text-align:center;">
+												<p:column headerText="Nro" style="text-align:center; font-size: 12px;">
 													<h:outputText value="#{row + 1}" />
 												</p:column>
-												<p:column headerText="Nro Cuenta">
+												<p:column headerText="Nro Cuenta" style="font-size: 12px;">
 													<h:outputText value="#{cuenta.numerocuenta}" />
 												</p:column>
-												<p:column headerText="Tipo Cta">
+												<p:column headerText="Tipo Cta" style="font-size: 12px;">
 													<h:outputText
 														value="#{cuenta.denominacionTipocuentabancaria}" />
 												</p:column>
-												<p:column headerText="Moneda">
+												<p:column headerText="Moneda" style="font-size: 12px;">
 													<h:outputText value="#{cuenta.denominacionTipomoneda}" />
 												</p:column>
-												<p:column headerText="Titular">
+												<p:column headerText="Titular" style="font-size: 12px;">
 													<h:outputText value="#{cuenta.titular}" />
 												</p:column>
 											</p:dataTable>
