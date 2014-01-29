@@ -191,7 +191,7 @@
 														</tr>
 														<tr>
 															<td colspan="1"
-																style="font-weight: bold; font-size: 11px;">MONTO:</td>
+																style="font-weight: bold; font-size: 11px;">IMPORTE:</td>
 															<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.monto}</td>
 														</tr>
 													</table>
@@ -200,10 +200,24 @@
 													<tr>
 														<td colspan="1"
 															style="font-weight: bold; font-size: 11px; width: 25%;">S.
-															DISP:</td>
+															TOTAL:</td>
 														<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.saldo}</td>
 													</tr>
+													<tr>
+														<td>&nbsp;</td>
+													</tr>
+													<tr>
+														<td colspan="3" style="font-size: 12px;">
+															<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.denominacion}" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
+															<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.denominacion}" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
+														</td>
+														<td colspan="4"	style="font-size: 11px; width: 25%; text-align: center;">------------------------------------------</td>
+													</tr>
+													<tr>
+														<td colspan="4"	style="font-size: 11px; width: 25%; text-align: center;">#{transaccionCuentabancariaCajaBean.vouchercajaView.titular}</td>
+													</tr>
 												</table>
+												
 											</h:panelGroup>
 										</div>
 									</div>
@@ -214,7 +228,7 @@
 										<h:commandButton value="Imprimir Saldo">
 											<p:printer target="voucher2" />
 										</h:commandButton>
-										<h:commandButton value="Nueva transaccion"
+										<h:commandButton value="Salir"
 											styleClass="action red"
 											action="transaccionCuentabancaria?faces-redirect=true" />
 									</div>
@@ -329,7 +343,7 @@
 									<div class="sf-buttons" style="float: left;">
 										<h:commandButton
 											action="#{transaccionCuentabancariaCajaBean.createTransaccioncaja()}"
-											value="Guardar" styleClass="action blue" />
+											value="Aceptar" styleClass="action blue" />
 									</div>
 								</div>
 

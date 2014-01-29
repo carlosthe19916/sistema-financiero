@@ -42,6 +42,7 @@ import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipoTransaccionType;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.venturabank.util.JsfUtil;
 
@@ -294,6 +295,15 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		if (monto.compareTo(BigDecimal.ZERO)<=0) {
 			monto = new BigDecimal("0.00");
 		}
+	}
+	
+	public boolean isRetiro(){
+		Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+		boolean result = false;
+		if (retiro.equals(comboTipotransaccion.getObjectItemSelected())) {
+			result = true;
+		}
+		return result;
 	}
 	
 	public String returnNumOperacion(){
