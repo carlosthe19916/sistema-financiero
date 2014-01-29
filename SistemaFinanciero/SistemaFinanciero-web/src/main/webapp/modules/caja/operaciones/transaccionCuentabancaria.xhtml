@@ -123,7 +123,7 @@
 									<div>
 										<div>
 											<h:panelGroup id="voucher2">
-											
+
 												<h:panelGroup id="voucher1">
 													<table id="t"
 														style="width: 230px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
@@ -137,9 +137,12 @@
 																DE AHORRO Y CREDITO VENTURA</td>
 														</tr>
 														<tr>
-															<td colspan="1" style="width: 25%; font-weight: bold; font-size: 12px;">Nº OP:</td>
+															<td colspan="1"
+																style="width: 25%; font-weight: bold; font-size: 12px;">Nº
+																OP:</td>
 															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.returnNumOperacion()}</td>
-															<td colspan="1" style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
+															<td colspan="1"
+																style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionCaja}</td>
 														</tr>
 														<tr>
@@ -154,7 +157,8 @@
 																</h:outputLabel></td>
 														</tr>
 														<tr>
-															<td colspan="1" style="font-weight: bold; font-size: 11px;">AGENCIA:</td>
+															<td colspan="1"
+																style="font-weight: bold; font-size: 11px;">AGENCIA:</td>
 															<td colspan="3" style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionAgencia}</td>
 														</tr>
 														<tr>
@@ -177,7 +181,8 @@
 														</tr>
 														<tr>
 															<td colspan="1"
-																style="font-weight: bold; font-size: 11px;">ID SOCIO:</td>
+																style="font-weight: bold; font-size: 11px;">ID
+																SOCIO:</td>
 															<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.idSocio}</td>
 														</tr>
 														<tr>
@@ -201,41 +206,54 @@
 															<td colspan="3" style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.monto}</td>
 														</tr>
 														<tr>
-														<td colspan="1" style="font-weight: bold; font-size: 11px; width: 25%;">
-															<h:outputText id="textTotal" value="S. TOTAL" rendered="#{transaccionCuentabancariaCajaBean.titular}"/>
-														</td>
-														<td colspan="3" style="font-size: 11px;">
-															<h:outputText id="total" value="#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.saldo}" rendered="#{transaccionCuentabancariaCajaBean.titular}"/>
-														</td>
-													</tr>
-													<tr>
-														<td>&nbsp;</td>
-													</tr>
-													<tr>
-														<td>&nbsp;</td>
-													</tr>
-													<tr>
-														<td colspan="4"	style="font-size: 11px; text-align: center;">
-															<h:outputText value="----------------------------------------" rendered="#{transaccionCuentabancariaCajaBean.retiro}"/>
-														</td>
-													</tr>
-													<tr>
-														<td colspan="4"	style="font-size: 11px; text-align: center;">
-															<h:outputText value="Firma Titular(es)" rendered="#{transaccionCuentabancariaCajaBean.retiro}"/>
-														</td>
-													</tr>
-													
-													<tr>
-														<td colspan="4" style="text-align: center; font-size: 10px;">"Verifique su dinero antes de retirarse de la ventanilla"</td>
-													</tr>
+															<td colspan="1"
+																style="font-weight: bold; font-size: 11px; width: 25%;">
+																<h:outputText id="textTotal" value="S. TOTAL"
+																	rendered="#{transaccionCuentabancariaCajaBean.titular}" />
+															</td>
+															<td colspan="3" style="font-size: 11px;"><h:outputText
+																	id="total"
+																	value="#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.saldo}"
+																	rendered="#{transaccionCuentabancariaCajaBean.titular}" />
+															</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+														</tr>
+														<tr>
+															<td colspan="4"
+																style="font-size: 11px; text-align: center;"><h:outputText
+																	value="----------------------------------------"
+																	rendered="#{transaccionCuentabancariaCajaBean.retiro}" />
+															</td>
+														</tr>
+														<tr>
+															<td colspan="4"
+																style="font-size: 11px; text-align: center;"><h:outputText
+																	value="Firma Titular(es)"
+																	rendered="#{transaccionCuentabancariaCajaBean.retiro}" />
+															</td>
+														</tr>
+
+														<tr>
+															<td colspan="4"
+																style="text-align: center; font-size: 10px;">"Verifique
+																su dinero antes de retirarse de la ventanilla"</td>
+														</tr>
 													</table>
 												</h:panelGroup>
-													
-        											<h:selectBooleanCheckbox id="titular" value="#{transaccionCuentabancariaCajaBean.titular}" style="vertical-align: text-bottom;">  
-											            <f:selectItem itemLabel="Es Titular"/>											           
-											            <f:ajax render="voucher1" />   
-												     </h:selectBooleanCheckbox>  
-													<h:outputLabel style="font-size: 11px; font-weight: bold;" value=" Es Titular" for="titular" />
+
+												<h:selectBooleanCheckbox id="titular"
+													value="#{transaccionCuentabancariaCajaBean.titular}"
+													style="vertical-align: text-bottom;">
+													<f:selectItem itemLabel="Es Titular" />
+													<f:ajax render="voucher1" />
+												</h:selectBooleanCheckbox>
+												<h:outputLabel style="font-size: 11px; font-weight: bold;"
+													value=" Es Titular" for="titular" />
 											</h:panelGroup>
 										</div>
 									</div>
@@ -243,8 +261,7 @@
 										<h:commandButton value="Imprimir">
 											<p:printer target="voucher1" />
 										</h:commandButton>
-										<h:commandButton value="Salir"
-											styleClass="action red"
+										<h:commandButton value="Salir" styleClass="action red"
 											action="transaccionCuentabancaria?faces-redirect=true" />
 									</div>
 								</div>
@@ -346,8 +363,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 										<div>
-											<h:inputText
-												pt:placeholder="Referencia"
+											<h:inputText pt:placeholder="Referencia"
 												onkeyup="this.value = this.value.toUpperCase();"
 												value="#{transaccionCuentabancariaCajaBean.referencia}"
 												size="30" maxlenght="200" />
@@ -367,52 +383,69 @@
 									<div class="p6n-api-consent-screen-preview-image">
 										<div class="p6n-api-consent-screen-preview-image-bg">
 
-											<div class="p6n-api-consent-screen-inputs">														
+											<div class="p6n-api-consent-screen-inputs">
 												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NUMERO
-														CUENTA</div>
-													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
-														<h:outputLabel
-															value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.numerocuenta}" />
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NUMERO
+															CUENTA</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.numerocuenta}" />
+														</div>
+													</div>
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TIPO
+															CUENTA</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipocuentabancaria}" />
+														</div>
 													</div>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">TIPO
-														CUENTA</div>
-													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
-														<h:outputLabel
-															value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipocuentabancaria}" />
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">MONEDA</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipomoneda}" />
+														</div>
+													</div>
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SALDO
+															DISPONIBLE</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.saldoCuentabancaria}" />
+														</div>
 													</div>
 												</div>
+
 												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">MONEDA</div>
-													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
-														<h:outputLabel
-															value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.denominacionTipomoneda}" />
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SOCIO</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.titular}" />
+														</div>
 													</div>
-												</div>
-												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SALDO DISPONIBLE</div>
-													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
-														<h:outputLabel
-															value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.saldoCuentabancaria}" />
-													</div>
-												</div>
-												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label"
-														style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SOCIO</div>
-													<div
-														style="text-align: left; margin-left: 20px; font-size: 16px;">
-														<h:outputLabel
-															value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.titular}" />
+													<div style="display: inline-block; width: 190px;">
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">CODIGO</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.idSocio}" />
+														</div>
 													</div>
 												</div>
 												<div class="p6n-api-consent-screen-input-section">
@@ -461,8 +494,7 @@
 								<div>
 									<div>
 										<div>
-											<h:inputText
-												onkeyup="this.value = this.value.toUpperCase();"
+											<h:inputText onkeyup="this.value = this.value.toUpperCase();"
 												pt:placeholder="Apellido y Nombres / Razón Social"
 												value="#{transaccionCuentabancariaCajaBean.valorBusqueda}"
 												style="width: 250px;float: left;" />
@@ -504,7 +536,8 @@
 												selection="#{transaccionCuentabancariaCajaBean.cuentabancariaView}"
 												rowKey="#{cuenta}" rowIndexVar="row">
 
-												<p:column headerText="Nro" style="text-align:center; font-size: 12px;">
+												<p:column headerText="Nro"
+													style="text-align:center; font-size: 12px;">
 													<h:outputText value="#{row + 1}" />
 												</p:column>
 												<p:column headerText="Nro Cuenta" style="font-size: 12px;">
