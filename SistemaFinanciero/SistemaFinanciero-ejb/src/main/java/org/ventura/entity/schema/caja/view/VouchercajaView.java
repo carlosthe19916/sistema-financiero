@@ -26,6 +26,9 @@ public class VouchercajaView implements Serializable {
 	@Column(name = "id_transaccioncuentabancaria")
 	private Integer idTransaccioncuentabancaria;
 
+	@Column(name = "id_socio")
+	private Integer idSocio;
+	
 	@Column(name = "id_transaccioncaja")
 	private Integer idTransaccioncaja;
 
@@ -268,6 +271,14 @@ public class VouchercajaView implements Serializable {
 
 	public void setTitular(String titular) {
 		this.titular = titular;
+	}
+
+	public Integer getIdSocio() {
+		return idSocio;
+	}
+
+	public void setIdSocio(Integer idSocio) {
+		this.idSocio = idSocio;
 	}
 
 }
