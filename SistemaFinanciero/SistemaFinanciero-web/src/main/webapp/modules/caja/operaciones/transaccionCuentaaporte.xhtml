@@ -509,6 +509,7 @@
 												<div>
 													<h:inputText
 														value="#{transaccionCuentaaporteCajaBean.valorBusqueda}"
+														onkeyup="this.value = this.value.toUpperCase();"
 														style="width: 250px;float: left;" />
 													&nbsp;
 													<h:commandLink styleClass="button"
@@ -562,7 +563,7 @@
 														<p:column headerText="Moneda">
 															<h:outputText value="#{cuenta.denominacionTipomoneda}" />
 														</p:column>
-														<p:column headerText="Titular">
+														<p:column headerText="Socio">
 															<h:outputText value="#{cuenta.titular}" />
 														</p:column>
 													</p:dataTable>
