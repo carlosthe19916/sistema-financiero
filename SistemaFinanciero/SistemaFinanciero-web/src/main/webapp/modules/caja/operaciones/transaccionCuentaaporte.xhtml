@@ -118,7 +118,7 @@
 
 							<br /> <br />
 							<div class="p6n-api-consent-screen-title">Transaccion Caja
-								- Cuenta de aportes</div>
+								- Cuenta de Aportes</div>
 
 							<!-- voucher -->
 							<h:panelGroup id="voucher"
@@ -214,12 +214,9 @@
 														<td>&nbsp;</td>
 													</tr>
 													<tr>
-														<td colspan="2"
-															style="font-size: 11px; width: 25%; text-align: center;">------------------------------------------</td>
-													</tr>
-													<tr>
-														<td colspan="2"
-															style="font-size: 11px; width: 25%; text-align: center;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.persona}</td>
+														<td colspan="4"
+															style="text-align: center; font-size: 10px;">"Verifique
+															su dinero antes de retirarse de la ventanilla"</td>
 													</tr>
 												</table>
 											</div>
@@ -335,6 +332,7 @@
 										<div>
 											<h:inputText
 												value="#{transaccionCuentaaporteCajaBean.referencia}"
+												onkeyup="this.value = this.value.toUpperCase();"
 												size="30" maxlenght="200" />
 										</div>
 									</div>
@@ -524,7 +522,7 @@
 														value="#{transaccionCuentaaporteCajaBean.comboTipodocumento.itemSelected}"
 														valueChangeListener="#{transaccionCuentaaporteCajaBean.changeTipobusqueda}"
 														requiredMessage="Seleccione un Tipo de Busqueda">
-														<f:selectItem itemLabel="Apellidos y nombres/razon social" itemValue="" />
+														<f:selectItem itemLabel="Ap. y Nombres / Razon Social" itemValue="" />
 														<f:selectItems
 															value="#{transaccionCuentaaporteCajaBean.comboTipodocumento.items.entrySet()}"
 															var="val" itemLabel="#{val.value.abreviatura}"
