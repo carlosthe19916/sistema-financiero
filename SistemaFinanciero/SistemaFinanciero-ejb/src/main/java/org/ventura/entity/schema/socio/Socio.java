@@ -23,7 +23,8 @@ import java.util.Date;
 @NamedQueries({
 		@NamedQuery(name = Socio.ALL, query = "SELECT s FROM Socio s"),
 		@NamedQuery(name = Socio.fPN_tipodocumento_numerodocumento, query = "Select s From Socio s INNER JOIN s.personanatural p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento"),
-		@NamedQuery(name = Socio.fPJ_tipodocumento_numerodocumento, query = "Select s From Socio s INNER JOIN s.personajuridica p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento")
+		@NamedQuery(name = Socio.fPJ_tipodocumento_numerodocumento, query = "Select s From Socio s INNER JOIN s.personajuridica p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento"),
+		@NamedQuery(name = Socio.f_idcuentaaporte, query = "Select s From Socio s INNER JOIN s.cuentaaporte c WHERE c.idcuentaaporte = :idcuentaaporte")
 /*
  * 
  * @NamedQuery(name = Socio.SOCIOSPN, query =
@@ -44,6 +45,7 @@ public class Socio implements Serializable {
 
 	public final static String fPN_tipodocumento_numerodocumento = "org.ventura.entity.schema.socio.socio.fPN_tipodocumento_numerodocumento";
 	public final static String fPJ_tipodocumento_numerodocumento = "org.ventura.entity.schema.socio.socio.fPJ_tipodocumento_numerodocumento";
+	public final static String f_idcuentaaporte = "org.ventura.entity.schema.socio.socio.f_idcuentaaporte";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

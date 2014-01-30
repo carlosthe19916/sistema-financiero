@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -20,15 +21,20 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.TransactionRequiredException;
 
+import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
+import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
 import org.ventura.dao.impl.AccionistaDAO;
 import org.ventura.dao.impl.AportesCuentaaporteViewDAO;
 import org.ventura.dao.impl.BeneficiariocuentaDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.CuentaaporteViewDAO;
+import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Transaccioncaja;
+import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
@@ -36,10 +42,14 @@ import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.schema.socio.Socio;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
+import org.ventura.util.maestro.EstadocuentaType;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipoTransaccionType;
 
 @Named
 @Stateless
@@ -63,6 +73,9 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	private CuentaaporteViewDAO cuentaaporteViewDAO;
 	@EJB
 	private AportesCuentaaporteViewDAO aportesCuentaaporteViewDAO;
+	@EJB
+	private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
+
 	
 	@Inject
 	private Log log;
@@ -515,6 +528,41 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			throw e;
 		}
 		return cuentaaporteViews;
+	}
+
+	@Override
+	public Transaccioncuentaaporte cancelarCuentaaporte(Caja caja, Cuentaaporte cuentaaporte, Date fechaCancelacion) throws Exception {
+		Transaccioncuentaaporte transaccioncuentaaporte = null;
+		try {
+			cuentaaporte = find(cuentaaporte.getIdcuentaaporte());
+			
+			Calendar calendarActual = Calendar.getInstance();
+			
+			//realizar la transaccion de retiro de todo el dinero			
+			transaccioncuentaaporte = new Transaccioncuentaaporte();
+			transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
+			transaccioncuentaaporte.setEstado(true);
+			transaccioncuentaaporte.setMesafecta(null);
+			transaccioncuentaaporte.setMonto(cuentaaporte.getSaldo());
+			transaccioncuentaaporte.setReferencia(null);
+			transaccioncuentaaporte.setSaldodisponible(cuentaaporte.getSaldo().subtract(transaccioncuentaaporte.getMonto()).getValue());
+			transaccioncuentaaporte.setTipomoneda(cuentaaporte.getTipomoneda());
+			transaccioncuentaaporte.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));
+			
+			transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja, transaccioncuentaaporte);
+			
+			//desactivar al socio y la cuenta de aportes
+			Socio socio = socioServiceLocal.find(cuentaaporte);
+					
+			socioServiceLocal.desactivarSocio(socio);
+				
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		}
+		return transaccioncuentaaporte;
 	}
 
 	

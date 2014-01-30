@@ -15,11 +15,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.socio.Socio;
 import org.ventura.tipodato.Moneda;
 
 @Entity

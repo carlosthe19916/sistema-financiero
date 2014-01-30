@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.ventura.boundary.remote.CuentaaporteServiceRemote;
+import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
+import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
@@ -58,5 +61,5 @@ public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 		
 		public List<AportesCuentaaporteView> getTableAportesPorpagar(Integer idcuentaaporte,Date startDate, Date endDate) throws Exception;
 		
-
+		public Transaccioncuentaaporte cancelarCuentaaporte(Caja caja, Cuentaaporte cuentaaporte, Date fechaCancelacion) throws Exception;
 }

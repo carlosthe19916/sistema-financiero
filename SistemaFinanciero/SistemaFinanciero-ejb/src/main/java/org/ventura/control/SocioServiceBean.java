@@ -221,6 +221,31 @@ public class SocioServiceBean implements SocioServiceLocal {
 	}
 
 	@Override
+	public Socio find(Cuentaaporte cuentaaporte) throws Exception {
+		Socio socio = null;
+		try {
+			Map<String,Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcuentaaporte", cuentaaporte.getIdcuentaaporte());			
+			List<Socio> resultList = findByNamedQuery(Socio.f_idcuentaaporte,parameters,2);
+			if(resultList.size() == 0){
+				socio = null;
+			} else {
+				if(resultList.size() == 1){
+					socio = resultList.get(0);
+				} else {
+					throw new PreexistingEntityException("Existen mas de un socio para la cuenta indicada");
+				}	
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return socio;	
+	}
+	
+	@Override
 	public void update(Socio socio) throws Exception {
 		try {
 			socioDAO.update(socio);
@@ -326,6 +351,28 @@ public class SocioServiceBean implements SocioServiceLocal {
 			throw new Exception("Error interno, inténtelo nuevamente");
 		}
 		return list;
+	}
+
+	@Override
+	public void desactivarSocio(Socio socio) throws Exception {
+		try {
+			socio = find(socio.getIdsocio());
+			Cuentaaporte cuentaaporte = socio.getCuentaaporte();
+			
+			//desactivar la cuenta de aportes
+			cuentaaporte.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
+			cuentaaporte.setFechacierre(Calendar.getInstance().getTime());
+			cuentaaporteDAO.update(cuentaaporte);
+			
+			//desactivar al socio
+			socio.setEstado(false);
+			socioDAO.update(socio);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		}
 	}
 
 	

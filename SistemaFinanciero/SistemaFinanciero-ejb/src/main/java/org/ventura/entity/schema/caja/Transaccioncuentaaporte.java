@@ -46,7 +46,7 @@ public class Transaccioncuentaaporte implements Serializable {
 	private Transaccioncaja transaccioncaja;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
+	@Column
 	private Date mesafecta;
 
 	@Embedded
