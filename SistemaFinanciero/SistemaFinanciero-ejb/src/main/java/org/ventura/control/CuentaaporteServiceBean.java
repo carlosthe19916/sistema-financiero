@@ -419,6 +419,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			
 			if(fechaInicioSocio.compareTo(beginCalendar.getTime()) > 0){
 				beginCalendar.setTime(fechaInicioSocio);
+				beginCalendar.set(Calendar.DAY_OF_MONTH, 1);
 			}
 			
 			
