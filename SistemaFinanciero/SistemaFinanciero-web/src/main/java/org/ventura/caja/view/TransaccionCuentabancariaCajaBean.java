@@ -44,6 +44,7 @@ import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipoTransaccionType;
 import org.ventura.util.maestro.TipocuentabancariaType;
+import org.ventura.util.maestro.TipodocumentoType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -135,6 +136,9 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 			comboTipomoneda.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE);
 			comboTipodocumento.initValuesFromNamedQueryName(Tipodocumento.All_active);
+			
+			Tipodocumento tipodocumento = ProduceObject.getTipodocumento(TipodocumentoType.DNI);
+			comboTipodocumento.setItemSelected(tipodocumento);
 		} catch (Exception e) {
 			isValidBean = false;
 			JsfUtil.addErrorMessage(e.getMessage());

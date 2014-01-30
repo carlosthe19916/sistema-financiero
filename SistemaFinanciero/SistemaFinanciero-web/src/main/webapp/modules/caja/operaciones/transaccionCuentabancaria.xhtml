@@ -494,7 +494,6 @@
 									<div>
 										<div>
 											<h:inputText onkeyup="this.value = this.value.toUpperCase();"
-												pt:placeholder="Apellido y Nombres / Razón Social"
 												value="#{transaccionCuentabancariaCajaBean.valorBusqueda}"
 												style="width: 250px;float: left;" />
 											&nbsp;
@@ -509,7 +508,7 @@
 											<h:selectOneMenu id="cmbTipoBusqueda"
 												value="#{transaccionCuentabancariaCajaBean.comboTipodocumento.itemSelected}"
 												requiredMessage="Seleccione un Tipo de Busueda">
-												<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+												<f:selectItem itemLabel="Ap. y Nombres / Razon Social" itemValue="" />
 												<f:selectItems
 													value="#{transaccionCuentabancariaCajaBean.comboTipodocumento.items.entrySet()}"
 													var="val" itemLabel="#{val.value.abreviatura}"
