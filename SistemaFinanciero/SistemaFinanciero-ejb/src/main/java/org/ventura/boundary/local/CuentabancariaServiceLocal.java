@@ -8,6 +8,7 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.CuentabancariaServiceRemote;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Personajuridica;
@@ -37,6 +38,8 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria, int periodo, BigDecimal tea, BigDecimal trea, Caja  caja) throws Exception;
 	
 	public Cuentabancaria cancelacionAnticipadaCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea, BigDecimal trea) throws Exception;
+	
+	public Transaccioncuentabancaria cancelarCuentaplazofijo(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception;;
 	
 	public List<Cuentabancaria> findAll() throws Exception;
 	

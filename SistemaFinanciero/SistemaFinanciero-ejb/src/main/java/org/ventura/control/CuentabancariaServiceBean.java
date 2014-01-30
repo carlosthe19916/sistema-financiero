@@ -1019,4 +1019,50 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		return result;
 	}
 
+	@Override
+	public Transaccioncuentabancaria cancelarCuentaplazofijo(Caja caja,Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception {
+		Transaccioncuentabancaria transaccioncuentabancaria = null;
+		try {
+			cuentabancaria = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+			
+			//generar interes de cuenta OLD
+			BigDecimal interes = getInteresGeneradoPlazofijo(cuentabancaria.getIdcuentabancaria());
+			BigDecimal capital = cuentabancaria.getSaldo().getValue();		
+			Interesdiario interesGenerado = new Interesdiario();
+			interesGenerado.setCapital(new Moneda(capital));
+			interesGenerado.setInteres(new Moneda(interes));
+			interesGenerado.setFecha(Calendar.getInstance().getTime());
+			interesGenerado.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());		
+			interesdiarioDAO.create(interesGenerado);
+						
+			//actualizar el saldo de la cuenta			
+			cuentabancaria.setSaldo(new Moneda(interes.add(capital)));
+			cuentabancariaDAO.update(cuentabancaria);
+			
+			//realizar la transaccion
+			transaccioncuentabancaria = new Transaccioncuentabancaria();
+			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
+			transaccioncuentabancaria.setEstado(true);
+			transaccioncuentabancaria.setMonto(cuentabancaria.getSaldo());
+			transaccioncuentabancaria.setSaldodisponible(cuentabancaria.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
+			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
+			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
+			transaccioncuentabancaria = transaccionCajaServiceLocal.createTransaccionCuentabancaria(caja, transaccioncuentabancaria);
+			
+			//cancelar la cuenta
+			cuentabancaria.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
+			cuentabancaria.setFechacierre(Calendar.getInstance().getTime());
+			
+			cuentabancariaDAO.update(cuentabancaria);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		}
+		return transaccioncuentabancaria;
+	}
+
+	
+
 }
