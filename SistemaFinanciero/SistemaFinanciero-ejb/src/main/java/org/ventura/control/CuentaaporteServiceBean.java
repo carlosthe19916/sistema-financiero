@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -407,19 +408,15 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			beginCalendar.setTime(startDate);
 			endCalendar.setTime(endDate);
 					
-			beginCalendar.set(Calendar.DATE, 1);		
-			beginCalendar.clear(Calendar.HOUR_OF_DAY);
-			beginCalendar.clear(Calendar.HOUR);
-			beginCalendar.clear(Calendar.MINUTE);
-			beginCalendar.clear(Calendar.SECOND);
-			beginCalendar.clear(Calendar.MILLISECOND);
+			beginCalendar.set(Calendar.DAY_OF_MONTH, 1);
+			endCalendar.set(Calendar.DAY_OF_MONTH, 1);
 			
-			endCalendar.set(Calendar.DATE, 1);
-			endCalendar.clear(Calendar.HOUR_OF_DAY);
-			endCalendar.clear(Calendar.HOUR);
-			endCalendar.clear(Calendar.MINUTE);
-			endCalendar.clear(Calendar.SECOND);
-			endCalendar.clear(Calendar.MILLISECOND);
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			String stringBeginDate =  sdf.format(beginCalendar.getTime());
+			String stringEndDate =  sdf.format(endCalendar.getTime());
+			
+			beginCalendar.setTime(sdf.parse(stringBeginDate));
+			endCalendar.setTime(sdf.parse(stringEndDate));
 			
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("idcuentaaporte", idcuentaaporte);

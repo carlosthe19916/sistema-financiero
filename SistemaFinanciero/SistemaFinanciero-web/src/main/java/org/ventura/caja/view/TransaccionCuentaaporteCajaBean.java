@@ -99,6 +99,8 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 		success = false;
 		failure = false;
 		dlgBusquedaCuentaOpen = false;
+		
+		monto = new Moneda("0.00");
 	}
 
 	@PostConstruct
