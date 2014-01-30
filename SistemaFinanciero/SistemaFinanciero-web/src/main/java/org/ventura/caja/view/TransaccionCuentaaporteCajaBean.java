@@ -144,6 +144,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 				if(tipotransaccion.equals(comboTipotransaccion.getObjectItemSelected())){
 					Tipomoneda tipomoneda = new Tipomoneda();
 					tipomoneda.setIdtipomoneda(cuentaaporteViewSelected.getIdTipomoneda());
+					this.tipomoneda = comboTipomoneda.getObjectItemSelected();
 					if (this.tipomoneda.equals(tipomoneda)) {
 						if(monto.isGreaterThan(new Moneda(BigDecimal.ZERO))){
 							AportesCuentaaporteView aportesCuentaaporteViewSelected;

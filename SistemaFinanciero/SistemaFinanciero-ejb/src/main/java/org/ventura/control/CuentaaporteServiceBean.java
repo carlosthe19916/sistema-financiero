@@ -401,13 +401,14 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 		List<AportesCuentaaporteView> aportesCuentaaporteViews;
 		try {				
 			Cuentaaporte cuentaaporte  = cuentaaporteDAO.find(idcuentaaporte);
-					
+			Date fechaInicioSocio = cuentaaporte.getFechaapertura();		
+			
 			//completando las fechas
 			Calendar beginCalendar = Calendar.getInstance();
 			Calendar endCalendar = Calendar.getInstance();
 			beginCalendar.setTime(startDate);
 			endCalendar.setTime(endDate);
-					
+			
 			beginCalendar.set(Calendar.DAY_OF_MONTH, 1);
 			endCalendar.set(Calendar.DAY_OF_MONTH, 1);
 			
@@ -417,6 +418,11 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			
 			beginCalendar.setTime(sdf.parse(stringBeginDate));
 			endCalendar.setTime(sdf.parse(stringEndDate));
+			
+			if(fechaInicioSocio.compareTo(beginCalendar.getTime()) < 0){
+				
+			}
+			
 			
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("idcuentaaporte", idcuentaaporte);
