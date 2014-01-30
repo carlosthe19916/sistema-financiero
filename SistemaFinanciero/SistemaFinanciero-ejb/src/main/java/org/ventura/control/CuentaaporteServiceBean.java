@@ -342,8 +342,6 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			parameters.put("endDate", endDate);
 			aportesCuentaaporteViews = aportesCuentaaporteViewDAO.findByNamedQuery(AportesCuentaaporteView.findBetweenDates,parameters);
 						
-			
-	
 			//completando las fechas
 			Calendar beginCalendar = Calendar.getInstance();
 			Calendar endCalendar = Calendar.getInstance();
@@ -419,8 +417,8 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			beginCalendar.setTime(sdf.parse(stringBeginDate));
 			endCalendar.setTime(sdf.parse(stringEndDate));
 			
-			if(fechaInicioSocio.compareTo(beginCalendar.getTime()) < 0){
-				
+			if(fechaInicioSocio.compareTo(beginCalendar.getTime()) > 0){
+				beginCalendar.setTime(fechaInicioSocio);
 			}
 			
 			
