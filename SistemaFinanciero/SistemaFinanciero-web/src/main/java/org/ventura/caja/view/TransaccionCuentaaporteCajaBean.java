@@ -44,6 +44,7 @@ import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipoTransaccionType;
+import org.ventura.util.maestro.TipodocumentoType;
 import org.venturabank.util.DateUtil;
 import org.venturabank.util.JsfUtil;
 
@@ -98,9 +99,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 		isCuentabancariaValid = true;
 		success = false;
 		failure = false;
-		dlgBusquedaCuentaOpen = false;
-		
-		monto = new Moneda("0.00");
+		dlgBusquedaCuentaOpen = false;		
 	}
 
 	@PostConstruct
@@ -131,6 +130,11 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 			
 			Tipomoneda tipomoneda = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 			comboTipomoneda.setItemSelected(tipomoneda);
+			Tipotransaccion tipotransaccion = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			comboTipotransaccion.setItemSelected(tipotransaccion);
+			Tipodocumento tipodocumento = ProduceObject.getTipodocumento(TipodocumentoType.DNI);
+			comboTipodocumento.setItemSelected(tipodocumento);
+			monto = new Moneda("10.00");
 		} catch (Exception e) {
 			isValidBean = false;
 			JsfUtil.addErrorMessage(e.getMessage());

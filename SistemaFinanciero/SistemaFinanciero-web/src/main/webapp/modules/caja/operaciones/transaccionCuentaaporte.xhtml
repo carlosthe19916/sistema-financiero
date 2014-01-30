@@ -523,8 +523,8 @@
 													<h:selectOneMenu id="cmbTipoBusqueda"
 														value="#{transaccionCuentaaporteCajaBean.comboTipodocumento.itemSelected}"
 														valueChangeListener="#{transaccionCuentaaporteCajaBean.changeTipobusqueda}"
-														requiredMessage="Seleccione un Tipo de Busueda">
-														<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+														requiredMessage="Seleccione un Tipo de Busqueda">
+														<f:selectItem itemLabel="Apellidos y nombres/razon social" itemValue="" />
 														<f:selectItems
 															value="#{transaccionCuentaaporteCajaBean.comboTipodocumento.items.entrySet()}"
 															var="val" itemLabel="#{val.value.abreviatura}"
