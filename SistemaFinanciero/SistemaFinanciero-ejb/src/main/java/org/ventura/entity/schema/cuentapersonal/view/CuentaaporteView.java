@@ -43,6 +43,12 @@ public class CuentaaporteView implements Serializable {
 	@Column(name = "id_socio")
 	private Integer idSocio;
 	
+	@Column(name = "id_apoderado")
+	private Integer idApoderado;
+	
+	@Column(name = "apoderado")
+	private String apoderado;
+	
 	@Column(name = "edad_titular")
 	private Integer edadTitular;
 	
@@ -271,6 +277,22 @@ public class CuentaaporteView implements Serializable {
 
 	public void setEdadTitular(Integer edadTitular) {
 		this.edadTitular = edadTitular;
+	}
+
+	public Integer getIdApoderado() {
+		return idApoderado;
+	}
+
+	public void setIdApoderado(Integer idApoderado) {
+		this.idApoderado = idApoderado;
+	}
+
+	public String getApoderado() {
+		return apoderado;
+	}
+
+	public void setApoderado(String apoderado) {
+		this.apoderado = apoderado;
 	}
 
 }
