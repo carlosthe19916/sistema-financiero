@@ -23,7 +23,19 @@
 		<ui:define name="content">
 
 			<h:outputStylesheet library="css" name="main.css" />
-			
+
+			<h:panelGroup rendered="#{cancelacionCuentaaporteBean.failure}">
+				<div class="p6n-api-access-in-page-error" style="left: 416px;">
+					<div>
+						<div>
+							<p>
+								<h:messages />
+							</p>
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+
 			<div style="margin-left: 50px;">
 				<br />
 				<div class="p6n-api-consent-screen-title">Cancelacion cuenta

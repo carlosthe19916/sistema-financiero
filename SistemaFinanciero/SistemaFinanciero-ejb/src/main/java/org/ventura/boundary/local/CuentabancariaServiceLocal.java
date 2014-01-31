@@ -14,7 +14,6 @@ import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
-import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 
@@ -55,18 +54,10 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public List<CuentabancariaView> findCuentabancariaView(Tipodocumento tipodocumento, String campoBusqueda) throws Exception;
 	
-	public List<CuentabancariaView> findCuentabancariaView(String campoBusqueda) throws Exception;
-	
-	public List<CuentabancariaView> findCuentabancariaViewByDni(String dni) throws Exception;
-	
-	public List<CuentabancariaView> findCuentabancariaViewByRuc(String ruc) throws Exception;
+	public List<CuentabancariaView> findCuentabancariaView(String campoBusqueda) throws Exception;		
 	
 	public List<CuentabancariaView> findCuentabancariaViewByNombre(String nombre) throws Exception;
-	
-	public List<CuentabancariaView> findCuentabancariaViewByRazonsocial(String razonsocial) throws Exception;
-	
-	public List<CuentabancariaView> findByDni(String dni) throws Exception;
-	
+		
 	public BigDecimal getInteresGeneradoPlazofijo(Integer idcuentaplazofijo) throws Exception;
 	
 }

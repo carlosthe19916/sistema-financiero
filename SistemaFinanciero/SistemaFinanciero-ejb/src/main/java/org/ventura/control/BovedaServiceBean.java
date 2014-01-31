@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -96,43 +97,24 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	@Override
 	public Boveda create(Boveda boveda) throws Exception {
 		try {
-			preCreateBoveda(boveda);
+			String denominacionBoveda = boveda.getDenominacion();			
+			if (denominacionBoveda == null || denominacionBoveda.isEmpty() || denominacionBoveda.trim().isEmpty()) {
+				throw new Exception("Denominación de Bóveda Inválida");
+			}			
+
+			boveda.setEstado(true);
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+			boveda.setEstadoapertura(estadoapertura);
+			
 			bovedaDAO.create(boveda);
-		} catch (EntityExistsException | IllegalArgumentException
-				| TransactionRequiredException e) {
-			boveda.setIdboveda(null);
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			throw e;
 		} catch (Exception e) {
 			boveda.setIdboveda(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+			throw e;
 		}
 		return boveda;
-	}
-
-	public void preCreateBoveda(Boveda boveda) throws Exception {
-		String denominacionBoveda = boveda.getDenominacion();
-		Tipomoneda tipomoneda = boveda.getTipomoneda();
-		Agencia agencia = boveda.getAgencia();
-
-		if (denominacionBoveda == null || denominacionBoveda.isEmpty()
-				|| denominacionBoveda.trim().isEmpty()) {
-			throw new Exception("Denominación de Bóveda Inválida");
-		}
-		if (tipomoneda == null) {
-			throw new Exception("Tipo de Moneda Invalida");
-		}
-		if (agencia == null) {
-			throw new Exception("Agencia Invalida");
-		}
-
-		boveda.setEstado(true);
-		Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
-		boveda.setEstadoapertura(estadoapertura);
 	}
 
 	@Override
@@ -144,7 +126,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		return boveda;
 	}
@@ -157,7 +139,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 	}
 
@@ -169,7 +151,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 	}
 
@@ -273,7 +255,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Abrir la Boveda");
+			throw new EJBException(e);
 		}
 	}
 
@@ -328,7 +310,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Cerrar la Boveda");
+			throw new EJBException(e);
 		}
 	}
 	
@@ -337,11 +319,9 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		try {
 			Boveda boveda = find(oBoveda.getIdboveda());
 			Historialboveda historialboveda = getHistorialbovedaLastActive(boveda);
-			Estadomovimiento estadomovimientoNew = ProduceObject
-					.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
+			Estadomovimiento estadomovimientoNew = ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO);
 			if (historialboveda != null) {
-				setEstadomovimientoHistorialboveda(historialboveda,
-						estadomovimientoNew);
+				setEstadomovimientoHistorialboveda(historialboveda,estadomovimientoNew);
 			} else {
 				throw new Exception("No se puede congelar/decongelar boveda");
 			}
@@ -350,7 +330,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw e;
+			throw new EJBException(e);
 		}
 	}
 
@@ -359,11 +339,9 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		try {
 			Boveda boveda = find(oBoveda.getIdboveda());
 			Historialboveda historialboveda = getHistorialbovedaLastActive(boveda);
-			Estadomovimiento estadomovimientoNew = ProduceObject
-					.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO);
+			Estadomovimiento estadomovimientoNew = ProduceObject.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO);
 			if (historialboveda != null) {
-				setEstadomovimientoHistorialboveda(historialboveda,
-						estadomovimientoNew);
+				setEstadomovimientoHistorialboveda(historialboveda,estadomovimientoNew);
 			} else {
 				throw new Exception("No se puede congelar/decongelar boveda");
 			}
@@ -371,7 +349,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw e;
+			throw new EJBException(e);
 		}
 	}
 	
@@ -400,9 +378,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("boveda", boveda);
 
-		List<Historialboveda> historialbovedaList = historialbovedaDAO
-				.findByNamedQuery(Historialboveda.findLastHistorialNoActive,
-						parameters);
+		List<Historialboveda> historialbovedaList = historialbovedaDAO.findByNamedQuery(Historialboveda.findLastHistorialNoActive,parameters);
 		if (historialbovedaList.size() == 0) {
 			historialboveda = null;
 		}
@@ -456,7 +432,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se obtener el detalle de la boveda");
+			throw new EJBException(e);
 		}
 	}
 	
@@ -500,7 +476,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se obtener el detalle de la boveda");
+			throw new EJBException(e);
 		}
 	}
 	
@@ -545,7 +521,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se obtener el detalle de la boveda");
+			throw new EJBException(e);
 		}
 	}
 
@@ -930,7 +906,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw e;
+			throw new EJBException(e);
 		}
 		return transaccionboveda;
 	}

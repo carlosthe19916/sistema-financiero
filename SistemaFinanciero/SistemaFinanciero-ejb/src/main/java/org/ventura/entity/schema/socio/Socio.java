@@ -6,11 +6,13 @@ import javax.persistence.*;
 
 import org.ventura.entity.listener.SocioListener;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.sucursal.Agencia;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * The persistent class for the socio database table.
@@ -79,6 +81,9 @@ public class Socio implements Serializable {
 	@JoinColumn(name = "idcuentaaporte", nullable = false)
 	private Cuentaaporte cuentaaporte;
 
+	@OneToMany(mappedBy="socio")
+	private List<Cuentabancaria> cuentasbancarias;
+	
 	public Socio() {
 	}
 
@@ -158,5 +163,13 @@ public class Socio implements Serializable {
 
 	public void setApoderado(Personanatural apoderado) {
 		this.apoderado = apoderado;
+	}
+
+	public List<Cuentabancaria> getCuentasbancarias() {
+		return cuentasbancarias;
+	}
+
+	public void setCuentasbancarias(List<Cuentabancaria> cuentasbancarias) {
+		this.cuentasbancarias = cuentasbancarias;
 	}
 }

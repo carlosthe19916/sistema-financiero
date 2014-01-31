@@ -17,7 +17,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
-import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
@@ -35,7 +34,6 @@ import org.ventura.dao.impl.SocioDAO;
 import org.ventura.dao.impl.TitularcuentaDAO;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
-import org.ventura.entity.schema.caja.Transaccioncaja;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
@@ -159,24 +157,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public List<CuentabancariaView> findByDni(String dni) throws Exception {
-		List<CuentabancariaView> cuentabancariaViews;
-		try {
-			 Map<String, Object> parameters = new HashMap<String, Object>();
-			 parameters.put("dni", "%" + dni + "%");
-
-			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeDni,parameters,100);
-
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw e;
-		}
-		return cuentabancariaViews;
-	}
-
-	@Override
 	public CuentabancariaView findCuentabancariaViewByNumerocuenta(String numerocuenta) throws Exception {
 		CuentabancariaView cuentabancaria;
 		try {
@@ -203,42 +183,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public List<CuentabancariaView> findCuentabancariaViewByDni(String dni) throws Exception {
-		List<CuentabancariaView> cuentabancariaViews = null;
-		try {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("dni","%" +dni+ "%" );
-
-			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeDni,parameters,100);
-			
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw e;
-		}
-		return cuentabancariaViews;
-	}
-
-	@Override
-	public List<CuentabancariaView> findCuentabancariaViewByRuc(String ruc) throws Exception {
-		List<CuentabancariaView> cuentabancariaViews = null;
-		try {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("ruc", "%" + ruc + "%");
-
-			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeRuc,parameters,100);
-			
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw e;
-		}
-		return cuentabancariaViews;
-	}
-
-	@Override
 	public List<CuentabancariaView> findCuentabancariaViewByNombre(String nombre) throws Exception {
 		List<CuentabancariaView> cuentabancariaViews = null;
 		try {
@@ -246,24 +190,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			parameters.put("nombres", "%" + nombre + "%");
 
 			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeNombre,parameters,100);
-			
-		} catch (Exception e) {
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw e;
-		}
-		return cuentabancariaViews;
-	}
-
-	@Override
-	public List<CuentabancariaView> findCuentabancariaViewByRazonsocial(String razonsocial) throws Exception {
-		List<CuentabancariaView> cuentabancariaViews = null;
-		try {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("razonsocial", "%" + razonsocial + "%");
-
-			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.findByLikeRazonsocial,parameters,100);
 			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
@@ -338,7 +264,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		} 	
 	}
 
@@ -437,7 +363,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		} 	
 	}
 
@@ -493,7 +419,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		} 	
 	}
 
@@ -549,7 +475,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		} 
 	}
 	
@@ -626,7 +552,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		} 	
 	}
 
@@ -689,7 +615,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		} 
 	}
 
@@ -938,7 +864,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		}		
 		return cuentabancariaNew;
 	}
@@ -990,7 +916,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		}		
 		return cuentabancariaBD;
 	}
@@ -1014,7 +940,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		}		
 		return result;
 	}
@@ -1082,7 +1008,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		}
 		return transaccioncuentabancaria;
 	}

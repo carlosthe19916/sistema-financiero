@@ -10,6 +10,8 @@ import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.ViewvouchercompraventaView;
 import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 
 @Local
 public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemote{
@@ -31,4 +33,18 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	public Transaccioncompraventa find(Object id) throws Exception;
 	
 	public void extornarTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
+	
+	/**
+	 * Operaciones transaccionales*/
+	
+	public Transaccioncuentabancaria deposito(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
+	
+	public Transaccioncuentabancaria retiro(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
+	
+	public Transaccioncuentaaporte deposito(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
+	
+	public Transaccioncuentaaporte retiro(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
+	
+	/**
+	 * Operaciones no transaccionales**/
 }

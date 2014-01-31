@@ -43,6 +43,7 @@ public class Transaccioncuentabancaria implements Serializable {
 	@Column(length = 250)
 	private String referencia;
 	
+	@Column
 	private boolean estado;
 	
 	@Embedded
@@ -133,7 +134,7 @@ public class Transaccioncuentabancaria implements Serializable {
 		this.tipomoneda = tipomoneda;
 	}
 
-	public boolean isEstado() {
+	public boolean getEstado() {
 		return estado;
 	}
 

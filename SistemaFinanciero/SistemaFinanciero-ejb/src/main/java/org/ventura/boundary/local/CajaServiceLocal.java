@@ -12,6 +12,8 @@ import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Historialcaja;
+import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
+import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.RollbackFailureException;
@@ -56,5 +58,12 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	public Map<Integer, Moneda> compareSaldoTotalCajaDolares(Caja caja) throws Exception;
 	
 	public Map<Integer, Moneda> compareSaldoTotalCajaEuros(Caja caja) throws Exception;
+	
+	/**
+	 * Transaccional**/
+	
+	public void updateSaldo(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
+	
+	public void updateSaldo(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
 	
 }

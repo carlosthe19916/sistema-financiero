@@ -28,6 +28,8 @@ import org.ventura.dao.impl.ViewSocioPJDAO;
 import org.ventura.dao.impl.ViewSocioPNDAO;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
+import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.socio.Socio;
@@ -359,6 +361,23 @@ public class SocioServiceBean implements SocioServiceLocal {
 			socio = find(socio.getIdsocio());
 			Cuentaaporte cuentaaporte = socio.getCuentaaporte();
 			
+			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);
+			List<Cuentabancaria> cuentabancarias = getCuentasBancarias(socio);
+			String mensajeErrorCuentasbancariasActivas = "No se puede desactivar al Socio; Cuentas activas:\n";
+			boolean existeCuentasActivas = false;
+			for (Cuentabancaria cuentabancaria : cuentabancarias) {
+				if(!estadocuenta.equals(cuentabancaria.getEstadocuenta())){		
+					existeCuentasActivas = true;
+					mensajeErrorCuentasbancariasActivas = mensajeErrorCuentasbancariasActivas + 
+							" -Cuenta:" + cuentabancaria.getTipocuentabancaria().getDenominacion() 
+							+ " Numero:" + cuentabancaria.getNumerocuenta() + "\n";
+				}
+			}
+			if(existeCuentasActivas == true){
+				mensajeErrorCuentasbancariasActivas = mensajeErrorCuentasbancariasActivas + "desactive las cuentas primero";
+				throw new Exception(mensajeErrorCuentasbancariasActivas);
+			}
+					
 			//desactivar la cuenta de aportes
 			cuentaaporte.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
 			cuentaaporte.setFechacierre(Calendar.getInstance().getTime());
@@ -373,6 +392,21 @@ public class SocioServiceBean implements SocioServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw new EJBException(e);
 		}
+	}
+
+	@Override
+	public List<Cuentabancaria> getCuentasBancarias(Socio socio) throws Exception {
+		List<Cuentabancaria> list = null;
+		try {
+			Socio obj = find(socio.getIdsocio());
+			list = obj.getCuentasbancarias();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		}
+		return list;
 	}
 
 	

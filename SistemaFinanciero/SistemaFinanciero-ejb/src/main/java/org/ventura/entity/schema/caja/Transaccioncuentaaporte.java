@@ -125,7 +125,7 @@ public class Transaccioncuentaaporte implements Serializable {
 		this.monto = monto;
 	}
 
-	public boolean isEstado() {
+	public boolean getEstado() {
 		return estado;
 	}
 
