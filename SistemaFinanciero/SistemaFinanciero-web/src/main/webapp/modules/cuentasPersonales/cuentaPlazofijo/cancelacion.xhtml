@@ -457,6 +457,10 @@
 																style="font-size: 11px; width:70px;">
 																<h:outputText value="#{cuenta.numeroDocumento}" />
 															</p:column>
+															<p:column headerText="Saldo">
+																<h:outputText
+																	value="#{cuenta.abreviaturaTipomomeda}#{cuenta.saldoCuentabancaria}" />
+															</p:column>
 														</p:dataTable>
 													</div>
 												</div>

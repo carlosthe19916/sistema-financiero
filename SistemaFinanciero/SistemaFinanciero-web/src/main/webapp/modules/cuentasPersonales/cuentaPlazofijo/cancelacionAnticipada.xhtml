@@ -41,7 +41,8 @@
 					<div style="margin-left: 50px;">
 						<div>
 							<div>
-								<div class="p6n-api-consent-screen-title">RECALCULO CUENTA PLAZO FIJO</div>
+								<div class="p6n-api-consent-screen-title">RECALCULO CUENTA
+									PLAZO FIJO</div>
 								<div class="p6n-api-consent-screen-inputs">
 									<h:form>
 										<div class="p6n-api-consent-screen-input-section">
@@ -155,6 +156,10 @@
 																				<p:column headerText="Nro Documento">
 																					<h:outputText
 																						value="#{cuenta.abreviaturaTipodocumento}: #{cuenta.numeroDocumento}" />
+																				</p:column>
+																				<p:column headerText="Saldo">
+																					<h:outputText
+																						value="#{cuenta.abreviaturaTipomomeda}#{cuenta.saldoCuentabancaria}" />
 																				</p:column>
 																			</p:dataTable>
 																		</div>
