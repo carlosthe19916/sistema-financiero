@@ -511,7 +511,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(new Moneda(monto));
 			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO));
-			transaccionCajaServiceLocal.createTransaccionCuentabancaria(caja, transaccioncuentabancaria);
+			transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria);
 			
 			//crear titulares y beneficiarios
 			cuentabancaria.setTitulares(listTitulares);
@@ -541,12 +541,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
 			
 			return cuentabancaria;
-		} catch (IllegalEntityException | PreexistingEntityException e) {		
-			cuentabancaria.setIdcuentabancaria(null);
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception(e.getMessage());	
 		} catch (Exception e) {
 			cuentabancaria.setIdcuentabancaria(null);
 			log.error("Exception:" + e.getClass());
@@ -783,7 +777,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			
 			//actualizar datos de cuenta OLD			
 			cuentabancariaOld.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
-			/*cuentabancariaOld.setSaldo(new Moneda());*/
 			cuentabancariaDAO.update(cuentabancariaOld);
 			
 			//crear la nueva cuenta a Plazo fijo
@@ -793,8 +786,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.DATE, periodo);
 			Date fechaCierre = calendar.getTime();
-			
-			BigDecimal saldo = interes.add(capital);
 			
 			cuentabancariaNew.setTipocuentabancaria(tipocuentabancaria);
 			cuentabancariaNew.setSocio(cuentabancariaOld.getSocio());
@@ -997,7 +988,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(cuentabancaria.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
 			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
-			transaccioncuentabancaria = transaccionCajaServiceLocal.createTransaccionCuentabancaria(caja, transaccioncuentabancaria);
+			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria);
 			
 			//cancelar la cuenta
 			cuentabancaria.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));

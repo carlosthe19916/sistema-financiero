@@ -163,7 +163,18 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 								transaccioncuentabancaria.setReferencia(referencia);
 								transaccioncuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
 				
-								this.transaccioncuentabancaria = transaccionCajaServiceLocal.createTransaccionCuentabancaria(caja,transaccioncuentabancaria);
+								Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();								
+								TipoTransaccionType tipoTransaccionType = ProduceObject.getTipotransaccion(tipotransaccion);
+								switch (tipoTransaccionType) {
+								case DEPOSITO:
+									this.transaccioncuentabancaria = transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria);
+									break;
+								case RETIRO:
+									this.transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria);
+									break;
+								default:
+									break;
+								}								
 								success = true;
 								cargarVoucher();
 							} catch (Exception e) {
