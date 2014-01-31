@@ -1024,6 +1024,30 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		Transaccioncuentabancaria transaccioncuentabancaria = null;
 		try {
 			cuentabancaria = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+				
+			Date fechaAperturaCuenta = cuentabancaria.getFechaapertura();
+			Date fechaVencimientoCuenta = cuentabancaria.getFechacierre();
+			
+			Calendar calendarVencimiento = Calendar.getInstance();
+			calendarVencimiento.setTime(fechaVencimientoCuenta);
+			fechaVencimientoCuenta = calendarVencimiento.getTime();
+			
+			Calendar calendarRenovacion = Calendar.getInstance();
+			calendarRenovacion.set(Calendar.HOUR_OF_DAY, 0);
+			calendarRenovacion.set(Calendar.MINUTE, 0);
+			calendarRenovacion.set(Calendar.SECOND, 0);
+			calendarRenovacion.set(Calendar.MILLISECOND, 0);
+			Date fechaRenovacion = calendarRenovacion.getTime();
+			
+			if(fechaAperturaCuenta.compareTo(fechaRenovacion) == -1){
+				if(calendarRenovacion.compareTo(calendarVencimiento) == 1){
+					
+				} else {
+					throw new Exception("La cuenta no puede ser cancelada porque no vencio aun");
+				}
+			} else {
+				throw new Exception("La cuenta no puede ser cancelada porque no vencio aun");
+			}
 			
 			//generar interes de cuenta OLD
 			BigDecimal interes = getInteresGeneradoPlazofijo(cuentabancaria.getIdcuentabancaria());

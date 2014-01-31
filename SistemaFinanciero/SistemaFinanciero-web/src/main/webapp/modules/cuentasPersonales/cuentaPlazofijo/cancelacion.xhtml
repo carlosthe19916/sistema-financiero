@@ -69,7 +69,7 @@
 										</div>
 									</div>
 								</div>
-								<div style="display: inline-block;width: 300px;">
+								<div style="display: inline-block; width: 300px;">
 									<div class="p6n-api-consent-screen-label">DOCUMENTO</div>
 									<div>
 										<div>
@@ -186,7 +186,9 @@
 									<div class="p6n-api-consent-screen-label">FECHA CIERRE</div>
 									<div>
 										<div>
-											<label></label>
+											<h:outputLabel
+												value="#{cancelacionCuentaplazofijoBean.cuentabancariaView.fechacierreCuentabancaria}"
+												styleClass="sf-label-bold" />
 										</div>
 									</div>
 								</div>
@@ -194,7 +196,9 @@
 									<div class="p6n-api-consent-screen-label">PERIODO</div>
 									<div>
 										<div>
-											<label></label>
+											<h:outputLabel
+												value="#{cancelacionCuentaplazofijoBean.periodoCuenta}"
+												styleClass="sf-label-bold" />
 										</div>
 									</div>
 								</div>
