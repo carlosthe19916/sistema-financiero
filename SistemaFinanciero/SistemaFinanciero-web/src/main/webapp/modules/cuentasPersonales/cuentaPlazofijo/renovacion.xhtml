@@ -340,6 +340,39 @@
 												</div>
 											</div>
 										</div>
+
+										<div class="p6n-api-consent-screen-input-section">
+											<div
+												style="display: inline-block; width: 600px; vertical-align: top;">
+												<div class="p6n-api-consent-screen-label"
+													style="width: 150px;">TITULARES</div>
+												<div style="width: 450px;">
+													<h:dataTable
+														value="#{renovarCuentaplazofijoBean.cuentabancaria.titulares}"
+														var="titular">
+														<h:column>
+										#{titular.personanatural.apellidopaterno}&nbsp;#{titular.personanatural.apellidomaterno}, #{titular.personanatural.nombres}
+													</h:column>
+														<h:column>
+														&nbsp;|&nbsp;
+														#{titular.personanatural.tipodocumento.abreviatura}:#{titular.personanatural.numerodocumento}
+													</h:column>
+													</h:dataTable>
+												</div>
+											</div>
+											<div style="display: inline-block; width: 300px;">
+												<div class="p6n-api-consent-screen-label">CANT.
+													RETIRANTES</div>
+												<div>
+													<div>
+														<h:outputLabel
+															value="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected.cantidadretirantesCuentabancaria}"
+															styleClass="sf-label-bold" />
+													</div>
+												</div>
+											</div>
+										</div>
+
 										<br />
 
 										<div class="sf-separator">
