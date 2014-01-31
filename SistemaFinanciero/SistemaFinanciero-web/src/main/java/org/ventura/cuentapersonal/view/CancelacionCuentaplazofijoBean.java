@@ -46,6 +46,7 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 	private BigDecimal treaCuenta;
 	private BigDecimal teaCuenta;
 	private CuentabancariaView cuentabancariaView;
+	private Cuentabancaria cuentabancaria;
 	private Date fechaCancelacion;
 	private Transaccioncuentabancaria transaccioncuentabancaria;
 	private VouchercajaView vouchercajaView;
@@ -137,6 +138,8 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 	public void setCuentabancariaSelected(){
 		if(cuentabancariaView != null){
 			try {
+				this.cuentabancaria = cuentabancariaServiceLocal.find(cuentabancariaView.getIdCuentabancaria());
+				
 				interesCuenta = cuentabancariaServiceLocal.getInteresGeneradoPlazofijo(cuentabancariaView.getIdCuentabancaria());
 				totalCuenta = interesCuenta.add(cuentabancariaView.getSaldoCuentabancaria());
 				
@@ -168,8 +171,7 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 				teaCuenta = teaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
 				treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
 			} catch (Exception e) {
-				JsfUtil.addErrorMessage(e, e.getMessage());
-				e.printStackTrace();
+				JsfUtil.addErrorMessage(e, e.getMessage());			
 			}
 		}	
 		setDialogOpen(false);
@@ -304,6 +306,14 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 
 	public void setInteresCuenta(BigDecimal interesCuenta) {
 		this.interesCuenta = interesCuenta;
+	}
+
+	public Cuentabancaria getCuentabancaria() {
+		return cuentabancaria;
+	}
+
+	public void setCuentabancaria(Cuentabancaria cuentabancaria) {
+		this.cuentabancaria = cuentabancaria;
 	}
 	
 	

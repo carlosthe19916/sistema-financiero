@@ -15,7 +15,7 @@
 
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
-			<h:outputText value="Cancelacion anticipada Cta. Plazo fijo" />
+			<h:outputText value="Recalculo Cta. Plazo fijo" />
 		</ui:define>
 
 		<!-- Definiendo el cuerpo de la pagina -->
@@ -41,8 +41,7 @@
 					<div style="margin-left: 50px;">
 						<div>
 							<div>
-								<div class="p6n-api-consent-screen-title">CANCELACION
-									ANTICIPADA CUENTA PLAZO FIJO</div>
+								<div class="p6n-api-consent-screen-title">RECALCULO CUENTA PLAZO FIJO</div>
 								<div class="p6n-api-consent-screen-inputs">
 									<h:form>
 										<div class="p6n-api-consent-screen-input-section">
@@ -327,6 +326,37 @@
 
 													<h:outputLabel value=" dias"
 														rendered="#{cancelacionAnticipadaCuentaplazofijoBean.periodoCuenta != null}" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div
+											style="display: inline-block; width: 600px; vertical-align: top;">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 150px;">TITULARES</div>
+											<div style="width: 450px;">
+												<h:dataTable
+													value="#{cancelacionAnticipadaCuentaplazofijoBean.cuentabancaria.titulares}"
+													var="titular">
+													<h:column>
+										#{titular.personanatural.apellidopaterno}&nbsp;#{titular.personanatural.apellidomaterno}, #{titular.personanatural.nombres}
+													</h:column>
+													<h:column>
+														&nbsp;|&nbsp;
+														#{titular.personanatural.tipodocumento.abreviatura}:#{titular.personanatural.numerodocumento}
+													</h:column>
+												</h:dataTable>
+											</div>
+										</div>
+										<div style="display: inline-block; width: 300px;">
+											<div class="p6n-api-consent-screen-label">CANT.
+												RETIRANTES</div>
+											<div>
+												<div>
+													<h:outputLabel
+														value="#{cancelacionAnticipadaCuentaplazofijoBean.cuentabancariaViewSelected.cantidadretirantesCuentabancaria}"
+														styleClass="sf-label-bold" />
 												</div>
 											</div>
 										</div>
