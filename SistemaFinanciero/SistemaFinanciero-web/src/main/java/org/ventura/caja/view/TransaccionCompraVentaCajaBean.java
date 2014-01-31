@@ -279,9 +279,11 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	public String extornarTransaccionCompraVenta(){
 		try {
 			Transaccioncompraventa transaccioncompraventa;
+			Caja cajas;
 			transaccioncompraventa = transaccionCompraVentaServiceLocal.find(voucherCompraVenta.getIdTransaccioncompraventa());
 			transaccioncompraventa.setEstado(false);
-			transaccionCompraVentaServiceLocal.extornarTransaccionCompraVenta(transaccioncompraventa);
+			cajas = cajaServiceLocal.find(voucherCompraVenta.getIdCaja());
+			transaccionCompraVentaServiceLocal.extornarTransaccionCompraVenta(cajas, transaccioncompraventa);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, "Error al extornar la transacción");
 			return "failure";

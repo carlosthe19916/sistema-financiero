@@ -20,6 +20,38 @@
 		<!-- Definiendo el cuerpo de la pagina -->
 		<ui:define name="content">
 			<h:outputStylesheet library="css" name="main.css" />
+			
+			<div class="p6n-content ng-scope">
+			<div class="p6n-project-dashboard ng-scope">
+				<div class="p6n-project-detail-pane">
+						<div class="p6n-project-detail-samples-pane">
+							<div class="p6n-project-detail-samples-welcome"
+								style="margin-top: 50px; font-weight: bold; font-size: 18px; color: red;"></div>
+							<table>
+								<tr>
+									<td colspan="1"
+										style="width: 44%; font-size: 13px; text-align: CENTER;">
+										<h3 style="font-weight: bold; font-size: 16px; color: red;">TRANSACCIONES
+											BANCARIAS</h3> <br /><br /><br /> <p:graphicImage name="tr.jpg"
+											library="images/caja" />
+									</td>
+
+									<td colspan="1" style="width: 2%;"></td>
+
+									<td colspan="1"
+										style="width: 44%; font-size: 13px; text-align: center;">
+										<h3 style="font-weight: bold; font-size: 16px; color: red;">COMPRA
+											Y VENTA DE MONEDA EXTRANJERA</h3> <br /> <p:graphicImage
+											name="cv.jpg" library="images/caja" />
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!-- ngIf: showEnableBillingForGCE -->
+				</div>
+			</div>
+		</div>
+			
 		</ui:define>
 
 	</ui:composition>

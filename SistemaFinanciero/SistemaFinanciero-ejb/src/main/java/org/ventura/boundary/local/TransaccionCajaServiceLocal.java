@@ -30,5 +30,5 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	
 	public Transaccioncompraventa find(Object id) throws Exception;
 	
-	public void extornarTransaccionCompraVenta(Transaccioncompraventa transaccioncompraventa) throws Exception;
+	public void extornarTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
 }

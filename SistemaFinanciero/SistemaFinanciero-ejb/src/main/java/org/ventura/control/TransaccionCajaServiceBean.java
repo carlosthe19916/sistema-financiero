@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -380,6 +381,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja,
 			Transaccioncompraventa transaccioncompraventa) throws Exception {
 		try {
+			boolean extornar = false;
 			Transaccioncaja transaccioncaja = new Transaccioncaja();
 			transaccioncaja.setFecha(Calendar.getInstance().getTime());
 			transaccioncaja.setHora(Calendar.getInstance().getTime());
@@ -391,9 +393,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncompraventaDAO.create(transaccioncompraventa);
 
 			//actualizando saldo de caja TipomonedaType tipomonedaRecibido
-			actualizarMontoEntregadoCaja(caja, transaccioncompraventa); 
-			actualizarMontoRecibidoCaja(caja, transaccioncompraventa);
-			
+			actualizarMontoEntregadoCaja(caja, transaccioncompraventa, extornar); 
+			actualizarMontoRecibidoCaja(caja, transaccioncompraventa, extornar);
 		} catch (Exception e) {
 			transaccioncompraventa.setIdtransaccioncompraventa(null);
 			log.error("Exception:" + e.getClass());
@@ -405,20 +406,23 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 	
 	@Override
-	public void extornarTransaccionCompraVenta(Transaccioncompraventa transaccioncompraventa) throws Exception{
+	public void extornarTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception{
 		try {
+			boolean extornar = true;
+			//actualizando saldo de caja TipomonedaType tipomonedaRecibido
+			actualizarMontoEntregadoCaja(caja, transaccioncompraventa, extornar); 
+			actualizarMontoRecibidoCaja(caja, transaccioncompraventa, extornar);
 			transaccioncompraventaDAO.update(transaccioncompraventa);
 		} catch (Exception e) {
-			transaccioncompraventa.setIdtransaccioncompraventa(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo extornar la transacción compra venta");
+			throw new EJBException(e);
 		}
 	}
 	
 	// actualizar el saldo de boveda caja con el monto recibido
-	public void actualizarMontoRecibidoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception {
+	public void actualizarMontoRecibidoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa, boolean extornar) throws Exception {
 		try {
 			TipomonedaType tipomonedaRecibido = ProduceObject.getTipomoneda(transaccioncompraventa.getTipomonedaRecibido());
 			Tipomoneda tipomonedaRecibidaCV = transaccioncompraventa.getTipomonedaRecibido();
@@ -442,14 +446,29 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 				switch (tipomonedaRecibido) {
 				case NUEVO_SOL:
-					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoRecibido));
-					break;
+					if (extornar != true) {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoRecibido));
+						break;
+					}else {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoRecibido));
+						break;
+					}
 				case DOLAR:
-					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoRecibido));
-					break;
+					if (extornar != true) {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoRecibido));
+						break;
+					}else {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoRecibido));
+						break;
+					}
 				case EURO:
-					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoRecibido));
-					break;
+					if (extornar != true) {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoRecibido));
+						break;
+					}else {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoRecibido));
+						break;
+					}
 				default:
 					throw new Exception("Este tipo de moneda no esta registrado");
 				}
@@ -465,12 +484,12 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo actualizar el monto recibido");
+			throw new EJBException(e);
 		}
 	}
 	
 	// actualizar el saldo de boveda caja con el monto Entregado
-	public void actualizarMontoEntregadoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception{
+	public void actualizarMontoEntregadoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa, boolean extornar) throws Exception{
 		try {
 			TipomonedaType tipomonedaEntregado = ProduceObject.getTipomoneda(transaccioncompraventa.getTipomonedaEntregado());
 			Tipomoneda tipomonedaEntregadaCV = transaccioncompraventa.getTipomonedaEntregado();
@@ -494,14 +513,29 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 				switch (tipomonedaEntregado) {
 				case NUEVO_SOL:
-					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoEntregado));
-					break;
+					if (extornar != true) {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoEntregado));
+						break;
+					}else {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoEntregado));
+						break;
+					}
 				case DOLAR:
-					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoEntregado));
-					break;
+					if (extornar != true) {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoEntregado));
+						break;
+					}else {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoEntregado));
+						break;
+					}
 				case EURO:
-					bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoEntregado));
-					break;
+					if (extornar != true) {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().subtract(montoEntregado));
+						break;
+					}else {
+						bovedaCaja.setSaldototal(bovedaCaja.getSaldototal().add(montoEntregado));
+						break;
+					}
 				default:
 					throw new Exception("Este tipo de moneda no esta registrado");
 				}
@@ -517,7 +551,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo actualizar el monto recibido");
+			throw new EJBException(e);
 		}
 	}
 	

@@ -38,6 +38,9 @@ public class ViewvouchercompraventaView implements Serializable {
 	@Column(name="abreviatura_agencia")
 	private String abreviaturaAgencia;
 
+	@Column(name="id_caja")
+	private Integer idCaja;
+	
 	@Column(name="abreviatura_caja")
 	private String abreviaturaCaja;
 	
@@ -243,5 +246,13 @@ public class ViewvouchercompraventaView implements Serializable {
 
 	public void setTipoCambio(TasaCambio tipoCambio) {
 		this.tipoCambio = tipoCambio;
+	}
+
+	public Integer getIdCaja() {
+		return idCaja;
+	}
+
+	public void setIdCaja(Integer idCaja) {
+		this.idCaja = idCaja;
 	}
 }
