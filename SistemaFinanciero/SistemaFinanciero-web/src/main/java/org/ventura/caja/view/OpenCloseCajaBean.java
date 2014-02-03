@@ -1,6 +1,7 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,12 +63,14 @@ public class OpenCloseCajaBean implements Serializable {
 	private boolean validSaldoCajaSoles;
 	private boolean validSaldoCajaDolares;
 	private boolean validSaldoCajaEuros;
+	private boolean pendiente;
 
 	public OpenCloseCajaBean() {
 		isValidBean = true;
 		validSaldoCajaSoles = true;
 		setValidSaldoCajaDolares(true);
 		setValidSaldoCajaEuros(true);
+		pendiente = false;
 	}
 	
 	@PostConstruct
@@ -218,6 +221,7 @@ public class OpenCloseCajaBean implements Serializable {
 					setValidSaldoCajaSoles(false);
 					Moneda faltateSoles = haspSoles.get(-1);
 					JsfUtil.addErrorMessage("Dinero Faltante de " + faltateSoles + " Nuevos Soles");
+					
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(1)) {
@@ -228,7 +232,7 @@ public class OpenCloseCajaBean implements Serializable {
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(0)) {
-					JsfUtil.addSuccessMessage("Caja Cerrada correctamente");
+					JsfUtil.addSuccessMessage("Caja de Nuevo Sol Cerrada correctamente");
 				}
 				
 				//validar los saldos en caja y base de datos en Dolares
@@ -236,6 +240,7 @@ public class OpenCloseCajaBean implements Serializable {
 					Map<Integer, Moneda> haspDolares = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaDolares(false);
 					Moneda faltanteDolares = haspDolares.get(-1);
+					System.out.println("Faltante Dolares "+faltanteDolares);
 					JsfUtil.addErrorMessage("Dinero Faltante De " + faltanteDolares + " Dolares");
 					return null;
 				}
@@ -243,11 +248,12 @@ public class OpenCloseCajaBean implements Serializable {
 					Map<Integer, Moneda> haspDolares = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaDolares(false);
 					Moneda sobranteDolares = haspDolares.get(1);
+					System.out.println("Sobrante Dolares "+sobranteDolares);
 					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteDolares + " Dolares");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(0)) {
-					JsfUtil.addSuccessMessage("Caja Cerrada Correctamente");
+					JsfUtil.addSuccessMessage("Caja de Dolares Cerrada Correctamente");
 				}
 				
 				//validar los saldos en caja y base de datos en euros
@@ -266,7 +272,7 @@ public class OpenCloseCajaBean implements Serializable {
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja).containsKey(0)) {
-					JsfUtil.addSuccessMessage("Caja Cerrada Correctamente");
+					JsfUtil.addSuccessMessage("Caja de Euros Cerrada Correctamente");
 				}
 			} else {
 				JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");
@@ -522,5 +528,17 @@ public class OpenCloseCajaBean implements Serializable {
 
 	public void setValidSaldoCajaEuros(boolean validSaldoCajaEuros) {
 		this.validSaldoCajaEuros = validSaldoCajaEuros;
+	}
+
+	public boolean isPendiente() {
+		return pendiente;
+	}
+
+	public void setPendiente(boolean pendiente) {
+		this.pendiente = pendiente;
+	}	
+	
+	public void setPendiente(){
+		this.pendiente = true;
 	}
 }
