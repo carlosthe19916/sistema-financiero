@@ -58,10 +58,52 @@
 											</p>
 										</div>
 										<div style="text-align: center;">
-											<h:commandLink value="Cerrar"
+											<h:commandLink value="Cerrar" action="cancel"
 												styleClass="p6n-api-access-in-page-error-link" />
 											&nbsp;|&nbsp;
-											<h:commandLink value="Volver" action="cancel"
+											<h:commandLink value="Crear Pendiente" action="cancel"
+												styleClass="p6n-api-access-in-page-error-link" />
+										</div>
+									</div>
+								</div>
+								<div class="modal-dialog-bg"
+									style="opacity: 0.4; width: 1366px; height: 2000px;"
+									aria-hidden="true"></div>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{!openCloseCajaBean.validSaldoCajaDolares}">
+								<div class="p6n-api-access-in-page-error" style="left: 516px;">
+									<div>
+										<div>
+											<p>
+												<h:messages />
+											</p>
+										</div>
+										<div style="text-align: center;">
+											<h:commandLink value="Cerrar" action="cancel"
+												styleClass="p6n-api-access-in-page-error-link" />
+											&nbsp;|&nbsp;
+											<h:commandLink value="Crear Pendiente" action="cancel"
+												styleClass="p6n-api-access-in-page-error-link" />
+										</div>
+									</div>
+								</div>
+								<div class="modal-dialog-bg"
+									style="opacity: 0.4; width: 1366px; height: 2000px;"
+									aria-hidden="true"></div>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{!openCloseCajaBean.validSaldoCajaEuros}">
+								<div class="p6n-api-access-in-page-error" style="left: 516px;">
+									<div>
+										<div>
+											<p>
+												<h:messages />
+											</p>
+										</div>
+										<div style="text-align: center;">
+											<h:commandLink value="Cerrar" action="cancel"
+												styleClass="p6n-api-access-in-page-error-link" />
+											&nbsp;|&nbsp;
+											<h:commandLink value="Crear Pendiente" action="cancel"
 												styleClass="p6n-api-access-in-page-error-link" />
 										</div>
 									</div>
