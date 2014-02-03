@@ -35,6 +35,8 @@ public interface SocioServiceLocal extends SocioServiceRemote{
 	public void update(Socio socio) throws Exception;
 	
 	public void desactivarSocio(Socio socio) throws Exception;
+	
+	public Cuentaaporte getCuentaaporte(Socio socio) throws Exception;
 
 	public Collection<Socio> findByNamedQuery(String queryName) throws Exception;
 

@@ -26,17 +26,7 @@ import java.util.List;
 		@NamedQuery(name = Socio.ALL, query = "SELECT s FROM Socio s"),
 		@NamedQuery(name = Socio.fPN_tipodocumento_numerodocumento, query = "Select s From Socio s INNER JOIN s.personanatural p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento"),
 		@NamedQuery(name = Socio.fPJ_tipodocumento_numerodocumento, query = "Select s From Socio s INNER JOIN s.personajuridica p WHERE s.estado = TRUE AND p.tipodocumento = :tipodocumento AND p.numerodocumento = :numerodocumento"),
-		@NamedQuery(name = Socio.f_idcuentaaporte, query = "Select s From Socio s INNER JOIN s.cuentaaporte c WHERE c.idcuentaaporte = :idcuentaaporte")
-/*
- * 
- * @NamedQuery(name = Socio.SOCIOSPN, query =
- * "select s from ViewSocioPN s where s.estado=true and (s.idsocio like :datoIngresado or s.dni like :datoIngresado or s.personanatural.apellidopaterno like :datoIngresado or s.personanatural.apellidomaterno like :datoIngresado or s.personanatural.nombres like :datoIngresado or s.nombrecompleto like :datoIngresado)"
- * ),
- * 
- * @NamedQuery(name = Socio.SOCIOSPJ, query =
- * "Select s From ViewSocioPJ s where s.estado=true and (s.idsocio like :datoIngresado or s.ruc like :datoIngresado or s.personajuridica.razonsocial like :datoIngresado or s.personajuridica.nombrecomercial like :datoIngresado)"
- * )
- */})
+		@NamedQuery(name = Socio.f_idcuentaaporte, query = "Select s From Socio s INNER JOIN s.cuentaaporte c WHERE c.idcuentaaporte = :idcuentaaporte") })
 public class Socio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -81,9 +71,9 @@ public class Socio implements Serializable {
 	@JoinColumn(name = "idcuentaaporte", nullable = false)
 	private Cuentaaporte cuentaaporte;
 
-	@OneToMany(mappedBy="socio")
+	@OneToMany(mappedBy = "socio")
 	private List<Cuentabancaria> cuentasbancarias;
-	
+
 	public Socio() {
 	}
 

@@ -101,6 +101,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 			}					
 			socioDAO.create(socio);
 			
+			cuentaaporte = cuentaaporteServiceLocal.find(cuentaaporte.getIdcuentaaporte());
+			
 			return socio;
 		} catch (IllegalEntityException | PreexistingEntityException e) {			
 			log.error("Exception:" + e.getClass());
@@ -407,6 +409,21 @@ public class SocioServiceBean implements SocioServiceLocal {
 			throw new EJBException(e);
 		}
 		return list;
+	}
+
+	@Override
+	public Cuentaaporte getCuentaaporte(Socio socio) throws Exception {
+		Cuentaaporte cuentaaporte = null;
+		try {
+			socio = find(socio.getIdsocio());
+			cuentaaporte = socio.getCuentaaporte();			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentaaporte;
 	}
 
 	

@@ -15,21 +15,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.entity.schema.socio.Socio;
 import org.ventura.tipodato.Moneda;
 
 @Entity
 @Table(name = "cuentaaporte", schema = "cuentapersonal")
 @NamedQueries({
 		@NamedQuery(name = "Cuentaaporte.findAll", query = "SELECT c FROM Cuentaaporte c"),
-		// @NamedQuery(name = Cuentaaporte.ACCIONISTAS, query =
-		// "select ac from Accionista ac where ac.personajuridica.ruc = :ruc"),
 		@NamedQuery(name = Cuentaaporte.findByNumerocuenta, query = "SELECT c FROM Cuentaaporte c WHERE c.numerocuentaaporte = :numerocuentaaporte") })
 public class Cuentaaporte implements Serializable {
 
@@ -45,7 +41,7 @@ public class Cuentaaporte implements Serializable {
 	@Column(unique = true, nullable = false)
 	private Integer idcuentaaporte;
 
-	@Column(unique = true, length = 14)
+	@Column(unique = true, length = 14, nullable = false)
 	private String numerocuentaaporte;
 
 	@Temporal(TemporalType.DATE)
@@ -78,10 +74,10 @@ public class Cuentaaporte implements Serializable {
 	public void setFechaapertura(Date fechaapertura) {
 		this.fechaapertura = fechaapertura;
 	}
-	
+
 	public Estadocuenta getEstadocuenta() {
 		return this.estadocuenta;
-	}	
+	}
 
 	public Tipomoneda getTipomoneda() {
 		return tipomoneda;

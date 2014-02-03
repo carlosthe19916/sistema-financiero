@@ -20,6 +20,7 @@ import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SocioServiceLocal;
 import org.ventura.dependent.ComboBean;
+import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Accionista;
@@ -214,10 +215,12 @@ public class AperturaCuentaaporteBean implements Serializable {
 					socio = socioServiceLocal.createSocioPersonanatural(socio);
 					
 					cuentaCreada = true;
-					numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
+					//numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
 					fechaApertura = socio.getCuentaaporte().getFechaapertura();
 					
 					this.socio = socio;
+					Cuentaaporte cuentaaporte = socioServiceLocal.getCuentaaporte(socio);
+					numeroCuenta = cuentaaporte.getNumerocuentaaporte();
 				} else {
 					if (isPersonajuridica) {
 						
