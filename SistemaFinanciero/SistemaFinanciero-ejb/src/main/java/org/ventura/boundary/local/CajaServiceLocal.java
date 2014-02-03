@@ -1,5 +1,6 @@
 package org.ventura.boundary.local;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,10 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	public void openCaja(Caja oCaja) throws Exception;
 	
 	public void closeCaja(Caja caja, List<Detallehistorialcaja> detalleSoles, List<Detallehistorialcaja> detalleDolares, List<Detallehistorialcaja> detalleEuros) throws Exception;
+	
+	public void closeCaja(Caja caja, Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaCierre) throws Exception;
+	
+	public Map<Tipomoneda, BigDecimal> verificarSaldosCaja(Caja caja, Map<Tipomoneda, List<Detallehistorialcaja>> detalle) throws Exception;;
 	
 	public void freezeCaja(Caja oCaja) throws Exception;
 	
