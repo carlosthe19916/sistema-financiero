@@ -110,6 +110,10 @@ table {
 	font-weight: bold;
 }
 
+.sf-label-error {
+	color: #FF0000;
+}
+
 .sf-buttons {
 	text-align: right !important;
 	padding: 11px;

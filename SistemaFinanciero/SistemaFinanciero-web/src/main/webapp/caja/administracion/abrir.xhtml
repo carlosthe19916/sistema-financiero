@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Cerrar Caja" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+			<br />
+
+			<h:panelGroup rendered="#{abrirCajaBean.failure}">
+				<div class="p6n-api-access-in-page-error" style="left: 516px;">
+					<div>
+						<div>
+							<p>
+								<h:messages />
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 602px;"></div>
+			</h:panelGroup>
+
+			<h:form>
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">Cerrar Caja</div>
+
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">
+										AGENCIA</div>
+									<div>
+										<h:outputLabel value="#{abrirCajaBean.agencia.denominacion}" />
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">CAJA</div>
+										<div>
+											<div>
+												<h:outputLabel value="#{abrirCajaBean.caja.denominacion}" />
+											</div>
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">ABREVIATURA</div>
+										<div>
+											<h:outputLabel value="#{abrirCajaBean.caja.abreviatura}" />
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">ESTADO</div>
+										<div>
+											<h:outputLabel
+												value="#{abrirCajaBean.caja.estadoapertura.denominacion}" />
+										</div>
+									</div>
+								</div>
+								<br />
+								<div>
+									<p:accordionPanel
+										value="#{abrirCajaBean.mapDetalleHistorialcajaApertura.entrySet().toArray()}"
+										var="boveda">
+										<p:tab title="#{boveda.key.denominacion}">
+											<p:panelGrid columns="2" style="margin-left:1px;">
+												<p:outputPanel>
+													<h3>Detalle inicio del dia</h3>
+													<p:dataTable var="cajaDetalle" value="#{boveda.value}"
+														rowKey="#{cajaDetalle}" rowIndexVar="row">
+														<p:column headerText="Nro" width="15"
+															style="text-align:center;height:19px">
+															<h:outputText value="#{row + 1}" />
+														</p:column>
+														<p:column headerText="Denominacion" width="40"
+															style="text-align:right;">
+															<h:outputText
+																value="#{cajaDetalle.denominacionmoneda.denominacion}" />
+														</p:column>
+														<p:column headerText="Cantidad" width="100"
+															style="text-align:right;">
+															<h:outputText value="#{cajaDetalle.cantidad}" />
+														</p:column>
+														<p:column headerText="Total" width="150"
+															style="text-align:right;">
+															<h:outputText value="#{cajaDetalle.getSubtotal()}" />
+														</p:column>
+													</p:dataTable>
+												</p:outputPanel>
+												<p:outputPanel>
+													<h3>Detalle final del dia</h3>
+													<p:dataTable id="tabla" var="cajaDetalle"
+														value="#{abrirCajaBean.retornarDetalle(boveda.key)}"
+														rowKey="#{cajaDetalle}" rowIndexVar="row">
+														<p:column headerText="Nro" width="15"
+															style="text-align:center;">
+															<h:outputText value="#{row + 1}" />
+														</p:column>
+														<p:column headerText="Denominacion" width="40"
+															style="text-align:right;">
+															<h:outputText
+																value="#{cajaDetalle.denominacionmoneda.denominacion}" />
+														</p:column>
+														<p:column headerText="Cantidad" width="100"
+															style="text-align:right;">
+															<h:inputText value="#{cajaDetalle.cantidad}"
+																required="true" maxlength="6"
+																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
+																style="text-align:left; width:100px; height:20px">
+																<f:ajax event="blur" execute="@this" render="tabla" />
+															</h:inputText>
+														</p:column>
+														<p:column headerText="Total" width="150"
+															style="text-align:right;">
+															<h:outputText value="#{cajaDetalle.getSubtotal()}" />
+														</p:column>
+													</p:dataTable>
+												</p:outputPanel>
+											</p:panelGrid>
+										</p:tab>
+									</p:accordionPanel>
+								</div>
+								<div class="sf-buttons" style="float: left;">
+									<h:commandButton value="Abrir"
+										action="#{abrirCajaBean.verificarSaldos()}"
+										styleClass="action blue" />
+									<h:commandButton action="cancel" value="Cancelar"
+										styleClass="action" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+
+			<h:panelGroup rendered="#{abrirCajaBean.dlgVerificarSaldos}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 502px; top: 100px;">
+						<div class="modal-dialog-title modal-dialog-title-draggable">
+							<span class="modal-dialog-title-text">Verificacion de
+								saldos</span><span class="modal-dialog-title-close"></span>
+						</div>
+						<div class="modal-dialog-content ng-binding">
+							<p:panelGrid columns="4">
+								<ui:repeat
+									value="#{abrirCajaBean.mapDiferenciaSaldos.entrySet().toArray()}"
+									var="panelMoneda">
+									<p:outputPanel>
+										<label>----------------------------------------------</label>
+										<h3 class="sf-label-bold">#{panelMoneda.key.denominacion}</h3>
+										<div>
+											<h:outputLabel
+												value="#{abrirCajaBean.getMensajeSaldo(panelMoneda.value)}"
+												styleClass="#{abrirCajaBean.getCompareBigdecimal(panelMoneda.value) != 0 ? 'sf-label-error' : ''}" />
+											&nbsp;
+											<h:outputLabel value="#{panelMoneda.value}" />
+										</div>
+										<div>
+											<h:commandLink value="Crear pendiente" />
+											&nbsp;||&nbsp;
+											<h:commandLink value="Cerrar" />
+										</div>
+										<label>-----------------------------------------------</label>
+									</p:outputPanel>
+								</ui:repeat>
+							</p:panelGrid>
+						</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Cerrar caja"
+								action="#{abrirCajaBean.closeCaja()}">
+							</h:commandButton>
+							<h:commandButton value="Salir" />
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
+			<h:panelGroup>
+
+			</h:panelGroup>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>

@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -52,6 +53,8 @@ import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipoTransaccionType;
+
+import com.sun.imageio.plugins.common.BogusColorSpace;
 
 @Named
 @Stateless
@@ -942,5 +945,52 @@ public class CajaServiceBean implements CajaServiceLocal{
 			log.error("Caused by:" + e.getCause());
 			throw e;
 		}
+	}
+
+	@Override
+	public void closeCaja(
+			Caja caja,
+			Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaCierre)
+			throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<Tipomoneda, BigDecimal> verificarSaldosCaja(Caja caja, Map<Tipomoneda, List<Detallehistorialcaja>> detalle) throws Exception {
+		Map<Tipomoneda, BigDecimal> result = null;
+		try {
+			Caja cajaDB = cajaDAO.find(caja.getIdcaja());
+			List<Boveda> bovedas = cajaDB.getBovedas();
+			
+			result = new HashMap<Tipomoneda, BigDecimal>();
+			
+			for (Boveda boveda : bovedas) {
+				Tipomoneda tipomoneda = boveda.getTipomoneda();
+				BovedaCajaPK pk = new BovedaCajaPK();
+				pk.setIdboveda(boveda.getIdboveda());
+				pk.setIdcaja(cajaDB.getIdcaja());
+				BovedaCaja bovedaCaja = bovedaCajaDAO.find(pk);
+				
+				BigDecimal saldoSistema = bovedaCaja.getSaldototal().getValue();
+				BigDecimal saldoEnviado = BigDecimal.ZERO;
+				
+				List<Detallehistorialcaja> detalleHistorial = detalle.get(tipomoneda);
+				for (Detallehistorialcaja detallehistorialcaja : detalleHistorial) {
+					saldoEnviado = saldoEnviado.add(detallehistorialcaja.getSubtotal().getValue());
+				}
+				
+				BigDecimal saldoFinal = saldoEnviado.subtract(saldoSistema);
+				result.put(tipomoneda, saldoFinal);
+			}
+			
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return result;
 	}
 }
