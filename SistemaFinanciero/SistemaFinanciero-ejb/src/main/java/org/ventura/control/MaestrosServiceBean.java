@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.remote.MaestrosServiceRemote;
 import org.ventura.dao.CrudService;
+import org.ventura.dao.impl.TipomonedaDAO;
+import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.util.logger.Log;
 
@@ -24,7 +26,9 @@ public class MaestrosServiceBean implements MaestrosServiceLocal {
 
 	@Inject
 	private Log log;
-
+	
+	@EJB
+	private TipomonedaDAO tipomonedaDAO;
 	@EJB
 	private CrudService crudService;
 
@@ -51,4 +55,17 @@ public class MaestrosServiceBean implements MaestrosServiceLocal {
 		return list;
 	}
 
+	@Override
+	public Tipomoneda find(Object id) throws Exception {
+		Tipomoneda tipomoneda = null;
+		try {
+			tipomoneda = tipomonedaDAO.find(id);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+		return tipomoneda;
+	}
 }

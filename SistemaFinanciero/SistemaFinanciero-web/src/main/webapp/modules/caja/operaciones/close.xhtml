@@ -9,6 +9,7 @@
 <f:view>
 
 	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(2)}" />
 		<f:viewParam name="idcaja" value="#{openCloseCajaBean.idcaja}" />
 		<f:viewAction action="#{openCloseCajaBean.loadCajaForClose()}" />
 	</f:metadata>
@@ -22,9 +23,119 @@
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
 
+			<h:form id="formClose">
 			
-			<h:panelGroup rendered="#{openCloseCajaBean.pendiente}">
-				<h:form>
+				<h:panelGroup rendered="#{!openCloseCajaBean.validBean}">
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Cerrar" action="cancel"
+									styleClass="p6n-api-access-in-page-error-link" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 2000px;"
+						aria-hidden="true"></div>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{openCloseCajaBean.successPendiente}">
+					<div class="p6n-butterbar" id="p6n-manualbutterbar0"
+						style="left: 41%;">
+						<div>
+							<h:messages />
+						</div>
+						<div style="text-align: center;">
+							<h:commandLink value="Salir" action="cancel"
+								styleClass="p6n-api-access-in-page-error-link" />
+						</div>
+					</div>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 2000px;"
+						aria-hidden="true"></div>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{!openCloseCajaBean.validSaldoCajaSoles}">
+					<h:panelGroup rendered="#{!openCloseCajaBean.pendiente}">
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Cerrar" action="cancel"
+									styleClass="p6n-api-access-in-page-error-link"/>
+								&nbsp;|&nbsp;
+								<h:commandLink value="Crear Pendiente" action="#{openCloseCajaBean.setPendiente()}"
+									styleClass="p6n-api-access-in-page-error-link" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 2000px;"
+						aria-hidden="true"></div>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{!openCloseCajaBean.validSaldoCajaDolares}">
+					<h:panelGroup rendered="#{!openCloseCajaBean.pendiente}">
+						<div class="p6n-api-access-in-page-error" style="left: 516px;">
+							<div>
+								<div>
+									<p>
+										<h:messages />
+									</p>
+								</div>
+								<div style="text-align: center;">
+									<h:commandLink value="Cerrar" action="cancel"
+										styleClass="p6n-api-access-in-page-error-link" />
+									&nbsp;|&nbsp;
+									<h:commandLink value="Crear Pendiente"
+										action="#{openCloseCajaBean.setPendiente()}"
+										styleClass="p6n-api-access-in-page-error-link" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 2000px;"
+							aria-hidden="true"></div>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{!openCloseCajaBean.validSaldoCajaEuros}">
+					<h:panelGroup rendered="#{!openCloseCajaBean.pendiente}">
+						<div class="p6n-api-access-in-page-error" style="left: 516px;">
+							<div>
+								<div>
+									<p>
+										<h:messages />
+									</p>
+								</div>
+								<div style="text-align: center;">
+									<h:commandLink value="Cerrar" action="cancel"
+										styleClass="p6n-api-access-in-page-error-link" />
+									&nbsp;|&nbsp;
+									<h:commandLink value="Crear Pendiente"
+										action="#{openCloseCajaBean.setPendiente()}"
+										styleClass="p6n-api-access-in-page-error-link" />
+
+								</div>
+							</div>
+						</div>
+						<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 2000px;"
+							aria-hidden="true"></div>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{openCloseCajaBean.pendiente}">
 					<div style="margin-left: 50px;">
 						<div>
 							<div>
@@ -34,7 +145,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">AGENCIA</div>
-										<div>
+										<div style="font-weight: bold; font-size: 12px;">
 											<h:outputLabel value="#{cajaCRUDBean.agencia.denominacion}" />
 										</div>
 									</div>
@@ -42,17 +153,17 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">Tipo Pendiente</div>
-										<div>
-											<h:outputText value="Faltante" />
+										<div style="font-weight: bold; font-size: 12px;">
+											<h:outputText value="#{openCloseCajaBean.pendientecaja.tipopendiente}" />
 										</div>
 									</div>
 
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">Tipo Moneda</div>
 										<div>
-											<div>
+											<div style="font-weight: bold; font-size: 12px;">
 												<h:outputText
-													value="#{openCloseCajaBean.caja.bovedas.get(0).tipomoneda.denominacion}" />
+													value="#{openCloseCajaBean.pendientecaja.tipomoneda.denominacion} (#{openCloseCajaBean.pendientecaja.tipomoneda.abreviatura})" />
 											</div>
 										</div>
 									</div>
@@ -60,8 +171,8 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">Monto</div>
 										<div>
-											<div>
-												<h:outputText value="S/. 100" />
+											<div style="font-weight: bold; font-size: 12px;">
+												<h:outputText value="#{openCloseCajaBean.pendientecaja.tipomoneda.abreviatura} #{openCloseCajaBean.pendientecaja.monto.value}" />
 											</div>
 										</div>
 									</div>
@@ -71,13 +182,14 @@
 										<div>
 											<div>
 												<p:inputTextarea rows="10" cols="60" queryDelay="750"
-													minQueryLength="4" maxlength="300" />
+													onkeyup="this.value = this.value.toUpperCase();"
+													minQueryLength="4" maxlength="300" value="#{openCloseCajaBean.pendientecaja.observacion}"/>
 											</div>
 										</div>
 									</div>
 
 									<div class="sf-buttons" style="float: left;">
-										<h:commandButton action="#{cajaCRUDBean.createCaja()}"
+										<h:commandButton action="#{openCloseCajaBean.crearPendiente()}"
 											value="Guardar" styleClass="action blue"
 											onclick="onSubmitButton();" />
 										<h:commandButton value="Cancelar"
@@ -89,85 +201,13 @@
 							</div>
 						</div>
 					</div>
-				</h:form>
-			</h:panelGroup>
+				</h:panelGroup>
 
-			<h:panelGroup rendered = "#{!openCloseCajaBean.pendiente}">
-				<h:form id="formClose">
+				<h:panelGroup rendered="#{!openCloseCajaBean.pendiente}">
 					<div style="margin-left: 50px;">
 						<div>
 							<div>
 								<div class="p6n-api-consent-screen-title">Cerrar Caja</div>
-								
-								<h:panelGroup rendered="#{!openCloseCajaBean.validBean}">
-									<div class="p6n-api-access-in-page-error" style="left: 516px;">
-										<div>
-											<div>
-												<p>
-													<h:messages />
-												</p>
-											</div>
-											<div style="text-align: center;">
-												<h:commandLink value="Cerrar" action="cancel"
-													styleClass="p6n-api-access-in-page-error-link" />
-											</div>
-										</div>
-									</div>
-									<div class="modal-dialog-bg"
-										style="opacity: 0.4; width: 1366px; height: 2000px;"
-										aria-hidden="true"></div>
-								</h:panelGroup>
-
-								
-								
-								<h:panelGroup
-									rendered="#{!openCloseCajaBean.validSaldoCajaDolares}">
-									<div class="p6n-api-access-in-page-error" style="left: 516px;">
-										<div>
-											<div>
-												<p>
-													<h:messages />
-												</p>
-											</div>
-											<div style="text-align: center;">
-												<h:commandLink value="Cerrar" action="cancel"
-													styleClass="p6n-api-access-in-page-error-link" />
-												&nbsp;|&nbsp;
-												<h:commandLink value="Crear Pendiente"
-													action="pendiente?faces-redirect=true"
-													styleClass="p6n-api-access-in-page-error-link" />
-											</div>
-										</div>
-									</div>
-									<div class="modal-dialog-bg"
-										style="opacity: 0.4; width: 1366px; height: 2000px;"
-										aria-hidden="true"></div>
-								</h:panelGroup>
-								
-								<h:panelGroup
-									rendered="#{!openCloseCajaBean.validSaldoCajaEuros}">
-									<div class="p6n-api-access-in-page-error" style="left: 516px;">
-										<div>
-											<div>
-												<p>
-													<h:messages />
-												</p>
-											</div>
-											<div style="text-align: center;">
-												<h:commandLink value="Cerrar" action="cancel"
-													styleClass="p6n-api-access-in-page-error-link" />
-												&nbsp;|&nbsp;
-												<h:commandLink value="Crear Pendiente"
-													action="pendiente?faces-redirect=true"
-													styleClass="p6n-api-access-in-page-error-link" />
-
-											</div>
-										</div>
-									</div>
-									<div class="modal-dialog-bg"
-										style="opacity: 0.4; width: 1366px; height: 2000px;"
-										aria-hidden="true"></div>
-								</h:panelGroup>
 
 								<div class="p6n-api-consent-screen-inputs">
 									<div class="p6n-api-consent-screen-input-section">
@@ -496,9 +536,8 @@
 							</div>
 						</div>
 					</div>
-
-				</h:form>
-			</h:panelGroup>
+				</h:panelGroup>
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </f:view>

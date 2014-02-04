@@ -1,7 +1,6 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,12 +14,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CajaServiceLocal;
+import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
+import org.ventura.entity.schema.caja.PendienteCaja;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
@@ -56,6 +57,8 @@ public class OpenCloseCajaBean implements Serializable {
 	
 	@EJB
 	private CajaServiceLocal cajaServiceLocal;
+	@EJB
+	private MaestrosServiceLocal tipoMonedaServiceLocal;
 	
 	private Caja caja;
 	private Integer idcaja;
@@ -64,6 +67,10 @@ public class OpenCloseCajaBean implements Serializable {
 	private boolean validSaldoCajaDolares;
 	private boolean validSaldoCajaEuros;
 	private boolean pendiente;
+	private boolean successPendiente;
+	
+	@Inject
+	private PendienteCaja pendientecaja;
 
 	public OpenCloseCajaBean() {
 		isValidBean = true;
@@ -71,6 +78,7 @@ public class OpenCloseCajaBean implements Serializable {
 		setValidSaldoCajaDolares(true);
 		setValidSaldoCajaEuros(true);
 		pendiente = false;
+		setSuccessPendiente(false);
 	}
 	
 	@PostConstruct
@@ -220,54 +228,96 @@ public class OpenCloseCajaBean implements Serializable {
 					Map<Integer, Moneda> haspSoles = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaSoles(false);
 					Moneda faltateSoles = haspSoles.get(-1);
-					JsfUtil.addErrorMessage("Dinero Faltante de " + faltateSoles + " Nuevos Soles");
+					Tipomoneda tipoMoneda = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+					Tipomoneda monedaSoles = cargarTipoMoneda(tipoMoneda);
 					
+					pendientecaja.setTipopendiente("FALTANTE");
+					pendientecaja.setTipomoneda(monedaSoles);
+					pendientecaja.setMonto(faltateSoles.multiply(-1));
+					
+					JsfUtil.addErrorMessage("Dinero Faltante de -" + faltateSoles + " Nuevos Soles");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(1)) {
 					Map<Integer, Moneda> haspSoles = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
 					setValidSaldoCajaSoles(false);
 					Moneda sobranteSoles = haspSoles.get(1);
+					Tipomoneda tipoMoneda = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+					Tipomoneda monedaSoles = cargarTipoMoneda(tipoMoneda);
+					
+					pendientecaja.setTipopendiente("SOBRANTE");
+					pendientecaja.setTipomoneda(monedaSoles);
+					pendientecaja.setMonto(sobranteSoles);
+					
 					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteSoles + " Nuevos Soles");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(0)) {
-					JsfUtil.addSuccessMessage("Caja de Nuevo Sol Cerrada correctamente");
+					JsfUtil.addSuccessMessage("Caja de Nuevo Sol (S/.) fue cerrada correctamente");
 				}
 				
 				//validar los saldos en caja y base de datos en Dolares
 				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(-1)) {
-					Map<Integer, Moneda> haspDolares = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
+					Map<Integer, Moneda> haspDolares = cajaServiceLocal.compareSaldoTotalCajaDolares(caja);
 					setValidSaldoCajaDolares(false);
 					Moneda faltanteDolares = haspDolares.get(-1);
-					System.out.println("Faltante Dolares "+faltanteDolares);
+					Tipomoneda tipoMoneda = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+					Tipomoneda monedaSoles = cargarTipoMoneda(tipoMoneda);
+					
+					System.out.println("----------------------");
+					System.out.println("Faltate dolares " + faltanteDolares);
+					
+					pendientecaja.setTipopendiente("FALTANTE");
+					pendientecaja.setTipomoneda(monedaSoles);
+					pendientecaja.setMonto(faltanteDolares.multiply(-1));
 					JsfUtil.addErrorMessage("Dinero Faltante De " + faltanteDolares + " Dolares");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(1)) {
-					Map<Integer, Moneda> haspDolares = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
+					Map<Integer, Moneda> haspDolares = cajaServiceLocal.compareSaldoTotalCajaDolares(caja);
 					setValidSaldoCajaDolares(false);
 					Moneda sobranteDolares = haspDolares.get(1);
-					System.out.println("Sobrante Dolares "+sobranteDolares);
+					Tipomoneda tipoMoneda = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+					Tipomoneda monedaSoles = cargarTipoMoneda(tipoMoneda);
+					
+					pendientecaja.setTipopendiente("SOBRANTE");
+					pendientecaja.setTipomoneda(monedaSoles);
+					pendientecaja.setMonto(sobranteDolares);
+					
 					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteDolares + " Dolares");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(0)) {
-					JsfUtil.addSuccessMessage("Caja de Dolares Cerrada Correctamente");
+					JsfUtil.addSuccessMessage("Caja de Dolares ($) fue cerrada correctamente");
 				}
 				
 				//validar los saldos en caja y base de datos en euros
 				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja).containsKey(-1)) {
-					Map<Integer, Moneda> haspEuros = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
+					Map<Integer, Moneda> haspEuros = cajaServiceLocal.compareSaldoTotalCajaEuros(caja);
 					setValidSaldoCajaEuros(false);
 					Moneda faltanteEuros = haspEuros.get(-1);
+					Tipomoneda tipoMoneda = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+					Tipomoneda monedaSoles = cargarTipoMoneda(tipoMoneda);
+					
+					pendientecaja.setTipopendiente("FALTANTE");
+					pendientecaja.setTipomoneda(monedaSoles);
+					pendientecaja.setMonto(faltanteEuros.multiply(-1));
+					
 					JsfUtil.addErrorMessage("Dinero Faltante de " + faltanteEuros + " Euros");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja).containsKey(1)) {
-					Map<Integer, Moneda> haspEuros = cajaServiceLocal.compareSaldoTotalCajaSoles(caja);
+					Map<Integer, Moneda> haspEuros = cajaServiceLocal.compareSaldoTotalCajaEuros(caja);
 					setValidSaldoCajaEuros(false);
 					Moneda sobranteEuros = haspEuros.get(1);
+					
+					Tipomoneda tipoMoneda = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+					Tipomoneda monedaSoles = cargarTipoMoneda(tipoMoneda);
+					
+					pendientecaja.setTipopendiente("SOBRANTE");
+					pendientecaja.setTipomoneda(monedaSoles);
+					pendientecaja.setMonto(sobranteEuros);
+					
 					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteEuros + " Euros");
 					return null;
 				}
@@ -284,6 +334,30 @@ public class OpenCloseCajaBean implements Serializable {
 			return "failure";
 		}
 		return "success";
+	}
+	
+	public void crearPendiente(){
+		try {			
+			cajaServiceLocal.crearPendiente(caja, pendientecaja);
+			setSuccessPendiente(true);
+			JsfUtil.addSuccessMessage("Pendiente creado vuelva a cerrar caja");
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public Tipomoneda cargarTipoMoneda(Tipomoneda moneda){
+		Tipomoneda tipomoneda = null;
+		try {
+			if (moneda.getIdtipomoneda() != null && moneda.getIdtipomoneda() != -1) {
+				tipomoneda = tipoMonedaServiceLocal.find(moneda.getIdtipomoneda());
+			}else {
+				JsfUtil.addErrorMessage("Tipo de moneda no encontrada");
+			}
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, "No se pudo cargar el tipo de moneda");
+		}
+		return tipomoneda;
 	}
 	
 	// total en soles final
@@ -540,5 +614,21 @@ public class OpenCloseCajaBean implements Serializable {
 	
 	public void setPendiente(){
 		this.pendiente = true;
+	}
+
+	public PendienteCaja getPendientecaja() {
+		return pendientecaja;
+	}
+
+	public void setPendientecaja(PendienteCaja pendientecaja) {
+		this.pendientecaja = pendientecaja;
+	}
+
+	public boolean isSuccessPendiente() {
+		return successPendiente;
+	}
+
+	public void setSuccessPendiente(boolean successPendiente) {
+		this.successPendiente = successPendiente;
 	}
 }
