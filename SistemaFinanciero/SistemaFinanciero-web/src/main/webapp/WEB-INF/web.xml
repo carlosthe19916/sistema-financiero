@@ -61,52 +61,114 @@
 		<param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
 		<param-value>url</param-value>
 	</context-param>
-	<security-constraint>
-		<display-name>constraint protected</display-name>
-		<web-resource-collection>
-			<web-resource-name>administrator</web-resource-name>
-			<description></description>
-			<url-pattern>/*</url-pattern>
-			<http-method>GET</http-method>
-			<http-method>PUT</http-method>
-			<http-method>POST</http-method>
-			<http-method>DELETE</http-method>
-		</web-resource-collection>
-		<auth-constraint>
-			<description>Tiene acceso</description>
-			<role-name>administrator</role-name>
-		</auth-constraint>
-	</security-constraint>
-	<security-constraint>
-		<display-name>constraint protected</display-name>
-		<web-resource-collection>
-			<web-resource-name>ventanilla</web-resource-name>
-			<description></description>
-			<url-pattern>/*</url-pattern>
-			<http-method>GET</http-method>
-			<http-method>PUT</http-method>
-			<http-method>POST</http-method>
-			<http-method>DELETE</http-method>
-		</web-resource-collection>
-		<auth-constraint>
-			<description>Tiene acceso</description>
-			<role-name>ventanilla</role-name>
-		</auth-constraint>
-	</security-constraint>
+	
+	
+	
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Allowed resources.</web-resource-name>
 			<url-pattern>/javax.faces.resource/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
+	
+	<security-constraint>
+		<display-name>Solo el usuario Admin puede tener acceso a esta página</display-name>
+		<web-resource-collection>
+			<web-resource-name>Admin</web-resource-name>
+			<description></description>
+			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>PUT</http-method>
+			<http-method>POST</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>Index page</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Tiene acceso a todo el sistema</description>
+			<role-name>Admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<display-name>Solo el usuario Caja puede tener acceso a esta página</display-name>
+		<web-resource-collection>
+			<web-resource-name>Caja</web-resource-name>
+			<description></description>
+			<url-pattern>/caja/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>PUT</http-method>
+			<http-method>POST</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>Index page</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Tiene acceso</description>
+			<role-name>Caja</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<display-name>Solo el usuario JefeCaja puede tener acceso a esta página</display-name>
+		<web-resource-collection>
+			<web-resource-name>JefeCaja</web-resource-name>
+			<description></description>
+			<url-pattern>/jefeCaja/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>PUT</http-method>
+			<http-method>POST</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>Index page</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Tiene acceso</description>
+			<role-name>JefeCaja</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<display-name>Solo el usuario Administrador puede tener acceso a esta página</display-name>
+		<web-resource-collection>
+			<web-resource-name>Administrador</web-resource-name>
+			<description></description>
+			<url-pattern>/administrador/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>PUT</http-method>
+			<http-method>POST</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>Index page</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Tiene acceso</description>
+			<role-name>Administrador</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
 	<security-role>
-		<description>Acesso a todo el Sistema</description>
-		<role-name>administrator</role-name>
+		<description>Acesso a todo el Sistema /*</description>
+		<role-name>Admin</role-name>
 	</security-role>
 	<security-role>
-		<description>Atencion al usuario</description>
-		<role-name>ventanilla</role-name>
+		<description>Acceso a la carpeta /caja/*</description>
+		<role-name>Caja</role-name>
 	</security-role>
+	<security-role>
+		<description>Acceso a la carpeta /jefeCaja/*</description>
+		<role-name>JefeCaja</role-name>
+	</security-role>
+	<security-role>
+		<description>Acceso a la carpeta /administrador/*</description>
+		<role-name>Administrador</role-name>
+	</security-role>
+	
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>file</realm-name>
