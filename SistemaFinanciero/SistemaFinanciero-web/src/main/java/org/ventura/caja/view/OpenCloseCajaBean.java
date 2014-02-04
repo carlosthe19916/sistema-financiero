@@ -235,7 +235,7 @@ public class OpenCloseCajaBean implements Serializable {
 					pendientecaja.setTipomoneda(monedaSoles);
 					pendientecaja.setMonto(faltateSoles.multiply(-1));
 					
-					JsfUtil.addErrorMessage("Dinero Faltante de -" + faltateSoles + " Nuevos Soles");
+					JsfUtil.addErrorMessage("Dinero Faltante en Nuevos Soles");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(1)) {
@@ -249,7 +249,7 @@ public class OpenCloseCajaBean implements Serializable {
 					pendientecaja.setTipomoneda(monedaSoles);
 					pendientecaja.setMonto(sobranteSoles);
 					
-					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteSoles + " Nuevos Soles");
+					JsfUtil.addErrorMessage("Dinero Sobrante en Nuevos Soles");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(0)) {
@@ -264,13 +264,10 @@ public class OpenCloseCajaBean implements Serializable {
 					Tipomoneda tipoMoneda = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
 					Tipomoneda monedaSoles = cargarTipoMoneda(tipoMoneda);
 					
-					System.out.println("----------------------");
-					System.out.println("Faltate dolares " + faltanteDolares);
-					
 					pendientecaja.setTipopendiente("FALTANTE");
 					pendientecaja.setTipomoneda(monedaSoles);
 					pendientecaja.setMonto(faltanteDolares.multiply(-1));
-					JsfUtil.addErrorMessage("Dinero Faltante De " + faltanteDolares + " Dolares");
+					JsfUtil.addErrorMessage("Dinero Faltante en Dolares Americanos");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(1)) {
@@ -284,7 +281,7 @@ public class OpenCloseCajaBean implements Serializable {
 					pendientecaja.setTipomoneda(monedaSoles);
 					pendientecaja.setMonto(sobranteDolares);
 					
-					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteDolares + " Dolares");
+					JsfUtil.addErrorMessage("Dinero Sobrante en Dolares Americanos");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(0)) {
@@ -303,7 +300,7 @@ public class OpenCloseCajaBean implements Serializable {
 					pendientecaja.setTipomoneda(monedaSoles);
 					pendientecaja.setMonto(faltanteEuros.multiply(-1));
 					
-					JsfUtil.addErrorMessage("Dinero Faltante de " + faltanteEuros + " Euros");
+					JsfUtil.addErrorMessage("Dinero Faltante en Euros");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja).containsKey(1)) {
@@ -318,7 +315,7 @@ public class OpenCloseCajaBean implements Serializable {
 					pendientecaja.setTipomoneda(monedaSoles);
 					pendientecaja.setMonto(sobranteEuros);
 					
-					JsfUtil.addErrorMessage("Dinero Sobrante de " + sobranteEuros + " Euros");
+					JsfUtil.addErrorMessage("Dinero Sobrante en Euros");
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja).containsKey(0)) {
