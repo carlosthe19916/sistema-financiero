@@ -10,7 +10,8 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:rich="http://richfaces.org/rich">
 
-<h:panelGroup id="panelgroup" rendered="#{!transaccionCompraVentaCajaBean.pageVoucher}">
+<h:panelGroup id="panelgroup"
+	rendered="#{!transaccionCompraVentaCajaBean.pageVoucher}">
 
 	<script type="text/javascript">
 		    $(document).ready(function () {
@@ -68,7 +69,7 @@
 								</div>
 								<div style="text-align: center;">
 									<h:commandLink value="Cerrar"
-										action="/modules/caja/administracion/list?faces-redirect=true" immediate="true"
+										action="/caja/index?faces-redirect=true" immediate="true"
 										styleClass="p6n-api-access-in-page-error-link" />
 								</div>
 							</div>
@@ -88,7 +89,7 @@
 								</div>
 								<div style="text-align: center;">
 									<h:commandLink value="Cerrar"
-										action="transaccionCompraVenta.xhtml"
+										action="transaccionCompraVenta"
 										styleClass="p6n-api-access-in-page-error-link" />
 								</div>
 							</div>
@@ -108,7 +109,7 @@
 								</div>
 								<div style="text-align: center;">
 									<h:commandLink value="Cerrar"
-										action="transaccionCompraVenta.xhtml"
+										action="transaccionCompraVenta"
 										styleClass="p6n-api-access-in-page-error-link" />
 								</div>
 							</div>
@@ -159,7 +160,8 @@
 											value="#{transaccionCompraVentaCajaBean.dniRuc}" size="15"
 											maxlength="11" validatorMessage="Dni o Ruc Invalido">
 											<f:validateRegex pattern="((?=.*[0-9]).{8,})" />
-											<f:ajax event="blur" render="@this txtNombresRazonSocial" listener="#{transaccionCompraVentaCajaBean.retornarNombresRazonSocial()}"/>
+											<f:ajax event="blur" render="@this txtNombresRazonSocial"
+												listener="#{transaccionCompraVentaCajaBean.retornarNombresRazonSocial()}" />
 										</h:inputText>
 									</div>
 								</div>
@@ -179,7 +181,7 @@
 											requiredMessage="Ingrese Nombres o Razon Social"
 											value="#{transaccionCompraVentaCajaBean.nombresRazonSocial}"
 											onkeyup="this.value = this.value.toUpperCase();" size="50"
-											maxlenght="200" >
+											maxlenght="200">
 										</h:inputText>
 									</div>
 								</div>

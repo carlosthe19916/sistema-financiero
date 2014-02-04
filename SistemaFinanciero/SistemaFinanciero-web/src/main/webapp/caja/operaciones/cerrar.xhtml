@@ -163,8 +163,8 @@
 									<h:commandButton value="Abrir"
 										action="#{abrirCajaBean.verificarSaldos()}"
 										styleClass="action blue" />
-									<h:commandButton action="cancel" value="Cancelar"
-										styleClass="action" />
+									<h:commandButton action="/caja/index?faces-redirect=true"
+										value="Cancelar" styleClass="action" immediate="true" />
 								</div>
 							</div>
 						</div>
