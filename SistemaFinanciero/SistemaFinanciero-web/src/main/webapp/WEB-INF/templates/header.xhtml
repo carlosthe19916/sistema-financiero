@@ -67,7 +67,7 @@
 					<ui:repeat value="#{moduloMB.modulosUsuario}" var="modulo">
 						<li class="sf-menu-ul-li">
 							<h:form>
-								<h:outputLink value="#{request.contextPath}/modules/#{modulo.shortModuleName}/index.xhtml" styleClass="sf-menu-ul-li-a">
+								<h:outputLink value="#{request.contextPath}/#{modulo.shortModuleName}/index.xhtml" styleClass="sf-menu-ul-li-a">
 									<h:outputLabel value="#{modulo.nombre}" />
 									<f:param name="module" value="#{modulo.idmodulo}"></f:param>
 								</h:outputLink>
