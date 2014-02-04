@@ -264,9 +264,27 @@
 								styleClass="action" />
 						</div>
 					</div>
+				</h:form>
+			</h:panelGroup>
 
-
-
+			<h:panelGroup rendered="#{abrirCajaBean.success}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 452px; top: 150px;">
+						<div class="modal-dialog-title modal-dialog-title-draggable">
+							<span class="modal-dialog-title-text">Caja cerrada
+								satisfactoriamente</span><span class="modal-dialog-title-close"></span>
+						</div>
+						<div class="modal-dialog-content ng-binding">
+							<div>La caja se cerro correctamente.</div>
+						</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Salir" immediate="true"
+								styleClass="action" />
+						</div>
+					</div>
 				</h:form>
 			</h:panelGroup>
 		</ui:define>

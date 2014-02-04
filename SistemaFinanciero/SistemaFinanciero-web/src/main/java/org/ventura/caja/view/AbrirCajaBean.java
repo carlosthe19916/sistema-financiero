@@ -105,15 +105,17 @@ public class AbrirCajaBean implements Serializable{
 	public void closeCaja() throws Exception {
 		Caja caja = this.caja;	
 		try {
-			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO);
-			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
-			if (estadoapertura.equals(estadoapertura2)) {
-								
-				this.cajaServiceLocal.closeCaja(caja, mapDetalleHistorialcajaCierre);
-				
-			} else {
-				failure = true;
-				JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");			
+			if(success == false){
+				Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO);
+				Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
+				if (estadoapertura.equals(estadoapertura2)) {								
+					this.cajaServiceLocal.closeCaja(caja, mapDetalleHistorialcajaCierre);
+					success = true;
+					setDlgVerificarSaldos(false);
+				} else {
+					failure = true;
+					JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");			
+				}
 			}
 		} catch (Exception e) {
 			failure = true;

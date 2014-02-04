@@ -951,12 +951,76 @@ public class CajaServiceBean implements CajaServiceLocal{
 	}
 
 	@Override
-	public void closeCaja(
-			Caja caja,
-			Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaCierre)
-			throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void closeCaja(Caja caja,Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaCierre) throws Exception {
+		try {
+			Caja cajaDB = find(caja.getIdcaja());
+			
+			Historialcaja historialcaja = getHistorialcajaLastActive(cajaDB);
+					
+			//verificando que los saldos coincidan
+			Map<Tipomoneda, BigDecimal> saldoDB = new HashMap<Tipomoneda, BigDecimal>();
+			Map<Tipomoneda, BigDecimal> saldoVista = new HashMap<Tipomoneda, BigDecimal>();
+			
+			for (Tipomoneda tipomoneda : mapDetalleHistorialcajaCierre.keySet()) {
+				BigDecimal total = BigDecimal.ZERO;
+				List<Detallehistorialcaja> list = mapDetalleHistorialcajaCierre.get(tipomoneda);
+				for (Detallehistorialcaja d : list) {
+					total = total.add(d.getSubtotal().getValue());
+				}
+				saldoVista.put(tipomoneda, total);
+			}
+			
+			List<Boveda> bovedas = cajaDB.getBovedas();
+			for (Boveda boveda : bovedas) {
+				BovedaCajaPK pk = new BovedaCajaPK();
+				pk.setIdboveda(boveda.getIdboveda());
+				pk.setIdcaja(cajaDB.getIdcaja());			
+				BovedaCaja bovedaCaja = bovedaCajaDAO.find(pk);
+				saldoDB.put(boveda.getTipomoneda(), bovedaCaja.getSaldototal().getValue());
+			}
+			
+			for (Tipomoneda tipomoneda : saldoDB.keySet()) {
+				BigDecimal totalDB = saldoDB.get(tipomoneda);
+				BigDecimal totalVista = saldoVista.get(tipomoneda);
+				if(totalDB.compareTo(totalVista) != 0){
+					throw new Exception("Los saldos de la moneda " + tipomoneda.getDenominacion().toUpperCase() + "no coinciden");
+				}
+			}
+			
+			//pasó la validacion
+			cajaDB.setEstadoapertura(ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO));
+			cajaDAO.update(cajaDB);
+			
+			Calendar calendar = Calendar.getInstance();
+			historialcaja.setEstadomovimiento(ProduceObject.getEstadomovimiento(EstadoMovimientoType.CONGELADO));
+			historialcaja.setFechacierre(calendar.getTime());
+			historialcaja.setHoracierre(calendar.getTime());
+			historialcajaDAO.update(historialcaja);
+			
+			//Actualizar detalle historial
+			Map<Denominacionmoneda, Detallehistorialcaja> detalle = new HashMap<Denominacionmoneda, Detallehistorialcaja>();
+			for (Tipomoneda tipomoneda : mapDetalleHistorialcajaCierre.keySet()) {				
+				List<Detallehistorialcaja> list = mapDetalleHistorialcajaCierre.get(tipomoneda);
+				for (Detallehistorialcaja d : list) {
+					detalle.put(d.getDenominacionmoneda(), d);
+				}				
+			}
+			
+			List<Detallehistorialcaja> detallehistorialcajas = historialcaja.getDetallehistorialcajas();
+			for (Detallehistorialcaja detallehistorialcaja : detallehistorialcajas) {
+				Denominacionmoneda denominacionmoneda = detallehistorialcaja.getDenominacionmoneda();
+				Detallehistorialcaja detalleVista = detalle.get(denominacionmoneda);
+				int cantidadVista = detalleVista.getCantidad();
+				detallehistorialcaja.setCantidad(cantidadVista);
+				detallehistorialcajaDAO.update(detallehistorialcaja);
+			}
+					
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
 	}
 
 	@Override
