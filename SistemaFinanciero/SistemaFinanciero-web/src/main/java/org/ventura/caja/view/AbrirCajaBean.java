@@ -8,8 +8,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,6 +16,7 @@ import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
+import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.PendienteCaja;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
@@ -55,6 +54,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	@Inject private CajaBean cajaBean;
 	@Inject private Caja caja;
+	@Inject private Historialcaja historialcaja;
 	@Inject private AgenciaBean agenciaBean;
 	@Inject private Agencia agencia;
 	
@@ -74,6 +74,14 @@ public class AbrirCajaBean implements Serializable{
 			caja = cajaBean.getCaja();
 			agencia = agenciaBean.getAgencia();
 			
+			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
+			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
+			if (estadoapertura.equals(estadoapertura2)) {								
+				throw new Exception("Caja CERRADA, no se puede cerrar nuevamente");
+			}
+			
+			historialcaja = cajaServiceLocal.getHistorialcajaLastActive(caja);
+			
 			mapDetalleHistorialcajaApertura = cajaServiceLocal.getDetallehistorialcajaLastActive(caja);
 			mapDetalleHistorialcajaCierre = cajaServiceLocal.getDetallehistorialcajaInZero(caja);
 			
@@ -83,7 +91,6 @@ public class AbrirCajaBean implements Serializable{
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
-			throw e;
 		}
 	}
 	
@@ -135,6 +142,24 @@ public class AbrirCajaBean implements Serializable{
 			JsfUtil.addSuccessMessage("Pendiente creado");
 			setDlgCrearPendiente(false);
 			verificarSaldos();
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void congelar(){
+		try {
+			cajaServiceLocal.freezeCaja(caja);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void descongelar(){
+		try {
+			cajaServiceLocal.defrostCaja(caja);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -300,6 +325,14 @@ public class AbrirCajaBean implements Serializable{
 
 	public void setSuccessPendiente(boolean successPendiente) {
 		this.successPendiente = successPendiente;
+	}
+
+	public Historialcaja getHistorialcaja() {
+		return historialcaja;
+	}
+
+	public void setHistorialcaja(Historialcaja historialcaja) {
+		this.historialcaja = historialcaja;
 	}
 
 }

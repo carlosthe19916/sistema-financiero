@@ -39,6 +39,14 @@
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
+							<div>
+								<h:commandButton action="#{abrirCajaBean.descongelar()}"
+									value="Descongelar" styleClass="action green"
+									style="float:none;" />
+								<h:commandButton action="#{abrirCajaBean.congelar()}"
+									value=" Congelar " styleClass="action red" style="float:none;" />
+							</div>
+							<br /> <br />
 							<div class="p6n-api-consent-screen-title">Cerrar Caja</div>
 
 							<div class="p6n-api-consent-screen-inputs">
@@ -72,6 +80,14 @@
 										<div>
 											<h:outputLabel
 												value="#{abrirCajaBean.caja.estadoapertura.denominacion}" />
+										</div>
+									</div>
+									<div style="display: inline-block;">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">MOVIMIENTOS</div>
+										<div>
+											<h:outputLabel
+												value="#{abrirCajaBean.historialcaja.estadomovimiento.denominacion}" />
 										</div>
 									</div>
 								</div>
@@ -121,12 +137,17 @@
 														</p:column>
 														<p:column headerText="Cantidad" width="100"
 															style="text-align:right;">
-															<h:inputText value="#{cajaDetalle.cantidad}"
-																required="true" maxlength="6"
+															<h:inputText id="txtCantidadMoneda"
+																value="#{cajaDetalle.cantidad}" required="true"
+																maxlength="6" requiredMessage="requerido"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 																style="text-align:left; width:100px; height:20px">
 																<f:ajax event="blur" execute="@this" render="tabla" />
 															</h:inputText>
+															<div
+																class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+																<h:message for="txtCantidadMoneda" />
+															</div>
 														</p:column>
 														<p:column headerText="Total" width="150"
 															style="text-align:right;">
