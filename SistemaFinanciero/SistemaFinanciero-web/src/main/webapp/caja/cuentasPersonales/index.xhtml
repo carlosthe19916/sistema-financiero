@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(1)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Apertura Cta. Ahorros" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+			
+			<div class="p6n-content ng-scope">
+			<div class="p6n-project-dashboard ng-scope">
+				<div class="p6n-project-detail-pane">
+					<div class="p6n-project-detail-samples-pane">
+						<div class="p6n-project-detail-samples-welcome"
+							style="margin-top: 50px; font-weight: bold; font-size: 18px; color: red;">CUENTAS PERSONALES</div>
+							<div class="p6n-project-detail-samples-welcome"
+								style="margin-top: 15px; font-size: 15px; text-align: justify; margin-left: 20px; margin-right: 30px;">
+								<table>
+									<tr>
+										<td colspan="1"
+											style="width: 33%; font-size: 13px; text-align: center;">
+											<h3 style="font-weight: bold; font-size: 14px; color: red;">¿Porqué
+												Aportar?</h3>Las aportaciones forman parte del capital social y
+											son importantes para el funcionamiento de la cooperativa,
+											pues el objetivo que llevó a crear esta institución fue
+											captar recursos económicos de los socios para formar un fondo
+											de uso común y otorgarles todo tipo de beneficios en cuanto a
+											servicios financieros se refiera. Las aportaciones
+											obligatorias ascienden a 10 soles mensuales, Los cuales son
+											direccionados a tu propia cuenta de aportaciones,
+											devolviéndote lo que allí reúnas cuando decidas alejarte
+											definitivamente de nosotros.
+											<br />
+											<br />
+											<p:graphicImage name="aporte.jpg" library="images/cuentasPersonales"/>
+										</td>
+
+										<td colspan="1" style="width: 1%;"></td>
+
+										<td colspan="1"
+											style="width: 33%; font-size: 13px; text-align: center;">
+											<h3 style="font-weight: bold; font-size: 14px; color: red;">Cuenta
+												de Ahorro</h3>Depósito en soles y dólares, que te permite ganar
+											intereses de manera rápida y segura. Puedes disponer de los
+											fondos en el momento que los requieras, utilizando cualquiera
+											de nuestros canales de atención en todo el Perú. Nuestras
+											cuentas de ahorros te ofrece: 
+											<br />
+											 - Saldos y Movimientos:
+											Consulta tus saldos y movimientos al instante y gratis.
+											<br />
+											 - Banca por Teléfono: Obtén saldos, movimientos y consultas las
+											24 horas del día los 365 días del año.
+											<br /> 
+											<br />
+											<p:graphicImage name="ahorro.jpg" library="images/cuentasPersonales"/>
+										</td>
+
+										<td colspan="1" style="width: 1%;"></td>
+
+										<td colspan="1"
+											style="width: 31%; font-size: 13px; text-align: center;">
+											<h3 style="font-weight: bold; font-size: 14px; color: red;">¿Qué es el Plazo Fijo?</h3>
+											Son depósitos de dinero que se realizan en una
+											cuenta determinada por un plazo fijo. Este plazo es
+											establecido entre la cooperativa y el
+											socio. El dinero depositado deberá conservarse en la
+											cooperativa, no pudiendo el titular
+											realizar retiros parciales o totales hasta que concluya dicho
+											plazo.
+											<br /> 
+											<br />
+											<br />
+											<p:graphicImage name="plazoFijo.jpg" library="images/cuentasPersonales"/>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					<!-- ngIf: showEnableBillingForGCE -->
+				</div>
+			</div>
+		</div>
+
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+</html>

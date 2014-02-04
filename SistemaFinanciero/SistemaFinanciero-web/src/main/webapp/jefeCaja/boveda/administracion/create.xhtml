@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Nuevo" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+			<br />
+			<h:form>
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">Crear Boveda</div>
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">
+										AGENCIA</div>
+									<div>
+										<h:outputLabel value="#{bovedaCRUDBean.agencia.denominacion}" />
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">DENOMINACION</div>
+									<div>
+										<div>
+											<h:inputText id="txtDenominacion"
+												onkeyup="this.value = this.value.toUpperCase();"
+												value="#{bovedaCRUDBean.denominacion}" maxlength="150"
+												required="true"
+												requiredMessage="Denominacion no debe de ser vacio" />
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtDenominacion" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+										MONEDA</div>
+									<div>
+										<h:selectOneMenu id="txtTipomoneda"
+											value="#{bovedaCRUDBean.comboTipomoneda.itemSelected}"
+											valueChangeListener="#{bovedaCRUDBean.changeTipomoneda}"
+											required="true"
+											requiredMessage="Tipo moneda no debe de ser vacio">
+											<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+											<f:selectItems
+												value="#{bovedaCRUDBean.comboTipomoneda.items.entrySet()}"
+												var="val" itemLabel="#{val.value.denominacion}"
+												itemValue="#{val.key}" />
+											<f:ajax execute="@this"></f:ajax>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtTipomoneda" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">MONTO</div>
+									<div>
+										<label class="sf-label-bold">0.00</label>
+									</div>
+								</div>
+								<br /> <br />
+								<div>
+									<h:commandButton id="btnGuardar"
+										action="#{bovedaCRUDBean.createBoveda()}" value="Guardar"
+										styleClass="action blue" onclick="onSubmitButton();" />
+									<h:commandButton value="Cancelar" action="cancel"
+										immediate="true" styleClass="action" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+
+	<f:metadata>
+		<f:viewParam name="idcaja" value="#{cajaCRUDBean.idcaja}" />
+		<f:viewAction action="#{cajaCRUDBean.loadCajaForEdit()}" />
+		<f:viewAction action="#{menuMB.updateMenu(2)}" />
+	</f:metadata>
+
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Caja" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+			<h:outputStylesheet library="css" name="main.css" />
+			<br />
+			<h:form>
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">Editar Caja</div>
+							<h:panelGroup rendered="#{!cajaCRUDBean.isValidBean()}">
+								<div class="p6n-api-access-in-page-error" style="left: 516px;">
+									<div>
+										<div>
+											<p>
+												<h:messages />
+											</p>
+										</div>
+										<div style="text-align: center;">
+											<h:commandLink value="Volver"
+												action="list.xhtml?faces-redirect=true"
+												immediate="true"
+												styleClass="p6n-api-access-in-page-error-link" />
+										</div>
+									</div>
+								</div>
+								<div class="modal-dialog-bg"
+									style="opacity: 0.4; width: 1366px; height: 702px;"></div>
+							</h:panelGroup>
+
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">
+										AGENCIA</div>
+									<div>
+										<h:outputLabel value="#{cajaCRUDBean.agencia.denominacion}" />
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">DENOMINACION</div>
+									<div>
+										<div>
+											<h:inputText id="txtDenominacion"
+												value="#{cajaCRUDBean.denominacion}"
+												disabled="#{!cajaCRUDBean.isValidBean()}" maxlength="150"
+												required="true"
+												requiredMessage="Denominacion no debe de ser vacio" />
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtDenominacion" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">ABREVIATURA</div>
+									<div>
+										<h:inputText id="txtAbreviatura"
+											value="#{cajaCRUDBean.abreviatura}"
+											disabled="#{!cajaCRUDBean.isValidBean()}" maxlength="150"
+											required="true"
+											requiredMessage="Abreviatura no debe de ser vacio" />
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtAbreviatura" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDAS
+										ASIGNADAS</div>
+									<div>
+										<p:pickList id="pickBovedas"
+											value="#{cajaCRUDBean.dualListModelBoveda}"
+											disabled="#{!cajaCRUDBean.isValidBean()}" var="boveda"
+											itemLabel="#{boveda}" itemValue="#{boveda}"
+											converter="DualPickListConverter" required="true"
+											requiredMessage="Seleccione por lo menos una boveda" />
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="pickBovedas" />
+								</div>
+								<div class="sf-buttons" style="float: left;">
+									<h:commandButton action="#{cajaCRUDBean.updateCaja()}"
+										value="Guardar" styleClass="action blue"
+										disabled="#{!cajaCRUDBean.isValidBean()}" onclick="onSubmitButton();"/>
+									<h:commandButton value="Cancelar" action="cancel"
+										styleClass="action" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+
+</html>

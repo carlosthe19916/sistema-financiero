@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:rich="http://richfaces.org/rich">
+
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(2)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+
+		<ui:define name="content">
+			<h:outputStylesheet library="css" name="main.css" />
+
+			<h:panelGroup id="panelDatos">
+				<!-- transaccion Compra Venta -->
+				<ui:include src="/modules/caja/operaciones/compraVenta.xhtml">
+					<ui:param name="managedBean"
+						value="#{transaccionCompraVentaCajaBean}" />
+					<ui:param name="componentName" value="compraVenta" />
+				</ui:include>
+				<!-- end transaccion Compra Venta -->
+
+				<!-- Voucher Compra Venta -->
+				<ui:include src="/modules/caja/operaciones/voucherCompraVenta.xhtml">
+					<ui:param name="managedBean"
+						value="#{transaccionCompraVentaCajaBean}" />
+					<ui:param name="componentName" value="voucherCompraVenta" />
+				</ui:include>
+				<!-- end Voucher Compra Venta -->
+			</h:panelGroup>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>

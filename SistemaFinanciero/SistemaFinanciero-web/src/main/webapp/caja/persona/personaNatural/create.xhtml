@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(4)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Pesona Natural" />
+		</ui:define>
+
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+
+			<h:form>
+
+				<br />
+				<div>
+					<div style="margin-left: 50px;">
+						<div>
+							<div>
+								<div class="p6n-api-consent-screen-title">PERSONA NATURAL</div>
+								<div class="p6n-api-consent-screen-inputs">
+									<div class="sf-separator">
+										<h3 class="p6n-api-consent-screen-title"
+											style="color: #298B11;">Datos Generales</h3>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div style="display: inline-block; width: 190px;">
+											<div class="p6n-api-consent-screen-label">TIPO
+												DOCUMENTO</div>
+											<div>
+												<h:selectOneMenu id="cmbTipodocumento"
+													value="#{personanaturalCRUDBean.comboTipodocumento.itemSelected}"
+													required="true"
+													requiredMessage="Seleccione tipo de documento">
+													<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+													<f:selectItems
+														value="#{personanaturalCRUDBean.comboTipodocumento.items.entrySet()}"
+														var="val" itemLabel="#{val.value.abreviatura}"
+														itemValue="#{val.key}" />
+													<f:ajax></f:ajax>
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div style="display: inline-block; width: 190px;">
+											<div class="p6n-api-consent-screen-label">NUMERO
+												DOCUMENTO</div>
+											<div>
+												<h:inputText id="txtDni"
+													value="#{personanaturalCRUDBean.numerodocumento}"
+													required="true" maxlength="15"
+													requiredMessage="Ingrese numero documento"
+													validatorMessage="Número de documento Invalido"
+													converterMessage="Número de documento Invalido"
+													pt:placeholder="Numero Documento">
+													<f:convertNumber type="number" integerOnly="true"
+														groupingUsed="false" />
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="cmbTipodocumento" />
+										<h:message for="txtDni" />
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div style="display: inline-block; width: 190px;">
+											<div class="p6n-api-consent-screen-label">APELLIDO
+												PATERNO</div>
+											<div>
+												<div>
+													<h:inputText id="txtApellidoPaterno"
+														value="#{personanaturalCRUDBean.apellidopaterno}"
+														required="true" maxlength="50"
+														requiredMessage="Ingrese apellido paterno"
+														onkeyup="this.value = this.value.toUpperCase();"
+														pt:placeholder="Apellido Paterno">
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+										<div style="display: inline-block;">
+											<div class="p6n-api-consent-screen-label">APELLIDO
+												MATERNO</div>
+											<div>
+
+												<div>
+													<h:inputText id="txtApellidoMaterno"
+														value="#{personanaturalCRUDBean.apellidomaterno}"
+														required="true" maxlength="50"
+														requiredMessage="Ingrese apellido materno"
+														onkeyup="this.value = this.value.toUpperCase();"
+														pt:placeholder="Apellido Materno">
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtApellidoPaterno" />
+										<h:message for="txtApellidoMaterno" />
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">NOMBRES</div>
+										<div>
+											<div>
+												<h:inputText id="txtNombres"
+													value="#{personanaturalCRUDBean.nombres}" required="true"
+													maxlength="60" requiredMessage="Ingrese nombres"
+													onkeyup="this.value = this.value.toUpperCase();"
+													pt:placeholder="Nombres" style="width:339px;">
+												</h:inputText>
+											</div>
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtNombres" />
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div style="display: inline-block; width: 190px;">
+											<div class="p6n-api-consent-screen-label">SEXO</div>
+											<div>
+												<div>
+													<h:selectOneMenu id="cmbSexo"
+														value="#{personanaturalCRUDBean.comboSexo.itemSelected}"
+														required="true" requiredMessage="Seleccione sexo">
+														<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+														<f:selectItems
+															value="#{personanaturalCRUDBean.comboSexo.items.entrySet()}"
+															var="val" itemLabel="#{val.value.denominacion}"
+															itemValue="#{val.key}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+										<div style="display: inline-block;">
+											<div class="p6n-api-consent-screen-label">FECHA DE
+												NACIMIENTO</div>
+											<div>
+												<div>
+													<p:calendar id="txtFechanacimiento"
+														value="#{personanaturalCRUDBean.fechanacimiento}"
+														navigator="true" pattern="dd/MM/yy" required="true"
+														requiredMessage="Ingrese fecha de nacimiento"
+														converterMessage="formato incorrecto"
+														pt:placeholder="dd/mm/yyyy">
+														<f:convertDateTime pattern="dd/MM/yy" timeZone="EST"/> 
+													</p:calendar>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="cmbSexo" />
+										<h:message for="txtFechanacimiento" />
+									</div>
+									<br />
+									<div class="sf-separator">
+										<h3 class="p6n-api-consent-screen-title"
+											style="color: #298B11;">Datos Adicionales</h3>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div>
+											<div style="display: inline-block; width: 190px;">
+												<div class="p6n-api-consent-screen-label">ESTADO CIVIL</div>
+												<div>
+													<h:selectOneMenu id="cmbEstadocivil"
+														value="#{personanaturalCRUDBean.comboEstadocivil.itemSelected}">
+														<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+														<f:selectItems
+															value="#{personanaturalCRUDBean.comboEstadocivil.items.entrySet()}"
+															var="val" itemLabel="#{val.value.denominacion}"
+															itemValue="#{val.key}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div style="display: inline-block;">
+												<div class="p6n-api-consent-screen-label">OCUPACION</div>
+												<div>
+													<h:inputText value="#{personanaturalCRUDBean.ocupacion}"
+														onkeyup="this.value = this.value.toUpperCase();"
+														maxlength="70" pt:placeholder="Ocupacion" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div style="display: inline-block; width: 190px;">
+											<div class="p6n-api-consent-screen-label">DIRECCION</div>
+											<div>
+												<div>
+													<h:inputText value="#{personanaturalCRUDBean.direccion}"
+														onkeyup="this.value = this.value.toUpperCase();"
+														maxlength="150" pt:placeholder="Direccion">
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+										<div style="display: inline-block;">
+											<div class="p6n-api-consent-screen-label">REFERENCIA</div>
+											<div>
+												<div>
+													<h:inputText value="#{personanaturalCRUDBean.referencia}"
+														onkeyup="this.value = this.value.toUpperCase();"
+														maxlength="100" pt:placeholder="Referencia">
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div style="display: inline-block; width: 190px;">
+											<div class="p6n-api-consent-screen-label">TELEFONO</div>
+											<div>
+												<div>
+													<h:inputText value="#{personanaturalCRUDBean.telefono}"
+														maxlength="25" pt:placeholder="066000000">
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+										<div style="display: inline-block;">
+											<div class="p6n-api-consent-screen-label">CELULAR</div>
+											<div>
+												<div>
+													<h:inputText value="#{personanaturalCRUDBean.celular}"
+														maxlength="25" pt:placeholder="Ceular/RPM">
+													</h:inputText>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">EMAIL</div>
+										<div>
+											<div>
+												<h:inputText value="#{personanaturalCRUDBean.email}"
+													onkeyup="this.value = this.value.toUpperCase();"
+													maxlength="50" pt:placeholder="example@domain.com"
+													style="width:339px;" />
+											</div>
+										</div>
+									</div>
+									<br />
+									<div class="sf-buttons" style="float: left;">
+										<h:commandButton value="Guardar"
+											action="#{personanaturalCRUDBean.createPersona()}"
+											styleClass="action blue" />
+										<h:commandButton value="Cancelar" immediate="true"
+											action="list?faces-redirect=true" styleClass="action" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+			<h:panelGroup rendered="#{personanaturalCRUDBean.success}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 502px; top: 200px;">
+						<div class="modal-dialog-title modal-dialog-title-draggable">
+							<span class="modal-dialog-title-text">Creacion
+								satisfactoria</span><span class="modal-dialog-title-close"></span>
+						</div>
+						<div class="modal-dialog-content ng-binding">La persona fue
+							creada satistactoriamente.</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Crear nuevo"
+								action="create?faces-redirect=true" icon="ui-icon-print" />
+							<h:commandButton value="Volver" action="list" immediate="true" />
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{personanaturalCRUDBean.failure}">
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+</html>
