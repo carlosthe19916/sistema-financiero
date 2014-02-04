@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,10 +18,12 @@ import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
+import org.ventura.entity.schema.caja.PendienteCaja;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
 import org.ventura.session.CajaBean;
+import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.util.JsfUtil;
@@ -37,7 +41,12 @@ public class AbrirCajaBean implements Serializable{
 	private boolean failure;
 	
 	private boolean dlgVerificarSaldos;
+	
 	private boolean dlgCrearPendiente;
+	private boolean successPendiente;
+	private BigDecimal montoPendiente;
+	private Tipomoneda tipomonedaPendiente;
+	private String observacionPendiente;
 	
 	private Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaApertura;
 	private Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaCierre;
@@ -53,6 +62,7 @@ public class AbrirCajaBean implements Serializable{
 	public AbrirCajaBean() {
 		success = false;
 		failure = false;
+		successPendiente = false;
 		dlgVerificarSaldos = false;
 		dlgCrearPendiente = false;
 		mapDiferenciaSaldos = new HashMap<Tipomoneda, BigDecimal>();
@@ -101,7 +111,6 @@ public class AbrirCajaBean implements Serializable{
 								
 				this.cajaServiceLocal.closeCaja(caja, mapDetalleHistorialcajaCierre);
 				
-				
 			} else {
 				failure = true;
 				JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");			
@@ -112,7 +121,39 @@ public class AbrirCajaBean implements Serializable{
 		}
 	}
 	
-	public String getMensajeSaldo(BigDecimal valor){
+	public void crearPendiente(){
+		try {
+			PendienteCaja pendienteCaja = new PendienteCaja();
+			pendienteCaja.setMonto(new Moneda(montoPendiente));
+			pendienteCaja.setObservacion(observacionPendiente);
+			pendienteCaja.setTipomoneda(tipomonedaPendiente);			
+			cajaServiceLocal.crearPendiente(caja, pendienteCaja);
+			
+			successPendiente = true;
+			JsfUtil.addSuccessMessage("Pendiente creado");
+			setDlgCrearPendiente(false);
+			verificarSaldos();
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void cargarPendiente(Tipomoneda tipomoneda){
+		dlgCrearPendiente = true;
+		montoPendiente = mapDiferenciaSaldos.get(tipomoneda);
+		tipomonedaPendiente = tipomoneda;
+		observacionPendiente = "";
+	}
+	
+	public void cancelarPendiente(){
+		dlgCrearPendiente = false;
+		montoPendiente = null;
+		tipomonedaPendiente = null;
+		observacionPendiente = "";
+	}
+	
+	public String getMensajeSaldo(BigDecimal valor) {
 		String msg = "";
 		if(valor.compareTo(BigDecimal.ZERO) == 0){
 			msg = "Cuadre de caja correcto";
@@ -121,6 +162,20 @@ public class AbrirCajaBean implements Serializable{
 				msg = "Saldo de caja sobrante";
 			} else {
 				msg = "Saldo de caja faltante";
+			}
+		}
+		return msg;
+	}
+	
+	public String getMensajeTipoPendiente() {
+		String msg = "";
+		if(montoPendiente.compareTo(BigDecimal.ZERO) == 0){
+			msg = "Cuadre de caja correcto";
+		} else {
+			if(montoPendiente.compareTo(BigDecimal.ZERO) == 1){
+				msg = "Sobrante";
+			} else {
+				msg = "Faltante";
 			}
 		}
 		return msg;
@@ -211,6 +266,38 @@ public class AbrirCajaBean implements Serializable{
 
 	public void setDlgCrearPendiente(boolean dlgCrearPendiente) {
 		this.dlgCrearPendiente = dlgCrearPendiente;
+	}
+
+	public BigDecimal getMontoPendiente() {
+		return montoPendiente;
+	}
+
+	public void setMontoPendiente(BigDecimal montoPendiente) {
+		this.montoPendiente = montoPendiente;
+	}
+
+	public Tipomoneda getTipomonedaPendiente() {
+		return tipomonedaPendiente;
+	}
+
+	public void setTipomonedaPendiente(Tipomoneda tipomonedaPendiente) {
+		this.tipomonedaPendiente = tipomonedaPendiente;
+	}
+
+	public String getObservacionPendiente() {
+		return observacionPendiente;
+	}
+
+	public void setObservacionPendiente(String observacionPendiente) {
+		this.observacionPendiente = observacionPendiente;
+	}
+
+	public boolean isSuccessPendiente() {
+		return successPendiente;
+	}
+
+	public void setSuccessPendiente(boolean successPendiente) {
+		this.successPendiente = successPendiente;
 	}
 
 }

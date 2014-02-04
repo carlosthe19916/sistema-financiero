@@ -13,6 +13,7 @@ import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Historialcaja;
+import org.ventura.entity.schema.caja.PendienteCaja;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.maestro.Tipomoneda;
@@ -66,6 +67,7 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	
 	/**
 	 * Transaccional**/
+	public void crearPendiente(Caja caja, PendienteCaja pendienteCaja) throws Exception;
 	
 	public void updateSaldo(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
 	

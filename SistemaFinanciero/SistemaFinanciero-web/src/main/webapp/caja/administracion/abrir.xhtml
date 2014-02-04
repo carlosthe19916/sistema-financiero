@@ -177,9 +177,8 @@
 											<h:outputLabel value="#{panelMoneda.value}" />
 										</div>
 										<div>
-											<h:commandLink value="Crear pendiente" />
-											&nbsp;||&nbsp;
-											<h:commandLink value="Cerrar" />
+											<h:commandButton value="Crear pendiente"
+												action="#{abrirCajaBean.cargarPendiente(panelMoneda.key)}" />
 										</div>
 										<label>-----------------------------------------------</label>
 									</p:outputPanel>
@@ -188,16 +187,87 @@
 						</div>
 						<div class="modal-dialog-buttons">
 							<h:commandButton value="Cerrar caja"
-								action="#{abrirCajaBean.closeCaja()}">
+								action="#{abrirCajaBean.closeCaja()}" styleClass="action blue">
 							</h:commandButton>
-							<h:commandButton value="Salir" />
+							<h:commandButton value="Cancelar"
+								action="#{abrirCajaBean.setDlgVerificarSaldos(false)}"
+								immediate="true" />
 						</div>
 					</div>
 				</h:form>
 			</h:panelGroup>
 
-			<h:panelGroup>
+			<h:panelGroup rendered="#{abrirCajaBean.successPendiente}">
+				<div class="p6n-butterbar" id="p6n-manualbutterbar0"
+					style="left: 41%;">
+					<div>
+						<h:messages />
+					</div>
+				</div>
+			</h:panelGroup>
 
+			<h:panelGroup rendered="#{abrirCajaBean.dlgCrearPendiente}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+					<div class="modal-dialog p6n-popup" style="left: 452px; top: 40px;">
+						<div class="modal-dialog-title modal-dialog-title-draggable">
+							<span class="modal-dialog-title-text">Crear pendiente</span><span
+								class="modal-dialog-title-close"></span>
+						</div>
+						<div class="modal-dialog-content ng-binding">
+							<div>
+								<div class="p6n-api-consent-screen-inputs">
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">TIPO PENDIENTE</div>
+										<div>
+											<h:outputText
+												value="#{abrirCajaBean.getMensajeTipoPendiente()}" />
+										</div>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+
+										<div style="display: inline-block; width: 190px;">
+											<div class="p6n-api-consent-screen-label">TIPO MONEDA</div>
+											<div>
+												<h:outputText
+													value="#{abrirCajaBean.tipomonedaPendiente.abreviatura} #{abrirCajaBean.tipomonedaPendiente.denominacion}" />
+											</div>
+										</div>
+										<div style="display: inline-block; width: 190px;">
+											<div class="p6n-api-consent-screen-label">MONTO</div>
+											<div>
+												<h:outputText value="#{abrirCajaBean.montoPendiente}" />
+											</div>
+										</div>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">Observación</div>
+										<div>
+											<div>
+												<p:inputTextarea rows="10" cols="60" queryDelay="750"
+													minQueryLength="4" maxlength="300"
+													value="#{abrirCajaBean.observacionPendiente}" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton action="#{abrirCajaBean.crearPendiente()}"
+								value="Guardar" styleClass="action blue"
+								onclick="onSubmitButton();" />
+							<h:commandButton value="Cancelar"
+								action="#{abrirCajaBean.cancelarPendiente()}" immediate="true"
+								styleClass="action" />
+						</div>
+					</div>
+
+
+
+				</h:form>
 			</h:panelGroup>
 		</ui:define>
 	</ui:composition>

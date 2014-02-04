@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -29,6 +30,7 @@ import org.ventura.dao.impl.CajaDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
 import org.ventura.dao.impl.DetallehistorialcajaDAO;
 import org.ventura.dao.impl.HistorialcajaDAO;
+import org.ventura.dao.impl.PendienteCajaDAO;
 import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
@@ -41,6 +43,7 @@ import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialcaja;
+import org.ventura.entity.schema.caja.PendienteCaja;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
@@ -54,7 +57,6 @@ import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipoTransaccionType;
 
-import com.sun.imageio.plugins.common.BogusColorSpace;
 
 @Named
 @Stateless
@@ -80,9 +82,10 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@EJB
 	private DetallehistorialcajaDAO detallehistorialcajaDAO;
 	
-	@EJB TransaccioncuentabancariaDAO transaccioncuentabancariaDAO;
-	@EJB TransaccioncuentaaporteDAO transaccioncuentaaporteDAO;
+	@EJB private TransaccioncuentabancariaDAO transaccioncuentabancariaDAO;
+	@EJB private TransaccioncuentaaporteDAO transaccioncuentaaporteDAO;
 	@EJB private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
+	@EJB private PendienteCajaDAO pendienteCajaDAO;
 	
 	@Inject
 	private Log log;
@@ -992,5 +995,41 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw e;
 		}
 		return result;
+	}
+
+	@Override
+	public void crearPendiente(Caja caja, PendienteCaja pendienteCaja) throws Exception {
+		try {
+			pendienteCaja.setIdhistorialcaja(getHistorialcajaLastActive(caja));
+			if(pendienteCaja.getMonto().isGreaterThan(new Moneda())){
+				pendienteCaja.setTipopendiente("SOBRANTE");
+			} else {
+				pendienteCaja.setTipopendiente("FALTANTE");
+			}
+			pendienteCajaDAO.create(pendienteCaja);
+			
+			Tipomoneda tipomoneda = pendienteCaja.getTipomoneda();
+			List<Boveda> bovedas = getBovedas(caja);
+			for (Boveda boveda : bovedas) {
+				if(boveda.getTipomoneda().equals(tipomoneda)){
+					BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();
+					bovedaCajaPK.setIdboveda(boveda.getIdboveda());
+					bovedaCajaPK.setIdcaja(caja.getIdcaja());
+					
+					BovedaCaja bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+					Moneda saldoCaja = bovedaCaja.getSaldototal();
+					Moneda montoPendiente = pendienteCaja.getMonto();
+					Moneda saldoFinal = saldoCaja.add(montoPendiente);
+					bovedaCaja.setSaldototal(saldoFinal);
+					bovedaCajaDAO.update(bovedaCaja);
+					break;
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
 	}
 }

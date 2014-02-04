@@ -32,7 +32,7 @@ public class PendienteCaja implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "idtipomoneda", nullable = false)
-	private Tipomoneda idtipomoneda;
+	private Tipomoneda tipomoneda;
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "monto")) })
@@ -77,14 +77,6 @@ public class PendienteCaja implements Serializable {
 	public void setIdhistorialcaja(Historialcaja idhistorialcaja) {
 		this.idhistorialcaja = idhistorialcaja;
 	}
-	
-	public Tipomoneda getIdtipomoneda() {
-		return idtipomoneda;
-	}
-
-	public void setIdtipomoneda(Tipomoneda idtipomoneda) {
-		this.idtipomoneda = idtipomoneda;
-	}
 
 	public Moneda getMonto() {
 		return monto;
@@ -92,6 +84,14 @@ public class PendienteCaja implements Serializable {
 
 	public void setMonto(Moneda monto) {
 		this.monto = monto;
+	}
+
+	public Tipomoneda getTipomoneda() {
+		return tipomoneda;
+	}
+
+	public void setTipomoneda(Tipomoneda tipomoneda) {
+		this.tipomoneda = tipomoneda;
 	}
 
 }
