@@ -19,6 +19,7 @@ import org.ventura.boundary.remote.LoginServiceRemote;
 import org.ventura.dao.impl.CajaDAO;
 import org.ventura.dao.impl.MenuDAO;
 import org.ventura.dao.impl.ModuloDAO;
+import org.ventura.dao.impl.RolDAO;
 import org.ventura.dao.impl.UsuarioDAO;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.seguridad.Menu;
@@ -45,6 +46,9 @@ public class LoginServiceBean implements LoginServiceLocal {
 	
 	@EJB
 	private CajaDAO cajaDAO;
+	
+	@EJB
+	private RolDAO rolDAO;
 	
 	@Inject
 	private Log log;
@@ -134,6 +138,22 @@ public class LoginServiceBean implements LoginServiceLocal {
 			throw new Exception("Error Interno: No se pudo obtener las cajas");
 		}
 		return cajas;
+	}
+
+	@Override
+	public List<Rol> getRoles(Usuario usuario) throws Exception {
+		List<Rol> rols = null;
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idusuario", usuario.getIdusuario());
+		try {
+			rols = rolDAO.findByNamedQuery(Rol.f_idusuario, parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return rols;
 	}
 
 }

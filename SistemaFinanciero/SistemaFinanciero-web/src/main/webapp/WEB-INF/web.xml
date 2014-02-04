@@ -88,7 +88,7 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<description>Tiene acceso a todo el sistema</description>
-			<role-name>Admin</role-name>
+			<role-name>admin</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
@@ -108,7 +108,7 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<description>Tiene acceso</description>
-			<role-name>Caja</role-name>
+			<role-name>caja</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
@@ -128,7 +128,7 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<description>Tiene acceso</description>
-			<role-name>JefeCaja</role-name>
+			<role-name>jefeCaja</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
@@ -148,25 +148,25 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<description>Tiene acceso</description>
-			<role-name>Administrador</role-name>
+			<role-name>administrador</role-name>
 		</auth-constraint>
 	</security-constraint>
 	
 	<security-role>
 		<description>Acesso a todo el Sistema /*</description>
-		<role-name>Admin</role-name>
+		<role-name>admin</role-name>
 	</security-role>
 	<security-role>
 		<description>Acceso a la carpeta /caja/*</description>
-		<role-name>Caja</role-name>
+		<role-name>caja</role-name>
 	</security-role>
 	<security-role>
 		<description>Acceso a la carpeta /jefeCaja/*</description>
-		<role-name>JefeCaja</role-name>
+		<role-name>jefeCaja</role-name>
 	</security-role>
 	<security-role>
 		<description>Acceso a la carpeta /administrador/*</description>
-		<role-name>Administrador</role-name>
+		<role-name>administrador</role-name>
 	</security-role>
 	
 	<login-config>

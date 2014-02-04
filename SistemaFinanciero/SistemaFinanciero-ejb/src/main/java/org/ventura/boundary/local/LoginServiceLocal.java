@@ -25,5 +25,7 @@ public interface LoginServiceLocal extends LoginServiceRemote {
 
 	public Collection<Modulo> getModule(Usuario usuario) throws Exception;
 	
+	public List<Rol> getRoles(Usuario usuario) throws Exception;
+	
 	public List<Caja> getCajas(Usuario usuario) throws Exception;
 }
