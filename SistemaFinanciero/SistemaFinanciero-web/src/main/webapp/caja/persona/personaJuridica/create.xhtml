@@ -45,7 +45,7 @@
 													value="#{personajuridicaCRUDBean.comboTipodocumentoPersonajuridica.itemSelected}"
 													required="true"
 													requiredMessage="Seleccione tipo de documento">
-													<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 													<f:selectItems
 														value="#{personajuridicaCRUDBean.comboTipodocumentoPersonajuridica.items.entrySet()}"
 														var="val" itemLabel="#{val.value.abreviatura}"
@@ -63,7 +63,7 @@
 													requiredMessage="Ingrese numero documento"
 													validatorMessage="Número de documento Invalido"
 													converterMessage="Número de documento Invalido"
-													pt:placeholder="Numero documento">
+													pt:placeholder="Número documento">
 													<f:convertNumber type="number" integerOnly="true"
 														groupingUsed="false" />
 												</h:inputText>
