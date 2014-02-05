@@ -2,7 +2,6 @@ package org.venturabank.util;
 
 import java.io.IOException;
 
-import javax.faces.application.ResourceHandler;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
