@@ -64,6 +64,22 @@
 										<span class="icon icon126"></span>
 										<span class="label">Descongelar</span>
 									</p:commandLink>
+
+									<p:commandLink action="create?faces-redirect=true"
+										styleClass="button left" title="Nueva bóveda">
+										<span class="icon icon3"></span>
+										<span class="label">Nuevo</span>
+									</p:commandLink>
+									<p:commandLink
+										actionListener="#{administrarBovedaBean.deleteBoveda()}"
+										update=":formTablaBoveda" styleClass="button right"
+										title="Eliminar Boveda">
+										<p:confirm header="Confirmation"
+											message="Estas seguro de eliminar la boveda?"
+											icon="ui-icon-alert" />
+										<span class="icon icon186"></span>
+										<span class="label">Eliminar</span>
+									</p:commandLink>
 								</div>
 								<div>
 									<p:confirmDialog global="true">
@@ -72,34 +88,7 @@
 										<p:commandButton value="No" type="button"
 											styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 									</p:confirmDialog>
-								</div>
-								<div class="dropdown">
-									<h:outputLink styleClass="button">
-										<span class="icon icon96">&nbsp;</span>
-										<span class="label">Operaciones</span>
-										<span class="toggle">&nbsp;</span>
-									</h:outputLink>
-
-									<div class="dropdown-slider">
-
-										<p:commandLink action="create?faces-redirect=true"
-											styleClass="ddm" title="Nueva bóveda">
-											<span class="icon icon3"></span>
-											<span class="label">Nuevo</span>
-										</p:commandLink>
-										<p:commandLink
-											actionListener="#{administrarBovedaBean.deleteBoveda()}"
-											update=":formTablaBoveda" styleClass="ddm"
-											title="Eliminar Boveda">
-											<p:confirm header="Confirmation"
-												message="Estas seguro de eliminar la boveda?"
-												icon="ui-icon-alert" />
-											<span class="icon icon186"></span>
-											<span class="label">Eliminar</span>
-										</p:commandLink>
-									</div>
-									<!-- /.dropdown-slider -->
-								</div>
+								</div>								
 							</div>
 						</h:form>
 						<h:form id="formTablaBoveda">

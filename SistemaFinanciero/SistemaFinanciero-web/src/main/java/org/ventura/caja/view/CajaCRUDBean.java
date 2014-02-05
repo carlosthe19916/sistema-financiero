@@ -87,7 +87,7 @@ public class CajaCRUDBean implements Serializable {
 		}
 	}
 	
-	public String createCaja() throws Exception {
+	public void createCaja() throws Exception {
 		Caja caja;
 		try {
 			caja = new Caja();
@@ -102,10 +102,8 @@ public class CajaCRUDBean implements Serializable {
 			JsfUtil.addSuccessMessage("Caja Creada");
 
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, "Error al crear Caja");
-			return "failure";
-		}
-		return "success";
+			JsfUtil.addErrorMessage(e, "Error al crear Caja");			
+		}		
 	}
 	
 	public String updateCaja() throws Exception {

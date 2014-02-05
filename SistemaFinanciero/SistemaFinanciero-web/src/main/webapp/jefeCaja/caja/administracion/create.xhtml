@@ -72,7 +72,7 @@
 											value="#{cajaCRUDBean.dualListModelBoveda}" var="boveda"
 											itemLabel="#{boveda}" itemValue="#{boveda}"
 											converter="DualPickListConverter" required="true"
-											requiredMessage="Seleccione por lo menos una boveda"/>
+											requiredMessage="Seleccione por lo menos una boveda" />
 									</div>
 								</div>
 								<div
@@ -80,10 +80,12 @@
 									<h:message for="pickBovedas" />
 								</div>
 								<div class="sf-buttons" style="float: left;">
-									<h:commandButton action="#{cajaCRUDBean.createCaja()}"
-										value="Guardar" styleClass="action blue" onclick="onSubmitButton();"/>
-									<h:commandButton value="Cancelar" action="cancel"
-										immediate="true" styleClass="action" />
+									<h:commandButton actionListener="#{cajaCRUDBean.createCaja()}"
+										action="list?faces-redirect=true" value="Guardar"
+										styleClass="action blue" onclick="onSubmitButton();" />
+									<h:commandButton value="Cancelar"
+										action="list?faces-redirect=true" immediate="true"
+										styleClass="action" />
 								</div>
 							</div>
 						</div>

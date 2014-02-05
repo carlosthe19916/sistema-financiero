@@ -31,16 +31,22 @@
 						<h:form id="formToolbar">
 							<div class="buttons">
 								<div class="tiptip">
-									<h:commandLink action="open" styleClass="button left"
-										title="Abrir Caja">
+									<h:link outcome="/jefeCaja/caja/operaciones/open"
+										styleClass="button left" title="Abrir Caja"
+										includeViewParams="true">
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Abrir Caja</span>
-									</h:commandLink>
-									<h:commandLink action="close" styleClass="button right"
-										title="Abrir Cerrar">
+										<f:param name="idcaja"
+											value="#{administrarCajaBeanReplace.idcaja}" />
+									</h:link>
+									<h:link outcome="/jefeCaja/caja/operaciones/close"
+										styleClass="button right" title="Cerrar Caja"
+										includeViewParams="true">
 										<span class="icon icon122">&nbsp;</span>
 										<span class="label">Cerrar Caja</span>
-									</h:commandLink>
+										<f:param name="idcaja"
+											value="#{administrarCajaBeanReplace.idcaja}" />
+									</h:link>
 									<p:commandLink
 										actionListener="#{administrarCajaBeanReplace.desactivarMovimiento()}"
 										update=":formTablaCaja:tblCaja" styleClass="button left"
@@ -61,6 +67,29 @@
 										<span class="icon icon126"></span>
 										<span class="label">Descongelar</span>
 									</p:commandLink>
+
+									<p:commandLink action="create?faces-redirect=true"
+										styleClass="button left" title="Nueva Caja">
+										<span class="icon icon3"></span>
+										<span class="label">Nuevo</span>
+									</p:commandLink>
+									<h:link outcome="update" styleClass="button middle"
+										title="Editar Caja" includeViewParams="true">
+										<span class="icon icon3"></span>
+										<span class="label">Editar</span>
+										<f:param name="idcaja"
+											value="#{administrarCajaBeanReplace.idcaja}" />
+									</h:link>
+									<p:commandLink
+										actionListener="#{administrarCajaBeanReplace.deleteCaja()}"
+										update=":formTablaCaja" styleClass="button right"
+										title="Eliminar Caja">
+										<p:confirm header="Confirmation"
+											message="¿Estas seguro de eliminar la Caja?"
+											icon="ui-icon-alert" />
+										<span class="icon icon186"></span>
+										<span class="label">Eliminar</span>
+									</p:commandLink>
 								</div>
 								<div>
 									<p:confirmDialog global="true">
@@ -69,36 +98,6 @@
 										<p:commandButton value="No" type="button"
 											styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 									</p:confirmDialog>
-								</div>
-								<div class="dropdown">
-									<h:outputLink styleClass="button">
-										<span class="icon icon96">&nbsp;</span>
-										<span class="label">Operaciones</span>
-										<span class="toggle">&nbsp;</span>
-									</h:outputLink>
-									<div class="dropdown-slider">
-										<p:commandLink action="create" styleClass="ddm"
-											title="Nueva Caja">
-											<span class="icon icon3"></span>
-											<span class="label">Nuevo</span>
-										</p:commandLink>
-										<p:commandLink action="update" styleClass="ddm"
-											title="Editar Caja">
-											<span class="icon icon3"></span>
-											<span class="label">Editar</span>
-										</p:commandLink>
-										<p:commandLink
-											actionListener="#{administrarCajaBeanReplace.deleteCaja()}"
-											update=":formTablaCaja" styleClass="ddm"
-											title="Eliminar Caja">
-											<p:confirm header="Confirmation"
-												message="¿Estas seguro de eliminar la Caja?"
-												icon="ui-icon-alert" />
-											<span class="icon icon186"></span>
-											<span class="label">Eliminar</span>
-										</p:commandLink>
-									</div>
-									<!-- /.dropdown-slider -->
 								</div>
 							</div>
 						</h:form>
@@ -111,7 +110,8 @@
 									rowKey="#{caja}" rowIndexVar="row">
 
 									<p:ajax event="rowSelect"
-										listener="#{administrarCajaBeanReplace.setRowSelect()}" />
+										listener="#{administrarCajaBeanReplace.setRowSelect()}"
+										update=":formToolbar" />
 
 									<p:column headerText="Nro" width="5%"
 										style="text-align:center;">

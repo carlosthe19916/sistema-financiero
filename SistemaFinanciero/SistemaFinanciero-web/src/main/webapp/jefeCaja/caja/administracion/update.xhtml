@@ -40,8 +40,7 @@
 										</div>
 										<div style="text-align: center;">
 											<h:commandLink value="Volver"
-												action="list.xhtml?faces-redirect=true"
-												immediate="true"
+												action="list?faces-redirect=true" immediate="true"
 												styleClass="p6n-api-access-in-page-error-link" />
 										</div>
 									</div>
@@ -107,8 +106,10 @@
 								<div class="sf-buttons" style="float: left;">
 									<h:commandButton action="#{cajaCRUDBean.updateCaja()}"
 										value="Guardar" styleClass="action blue"
-										disabled="#{!cajaCRUDBean.isValidBean()}" onclick="onSubmitButton();"/>
-									<h:commandButton value="Cancelar" action="cancel"
+										disabled="#{!cajaCRUDBean.isValidBean()}"
+										onclick="onSubmitButton();" />
+									<h:commandButton value="Cancelar"
+										action="list?faces-redirect=true" immediate="true"
 										styleClass="action" />
 								</div>
 							</div>
