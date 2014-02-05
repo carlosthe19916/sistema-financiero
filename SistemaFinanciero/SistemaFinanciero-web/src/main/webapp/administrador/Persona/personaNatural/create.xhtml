@@ -10,7 +10,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(4)}" />
+		<f:viewAction action="#{menuMB.updateMenu(21)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -47,7 +47,7 @@
 													value="#{personanaturalCRUDBean.comboTipodocumento.itemSelected}"
 													required="true"
 													requiredMessage="Seleccione tipo de documento">
-													<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 													<f:selectItems
 														value="#{personanaturalCRUDBean.comboTipodocumento.items.entrySet()}"
 														var="val" itemLabel="#{val.value.abreviatura}"

@@ -117,7 +117,7 @@ public class PersonajuridicaCRUDBean implements Serializable {
 			comboSexoRepresentantelegal.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			comboSexoAccionista.initValuesFromNamedQueryName(Sexo.ALL_ACTIVE);
 			
-			this.comboFinsocial.putItem(0, "--NO ESPECIFICA--");
+			this.comboFinsocial.putItem(0, "--No Especifica--");
 			this.comboFinsocial.putItem(1, "CON FINES DE LUCRO");
 			this.comboFinsocial.putItem(2, "SIN FINES DE LUCRO");
 		} catch (Exception e) {

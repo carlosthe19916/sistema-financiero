@@ -9,7 +9,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(4)}" />
+		<f:viewAction action="#{menuMB.updateMenu(21)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 		<!-- Definiendo la cabecera de la pagina -->
@@ -37,7 +37,7 @@
 												value="#{administrarPersonajuridicaBean.searched}"
 												maxlength="50" size="50" required="true"
 												onkeyup="this.value = this.value.toUpperCase();"
-												pt:placeholder="RUC / RAZON SOCIAL" />
+												pt:placeholder="RUC / Razón Social" />
 										</div>
 										<div style="float: left;">
 											<h:commandLink
