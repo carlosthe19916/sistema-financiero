@@ -60,7 +60,7 @@ public class BovedaCRUDBean implements Serializable {
 		}
 	}
 	
-	public String createBoveda() throws Exception {
+	public void createBoveda() throws Exception {
 		Boveda boveda;
 		try {
 			boveda = new Boveda();
@@ -72,13 +72,11 @@ public class BovedaCRUDBean implements Serializable {
 
 			JsfUtil.addSuccessMessage("Boveda Creada");
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, "Error al crear Boveda");
-			return "failure";
-		}
-		return "success";
+			JsfUtil.addErrorMessage(e, "Error al crear Boveda");		
+		}		
 	}
 	
-	public String updateBoveda() throws Exception {
+	public void updateBoveda() throws Exception {
 		Boveda boveda = this.boveda;
 		try {
 			boveda.setDenominacion(denominacion);
@@ -88,10 +86,8 @@ public class BovedaCRUDBean implements Serializable {
 
 			JsfUtil.addSuccessMessage("Boveda Actualizada");
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, "Error al actualizar Boveda");
-			return "failure";
-		}
-		return "success";
+			JsfUtil.addErrorMessage(e, "Error al actualizar Boveda");			
+		}		
 	}
 
 	public boolean isValidBean(){

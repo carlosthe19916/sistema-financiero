@@ -11,7 +11,7 @@
 	<f:metadata>
 		<f:viewParam name="idboveda" value="#{openCloseBovedaBean.idboveda}" />
 		<f:viewAction action="#{openCloseBovedaBean.loadBovedaForClose()}" />
-		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+		<f:viewAction action="#{menuMB.updateMenu(10)}" />
 	</f:metadata>
 
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
@@ -39,7 +39,8 @@
 											</p>
 										</div>
 										<div style="text-align: center;">
-											<h:commandLink value="Volver" action="cancel"
+											<h:commandLink value="Volver"
+												action="/jefeCaja/boveda/administracion/list?faces-redirect=true"
 												immediate="true"
 												styleClass="p6n-api-access-in-page-error-link" />
 										</div>
@@ -121,7 +122,7 @@
 																<p:column colspan="3" footerText="Total en Bóveda:"
 																	style="text-align:right" />
 																<p:column colspan="1"
-																	footerText="#{openCloseBovedaBean.getTotalHistorialboveda()}"
+																	footerText="#{openCloseBovedaBean.getTotalHistorialbovedaLast()}"
 																	style="text-align:right" />
 															</p:row>
 														</p:columnGroup>
@@ -156,7 +157,7 @@
 																<p:column colspan="3" footerText="Total en Bóveda:"
 																	style="text-align:right" />
 																<p:column colspan="1"
-																	footerText="#{openCloseBovedaBean.getTotalHistorialbovedaLast()}"
+																	footerText="#{openCloseBovedaBean.getTotalHistorialboveda()}"
 																	style="text-align:right" />
 															</p:row>
 														</p:columnGroup>
@@ -169,8 +170,9 @@
 									<h:commandButton action="#{openCloseBovedaBean.closeBoveda()}"
 										value="Cerrar" styleClass="action blue" />
 
-									<h:commandButton action="cancel" value="Cancelar"
-										immediate="true" styleClass="action" />
+									<h:commandButton
+										action="/jefeCaja/boveda/administracion/list?faces-redirect=true"
+										value="Cancelar" immediate="true" styleClass="action" />
 								</div>
 							</div>
 						</div>

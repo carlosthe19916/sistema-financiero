@@ -9,7 +9,7 @@
 
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+		<f:viewAction action="#{menuMB.updateMenu(10)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -23,6 +23,7 @@
 
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
+
 			<h:form>
 				<div style="margin-left: 50px;">
 					<div>
@@ -44,7 +45,7 @@
 												onkeyup="this.value = this.value.toUpperCase();"
 												value="#{bovedaCRUDBean.denominacion}" maxlength="150"
 												required="true"
-												requiredMessage="Denominacion no debe de ser vacio" />
+												requiredMessage="Denominacion no debe de ser vacio" size="50"/>
 										</div>
 									</div>
 								</div>
@@ -83,10 +84,12 @@
 								<br /> <br />
 								<div>
 									<h:commandButton id="btnGuardar"
-										action="#{bovedaCRUDBean.createBoveda()}" value="Guardar"
-										styleClass="action blue" onclick="onSubmitButton();" />
-									<h:commandButton value="Cancelar" action="cancel"
-										immediate="true" styleClass="action" />
+										actionListener="#{bovedaCRUDBean.createBoveda()}"
+										action="list?faces-redirect=true" value="Guardar" styleClass="action blue"
+										onclick="onSubmitButton();" />
+									<h:commandButton value="Cancelar"
+										action="list?faces-redirect=true" immediate="true"
+										styleClass="action" />
 								</div>
 							</div>
 						</div>

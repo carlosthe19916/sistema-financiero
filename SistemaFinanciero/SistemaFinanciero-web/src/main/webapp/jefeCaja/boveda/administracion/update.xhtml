@@ -12,7 +12,7 @@
 	<f:metadata>
 		<f:viewParam name="idboveda" value="#{bovedaCRUDBean.idboveda}" />
 		<f:viewAction action="#{bovedaCRUDBean.loadBovedaForEdit()}" />
-		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+		<f:viewAction action="#{menuMB.updateMenu(10)}" />
 	</f:metadata>
 
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
@@ -43,8 +43,7 @@
 										</div>
 										<div style="text-align: center;">
 											<h:commandLink value="Volver"
-												action="list.xhtml?faces-redirect=true"
-												immediate="true"
+												action="list.xhtml?faces-redirect=true" immediate="true"
 												styleClass="p6n-api-access-in-page-error-link" />
 										</div>
 									</div>
@@ -65,9 +64,11 @@
 									<div>
 										<div>
 											<h:inputText id="txtDenominacion"
+											onkeyup="this.value = this.value.toUpperCase();"
 												value="#{bovedaCRUDBean.denominacion}" maxlength="150"
 												required="true"
-												requiredMessage="Denominacion no debe de ser vacio" />
+												requiredMessage="Denominacion no debe de ser vacio"
+												size="50" />
 
 										</div>
 									</div>
@@ -107,10 +108,13 @@
 								<br /> <br />
 
 								<div class="sf-buttons" style="float: left;">
-									<h:commandButton action="#{bovedaCRUDBean.updateBoveda()}"
-										value="Guardar" styleClass="action blue" />
-									<h:commandButton value="Cancelar" action="cancel"
-										immediate="true" styleClass="action" />
+									<h:commandButton
+										actionListener="#{bovedaCRUDBean.updateBoveda()}"
+										action="list" value="Guardar" styleClass="action blue"
+										onclick="onSubmitButton();" />
+									<h:commandButton value="Cancelar"
+										action="list?faces-redirect=true" immediate="true"
+										styleClass="action" />
 								</div>
 							</div>
 						</div>

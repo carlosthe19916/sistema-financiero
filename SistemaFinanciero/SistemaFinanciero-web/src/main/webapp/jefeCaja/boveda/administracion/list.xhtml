@@ -8,7 +8,7 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+		<f:viewAction action="#{menuMB.updateMenu(10)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -30,15 +30,20 @@
 						<h:form id="formToolbar">
 							<div class="buttons">
 								<div class="tiptip">
-									<h:commandLink action="open" styleClass="button left">
+									<h:link outcome="/jefeCaja/boveda/operaciones/open"
+										includeViewParams="true" styleClass="button left">
 										<span class="icon icon123">&nbsp;</span>
 										<span class="label">Abrir Boveda</span>
-									</h:commandLink>
-									<h:commandLink action="close" styleClass="button right">
+										<f:param name="idboveda"
+											value="#{administrarBovedaBean.idboveda}" />
+									</h:link>
+									<h:link outcome="/jefeCaja/boveda/operaciones/close"
+										includeViewParams="true" styleClass="button right">
 										<span class="icon icon122">&nbsp;</span>
 										<span class="label">Cerrar Boveda</span>
-									</h:commandLink>
-
+										<f:param name="idboveda"
+											value="#{administrarBovedaBean.idboveda}" />
+									</h:link>
 									<p:commandLink
 										actionListener="#{administrarBovedaBean.desactivarMovimiento()}"
 										update=":formTablaBoveda:tblBoveda" styleClass="button left"
@@ -77,15 +82,10 @@
 
 									<div class="dropdown-slider">
 
-										<p:commandLink action="create" styleClass="ddm"
-											title="Nueva bóveda">
+										<p:commandLink action="create?faces-redirect=true"
+											styleClass="ddm" title="Nueva bóveda">
 											<span class="icon icon3"></span>
 											<span class="label">Nuevo</span>
-										</p:commandLink>
-										<p:commandLink action="update" styleClass="ddm"
-											title="Editar bóveda">
-											<span class="icon icon3"></span>
-											<span class="label">Editar</span>
 										</p:commandLink>
 										<p:commandLink
 											actionListener="#{administrarBovedaBean.deleteBoveda()}"
@@ -97,8 +97,6 @@
 											<span class="icon icon186"></span>
 											<span class="label">Eliminar</span>
 										</p:commandLink>
-
-
 									</div>
 									<!-- /.dropdown-slider -->
 								</div>
@@ -113,7 +111,8 @@
 									rowKey="#{boveda}" rowIndexVar="row">
 
 									<p:ajax event="rowSelect"
-										listener="#{administrarBovedaBean.setRowSelect()}" />
+										listener="#{administrarBovedaBean.setRowSelect()}"
+										update=":formToolbar" />
 
 									<p:column headerText="Nro" width="5%"
 										style="text-align:center;">
@@ -132,8 +131,15 @@
 									<p:column headerText="Estado Movimiento" width="200">
 										<h:outputText value="#{boveda.denominacionEstadomovimiento}" />
 									</p:column>
-									<p:column headerText="Saldo" width="200">
+									<p:column headerText="Saldo" width="80">
 										<h:outputText value="#{boveda.saldo}" />
+									</p:column>
+									<p:column headerText="STATUS">
+										<h:button value="Edit" outcome="update"
+											styleClass="action green" style="margin: 0px;"
+											target="_blank">
+											<f:param name="idboveda" value="#{boveda.idBoveda}" />
+										</h:button>
 									</p:column>
 								</p:dataTable>
 							</div>

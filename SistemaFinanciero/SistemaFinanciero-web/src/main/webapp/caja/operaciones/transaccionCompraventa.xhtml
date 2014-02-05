@@ -22,7 +22,7 @@
 
 			<h:panelGroup id="panelDatos">
 				<!-- transaccion Compra Venta -->
-				<ui:include src="/modules/caja/operaciones/compraVenta.xhtml">
+				<ui:include src="/caja/operaciones/compraVenta.xhtml">
 					<ui:param name="managedBean"
 						value="#{transaccionCompraVentaCajaBean}" />
 					<ui:param name="componentName" value="compraVenta" />
@@ -30,7 +30,7 @@
 				<!-- end transaccion Compra Venta -->
 
 				<!-- Voucher Compra Venta -->
-				<ui:include src="/modules/caja/operaciones/voucherCompraVenta.xhtml">
+				<ui:include src="/caja/operaciones/voucherCompraVenta.xhtml">
 					<ui:param name="managedBean"
 						value="#{transaccionCompraVentaCajaBean}" />
 					<ui:param name="componentName" value="voucherCompraVenta" />
