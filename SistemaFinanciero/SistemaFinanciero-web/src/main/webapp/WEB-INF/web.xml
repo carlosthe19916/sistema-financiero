@@ -106,6 +106,26 @@
 			<web-resource-name>Index page</web-resource-name>
 			<url-pattern>/index.xhtml</url-pattern>
 		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>Index page</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+			<url-pattern>/aperturaCuentaaporte-flow/*</url-pattern>
+		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>Index page</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+			<url-pattern>/aperturaCuentaahorro-flow/*</url-pattern>
+		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>Index page</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+			<url-pattern>/aperturaCuentacorriente-flow/*</url-pattern>
+		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>Index page</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+			<url-pattern>/aperturaCuentaplazofijo-flow/*</url-pattern>
+		</web-resource-collection>
 		<auth-constraint>
 			<description>Tiene acceso</description>
 			<role-name>caja</role-name>
