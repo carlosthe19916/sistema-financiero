@@ -30,6 +30,27 @@
 					<div>
 						<div>
 							<div class="p6n-api-consent-screen-title">Cerrar Boveda</div>
+							
+							<h:panelGroup rendered="#{openCloseBovedaBean.successCloseBoveda}">
+								<div class="p6n-butterbar" style="left: 516px;">
+									<div>
+										<div>
+											<p>
+												<h:messages />
+											</p>
+										</div>
+										<div style="text-align: center;">
+											<h:commandLink value="Aceptar"
+												action="/jefeCaja/boveda/administracion/list?faces-redirect=true"
+												styleClass="p6n-api-access-in-page-error-link" />
+										</div>
+									</div>
+								</div>
+								<div class="modal-dialog-bg"
+									style="opacity: 0.4; width: 1366px; height: 1000px;"
+									aria-hidden="true"></div>
+							</h:panelGroup>
+							
 							<h:panelGroup rendered="#{!openCloseBovedaBean.validBean}">
 								<div class="p6n-api-access-in-page-error" style="left: 516px;">
 									<div>
@@ -49,6 +70,7 @@
 								<div class="modal-dialog-bg"
 									style="opacity: 0.4; width: 1366px; height: 702px;"></div>
 							</h:panelGroup>
+							
 							<div class="p6n-api-consent-screen-inputs">
 								<div class="p6n-api-consent-screen-input-section">
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">

@@ -24,7 +24,27 @@
 			<br />
 
 			<h:form id="formClose">
-			
+
+				<h:panelGroup rendered="#{openCloseCajaBean.successCloseCaja}">
+					<div class="p6n-butterbar" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Aceptar"
+									action="/jefeCaja/caja/administracion/list?faces-redirect=true"
+									styleClass="p6n-api-access-in-page-error-link" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 1000px;"
+						aria-hidden="true"></div>
+				</h:panelGroup>
+
 				<h:panelGroup rendered="#{!openCloseCajaBean.validBean}">
 					<div class="p6n-api-access-in-page-error" style="left: 516px;">
 						<div>
@@ -529,7 +549,7 @@
 										<h:commandButton action="#{openCloseCajaBean.closeCaja()}"
 											value="Cerrar" styleClass="action blue" />
 
-										<h:commandButton action="cancel" value="Cancelar"
+										<h:commandButton action="/jefeCaja/caja/administracion/list?faces-redirect=true" value="Cancelar"
 											styleClass="action" />
 									</div>
 								</div>

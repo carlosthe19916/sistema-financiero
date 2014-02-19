@@ -103,7 +103,7 @@
 										<p:tab title="#{boveda.key.denominacion}">
 											<p:panelGrid columns="2" style="margin-left:1px;">
 												<p:outputPanel>
-													<h3>Detalle inicio del dia</h3>
+													<h3>Detalle Inicio del Dia</h3>
 													<p:dataTable var="cajaDetalle" value="#{boveda.value}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
 														<p:column headerText="Nro" width="15"
@@ -126,7 +126,7 @@
 													</p:dataTable>
 												</p:outputPanel>
 												<p:outputPanel>
-													<h3>Detalle final del dia</h3>
+													<h3>Detalle Final del Día</h3>
 													<p:dataTable id="tabla" var="cajaDetalle"
 														value="#{abrirCajaBean.retornarDetalle(boveda.key)}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
@@ -164,7 +164,7 @@
 									</p:accordionPanel>
 								</div>
 								<div class="sf-buttons" style="float: left;">
-									<h:commandButton value="Abrir"
+									<h:commandButton value="Cerrar"
 										action="#{abrirCajaBean.verificarSaldos()}"
 										styleClass="action blue" />
 									<h:commandButton action="/caja/index?faces-redirect=true"
@@ -283,7 +283,7 @@
 						<div class="modal-dialog-buttons">
 							<h:commandButton action="#{abrirCajaBean.crearPendiente()}"
 								value="Guardar" styleClass="action blue"
-								onclick="onSubmitButton();" />
+								onclick="onSubmitButton();"/>
 							<h:commandButton value="Cancelar"
 								action="#{abrirCajaBean.cancelarPendiente()}" immediate="true"
 								styleClass="action" />

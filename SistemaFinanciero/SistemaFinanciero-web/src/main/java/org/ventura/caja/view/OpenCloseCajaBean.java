@@ -68,6 +68,8 @@ public class OpenCloseCajaBean implements Serializable {
 	private boolean validSaldoCajaEuros;
 	private boolean pendiente;
 	private boolean successPendiente;
+	private boolean successOpenCaja;
+	private boolean successCloseCaja;
 	
 	@Inject
 	private PendienteCaja pendientecaja;
@@ -79,6 +81,8 @@ public class OpenCloseCajaBean implements Serializable {
 		setValidSaldoCajaEuros(true);
 		pendiente = false;
 		setSuccessPendiente(false);
+		successOpenCaja = false;
+		successCloseCaja = false;
 	}
 	
 	@PostConstruct
@@ -141,7 +145,7 @@ public class OpenCloseCajaBean implements Serializable {
 					}
 				}
 			} else {
-				JsfUtil.addErrorMessage("Caja Abierta, no se puede volver a abrir");
+				JsfUtil.addErrorMessage("La caja ya está abierta");
 				setInvalidBean();
 			}
 		} catch (Exception e) {
@@ -189,7 +193,7 @@ public class OpenCloseCajaBean implements Serializable {
 		}
 	}
 	
-	public String openCaja() throws Exception {
+	public void openCaja() throws Exception {
 		Caja caja = this.caja;
 		try {
 			Estadoapertura estadoapertura = ProduceObject
@@ -197,17 +201,16 @@ public class OpenCloseCajaBean implements Serializable {
 			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
 			if (estadoapertura.equals(estadoapertura2)) {
 				this.cajaServiceLocal.openCaja(caja);
-				JsfUtil.addSuccessMessage("Caja Abierta");
+				JsfUtil.addErrorMessage("La caja se abrió correctamente");
+				successOpenCaja = true;
 			} else {
-				JsfUtil.addErrorMessage("Caja Abierta, no se puede Reabrir");
+				JsfUtil.addErrorMessage("La caja ya está abierta");
 				setInvalidBean();
 			}
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, "Error al abrir Caja");
 			setInvalidBean();
-			return "failure";
 		}
-		return "success";
 	}
 		
 	public String closeCaja() throws Exception {
@@ -254,6 +257,7 @@ public class OpenCloseCajaBean implements Serializable {
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaSoles(caja).containsKey(0)) {
 					JsfUtil.addSuccessMessage("Caja de Nuevo Sol (S/.) fue cerrada correctamente");
+					successCloseCaja = true;
 				}
 				
 				//validar los saldos en caja y base de datos en Dolares
@@ -286,6 +290,7 @@ public class OpenCloseCajaBean implements Serializable {
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaDolares(caja).containsKey(0)) {
 					JsfUtil.addSuccessMessage("Caja de Dolares ($) fue cerrada correctamente");
+					successCloseCaja = true;
 				}
 				
 				//validar los saldos en caja y base de datos en euros
@@ -319,7 +324,8 @@ public class OpenCloseCajaBean implements Serializable {
 					return null;
 				}
 				if (cajaServiceLocal.compareSaldoTotalCajaEuros(caja).containsKey(0)) {
-					JsfUtil.addSuccessMessage("Caja de Euros Cerrada Correctamente");
+					JsfUtil.addSuccessMessage("Caja de Euros (€) Cerrada Correctamente");
+					successCloseCaja = true;
 				}
 			} else {
 				JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");
@@ -328,9 +334,8 @@ public class OpenCloseCajaBean implements Serializable {
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, "Error al cerrar Caja");
 			setInvalidBean();
-			return "failure";
 		}
-		return "success";
+		return null;
 	}
 	
 	public void crearPendiente(){
@@ -627,5 +632,21 @@ public class OpenCloseCajaBean implements Serializable {
 
 	public void setSuccessPendiente(boolean successPendiente) {
 		this.successPendiente = successPendiente;
+	}
+
+	public boolean isSuccessOpenCaja() {
+		return successOpenCaja;
+	}
+
+	public void setSuccessOpenCaja(boolean successOpenCaja) {
+		this.successOpenCaja = successOpenCaja;
+	}
+
+	public boolean isSuccessCloseCaja() {
+		return successCloseCaja;
+	}
+
+	public void setSuccessCloseCaja(boolean successCloseCaja) {
+		this.successCloseCaja = successCloseCaja;
 	}
 }

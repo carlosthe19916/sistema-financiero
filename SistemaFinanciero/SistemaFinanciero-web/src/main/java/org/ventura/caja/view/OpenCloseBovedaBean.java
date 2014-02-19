@@ -31,22 +31,25 @@ public class OpenCloseBovedaBean implements Serializable {
 	private AgenciaBean agenciaBean;
 	@Inject
 	private Agencia agencia;
-
-	private Boveda boveda;
-	private Integer idboveda;
-
 	@Inject
 	private TablaBean<Detallehistorialboveda> tablaBovedaDetalle;
 	@Inject
 	private TablaBean<Detallehistorialboveda> tablaBovedaDetalleLastNoActive;
 	
-	private boolean isValidBean;
-	
 	@EJB
 	private BovedaServiceLocal bovedaServiceLocal;
+	
+	private boolean isValidBean;
+	private Boveda boveda;
+	private Integer idboveda;
+	private boolean successOpenBoveda;
+	private boolean successCloseBoveda;
+	
 
 	public OpenCloseBovedaBean() {
 		isValidBean = true;
+		successOpenBoveda = false;
+		successCloseBoveda = false;
 	}
 	
 	@PostConstruct
@@ -140,34 +143,34 @@ public class OpenCloseBovedaBean implements Serializable {
 		return result;
 	}
 
-	public String openBoveda() throws Exception {
+	public void openBoveda() throws Exception {
 		Boveda boveda = this.boveda;
 		try {
 			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
 			Estadoapertura estadoapertura2 = this.boveda.getEstadoapertura();
 			if (estadoapertura.equals(estadoapertura2)) {
 				this.bovedaServiceLocal.openBoveda(boveda);
-				JsfUtil.addSuccessMessage("Boveda Abierta");
+				JsfUtil.addSuccessMessage("Boveda Abierta Correctamente");
+				successOpenBoveda = true;
 			} else {
-				JsfUtil.addErrorMessage("Boveda Abierta, no se puede Reabrir");
+				JsfUtil.addErrorMessage("La boveda ya está abierta");
 				setInvalidBean();
 			}
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, "Error al abrir Boveda");
 			setInvalidBean();
-			return "failure";
 		}
-		return "success";
 	}
 	
-	public String closeBoveda() throws Exception {
+	public void closeBoveda() throws Exception {
 		Boveda boveda = this.boveda;
 		try {
 			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
 			Estadoapertura estadoapertura2 = this.boveda.getEstadoapertura();
 			if (!estadoapertura.equals(estadoapertura2)) {
 				this.bovedaServiceLocal.closeBoveda(boveda);
-				JsfUtil.addSuccessMessage("Boveda Cerrada");
+				JsfUtil.addSuccessMessage("Boveda Cerrada Correctamente");
+				successCloseBoveda = true;
 			} else {
 				JsfUtil.addErrorMessage("Boveda Cerrada, no se puede Cerrar");
 				setInvalidBean();
@@ -175,9 +178,7 @@ public class OpenCloseBovedaBean implements Serializable {
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 			setInvalidBean();
-			return null;
 		}
-		return "success";
 	}
 
 	public void setInvalidBean(){
@@ -248,6 +249,22 @@ public class OpenCloseBovedaBean implements Serializable {
 
 	public void setValidBean(boolean isValidBean) {
 		this.isValidBean = isValidBean;
+	}
+
+	public boolean isSuccessOpenBoveda() {
+		return successOpenBoveda;
+	}
+
+	public void setSuccessOpenBoveda(boolean successOpenBoveda) {
+		this.successOpenBoveda = successOpenBoveda;
+	}
+
+	public boolean isSuccessCloseBoveda() {
+		return successCloseBoveda;
+	}
+
+	public void setSuccessCloseBoveda(boolean successCloseBoveda) {
+		this.successCloseBoveda = successCloseBoveda;
 	}
 
 }
