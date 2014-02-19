@@ -125,4 +125,18 @@ public class Caja implements Serializable {
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Caja)) {
+			return false;
+		}
+		final Caja other = (Caja) obj;
+		return other.getIdcaja().equals(this.idcaja) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idcaja;
+	}
 }

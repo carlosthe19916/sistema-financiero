@@ -26,8 +26,11 @@ import org.ventura.entity.schema.seguridad.Menu;
 import org.ventura.entity.schema.seguridad.Modulo;
 import org.ventura.entity.schema.seguridad.Rol;
 import org.ventura.entity.schema.seguridad.Usuario;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.util.exception.RollbackFailureException;
 import org.ventura.util.logger.Log;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.RolType;
 
 @Stateless
 @Local(LoginServiceLocal.class)
@@ -154,6 +157,37 @@ public class LoginServiceBean implements LoginServiceLocal {
 			throw e;
 		}
 		return rols;
+	}
+
+	@Override
+	public boolean loginAsadministrador(Agencia agencia, String usuario, String password) throws Exception {
+		boolean result;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idagencia", agencia.getIdagencia());
+			parameters.put("usuario", usuario);
+			parameters.put("password", password);
+			
+			List<Usuario> usuarios = usuarioDAO.findByNamedQuery(Usuario.fadministrador_idagencia_usuario_password, parameters, 2);
+			if(usuarios.size() > 0){
+				if(usuarios.size() == 1){
+					Usuario usuarioDB = usuarios.get(0);
+					List<Rol> rols = getRoles(usuarioDB);
+					Rol rolAdministrador = ProduceObject.getRol(RolType.ADMINISTRADOR);
+					result = rols.contains(rolAdministrador);
+				} else {
+					throw new Exception("No se encontró resultados validos");
+				}
+			} else {
+				result = false;
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return result;
 	}
 
 }

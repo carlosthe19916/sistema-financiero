@@ -11,6 +11,7 @@ import org.ventura.entity.schema.seguridad.Menu;
 import org.ventura.entity.schema.seguridad.Modulo;
 import org.ventura.entity.schema.seguridad.Rol;
 import org.ventura.entity.schema.seguridad.Usuario;
+import org.ventura.entity.schema.sucursal.Agencia;
 
 @Local
 public interface LoginServiceLocal extends LoginServiceRemote {
@@ -28,4 +29,6 @@ public interface LoginServiceLocal extends LoginServiceRemote {
 	public List<Rol> getRoles(Usuario usuario) throws Exception;
 	
 	public List<Caja> getCajas(Usuario usuario) throws Exception;
+	
+	public boolean loginAsadministrador(Agencia agencia, String usuario, String password) throws Exception;
 }

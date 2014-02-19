@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -25,9 +27,12 @@ import org.ventura.tipodato.Moneda;
 @Entity
 @Table(name = "transaccioncuentabancaria", schema = "caja")
 @NamedQuery(name = "Transaccioncuentabancaria.findAll", query = "SELECT t FROM Transaccioncuentabancaria t")
+@NamedQueries({ @NamedQuery(name = Transaccioncuentabancaria.f_idtransaccioncaja, query = "SELECT t FROM Transaccioncuentabancaria t INNER JOIN t.transaccioncaja tc WHERE tc.idtransaccioncaja = :idtransaccioncaja")})
 public class Transaccioncuentabancaria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	public final static String f_idtransaccioncaja = "org.ventura.entity.schema.caja.Transaccioncuentabancaria.f_idtransaccioncaja";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

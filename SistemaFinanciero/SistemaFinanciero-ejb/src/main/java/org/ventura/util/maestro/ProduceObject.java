@@ -9,6 +9,7 @@ import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.schema.seguridad.Rol;
 
 public class ProduceObject {
 
@@ -276,5 +277,50 @@ public class ProduceObject {
 			break;
 		}
 		return tipodocumento;
+	}
+	
+	public static RolType getRol(Rol rol) {
+		RolType rolType = null;
+		Integer id = rol.getIdrol();
+		switch (id) {
+		case 1:
+			rolType = RolType.ADMIN;
+			break;
+		case 2:
+			rolType = RolType.CAJA;
+			break;
+		case 3:
+			rolType = RolType.JEFE_CAJA;
+			break;
+		case 4:
+			rolType = RolType.ADMINISTRADOR;
+			break;
+		default:
+			rolType = null;
+			break;
+		}
+		return rolType;
+	}
+
+	public static Rol getRol(RolType rolType) {
+		Rol rol = new Rol();
+		switch (rolType) {
+		case ADMIN:
+			rol.setIdrol(1);
+			break;
+		case CAJA:
+			rol.setIdrol(2);
+			break;
+		case JEFE_CAJA:
+			rol.setIdrol(3);
+			break;
+		case ADMINISTRADOR:
+			rol.setIdrol(4);
+			break;
+		default:
+			rol = null;
+			break;
+		}
+		return rol;
 	}
 }

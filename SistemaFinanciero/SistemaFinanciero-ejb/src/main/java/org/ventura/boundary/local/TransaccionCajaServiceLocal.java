@@ -1,5 +1,7 @@
 package org.ventura.boundary.local;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
@@ -7,6 +9,7 @@ import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.view.CajaMovimientoView;
 import org.ventura.entity.schema.caja.view.ViewvouchercompraventaView;
 import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
@@ -43,8 +46,19 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	
 	public Transaccioncuentaaporte deposito(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
 	
-	public Transaccioncuentaaporte retiro(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
+	public Transaccioncuentaaporte retiro(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;	
 	
+	public void extornarTransaccion(CajaMovimientoView cajaMovimientoView) throws Exception;
+	
+	public void extornarTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
+	
+	public void extornarTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
+	
+	public void extornarTransaccionCompraventa(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
 	/**
 	 * Operaciones no transaccionales**/
+	
+	public List<CajaMovimientoView> getTransaccionesCajaWithHistorialActivo(Caja caja) throws Exception;
+	
+	public List<CajaMovimientoView> buscarTransaccionCaja(Caja caja, Integer id) throws Exception;
 }

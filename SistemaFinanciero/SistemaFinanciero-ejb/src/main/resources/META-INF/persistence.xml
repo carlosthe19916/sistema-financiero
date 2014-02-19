@@ -88,6 +88,7 @@
 		<class>org.ventura.entity.schema.caja.view.VoucherbovedaView</class>
 		<class>org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView</class>
 		<class>org.ventura.entity.schema.caja.PendienteCaja</class>
+		<class>org.ventura.entity.schema.caja.view.CajaMovimientoView</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="validate" />

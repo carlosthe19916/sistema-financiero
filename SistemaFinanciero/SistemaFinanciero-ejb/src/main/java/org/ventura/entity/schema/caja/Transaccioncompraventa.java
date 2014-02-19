@@ -15,8 +15,12 @@ import org.ventura.tipodato.TasaCambio;
 @Entity
 @Table(name = "transaccioncompraventa", schema = "caja")
 @NamedQuery(name = "Transaccioncompraventa.findAll", query = "SELECT t FROM Transaccioncompraventa t")
+@NamedQueries({ @NamedQuery(name = Transaccioncompraventa.f_idtransaccioncaja, query = "SELECT t FROM Transaccioncompraventa t INNER JOIN t.transaccioncaja tc WHERE tc.idtransaccioncaja = :idtransaccioncaja") })
 public class Transaccioncompraventa implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	public final static String f_idtransaccioncaja = "org.ventura.entity.schema.caja.Transaccioncompraventa.f_idtransaccioncaja";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,31 +35,31 @@ public class Transaccioncompraventa implements Serializable {
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "montorecibido")) })
 	private Moneda montorecibido;
 
-	@Column(length = 11, name="dniruc")
+	@Column(length = 11, name = "dniruc")
 	private String dniRuc;
-	
-	@Column(length = 200, name="nombresrazonsocial")
+
+	@Column(length = 200, name = "nombresrazonsocial")
 	private String nombresRazonSocial;
-	
-	@Column(name="estado")
+
+	@Column(name = "estado")
 	private boolean estado;
-	
+
 	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tipocambio")) }) 
+	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "tipocambio")) })
 	private TasaCambio tipocambio;
 
 	@ManyToOne
 	@JoinColumn(name = "idtransaccioncaja", nullable = false)
 	private Transaccioncaja transaccioncaja;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idtipomonedarecibido", nullable = false)
 	private Tipomoneda tipomonedaRecibido;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idtipomonedaentregado", nullable = false)
 	private Tipomoneda tipomonedaEntregado;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idtipotransaccioncompraventa", nullable = false)
 	private Tipotransaccioncompraventa tipotransaccioncompraventa;

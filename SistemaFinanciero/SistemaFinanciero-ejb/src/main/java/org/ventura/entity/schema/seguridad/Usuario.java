@@ -19,7 +19,8 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name = Usuario.ALL, query = "SELECT u FROM Usuario u"),
 		@NamedQuery(name = Usuario.ALL_ACTIVE, query = "SELECT u FROM Usuario u WHERE u.estado=true"),
-		@NamedQuery(name = Usuario.FIND_USER, query = "Select u From Usuario u LEFT OUTER JOIN u.trabajador t LEFT OUTER JOIN t.personanatural p LEFT OUTER JOIN t.agencia s WHERE u.estado = true AND u.username = :username") })
+		@NamedQuery(name = Usuario.FIND_USER, query = "Select u From Usuario u LEFT OUTER JOIN u.trabajador t LEFT OUTER JOIN t.personanatural p LEFT OUTER JOIN t.agencia s WHERE u.estado = true AND u.username = :username"),
+		@NamedQuery(name = Usuario.fadministrador_idagencia_usuario_password, query = "Select u From Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a WHERE a.idagencia = :idagencia AND u.username = :usuario AND u.password = :password AND u.estado = TRUE") })
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -27,6 +28,8 @@ public class Usuario implements Serializable {
 	public final static String ALL = "org.ventura.model.Usuario.ALL";
 	public final static String ALL_ACTIVE = "org.ventura.model.Usuario.ALL_ACTIVE";
 	public final static String FIND_USER = "org.ventura.model.Usuario.FIND_USER";
+
+	public final static String fadministrador_idagencia_usuario_password = "org.ventura.entity.schema.seguridad.Usuario.fadministrador_idagencia_usuario_password";
 
 	@Id
 	@Column(unique = true, nullable = false)

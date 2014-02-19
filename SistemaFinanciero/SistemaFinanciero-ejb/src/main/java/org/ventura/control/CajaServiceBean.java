@@ -920,14 +920,14 @@ public class CajaServiceBean implements CajaServiceLocal{
 					if(transaccioncuentaaporte.getEstado() == true){
 						saldoFinal = bovedaCaja.getSaldototal().add(transaccioncuentaaporte.getMonto());
 					} else {
-						bovedaCaja.getSaldototal().subtract(transaccioncuentaaporte.getMonto());
+						saldoFinal = bovedaCaja.getSaldototal().subtract(transaccioncuentaaporte.getMonto());
 					}
 					break;
 				case RETIRO :
 					if(transaccioncuentaaporte.getEstado() == true){
 						saldoFinal = bovedaCaja.getSaldototal().subtract(transaccioncuentaaporte.getMonto());
 					} else {
-						bovedaCaja.getSaldototal().add(transaccioncuentaaporte.getMonto());
+						saldoFinal = bovedaCaja.getSaldototal().add(transaccioncuentaaporte.getMonto());
 					}
 					break;
 				default:
@@ -949,7 +949,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw e;
 		}
 	}
-
+	
 	@Override
 	public void closeCaja(Caja caja,Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaCierre) throws Exception {
 		try {
@@ -1096,4 +1096,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw new EJBException(e.getMessage());
 		}
 	}
+
+	
 }

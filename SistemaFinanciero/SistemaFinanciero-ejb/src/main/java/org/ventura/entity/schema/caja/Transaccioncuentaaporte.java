@@ -18,8 +18,15 @@ import java.util.Date;
 @Entity
 @Table(name = "transaccioncuentaaporte", schema = "caja")
 @NamedQuery(name = "Transaccioncuentaaporte.findAll", query = "SELECT t FROM Transaccioncuentaaporte t")
+@NamedQueries({
+		@NamedQuery(name = Transaccioncuentaaporte.f_idtransaccioncaja, query = "SELECT t FROM Transaccioncuentaaporte t INNER JOIN t.transaccioncaja tc WHERE tc.idtransaccioncaja = :idtransaccioncaja"),
+		@NamedQuery(name = Transaccioncuentaaporte.f_get_begindate_idcuentaaporte, query = "SELECT t FROM Transaccioncuentaaporte t INNER JOIN t.cuentaaporte ca INNER JOIN t.transaccioncaja tc WHERE ca.idcuentaaporte = :idcuentaaporte AND tc.hora > :begindate") })
 public class Transaccioncuentaaporte implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	public final static String f_idtransaccioncaja = "org.ventura.entity.schema.caja.Transaccioncuentaaporte.f_idtransaccioncaja";
+	public final static String f_get_begindate_idcuentaaporte = "org.ventura.entity.schema.caja.Transaccioncuentaaporte.f_get_begindate_idcuentaaporte";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +35,7 @@ public class Transaccioncuentaaporte implements Serializable {
 
 	@Column(nullable = false)
 	private BigDecimal saldodisponible;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idcuentaaporte", nullable = false)
 	private Cuentaaporte cuentaaporte;
@@ -55,7 +62,7 @@ public class Transaccioncuentaaporte implements Serializable {
 
 	@Column(length = 200)
 	private String referencia;
-	
+
 	private boolean estado;
 
 	public Transaccioncuentaaporte() {

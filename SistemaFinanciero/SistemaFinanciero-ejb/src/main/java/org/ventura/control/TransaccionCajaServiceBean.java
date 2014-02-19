@@ -1,6 +1,9 @@
 package org.ventura.control;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,7 @@ import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
 import org.ventura.dao.impl.BovedaCajaDAO;
+import org.ventura.dao.impl.CajaMovimientoViewDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.TasainteresDAO;
@@ -37,11 +41,14 @@ import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.BovedaCaja;
 import org.ventura.entity.schema.caja.BovedaCajaPK;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
+import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.view.CajaMovimientoView;
 import org.ventura.entity.schema.caja.view.ViewvouchercompraventaView;
 import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
@@ -96,6 +103,9 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	private BovedaCajaDAO bovedaCajaDAO;
 	@EJB
 	private TasainteresDAO tasainteresDAO;
+	
+	@EJB
+	private CajaMovimientoViewDAO cajaMovimientoViewDAO;
 
 	
 	@Override
@@ -938,6 +948,173 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			throw new EJBException(e.getMessage());
 		}
 		return transaccioncuentaaporte;
+	}
+
+
+	@Override
+	public List<CajaMovimientoView> getTransaccionesCajaWithHistorialActivo(Caja caja) throws Exception {
+		List<CajaMovimientoView> cajaMovimientoViews;
+		try {
+			Historialcaja historialcaja = cajaServiceLocal.getHistorialcajaLastActive(caja);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();		
+			parameters.put("idcaja", caja.getIdcaja());
+			parameters.put("idhistorialcaja", historialcaja.getIdhistorialcaja());
+			
+			cajaMovimientoViews = cajaMovimientoViewDAO.findByNamedQuery(CajaMovimientoView.f_idcaja_idhistorialcaja, parameters);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cajaMovimientoViews;
+	}
+	
+	@Override
+	public List<CajaMovimientoView> buscarTransaccionCaja(Caja caja, Integer id) throws Exception {
+		List<CajaMovimientoView> cajaMovimientoViews;
+		try {
+			Historialcaja historialcaja = cajaServiceLocal.getHistorialcajaLastActive(caja);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idtransaccioncaja", id);
+			parameters.put("idcaja", caja.getIdcaja());
+			parameters.put("idhistorialcaja", historialcaja.getIdhistorialcaja());
+			
+			cajaMovimientoViews = cajaMovimientoViewDAO.findByNamedQuery(CajaMovimientoView.f_idtransaccioncaja_idcaja_idhistorialcaja, parameters, 50);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cajaMovimientoViews;
+	}
+
+
+	@Override
+	public void extornarTransaccion(CajaMovimientoView cajaMovimientoView) throws Exception {
+		try {
+			int idTransaccioncaja = cajaMovimientoView.getIdTransaccioncaja();
+			Transaccioncaja transaccioncaja = transaccioncajaDAO.find(idTransaccioncaja);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idtransaccioncaja", transaccioncaja.getIdtransaccioncaja());
+			
+			List<Transaccioncuentaaporte> listTransaccionCuentaaporte = transaccioncuentaaporteDAO.findByNamedQuery(Transaccioncuentaaporte.f_idtransaccioncaja, parameters);
+			List<Transaccioncuentabancaria> listTransaccionCuentabancaria = transaccioncuentabancariaDAO.findByNamedQuery(Transaccioncuentabancaria.f_idtransaccioncaja, parameters);
+			List<Transaccioncompraventa> listTransaccionCompraventa = transaccioncompraventaDAO.findByNamedQuery(Transaccioncompraventa.f_idtransaccioncaja, parameters);
+			
+			if(listTransaccionCuentaaporte.size() + listTransaccionCuentabancaria.size() + listTransaccionCompraventa.size() == 1){
+				Caja caja = new Caja();
+				caja.setIdcaja(cajaMovimientoView.getIdCaja());
+				if(listTransaccionCuentaaporte.size() == 1) {
+					Transaccioncuentaaporte transaccioncuentaaporte = listTransaccionCuentaaporte.get(0);
+					extornarTransaccionCuentaaporte(caja, transaccioncuentaaporte);
+				}
+				if(listTransaccionCuentabancaria.size() == 1) {
+					Transaccioncuentabancaria transaccioncuentabancaria = listTransaccionCuentabancaria.get(0);
+					extornarTransaccionCuentabancaria(caja, transaccioncuentabancaria);
+				}
+				if(listTransaccionCompraventa.size() == 1) {
+					Transaccioncompraventa transaccioncompraventa = listTransaccionCompraventa.get(0);
+					extornarTransaccionCompraventa(caja, transaccioncompraventa);
+				}
+			} else {
+				throw new Exception("No se encontró transaccion válida para extornar");
+			}
+		} catch (Exception e) {			
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
+
+
+	@Override
+	public void extornarTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception {
+		try {
+			Integer idTransaccion = transaccioncuentaaporte.getIdtransaccioncuentaaporte();								
+			Transaccioncuentaaporte transaccioncuentaaporteDB = transaccioncuentaaporteDAO.find(idTransaccion);
+					
+			//poner la transaccion en estado false
+			if(transaccioncuentaaporteDB.getEstado() == true){
+				Calendar calendar = Calendar.getInstance();
+				transaccioncuentaaporteDB.setEstado(false);
+				
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				transaccioncuentaaporteDB.setReferencia("Extornado el " + formatter.format(calendar.getTime()));
+				transaccioncuentaaporteDAO.update(transaccioncuentaaporteDB);
+			} else {
+				throw new Exception("La transaccion ya esta extornada");
+			}
+			
+			//actualizar el saldo de la caja
+			Transaccioncaja transaccioncaja = transaccioncuentaaporteDB.getTransaccioncaja();
+			Caja cajaTransaccion = transaccioncaja.getHistorialcaja().getCaja();
+			
+			if(caja.equals(cajaTransaccion)){
+				cajaServiceLocal.updateSaldo(caja, transaccioncuentaaporteDB);
+			} else {
+				throw new Exception("Solo la caja que relizó la transaccion puede extornar la operacion");
+			}	
+			
+			//actualizar saldo de cuenta de aportes			
+			Cuentaaporte cuentaaporte = transaccioncuentaaporteDB.getCuentaaporte();
+			Moneda montoTransaccion = transaccioncuentaaporteDB.getMonto();
+			Moneda saldoCuenta = cuentaaporte.getSaldo();
+			
+			Tipotransaccion tipotransaccion = transaccioncuentaaporteDB.getTipotransaccion();
+			TipoTransaccionType tipoTransaccionType = ProduceObject.getTipotransaccion(tipotransaccion);
+			switch (tipoTransaccionType) {
+			case DEPOSITO:
+				if(saldoCuenta.isGreaterThanOrEqual(montoTransaccion)){
+					Moneda saldoFinal = saldoCuenta.subtract(montoTransaccion);
+					cuentaaporte.setSaldo(saldoFinal);
+					cuentaaporteDAO.update(cuentaaporte);
+					
+					//recalcular las transacciones anteriores a la transaccion extornada
+					Date fechaHoraTransaccion = transaccioncuentaaporteDB.getTransaccioncaja().getHora();
+					Map<String, Object> parameters = new HashMap<String, Object>();
+					parameters.put("begindate", fechaHoraTransaccion);
+					parameters.put("idcuentaaporte", cuentaaporte.getIdcuentaaporte());
+									
+					List<Transaccioncuentaaporte> listTransaccionesAnteriores = transaccioncuentaaporteDAO.findByNamedQuery(Transaccioncuentaaporte.f_get_begindate_idcuentaaporte,parameters);
+					for (Transaccioncuentaaporte t : listTransaccionesAnteriores) {
+						t.setSaldodisponible(t.getSaldodisponible().subtract(montoTransaccion.getValue()));
+						transaccioncuentaaporteDAO.update(t);
+					}
+				} else {
+					throw new Exception("No se puede extornar la operacion porque la cuenta no cuenta con saldo suficienta para extornar");
+				}
+				break;
+			case RETIRO :
+				throw new Exception("La cuenta fue cancelada no se puede extornar la transaccion");
+			default:
+				break;
+			}	
+		} catch (Exception e) {			
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
+
+	@Override
+	public void extornarTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void extornarTransaccionCompraventa(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
