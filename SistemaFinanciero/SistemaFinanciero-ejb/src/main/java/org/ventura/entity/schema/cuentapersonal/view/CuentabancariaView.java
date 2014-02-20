@@ -18,12 +18,12 @@ import java.util.Date;
 		@NamedQuery(name = CuentabancariaView.findByNumerocuenta, query = "SELECT c FROM CuentabancariaView c WHERE c.numerocuenta = :numerocuenta"),
 		@NamedQuery(name = CuentabancariaView.findByLikeDni, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.numeroDocumento LIKE :dni"),
 		@NamedQuery(name = CuentabancariaView.findByLikeRuc, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.numeroDocumento LIKE :ruc"),
-		@NamedQuery(name = CuentabancariaView.findByLikeNombre, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.titular LIKE :nombre"),
-		@NamedQuery(name = CuentabancariaView.findByLikeRazonsocial, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.titular LIKE :razonsocial"),
+		@NamedQuery(name = CuentabancariaView.findByLikeNombre, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PN' AND c.socio LIKE :nombre"),
+		@NamedQuery(name = CuentabancariaView.findByLikeRazonsocial, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.socio LIKE :razonsocial"),
 
 		@NamedQuery(name = CuentabancariaView.f_tipocuentabancaria_tipodocumento_estado_searched, query = "SELECT c FROM CuentabancariaView c WHERE c.idTipocuentabancaria = :idtipocuentabancaria AND c.idTipodocumento = :idtipodocumento AND NOT (c.idEstadocuenta = :idestadocuenta) AND c.numeroDocumento LIKE :numerodocumento"),
 		@NamedQuery(name = CuentabancariaView.f_tipodocumento_estado_searched, query = "SELECT c FROM CuentabancariaView c WHERE c.idTipodocumento = :idtipodocumento AND NOT (c.idEstadocuenta = :idestadocuenta) AND c.numeroDocumento LIKE :numerodocumento"),
-		@NamedQuery(name = CuentabancariaView.f_estadocuenta_searched, query = "SELECT c FROM CuentabancariaView c WHERE NOT (c.idEstadocuenta = :idestadocuenta) AND (UPPER(c.titular) LIKE :searched OR c.numerocuenta LIKE :searched)") })
+		@NamedQuery(name = CuentabancariaView.f_estadocuenta_searched, query = "SELECT c FROM CuentabancariaView c WHERE NOT (c.idEstadocuenta = :idestadocuenta) AND (UPPER(c.socio) LIKE :searched OR c.numerocuenta LIKE :searched)") })
 public class CuentabancariaView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -96,7 +96,7 @@ public class CuentabancariaView implements Serializable {
 	private BigDecimal saldoCuentabancaria;
 
 	@Column(length = 2147483647)
-	private String titular;
+	private String socio;
 
 	@Column(name = "tipo_persona")
 	private String tipoPersona;
@@ -232,14 +232,6 @@ public class CuentabancariaView implements Serializable {
 		this.saldoCuentabancaria = saldoCuentabancaria;
 	}
 
-	public String getTitular() {
-		return this.titular;
-	}
-
-	public void setTitular(String titular) {
-		this.titular = titular;
-	}
-
 	public String getTipoPersona() {
 		return tipoPersona;
 	}
@@ -287,6 +279,14 @@ public class CuentabancariaView implements Serializable {
 
 	public void setIdSocio(Integer idSocio) {
 		this.idSocio = idSocio;
+	}
+
+	public String getSocio() {
+		return socio;
+	}
+
+	public void setSocio(String socio) {
+		this.socio = socio;
 	}
 
 }
