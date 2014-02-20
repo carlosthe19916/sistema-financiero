@@ -27,6 +27,7 @@ import org.ventura.boundary.remote.CajaServiceRemote;
 import org.ventura.dao.impl.BovedaCajaDAO;
 import org.ventura.dao.impl.BovedaDAO;
 import org.ventura.dao.impl.CajaDAO;
+import org.ventura.dao.impl.CajaTransaccionesBovedaViewDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
 import org.ventura.dao.impl.DetallehistorialcajaDAO;
 import org.ventura.dao.impl.HistorialcajaDAO;
@@ -47,6 +48,7 @@ import org.ventura.entity.schema.caja.PendienteCaja;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.view.CajaTransaccionesBovedaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.NonexistentEntityException;
@@ -86,6 +88,8 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@EJB private TransaccioncuentaaporteDAO transaccioncuentaaporteDAO;
 	@EJB private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
 	@EJB private PendienteCajaDAO pendienteCajaDAO;
+	
+	@EJB private CajaTransaccionesBovedaViewDAO cajaTransaccionesBovedaViewDAO;
 	
 	@Inject
 	private Log log;
@@ -1095,6 +1099,29 @@ public class CajaServiceBean implements CajaServiceLocal{
 			log.error("Caused by:" + e.getCause());
 			throw new EJBException(e.getMessage());
 		}
+	}
+
+	@Override
+	public List<CajaTransaccionesBovedaView> getTransaccionesDelDia(Caja caja) throws Exception {
+		List<CajaTransaccionesBovedaView> list;
+		try {
+			Integer id = caja.getIdcaja();
+			Caja cajaDB = cajaDAO.find(id);
+			Historialcaja historialcajaDB = getHistorialcajaLastActive(cajaDB);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcaja", cajaDB.getIdcaja());
+			parameters.put("idhistorialcaja", historialcajaDB.getIdhistorialcaja());
+			
+			list = cajaTransaccionesBovedaViewDAO.findByNamedQuery(CajaTransaccionesBovedaView.f_idcaja_idhistorialcaja, parameters);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return list;
 	}
 
 	

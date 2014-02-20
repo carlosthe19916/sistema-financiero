@@ -71,4 +71,5 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	
 	public VoucherbovedaView getVoucherTransaccionBoveda(Transaccionboveda transaccionboveda) throws Exception;
 
+	public List<Detalletransaccionboveda> getDetalleTransaccionBoveda(Transaccionboveda transaccionboveda) throws Exception;
 }

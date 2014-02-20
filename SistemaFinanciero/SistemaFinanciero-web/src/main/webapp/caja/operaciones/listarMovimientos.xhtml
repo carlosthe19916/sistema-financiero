@@ -79,8 +79,10 @@
 							<h:commandButton value="Aceptar"
 								actionListener="#{movimientosCajaBean.loginBean.login()}"
 								action="#{movimientosCajaBean.extornarTransaccioncaja()}"
-								styleClass="action blue" />
-							<h:commandButton value="Cancelar" styleClass="action">
+								styleClass="action blue" onclick="onSubmitButton();" />
+							<h:commandButton value="Cancelar"
+								action="#{movimientosCajaBean.loginBean.setDlgLogin(false)}"
+								immediate="true" styleClass="action" onclick="onSubmitButton();">
 							</h:commandButton>
 						</div>
 					</h:form>
@@ -89,8 +91,26 @@
 
 			<div>
 				<div>
-					<div class="p6n-api-consent-screen-title">Movimientos del dia</div>
-					<div>
+					<div class="p6n-api-app-section-box editable"
+						style="margin-right: 380px;">
+						<div class="p6n-api-app-section-title">
+							<div class="p6n-api-app-section-collapse-icon"></div>
+							<div class="p6n-api-app-section-title-text">
+								<h:outputLabel value="#{movimientosCajaBean.caja.denominacion}" />
+								<label>(<h:outputLabel
+										value="#{movimientosCajaBean.caja.abreviatura}" />)
+								</label>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<label>Estado:&nbsp;<h:outputLabel
+										value="#{movimientosCajaBean.caja.estadoapertura.denominacion}" />
+								</label>
+							</div>
+							<div class="p6n-api-app-section-description">Todas las
+								operaciones son de responsabilidad del usuario en session</div>
+						</div>
+					</div>
+					<br />
+					<div class="p6n-api-consent-screen-title"
+						style="margin-left: 10px;">Transacciones(Cliente) del dia</div>
+					<div style="margin-left: 10px;">
 						<h:form>
 							<div class="p6n-api-consent-screen-input-section">
 								<div>
@@ -103,7 +123,7 @@
 									<div style="float: left;">
 										<h:commandLink
 											action="#{movimientosCajaBean.buscarTransaccioncaja()}"
-											styleClass="button" style="margin: 0 0 0 1px;">
+											styleClass="button" style="margin: 0 0 0 1px;" onclick="onSubmitButton();" >
 											<span class="icon icon198"></span>
 										</h:commandLink>
 									</div>
@@ -138,7 +158,8 @@
 									<h:outputText value="#{row + 1}" />
 								</p:column>
 
-								<p:column headerText="Nro op" sortBy="numerooperacionTransaccioncaja">
+								<p:column headerText="Nro op"
+									sortBy="numerooperacionTransaccioncaja">
 									<h:outputText
 										value="#{transaccion.numerooperacionTransaccioncaja}" />
 								</p:column>
@@ -148,7 +169,8 @@
 								<p:column headerText="Tipo transaccion" sortBy="tipotransaccion">
 									<h:outputText value="#{transaccion.tipotransaccion}" />
 								</p:column>
-								<p:column headerText="Tipo movimiento" sortBy="denominacionTipotransaccion">
+								<p:column headerText="Tipo movimiento"
+									sortBy="denominacionTipotransaccion">
 									<h:outputText
 										value="#{transaccion.denominacionTipotransaccion}" />
 								</p:column>
@@ -175,11 +197,12 @@
 									<h:panelGroup rendered="#{transaccion.estadoTransaccion}">
 										<h:commandButton
 											action="#{movimientosCajaBean.autorizarExtornacion(transaccion)}"
-											value="Extornar" styleClass="action red" style="margin: 0px;" />
+											value="Extornar" styleClass="action red" style="margin: 0px;"
+											onclick="onSubmitButton();" />
 									</h:panelGroup>
 									<h:panelGroup rendered="#{!transaccion.estadoTransaccion}">
 										<h:commandButton value="No disp." styleClass="action"
-											style="margin: 0px;" />
+											style="margin: 0px;" onclick="onSubmitButton();" />
 									</h:panelGroup>
 								</p:column>
 							</p:dataTable>
@@ -199,7 +222,7 @@
 						<h:form>
 							<h:commandButton value="Aceptar"
 								action="listarMovimientos?faces-redirect=true"
-								styleClass="action blue" />
+								styleClass="action blue" onclick="onSubmitButton();" />
 						</h:form>
 					</div>
 				</div>

@@ -1162,4 +1162,24 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 		}
 		return voucherbovedaView;		
 	}
+
+	@Override
+	public List<Detalletransaccionboveda> getDetalleTransaccionBoveda(Transaccionboveda transaccionboveda) throws Exception {
+		List<Detalletransaccionboveda> list;
+		try {
+			Integer id = transaccionboveda.getIdtransaccionboveda();
+			Transaccionboveda transaccionbovedaDB = transaccionbovedaDAO.find(id);
+			list = transaccionbovedaDB.getDetalletransaccionbovedas();
+			for (Detalletransaccionboveda d : list) {
+				Denominacionmoneda denominacionmoneda = d.getDenominacionmoneda();
+				d.setDenominacionmoneda(denominacionmoneda);
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}	
+		return list;
+	}
 }
