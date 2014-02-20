@@ -35,7 +35,6 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	
 	public Transaccioncompraventa find(Object id) throws Exception;
 	
-	public void extornarTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
 	
 	/**
 	 * Operaciones transaccionales*/
@@ -54,7 +53,7 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	
 	public void extornarTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
 	
-	public void extornarTransaccionCompraventa(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
+	public void extornarTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
 	/**
 	 * Operaciones no transaccionales**/
 	

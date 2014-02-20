@@ -1,6 +1,5 @@
 package org.ventura.control;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -1021,7 +1020,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 				}
 				if(listTransaccionCompraventa.size() == 1) {
 					Transaccioncompraventa transaccioncompraventa = listTransaccionCompraventa.get(0);
-					extornarTransaccionCompraventa(caja, transaccioncompraventa);
+					extornarTransaccionCompraVenta(caja, transaccioncompraventa);
 				}
 			} else {
 				throw new Exception("No se encontró transaccion válida para extornar");
@@ -1107,14 +1106,87 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 	@Override
 	public void extornarTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
+		try {
+			Integer idTransaccion = transaccioncuentabancaria.getIdtransaccioncuentabancaria();								
+			Transaccioncuentabancaria transaccioncuentabancariaDB = transaccioncuentabancariaDAO.find(idTransaccion);
+					
+			//poner la transaccion en estado false
+			if(transaccioncuentabancariaDB.getEstado() == true){
+				Calendar calendar = Calendar.getInstance();
+				transaccioncuentabancariaDB.setEstado(false);
+				
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				transaccioncuentabancariaDB.setReferencia("Extornado el " + formatter.format(calendar.getTime()));
+				transaccioncuentabancariaDAO.update(transaccioncuentabancariaDB);
+			} else {
+				throw new Exception("La transaccion ya esta extornada");
+			}
+			
+			//actualizar el saldo de la caja
+			Transaccioncaja transaccioncaja = transaccioncuentabancariaDB.getTransaccioncaja();
+			Caja cajaTransaccion = transaccioncaja.getHistorialcaja().getCaja();
+			
+			if(caja.equals(cajaTransaccion)){
+				cajaServiceLocal.updateSaldo(caja, transaccioncuentabancariaDB);
+			} else {
+				throw new Exception("Solo la caja que relizó la transaccion puede extornar la operacion");
+			}	
+			
+			//actualizar saldo de cuenta de aportes			
+			Cuentabancaria cuentabancaria = transaccioncuentabancariaDB.getCuentabancaria();
+			Moneda montoTransaccion = transaccioncuentabancariaDB.getMonto();
+			Moneda saldoCuenta = cuentabancaria.getSaldo();
+			
+			Tipotransaccion tipotransaccion = transaccioncuentabancariaDB.getTipotransaccion();
+			TipoTransaccionType tipoTransaccionType = ProduceObject.getTipotransaccion(tipotransaccion);
+			switch (tipoTransaccionType) {
+			case DEPOSITO:
+				if(saldoCuenta.isGreaterThanOrEqual(montoTransaccion)){
+					Moneda saldoFinal = saldoCuenta.subtract(montoTransaccion);
+					cuentabancaria.setSaldo(saldoFinal);
+					cuentabancariaDAO.update(cuentabancaria);
+					
+					//recalcular las transacciones anteriores a la transaccion extornada
+					Date fechaHoraTransaccion = transaccioncuentabancariaDB.getTransaccioncaja().getHora();
+					Map<String, Object> parameters = new HashMap<String, Object>();
+					parameters.put("begindate", fechaHoraTransaccion);
+					parameters.put("idcuentabancaria", cuentabancaria.getIdcuentabancaria());
+									
+					List<Transaccioncuentabancaria> listTransaccionesAnteriores = transaccioncuentabancariaDAO.findByNamedQuery(Transaccioncuentabancaria.f_get_begindate_idcuentaaporte,parameters);
+					for (Transaccioncuentabancaria t : listTransaccionesAnteriores) {
+						t.setSaldodisponible(t.getSaldodisponible().subtract(montoTransaccion));
+						transaccioncuentabancariaDAO.update(t);
+					}
+				} else {
+					throw new Exception("No se puede extornar la operacion porque la cuenta no cuenta con saldo suficienta para extornar");
+				}
+				break;
+			case RETIRO :				
+				Moneda saldoFinal = saldoCuenta.add(montoTransaccion);
+				cuentabancaria.setSaldo(saldoFinal);
+				cuentabancariaDAO.update(cuentabancaria);
 
-	@Override
-	public void extornarTransaccionCompraventa(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception {
-		// TODO Auto-generated method stub
-		
+				// recalcular las transacciones anteriores a la transaccion
+				// extornada
+				Date fechaHoraTransaccion = transaccioncuentabancariaDB.getTransaccioncaja().getHora();
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("begindate", fechaHoraTransaccion);
+				parameters.put("idcuentabancaria",cuentabancaria.getIdcuentabancaria());
+
+				List<Transaccioncuentabancaria> listTransaccionesAnteriores = transaccioncuentabancariaDAO.findByNamedQuery(Transaccioncuentabancaria.f_get_begindate_idcuentaaporte,parameters);
+				for (Transaccioncuentabancaria t : listTransaccionesAnteriores) {
+					t.setSaldodisponible(t.getSaldodisponible().add(montoTransaccion));
+					transaccioncuentabancariaDAO.update(t);
+				}
+			default:
+				break;
+			}	
+		} catch (Exception e) {			
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
 	}
 
 }

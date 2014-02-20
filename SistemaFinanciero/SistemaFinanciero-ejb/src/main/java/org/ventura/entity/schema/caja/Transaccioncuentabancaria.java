@@ -27,12 +27,15 @@ import org.ventura.tipodato.Moneda;
 @Entity
 @Table(name = "transaccioncuentabancaria", schema = "caja")
 @NamedQuery(name = "Transaccioncuentabancaria.findAll", query = "SELECT t FROM Transaccioncuentabancaria t")
-@NamedQueries({ @NamedQuery(name = Transaccioncuentabancaria.f_idtransaccioncaja, query = "SELECT t FROM Transaccioncuentabancaria t INNER JOIN t.transaccioncaja tc WHERE tc.idtransaccioncaja = :idtransaccioncaja")})
+@NamedQueries({
+		@NamedQuery(name = Transaccioncuentabancaria.f_idtransaccioncaja, query = "SELECT t FROM Transaccioncuentabancaria t INNER JOIN t.transaccioncaja tc WHERE tc.idtransaccioncaja = :idtransaccioncaja"),
+		@NamedQuery(name = Transaccioncuentabancaria.f_get_begindate_idcuentaaporte, query = "SELECT t FROM Transaccioncuentabancaria t INNER JOIN t.cuentabancaria cb INNER JOIN t.transaccioncaja tc WHERE cb.idcuentabancaria = :idcuentabancaria AND tc.hora > :begindate") })
 public class Transaccioncuentabancaria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String f_idtransaccioncaja = "org.ventura.entity.schema.caja.Transaccioncuentabancaria.f_idtransaccioncaja";
+	public final static String f_get_begindate_idcuentaaporte = "org.ventura.entity.schema.caja.Transaccioncuentabancaria.f_get_begindate_idcuentaaporte";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,10 +50,10 @@ public class Transaccioncuentabancaria implements Serializable {
 
 	@Column(length = 250)
 	private String referencia;
-	
+
 	@Column
 	private boolean estado;
-	
+
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "value", column = @Column(name = "saldodisponible")) })
 	private Moneda saldodisponible;
@@ -73,7 +76,7 @@ public class Transaccioncuentabancaria implements Serializable {
 
 	public Transaccioncuentabancaria() {
 	}
-	
+
 	public Transaccioncaja getTransaccioncaja() {
 		return transaccioncaja;
 	}
