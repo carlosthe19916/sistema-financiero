@@ -142,7 +142,9 @@
 								<h:commandButton
 									action="#{cancelacionCuentaaporteBean.cancelarCuentaaporte()}"
 									value="Guardar" styleClass="action blue" />
-								<h:commandButton value="Cancelar" styleClass="action" />
+								<h:commandButton value="Cancelar"
+									action="/caja/cuentasPersonales/index?faces-redirect=true"
+									styleClass="action" immediate="true" />
 							</div>
 						</div>
 					</h:form>
@@ -347,7 +349,7 @@
 									<h:commandButton value="Cancelar">
 										<f:ajax
 											listener="#{cancelacionCuentaaporteBean.setDialogOpen(false)}"
-											render=":formCancelacion"></f:ajax>
+											render=":dlgBuscarcuenta :formCancelacion"></f:ajax>
 									</h:commandButton>
 								</div>
 							</h:form>
