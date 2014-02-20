@@ -14,7 +14,9 @@ import org.ventura.entity.schema.caja.Detalletransaccionboveda;
 import org.ventura.entity.schema.caja.Entidadfinanciera;
 import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.entity.schema.caja.view.BovedaTransaccionesHistorialactivoView;
 import org.ventura.entity.schema.caja.view.VoucherbovedaView;
+import org.ventura.entity.schema.sucursal.Agencia;
 
 @Local
 public interface BovedaServiceLocal extends BovedaServiceRemote{
@@ -58,7 +60,12 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	public void defrostBoveda(Boveda oBoveda) throws Exception;
 	
 	public List<Detalletransaccionboveda> getDetalletransaccionboveda(Boveda oBoveda) throws Exception;
-
+	
+	/**
+	 * no transaccional de boveda
+	 */
+	public List<BovedaTransaccionesHistorialactivoView> getTransaccionesDelDia(Agencia agencia) throws Exception;
+	
 	/**
 	 * Transacciones de boveda
 	 */

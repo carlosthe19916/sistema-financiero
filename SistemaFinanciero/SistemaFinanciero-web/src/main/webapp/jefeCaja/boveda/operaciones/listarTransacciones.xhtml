@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(10)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Boveda" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+			<h:outputStylesheet library="css" name="main.css" />
+
+			<br />
+
+			<div>
+				<div>
+					<br />
+					<div class="p6n-api-consent-screen-title"
+						style="margin-left: 10px;">Transacciones(Boveda) del dia</div>
+				</div>
+				<div>
+					<h:form>
+						<div style="margin: 5px;">
+							<p:dataTable var="transaccion"
+								value="#{listarTransaccionesBovedaBean.tablaTransacciones.rows}"
+								selectionMode="single"
+								selection="#{listarTransaccionesBovedaBean.tablaTransacciones.selectedRow}"
+								rowKey="#{transaccion}" rowIndexVar="row" paginator="true"
+								rows="10" sortMode="multiple"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="5,10,15">
+
+								<f:facet name="header">  
+						            Transacciones de boveda 
+						        </f:facet>
+								<p:column headerText="Nro" width="5%" style="text-align:center;">
+									<h:outputText value="#{row + 1}" />
+								</p:column>
+								<p:column headerText="Tipo Entidad"
+									sortBy="denominacionTipoentidad">
+									<h:outputText value="#{transaccion.denominacionTipoentidad}" />
+								</p:column>
+								<p:column headerText="Entidad" sortBy="denominacionEntidad">
+									<h:outputText value="#{transaccion.denominacionEntidad}" />
+								</p:column>
+								<p:column headerText="Nro trans" sortBy="idTransaccionboveda">
+									<h:outputText value="#{transaccion.idTransaccionboveda}" />
+								</p:column>
+								<p:column headerText="Tipo transaccion"
+									sortBy="denominacionTipotransaccion">
+									<h:outputText
+										value="#{transaccion.denominacionTipotransaccion}" />
+								</p:column>
+								<p:column headerText="Fecha" sortBy="fechaTransaccionboveda">
+									<h:outputText value="#{transaccion.fechaTransaccionboveda}">
+										<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Hora" sortBy="horaTransaccionboveda">
+									<h:outputText
+										value="#{listarTransaccionesBovedaBean.getStringTime(transaccion.horaTransaccionboveda)}" />
+								</p:column>
+								<p:column headerText="Moneda" sortBy="denominacionTipomoneda">
+									<h:outputText value="#{transaccion.denominacionTipomoneda}" />
+								</p:column>
+								<p:column headerText="Monto">
+									<h:outputText value="#{transaccion.total}" />
+								</p:column>
+								<p:column headerText="DETALLE" style="text-align: center;">
+									<h:commandButton value="Detalle"
+										action="#{listarTransaccionesBovedaBean.verDetalle(transaccion)}"
+										styleClass="action green" style="margin: 0px;"
+										onclick="onSubmitButton();" />
+								</p:column>
+							</p:dataTable>
+						</div>
+					</h:form>
+				</div>
+			</div>
+
+			<h:panelGroup
+				rendered="#{listarTransaccionesBovedaBean.dlgDetalleTransaccion}">
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+				<div class="modal-dialog p6n-popup"
+					style="left: 412.5px; top: 50px;">
+					<h:form>
+						<div class="modal-dialog-content">
+							<p:dataTable var="detalle"
+								value="#{listarTransaccionesBovedaBean.tablaDetalletransaccionboveda.rows}"
+								selectionMode="single"
+								selection="#{listarTransaccionesBovedaBean.tablaDetalletransaccionboveda.selectedRow}"
+								rowKey="#{detalle}" rowIndexVar="row" style="width:500px;">
+
+								<f:facet name="header">  
+						            Detalle de transaccion
+						        </f:facet>
+								<p:column headerText="Nro" width="5%" style="text-align:center;">
+									<h:outputText value="#{row + 1}" />
+								</p:column>
+
+								<p:column headerText="Denominacion" width="100">
+									<h:outputText
+										value="#{detalle.denominacionmoneda.denominacion}" />
+								</p:column>
+								<p:column headerText="Cantidad" width="100">
+									<h:outputText value="#{detalle.cantidad}" />
+								</p:column>
+								<p:column headerText="Subtotal" width="100">
+									<h:outputText value="#{detalle.subtotal}" />
+								</p:column>
+							</p:dataTable>
+						</div>
+
+						<div class="modal-dialog-buttons">
+							<br />
+							<h:commandButton value="Aceptar"
+								action="#{listarTransaccionesBovedaBean.setDlgDetalleTransaccion(false)}"
+								styleClass="action" onclick="onSubmitButton();">
+							</h:commandButton>
+						</div>
+					</h:form>
+				</div>
+			</h:panelGroup>
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+</html>

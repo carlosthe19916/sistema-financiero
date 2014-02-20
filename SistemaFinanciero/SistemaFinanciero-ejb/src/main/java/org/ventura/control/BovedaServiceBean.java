@@ -17,14 +17,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityExistsException;
-import javax.persistence.TransactionRequiredException;
 
 import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.remote.BovedaServiceRemote;
 import org.ventura.dao.impl.BovedaCajaDAO;
 import org.ventura.dao.impl.BovedaDAO;
+import org.ventura.dao.impl.BovedaTransaccionesHistorialactivoViewDAO;
 import org.ventura.dao.impl.DenominacionmonedaDAO;
 import org.ventura.dao.impl.DetallehistorialbovedaDAO;
 import org.ventura.dao.impl.DetalletransaccionbovedaDAO;
@@ -43,6 +42,7 @@ import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Transaccionboveda;
+import org.ventura.entity.schema.caja.view.BovedaTransaccionesHistorialactivoView;
 import org.ventura.entity.schema.caja.view.VoucherbovedaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
@@ -90,6 +90,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	@EJB
 	private DenominacionmonedaDAO denominacionmonedaDAO;
 
+	@EJB private BovedaTransaccionesHistorialactivoViewDAO bovedaTransaccionesHistorialactivoViewDAO;
 	/*
 	 * Boveda operaciones
 	 */
@@ -1180,6 +1181,23 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw e;
 		}	
+		return list;
+	}
+
+	@Override
+	public List<BovedaTransaccionesHistorialactivoView> getTransaccionesDelDia(Agencia agencia) throws Exception {
+		List<BovedaTransaccionesHistorialactivoView> list;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idagencia", agencia.getIdagencia());
+			
+			list = bovedaTransaccionesHistorialactivoViewDAO.findByNamedQuery(BovedaTransaccionesHistorialactivoView.f_idagencia,parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
 		return list;
 	}
 }
