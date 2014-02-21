@@ -126,21 +126,6 @@ public class Transaccionboveda implements Serializable {
 		}
 		return result;
 	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if ((obj == null) || !(obj instanceof Transaccionboveda)) {
-			return false;
-		}
-		final Transaccionboveda other = (Transaccionboveda) obj;
-		return other.getIdtransaccionboveda() == idtransaccionboveda ? true
-				: false;
-	}
-
-	@Override
-	public int hashCode() {
-		return idtransaccionboveda;
-	}
 
 	public Historialcaja getHistorialcaja() {
 		return historialcaja;
@@ -158,4 +143,17 @@ public class Transaccionboveda implements Serializable {
 		this.saldodisponible = saldodisponible;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Transaccionboveda)) {
+			return false;
+		}
+		final Transaccionboveda other = (Transaccionboveda) obj;
+		return other.getIdtransaccionboveda().equals(this.idtransaccionboveda) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idtransaccionboveda;
+	}
 }

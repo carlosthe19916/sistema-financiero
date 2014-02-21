@@ -80,4 +80,17 @@ public class Detallehistorialcaja implements Serializable {
 		return result;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Detallehistorialcaja)) {
+			return false;
+		}
+		final Detallehistorialcaja other = (Detallehistorialcaja) obj;
+		return other.getIddetallehistorialcaja().equals(iddetallehistorialcaja) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return iddetallehistorialcaja;
+	}
 }

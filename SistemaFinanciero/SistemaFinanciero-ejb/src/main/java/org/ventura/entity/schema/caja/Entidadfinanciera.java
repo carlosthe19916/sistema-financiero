@@ -76,5 +76,19 @@ public class Entidadfinanciera implements Serializable {
 	public void setNumerocuenta(String numerocuenta) {
 		this.numerocuenta = numerocuenta;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Entidadfinanciera)) {
+			return false;
+		}
+		final Entidadfinanciera other = (Entidadfinanciera) obj;
+		return other.getIdentidadfinanciera().equals(identidadfinanciera) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return identidadfinanciera;
+	}
 
 }

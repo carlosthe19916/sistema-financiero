@@ -68,7 +68,7 @@ public class Tipocuentabancaria implements Serializable {
 			return false;
 		}
 		final Tipocuentabancaria other = (Tipocuentabancaria) obj;
-		return other.getIdtipocuentabancaria() == this.idtipocuentabancaria ? true : false;
+		return other.getIdtipocuentabancaria().equals(this.idtipocuentabancaria) ? true : false;
 	}
 
 	@Override

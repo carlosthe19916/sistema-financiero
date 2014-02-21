@@ -155,4 +155,18 @@ public class Transaccioncompraventa implements Serializable {
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Transaccioncompraventa)) {
+			return false;
+		}
+		final Transaccioncompraventa other = (Transaccioncompraventa) obj;
+		return other.getIdtransaccioncompraventa().equals(this.idtransaccioncompraventa) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idtransaccioncompraventa;
+	}
 }

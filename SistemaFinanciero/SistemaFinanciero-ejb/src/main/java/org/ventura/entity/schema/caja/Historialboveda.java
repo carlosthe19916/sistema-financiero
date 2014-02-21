@@ -164,7 +164,7 @@ public class Historialboveda implements Serializable {
 			return false;
 		}
 		final Historialboveda other = (Historialboveda) obj;
-		return other.getIdhistorialboveda() == this.idhistorialboveda ? true : false;
+		return other.getIdhistorialboveda().equals(this.idhistorialboveda) ? true : false;
 	}
 
 	@Override

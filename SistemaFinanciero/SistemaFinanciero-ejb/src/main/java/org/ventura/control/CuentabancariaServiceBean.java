@@ -1003,7 +1003,77 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		}
 		return transaccioncuentabancaria;
 	}
-
 	
+	@Override
+	public Transaccioncuentabancaria cancelarCuentaahorro(Caja caja,Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception {
+		Transaccioncuentabancaria transaccioncuentabancaria = null;
+		try {
+			Cuentabancaria cuentabancariaDB = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+				
+			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
+			Estadocuenta estadocuentaDB = cuentabancariaDB.getEstadocuenta();
+			if(!estadocuenta.equals(estadocuentaDB)){
+				throw new Exception("La cuenta no está Activa, no se puede cancelar");
+			}
+			
+			//realizar la transaccion
+			transaccioncuentabancaria = new Transaccioncuentabancaria();
+			transaccioncuentabancaria.setCuentabancaria(cuentabancariaDB);
+			transaccioncuentabancaria.setEstado(true);
+			transaccioncuentabancaria.setMonto(cuentabancariaDB.getSaldo());
+			transaccioncuentabancaria.setSaldodisponible(cuentabancariaDB.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
+			transaccioncuentabancaria.setTipomoneda(cuentabancariaDB.getTipomoneda());
+			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
+			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria);
+			
+			//cancelar la cuenta
+			cuentabancariaDB.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
+			cuentabancariaDB.setFechacierre(fechaCancelacion);
+			
+			cuentabancariaDAO.update(cuentabancariaDB);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+		return transaccioncuentabancaria;
+	}
+
+	@Override
+	public Transaccioncuentabancaria cancelarCuentacorriente(Caja caja,Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception {
+		Transaccioncuentabancaria transaccioncuentabancaria = null;
+		try {
+			Cuentabancaria cuentabancariaDB = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+				
+			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.ACTIVO);
+			Estadocuenta estadocuentaDB = cuentabancariaDB.getEstadocuenta();
+			if(!estadocuenta.equals(estadocuentaDB)){
+				throw new Exception("La cuenta no está Activa, no se puede cancelar");
+			}
+			
+			//realizar la transaccion
+			transaccioncuentabancaria = new Transaccioncuentabancaria();
+			transaccioncuentabancaria.setCuentabancaria(cuentabancariaDB);
+			transaccioncuentabancaria.setEstado(true);
+			transaccioncuentabancaria.setMonto(cuentabancariaDB.getSaldo());
+			transaccioncuentabancaria.setSaldodisponible(cuentabancariaDB.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
+			transaccioncuentabancaria.setTipomoneda(cuentabancariaDB.getTipomoneda());
+			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
+			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria);
+			
+			//cancelar la cuenta
+			cuentabancariaDB.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
+			cuentabancariaDB.setFechacierre(fechaCancelacion);
+			
+			cuentabancariaDAO.update(cuentabancariaDB);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+		return transaccioncuentabancaria;
+	}
 
 }

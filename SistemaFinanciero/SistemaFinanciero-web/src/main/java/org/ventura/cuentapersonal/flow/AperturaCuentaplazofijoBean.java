@@ -37,7 +37,6 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
-import org.ventura.entity.schema.socio.Socio;
 import org.ventura.session.CajaBean;
 import org.ventura.tipodato.Moneda;
 import org.venturabank.util.JsfUtil;

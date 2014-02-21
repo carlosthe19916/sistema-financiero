@@ -153,7 +153,7 @@ public class Boveda implements Serializable {
 			return false;
 		}
 		final Boveda other = (Boveda) obj;
-		return other.getIdboveda() == this.idboveda ? true : false;
+		return other.getIdboveda().equals(this.idboveda) ? true : false;
 	}
 
 	@Override

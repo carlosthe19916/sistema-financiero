@@ -75,7 +75,7 @@ public class Tipotransaccion implements Serializable {
         }
         // a room can be uniquely identified by it's number and the building it belongs to
         final Tipotransaccion other = (Tipotransaccion) obj;
-        return other.getIdtipotransaccion()== idtipotransaccion ? true:false;
+        return other.getIdtipotransaccion().equals(idtipotransaccion) ? true:false;
 	}
 	
 	@Override

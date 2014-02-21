@@ -68,7 +68,7 @@ public class Estadoapertura implements Serializable {
 			return false;
 		}
 		final Estadoapertura other = (Estadoapertura) obj;
-		return other.getIdestadoapertura() == this.idestadoapertura ? true : false;
+		return other.getIdestadoapertura().equals(this.idestadoapertura) ? true : false;
 	}
 
 	@Override

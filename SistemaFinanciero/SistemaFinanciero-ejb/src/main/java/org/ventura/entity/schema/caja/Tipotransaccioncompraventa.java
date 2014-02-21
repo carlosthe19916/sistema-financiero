@@ -75,7 +75,7 @@ public class Tipotransaccioncompraventa implements Serializable {
 			return false;
 		}
 		final Tipotransaccioncompraventa other = (Tipotransaccioncompraventa) obj;
-		return other.getIdtipotransaccioncompraventa() == this.idtipotransaccioncompraventa? true : false;
+		return other.getIdtipotransaccioncompraventa().equals(this.idtipotransaccioncompraventa) ? true : false;
 	}
 
 	@Override

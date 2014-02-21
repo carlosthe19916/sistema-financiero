@@ -158,4 +158,17 @@ public class Transaccioncuentabancaria implements Serializable {
 		this.saldodisponible = saldodisponible;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Transaccioncuentabancaria)) {
+			return false;
+		}
+		final Transaccioncuentabancaria other = (Transaccioncuentabancaria) obj;
+		return other.getIdtransaccioncuentabancaria().equals(this.idtransaccioncuentabancaria) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idtransaccioncuentabancaria;
+	}
 }

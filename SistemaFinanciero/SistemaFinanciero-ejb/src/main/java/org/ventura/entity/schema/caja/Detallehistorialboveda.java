@@ -77,5 +77,19 @@ public class Detallehistorialboveda implements Serializable {
 		}
 		return result;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Detallehistorialboveda)) {
+			return false;
+		}
+		final Detallehistorialboveda other = (Detallehistorialboveda) obj;
+		return other.getIddetallehistorialboveda().equals(iddetallehistorialboveda) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return iddetallehistorialboveda;
+	}
 
 }

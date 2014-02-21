@@ -86,8 +86,7 @@ public class Denominacionmoneda implements Serializable {
 			return false;
 		}
 		final Denominacionmoneda other = (Denominacionmoneda) obj;
-		return other.getIddenominacionmoneda() == iddenominacionmoneda ? true
-				: false;
+		return other.getIddenominacionmoneda().equals(iddenominacionmoneda) ? true : false;
 	}
 
 	@Override

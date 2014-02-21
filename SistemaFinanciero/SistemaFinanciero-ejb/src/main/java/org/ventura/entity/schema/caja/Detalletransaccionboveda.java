@@ -79,5 +79,19 @@ public class Detalletransaccionboveda implements Serializable {
 		}
 		return result;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Detalletransaccionboveda)) {
+			return false;
+		}
+		final Detalletransaccionboveda other = (Detalletransaccionboveda) obj;
+		return other.getIddetalletransaccionboveda().equals(iddetalletransaccionboveda) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return iddetalletransaccionboveda;
+	}
 
 }

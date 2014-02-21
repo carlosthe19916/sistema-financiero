@@ -147,5 +147,19 @@ public class Transaccioncuentaaporte implements Serializable {
 	public void setSaldodisponible(BigDecimal saldodisponible) {
 		this.saldodisponible = saldodisponible;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Transaccioncuentaaporte)) {
+			return false;
+		}
+		final Transaccioncuentaaporte other = (Transaccioncuentaaporte) obj;
+		return other.getIdtransaccioncuentaaporte().equals(this.idtransaccioncuentaaporte) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idtransaccioncuentaaporte;
+	}
 
 }

@@ -147,4 +147,18 @@ public class Historialcaja implements Serializable {
 	public void setEstadomovimiento(Estadomovimiento estadomovimiento) {
 		this.estadomovimiento = estadomovimiento;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Historialcaja)) {
+			return false;
+		}
+		final Historialcaja other = (Historialcaja) obj;
+		return other.getIdhistorialcaja().equals(this.idhistorialcaja) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idhistorialcaja;
+	}
 }

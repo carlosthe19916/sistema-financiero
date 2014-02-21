@@ -68,7 +68,7 @@ public class Estadomovimiento implements Serializable {
 			return false;
 		}
 		final Estadomovimiento other = (Estadomovimiento) obj;
-		return other.getIdestadomovimiento() == this.idestadomovimiento ? true : false;
+		return other.getIdestadomovimiento().equals(this.idestadomovimiento) ? true : false;
 	}
 
 	@Override

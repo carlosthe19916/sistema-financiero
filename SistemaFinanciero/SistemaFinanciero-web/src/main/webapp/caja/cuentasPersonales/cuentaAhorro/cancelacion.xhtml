@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(1)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Cancelar cta ahorro" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+
+			<h:panelGroup rendered="#{cancelacionCuentaahorroBean.failure}">
+				<div class="p6n-api-access-in-page-error" style="left: 416px;">
+					<div>
+						<div>
+							<p>
+								<h:messages />
+							</p>
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+
+			<div style="margin-left: 50px;">
+				<br />
+				<div class="p6n-api-consent-screen-title">Cancelacion cuenta
+					ahorro</div>
+
+				<h:panelGroup rendered="#{!cancelacionCuentaahorroBean.success}">
+					<h:form id="formCancelacion">
+						<div class="p6n-api-consent-screen-inputs">
+							<div class="p6n-api-consent-screen-input-section">
+								<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
+								<div>
+									<div style="float: left;">
+										<h:inputText id="txtNumerocuenta"
+											value="#{cancelacionCuentaahorroBean.cuentabancariaView.numerocuenta}"
+											required="true" pt:placeholder="Número de Cuenta"
+											requiredMessage="Ingrese un numero de cuenta"
+											validatorMessage="Numero de cuenta no valida" maxlength="14"
+											readonly="true">
+										</h:inputText>
+									</div>
+									<div style="float: left;">
+										<h:commandLink styleClass="button" style="margin: 0 0 0 1px;">
+											<span class="icon icon198"></span>
+											<f:ajax
+												listener="#{cancelacionCuentaahorroBean.setDialogOpen(true)}"
+												render=":dlgBuscarcuenta :formBuscarcuentaporte" />
+										</h:commandLink>
+									</div>
+								</div>
+							</div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+								style="float: inherit;">
+								<h:message for="txtNumerocuenta" />
+							</div>
+							<br /> <br />
+							<div class="p6n-api-consent-screen-input-section">
+								<div style="display: inline-block; width: 190px;">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">TIPO
+										MONEDA</div>
+									<div>
+										<h:outputLabel
+											value="#{cancelacionCuentaahorroBean.cuentabancariaView.abreviaturaTipomomeda} #{cancelacionCuentaahorroBean.cuentabancariaView.denominacionTipomoneda}" />
+									</div>
+								</div>
+								<div style="display: inline-block; width: 190px;">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">SALDO</div>
+									<div>
+										<h:outputLabel
+											value="#{cancelacionCuentaahorroBean.cuentabancariaView.saldoCuentabancaria}" />
+									</div>
+								</div>
+							</div>
+							<div class="p6n-api-consent-screen-input-section">
+								<div style="display: inline-block; width: 190px;">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">CODIGO
+										SOCIO</div>
+									<div>
+										<h:outputLabel
+											value="#{cancelacionCuentaahorroBean.cuentabancariaView.idSocio}" />
+									</div>
+								</div>
+								<div style="display: inline-block;">
+									<div class="p6n-api-consent-screen-label" style="width: 300px;">SOCIO</div>
+									<div>
+										<h:outputLabel
+											value="#{cancelacionCuentaahorroBean.cuentabancariaView.socio}" />
+									</div>
+								</div>
+							</div>
+							<div class="p6n-api-consent-screen-input-section">
+								<div class="p6n-api-consent-screen-label" style="width: 150px;">FECHA
+									CANCELACION</div>
+								<div>
+									<h:outputLabel
+										value="#{cancelacionCuentaahorroBean.fechaCancelacion}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputLabel>
+								</div>
+
+							</div>
+							<div class="p6n-api-consent-screen-input-section"></div>
+
+							<div class="sf-separator"></div>
+
+							<div class="sf-buttons" style="float: left;">
+								<h:commandButton
+									action="#{cancelacionCuentaahorroBean.cancelarCuentaahorro()}"
+									value="Guardar" styleClass="action blue" />
+								<h:commandButton value="Cancelar"
+									action="/caja/cuentasPersonales/index?faces-redirect=true"
+									styleClass="action" immediate="true" />
+							</div>
+						</div>
+					</h:form>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{cancelacionCuentaahorroBean.success}">
+					<br />
+					<h:panelGroup id="voucher">
+						<table id="t"
+							style="width: 230px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
+							<tr style="vertical-align: center;">
+								<td colspan="1"
+									style="text-align: center; font-weight: bold; font-size: 12px;">
+									<p:graphicImage name="eye.png" library="images" />
+								</td>
+								<td colspan="3"
+									style="text-align: center; font-weight: bold; font-size: 12px;">COOPERATIVA
+									DE AHORRO Y CREDITO VENTURA</td>
+							</tr>
+							<tr>
+								<td colspan="1"
+									style="width: 25%; font-weight: bold; font-size: 12px;">Nº
+									OP:</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaahorroBean.vouchercajaView.numeroOperacion}</td>
+								<td colspan="1"
+									style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaahorroBean.vouchercajaView.denominacionCaja}</td>
+							</tr>
+							<tr>
+								<td style="font-weight: bold; font-size: 11px;">FECHA:</td>
+								<td style="font-size: 12px;"><h:outputText
+										value="#{cancelacionCuentaahorroBean.vouchercajaView.fecha}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputText></td>
+								<td style="font-weight: bold; font-size: 11px;">HORA:</td>
+								<td style="font-size: 12px;"><h:outputLabel
+										value="#{cancelacionCuentaahorroBean.getStringTime(cancelacionCuentaahorroBean.vouchercajaView.hora)}">
+									</h:outputLabel></td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-weight: bold; font-size: 11px;">AGENCIA:</td>
+								<td colspan="3" style="font-size: 12px;">#{cancelacionCuentaahorroBean.vouchercajaView.denominacionAgencia}</td>
+							</tr>
+							<tr>
+								<td colspan="4"
+									style="text-align: center; text-decoration: underline; font-weight: bold; font-size: 12px;">#{cancelacionCuentaahorroBean.vouchercajaView.denominacionTipotransaccion}
+									(CANCELACION CTA)</td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-weight: bold; font-size: 11px;">CUENTA:</td>
+								<td colspan="3" style="font-size: 12px;"><h:outputLabel
+										value="#{cancelacionCuentaahorroBean.vouchercajaView.numeroCuenta}" />
+								</td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-weight: bold; font-size: 11px;">T.
+									CTA:</td>
+								<td colspan="3" style="font-size: 11px;"><h:outputLabel
+										value="CTA. APORTE" /></td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-weight: bold; font-size: 11px;">ID
+									SOCIO:</td>
+								<td colspan="3" style="font-size: 11px;">#{cancelacionCuentaahorroBean.vouchercajaView.idSocio}</td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-weight: bold; font-size: 11px;">SOCIO:</td>
+								<td colspan="3" style="font-size: 11px;">#{cancelacionCuentaahorroBean.vouchercajaView.titular}</td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-weight: bold; font-size: 11px;">REF:</td>
+								<td colspan="3" style="font-size: 11px;">#{cancelacionCuentaahorroBean.vouchercajaView.referencia}</td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-weight: bold; font-size: 11px;">MONEDA:</td>
+								<td colspan="3" style="font-size: 11px;">#{cancelacionCuentaahorroBean.vouchercajaView.denominacionMoneda}</td>
+							</tr>
+							<tr>
+								<td colspan="1" style="font-weight: bold; font-size: 11px;">IMPORTE:</td>
+								<td colspan="3" style="font-size: 11px;">#{cancelacionCuentaahorroBean.vouchercajaView.abreviaturaMoneda}#{cancelacionCuentaahorroBean.vouchercajaView.monto}</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td colspan="4" style="font-size: 11px; text-align: center;"><h:outputText
+										value="----------------------------------------" /></td>
+							</tr>
+							<tr>
+								<td colspan="4" style="font-size: 11px; text-align: center;"><h:outputText
+										value="Firma Titular(es)" /></td>
+							</tr>
+
+							<tr>
+								<td colspan="4" style="text-align: center; font-size: 10px;">"Verifique
+									su dinero antes de retirarse de la ventanilla"</td>
+							</tr>
+						</table>
+					</h:panelGroup>
+					<h:form>
+						<h:commandButton value="Imprimir" type="button"
+							icon="ui-icon-print">
+							<p:printer target=":voucher" />
+						</h:commandButton>
+						<h:commandButton value="Volver"
+							action="/modules/cuentasPersonales/index?faces-redirect=true"
+							immediate="true" styleClass="action" />
+					</h:form>
+				</h:panelGroup>
+
+				<h:panelGroup id="dlgBuscarcuenta">
+					<h:panelGroup rendered="#{cancelacionCuentaahorroBean.dialogOpen}">
+						<div class="modal-dialog p6n-popup"
+							style="left: 412.5px; top: 10x; width: 600px;">
+							<h:form id="formBuscarcuentaporte">
+								<div class="modal-dialog-content">
+									<div id="p6n-cloudsql-content">
+										<div>
+											<div>
+												<div>
+													<div>
+														<h:inputText
+															onkeyup="this.value = this.value.toUpperCase();"
+															pt:placeholder="Apellido y Nombres / Razón Social"
+															value="#{cancelacionCuentaahorroBean.valorBusqueda}"
+															style="width: 250px;float: left;" />
+														&nbsp;
+														<h:commandLink styleClass="button"
+															style="margin: 0px;float: left;">
+															<span class="icon icon198"></span>
+															<span class="label"></span>
+															<f:ajax execute="@form"
+																listener="#{cancelacionCuentaahorroBean.buscarCuentaahorro()}"
+																render="tblResultadoBusqueda" />
+														</h:commandLink>
+														<h:selectOneMenu id="cmbTipoBusqueda"
+															value="#{cancelacionCuentaahorroBean.comboTipodocumento.itemSelected}">
+															<f:selectItem
+																itemLabel="Apellidos y nombres/razon social"
+																itemValue="" />
+															<f:selectItems
+																value="#{cancelacionCuentaahorroBean.comboTipodocumento.items.entrySet()}"
+																var="val" itemLabel="#{val.value.abreviatura}"
+																itemValue="#{val.key}" />
+														</h:selectOneMenu>
+													</div>
+													<div
+														class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+														<h:messages />
+													</div>
+												</div>
+											</div>
+										</div>
+										<hr />
+										<div class="p6n-cloudsql-form" style="width: 600px;">
+											<div
+												class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
+												<div class="p6n-cloudsql-name-input ">
+													<div class="p6n-input-prepend">
+														<p:dataTable id="tblResultadoBusqueda" var="cuenta"
+															value="#{cancelacionCuentaahorroBean.tablaCuentabancaria.rows}"
+															selectionMode="single"
+															selection="#{cancelacionCuentaahorroBean.cuentabancariaView}"
+															rowKey="#{cuenta}" rowIndexVar="row">
+
+															<p:column headerText="Nro"
+																style="text-align:center; font-size: 11px; width:10px;">
+																<h:outputText value="#{row + 1}" />
+															</p:column>
+															<p:column headerText="Tipo Cta"
+																style="font-size: 11px; width:95px;">
+																<h:outputText value="#{cuenta.denominacionTipocuentabancaria}" />
+															</p:column>
+															<p:column headerText="Nro Cuenta"
+																style="font-size: 11px; width:90px;">
+																<h:outputText value="#{cuenta.numerocuenta}" />
+															</p:column>
+															<p:column headerText="Titular"
+																style="font-size: 11px;width:120px;">
+																<h:outputText value="#{cuenta.socio}" />
+															</p:column>
+															<p:column headerText="T.doc"
+																style="font-size: 11px; width:40px;">
+																<h:outputText value="#{cuenta.abreviaturaTipodocumento}" />
+															</p:column>
+															<p:column headerText="Nro.doc"
+																style="font-size: 11px; width:70px;">
+																<h:outputText value="#{cuenta.numeroDocumento}" />
+															</p:column>
+														</p:dataTable>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-dialog-buttons">
+									<h:commandButton value="Aceptar"
+										action="#{cancelacionCuentaahorroBean.setDialogOpen(false)}"
+										styleClass="action blue">
+									</h:commandButton>
+									<h:commandButton value="Cancelar">
+										<f:ajax
+											listener="#{cancelacionCuentaahorroBean.setDialogOpen(false)}"
+											render=":dlgBuscarcuenta :formCancelacion"></f:ajax>
+									</h:commandButton>
+								</div>
+							</h:form>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>

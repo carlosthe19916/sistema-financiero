@@ -81,4 +81,18 @@ public class Transaccioncaja implements Serializable {
 		this.numerooperacion = numerooperacion;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Transaccioncaja)) {
+			return false;
+		}
+		final Transaccioncaja other = (Transaccioncaja) obj;
+		return other.getIdtransaccioncaja().equals(this.idtransaccioncaja) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idtransaccioncaja;
+	}
+	
 }
