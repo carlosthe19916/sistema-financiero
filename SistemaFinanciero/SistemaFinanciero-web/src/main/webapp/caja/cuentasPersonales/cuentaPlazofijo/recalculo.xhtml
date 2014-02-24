@@ -306,7 +306,7 @@
 												<div>
 													<h:outputLabel
 														value="#{cancelacionAnticipadaCuentaplazofijoBean.cuentabancariaViewSelected.fechaaperturaCuentabancaria}">
-														<f:convertDateTime pattern="dd/MM/yy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
 												</div>
 											</div>
@@ -317,7 +317,7 @@
 												<div>
 													<h:outputLabel
 														value="#{cancelacionAnticipadaCuentaplazofijoBean.cuentabancariaViewSelected.fechacierreCuentabancaria}">
-														<f:convertDateTime pattern="dd/MM/yy" />
+														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel>
 												</div>
 											</div>
@@ -381,7 +381,11 @@
 													<div>
 														<p:calendar id="txtFecharecalculo"
 															value="#{cancelacionAnticipadaCuentaplazofijoBean.fechaRecalculo}"
-															required="true" />
+															required="true" pattern="dd/MM/yyyy"
+															requiredMessage="Ingrese fecha de recalculo"
+															pt:placeholder="dd/mm/yyyy">
+															<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
+														</p:calendar>
 													</div>
 												</div>
 												<div
@@ -443,7 +447,7 @@
 															<div class="p6n-cloudsql-summary-light">
 																<h:outputLabel
 																	value="#{cancelacionAnticipadaCuentaplazofijoBean.cuentabancariaViewSelected.fechaaperturaCuentabancaria}">
-																	<f:convertDateTime pattern="dd/MM/yy" />
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
 																</h:outputLabel>
 															</div>
 														</div>
@@ -452,7 +456,7 @@
 															<div class="p6n-cloudsql-summary-light">
 																<h:outputLabel
 																	value="#{cancelacionAnticipadaCuentaplazofijoBean.fechaRecalculo}">
-																	<f:convertDateTime pattern="dd/MM/yy" />
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
 																</h:outputLabel>
 															</div>
 														</div>

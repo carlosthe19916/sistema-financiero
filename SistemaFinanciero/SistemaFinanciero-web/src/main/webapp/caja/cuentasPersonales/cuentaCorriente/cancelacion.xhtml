@@ -151,7 +151,7 @@
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 									OP:</td>
-								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentacorrienteBean.vouchercajaView.numeroOperacion}</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentacorrienteBean.vouchercajaView.numeroOperacion}|#{cancelacionCuentacorrienteBean.vouchercajaView.idTransaccioncaja}</td>
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentacorrienteBean.vouchercajaView.denominacionCaja}</td>
@@ -186,7 +186,7 @@
 								<td colspan="1" style="font-weight: bold; font-size: 11px;">T.
 									CTA:</td>
 								<td colspan="3" style="font-size: 11px;"><h:outputLabel
-										value="CTA. APORTE" /></td>
+										value="#{cancelacionCuentacorrienteBean.vouchercajaView.denominacionTipocuentabancaria}" /></td>
 							</tr>
 							<tr>
 								<td colspan="1" style="font-weight: bold; font-size: 11px;">ID
@@ -233,7 +233,7 @@
 							<p:printer target=":voucher" />
 						</h:commandButton>
 						<h:commandButton value="Volver"
-							action="/modules/cuentasPersonales/index?faces-redirect=true"
+							action="/caja/cuentasPersonales/index?faces-redirect=true"
 							immediate="true" styleClass="action" />
 					</h:form>
 				</h:panelGroup>
@@ -241,7 +241,7 @@
 				<h:panelGroup id="dlgBuscarcuenta">
 					<h:panelGroup rendered="#{cancelacionCuentacorrienteBean.dialogOpen}">
 						<div class="modal-dialog p6n-popup"
-							style="left: 412.5px; top: 10x; width: 600px;">
+							style="left: 412.5px; top: 50px; width: 600px;">
 							<h:form id="formBuscarcuentaporte">
 								<div class="modal-dialog-content">
 									<div id="p6n-cloudsql-content">
@@ -251,7 +251,7 @@
 													<div>
 														<h:inputText
 															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Apellido y Nombres / Razón Social"
+															pt:placeholder="Nro documento"
 															value="#{cancelacionCuentacorrienteBean.valorBusqueda}"
 															style="width: 250px;float: left;" />
 														&nbsp;
@@ -266,7 +266,7 @@
 														<h:selectOneMenu id="cmbTipoBusqueda"
 															value="#{cancelacionCuentacorrienteBean.comboTipodocumento.itemSelected}">
 															<f:selectItem
-																itemLabel="Apellidos y nombres/razon social"
+																itemLabel="--seleccione--"
 																itemValue="" />
 															<f:selectItems
 																value="#{cancelacionCuentacorrienteBean.comboTipodocumento.items.entrySet()}"

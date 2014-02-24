@@ -23,6 +23,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.session.CajaBean;
+import org.ventura.util.maestro.TipocuentabancariaType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -99,14 +100,12 @@ public class CancelacionCuentaahorroBean implements Serializable{
 	}
 	
 	public void buscarCuentaahorro(){
-		List<CuentabancariaView> cuentabancariaViews;
+		List<CuentabancariaView> cuentabancariaViews = null;
 		Tipodocumento tipodocumento = comboTipodocumento.getObjectItemSelected();
 		try {
 			if(tipodocumento != null){
-				cuentabancariaViews = cuentabancariaServiceLocal.findCuentabancariaView(tipodocumento, valorBusqueda);				
-			} else {
-				cuentabancariaViews = cuentabancariaServiceLocal.findCuentabancariaView(valorBusqueda);
-			}		
+				cuentabancariaViews = cuentabancariaServiceLocal.findCuentabancariaView(TipocuentabancariaType.CUENTA_AHORRO,tipodocumento, valorBusqueda);				
+			} 		
 			tablaCuentabancaria.setRows(cuentabancariaViews);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());			

@@ -293,7 +293,7 @@
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 									OP:</td>
-								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaplazofijoBean.returnNumOperacion()}</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaplazofijoBean.returnNumOperacion()}|#{cancelacionCuentaplazofijoBean.vouchercajaView.idTransaccioncaja}</td>
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaplazofijoBean.vouchercajaView.denominacionCaja}</td>
@@ -375,7 +375,7 @@
 							<p:printer target=":voucher" />
 						</h:commandButton>
 						<h:commandButton value="Salir"
-							action="/modules/cuentasPersonales/index?faces-redirect=true"
+							action="/caja/cuentasPersonales/index?faces-redirect=true"
 							immediate="true" styleClass="action" />
 					</h:form>
 				</h:panelGroup>

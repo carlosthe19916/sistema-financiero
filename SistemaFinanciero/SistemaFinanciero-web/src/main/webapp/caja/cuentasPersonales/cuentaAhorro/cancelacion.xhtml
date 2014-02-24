@@ -151,7 +151,7 @@
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 									OP:</td>
-								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaahorroBean.vouchercajaView.numeroOperacion}</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaahorroBean.vouchercajaView.numeroOperacion}|#{cancelacionCuentaahorroBean.vouchercajaView.idTransaccioncaja}</td>
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaahorroBean.vouchercajaView.denominacionCaja}</td>
@@ -186,7 +186,7 @@
 								<td colspan="1" style="font-weight: bold; font-size: 11px;">T.
 									CTA:</td>
 								<td colspan="3" style="font-size: 11px;"><h:outputLabel
-										value="CTA. APORTE" /></td>
+										value="#{cancelacionCuentaahorroBean.vouchercajaView.denominacionTipocuentabancaria}" /></td>
 							</tr>
 							<tr>
 								<td colspan="1" style="font-weight: bold; font-size: 11px;">ID
@@ -233,7 +233,7 @@
 							<p:printer target=":voucher" />
 						</h:commandButton>
 						<h:commandButton value="Volver"
-							action="/modules/cuentasPersonales/index?faces-redirect=true"
+							action="/caja/cuentasPersonales/index?faces-redirect=true"
 							immediate="true" styleClass="action" />
 					</h:form>
 				</h:panelGroup>
@@ -241,7 +241,7 @@
 				<h:panelGroup id="dlgBuscarcuenta">
 					<h:panelGroup rendered="#{cancelacionCuentaahorroBean.dialogOpen}">
 						<div class="modal-dialog p6n-popup"
-							style="left: 412.5px; top: 10x; width: 600px;">
+							style="left: 412.5px; top: 50px; width: 600px;">
 							<h:form id="formBuscarcuentaporte">
 								<div class="modal-dialog-content">
 									<div id="p6n-cloudsql-content">
@@ -251,7 +251,7 @@
 													<div>
 														<h:inputText
 															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Apellido y Nombres / Razón Social"
+															pt:placeholder="Nro documento"
 															value="#{cancelacionCuentaahorroBean.valorBusqueda}"
 															style="width: 250px;float: left;" />
 														&nbsp;
@@ -265,9 +265,7 @@
 														</h:commandLink>
 														<h:selectOneMenu id="cmbTipoBusqueda"
 															value="#{cancelacionCuentaahorroBean.comboTipodocumento.itemSelected}">
-															<f:selectItem
-																itemLabel="Apellidos y nombres/razon social"
-																itemValue="" />
+															<f:selectItem itemLabel="--seleccione--" itemValue="" />
 															<f:selectItems
 																value="#{cancelacionCuentaahorroBean.comboTipodocumento.items.entrySet()}"
 																var="val" itemLabel="#{val.value.abreviatura}"
@@ -299,7 +297,8 @@
 															</p:column>
 															<p:column headerText="Tipo Cta"
 																style="font-size: 11px; width:95px;">
-																<h:outputText value="#{cuenta.denominacionTipocuentabancaria}" />
+																<h:outputText
+																	value="#{cuenta.denominacionTipocuentabancaria}" />
 															</p:column>
 															<p:column headerText="Nro Cuenta"
 																style="font-size: 11px; width:90px;">
