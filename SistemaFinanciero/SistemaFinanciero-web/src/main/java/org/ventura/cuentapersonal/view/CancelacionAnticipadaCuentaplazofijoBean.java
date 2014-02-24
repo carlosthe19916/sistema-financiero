@@ -84,7 +84,7 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 				BigDecimal teaReal = teaRecalculo.divide(new BigDecimal(100));
 				BigDecimal treaReal = treaRecalculo.divide(new BigDecimal(100));
 				
-				cuentaPlazofijoCreado = cuentabancariaServiceLocal.cancelacionAnticipadaCuentaplazofijo(cuentabancaria, fechaRecalculo, teaReal, treaReal);
+				cuentaPlazofijoCreado = cuentabancariaServiceLocal.recalculoCuentaplazofijo(cuentabancaria, fechaRecalculo, teaReal, treaReal);
 				cuentaCreada = true;
 			}
 		} catch (Exception e) {

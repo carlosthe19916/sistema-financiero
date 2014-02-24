@@ -911,6 +911,43 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		}		
 		return cuentabancariaBD;
 	}
+	
+	@Override
+	public Cuentabancaria recalculoCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea,BigDecimal trea) throws Exception {
+		Cuentabancaria cuentabancariaBD;
+		try {							
+			cuentabancariaBD = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+						
+			//actualizar datos de cuenta OLD			
+			cuentabancariaBD.setFechacierre(fechaRecalculo);
+			cuentabancariaDAO.update(cuentabancariaBD);
+				
+			//actualizar los intereses para la nueva cuenta a plazo fijo
+			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
+			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+									
+			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();		
+			pkTEA.setIdcuentabancaria(cuentabancariaBD.getIdcuentabancaria());
+			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
+			CuentabancariaTipotasa cuentabancariaTipotasaTEA = cuentabancariaTipotasaDAO.find(pkTEA);
+			cuentabancariaTipotasaTEA.setTasainteres(tea);
+			cuentabancariaTipotasaDAO.update(cuentabancariaTipotasaTEA);
+			
+			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();		
+			pkTREA.setIdcuentabancaria(cuentabancariaBD.getIdcuentabancaria());
+			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
+			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  cuentabancariaTipotasaDAO.find(pkTREA);	
+			cuentabancariaTipotasaTREA.setTasainteres(trea);
+			cuentabancariaTipotasaDAO.update(cuentabancariaTipotasaTREA);		
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}		
+		return cuentabancariaBD;
+	}
 
 	@Override
 	public BigDecimal getTasainteres(TipotasaCuentasPersonalesType tipotasaCuentasPersonalesType,Object idCuenta) throws Exception {

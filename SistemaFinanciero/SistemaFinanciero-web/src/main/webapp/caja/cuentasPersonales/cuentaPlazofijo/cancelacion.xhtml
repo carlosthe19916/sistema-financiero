@@ -293,7 +293,7 @@
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 									OP:</td>
-								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaplazofijoBean.returnNumOperacion()}|#{cancelacionCuentaplazofijoBean.vouchercajaView.idTransaccioncaja}</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaplazofijoBean.vouchercajaView.numeroOperacion}-#{cancelacionCuentaplazofijoBean.vouchercajaView.idTransaccioncaja}</td>
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaplazofijoBean.vouchercajaView.denominacionCaja}</td>
@@ -384,7 +384,7 @@
 					<h:panelGroup
 						rendered="#{cancelacionCuentaplazofijoBean.dialogOpen}">
 						<div class="modal-dialog p6n-popup"
-							style="left: 412.5px; top: 10x; width: 670px;">
+							style="left: 412.5px; top: 50px; width: 670px;">
 							<h:form id="formBuscarcuentaporte">
 								<div class="modal-dialog-content">
 									<div id="p6n-cloudsql-content">
