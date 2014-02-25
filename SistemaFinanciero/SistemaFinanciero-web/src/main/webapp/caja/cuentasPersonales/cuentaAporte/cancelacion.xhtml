@@ -168,7 +168,7 @@
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 									OP:</td>
-								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.numerooperacionTransaccioncaja}|#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.numerooperacionTransaccioncaja}-#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.denominacionCaja}</td>
@@ -249,7 +249,7 @@
 							icon="ui-icon-print">
 							<p:printer target=":voucher" />
 						</h:commandButton>
-						<h:commandButton value="Volver"
+						<h:commandButton value="Salir"
 							action="/caja/cuentasPersonales/index?faces-redirect=true"
 							immediate="true" styleClass="action" />
 					</h:form>
@@ -258,7 +258,7 @@
 				<h:panelGroup id="dlgBuscarcuenta">
 					<h:panelGroup rendered="#{cancelacionCuentaaporteBean.dialogOpen}">
 						<div class="modal-dialog p6n-popup"
-							style="left: 412.5px; top: 10px; width: 600px;">
+							style="left: 412.5px; top: 50px; width: 600px;">
 							<h:form id="formBuscarcuentaporte">
 								<div class="modal-dialog-content">
 									<div id="p6n-cloudsql-content">

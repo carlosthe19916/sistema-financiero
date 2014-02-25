@@ -38,6 +38,8 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public Cuentabancaria cancelacionAnticipadaCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea, BigDecimal trea) throws Exception;
 	
+	public Cuentabancaria recalculoCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea, BigDecimal trea) throws Exception;
+	
 	public Transaccioncuentabancaria cancelarCuentaplazofijo(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception;
 	
 	public Transaccioncuentabancaria cancelarCuentaahorro(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception;;

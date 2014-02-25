@@ -27,15 +27,14 @@ import org.ventura.dao.impl.InteresdiarioDAO;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasa;
 import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasaPK;
+import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.cuentapersonal.Interesdiario;
 import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.tipodato.Moneda;
-import org.ventura.util.helper.TasaInteres;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipocuentabancariaType;
-import org.ventura.util.maestro.TipoCambioCompraVentaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 import org.ventura.util.math.BigDecimalMath;
 
@@ -71,13 +70,13 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 			calendar.clear(Calendar.SECOND);
 			calendar.clear(Calendar.MILLISECOND);
 			
-			Map<String, Object> parameters = new HashMap<String, Object>();
+			/*Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("fecha", calendar.getTime());
 			List<Interesdiario> interesdiarios = interesdiarioDAO.findByNamedQuery(Interesdiario.InteresesForDate,parameters, 1);
 			
 			if(!interesdiarios.isEmpty()){
 				throw new Exception("ya se generaron los interes para el dia señalado");
-			}
+			}*/
 			
 			generarInteresCuentaAhorroAndCorriente(fecha);
 			
@@ -100,6 +99,8 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 			List<Cuentabancaria> cuentabancarias = cuentabancariaServiceLocal.findAll();
 			for (Cuentabancaria cuentabancaria : cuentabancarias) {
 				
+				
+					
 				Tipotasa tipotasa = null;
 				
 				if(cuentabancaria.getTipocuentabancaria().equals(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_AHORRO))){

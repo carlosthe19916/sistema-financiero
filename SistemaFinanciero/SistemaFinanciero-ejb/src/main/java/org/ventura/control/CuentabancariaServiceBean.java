@@ -243,6 +243,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			//crear las tasas de interes para la cuenta
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
 			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
+			tasaValor = tasaValor.divide(BigDecimal.TEN.multiply(BigDecimal.TEN));
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -342,6 +343,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			//crear las tasas de interes para la cuenta
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
 			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
+			tasaValor = tasaValor.divide(BigDecimal.TEN.multiply(BigDecimal.TEN));
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -398,6 +400,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			//crear tasas de interes para la cuenta bancaria
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
 			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
+			tasaValor = tasaValor.divide(BigDecimal.TEN.multiply(BigDecimal.TEN));
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -454,6 +457,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			//crear tasas de interes para cuenta bancaria
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
 			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
+			tasaValor = tasaValor.divide(BigDecimal.TEN.multiply(BigDecimal.TEN));
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -903,6 +907,43 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaBD.setEstadocuenta(estadocuenta);
 			cuentabancariaBD.setSaldo(new Moneda());
 			cuentabancariaDAO.update(cuentabancariaBD);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}		
+		return cuentabancariaBD;
+	}
+	
+	@Override
+	public Cuentabancaria recalculoCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea,BigDecimal trea) throws Exception {
+		Cuentabancaria cuentabancariaBD;
+		try {							
+			cuentabancariaBD = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+						
+			//actualizar datos de cuenta OLD			
+			cuentabancariaBD.setFechacierre(fechaRecalculo);
+			cuentabancariaDAO.update(cuentabancariaBD);
+				
+			//actualizar los intereses para la nueva cuenta a plazo fijo
+			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
+			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+									
+			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();		
+			pkTEA.setIdcuentabancaria(cuentabancariaBD.getIdcuentabancaria());
+			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
+			CuentabancariaTipotasa cuentabancariaTipotasaTEA = cuentabancariaTipotasaDAO.find(pkTEA);
+			cuentabancariaTipotasaTEA.setTasainteres(tea);
+			cuentabancariaTipotasaDAO.update(cuentabancariaTipotasaTEA);
+			
+			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();		
+			pkTREA.setIdcuentabancaria(cuentabancariaBD.getIdcuentabancaria());
+			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
+			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  cuentabancariaTipotasaDAO.find(pkTREA);	
+			cuentabancariaTipotasaTREA.setTasainteres(trea);
+			cuentabancariaTipotasaDAO.update(cuentabancariaTipotasaTREA);		
+			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

@@ -151,7 +151,7 @@
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 									OP:</td>
-								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentacorrienteBean.vouchercajaView.numeroOperacion}|#{cancelacionCuentacorrienteBean.vouchercajaView.idTransaccioncaja}</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentacorrienteBean.vouchercajaView.numeroOperacion}-#{cancelacionCuentacorrienteBean.vouchercajaView.idTransaccioncaja}</td>
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentacorrienteBean.vouchercajaView.denominacionCaja}</td>
@@ -232,7 +232,7 @@
 							icon="ui-icon-print">
 							<p:printer target=":voucher" />
 						</h:commandButton>
-						<h:commandButton value="Volver"
+						<h:commandButton value="Salir"
 							action="/caja/cuentasPersonales/index?faces-redirect=true"
 							immediate="true" styleClass="action" />
 					</h:form>

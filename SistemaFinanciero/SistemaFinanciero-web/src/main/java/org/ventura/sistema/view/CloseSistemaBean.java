@@ -1,6 +1,7 @@
 package org.ventura.sistema.view;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +31,7 @@ public class CloseSistemaBean implements Serializable {
 
 	@PostConstruct
 	private void initialize() {
+		fechaCalculo = Calendar.getInstance().getTime();
 	}
 
 	public void generarIntereses() {
