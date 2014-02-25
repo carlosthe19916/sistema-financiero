@@ -140,7 +140,7 @@
 															<td colspan="1"
 																style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 																OP:</td>
-															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.returnNumOperacion()}</td>
+															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.numeroOperacion}-#{transaccionCuentabancariaCajaBean.vouchercajaView.idTransaccioncaja}</td>
 															<td colspan="1"
 																style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionCaja}</td>
@@ -485,7 +485,7 @@
 			</h:form>
 
 			<div id="dlbBuscarCuentabancaria" class="modal-dialog p6n-popup"
-				style="left: 412.5px; top: 10x;">
+				style="left: 412.5px; top: 40px;">
 				<h:form>
 					<div class="modal-dialog-content">
 						<div id="p6n-cloudsql-content">
