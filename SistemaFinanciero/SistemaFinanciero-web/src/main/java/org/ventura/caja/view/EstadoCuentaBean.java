@@ -140,10 +140,19 @@ public class EstadoCuentaBean implements Serializable {
 		}
 	}
 	
-	public void buscarTransaccionesEstadoCuenta() throws Exception{
-		System.out.println("llegooo");
+	public void estadoCuentaEnCuentaAportes() throws Exception{
 		try {
 			List<EstadocuentaView> list = estadocuentaServiceLocal.getTransaccionesEstadoCuenta(cuentaaporteViewSelected.getNumerocuenta(), fechaInicio, fechaFin);
+			tablaEstadoCuenta.setRows(list);
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e.getMessage());
+			throw e;
+		}
+	}
+	
+	public void estadoCuentaEnCuentaBancaria() throws Exception{
+		try {
+			List<EstadocuentaView> list = estadocuentaServiceLocal.getTransaccionesEstadoCuenta(cuentabancaria.getNumerocuenta(), fechaInicio, fechaFin);
 			tablaEstadoCuenta.setRows(list);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -236,13 +245,26 @@ public class EstadoCuentaBean implements Serializable {
 		}
 	}
 	
-	public void tipoCuenta(){
-		if (comboTipoCuenta.getItemSelected() == 1) {
-			esCuentaAporte = true;
-			esCuentaBancaria = false;
-		}if (comboTipoCuenta.getItemSelected() == 2) {
-			esCuentaBancaria = true;
-			esCuentaAporte = false;
+	public void tipoCuenta() {
+		try {
+			if (comboTipoCuenta.getItemSelected() == 1) {
+				esCuentaAporte = true;
+				esCuentaBancaria = false;
+				fechaInicio = null;
+				fechaFin = null;
+				estadoCuentaEnCuentaAportes();
+				cuentaaporteViewSelected = new CuentaaporteView();
+			}
+			if (comboTipoCuenta.getItemSelected() == 2) {
+				esCuentaBancaria = true;
+				esCuentaAporte = false;
+				fechaInicio = null;
+				fechaFin = null;
+				estadoCuentaEnCuentaBancaria();
+				cuentabancaria = new Cuentabancaria();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -274,6 +296,7 @@ public class EstadoCuentaBean implements Serializable {
 			this.isCuentabancariaValid = false;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
+		setDlgBusquedaCuentaBancariaOpen(false);
 	}
 	
 	public void changeTipobusqueda(ValueChangeEvent event) {

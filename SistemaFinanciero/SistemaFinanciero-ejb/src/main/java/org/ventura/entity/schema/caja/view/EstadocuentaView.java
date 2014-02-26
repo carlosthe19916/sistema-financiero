@@ -18,7 +18,7 @@ import java.util.Date;
 @NamedQuery(name="EstadocuentaView.findAll", query="SELECT e FROM EstadocuentaView e")
 
 @NamedQueries({
-	@NamedQuery(name = EstadocuentaView.f_transacciones_estadocuenta, query = "select ecv from EstadocuentaView ecv where ecv.numeroCuenta=:numerocuenta and ecv.fechaTransaccioncaja between :fechaInicio and :fechaFin order by ecv.fechaTransaccioncaja, ecv.horaTransaccioncaja")})
+	@NamedQuery(name = EstadocuentaView.f_transacciones_estadocuenta, query = "select ecv from EstadocuentaView ecv where ecv.numeroCuenta=:numerocuenta and ecv.fechaTransaccioncaja between :fechaInicio and :fechaFin")})
 public class EstadocuentaView implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

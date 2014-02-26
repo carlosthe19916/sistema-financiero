@@ -121,7 +121,7 @@
 													value="#{estadoCuentaBean.comboTipoCuenta.items.entrySet()}"
 													var="val" itemLabel="#{val.value}"
 													itemValue="#{val.key}" />
-												<f:ajax listener="#{estadoCuentaBean.tipoCuenta()}" render="tipoCuenta"/>
+												<f:ajax listener="#{estadoCuentaBean.tipoCuenta()}" render="tipoCuenta imprimirEstadoCuenta fechasCAP estadoCuenta"/>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -201,7 +201,7 @@
 									
 									
 									
-									<h:panelGroup rendered="#{estadoCuentaBean.esCuentaAporte}">
+									<h:panelGroup >
 										<h:panelGroup id="fechasCAP">
 											<div class="p6n-api-consent-screen-input-section">
 												<h:outputText class="p6n-api-consent-screen-label" value="Desde" /> 
@@ -226,13 +226,21 @@
 													<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 												</p:calendar>
 												
-												<h:commandLink styleClass="button"
+												<h:commandLink styleClass="button" rendered ="#{estadoCuentaBean.esCuentaAporte}"
 													style="margin: 0px; position: absolute">
 													<span class="icon icon198"></span>
 													<span class="label"></span>
 													<f:ajax execute="@form"
-														listener="#{estadoCuentaBean.buscarTransaccionesEstadoCuenta()}"
-														render="estadoCuentaEnCuentaAportes fechasCAP tipoCuenta datosCuentaAporte" />
+														listener="#{estadoCuentaBean.estadoCuentaEnCuentaAportes()}"
+														render="estadoCuenta fechasCAP tipoCuenta datosCuentaAporte" />
+												</h:commandLink>
+												<h:commandLink styleClass="button" rendered ="#{estadoCuentaBean.esCuentaBancaria}"
+													style="margin: 0px; position: absolute">
+													<span class="icon icon198"></span>
+													<span class="label"></span>
+													<f:ajax execute="@form"
+														listener="#{estadoCuentaBean.estadoCuentaEnCuentaBancaria()}"
+														render="estadoCuenta fechasCAP tipoCuenta datosCuentaBancaria" />
 												</h:commandLink>
 												<div
 													class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
@@ -241,10 +249,14 @@
 												</div>
 											</div>
 										</h:panelGroup>
+										</h:panelGroup>
 										
 										<div class="sf-separator"></div>
 										<br />
-										<h:panelGroup id="imprimirEstadoCuentaAporte">
+										
+										<h:panelGroup id="imprimirEstadoCuenta">
+											
+											<!-- Datos de la cuenta de aportes -->
 											<h:panelGroup id="datosCuentaAporte" rendered="#{estadoCuentaBean.esCuentaAporte}">
 												<div>
 													<table style="width: 600px; border: solid 0px #E9E6E6; margin: auto;">
@@ -298,6 +310,7 @@
 												</div>
 											</h:panelGroup>
 											
+											<!-- Datos de la cuenta bancaria -->
 											<h:panelGroup id="datosCuentaBancaria" rendered="#{estadoCuentaBean.esCuentaBancaria}">
 												<div>
 													<table style="width: 600px; border: solid 0px #E9E6E6; margin: auto;">
@@ -323,35 +336,41 @@
 														</tr>
 														<tr>
 															<td style="font-weight: bold; font-size: 12px;">TIPO DE CUENTA:</td>
-															<td style="font-size: 12px;">#{estadoCuentaBean.cuentaaporteViewSelected.tipoCuenta}</td>
+															<td style="font-size: 12px;">#{estadoCuentaBean.cuentabancariaView.denominacionTipocuentabancaria}</td>
 															<td style="font-weight: bold; font-size: 12px;">FECHA DE APERTURA:</td>
 															<td style="font-size: 12px;"><h:outputText
-																	value="#{estadoCuentaBean.cuentaaporteViewSelected.fechaaperturaCuentaaporte}">
+																	value="#{estadoCuentaBean.cuentabancariaView.fechaaperturaCuentabancaria}">
 																	<f:convertDateTime pattern="dd/MM/yyyy" />
 																</h:outputText></td>
 														</tr>
 														<tr>
 															<td style="font-weight: bold; font-size: 12px;">NUMERO DE CUENTA:</td>
-															<td style="font-size: 12px;">#{estadoCuentaBean.cuentaaporteViewSelected.numerocuenta}</td>
+															<td style="font-size: 12px;">#{estadoCuentaBean.cuentabancariaView.numerocuenta}</td>
 															<td style="font-weight: bold; font-size: 12px;">TIPO MONEDA:</td>
-															<td style="font-size: 12px;">#{estadoCuentaBean.cuentaaporteViewSelected.denominacionTipomoneda} (#{estadoCuentaBean.cuentaaporteViewSelected.abreviaturaTipomomeda})</td>
+															<td style="font-size: 12px;">#{estadoCuentaBean.cuentabancariaView.denominacionTipomoneda} (#{estadoCuentaBean.cuentabancariaView.abreviaturaTipomomeda})</td>
 														</tr>
 														<tr>
 															<td colspan="1"
 																style="font-weight: bold; font-size: 12px;">SOCIO:</td>
 															<td colspan="3" style="font-size: 12px;"><h:outputText
-																value="#{estadoCuentaBean.cuentaaporteViewSelected.titular} &nbsp;&nbsp;&nbsp;|&nbsp; #{estadoCuentaBean.cuentaaporteViewSelected.abreviaturaTipodocumento}: #{estadoCuentaBean.cuentaaporteViewSelected.numeroDocumento}" /></td>
+																value="#{estadoCuentaBean.cuentabancariaView.socio} &nbsp;&nbsp;&nbsp;|&nbsp; #{estadoCuentaBean.cuentabancariaView.abreviaturaTipodocumento}: #{estadoCuentaBean.cuentabancariaView.numeroDocumento}" /></td>
 														</tr>
 														<tr>
-															<td colspan="1" style="font-weight: bold; font-size: 12px;"><h:outputText value="#{estadoCuentaBean.cuentaaporteViewSelected.apoderado==null ? '':'APODERADO'}"/></td>
-															<td colspan="3" style="font-size: 12px;"><h:outputText
-																value="#{estadoCuentaBean.cuentaaporteViewSelected.apoderado==null ? '': estadoCuentaBean.cuentaaporteViewSelected.apoderado} " /></td>
+															<td colspan="1" style="font-weight: bold; font-size: 12px;">TITULAR (ES):</td>
+															<td colspan="3" style="font-size: 12px;">
+																<h:dataTable value="#{estadoCuentaBean.cuentabancaria.titulares}" var="titular">
+																	<h:column>
+																		<h:outputText
+																			value="#{titular.personanatural.apellidopaterno}&nbsp;#{titular.personanatural.apellidomaterno}, #{titular.personanatural.nombres} &nbsp;&nbsp;&nbsp;|&nbsp; #{titular.personanatural.tipodocumento.abreviatura}:#{titular.personanatural.numerodocumento}" />
+																	</h:column>
+																</h:dataTable>
+															</td>
 														</tr>
 													</table>
 												</div>
 											</h:panelGroup>
-
-											<p:dataTable id="estadoCuentaEnCuentaAportes" var="estadocuenta"
+											<br />
+											<p:dataTable id="estadoCuenta" var="estadocuenta"
 												value="#{estadoCuentaBean.tablaEstadoCuenta.rows}"
 												selection="#{estadoCuentaBean.tablaEstadoCuenta.selectedRow}"
 												rowKey="#{estadocuenta}" rowIndexVar="row"
@@ -363,10 +382,6 @@
 												<p:column headerText="Nª" width="5%" style="text-align:center;">
 													<h:outputText value="#{row + 1}" />
 												</p:column>
-
-												<p:column style="font-size: 11px;" headerText="Cuenta">
-													<h:outputText style="font-size: 10px;" value="#{estadocuenta.numeroCuenta}" />
-												</p:column>												
 
 												<p:column style="font-size: 11px;" headerText="Nº Trans.">
 													<h:outputText style="font-size: 11px;" value="#{estadocuenta.idTransaccioncaja}" />
@@ -410,10 +425,11 @@
 												</p:column>
 											</p:dataTable>
 										</h:panelGroup>
-									</h:panelGroup>
+										
+									
 									<h:commandButton value="Imprimir"
 										styleClass="action blue">
-										<p:printer target="imprimirEstadoCuentaAporte" />
+										<p:printer target="imprimirEstadoCuenta" />
 									</h:commandButton>
 								</div>
 							</h:panelGroup>
@@ -442,7 +458,7 @@
 											<div>
 												<div>
 													<h:inputText
-														value="#{estadoCuentaBean.valorBusqueda}"
+														value="#{estadoCuentaBean.valorBusqueda}" offline="true"
 														onkeyup="this.value = this.value.toUpperCase();"
 														style="width: 250px;float: left;" />
 													&nbsp;
@@ -538,7 +554,7 @@
 											<div>
 												<div>
 													<h:inputText
-														value="#{estadoCuentaBean.valorBusqueda}"
+														value="#{estadoCuentaBean.valorBusqueda}" offline="true"
 														onkeyup="this.value = this.value.toUpperCase();"
 														style="width: 250px;float: left;" />
 													&nbsp;
