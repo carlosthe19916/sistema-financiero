@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(2)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Estado de Cuenta" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+		<h:form id="formTransaccion">
+			<h:panelGroup
+				rendered="#{!estadoCuentaBean.isValidBean()}">
+				<div class="p6n-api-access-in-page-error" style="left: 416px;">
+					<div>
+						<div>
+							<p>
+								<h:messages />
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+			</h:panelGroup>
+			
+			<h:panelGroup rendered="#{estadoCuentaBean.failure}">
+				<div class="p6n-api-access-in-page-error" style="left: 516px;">
+					<div>
+						<div>
+							<p>
+								<h:messages />
+							</p>
+						</div>
+						<div style="text-align: center;">
+							<h:commandLink value="Cerrar"
+								action="/caja/operaciones/estadoCuenta?faces-redirect=true" immediate="true"
+								styleClass="p6n-api-access-in-page-error-link" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 1000px;"
+					aria-hidden="true"></div>
+			</h:panelGroup>
+			
+			<h:panelGroup rendered="#{!estadoCuentaBean.cuentabancariaValid}">
+				<div class="p6n-api-access-in-page-error" style="left: 516px;">
+					<div>
+						<div>
+							<p>
+								<h:messages />
+							</p>
+						</div>
+						<div style="text-align: center;">
+							<h:commandLink value="Cerrar"
+								action="/caja/operaciones/estadoCuenta?faces-redirect=true" immediate="true"
+								styleClass="p6n-api-access-in-page-error-link" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 1000px;"
+					aria-hidden="true"></div>
+			</h:panelGroup>
+			
+				<br />
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-app-section-box editable"
+								style="margin-right: 380px;">
+								<div class="p6n-api-app-section-title">
+									<div class="p6n-api-app-section-collapse-icon"></div>
+									<div class="p6n-api-app-section-title-text">
+										<h:outputLabel
+											value="#{estadoCuentaBean.caja.denominacion}" />
+										<label>(<h:outputLabel
+												value="#{estadoCuentaBean.caja.abreviatura}" />)
+										</label>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<label>Estado:&nbsp;<h:outputLabel
+												value="#{estadoCuentaBean.estadoaperturaCaja.denominacion}" />&nbsp;|&nbsp;<h:outputLabel
+												value="#{estadoCuentaBean.estadomovimientoCaja.denominacion}" />
+										</label>
+									</div>
+									<div class="p6n-api-app-section-description">Todas las
+										operaciones son de responsabilidad del usuario en sessión</div>
+								</div>
+							</div>
+
+							<br /> <br />
+							<div class="p6n-api-consent-screen-title">Transaccion Caja
+								- Estado de Cuenta</div>
+							
+							<h:panelGroup>
+								<div class="p6n-api-consent-screen-inputs">
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">TIPO CUENTA</div>
+										<div>
+											<h:selectOneMenu id="cmbTipoCuenta"
+												value="#{estadoCuentaBean.comboTipoCuenta.itemSelected}"
+												required="true"
+												requiredMessage="Seleccione un tipo de Cuenta">
+												<f:selectItems
+													value="#{estadoCuentaBean.comboTipoCuenta.items.entrySet()}"
+													var="val" itemLabel="#{val.value}"
+													itemValue="#{val.key}" />
+												<f:ajax listener="#{estadoCuentaBean.tipoCuenta()}" render="tipoCuenta"/>
+											</h:selectOneMenu>
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="cmbTipoCuenta" />
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
+
+										<h:panelGroup id="tipoCuenta">
+											<h:panelGroup rendered="#{estadoCuentaBean.esCuentaAporte}">
+												<div>
+													<div style="float: left;">
+														<h:inputText id="txtNumerocuentaaporte"
+															value="#{estadoCuentaBean.numeroCuentaAporte}"
+															required="true" pt:placeholder="Número de Cuenta AP"
+															requiredMessage="Ingrese un número de cuenta"
+															validatorMessage="Número de cuenta no valida"
+															maxlength="14">
+															<f:validateRegex pattern="(^[0-9]{14}$)" />
+															<f:ajax
+																listener="#{estadoCuentaBean.findCuentaAporteByNumerocuenta()}"
+																execute="@this" render="datosCuentaAporte" />
+														</h:inputText>
+													</div>
+													<div style="float: left;">
+														<h:commandLink styleClass="button"
+															style="margin: 0 0 0 1px;">
+															<span class="icon icon198"></span>
+															<f:ajax
+																listener="#{estadoCuentaBean.setDlgBusquedaCuentaAporteOpen(true)}"
+																render=":panelGroupDialogBuscarCuentaAporte :formBuscarCuentaAporte" />
+														</h:commandLink>
+													</div>
+												</div>
+												<div
+													class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+													<h:messages style="color:red" for="txtNumerocuentaaporte" />
+												</div>
+											</h:panelGroup>
+
+
+											<h:panelGroup rendered="#{estadoCuentaBean.esCuentaBancaria}">
+												<div>
+													<div style="float: left;">
+														<h:inputText id="txtNumerocuentabancaria"
+															value="#{estadoCuentaBean.cuentabancaria.numerocuenta}"
+															required="true" pt:placeholder="Número de Cuenta Banc"
+															requiredMessage="Ingrese un número de cuenta"
+															validatorMessage="Número de cuenta no valida"
+															maxlength="14">
+															<f:validateRegex pattern="(^[0-9]{14}$)" />
+															<f:ajax
+																listener="#{estadoCuentaBean.findCuentabancariaByNumerocuenta()}"
+																execute="@this" render="datosCuentaBancaria" />
+														</h:inputText>
+													</div>
+													<div style="float: left;">
+														<h:commandLink styleClass="button"
+															style="margin: 0 0 0 1px;">
+															<span class="icon icon198"></span>
+															<f:ajax
+																listener="#{estadoCuentaBean.setDlgBusquedaCuentaBancariaOpen(true)}"
+																render=":panelGroupDialogBuscarCuentaBancaria :formBuscarCuentaBancaria" />
+														</h:commandLink>
+													</div>
+												</div>
+												<div
+													class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+													<h:messages style="color:red" for="txtNumerocuentabancaria" />
+												</div>
+											</h:panelGroup>
+										</h:panelGroup>
+									</div>
+									<br />
+									
+									
+									
+									<h:panelGroup rendered="#{estadoCuentaBean.esCuentaAporte}">
+										<h:panelGroup id="fechasCAP">
+											<div class="p6n-api-consent-screen-input-section">
+												<h:outputText class="p6n-api-consent-screen-label" value="Desde" /> 
+												&nbsp;
+												<p:calendar id="fechaInicioCAP"
+													value="#{estadoCuentaBean.fechaInicio}" navigator="true"
+													pattern="dd/MM/yy" required="true"
+													requiredMessage="Ingrese fecha inicial"
+													converterMessage="formato incorrecto"
+													pt:placeholder="dd/mm/yy">
+													<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
+												</p:calendar>
+												&nbsp;
+												<h:outputText class="p6n-api-consent-screen-label" value="Hasta" />
+												&nbsp;
+												<p:calendar id="fechaFinCAP"
+													value="#{estadoCuentaBean.fechaFin}" navigator="true"
+													pattern="dd/MM/yy" required="true"
+													requiredMessage="Ingrese fecha final"
+													converterMessage="formato incorrecto"
+													pt:placeholder="dd/mm/yy">
+													<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
+												</p:calendar>
+												
+												<h:commandLink styleClass="button"
+													style="margin: 0px; position: absolute">
+													<span class="icon icon198"></span>
+													<span class="label"></span>
+													<f:ajax execute="@form"
+														listener="#{estadoCuentaBean.buscarTransaccionesEstadoCuenta()}"
+														render="estadoCuentaEnCuentaAportes fechasCAP tipoCuenta datosCuentaAporte" />
+												</h:commandLink>
+												<div
+													class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+													<h:messages style="color:red" for="fechaInicioCAP" />
+													<h:messages style="color:red" for="fechaFinCAP" />
+												</div>
+											</div>
+										</h:panelGroup>
+										
+										<div class="sf-separator"></div>
+										<br />
+										<h:panelGroup id="imprimirEstadoCuentaAporte">
+											<h:panelGroup id="datosCuentaAporte" rendered="#{estadoCuentaBean.esCuentaAporte}">
+												<div>
+													<table style="width: 600px; border: solid 0px #E9E6E6; margin: auto;">
+														<tr style="vertical-align: center;">
+															<td colspan="1"
+																style="text-align: center; font-weight: bold; font-size: 12px;">
+																<p:graphicImage name="logo.jpg" library="images" />
+															</td>
+															<td colspan="3"
+																style="text-align: center; font-weight: bold; font-size: 20px; vertical-align: middle;">COOPERATIVA
+																DE AHORRO Y CREDITO CAJA VENTURA</td>
+														</tr>
+														
+														<tr style="vertical-align: center;">
+															<td colspan="4"
+																style="text-align: center; font-weight: bold; font-size: 16px;">
+																<h:outputText value="ESTADO DE CUENTA"/>
+																<br />
+																<h:outputText style="font-size: 12px;" value="Desde: #{estadoCuentaBean.getStringDate(estadoCuentaBean.fechaInicio)}"/>
+																&nbsp;
+																<h:outputText style="font-size: 12px;" value="Hasta: #{estadoCuentaBean.getStringDate(estadoCuentaBean.fechaFin)}"/>
+															</td>
+														</tr>
+														<tr>
+															<td style="font-weight: bold; font-size: 12px;">TIPO DE CUENTA:</td>
+															<td style="font-size: 12px;">#{estadoCuentaBean.cuentaaporteViewSelected.tipoCuenta}</td>
+															<td style="font-weight: bold; font-size: 12px;">FECHA DE APERTURA:</td>
+															<td style="font-size: 12px;"><h:outputText
+																	value="#{estadoCuentaBean.cuentaaporteViewSelected.fechaaperturaCuentaaporte}">
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
+																</h:outputText></td>
+														</tr>
+														<tr>
+															<td style="font-weight: bold; font-size: 12px;">NUMERO DE CUENTA:</td>
+															<td style="font-size: 12px;">#{estadoCuentaBean.cuentaaporteViewSelected.numerocuenta}</td>
+															<td style="font-weight: bold; font-size: 12px;">TIPO MONEDA:</td>
+															<td style="font-size: 12px;">#{estadoCuentaBean.cuentaaporteViewSelected.denominacionTipomoneda} (#{estadoCuentaBean.cuentaaporteViewSelected.abreviaturaTipomomeda})</td>
+														</tr>
+														<tr>
+															<td colspan="1"
+																style="font-weight: bold; font-size: 12px;">SOCIO:</td>
+															<td colspan="3" style="font-size: 12px;"><h:outputText
+																value="#{estadoCuentaBean.cuentaaporteViewSelected.titular} &nbsp;&nbsp;&nbsp;|&nbsp; #{estadoCuentaBean.cuentaaporteViewSelected.abreviaturaTipodocumento}: #{estadoCuentaBean.cuentaaporteViewSelected.numeroDocumento}" /></td>
+														</tr>
+														<tr>
+															<td colspan="1" style="font-weight: bold; font-size: 12px;"><h:outputText value="#{estadoCuentaBean.cuentaaporteViewSelected.apoderado==null ? '':'APODERADO'}"/></td>
+															<td colspan="3" style="font-size: 12px;"><h:outputText
+																value="#{estadoCuentaBean.cuentaaporteViewSelected.apoderado==null ? '': estadoCuentaBean.cuentaaporteViewSelected.apoderado} " /></td>
+														</tr>
+													</table>
+												</div>
+											</h:panelGroup>
+											
+											<h:panelGroup id="datosCuentaBancaria" rendered="#{estadoCuentaBean.esCuentaBancaria}">
+												<div>
+													<table style="width: 600px; border: solid 0px #E9E6E6; margin: auto;">
+														<tr style="vertical-align: center;">
+															<td colspan="1"
+																style="text-align: center; font-weight: bold; font-size: 12px;">
+																<p:graphicImage name="logo.jpg" library="images" />
+															</td>
+															<td colspan="3"
+																style="text-align: center; font-weight: bold; font-size: 20px; vertical-align: middle;">COOPERATIVA
+																DE AHORRO Y CREDITO CAJA VENTURA</td>
+														</tr>
+														
+														<tr style="vertical-align: center;">
+															<td colspan="4"
+																style="text-align: center; font-weight: bold; font-size: 16px;">
+																<h:outputText value="ESTADO DE CUENTA"/>
+																<br />
+																<h:outputText style="font-size: 12px;" value="Desde: #{estadoCuentaBean.getStringDate(estadoCuentaBean.fechaInicio)}"/>
+																&nbsp;
+																<h:outputText style="font-size: 12px;" value="Hasta: #{estadoCuentaBean.getStringDate(estadoCuentaBean.fechaFin)}"/>
+															</td>
+														</tr>
+														<tr>
+															<td style="font-weight: bold; font-size: 12px;">TIPO DE CUENTA:</td>
+															<td style="font-size: 12px;">#{estadoCuentaBean.cuentaaporteViewSelected.tipoCuenta}</td>
+															<td style="font-weight: bold; font-size: 12px;">FECHA DE APERTURA:</td>
+															<td style="font-size: 12px;"><h:outputText
+																	value="#{estadoCuentaBean.cuentaaporteViewSelected.fechaaperturaCuentaaporte}">
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
+																</h:outputText></td>
+														</tr>
+														<tr>
+															<td style="font-weight: bold; font-size: 12px;">NUMERO DE CUENTA:</td>
+															<td style="font-size: 12px;">#{estadoCuentaBean.cuentaaporteViewSelected.numerocuenta}</td>
+															<td style="font-weight: bold; font-size: 12px;">TIPO MONEDA:</td>
+															<td style="font-size: 12px;">#{estadoCuentaBean.cuentaaporteViewSelected.denominacionTipomoneda} (#{estadoCuentaBean.cuentaaporteViewSelected.abreviaturaTipomomeda})</td>
+														</tr>
+														<tr>
+															<td colspan="1"
+																style="font-weight: bold; font-size: 12px;">SOCIO:</td>
+															<td colspan="3" style="font-size: 12px;"><h:outputText
+																value="#{estadoCuentaBean.cuentaaporteViewSelected.titular} &nbsp;&nbsp;&nbsp;|&nbsp; #{estadoCuentaBean.cuentaaporteViewSelected.abreviaturaTipodocumento}: #{estadoCuentaBean.cuentaaporteViewSelected.numeroDocumento}" /></td>
+														</tr>
+														<tr>
+															<td colspan="1" style="font-weight: bold; font-size: 12px;"><h:outputText value="#{estadoCuentaBean.cuentaaporteViewSelected.apoderado==null ? '':'APODERADO'}"/></td>
+															<td colspan="3" style="font-size: 12px;"><h:outputText
+																value="#{estadoCuentaBean.cuentaaporteViewSelected.apoderado==null ? '': estadoCuentaBean.cuentaaporteViewSelected.apoderado} " /></td>
+														</tr>
+													</table>
+												</div>
+											</h:panelGroup>
+
+											<p:dataTable id="estadoCuentaEnCuentaAportes" var="estadocuenta"
+												value="#{estadoCuentaBean.tablaEstadoCuenta.rows}"
+												selection="#{estadoCuentaBean.tablaEstadoCuenta.selectedRow}"
+												rowKey="#{estadocuenta}" rowIndexVar="row"
+												sortMode="multiple">
+
+												<f:facet name="header">  
+						            				ESTADO DE CUENTA
+						        				</f:facet>
+												<p:column headerText="Nª" width="5%" style="text-align:center;">
+													<h:outputText value="#{row + 1}" />
+												</p:column>
+
+												<p:column style="font-size: 11px;" headerText="Cuenta">
+													<h:outputText style="font-size: 10px;" value="#{estadocuenta.numeroCuenta}" />
+												</p:column>												
+
+												<p:column style="font-size: 11px;" headerText="Nº Trans.">
+													<h:outputText style="font-size: 11px;" value="#{estadocuenta.idTransaccioncaja}" />
+												</p:column>
+
+												<p:column style="font-size: 11px;" headerText="Fecha" sortBy="fechaTransaccioncaja">
+													<h:outputText style="font-size: 11px;" value="#{estadocuenta.fechaTransaccioncaja}">
+														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
+													</h:outputText>
+												</p:column>
+
+												<p:column style="font-size: 11px;" headerText="Hora">
+													<h:outputText style="font-size: 11px;"
+														value="#{estadoCuentaBean.getStringTime(estadocuenta.horaTransaccioncaja)}" />
+												</p:column>
+
+												<p:column style="font-size: 11px;" headerText="Tipo Movimiento" sortBy="denominacionTransaccion">
+													<h:outputText style="font-size: 11px;"
+														value="#{estadocuenta.denominacionTransaccion}" />
+												</p:column>
+
+												<p:column style="font-size: 11px;" headerText="Nº Op." sortBy="numeroOperacion">
+													<h:outputText style="font-size: 11px;" value="#{estadoCuentaBean.returnNumOperacion(estadocuenta.numeroOperacion)}" />
+												</p:column>
+
+												<p:column style="font-size: 11px;" headerText="Referencia">
+													<h:outputText style="font-size: 11px;" value="#{estadocuenta.refereciaTransaccion}" />
+												</p:column>
+
+												<p:column style="font-size: 11px;" headerText="Monto">
+													<h:outputText style="font-size: 11px;" value="#{estadocuenta.montoTransaccon}" />
+												</p:column>
+
+												<p:column style="font-size: 11px;" headerText="Saldo Disponible">
+													<h:outputText style="font-size: 11px;" value="#{estadocuenta.saldodisponible}" />
+												</p:column>
+
+												<p:column style="font-size: 11px;" headerText="Estado">
+													<h:outputText style="font-size: 11px;"
+														value="#{estadocuenta.estadoTransaccion ? 'ACTIVO' : 'EXTORNADO'}" />
+												</p:column>
+											</p:dataTable>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:commandButton value="Imprimir"
+										styleClass="action blue">
+										<p:printer target="imprimirEstadoCuentaAporte" />
+									</h:commandButton>
+								</div>
+							</h:panelGroup>
+
+							
+							<!-- codigo para imprimir voucher -->
+							
+						</div>
+					</div>
+				</div>
+			</h:form>
+
+			<!--Dialog para buscar cuentas de aporte -->
+			<h:panelGroup id="panelGroupDialogBuscarCuentaAporte">
+				<h:panelGroup
+					rendered="#{estadoCuentaBean.dlgBusquedaCuentaAporteOpen}">
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 412.5px; top: 100px;">
+						<h:form id="formBuscarCuentaAporte">
+							<div class="modal-dialog-content">
+								<div id="p6n-cloudsql-content">
+									<div>
+										<div>
+											<div>
+												<div>
+													<h:inputText
+														value="#{estadoCuentaBean.valorBusqueda}"
+														onkeyup="this.value = this.value.toUpperCase();"
+														style="width: 250px;float: left;" />
+													&nbsp;
+													<h:commandLink styleClass="button"
+														style="margin: 0px;float: left;">
+														<span class="icon icon198"></span>
+														<span class="label"></span>
+														<f:ajax execute="@form"
+															listener="#{estadoCuentaBean.searchCuentaAporte()}"
+															render="tblResultadoBusqueda" />
+													</h:commandLink>
+													<h:selectOneMenu id="cmbTipoBusqueda"
+														value="#{estadoCuentaBean.comboTipodocumento.itemSelected}"
+														valueChangeListener="#{estadoCuentaBean.changeTipobusqueda}"
+														requiredMessage="Seleccione un tipo de Busqueda">
+														<f:selectItem itemLabel="Ap. y Nombres / Razon Social" itemValue="" />
+														<f:selectItems
+															value="#{estadoCuentaBean.comboTipodocumento.items.entrySet()}"
+															var="val" itemLabel="#{val.value.abreviatura}"
+															itemValue="#{val.key}" />
+														<f:ajax execute="@this" />
+													</h:selectOneMenu>
+												</div>
+												<div
+													class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+													<h:messages />
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr />
+									<div class="p6n-cloudsql-form">
+										<div
+											class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
+											<div class="p6n-cloudsql-name-input ">
+												<div class="p6n-input-prepend" style="display: initial;">
+													<p:dataTable id="tblResultadoBusqueda" var="cuenta"
+														value="#{estadoCuentaBean.tablaCuentaaporte.rows}"
+														selectionMode="single"
+														selection="#{estadoCuentaBean.cuentaaporteViewSelected}"
+														rowKey="#{cuenta}" rowIndexVar="row">
+
+														<p:column headerText="Nro" style="text-align:center;">
+															<h:outputText value="#{row + 1}" />
+														</p:column>
+														<p:column headerText="Nro Cuenta">
+															<h:outputText value="#{cuenta.numerocuenta}" />
+														</p:column>
+														<p:column headerText="Tipo Cta">
+															<h:outputText value="Cuenta Aporte" />
+														</p:column>
+														<p:column headerText="Moneda">
+															<h:outputText value="#{cuenta.denominacionTipomoneda}" />
+														</p:column>
+														<p:column headerText="Socio">
+															<h:outputText value="#{cuenta.titular}" />
+														</p:column>
+													</p:dataTable>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-dialog-buttons">
+								<h:commandButton value="Aceptar"
+									action="#{estadoCuentaBean.setRowSelectToTransaccionCA()}"
+									styleClass="action blue" />
+								<h:commandButton value="Cancelar" styleClass="action">
+									<f:ajax
+										render=":panelGroupDialogBuscarCuentaAporte :formBuscarCuentaAporte"
+										listener="#{estadoCuentaBean.setDlgBusquedaCuentaAporteOpen(false)}" />
+								</h:commandButton>
+							</div>
+						</h:form>
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<!--Dialog para buscar cuentas bancarias -->
+			<h:panelGroup id="panelGroupDialogBuscarCuentaBancaria">
+				<h:panelGroup
+					rendered="#{estadoCuentaBean.dlgBusquedaCuentaBancariaOpen}">
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 412.5px; top: 100px;">
+						<h:form id="formBuscarCuentaBancaria">
+							<div class="modal-dialog-content">
+								<div id="p6n-cloudsql-content">
+									<div>
+										<div>
+											<div>
+												<div>
+													<h:inputText
+														value="#{estadoCuentaBean.valorBusqueda}"
+														onkeyup="this.value = this.value.toUpperCase();"
+														style="width: 250px;float: left;" />
+													&nbsp;
+													<h:commandLink styleClass="button"
+														style="margin: 0px;float: left;">
+														<span class="icon icon198"></span>
+														<span class="label"></span>
+														<f:ajax execute="@form"
+															listener="#{estadoCuentaBean.searchCuentabancaria()}"
+															render="tblResultadoBusquedaCB" />
+													</h:commandLink>
+													<h:selectOneMenu id="cmbTipoBusquedaCB"
+														value="#{estadoCuentaBean.comboTipodocumento.itemSelected}"
+														valueChangeListener="#{estadoCuentaBean.changeTipobusqueda}"
+														requiredMessage="Seleccione un tipo de Busqueda">
+														<f:selectItem itemLabel="Ap. y Nombres / Razon Social" itemValue="" />
+														<f:selectItems
+															value="#{estadoCuentaBean.comboTipodocumento.items.entrySet()}"
+															var="val" itemLabel="#{val.value.abreviatura}"
+															itemValue="#{val.key}" />
+														<f:ajax execute="@this" />
+													</h:selectOneMenu>
+												</div>
+												<div
+													class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+													<h:messages />
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr />
+									<div class="p6n-cloudsql-form">
+										<div
+											class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
+											<div class="p6n-cloudsql-name-input ">
+												<div class="p6n-input-prepend" style="display: initial;">
+													<p:dataTable id="tblResultadoBusquedaCB" var="cuenta"
+														value="#{estadoCuentaBean.tablaCuentabancaria.rows}"
+														selectionMode="single"
+														selection="#{estadoCuentaBean.cuentabancariaView}"
+														rowKey="#{cuenta}" rowIndexVar="row">
+
+														<p:column headerText="Nro" style="text-align:center;">
+															<h:outputText value="#{row + 1}" />
+														</p:column>
+														<p:column headerText="Nro Cuenta">
+															<h:outputText value="#{cuenta.numerocuenta}" />
+														</p:column>
+														<p:column headerText="Tipo Cta">
+															<h:outputText value="Cuenta Bancaria" />
+														</p:column>
+														<p:column headerText="Moneda">
+															<h:outputText value="#{cuenta.denominacionTipomoneda}" />
+														</p:column>
+														<p:column headerText="Socio">
+															<h:outputText value="#{cuenta.socio}" />
+														</p:column>
+													</p:dataTable>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-dialog-buttons">
+								<h:commandButton value="Aceptar"
+									action="#{estadoCuentaBean.setRowSelectToTransaccionCB()}"
+									styleClass="action blue" />
+								<h:commandButton value="Cancelar" styleClass="action">
+									<f:ajax
+										render=":panelGroupDialogBuscarCuentaBancaria :formBuscarCuentaBancaria"
+										listener="#{estadoCuentaBean.setDlgBusquedaCuentaBancariaOpen(false)}" />
+								</h:commandButton>
+							</div>
+						</h:form>
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>
