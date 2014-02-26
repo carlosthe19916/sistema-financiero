@@ -10,7 +10,7 @@
 
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(2)}" />
+		<f:viewAction action="#{menuMB.updateMenu(1)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -138,7 +138,7 @@
 													<div style="float: left;">
 														<h:inputText id="txtNumerocuentaaporte"
 															value="#{estadoCuentaBean.numeroCuentaAporte}"
-															required="true" pt:placeholder="Número de Cuenta AP"
+															required="true" pt:placeholder="Número de Cuenta"
 															requiredMessage="Ingrese un número de cuenta"
 															validatorMessage="Número de cuenta no valida"
 															maxlength="14">
@@ -170,7 +170,7 @@
 													<div style="float: left;">
 														<h:inputText id="txtNumerocuentabancaria"
 															value="#{estadoCuentaBean.cuentabancaria.numerocuenta}"
-															required="true" pt:placeholder="Número de Cuenta Banc"
+															required="true" pt:placeholder="Número de Cuenta"
 															requiredMessage="Ingrese un número de cuenta"
 															validatorMessage="Número de cuenta no valida"
 															maxlength="14">
@@ -198,13 +198,12 @@
 										</h:panelGroup>
 									</div>
 									<br />
-									
-									
-									
-									<h:panelGroup >
+
+									<h:panelGroup>
 										<h:panelGroup id="fechasCAP">
 											<div class="p6n-api-consent-screen-input-section">
-												<h:outputText class="p6n-api-consent-screen-label" value="Desde" /> 
+												<h:outputText class="p6n-api-consent-screen-label"
+													value="Desde" />
 												&nbsp;
 												<p:calendar id="fechaInicioCAP"
 													value="#{estadoCuentaBean.fechaInicio}" navigator="true"
@@ -215,7 +214,8 @@
 													<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 												</p:calendar>
 												&nbsp;
-												<h:outputText class="p6n-api-consent-screen-label" value="Hasta" />
+												<h:outputText class="p6n-api-consent-screen-label"
+													value="Hasta" />
 												&nbsp;
 												<p:calendar id="fechaFinCAP"
 													value="#{estadoCuentaBean.fechaFin}" navigator="true"
@@ -225,8 +225,9 @@
 													pt:placeholder="dd/mm/yy">
 													<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 												</p:calendar>
-												
-												<h:commandLink styleClass="button" rendered ="#{estadoCuentaBean.esCuentaAporte}"
+
+												<h:commandLink styleClass="button"
+													rendered="#{estadoCuentaBean.esCuentaAporte}"
 													style="margin: 0px; position: absolute">
 													<span class="icon icon198"></span>
 													<span class="label"></span>
@@ -234,7 +235,8 @@
 														listener="#{estadoCuentaBean.estadoCuentaEnCuentaAportes()}"
 														render="estadoCuenta fechasCAP tipoCuenta datosCuentaAporte" />
 												</h:commandLink>
-												<h:commandLink styleClass="button" rendered ="#{estadoCuentaBean.esCuentaBancaria}"
+												<h:commandLink styleClass="button"
+													rendered="#{estadoCuentaBean.esCuentaBancaria}"
 													style="margin: 0px; position: absolute">
 													<span class="icon icon198"></span>
 													<span class="label"></span>
@@ -249,9 +251,9 @@
 												</div>
 											</div>
 										</h:panelGroup>
-										</h:panelGroup>
-										
-										<div class="sf-separator"></div>
+									</h:panelGroup>
+
+									<div class="sf-separator"></div>
 										<br />
 										
 										<h:panelGroup id="imprimirEstadoCuenta">
@@ -376,8 +378,8 @@
 												rowKey="#{estadocuenta}" rowIndexVar="row"
 												sortMode="multiple">
 
-												<f:facet name="header">  
-						            				ESTADO DE CUENTA
+												<f:facet name="header"> 
+													<h:outputText style="font-size: 14px;" value="ESTADO DE CUENTA"/> 
 						        				</f:facet>
 												<p:column headerText="Nª" width="5%" style="text-align:center;">
 													<h:outputText value="#{row + 1}" />
@@ -403,7 +405,7 @@
 														value="#{estadocuenta.denominacionTransaccion}" />
 												</p:column>
 
-												<p:column style="font-size: 11px;" headerText="Nº Op." sortBy="numeroOperacion">
+												<p:column style="font-size: 11px;" headerText="Nº Op.">
 													<h:outputText style="font-size: 11px;" value="#{estadoCuentaBean.returnNumOperacion(estadocuenta.numeroOperacion)}" />
 												</p:column>
 
@@ -423,7 +425,11 @@
 													<h:outputText style="font-size: 11px;"
 														value="#{estadocuenta.estadoTransaccion ? 'ACTIVO' : 'EXTORNADO'}" />
 												</p:column>
-											</p:dataTable>
+												<f:facet name="footer">  
+            										<h:outputText style="font-size: 13px;" value="Saldo Disponible: #{estadoCuentaBean.cuentaaporteViewSelected.saldoCuentaaporte}" rendered = "#{estadoCuentaBean.esCuentaAporte}"/>
+            										<h:outputText style="font-size: 13px;" value="Saldo Disponible: #{estadoCuentaBean.cuentabancaria.saldo}" rendered="#{estadoCuentaBean.esCuentaBancaria}"/>  
+        										</f:facet>
+										</p:dataTable>
 										</h:panelGroup>
 										
 									
