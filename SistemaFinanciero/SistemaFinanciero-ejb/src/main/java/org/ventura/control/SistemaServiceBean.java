@@ -32,6 +32,7 @@ import org.ventura.entity.schema.cuentapersonal.Interesdiario;
 import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.logger.Log;
+import org.ventura.util.maestro.EstadocuentaType;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipocuentabancariaType;
@@ -99,51 +100,53 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 			List<Cuentabancaria> cuentabancarias = cuentabancariaServiceLocal.findAll();
 			for (Cuentabancaria cuentabancaria : cuentabancarias) {
 				
-				
+				Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);			
+				if(!cuentabancaria.getEstadocuenta().equals(estadocuenta)){
+					Tipotasa tipotasa = null;
 					
-				Tipotasa tipotasa = null;
-				
-				if(cuentabancaria.getTipocuentabancaria().equals(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_AHORRO))){
-					tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
-				}
-				if(cuentabancaria.getTipocuentabancaria().equals(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_CORRIENTE))){
-					tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
-				}
+					if(cuentabancaria.getTipocuentabancaria().equals(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_AHORRO))){
+						tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
+					}
+					if(cuentabancaria.getTipocuentabancaria().equals(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_CORRIENTE))){
+						tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
+					}
+					
+					if(tipotasa != null) {
+						//validar si la cuenta ya tiene intereses generados
+						Map<String, Object> parameters =  new HashMap<String, Object>();
+						parameters.put("idcuentabancaria", cuentabancaria.getIdcuentabancaria());
+						parameters.put("startDate", fecha);
+						parameters.put("endDate", fecha);
+						List<Interesdiario> list = interesdiarioDAO.findByNamedQuery(Interesdiario.InteresesForDateAndCuenta, parameters);
+						if(list.size() == 0){
+							//validacion superada para crear una nueva tupla en tabla
+							CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
+							pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
+							pk.setIdtipotasa(tipotasa.getIdtipotasa());
 							
-				CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
-				pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
-				pk.setIdtipotasa(tipotasa.getIdtipotasa());
-				
-				CuentabancariaTipotasa cuentabancariaTipotasa = cuentabancariaTipotasaDAO.find(pk);
-				if(cuentabancariaTipotasa == null){
-					throw new Exception("la cuenta nro " + cuentabancaria.getNumerocuenta() + " no tiene tasa de interes asignada");
-				}
-						
-				//calculo de interes
-				Moneda capital = cuentabancaria.getSaldo();	
-				BigDecimal i = cuentabancariaTipotasa.getTasainteres();
-				
-				//operaciones
-				BigDecimal x = i.divide(new BigDecimal(100));
-				x = x.add(new BigDecimal(1));
-				
-				BigDecimal potencia = new BigDecimal(1);
-				potencia = potencia.divide(new BigDecimal(360),200,RoundingMode.HALF_EVEN);			
-				
-				x = BigDecimalMath.pow(x, potencia);			
-				x = x.subtract(new BigDecimal(1));
-				
-				BigDecimal interesGanado = capital.getValue().multiply(x);
-				interesGanado = interesGanado.setScale(2, RoundingMode.HALF_UP);
-				
-				//insertando los cambios
-				Interesdiario interesdiario = new Interesdiario();
-				interesdiario.setInteres(new Moneda(interesGanado));
-				interesdiario.setCapital(cuentabancaria.getSaldo());
-				interesdiario.setFecha(fecha);
-				interesdiario.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());			
-						
-				interesdiarioDAO.create(interesdiario);
+							CuentabancariaTipotasa cuentabancariaTipotasa = cuentabancariaTipotasaDAO.find(pk);
+							if(cuentabancariaTipotasa == null){
+								throw new Exception("la cuenta nro " + cuentabancaria.getNumerocuenta() + " no tiene tasa de interes asignada");
+							}
+									
+							//calculo de interes
+							BigDecimal capital = cuentabancaria.getSaldo().getValue();	
+							BigDecimal i = cuentabancariaTipotasa.getTasainteres();		
+							
+							//operaciones										
+							BigDecimal interesGenerado = capital.multiply(i);			
+							interesGenerado = interesGenerado.setScale(2, RoundingMode.HALF_UP);
+							
+							//insertando los cambios
+							Interesdiario interesdiario = new Interesdiario();
+							interesdiario.setInteres(new Moneda(interesGenerado));
+							interesdiario.setCapital(cuentabancaria.getSaldo());
+							interesdiario.setFecha(fecha);
+							interesdiario.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());					
+							interesdiarioDAO.create(interesdiario);
+						}
+					}	
+				}	
 			}
 		} catch(Exception e){
 			log.error(e.getMessage());
