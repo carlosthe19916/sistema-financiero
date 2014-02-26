@@ -860,14 +860,14 @@ public class CajaServiceBean implements CajaServiceLocal{
 					if(transaccioncuentabancaria.getEstado() == true){
 						saldoFinal = bovedaCaja.getSaldototal().add(transaccioncuentabancaria.getMonto());
 					} else {
-						bovedaCaja.getSaldototal().subtract(transaccioncuentabancaria.getMonto());
+						saldoFinal = bovedaCaja.getSaldototal().subtract(transaccioncuentabancaria.getMonto());
 					}
 					break;
 				case RETIRO :
 					if(transaccioncuentabancaria.getEstado() == true){
 						saldoFinal = bovedaCaja.getSaldototal().subtract(transaccioncuentabancaria.getMonto());
 					} else {
-						bovedaCaja.getSaldototal().add(transaccioncuentabancaria.getMonto());
+						saldoFinal = bovedaCaja.getSaldototal().add(transaccioncuentabancaria.getMonto());
 					}
 					break;
 				default:
