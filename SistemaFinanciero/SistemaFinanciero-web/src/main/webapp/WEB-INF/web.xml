@@ -61,16 +61,28 @@
 		<param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
 		<param-value>url</param-value>
 	</context-param>
-	
-	
-	
+
+
+	<filter>
+		<filter-name>SetCharacterEncodingFilter</filter-name>
+		<filter-class>org.venturabank.util.SetCharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SetCharacterEncodingFilter</filter-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</filter-mapping>
+
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Allowed resources.</web-resource-name>
 			<url-pattern>/javax.faces.resource/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
-	
+
 	<security-constraint>
 		<display-name>Solo el usuario Admin puede tener acceso a esta página</display-name>
 		<web-resource-collection>
@@ -132,7 +144,8 @@
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
-		<display-name>Solo el usuario JefeCaja puede tener acceso a esta página</display-name>
+		<display-name>Solo el usuario JefeCaja puede tener acceso a esta
+			página</display-name>
 		<web-resource-collection>
 			<web-resource-name>JefeCaja</web-resource-name>
 			<description></description>
@@ -152,7 +165,8 @@
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
-		<display-name>Solo el usuario Administrador puede tener acceso a esta página</display-name>
+		<display-name>Solo el usuario Administrador puede tener acceso a esta
+			página</display-name>
 		<web-resource-collection>
 			<web-resource-name>Administrador</web-resource-name>
 			<description></description>
@@ -171,7 +185,7 @@
 			<role-name>administrador</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
+
 	<security-role>
 		<description>Acesso a todo el Sistema /*</description>
 		<role-name>admin</role-name>
@@ -188,7 +202,7 @@
 		<description>Acceso a la carpeta /administrador/*</description>
 		<role-name>administrador</role-name>
 	</security-role>
-	
+
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>file</realm-name>
