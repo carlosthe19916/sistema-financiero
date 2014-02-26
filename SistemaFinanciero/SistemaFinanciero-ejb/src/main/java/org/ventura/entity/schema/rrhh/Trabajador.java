@@ -25,7 +25,7 @@ public class Trabajador implements Serializable {
 	private Integer idagencia;
 
 	@ManyToOne
-	@JoinColumn(name = "idpersonanatural", insertable = false, updatable = false)
+	@JoinColumn(name = "idpersonanatural")
 	private Personanatural personanatural;
 
 	@ManyToOne
