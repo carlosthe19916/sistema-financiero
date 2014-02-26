@@ -17,6 +17,7 @@ import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
 import org.venturabank.util.JsfUtil;
@@ -32,6 +33,8 @@ public class CajaCRUDBean implements Serializable {
 	@EJB
 	private BovedaServiceLocal bovedaServiceLocal;
 	
+	
+	
 	@Inject
 	private AgenciaBean agenciaBean;
 
@@ -43,11 +46,18 @@ public class CajaCRUDBean implements Serializable {
 	private Integer idcaja;
 
 	private DualListModel<Boveda> dualListModelBoveda;
+	private DualListModel<Usuario> dualListModelUsuario;
 	
 	public CajaCRUDBean() {
+		//dualList for Boveda
 		dualListModelBoveda = new DualListModel<Boveda>();
 		dualListModelBoveda.setSource(new ArrayList<Boveda>());
 		dualListModelBoveda.setTarget(new ArrayList<Boveda>());
+		
+		//dualList for Usuario
+		dualListModelUsuario = new DualListModel<Usuario>();
+		dualListModelUsuario.setSource(new ArrayList<Usuario>());
+		dualListModelUsuario.setTarget(new ArrayList<Usuario>());
 	}
 	
 	@PostConstruct
@@ -56,10 +66,13 @@ public class CajaCRUDBean implements Serializable {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agencia.getIdagencia());
 		try {
+			//for boveda
 			List<Boveda> source = bovedaServiceLocal.findByNamedQuery(Boveda.ALL_ACTIVE_BY_AGENCIA, parameters);
 			List<Boveda> target = new ArrayList<Boveda>();
 			dualListModelBoveda.setSource(source);
 			dualListModelBoveda.setTarget(target);
+			//for boveda
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -178,6 +191,14 @@ public class CajaCRUDBean implements Serializable {
 
 	public void setIdcaja(Integer idcaja) {
 		this.idcaja = idcaja;
+	}
+
+	public DualListModel<Usuario> getDualListModelUsuario() {
+		return dualListModelUsuario;
+	}
+
+	public void setDualListModelUsuario(DualListModel<Usuario> dualListModelUsuario) {
+		this.dualListModelUsuario = dualListModelUsuario;
 	}
 
 }

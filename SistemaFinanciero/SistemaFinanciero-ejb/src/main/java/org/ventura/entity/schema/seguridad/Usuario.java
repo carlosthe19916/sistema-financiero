@@ -20,7 +20,9 @@ import java.util.List;
 		@NamedQuery(name = Usuario.ALL, query = "SELECT u FROM Usuario u"),
 		@NamedQuery(name = Usuario.ALL_ACTIVE, query = "SELECT u FROM Usuario u WHERE u.estado=true"),
 		@NamedQuery(name = Usuario.FIND_USER, query = "Select u From Usuario u LEFT OUTER JOIN u.trabajador t LEFT OUTER JOIN t.personanatural p LEFT OUTER JOIN t.agencia s WHERE u.estado = true AND u.username = :username"),
-		@NamedQuery(name = Usuario.fadministrador_idagencia_usuario_password, query = "Select u From Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a WHERE a.idagencia = :idagencia AND u.username = :usuario AND u.password = :password AND u.estado = TRUE") })
+		@NamedQuery(name = Usuario.fadministrador_idagencia_usuario_password, query = "Select u From Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a WHERE a.idagencia = :idagencia AND u.username = :usuario AND u.password = :password AND u.estado = TRUE"),
+		@NamedQuery(name = Usuario.f_idrol_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND r.idrol = :idrol ORDER BY u.idusuario"),
+		@NamedQuery(name = Usuario.f_idgrupo_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND g.idgrupo = :idgrupo ORDER BY u.idusuario")})
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,13 +32,12 @@ public class Usuario implements Serializable {
 	public final static String FIND_USER = "org.ventura.model.Usuario.FIND_USER";
 
 	public final static String fadministrador_idagencia_usuario_password = "org.ventura.entity.schema.seguridad.Usuario.fadministrador_idagencia_usuario_password";
+	public final static String f_idrol_idagencia = "org.ventura.entity.schema.seguridad.Usuario.f_idrol_iagencia";
+	public final static String f_idgrupo_idagencia = "org.ventura.entity.schema.seguridad.Usuario.f_idgrupo_idagencia";
 
 	@Id
 	@Column(unique = true, nullable = false)
 	private Integer idusuario;
-
-	@Column
-	private Integer idtrabajador;
 
 	@Column(nullable = false)
 	private Boolean estado;
@@ -48,7 +49,7 @@ public class Usuario implements Serializable {
 	private String username;
 
 	@ManyToOne
-	@JoinColumn(name = "idtrabajador", insertable = false, updatable = false)
+	@JoinColumn(name = "idtrabajador", nullable = true)
 	private Trabajador trabajador;
 
 	// bi-directional many-to-many association to Grupo
@@ -117,14 +118,6 @@ public class Usuario implements Serializable {
 
 	public void setCajas(List<Caja> cajas) {
 		this.cajas = cajas;
-	}
-
-	public Integer getIdtrabajador() {
-		return idtrabajador;
-	}
-
-	public void setIdtrabajador(Integer idtrabajador) {
-		this.idtrabajador = idtrabajador;
 	}
 
 }
