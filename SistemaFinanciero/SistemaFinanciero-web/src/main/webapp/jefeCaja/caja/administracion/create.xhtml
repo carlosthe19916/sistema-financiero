@@ -65,14 +65,31 @@
 									<h:message for="txtAbreviatura" />
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDAS
-										ASIGNADAS</div>
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">ASIGNAR BOVEDA A CAJA
+										</div>
 									<div>
 										<p:pickList id="pickBovedas"
 											value="#{cajaCRUDBean.dualListModelBoveda}" var="boveda"
 											itemLabel="#{boveda}" itemValue="#{boveda}"
 											converter="DualPickListConverter" required="true"
-											requiredMessage="Seleccione por lo menos una boveda" />
+											requiredMessage="Seleccione por lo menos una boveda">
+											<f:facet name="sourceCaption">Bovedas Existentes</f:facet>  
+        									<f:facet name="targetCaption">Bovedas Asignadas a Caja</f:facet>
+										</p:pickList>
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">ASIGNAR USUARIO A CAJA
+										</div>
+									<div>
+										<p:pickList id="pickListUsuarios"
+											value="#{cajaCRUDBean.dualListModelBoveda}" var="boveda"
+											itemLabel="#{boveda}" itemValue="#{boveda}"
+											converter="DualPickListConverter" required="true"
+											requiredMessage="Seleccione por lo menos una boveda">
+											<f:facet name="sourceCaption">Usuarios</f:facet>  
+        									<f:facet name="targetCaption">Usuarios Asignados a Caja</f:facet>
+										</p:pickList>
 									</div>
 								</div>
 								<div
