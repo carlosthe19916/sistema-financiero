@@ -94,6 +94,9 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	private CalculadoraBean calculadoraBeanRecibido;
 	@Inject
 	private TasaCambio tipoCambio;
+	@Inject
+	private 
+	LoginBean loginBean;
 	
 	private ViewvouchercompraventaView voucherCompraVenta;
 	
@@ -102,6 +105,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	private String nombresRazonSocial;
 	private boolean validateSaldoTotalCaja;
 	private boolean pageVoucher;
+	private boolean loginsuccess;
 	
 	public TransaccionCompraVentaCajaBean(){
 		isValidBean = true;
@@ -110,6 +114,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	
 	@PostConstruct
 	private void initialize(){
+		loginsuccess = false;
 		try {
 			this.setCaja(cajaBean.getCaja());
 			this.setEstadoaperturaCaja(getCaja().getEstadoapertura());
@@ -552,5 +557,21 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 	public void setVoucherCompraVenta(ViewvouchercompraventaView voucherCompraVenta) {
 		this.voucherCompraVenta = voucherCompraVenta;
+	}
+
+	public LoginBean getLoginBean() {
+		return loginBean;
+	}
+
+	public void setLoginBean(LoginBean loginBean) {
+		this.loginBean = loginBean;
+	}
+
+	public boolean isLoginsuccess() {
+		return loginsuccess;
+	}
+
+	public void setLoginsuccess(boolean loginsuccess) {
+		this.loginsuccess = loginsuccess;
 	}
 }

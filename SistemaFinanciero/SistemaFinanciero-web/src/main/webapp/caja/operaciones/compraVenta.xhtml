@@ -325,14 +325,14 @@
 								&nbsp;
 								<h:panelGroup rendered="#{!transaccionCompraVentaCajaBean.loginBean.autenticado}">
 									<h:outputLabel id="oupTipoCambio" value="#{transaccionCompraVentaCajaBean.tipoCambio}"/>
-									&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp;&nbsp;
 									<h:commandLink action="#{transaccionCompraVentaCajaBean.loginBean.setDlgLogin(true)}" >
 										<h:outputText value="Editar" />
 									</h:commandLink>
 								</h:panelGroup>
 								
 								<h:panelGroup rendered="#{transaccionCompraVentaCajaBean.loginBean.autenticado}">
-									<h:inputText id="txtTipoCambio2"
+									<h:inputText id="txtTipoCambio2" size="5"
 										value="#{transaccionCompraVentaCajaBean.tipoCambio}"
 										required="true" maxlenght="5"
 										requiredMessage="Ingrese el tipo de cambio">
