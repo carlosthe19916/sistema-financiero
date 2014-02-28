@@ -15,12 +15,30 @@ public interface SeguridadServiceLocal extends SeguridadServiceRemote{
 	
 	public List<Rol> getRoles() throws Exception;
 	
+	public List<Rol> getRoles(Usuario usuario) throws Exception;
+	
+	public List<Rol> getRolsFromGrupo(Grupo grupo) throws Exception;
+	
+	public Usuario findUsuario(Object idusuario) throws Exception;
+	
 	public List<Usuario> getUsuariosFromAgencia(Agencia agencia) throws Exception;
 	
 	public List<Usuario> getUsuariosFromRol(Rol rol, Agencia agencia) throws Exception;
 	
 	public List<Grupo> getGrupos() throws Exception;
 	
+	public List<Grupo> getGrupos(Usuario usuario) throws Exception;
+	
 	public List<Usuario> getUsuariosFromGrupo(Grupo rol, Agencia agencia) throws Exception;
+
+	/*Transaccional*/
+	public void asignarUsuarios(Grupo grupo, List<Usuario> listUsuarios) throws Exception;
+
+	public void asignarGrupos(Usuario usuario, List<Grupo> listGrupos) throws Exception;
+
+	public void create(Usuario usuario) throws Exception;
+
+	public void update(Usuario usuario) throws Exception;
+
 	
 }

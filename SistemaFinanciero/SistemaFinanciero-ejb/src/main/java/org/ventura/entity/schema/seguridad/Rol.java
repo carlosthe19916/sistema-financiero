@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-
 import java.util.List;
 
 /**
@@ -14,12 +13,15 @@ import java.util.List;
 @Entity
 @Table(name = "rol", schema = "seguridad")
 @NamedQuery(name = "Rol.findAll", query = "SELECT r FROM Rol r")
-@NamedQueries({ @NamedQuery(name = Rol.f_idusuario, query = "SELECT r FROM Rol r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE u.idusuario = :idusuario") })
+@NamedQueries({
+		@NamedQuery(name = Rol.f_idusuario, query = "SELECT r FROM Rol r INNER JOIN r.grupos g INNER JOIN g.usuarios u WHERE u.idusuario = :idusuario"),
+		@NamedQuery(name = Rol.f_idgrupo, query = "SELECT r FROM Rol r INNER JOIN r.grupos g WHERE g.idgrupo = :idgrupo") })
 public class Rol implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static String f_idusuario = "org.ventura.entity.schema.seguridad.f_idusuario";
+	public final static String f_idusuario = "org.ventura.entity.schema.seguridad.Rol.f_idusuario";
+	public final static String f_idgrupo = "org.ventura.entity.schema.seguridad.Rol.f_idgrupo";
 
 	@Id
 	@Column(unique = true, nullable = false)

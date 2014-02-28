@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.rrhh.Trabajador;
 
@@ -19,23 +20,30 @@ import java.util.List;
 @NamedQueries({
 		@NamedQuery(name = Usuario.ALL, query = "SELECT u FROM Usuario u"),
 		@NamedQuery(name = Usuario.ALL_ACTIVE, query = "SELECT u FROM Usuario u WHERE u.estado=true"),
+		@NamedQuery(name = Usuario.FIND_BYID, query = "Select u From Usuario u LEFT JOIN u.trabajador t LEFT JOIN t.personanatural p LEFT JOIN u.grupos g WHERE u.idusuario = :idusuario"),
 		@NamedQuery(name = Usuario.FIND_USER, query = "Select u From Usuario u LEFT OUTER JOIN u.trabajador t LEFT OUTER JOIN t.personanatural p LEFT OUTER JOIN t.agencia s WHERE u.estado = true AND u.username = :username"),
+		@NamedQuery(name = Usuario.find_byusername_active, query = "SELECT u FROM Usuario u WHERE u.username = :username AND u.estado = TRUE"),
 		@NamedQuery(name = Usuario.fadministrador_idagencia_usuario_password, query = "Select u From Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a WHERE a.idagencia = :idagencia AND u.username = :usuario AND u.password = :password AND u.estado = TRUE"),
-		@NamedQuery(name = Usuario.f_idrol_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND r.idrol = :idrol ORDER BY u.idusuario"),
-		@NamedQuery(name = Usuario.f_idgrupo_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND g.idgrupo = :idgrupo ORDER BY u.idusuario")})
+		@NamedQuery(name = Usuario.f_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a LEFT JOIN u.grupos g LEFT JOIN g.rols r WHERE a.idagencia= :idagencia AND u.estado = TRUE ORDER BY u.idusuario"),
+		@NamedQuery(name = Usuario.f_idrol_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND r.idrol = :idrol AND u.estado = TRUE ORDER BY u.idusuario"),
+		@NamedQuery(name = Usuario.f_idgrupo_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND g.idgrupo = :idgrupo AND u.estado = TRUE ORDER BY u.idusuario") })
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String ALL = "org.ventura.model.Usuario.ALL";
 	public final static String ALL_ACTIVE = "org.ventura.model.Usuario.ALL_ACTIVE";
+	public final static String FIND_BYID = "org.ventura.model.Usuario.FIND_BYID";
 	public final static String FIND_USER = "org.ventura.model.Usuario.FIND_USER";
+	public final static String find_byusername_active = "org.ventura.model.Usuario.find_byusername";
 
 	public final static String fadministrador_idagencia_usuario_password = "org.ventura.entity.schema.seguridad.Usuario.fadministrador_idagencia_usuario_password";
+	public final static String f_idagencia = "org.ventura.entity.schema.seguridad.Usuario.f_idagencia";
 	public final static String f_idrol_idagencia = "org.ventura.entity.schema.seguridad.Usuario.f_idrol_iagencia";
 	public final static String f_idgrupo_idagencia = "org.ventura.entity.schema.seguridad.Usuario.f_idgrupo_idagencia";
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idusuario;
 
@@ -120,4 +128,22 @@ public class Usuario implements Serializable {
 		this.cajas = cajas;
 	}
 
+	@Override
+	public String toString() {
+		return this.username;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !(obj instanceof Usuario)) {
+			return false;
+		}
+		final Usuario other = (Usuario) obj;
+		return other.getIdusuario().equals(this.idusuario) ? true : false;
+	}
+
+	@Override
+	public int hashCode() {
+		return idusuario;
+	}
 }
