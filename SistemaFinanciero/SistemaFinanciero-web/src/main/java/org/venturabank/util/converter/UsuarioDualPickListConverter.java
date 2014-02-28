@@ -7,10 +7,10 @@ import javax.faces.convert.FacesConverter;
 
 import org.primefaces.component.picklist.PickList;
 import org.primefaces.model.DualListModel;
-import org.ventura.entity.schema.caja.Boveda;
+import org.ventura.entity.schema.seguridad.Usuario;
 
-@FacesConverter("DualPickListConverter")
-public class DualPickListConverter implements Converter {
+@FacesConverter("UsuarioDualPickListConverter")
+public class UsuarioDualPickListConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
@@ -21,8 +21,8 @@ public class DualPickListConverter implements Converter {
 			DualListModel dl = (DualListModel) dualList;
 			for (Object o : dl.getSource()) {
 				String id = "";
-				if (o instanceof Boveda) {
-					id += ((Boveda) o).getIdboveda();
+				if (o instanceof Usuario) {
+					id += ((Usuario) o).getIdusuario();
 				}
 				if (value.equals(id)) {
 					ret = o;
@@ -32,8 +32,8 @@ public class DualPickListConverter implements Converter {
 			if (ret == null)
 				for (Object o : dl.getTarget()) {
 					String id = "";
-					if (o instanceof Boveda) {
-						id += ((Boveda) o).getIdboveda();
+					if (o instanceof Usuario) {
+						id += ((Usuario) o).getIdusuario();
 					}
 					if (value.equals(id)) {
 						ret = o;
@@ -47,8 +47,8 @@ public class DualPickListConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		String str = "";
-		if (value instanceof Boveda) {
-			str = "" + ((Boveda) value).getIdboveda();
+		if (value instanceof Usuario) {
+			str = "" + ((Usuario) value).getIdusuario();
 		}
 		return str;
 	}

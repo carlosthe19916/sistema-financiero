@@ -9,7 +9,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(21)}" />
+		<f:viewAction action="#{menuMB.updateMenu(22)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 		<!-- Definiendo la cabecera de la pagina -->
@@ -29,47 +29,70 @@
 					<div>
 						<div>
 							<div class="p6n-api-consent-screen-title">
-								<h3>Usuarios</h3>
+								<h3>USUARIOS</h3>
 							</div>
-							<p>Asigne roles adecuados para cada usuario</p>
+							<p>Los usuarios deben de estar dentro de algun grupo</p>
 						</div>
 						<br /> <br />
 						<h:form>
 							<div>
-								<div>
-									<div style="float: left;">
-										<h:inputText id="txtSearched"
-											value="#{administrarPersonajuridicaBean.searched}"
-											maxlength="50" size="50" required="true"
-											onkeyup="this.value = this.value.toUpperCase();"
-											pt:placeholder="Usuario" />
-									</div>
-									<div style="float: left;">
-										<h:commandLink
-											action="#{administrarPersonajuridicaBean.buscarPersona()}"
-											styleClass="button" style="margin: 0 0 0 1px;">
-											<span class="icon icon198"></span>
-										</h:commandLink>
-									</div>
+								<div class="tiptip">
+									<h:commandLink action="createUsuario?faces-redirect=true"
+										styleClass="button left" title="Nuevo usuario">
+										<span class="icon icon3"></span>
+										<span class="label">Nuevo</span>
+									</h:commandLink>
 								</div>
 							</div>
-							<br />
-						</h:form>
-						<br /> <br />
-						<h:form>
 							<div>
-								<div>
-									<div class="tiptip">
-										<h:commandLink action="create?faces-redirect=true"
-											styleClass="button left" title="Nueva bóveda">
-											<span class="icon icon3"></span>
-											<span class="label">Nuevo</span>
-										</h:commandLink>
-									</div>
-								</div>
+								<p:dataTable var="usuario"
+									value="#{seguridadBean.tablaUsuario.rows}"
+									selectionMode="single"
+									selection="#{seguridadBean.tablaUsuario.selectedRow}"
+									rowKey="#{usuario}" rowIndexVar="row">
+									<p:column headerText="Nro" width="5%"
+										style="text-align:center;">
+										<h:outputText value="#{row + 1}" />
+									</p:column>
+									<p:column headerText="USUARIO">
+										<h:outputText value="#{usuario.username}" />
+									</p:column>
+									<p:column headerText="TRABAJADOR">
+										<h:outputText
+											value="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno},#{usuario.trabajador.personanatural.nombres}" />
+									</p:column>
+									<p:column headerText="ROLES">
+										<h:outputText
+											value="#{seguridadBean.listarRolesOfUsuario(usuario)}" />
+									</p:column>
+									<p:column headerText="GRUPOS">
+										<h:outputText value="#{seguridadBean.listarGrupos(usuario)}" />
+									</p:column>
+									<p:column headerText="ESTADO">
+										<h:outputText
+											value="#{usuario.estado ? 'Activo' : 'Inactivo'}" />
+									</p:column>
+									<p:column headerText="STATUS" style="text-align:center;"
+										width="137">
+										<div class="buttons">
+											<h:button value="Edit" outcome="updateUsuario"
+												styleClass="action blue" style="margin: 0 2px 0 0;">
+												<f:param name="id" value="#{usuario.idusuario}" />
+											</h:button>
 
+											<h:commandButton value="Grupos" styleClass="action green"
+												style="margin: 0 0 0 2px;">
+												<f:ajax
+													listener="#{seguridadBean.mostrarGruposDeUsuario(usuario)}"
+													render=":dlgUsuario :formDlgUsuario"></f:ajax>
+											</h:commandButton>
+										</div>
+
+									</p:column>
+								</p:dataTable>
 							</div>
 						</h:form>
+
 					</div>
 				</p:tab>
 
@@ -98,20 +121,23 @@
 									<p:column headerText="DESCRIPCION">
 										<h:outputText value="#{grupo.descripcion}" />
 									</p:column>
+									<p:column headerText="ROLES">
+										<h:outputText
+											value="#{seguridadBean.listarRolesOfGrupo(grupo)}" />
+									</p:column>
 									<p:column headerText="ESTADO">
 										<h:outputText value="#{grupo.estado ? 'Activo' : 'Inactivo'}" />
 									</p:column>
 									<p:column headerText="STATUS" style="text-align:center;"
 										width="30px;">
 										<h:commandButton value="Miembros" styleClass="action green">
-											<f:ajax render=":dlgGrupo"
+											<f:ajax render=":dlgGrupo :formDlgGrupo"
 												listener="#{seguridadBean.mostrarMiembrosDeGrupo(grupo)}"></f:ajax>
 										</h:commandButton>
 									</p:column>
 								</p:dataTable>
 							</div>
 						</h:form>
-
 					</div>
 				</p:tab>
 
@@ -157,6 +183,76 @@
 					</div>
 				</p:tab>
 			</p:tabView>
+			<h:panelGroup id="dlgUsuario">
+				<h:panelGroup rendered="#{seguridadBean.dlgUsuario}">
+					<h:form id="formDlgUsuario">
+						<div class="modal-dialog p6n-popup"
+							style="left: 412.5px; top: 50px;">
+							<div class="p6n-popup-title">
+								Grupos del usuario:
+								<h:outputLabel
+									value="#{seguridadBean.usuarioSelected.trabajador.personanatural.apellidopaterno} #{seguridadBean.usuarioSelected.trabajador.personanatural.apellidomaterno},#{seguridadBean.usuarioSelected.trabajador.personanatural.nombres}">
+								</h:outputLabel>
+							</div>
+							<div class="modal-dialog-content">
+								<p:pickList value="#{seguridadBean.gruposPickList}" var="grupo"
+									itemLabel="#{grupo}" itemValue="#{grupo}">
+									<f:facet name="sourceCaption">No asignados</f:facet>
+									<f:facet name="targetCaption">Asignados</f:facet>
+								</p:pickList>
+								<div></div>
+							</div>
+							<div class="modal-dialog-buttons">
+								<h:commandButton value="Cancelar" styleClass="action">
+									<f:ajax render=":dlgUsuario"
+										listener="#{seguridadBean.setDlgUsuario(false)}"></f:ajax>
+								</h:commandButton>
+							</div>
+						</div>
+					</h:form>
+					<div id="modal-dialog-bg" class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+				</h:panelGroup>
+			</h:panelGroup>
+
+			<h:panelGroup id="dlgGrupo">
+				<h:panelGroup rendered="#{seguridadBean.dlgGrupo}">
+					<h:form id="formDlgGrupo">
+						<div class="modal-dialog p6n-popup"
+							style="left: 412.5px; top: 50px;">
+							<div class="p6n-popup-title">
+								Miembros del grupo:
+								<h:outputLabel value="#{seguridadBean.grupoSelected.nombre}" />
+							</div>
+							<div class="modal-dialog-content">
+								<p:pickList value="#{seguridadBean.usuariosPickList}"
+									var="usuario"
+									itemLabel="#{seguridadBean.nombreUsuario(usuario)}"
+									itemValue="#{usuario}" converter="UsuarioDualPickListConverter">
+									<f:facet name="sourceCaption">No asignados</f:facet>
+									<f:facet name="targetCaption">Asignados</f:facet>
+								</p:pickList>
+								<div></div>
+							</div>
+							<div class="modal-dialog-buttons">
+
+								<h:commandButton value="Guardar" styleClass="action blue">
+									<f:ajax render=":dlgGrupo"
+										listener="#{seguridadBean.guardarMiembrosDeGrupo()}"
+										execute="@form"></f:ajax>
+								</h:commandButton>
+								<h:commandButton value="Cancelar" styleClass="action">
+									<f:ajax render=":dlgGrupo"
+										listener="#{seguridadBean.setDlgGrupo(false)}"></f:ajax>
+								</h:commandButton>
+
+							</div>
+						</div>
+					</h:form>
+					<div id="modal-dialog-bg" class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+				</h:panelGroup>
+			</h:panelGroup>
 
 			<h:panelGroup id="dlgRol">
 				<h:panelGroup rendered="#{seguridadBean.dlgRol}">
@@ -201,53 +297,6 @@
 						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
 				</h:panelGroup>
 			</h:panelGroup>
-			<h:panelGroup id="dlgGrupo">
-				<h:panelGroup rendered="#{seguridadBean.dlgGrupo}">
-					<div class="modal-dialog p6n-popup"
-						style="left: 312.5px; top: 50px;">
-						<div class="p6n-popup-title">Miembros</div>
-						<div class="modal-dialog-content">
-							<p:pickList id="pickList" value="#{seguridadBean.usuariosPickList}"
-								var="usuario" itemLabel="#{usuario}" itemValue="#{usuario}" />
-							<div>
-								<p:dataTable var="usuario"
-									value="#{seguridadBean.tablaUsuarioMiembros.rows}"
-									selectionMode="single"
-									selection="#{seguridadBean.tablaUsuarioMiembros.selectedRow}"
-									rowKey="#{usuario}" rowIndexVar="row">
-									<p:column headerText="Nro" width="5%"
-										style="text-align:center;">
-										<h:outputText value="#{row + 1}" />
-									</p:column>
-									<p:column headerText="USUARIO">
-										<h:outputText value="#{usuario.username}" />
-									</p:column>
-									<p:column headerText="TRABAJADOR">
-										<h:outputText
-											value="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno},, #{usuario.trabajador.personanatural.nombres}" />
-									</p:column>
-									<p:column headerText="ESTADO">
-										<h:outputText
-											value="#{usuario.estado ? 'Activo' : 'Inactivo'}" />
-									</p:column>
-								</p:dataTable>
-							</div>
-						</div>
-						<div class="modal-dialog-buttons">
-							<h:form>
-								<h:commandButton value="Aceptar" styleClass="action blue">
-									<f:ajax render=":dlgRol"
-										listener="#{seguridadBean.setDlgGrupo(false)}"></f:ajax>
-								</h:commandButton>
-							</h:form>
-						</div>
-					</div>
-					<div id="modal-dialog-bg" class="modal-dialog-bg"
-						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
-				</h:panelGroup>
-			</h:panelGroup>
-
-
 		</ui:define>
 
 	</ui:composition>

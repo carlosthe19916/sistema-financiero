@@ -13,8 +13,14 @@ import java.util.List;
 @Entity
 @Table(name = "grupo", schema = "seguridad")
 @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g")
+@NamedQueries({
+		@NamedQuery(name = Grupo.all_active, query = "SELECT g FROM Grupo g WHERE g.estado = TRUE"),
+		@NamedQuery(name = Grupo.f_idusuario, query = "SELECT g FROM Grupo g INNER JOIN g.rols r INNER JOIN g.usuarios u INNER JOIN u.trabajador t INNER JOIN t.agencia a WHERE u.idusuario = :idusuario") })
 public class Grupo implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	public final static String all_active = "org.ventura.entity.schema.seguridad.Grupo.all_active";
+	public final static String f_idusuario = "org.ventura.entity.schema.seguridad.Grupo.f_idusuario";
 
 	@Id
 	@Column(unique = true, nullable = false)
@@ -90,6 +96,11 @@ public class Grupo implements Serializable {
 		this.usuarios = usuarios;
 	}
 
+	@Override
+	public String toString(){
+		return this.nombre;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Grupo)) {

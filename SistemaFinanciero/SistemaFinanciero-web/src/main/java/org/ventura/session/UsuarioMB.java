@@ -35,6 +35,7 @@ public class UsuarioMB implements Serializable {
 	@PostConstruct
 	private void init() {
 		Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+		
 		if (principal != null) {
 
 			Usuario user = null;
