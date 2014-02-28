@@ -642,6 +642,28 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
+	public List<CuentabancariaView> findCuentabancariaView(TipocuentabancariaType tipocuentabancariaType, String campoBusqueda) throws Exception {	
+		List<CuentabancariaView> cuentabancariaViews;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(tipocuentabancariaType);
+			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);
+			
+			parameters.put("idtipocuentabancaria", tipocuentabancaria.getIdtipocuentabancaria());
+			parameters.put("idestadocuenta", estadocuenta.getIdestadocuenta());
+			parameters.put("searched", "%" + campoBusqueda.toUpperCase() + "%");
+
+			cuentabancariaViews = cuentabancariaViewDAO.findByNamedQuery(CuentabancariaView.f_tipocuentabancaria_estado_searched, parameters, 10);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return cuentabancariaViews;
+	}
+	
+	@Override
 	public List<CuentabancariaView> findCuentabancariaView(Tipodocumento tipodocumento, String campoBusqueda) throws Exception {	
 		List<CuentabancariaView> cuentabancariaViews;
 		try {

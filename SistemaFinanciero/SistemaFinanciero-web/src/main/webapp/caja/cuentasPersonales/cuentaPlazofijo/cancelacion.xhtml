@@ -268,8 +268,8 @@
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton
 									action="#{cancelacionCuentaplazofijoBean.cancelarCuentaplazofijo()}"
-									value="Guardar" styleClass="action blue" />
-								<h:commandButton value="Cancelar" styleClass="action" />
+									value="Aceptar" styleClass="action blue" />
+								<h:commandButton value="Cancelar" action="/caja/cuentasPersonales/index?faces-redirect=true" styleClass="action" immediate="true"/>
 							</div>
 						</div>
 					</h:form>
@@ -394,7 +394,7 @@
 													<div>
 														<h:inputText
 															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Apellido y Nombres / Razón Social"
+															pt:placeholder="Número de Documento"
 															value="#{cancelacionCuentaplazofijoBean.valorBusqueda}"
 															style="width: 250px;float: left;" />
 														&nbsp;
@@ -409,7 +409,7 @@
 														<h:selectOneMenu id="cmbTipoBusqueda"
 															value="#{cancelacionCuentaplazofijoBean.comboTipodocumento.itemSelected}">
 															<f:selectItem
-																itemLabel="Apellidos y nombres/razon social"
+																itemLabel="Ap. y Nombres / Razón Social"
 																itemValue="" />
 															<f:selectItems
 																value="#{cancelacionCuentaplazofijoBean.comboTipodocumento.items.entrySet()}"

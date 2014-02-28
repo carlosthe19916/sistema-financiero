@@ -22,6 +22,7 @@ import java.util.Date;
 		@NamedQuery(name = CuentabancariaView.findByLikeRazonsocial, query = "SELECT c FROM CuentabancariaView c WHERE c.tipoPersona = 'PJ' AND c.socio LIKE :razonsocial"),
 
 		@NamedQuery(name = CuentabancariaView.f_tipocuentabancaria_tipodocumento_estado_searched, query = "SELECT c FROM CuentabancariaView c WHERE c.idTipocuentabancaria = :idtipocuentabancaria AND c.idTipodocumento = :idtipodocumento AND NOT (c.idEstadocuenta = :idestadocuenta) AND c.numeroDocumento LIKE :numerodocumento"),
+		@NamedQuery(name = CuentabancariaView.f_tipocuentabancaria_estado_searched, query = "SELECT c FROM CuentabancariaView c WHERE c.idTipocuentabancaria = :idtipocuentabancaria AND NOT (c.idEstadocuenta = :idestadocuenta) AND UPPER(c.socio) LIKE :searched"),
 		@NamedQuery(name = CuentabancariaView.f_tipodocumento_estado_searched, query = "SELECT c FROM CuentabancariaView c WHERE c.idTipodocumento = :idtipodocumento AND NOT (c.idEstadocuenta = :idestadocuenta) AND c.numeroDocumento LIKE :numerodocumento"),
 		@NamedQuery(name = CuentabancariaView.f_estadocuenta_searched, query = "SELECT c FROM CuentabancariaView c WHERE NOT (c.idEstadocuenta = :idestadocuenta) AND (UPPER(c.socio) LIKE :searched OR c.numerocuenta LIKE :searched)") })
 public class CuentabancariaView implements Serializable {
@@ -35,6 +36,7 @@ public class CuentabancariaView implements Serializable {
 	public final static String findByLikeRazonsocial = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.findByLikeRazonsocial";
 
 	public final static String f_tipocuentabancaria_tipodocumento_estado_searched = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.f_tipocuentabancaria_tipodocumento_searched";
+	public final static String f_tipocuentabancaria_estado_searched = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.f_tipocuentabancaria_estado_searched";
 	public final static String f_tipodocumento_estado_searched = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.f_tipodocumento_estado_searched";
 	public final static String f_estadocuenta_searched = "org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView.f_estadocuenta_searched";
 

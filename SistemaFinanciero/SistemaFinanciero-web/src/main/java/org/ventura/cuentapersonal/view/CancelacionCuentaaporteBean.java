@@ -23,6 +23,8 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.session.CajaBean;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipodocumentoType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -62,6 +64,9 @@ public class CancelacionCuentaaporteBean implements Serializable{
 	public void initialize() throws Exception {
 		try {
 			comboTipodocumento.initValuesFromNamedQueryName(Tipodocumento.All_active);	
+			
+			Tipodocumento tipodocumento = ProduceObject.getTipodocumento(TipodocumentoType.DNI);
+			comboTipodocumento.setItemSelected(tipodocumento);
 			
 			caja = cajaBean.getCaja();
 		} catch (Exception e) {

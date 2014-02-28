@@ -16,7 +16,7 @@
 
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
-			<h:outputText value="Cancelar cta corriente" />
+			<h:outputText value="Cancelar Cta Corriente" />
 		</ui:define>
 
 		<!-- Definiendo el cuerpo de la pagina -->
@@ -38,8 +38,8 @@
 
 			<div style="margin-left: 50px;">
 				<br />
-				<div class="p6n-api-consent-screen-title">Cancelacion cuenta
-					ahorro</div>
+				<div class="p6n-api-consent-screen-title">Cancelación Cuenta
+					Corriente</div>
 
 				<h:panelGroup rendered="#{!cancelacionCuentacorrienteBean.success}">
 					<h:form id="formCancelacion">
@@ -124,7 +124,7 @@
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton
 									action="#{cancelacionCuentacorrienteBean.cancelarCuentacorriente()}"
-									value="Guardar" styleClass="action blue" />
+									value="Aceptar" styleClass="action blue" />
 								<h:commandButton value="Cancelar"
 									action="/caja/cuentasPersonales/index?faces-redirect=true"
 									styleClass="action" immediate="true" />
@@ -251,7 +251,7 @@
 													<div>
 														<h:inputText
 															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Nro documento"
+															pt:placeholder="Número de Documento"
 															value="#{cancelacionCuentacorrienteBean.valorBusqueda}"
 															style="width: 250px;float: left;" />
 														&nbsp;
@@ -266,7 +266,7 @@
 														<h:selectOneMenu id="cmbTipoBusqueda"
 															value="#{cancelacionCuentacorrienteBean.comboTipodocumento.itemSelected}">
 															<f:selectItem
-																itemLabel="--seleccione--"
+																itemLabel="Ap. y Nombres / Razón Social"
 																itemValue="" />
 															<f:selectItems
 																value="#{cancelacionCuentacorrienteBean.comboTipodocumento.items.entrySet()}"

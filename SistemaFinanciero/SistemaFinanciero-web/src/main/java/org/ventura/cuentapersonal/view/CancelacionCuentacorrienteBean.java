@@ -23,7 +23,9 @@ import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.session.CajaBean;
+import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipocuentabancariaType;
+import org.ventura.util.maestro.TipodocumentoType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -63,6 +65,9 @@ public class CancelacionCuentacorrienteBean implements Serializable{
 	public void initialize() throws Exception {
 		try {
 			comboTipodocumento.initValuesFromNamedQueryName(Tipodocumento.All_active);	
+			
+			Tipodocumento tipodocumento = ProduceObject.getTipodocumento(TipodocumentoType.DNI);
+			comboTipodocumento.setItemSelected(tipodocumento);
 			
 			caja = cajaBean.getCaja();
 		} catch (Exception e) {
@@ -105,7 +110,9 @@ public class CancelacionCuentacorrienteBean implements Serializable{
 		try {
 			if(tipodocumento != null){
 				cuentabancariaViews = cuentabancariaServiceLocal.findCuentabancariaView(TipocuentabancariaType.CUENTA_CORRIENTE,tipodocumento, valorBusqueda);				
-			}		
+			} else {
+				cuentabancariaViews = cuentabancariaServiceLocal.findCuentabancariaView(TipocuentabancariaType.CUENTA_CORRIENTE, valorBusqueda);
+			}
 			tablaCuentabancaria.setRows(cuentabancariaViews);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());			

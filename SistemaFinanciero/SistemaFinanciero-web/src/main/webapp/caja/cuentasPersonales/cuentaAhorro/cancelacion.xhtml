@@ -16,7 +16,7 @@
 
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
-			<h:outputText value="Cancelar cta ahorro" />
+			<h:outputText value="Cancelar Cta Ahorro" />
 		</ui:define>
 
 		<!-- Definiendo el cuerpo de la pagina -->
@@ -251,7 +251,7 @@
 													<div>
 														<h:inputText
 															onkeyup="this.value = this.value.toUpperCase();"
-															pt:placeholder="Nro documento"
+															pt:placeholder="Número de Documento"
 															value="#{cancelacionCuentaahorroBean.valorBusqueda}"
 															style="width: 250px;float: left;" />
 														&nbsp;
@@ -265,7 +265,7 @@
 														</h:commandLink>
 														<h:selectOneMenu id="cmbTipoBusqueda"
 															value="#{cancelacionCuentaahorroBean.comboTipodocumento.itemSelected}">
-															<f:selectItem itemLabel="--seleccione--" itemValue="" />
+															<f:selectItem itemLabel="Ap. y Nombres / Razón Social" itemValue="" />
 															<f:selectItems
 																value="#{cancelacionCuentaahorroBean.comboTipodocumento.items.entrySet()}"
 																var="val" itemLabel="#{val.value.abreviatura}"
