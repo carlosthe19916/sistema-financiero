@@ -33,6 +33,71 @@
 
 	<h:outputStylesheet library="css" name="main.css" />
 
+	<h:panelGroup rendered="#{transaccionCompraVentaCajaBean.loginBean.dlgLogin}">
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+				<div class="modal-dialog p6n-popup"
+					style="left: 512.5px; top: 100px;">
+					<div>AUTENTICACION</div>
+					<h:form>
+						<div class="modal-dialog-content">
+							<div id="p6n-cloudsql-content">
+								<div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:outputLabel value="Usuario y/o password invalidos"
+											rendered="#{!transaccionCompraVentaCajaBean.loginBean.autenticado and transaccionCompraVentaCajaBean.loginBean.success}" />
+									</div>
+									<div class="p6n-api-consent-screen-inputs">
+										<div class="p6n-api-consent-screen-input-section">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 150px;">USUARIO</div>
+											<div>
+												<h:inputText id="txtUsuario"
+													value="#{transaccionCompraVentaCajaBean.loginBean.usuario}"
+													required="true" requiredMessage="Ingrese usuario"
+													autocomplete="off" />
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtUsuario" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 150px;">PASSWORD</div>
+											<div>
+												<h:inputSecret id="txtPassword"
+													value="#{transaccionCompraVentaCajaBean.loginBean.password}"
+													required="true" requiredMessage="Ingrese password"
+													autocomplete="off" />
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtPassword" />
+										</div>
+									</div>
+								</div>
+								<br></br>
+							</div>
+						</div>
+
+						<div class="modal-dialog-buttons">
+							<br />
+							<h:commandButton value="Aceptar"
+								actionListener="#{transaccionCompraVentaCajaBean.loginBean.login()}"
+								action="#{movimientosCajaBean.extornarTransaccioncaja()}"
+								styleClass="action blue" onclick="onSubmitButton();" />
+							<h:commandButton value="Cancelar"
+								action="#{transaccionCompraVentaCajaBean.loginBean.setDlgLogin(false)}"
+								immediate="true" styleClass="action" onclick="onSubmitButton();">
+							</h:commandButton>
+						</div>
+					</h:form>
+				</div>
+			</h:panelGroup>
+
 	<h:form id="formTransaccion">
 		<p:focus context="formTransaccion"></p:focus>
 		<br />
@@ -117,7 +182,7 @@
 						<div class="modal-dialog-bg"
 							style="opacity: 0.4; width: 1366px; height: 802px;"></div>
 					</h:panelGroup>
-
+					
 					<br /> <br />
 					<div class="p6n-api-consent-screen-title">COMPRA Y VENTA DE
 						MONEDA EXTRANJERA</div>
@@ -140,7 +205,7 @@
 									<f:ajax execute="@this" />
 									<f:ajax event="change"
 										listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
-										render="inplace" />
+										render="inplace oupTipoCambio" />
 								</h:selectOneMenu>
 							</div>
 						</div>
@@ -213,7 +278,7 @@
 											<f:ajax execute="@this" />
 											<f:ajax event="change"
 												listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
-												render="inplace txtMontoRecibido :formCalculadora" />
+												render="inplace oupTipoCambio txtMontoRecibido :formCalculadora" />
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -241,7 +306,7 @@
 											<f:ajax execute="@this" />
 											<f:ajax event="change"
 												listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
-												render="inplace" />
+												render="inplace oupTipoCambio" />
 											<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
 										</h:selectOneMenu>
 									</div>
@@ -258,8 +323,16 @@
 								DE CAMBIO</div>
 							<div style="float: left;">
 								&nbsp;
-								<p:inplace id="inplace">
-									<h:inputText id="txtTipoCambio"
+								<h:panelGroup rendered="#{!transaccionCompraVentaCajaBean.loginBean.autenticado}">
+									<h:outputLabel id="oupTipoCambio" value="#{transaccionCompraVentaCajaBean.tipoCambio}"/>
+									&nbsp;&nbsp;
+									<h:commandLink action="#{transaccionCompraVentaCajaBean.loginBean.setDlgLogin(true)}" >
+										<h:outputText value="Editar" />
+									</h:commandLink>
+								</h:panelGroup>
+								
+								<h:panelGroup rendered="#{transaccionCompraVentaCajaBean.loginBean.autenticado}">
+									<h:inputText id="txtTipoCambio2"
 										value="#{transaccionCompraVentaCajaBean.tipoCambio}"
 										required="true" maxlenght="5"
 										requiredMessage="Ingrese el tipo de cambio">
@@ -267,9 +340,9 @@
 										<f:ajax event="blur"
 											listener="#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}"
 											render="txtMontoEntregado @this" />
-										
 									</h:inputText>
-								</p:inplace>
+								</h:panelGroup>
+								<br />
 							</div>
 						</div>
 
