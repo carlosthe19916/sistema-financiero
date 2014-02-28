@@ -15,8 +15,10 @@ import javax.inject.Named;
 import org.primefaces.model.DualListModel;
 import org.ventura.boundary.local.BovedaServiceLocal;
 import org.ventura.boundary.local.CajaServiceLocal;
+import org.ventura.boundary.local.SeguridadServiceLocal;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
@@ -32,7 +34,8 @@ public class CajaCRUDBean implements Serializable {
 	private CajaServiceLocal cajaServiceLocal;
 	@EJB
 	private BovedaServiceLocal bovedaServiceLocal;
-	
+	@EJB
+	private SeguridadServiceLocal seguridadServiceLocal;
 	
 	
 	@Inject
@@ -71,10 +74,24 @@ public class CajaCRUDBean implements Serializable {
 			List<Boveda> target = new ArrayList<Boveda>();
 			dualListModelBoveda.setSource(source);
 			dualListModelBoveda.setTarget(target);
+
 			//for boveda
-			
+			List<Usuario> sourceUsuario = seguridadServiceLocal.findByNamedQuery(Usuario.ALL_USER_ACTIVE_BY_AGENCIA, parameters);
+			List<Usuario> targetUsuario = new ArrayList<Usuario>();
+			dualListModelUsuario.setSource(sourceUsuario);
+			dualListModelUsuario.setTarget(targetUsuario);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public String nombreUsuario(Object obj){
+		if (obj instanceof Usuario) {
+			Usuario usuario = (Usuario) obj;
+			Personanatural personanatural = usuario.getTrabajador().getPersonanatural();
+			return personanatural.getApellidopaterno()+" "+personanatural.getApellidomaterno() +", " +personanatural.getNombres()+" ("+usuario.getUsername()+")";
+		} else {
+			return obj.getClass().toString();
 		}
 	}
 

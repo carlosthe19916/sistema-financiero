@@ -83,10 +83,10 @@
 										</div>
 									<div>
 										<p:pickList id="pickListUsuarios"
-											value="#{cajaCRUDBean.dualListModelBoveda}" var="boveda"
-											itemLabel="#{boveda}" itemValue="#{boveda}"
-											converter="DualPickListConverter" required="true"
-											requiredMessage="Seleccione por lo menos una boveda">
+											value="#{cajaCRUDBean.dualListModelUsuario}" var="usuario"
+											itemLabel="#{cajaCRUDBean.nombreUsuario(usuario)}" itemValue="#{usuario}"
+ 											converter="DualPickListConverter" required="true"
+											requiredMessage="Seleccione por lo menos un usuario">
 											<f:facet name="sourceCaption">Usuarios</f:facet>  
         									<f:facet name="targetCaption">Usuarios Asignados a Caja</f:facet>
 										</p:pickList>
