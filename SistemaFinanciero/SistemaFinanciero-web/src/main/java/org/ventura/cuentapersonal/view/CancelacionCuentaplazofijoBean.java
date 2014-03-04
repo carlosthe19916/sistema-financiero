@@ -2,6 +2,7 @@ package org.ventura.cuentapersonal.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -189,6 +190,9 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 				
 				teaCuenta = teaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
 				treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
+				
+				teaCuenta = teaCuenta.setScale(2,RoundingMode.HALF_DOWN);
+				treaCuenta = treaCuenta.setScale(2,RoundingMode.HALF_DOWN);
 			} catch (Exception e) {
 				JsfUtil.addErrorMessage(e, e.getMessage());			
 			}

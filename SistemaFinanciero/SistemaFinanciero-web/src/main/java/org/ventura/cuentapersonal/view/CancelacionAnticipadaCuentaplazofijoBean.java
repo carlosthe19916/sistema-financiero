@@ -176,6 +176,9 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 				
 				teaCuenta = teaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
 				treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
+				
+				teaCuenta = teaCuenta.setScale(2);
+				treaCuenta = treaCuenta.setScale(2);
 			} catch (Exception e) {
 				JsfUtil.addErrorMessage(e, e.getMessage());
 				e.printStackTrace();
