@@ -127,6 +127,11 @@ public class CajaCRUDBean implements Serializable {
 			List<Boveda> bovedas = dualListModelBoveda.getTarget();
 			caja.setBovedas(bovedas);
 			
+			List<Usuario> usuarios = dualListModelUsuario.getTarget();
+			caja.setUsuarios(usuarios);
+			
+			System.out.println("Cantidad usuarios " + usuarios.size());
+			
 			this.cajaServiceLocal.create(caja);
 
 			JsfUtil.addSuccessMessage("Caja Creada");

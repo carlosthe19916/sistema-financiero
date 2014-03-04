@@ -137,6 +137,10 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw new Exception("No se selecciono ninguna Boveda");
 		}
 		
+		if(oCaja.getUsuarios()==null){
+			throw new Exception("No se selecciono ningun Usuario");
+		}
+		
 		oCaja.setEstado(true);
 		Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
 		oCaja.setEstadoapertura(estadoapertura);

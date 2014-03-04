@@ -297,5 +297,21 @@ public class SeguridadServiceBean implements SeguridadServiceLocal {
 			throw new EJBException(e.getMessage());
 		}
 	}
+
+	@Override
+	public List<Usuario> findByNamedQuery(String namedQueryName,
+			Map<String, Object> parameters) throws Exception {
+		// TODO Auto-generated method stub
+		List<Usuario> list = null;
+		try {
+			list = usuarioDAO.findByNamedQuery(namedQueryName, parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, intÃ©ntelo nuevamente");
+		}
+		return list;
+	}
 	
 }
