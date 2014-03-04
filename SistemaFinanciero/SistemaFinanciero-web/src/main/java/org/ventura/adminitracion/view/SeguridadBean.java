@@ -151,7 +151,7 @@ public class SeguridadBean implements Serializable {
 		if (obj instanceof Usuario) {
 			Usuario usuario = (Usuario) obj;
 			Personanatural personanatural = usuario.getTrabajador().getPersonanatural();
-			return personanatural.getApellidopaterno()+" "+personanatural.getApellidomaterno() +"," +personanatural.getNombres();
+			return personanatural.getApellidopaterno()+" "+personanatural.getApellidomaterno() +"," +personanatural.getNombres()+"("+usuario.getUsername() +")";
 		} else {
 			System.out.println(obj.getClass());
 			return obj.getClass().toString();
@@ -182,8 +182,12 @@ public class SeguridadBean implements Serializable {
 			List<Grupo> grupos;
 			try {
 				grupos = seguridadServiceLocal.getGrupos(usuario);
-				for (Grupo grupo : grupos) {
-					result = grupo.getNombre().toUpperCase()+", ";
+				for (int i = 0; i < grupos.size(); i++) {
+					Grupo grupo = grupos.get(i);
+					if(i < grupos.size()-1)
+						result = result + grupo.getNombre().toUpperCase()+", ";
+					else 
+						result = result + grupo.getNombre().toUpperCase();
 				}
 				return result;
 			} catch (Exception e) {
@@ -200,8 +204,12 @@ public class SeguridadBean implements Serializable {
 			List<Rol> rols;
 			try {
 				rols = seguridadServiceLocal.getRoles(usuario);
-				for (Rol rol : rols) {
-					result = rol.getNombre().toUpperCase()+", ";
+				for (int i = 0; i < rols.size(); i++) {
+					Rol rol = rols.get(i);
+					if(i < rols.size()-1)
+						result = result + rol.getNombre().toUpperCase()+", ";
+					else 
+						result = result + rol.getNombre().toUpperCase();
 				}
 				return result;
 			} catch (Exception e) {
