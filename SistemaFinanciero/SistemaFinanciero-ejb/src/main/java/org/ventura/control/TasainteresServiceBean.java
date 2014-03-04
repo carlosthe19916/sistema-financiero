@@ -24,7 +24,6 @@ import org.ventura.tipodato.TasaCambio;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
-import org.ventura.util.math.BigDecimalMath;
 
 @Stateless
 @Local(TasainteresServiceLocal.class)
@@ -92,7 +91,7 @@ public class TasainteresServiceBean implements TasainteresServiceLocal {
 			
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("tipotasa", tipotasa);
-			parameters.put("moneda", tipomoneda);
+			parameters.put("tipomoneda", tipomoneda);
 			parameters.put("periodo", periodo);
 			parameters.put("monto", monto);
 			

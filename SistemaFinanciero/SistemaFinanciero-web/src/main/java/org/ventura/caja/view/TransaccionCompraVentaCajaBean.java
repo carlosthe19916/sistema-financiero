@@ -95,8 +95,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	@Inject
 	private TasaCambio tipoCambio;
 	@Inject
-	private 
-	LoginBean loginBean;
+	private LoginBean loginBean;
 	
 	private ViewvouchercompraventaView voucherCompraVenta;
 	

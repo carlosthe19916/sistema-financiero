@@ -20,8 +20,6 @@ import org.ventura.boundary.remote.SeguridadServiceRemote;
 import org.ventura.dao.impl.GrupoDAO;
 import org.ventura.dao.impl.RolDAO;
 import org.ventura.dao.impl.UsuarioDAO;
-import org.ventura.entity.schema.persona.Personanatural;
-import org.ventura.entity.schema.rrhh.Trabajador;
 import org.ventura.entity.schema.seguridad.Grupo;
 import org.ventura.entity.schema.seguridad.Rol;
 import org.ventura.entity.schema.seguridad.Usuario;
