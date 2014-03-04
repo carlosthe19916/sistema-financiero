@@ -33,70 +33,67 @@
 
 	<h:outputStylesheet library="css" name="main.css" />
 
-	<h:panelGroup rendered="#{transaccionCompraVentaCajaBean.loginBean.dlgLogin}">
-				<div class="modal-dialog-bg"
-					style="opacity: 0.4; width: 1366px; height: 902px;"></div>
-				<div class="modal-dialog p6n-popup"
-					style="left: 512.5px; top: 100px;">
-					<div>AUTENTICACION</div>
-					<h:form>
-						<div class="modal-dialog-content">
-							<div id="p6n-cloudsql-content">
-								<div>
-									<div
-										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-										<h:outputLabel value="Usuario y/o password invalidos"
-											rendered="#{!transaccionCompraVentaCajaBean.loginBean.autenticado and transaccionCompraVentaCajaBean.loginBean.success}" />
-									</div>
-									<div class="p6n-api-consent-screen-inputs">
-										<div class="p6n-api-consent-screen-input-section">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 150px;">USUARIO</div>
-											<div>
-												<h:inputText id="txtUsuario"
-													value="#{transaccionCompraVentaCajaBean.loginBean.usuario}"
-													required="true" requiredMessage="Ingrese usuario"
-													autocomplete="off" />
-											</div>
-										</div>
-										<div
-											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-											<h:message for="txtUsuario" />
-										</div>
-										<div class="p6n-api-consent-screen-input-section">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 150px;">PASSWORD</div>
-											<div>
-												<h:inputSecret id="txtPassword"
-													value="#{transaccionCompraVentaCajaBean.loginBean.password}"
-													required="true" requiredMessage="Ingrese password"
-													autocomplete="off" />
-											</div>
-										</div>
-										<div
-											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-											<h:message for="txtPassword" />
-										</div>
+	<h:panelGroup
+		rendered="#{transaccionCompraVentaCajaBean.loginBean.dlgLogin}">
+		<div class="modal-dialog-bg"
+			style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+		<div class="modal-dialog p6n-popup" style="left: 512.5px; top: 100px;">
+			<div>AUTENTICACION</div>
+			<h:form>
+				<div class="modal-dialog-content">
+					<div id="p6n-cloudsql-content">
+						<div>
+							<div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:outputLabel value="Usuario y/o password invalidos"
+									rendered="#{!transaccionCompraVentaCajaBean.loginBean.autenticado and transaccionCompraVentaCajaBean.loginBean.success}" />
+							</div>
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">USUARIO</div>
+									<div>
+										<h:inputText id="txtUsuario"
+											value="#{transaccionCompraVentaCajaBean.loginBean.usuario}"
+											required="true" requiredMessage="Ingrese usuario"
+											autocomplete="off" />
 									</div>
 								</div>
-								<br></br>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtUsuario" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">PASSWORD</div>
+									<div>
+										<h:inputSecret id="txtPassword"
+											value="#{transaccionCompraVentaCajaBean.loginBean.password}"
+											required="true" requiredMessage="Ingrese password"
+											autocomplete="off" />
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtPassword" />
+								</div>
 							</div>
 						</div>
-
-						<div class="modal-dialog-buttons">
-							<br />
-							<h:commandButton value="Aceptar"
-								actionListener="#{transaccionCompraVentaCajaBean.loginBean.login()}"
-								action="#{movimientosCajaBean.extornarTransaccioncaja()}"
-								styleClass="action blue" onclick="onSubmitButton();" />
-							<h:commandButton value="Cancelar"
-								action="#{transaccionCompraVentaCajaBean.loginBean.setDlgLogin(false)}"
-								immediate="true" styleClass="action" onclick="onSubmitButton();">
-							</h:commandButton>
-						</div>
-					</h:form>
+						<br></br>
+					</div>
 				</div>
-			</h:panelGroup>
+
+				<div class="modal-dialog-buttons">
+					<br />
+					<h:commandButton value="Aceptar"
+						actionListener="#{transaccionCompraVentaCajaBean.loginBean.login()}"
+						styleClass="action blue" onclick="onSubmitButton();" />
+					<h:commandButton value="Cancelar"
+						action="#{transaccionCompraVentaCajaBean.loginBean.setDlgLogin(false)}"
+						immediate="true" styleClass="action" onclick="onSubmitButton();">
+					</h:commandButton>
+				</div>
+			</h:form>
+		</div>
+	</h:panelGroup>
 
 	<h:form id="formTransaccion">
 		<p:focus context="formTransaccion"></p:focus>
@@ -332,7 +329,7 @@
 								</h:panelGroup>
 								
 								<h:panelGroup rendered="#{transaccionCompraVentaCajaBean.loginBean.autenticado}">
-									<h:inputText id="txtTipoCambio2" size="5"
+									<h:inputText id="txtTipoCambio" size="5"
 										value="#{transaccionCompraVentaCajaBean.tipoCambio}"
 										required="true" maxlenght="5"
 										requiredMessage="Ingrese el tipo de cambio">

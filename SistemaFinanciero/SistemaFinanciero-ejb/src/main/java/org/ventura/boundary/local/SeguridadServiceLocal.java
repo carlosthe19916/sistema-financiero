@@ -1,6 +1,7 @@
 package org.ventura.boundary.local;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -30,6 +31,8 @@ public interface SeguridadServiceLocal extends SeguridadServiceRemote{
 	public List<Grupo> getGrupos(Usuario usuario) throws Exception;
 	
 	public List<Usuario> getUsuariosFromGrupo(Grupo rol, Agencia agencia) throws Exception;
+	
+	public List<Usuario> findByNamedQuery(String namedQueryName, Map<String, Object> parameters) throws Exception;
 
 	/*Transaccional*/
 	public void asignarUsuarios(Grupo grupo, List<Usuario> listUsuarios) throws Exception;

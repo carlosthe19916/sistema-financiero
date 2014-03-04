@@ -24,7 +24,9 @@ import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
+import org.ventura.caja.view.LoginBean;
 import org.ventura.dependent.ComboBean;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
@@ -39,6 +41,7 @@ import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
 import org.ventura.session.CajaBean;
 import org.ventura.tipodato.Moneda;
+import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -141,6 +144,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	
 	@Inject private CajaBean cajaBean;
 	@Inject private Caja caja;
+	@Inject private LoginBean loginBean;
 	
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
@@ -156,7 +160,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		montoApertura = null;
 		periodoDeposito = null;
 		trea = null;
-		tea = null;
+		tea = new BigDecimal("0.00");
 		interesGenerado = null;
 		
 		isPersonanatural = false;
@@ -342,6 +346,21 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		}
 
 		return null;
+	}
+	
+	public void cagarTasaInteresTEA() {
+		try {
+			BigDecimal cien = new BigDecimal(100);
+			BigDecimal tasaInteres = null;
+			Tipomoneda tipomoneda = ProduceObject
+					.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			tasaInteres = tasainteresServiceLocal.getTea(tipomoneda,
+					periodoDeposito, montoApertura);
+			setTea(tasaInteres.multiply(cien));
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	public void calcularInteresGenerado(){
@@ -1545,6 +1564,14 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setCuentabancariaCreada(Cuentabancaria cuentabancariaCreada) {
 		this.cuentabancariaCreada = cuentabancariaCreada;
+	}
+
+	public LoginBean getLoginBean() {
+		return loginBean;
+	}
+
+	public void setLoginBean(LoginBean loginBean) {
+		this.loginBean = loginBean;
 	}
 
 }
