@@ -243,7 +243,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			//crear las tasas de interes para la cuenta
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
 			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
-			tasaValor = tasaValor.divide(BigDecimal.TEN.multiply(BigDecimal.TEN));
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -343,7 +342,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			//crear las tasas de interes para la cuenta
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
 			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
-			tasaValor = tasaValor.divide(BigDecimal.TEN.multiply(BigDecimal.TEN));
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -400,7 +398,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			//crear tasas de interes para la cuenta bancaria
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
 			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
-			tasaValor = tasaValor.divide(BigDecimal.TEN.multiply(BigDecimal.TEN));
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
@@ -457,7 +454,6 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			//crear tasas de interes para cuenta bancaria
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
 			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
-			tasaValor = tasaValor.divide(BigDecimal.TEN.multiply(BigDecimal.TEN));
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
