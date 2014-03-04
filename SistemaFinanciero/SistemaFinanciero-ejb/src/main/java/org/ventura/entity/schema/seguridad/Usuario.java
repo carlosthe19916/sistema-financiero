@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.rrhh.Trabajador;
 
@@ -24,7 +23,7 @@ import java.util.List;
 		@NamedQuery(name = Usuario.FIND_USER, query = "Select u From Usuario u LEFT OUTER JOIN u.trabajador t LEFT OUTER JOIN t.personanatural p LEFT OUTER JOIN t.agencia s WHERE u.estado = true AND u.username = :username"),
 		@NamedQuery(name = Usuario.find_byusername_active, query = "SELECT u FROM Usuario u WHERE u.username = :username AND u.estado = TRUE"),
 		@NamedQuery(name = Usuario.fadministrador_idagencia_usuario_password, query = "Select u From Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a WHERE a.idagencia = :idagencia AND u.username = :usuario AND u.password = :password AND u.estado = TRUE"),
-		@NamedQuery(name = Usuario.f_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a LEFT JOIN u.grupos g LEFT JOIN g.rols r WHERE a.idagencia= :idagencia AND u.estado = TRUE ORDER BY u.idusuario"),
+		@NamedQuery(name = Usuario.f_idagencia, query = "SELECT DISTINCT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a LEFT JOIN u.grupos g LEFT JOIN g.rols r WHERE a.idagencia= :idagencia AND u.estado = TRUE ORDER BY u.idusuario"),
 		@NamedQuery(name = Usuario.f_idrol_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND r.idrol = :idrol AND u.estado = TRUE ORDER BY u.idusuario"),
 		@NamedQuery(name = Usuario.f_idgrupo_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND g.idgrupo = :idgrupo AND u.estado = TRUE ORDER BY u.idusuario") })
 public class Usuario implements Serializable {
