@@ -356,6 +356,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					.getTipomoneda(TipomonedaType.NUEVO_SOL);
 			tasaInteres = tasainteresServiceLocal.getTea(tipomoneda,
 					periodoDeposito, montoApertura);
+			tasaInteres = tasaInteres.setScale(2);
 			setTea(tasaInteres.multiply(cien));
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
