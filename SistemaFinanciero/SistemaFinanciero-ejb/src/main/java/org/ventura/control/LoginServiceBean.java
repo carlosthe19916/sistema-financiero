@@ -1,5 +1,6 @@
 package org.ventura.control;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -64,6 +65,12 @@ public class LoginServiceBean implements LoginServiceLocal {
 		List<Modulo> result = null;
 		try {
 			result = moduloDAO.findByNamedQuery(Modulo.ALL_FOR_USER, parameters);
+			for (Modulo modulo : result) {
+				Rol rol = modulo.getRols().get(0);
+				List<Rol> rolesFinal = new ArrayList<Rol>();
+				rolesFinal.add(rol);
+				modulo.setRols(rolesFinal);
+			}
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
