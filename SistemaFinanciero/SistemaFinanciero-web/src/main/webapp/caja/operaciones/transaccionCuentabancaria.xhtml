@@ -130,17 +130,22 @@
 														<tr style="vertical-align: center;">
 															<td colspan="1"
 																style="text-align: center; font-weight: bold; font-size: 12px;">
-																<p:graphicImage name="eye.png" library="images" />
+																<p:graphicImage name="logo_coop_voucher.png" library="images/logo_coop" />
 															</td>
 															<td colspan="3"
-																style="text-align: center; font-weight: bold; font-size: 12px;">COOPERATIVA
+																style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">COOPERATIVA
 																DE AHORRO Y CREDITO VENTURA</td>
+														</tr>
+														<tr>
+															<td colspan="1"
+																style="width: 25%; font-weight: bold; font-size: 12px;">Nº TRANS:</td>
+															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.idTransaccioncaja}</td>
 														</tr>
 														<tr>
 															<td colspan="1"
 																style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 																OP:</td>
-															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.numeroOperacion}-#{transaccionCuentabancariaCajaBean.vouchercajaView.idTransaccioncaja}</td>
+															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.returnNumOperacion()}</td>
 															<td colspan="1"
 																style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 															<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionCaja}</td>

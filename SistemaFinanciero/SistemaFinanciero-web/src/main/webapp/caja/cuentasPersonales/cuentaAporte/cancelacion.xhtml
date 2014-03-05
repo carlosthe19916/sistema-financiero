@@ -158,17 +158,22 @@
 							<tr style="vertical-align: center;">
 								<td colspan="1"
 									style="text-align: center; font-weight: bold; font-size: 12px;">
-									<p:graphicImage name="eye.png" library="images" />
+									<p:graphicImage name="logo_coop_voucher.png" library="images/logo_coop" />
 								</td>
 								<td colspan="3"
-									style="text-align: center; font-weight: bold; font-size: 12px;">COOPERATIVA
-									DE AHORRO Y CREDITO VENTURA</td>
+									style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle;">COOPERATIVA
+									DE AHORRO Y CREDITO CAJA VENTURA</td>
+							</tr>
+							<tr>
+								<td colspan="1"
+									style="width: 25%; font-weight: bold; font-size: 12px;">Nº TRANS:</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
 							</tr>
 							<tr>
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 									OP:</td>
-								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.numerooperacionTransaccioncaja}-#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
+								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaaporteBean.returnNumOperacion()}</td>
 								<td colspan="1"
 									style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 								<td colspan="1" style="width: 25%; font-size: 12px;">#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.denominacionCaja}</td>
@@ -215,10 +220,6 @@
 								<td colspan="3" style="font-size: 11px;">#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.persona}</td>
 							</tr>
 							<tr>
-								<td colspan="1" style="font-weight: bold; font-size: 11px;">REF:</td>
-								<td colspan="3" style="font-size: 11px;">#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.referenciaTransaccioncuentaaporte}</td>
-							</tr>
-							<tr>
 								<td colspan="1" style="font-weight: bold; font-size: 11px;">MONEDA:</td>
 								<td colspan="3" style="font-size: 11px;">#{cancelacionCuentaaporteBean.vouchercajaCuentaaporteView.denominacionTipomonedaTransaccion}</td>
 							</tr>
@@ -235,7 +236,7 @@
 							</tr>
 							<tr>
 								<td colspan="4" style="font-size: 11px; text-align: center;"><h:outputText
-										value="Firma Titular(es)" /></td>
+										value="Firma Socio" /></td>
 							</tr>
 
 							<tr>
