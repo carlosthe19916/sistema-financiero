@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Sucursal" />
+		</ui:define>
+
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+			<br></br>
+
+			<div style="margin-left: 50px;">
+				<div>
+					<div>
+						<div class="p6n-api-consent-screen-title">Sucursales</div>
+					</div>
+				</div>
+			</div>
+
+			<br />
+			<!-- PERSONA NATURAL -->
+			<h:form>
+				<div class="buttons p6n-api-consent-screen-inputs"
+					style="margin-left: 39px;">
+					<div class="tiptip">
+						<h:commandLink action="create?faces-redirect=true"
+							styleClass="button left" title="Nueva bóveda" target="_blank">
+							<span class="icon icon3"></span>
+							<span class="label">Nuevo</span>
+						</h:commandLink>
+					</div>
+				</div>
+				<div class="p6n-api-consent-screen-inputs">
+					<div class="p6n-content ng-scope">
+						<div class="p6n-content-no-nav ng-scope">
+							<div class="p6n-main-pane ng-isolate-scope"
+								style="margin-top: 0px;">
+								<div>
+									<div class="ng-scope">
+										<p:dataTable var="sucursal"
+											value="#{administrarSucursalBean.tablaSucursal.rows}"
+											selectionMode="single"
+											selection="#{administrarSucursalBean.tablaSucursal.selectedRow}"
+											rowKey="#{sucursal}" rowIndexVar="row">
+											<p:column headerText="Nro" width="5%"
+												style="text-align:center;">
+												<h:outputText value="#{row + 1}" />
+											</p:column>
+											<p:column headerText="DENOMINACION">
+												<h:outputText value="#{sucursal.denominacion}" />
+											</p:column>
+											<p:column headerText="ABREVIATURA">
+												<h:outputText value="#{sucursal.abreviatura}" />
+											</p:column>
+											<p:column headerText="ESTADO">
+												<h:outputText
+													value="#{sucursal.estado ? 'Activo' : 'Inactivo'}" />
+											</p:column>
+											<p:column headerText="STATUS" style="text-align:center;">
+												<h:button value="Edit" outcome="update"
+													styleClass="action green" style="margin: 0px;"
+													target="_blank">
+													<f:param name="id" value="#{sucursal.idsucursal}" />
+												</h:button>
+											</p:column>
+										</p:dataTable>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+			<!-- END PERSONA NATURAL -->
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>
