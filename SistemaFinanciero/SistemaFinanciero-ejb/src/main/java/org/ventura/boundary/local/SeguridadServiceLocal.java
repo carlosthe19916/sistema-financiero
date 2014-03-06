@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.SeguridadServiceRemote;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.seguridad.Grupo;
 import org.ventura.entity.schema.seguridad.Rol;
 import org.ventura.entity.schema.seguridad.Usuario;
@@ -31,8 +32,6 @@ public interface SeguridadServiceLocal extends SeguridadServiceRemote{
 	public List<Grupo> getGrupos(Usuario usuario) throws Exception;
 	
 	public List<Usuario> getUsuariosFromGrupo(Grupo rol, Agencia agencia) throws Exception;
-	
-	public List<Usuario> findByNamedQuery(String namedQueryName, Map<String, Object> parameters) throws Exception;
 
 	/*Transaccional*/
 	public void asignarUsuarios(Grupo grupo, List<Usuario> listUsuarios) throws Exception;
@@ -43,5 +42,6 @@ public interface SeguridadServiceLocal extends SeguridadServiceRemote{
 
 	public void update(Usuario usuario) throws Exception;
 
-	
+	/*caja*/
+	public List<Usuario> findByNamedQuery(String namedQueryName, Map<String, Object> parameters) throws Exception;
 }

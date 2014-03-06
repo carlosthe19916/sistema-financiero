@@ -133,17 +133,22 @@
 													<tr style="vertical-align: center;">
 														<td colspan="1"
 															style="text-align: center; font-weight: bold; font-size: 12px;">
-															<p:graphicImage name="eye.png" library="images" />
+															<p:graphicImage name="logo_coop_voucher.png" library="images/logo_coop" />
 														</td>
 														<td colspan="3"
-															style="text-align: center; font-weight: bold; font-size: 12px;">COOPERATIVA
-															DE AHORRO Y CREDITO VENTURA</td>
+															style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">COOPERATIVA
+															DE AHORRO Y CREDITO CAJA VENTURA</td>
+													</tr>
+													<tr>
+														<td colspan="1"
+															style="width: 25%; font-weight: bold; font-size: 12px;">Nº TRANS:</td>
+														<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
 													</tr>
 													<tr>
 														<td colspan="1"
 															style="width: 25%; font-weight: bold; font-size: 12px;">Nº
 															OP:</td>
-														<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.numerooperacionTransaccioncaja}-#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
+														<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentaaporteCajaBean.returnNumOperacion()}</td>
 														<td colspan="1"
 															style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
 														<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.denominacionCaja}</td>
@@ -203,7 +208,7 @@
 													</tr>
 												</table>
 
-												<table style="width: 230px; border: solid 1px #E9E6E6;">
+												<table style="width: 245px; border: solid 1px #E9E6E6;">
 													<tr>
 														<td colspan="1"
 															style="font-weight: bold; font-size: 11px; width: 25%;">S.

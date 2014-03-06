@@ -118,6 +118,21 @@ public class CancelacionCuentaaporteBean implements Serializable{
 		}
 	}
 	
+	public String returnNumOperacion(){
+		String numOperacion = null;
+		Integer numeroop = vouchercajaCuentaaporteView.getNumerooperacionTransaccioncaja();
+		if (numeroop > 0 && numeroop < 10) {
+			numOperacion = "000" + numeroop;
+		}if (numeroop >= 10 && numeroop < 100) {
+			numOperacion = "00" + numeroop;
+		}if (numeroop >= 100 && numeroop < 1000) {
+			numOperacion = "0" + numeroop;
+		}if (numeroop >= 1000) {
+			numOperacion = "" + numeroop;
+		}
+		return numOperacion;
+	}
+	
 	public String getStringTime(Date date) {
 		if(date != null){
 			SimpleDateFormat ft = new SimpleDateFormat ("hh:mm:ss");

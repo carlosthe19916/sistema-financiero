@@ -48,6 +48,24 @@
 								<div class="modal-dialog-bg"
 									style="opacity: 0.4; width: 1366px; height: 702px;"></div>
 							</h:panelGroup>
+							<h:panelGroup rendered="#{cajaCRUDBean.update}">
+								<div class="p6n-butterbar" style="left: 516px;">
+									<div>
+										<div>
+											<p>
+												<h:messages />
+											</p>
+										</div>
+										<div style="text-align: center;">
+											<h:commandLink value="Aceptar"
+												action="list?faces-redirect=true" immediate="true"
+												styleClass="p6n-api-access-in-page-error-link" />
+										</div>
+									</div>
+								</div>
+								<div class="modal-dialog-bg"
+									style="opacity: 0.4; width: 1366px; height: 702px;"></div>
+							</h:panelGroup>
 
 							<div class="p6n-api-consent-screen-inputs">
 								<div class="p6n-api-consent-screen-input-section">
@@ -96,12 +114,33 @@
 											disabled="#{!cajaCRUDBean.isValidBean()}" var="boveda"
 											itemLabel="#{boveda}" itemValue="#{boveda}"
 											converter="DualPickListConverter" required="true"
-											requiredMessage="Seleccione por lo menos una boveda" />
+											requiredMessage="Seleccione por lo menos una boveda">
+											<f:facet name="sourceCaption">Bovedas No Asignados</f:facet>  
+        									<f:facet name="targetCaption">Bovedas Asignados</f:facet>
+										</p:pickList>
 									</div>
 								</div>
 								<div
 									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 									<h:message for="pickBovedas" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">USUARIOS ASIGNADOS
+										</div>
+									<div>
+										<p:pickList id="pickListUsuarios"
+											value="#{cajaCRUDBean.dualListModelUsuario}" var="usuario"
+											itemLabel="#{cajaCRUDBean.nombreUsuario(usuario)}" itemValue="#{usuario}"
+ 											converter="UsuarioDualPickListConverter"
+											requiredMessage="Seleccione por lo menos un usuario">
+											<f:facet name="sourceCaption">Usuarios No Asignados</f:facet>  
+        									<f:facet name="targetCaption">Usuarios Asignados</f:facet>
+										</p:pickList>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="pickListUsuarios" />
 								</div>
 								<div class="sf-buttons" style="float: left;">
 									<h:commandButton action="#{cajaCRUDBean.updateCaja()}"
