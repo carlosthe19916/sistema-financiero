@@ -26,7 +26,8 @@ import java.util.List;
 		@NamedQuery(name = Usuario.f_idagencia, query = "SELECT DISTINCT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a LEFT JOIN u.grupos g LEFT JOIN g.rols r WHERE a.idagencia= :idagencia AND u.estado = TRUE ORDER BY u.idusuario"),
 		@NamedQuery(name = Usuario.f_idrol_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND r.idrol = :idrol AND u.estado = TRUE ORDER BY u.idusuario"),
 		@NamedQuery(name = Usuario.f_idgrupo_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND g.idgrupo = :idgrupo AND u.estado = TRUE ORDER BY u.idusuario"),
-		@NamedQuery(name = Usuario.ALL_USER_ACTIVE_BY_AGENCIA, query = "Select u from Usuario u where u.estado = true and u.trabajador.idagencia = :idagencia order by u.trabajador.personanatural.apellidopaterno")})
+		@NamedQuery(name = Usuario.ALL_USER_ACTIVE_BY_AGENCIA, query = "Select u from Usuario u where u.estado = true and u.trabajador.idagencia = :idagencia order by u.trabajador.personanatural.apellidopaterno"),
+		@NamedQuery(name = Usuario.ALL_USER_FOR_CAJA, query = "select u from Usuario u inner join u.cajas c where c.idcaja = :idcaja")})
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,6 +44,7 @@ public class Usuario implements Serializable {
 	public final static String f_idgrupo_idagencia = "org.ventura.entity.schema.seguridad.Usuario.f_idgrupo_idagencia";
 	
 	public final static String ALL_USER_ACTIVE_BY_AGENCIA = "org.ventura.model.Usuario.ALL_USER_ACTIVE_BY_AGENCIA";
+	public final static String ALL_USER_FOR_CAJA = "org.ventura.entity.schema.caja.Usuario.ALL_USER_FOR_CAJA";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

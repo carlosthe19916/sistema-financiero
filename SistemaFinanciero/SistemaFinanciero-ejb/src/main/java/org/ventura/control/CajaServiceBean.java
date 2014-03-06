@@ -34,6 +34,7 @@ import org.ventura.dao.impl.HistorialcajaDAO;
 import org.ventura.dao.impl.PendienteCajaDAO;
 import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
+import org.ventura.dao.impl.UsuarioDAO;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.BovedaCaja;
@@ -50,6 +51,7 @@ import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.CajaTransaccionesBovedaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.RollbackFailureException;
@@ -83,6 +85,8 @@ public class CajaServiceBean implements CajaServiceLocal{
 	private DenominacionmonedaDAO denominacionmonedaDAO;
 	@EJB
 	private DetallehistorialcajaDAO detallehistorialcajaDAO;
+	@EJB 
+	private UsuarioDAO usuarioDAO;
 	
 	@EJB private TransaccioncuentabancariaDAO transaccioncuentabancariaDAO;
 	@EJB private TransaccioncuentaaporteDAO transaccioncuentaaporteDAO;
@@ -635,6 +639,20 @@ public class CajaServiceBean implements CajaServiceLocal{
 		return bovedas;
 	}
 	
+	@Override
+	public List<Usuario> getUsuariosFromCaja(Caja oCaja) throws Exception{
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("idcaja", oCaja.getIdcaja());
+		
+		List<Usuario> usuarios = null;
+		try {
+			usuarios = usuarioDAO.findByNamedQuery(Usuario.ALL_USER_FOR_CAJA, parameters);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return usuarios;
+	}
 	
 	public List<Detallehistorialcaja> getDetalleHistorialCajaByTipoMoneda(Tipomoneda tipomoneda, Historialcaja historialcaja) throws RollbackFailureException, Exception {
 		Map<String, Object> parameters = new HashMap<String, Object>();

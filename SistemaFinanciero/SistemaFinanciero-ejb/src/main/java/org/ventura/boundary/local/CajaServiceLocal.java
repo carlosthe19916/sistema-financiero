@@ -18,6 +18,7 @@ import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.CajaTransaccionesBovedaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.RollbackFailureException;
 
@@ -76,7 +77,8 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	
 	/**
 	 * No transaccional*/
-	
 	public List<CajaTransaccionesBovedaView> getTransaccionesDelDia(Caja caja) throws Exception;
 	
+	/*Usuarios*/
+	public List<Usuario> getUsuariosFromCaja(Caja oCaja) throws Exception;
 }

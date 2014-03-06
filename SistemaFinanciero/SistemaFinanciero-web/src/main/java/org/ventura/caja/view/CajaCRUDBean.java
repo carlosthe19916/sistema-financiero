@@ -51,6 +51,8 @@ public class CajaCRUDBean implements Serializable {
 	private DualListModel<Boveda> dualListModelBoveda;
 	private DualListModel<Usuario> dualListModelUsuario;
 	
+	private boolean update;
+	
 	public CajaCRUDBean() {
 		//dualList for Boveda
 		dualListModelBoveda = new DualListModel<Boveda>();
@@ -65,6 +67,7 @@ public class CajaCRUDBean implements Serializable {
 	
 	@PostConstruct
 	private void initialize() {
+		update = false;
 		this.agencia = agenciaBean.getAgencia();
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("idagencia", agencia.getIdagencia());
@@ -104,11 +107,18 @@ public class CajaCRUDBean implements Serializable {
 				
 				List<Boveda> target = cajaServiceLocal.getBovedas(caja);
 				List<Boveda> source = dualListModelBoveda.getSource();
-		
+				
 				source.removeAll(target);
 				dualListModelBoveda.setTarget(target);
-				
 				dualListModelBoveda = new DualListModel<Boveda>(source,target);
+				
+				List<Usuario> targetUsu = cajaServiceLocal.getUsuariosFromCaja(caja);
+				List<Usuario> sourceUsu = dualListModelUsuario.getSource();
+				
+				sourceUsu.removeAll(targetUsu);
+				dualListModelUsuario.setTarget(targetUsu);
+				dualListModelUsuario = new DualListModel<Usuario>(sourceUsu,targetUsu);
+				
 			} else {
 				JsfUtil.addErrorMessage("No se pudo recuperar Caja");
 			}			
@@ -130,8 +140,6 @@ public class CajaCRUDBean implements Serializable {
 			List<Usuario> usuarios = dualListModelUsuario.getTarget();
 			caja.setUsuarios(usuarios);
 			
-			System.out.println("Cantidad usuarios " + usuarios.size());
-			
 			this.cajaServiceLocal.create(caja);
 
 			JsfUtil.addSuccessMessage("Caja Creada");
@@ -141,7 +149,7 @@ public class CajaCRUDBean implements Serializable {
 		}		
 	}
 	
-	public String updateCaja() throws Exception {
+	public void updateCaja() throws Exception {
 		Caja caja = this.caja;
 		try {
 			caja.setDenominacion(denominacion);
@@ -149,14 +157,16 @@ public class CajaCRUDBean implements Serializable {
 			
 			List<Boveda> bovedas = dualListModelBoveda.getTarget();
 			caja.setBovedas(bovedas);
+			
+			List<Usuario> usuarios = dualListModelUsuario.getTarget();
+			caja.setUsuarios(usuarios);
+			
 			this.cajaServiceLocal.update(caja);
-
-			JsfUtil.addSuccessMessage("Caja Actualizada");
+			update = true;
+			JsfUtil.addSuccessMessage("Caja Actualizada Correctamente");
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, "Error al actualizar Caja");
-			return "failure";
 		}
-		return "success";
 	}
 
 	public boolean isValidBean(){
@@ -221,6 +231,14 @@ public class CajaCRUDBean implements Serializable {
 
 	public void setDualListModelUsuario(DualListModel<Usuario> dualListModelUsuario) {
 		this.dualListModelUsuario = dualListModelUsuario;
+	}
+
+	public boolean isUpdate() {
+		return update;
+	}
+
+	public void setUpdate(boolean update) {
+		this.update = update;
 	}
 
 }
