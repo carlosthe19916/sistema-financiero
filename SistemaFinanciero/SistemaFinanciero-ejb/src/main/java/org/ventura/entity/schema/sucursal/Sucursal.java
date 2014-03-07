@@ -1,9 +1,11 @@
 package org.ventura.entity.schema.sucursal;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.maestro.Ubigeo;
 
 /**
@@ -37,6 +39,9 @@ public class Sucursal implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idubigeo")
 	private Ubigeo ubigeo;
+
+	@OneToMany(mappedBy = "sucursal")
+	private List<Agencia> agencias;
 
 	public Sucursal() {
 	}
@@ -93,5 +98,13 @@ public class Sucursal implements Serializable {
 
 	public void setUbigeo(Ubigeo ubigeo) {
 		this.ubigeo = ubigeo;
+	}
+
+	public List<Agencia> getAgencias() {
+		return agencias;
+	}
+
+	public void setAgencias(List<Agencia> agencias) {
+		this.agencias = agencias;
 	}
 }

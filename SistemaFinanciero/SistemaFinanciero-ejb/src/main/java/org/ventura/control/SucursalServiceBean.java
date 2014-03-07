@@ -1,8 +1,11 @@
 package org.ventura.control;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -16,7 +19,11 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.boundary.remote.SucursalServiceRemote;
+import org.ventura.dao.impl.AgenciaDAO;
 import org.ventura.dao.impl.SucursalDAO;
+import org.ventura.entity.schema.persona.Accionista;
+import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.schema.sucursal.Sucursal;
 import org.ventura.util.logger.Log;
 
@@ -31,12 +38,22 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 	private Log log;
 	
 	private @EJB SucursalDAO sucursalDAO;
-
+	private @EJB AgenciaDAO agenciaDAO;
+	
 	@Override
 	public void create(Sucursal sucursal) throws Exception {
 		try {
+			List<Agencia> listAgenciasView = sucursal.getAgencias();
+			
 			sucursal.setEstado(true);
 			sucursalDAO.create(sucursal);
+		
+			for (Agencia agencia : listAgenciasView) {
+				agencia.setEstado(true);
+				agencia.setSucursal(sucursal);
+				agenciaDAO.create(agencia);
+			}
+
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -47,8 +64,50 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 
 	@Override
 	public void update(Sucursal sucursal) throws Exception {
-		try {
-			sucursalDAO.update(sucursal);
+		try {			
+			Sucursal sucursalDB = sucursalDAO.find(sucursal.getIdsucursal());
+			List<Agencia> listAgenciasView = sucursal.getAgencias();
+			List<Agencia> listAgenciasDB = sucursalDB.getAgencias();
+			
+			
+			Map<Integer, Agencia> mapFromView = new HashMap<Integer, Agencia>();
+			for (Agencia agencia : listAgenciasView) {				
+				mapFromView.put(agencia.getIdagencia(), agencia);
+			}
+			
+			Map<Integer, Agencia> mapFromDB = new HashMap<Integer, Agencia>();
+			for (Agencia agencia : listAgenciasDB) {
+				mapFromDB.put(agencia.getIdagencia(), agencia);
+			}
+			
+			Set<Integer> union = new HashSet<Integer>(mapFromView.keySet());
+			union.addAll(mapFromDB.keySet());
+			
+			Set<Integer> intersection = new HashSet<Integer>(mapFromView.keySet());
+			intersection.retainAll(mapFromDB.keySet());
+			
+			Set<Integer> restDelete = new HashSet<Integer>(union);
+			restDelete.removeAll(mapFromView.keySet());
+				
+			for (Integer key : restDelete) {
+				Agencia agencia = mapFromDB.get(key);
+				agenciaDAO.delete(agencia);
+			}
+			
+			for (Integer key : intersection) {
+				Agencia agencia = mapFromView.get(key);
+				agenciaDAO.update(agencia);
+			}
+			
+			for (Agencia agencia : listAgenciasView) {
+				if(agencia.getIdagencia() == null){
+					agencia.setEstado(true);
+					agencia.setSucursal(sucursalDB);
+					agenciaDAO.create(agencia);
+				}	
+			}
+			
+			sucursalDAO.update(sucursal);			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -75,6 +134,11 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 		Sucursal sucursal;
 		try {
 			sucursal = sucursalDAO.find(idsucursal);
+			List<Agencia> listAgencias = new ArrayList<Agencia>();			
+			for (Agencia agencia : sucursal.getAgencias()) {
+				listAgencias.add(agencia); 
+			}
+			sucursal.setAgencias(listAgencias);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

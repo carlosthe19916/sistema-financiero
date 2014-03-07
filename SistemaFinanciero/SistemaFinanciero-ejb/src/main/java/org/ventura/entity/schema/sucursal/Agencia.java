@@ -15,6 +15,7 @@ public class Agencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idagencia;
 
@@ -30,8 +31,9 @@ public class Agencia implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable = false)
-	private Integer idsucursal;
+	@ManyToOne
+	@JoinColumn(name = "idsucursal")
+	private Sucursal sucursal;
 
 	public Agencia() {
 	}
@@ -76,25 +78,31 @@ public class Agencia implements Serializable {
 		this.estado = estado;
 	}
 
-	public Integer getIdsucursal() {
-		return this.idsucursal;
-	}
-
-	public void setIdsucursal(Integer idsucursal) {
-		this.idsucursal = idsucursal;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Agencia)) {
 			return false;
 		}
 		final Agencia other = (Agencia) obj;
-		return other.getIdagencia() == this.idagencia ? true : false;
+		if(this.idagencia != null && other.idagencia != null)
+			return other.getIdagencia().equals(this.idagencia) ? true : false;
+		else
+			return other.hashCode() == this.hashCode() ? true : false;
 	}
 
 	@Override
 	public int hashCode() {
-		return idagencia;
+		if(idagencia != null)
+			return idagencia;
+		else
+			return denominacion.hashCode()+abreviatura.hashCode()+codigoagencia.hashCode();
+	}
+
+	public Sucursal getSucursal() {
+		return sucursal;
+	}
+
+	public void setSucursal(Sucursal sucursal) {
+		this.sucursal = sucursal;
 	}
 }

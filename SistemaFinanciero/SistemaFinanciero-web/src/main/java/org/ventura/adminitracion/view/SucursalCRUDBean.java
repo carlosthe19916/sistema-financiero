@@ -1,7 +1,6 @@
 package org.ventura.adminitracion.view;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,14 +10,13 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.swing.text.TabableView;
 
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.SucursalServiceLocal;
-import org.ventura.dependent.ComboBean;
-import org.ventura.entity.schema.caja.Boveda;
-import org.ventura.entity.schema.caja.Caja;
+import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.maestro.Ubigeo;
-import org.ventura.entity.schema.seguridad.Usuario;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.schema.sucursal.Sucursal;
 import org.venturabank.util.JsfUtil;
 
@@ -34,6 +32,14 @@ public class SucursalCRUDBean implements Serializable {
 	private String abreviatura;
 	private String denominacion;
 	private boolean estado;
+	
+	@Inject private TablaBean<Agencia> tablaAgencias;
+	private boolean dlgAgencia;
+	private boolean isEditingAgencia;
+	private String denominacionAgencia;
+	private String abreviaturaAgencia;
+	private String codigoAgencia;
+	private Agencia agencia;
 	
 	private Map<String, String> mapDepartamentos;
 	private Map<String, String> mapProvincias;
@@ -52,6 +58,8 @@ public class SucursalCRUDBean implements Serializable {
 		succes = false;
 		failure = false;
 		idsucursal = -1;
+		
+		dlgAgencia = false;
 		
 		mapDepartamentos = new HashMap<String, String>();
 		mapProvincias = new HashMap<String, String>();
@@ -77,6 +85,9 @@ public class SucursalCRUDBean implements Serializable {
 			this.abreviatura = sucursal.getAbreviatura();
 			Ubigeo ubigeo = sucursal.getUbigeo();
 			
+			List<Agencia> listAgencias = sucursal.getAgencias();
+			tablaAgencias.setRows(listAgencias);
+			
 			this.idDepartamentoSelected = ubigeo.getIdubigeo().substring(0,2);
 			actualizarProvincias();
 			this.idProvinciaSelected = ubigeo.getIdubigeo().substring(2,4);
@@ -99,6 +110,9 @@ public class SucursalCRUDBean implements Serializable {
 			ubigeo.setIdubigeo(idDepartamentoSelected+idProvinciaSelected+idDistritoSelected);
 			sucursal.setUbigeo(ubigeo);
 			
+			List<Agencia> listAgencias = tablaAgencias.getAllRows();
+			sucursal.setAgencias(listAgencias);
+			
 			this.sucursalServiceLocal.create(sucursal);
 			succes = true;		
 		} catch (Exception e) {
@@ -107,7 +121,7 @@ public class SucursalCRUDBean implements Serializable {
 		}	
 	}
 	
-	public void updateUsuario() throws Exception {
+	public void updateSucursal() throws Exception {
 		try {
 			sucursal.setDenominacion(denominacion);
 			sucursal.setAbreviatura(abreviatura);
@@ -115,6 +129,9 @@ public class SucursalCRUDBean implements Serializable {
 			Ubigeo ubigeo = new Ubigeo();
 			ubigeo.setIdubigeo(idDepartamentoSelected+idProvinciaSelected+idDistritoSelected);
 			sucursal.setUbigeo(ubigeo);
+			
+			List<Agencia> listAgencias = tablaAgencias.getAllRows();
+			sucursal.setAgencias(listAgencias);
 			
 			this.sucursalServiceLocal.update(sucursal);
 			succes = true;		
@@ -124,6 +141,55 @@ public class SucursalCRUDBean implements Serializable {
 		}	
 	}
 
+	public void saveAgencia(){
+		if(isEditingAgencia == false){
+			addAgencia();
+		} else {
+			editAgencia();
+		}
+		dlgAgencia = false;
+		denominacionAgencia = "";
+		abreviaturaAgencia = "";
+		codigoAgencia ="";
+		isEditingAgencia = false;
+	}
+	
+	public void addAgencia(){
+		Agencia agencia = new Agencia();
+		
+		agencia.setDenominacion(denominacionAgencia);
+		agencia.setAbreviatura(abreviaturaAgencia);
+		agencia.setCodigoagencia(codigoAgencia);
+		agencia.setEstado(true);
+		
+		tablaAgencias.addRow(agencia);
+	}
+	
+	public void editAgencia(){
+		this.agencia.setDenominacion(denominacionAgencia);
+		this.agencia.setAbreviatura(abreviaturaAgencia);
+		this.agencia.setCodigoagencia(codigoAgencia);
+	}
+	
+	public void deleteAgencia(Agencia agencia){
+		tablaAgencias.removeRow(agencia);
+	}
+	
+	public void openDialogForCreateAgencia(){
+		dlgAgencia = true;
+		isEditingAgencia = false;
+	}
+	
+	public void openDialogForEditAgencia(Agencia agencia){
+		dlgAgencia = true;
+		isEditingAgencia = true;
+		
+		this.agencia = agencia;
+		denominacionAgencia = agencia.getDenominacion();
+		abreviaturaAgencia = agencia.getAbreviatura();
+		codigoAgencia = agencia.getCodigoagencia();
+	}
+	
 	
 	public void actualizarProvincias(){
 		try {
@@ -262,6 +328,62 @@ public class SucursalCRUDBean implements Serializable {
 
 	public void setSucursal(Sucursal sucursal) {
 		this.sucursal = sucursal;
+	}
+
+	public TablaBean<Agencia> getTablaAgencias() {
+		return tablaAgencias;
+	}
+
+	public void setTablaAgencias(TablaBean<Agencia> tablaAgencias) {
+		this.tablaAgencias = tablaAgencias;
+	}
+
+	public boolean isDlgAgencia() {
+		return dlgAgencia;
+	}
+
+	public void setDlgAgencia(boolean dlgAgencia) {
+		this.dlgAgencia = dlgAgencia;
+	}
+
+	public String getDenominacionAgencia() {
+		return denominacionAgencia;
+	}
+
+	public void setDenominacionAgencia(String denominacionAgencia) {
+		this.denominacionAgencia = denominacionAgencia;
+	}
+
+	public String getAbreviaturaAgencia() {
+		return abreviaturaAgencia;
+	}
+
+	public void setAbreviaturaAgencia(String abreviaturaAgencia) {
+		this.abreviaturaAgencia = abreviaturaAgencia;
+	}
+
+	public String getCodigoAgencia() {
+		return codigoAgencia;
+	}
+
+	public void setCodigoAgencia(String codigoAgencia) {
+		this.codigoAgencia = codigoAgencia;
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
+	}
+
+	public boolean isEditingAgencia() {
+		return isEditingAgencia;
+	}
+
+	public void setEditingAgencia(boolean isEditingAgencia) {
+		this.isEditingAgencia = isEditingAgencia;
 	}
 
 

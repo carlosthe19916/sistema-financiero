@@ -10,7 +10,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+		<f:viewAction action="#{menuMB.updateMenu(30)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -41,7 +41,8 @@
 						<div class="modal-dialog-buttons">
 							<h:commandButton value="Crear nuevo"
 								action="create?faces-redirect=true" />
-							<h:commandButton value="Volver" action="list" immediate="true" />
+							<h:commandButton value="Volver" action="list?faces-redirect=true"
+								immediate="true" />
 						</div>
 					</div>
 				</h:form>
@@ -60,7 +61,7 @@
 				</h:form>
 			</h:panelGroup>
 
-			<h:form>
+			<h:form id="formSucursal">
 
 				<br />
 				<div>
@@ -104,68 +105,126 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div>
 											<div class="p6n-api-consent-screen-input-section">
-												<div class="p6n-api-consent-screen-label">DEPARTAMENTO</div>
-												<div>
-													<h:selectOneMenu id="cmbDepartamento"
-														value="#{sucursalCRUDBean.idDepartamentoSelected}"
-														required="true"
-														requiredMessage="Seleccione tipo departamento">
-														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
-														<f:selectItems
-															value="#{sucursalCRUDBean.mapDepartamentos.entrySet()}"
-															var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-														<f:ajax
-															listener="#{sucursalCRUDBean.actualizarProvincias()}"
-															execute="@this" render="cmbProvincia cmbDistrito"></f:ajax>
-													</h:selectOneMenu>
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">DEPARTAMENTO</div>
+													<div>
+														<h:selectOneMenu id="cmbDepartamento"
+															value="#{sucursalCRUDBean.idDepartamentoSelected}"
+															required="true"
+															requiredMessage="Seleccione tipo departamento">
+															<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+															<f:selectItems
+																value="#{sucursalCRUDBean.mapDepartamentos.entrySet()}"
+																var="val" itemLabel="#{val.value}"
+																itemValue="#{val.key}" />
+															<f:ajax
+																listener="#{sucursalCRUDBean.actualizarProvincias()}"
+																execute="@this" render="cmbProvincia cmbDistrito"></f:ajax>
+														</h:selectOneMenu>
+													</div>
+												</div>
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">PROVINCIA</div>
+													<div>
+														<h:selectOneMenu id="cmbProvincia"
+															value="#{sucursalCRUDBean.idProvinciaSelected}"
+															required="true"
+															requiredMessage="Seleccione tipo provincia">
+															<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+															<f:selectItems
+																value="#{sucursalCRUDBean.mapProvincias.entrySet()}"
+																var="val" itemLabel="#{val.value}"
+																itemValue="#{val.key}" />
+															<f:ajax
+																listener="#{sucursalCRUDBean.actualizarDistritos()}"
+																execute="@this" render="cmbDistrito"></f:ajax>
+														</h:selectOneMenu>
+													</div>
+												</div>
+												<div style="display: inline-block; width: 190px;">
+													<div class="p6n-api-consent-screen-label">DISTRITO</div>
+													<div>
+														<h:selectOneMenu id="cmbDistrito"
+															value="#{sucursalCRUDBean.idDistritoSelected}"
+															required="true"
+															requiredMessage="Seleccione tipo provincia">
+															<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+															<f:selectItems
+																value="#{sucursalCRUDBean.mapDistritos.entrySet()}"
+																var="val" itemLabel="#{val.value}"
+																itemValue="#{val.key}" />
+														</h:selectOneMenu>
+													</div>
 												</div>
 											</div>
 											<div
 												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 												<h:message for="cmbDepartamento" />
 											</div>
-											<div class="p6n-api-consent-screen-input-section">
-												<div class="p6n-api-consent-screen-label">PROVINCIA</div>
-												<div>
-													<h:selectOneMenu id="cmbProvincia"
-														value="#{sucursalCRUDBean.idProvinciaSelected}"
-														required="true"
-														requiredMessage="Seleccione tipo provincia">
-														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
-														<f:selectItems
-															value="#{sucursalCRUDBean.mapProvincias.entrySet()}"
-															var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-														<f:ajax
-															listener="#{sucursalCRUDBean.actualizarDistritos()}"
-															execute="@this" render="cmbDistrito"></f:ajax>
-													</h:selectOneMenu>
-												</div>
-											</div>
 											<div
 												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 												<h:message for="cmbProvincia" />
 											</div>
-											<div class="p6n-api-consent-screen-input-section">
-												<div class="p6n-api-consent-screen-label">DISTRITO</div>
-												<div>
-													<h:selectOneMenu id="cmbDistrito"
-														value="#{sucursalCRUDBean.idDistritoSelected}"
-														required="true"
-														requiredMessage="Seleccione tipo provincia">
-														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
-														<f:selectItems
-															value="#{sucursalCRUDBean.mapDistritos.entrySet()}"
-															var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
-													</h:selectOneMenu>
-												</div>
-											</div>
+											<div class="p6n-api-consent-screen-input-section"></div>
 											<div
 												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 												<h:message for="cmbDistrito" />
 											</div>
 										</div>
 									</div>
-
+									<br />
+									<div class="sf-separator">
+										<h3 class="p6n-api-consent-screen-title"
+											style="color: #298B11;">Agencias</h3>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="buttons p6n-api-consent-screen-inputs">
+											<div class="tiptip">
+												<h:commandLink styleClass="button left" title="Nueva bóveda">
+													<f:ajax
+														listener="#{sucursalCRUDBean.openDialogForCreateAgencia()}"
+														render="dlgAgencia formDlgAgencia"></f:ajax>
+													<span class="icon icon3"></span>
+													<span class="label">Nuevo</span>
+												</h:commandLink>
+											</div>
+										</div>
+										<p:dataTable id="tablaAgencias" var="agencia"
+											value="#{sucursalCRUDBean.tablaAgencias.rows}"
+											selectionMode="single"
+											selection="#{sucursalCRUDBean.tablaAgencias.selectedRow}"
+											rowKey="#{agencia}" rowIndexVar="row">
+											<p:column headerText="Nro" width="5%"
+												style="text-align:center;">
+												<h:outputText value="#{row + 1}" />
+											</p:column>
+											<p:column headerText="DENOMINACION">
+												<h:outputText value="#{agencia.denominacion}" />
+											</p:column>
+											<p:column headerText="ABREVIATURA">
+												<h:outputText value="#{agencia.abreviatura}" />
+											</p:column>
+											<p:column headerText="CODIGO">
+												<h:outputText value="#{agencia.codigoagencia}" />
+											</p:column>
+											<p:column headerText="ESTADO">
+												<h:outputText
+													value="#{agencia.estado ? 'Activo' : 'Inactivo'}" />
+											</p:column>
+											<p:column headerText="STATUS" style="text-align:center;">
+												<h:commandButton value="Edit" styleClass="action green">
+													<f:ajax
+														listener="#{sucursalCRUDBean.openDialogForEditAgencia(agencia)}"
+														render="dlgAgencia formDlgAgencia"></f:ajax>
+												</h:commandButton>
+												<h:commandButton value="Delete" styleClass="action red">
+													<f:ajax
+														listener="#{sucursalCRUDBean.deleteAgencia(agencia)}"
+														render="tablaAgencias"></f:ajax>
+												</h:commandButton>
+											</p:column>
+										</p:dataTable>
+									</div>
 									<br />
 									<div class="sf-buttons" style="float: left;">
 										<h:commandButton value="Guardar"
@@ -180,38 +239,73 @@
 					</div>
 				</div>
 			</h:form>
-			<h:panelGroup rendered="#{personanaturalCRUDBean.success}">
-				<h:form>
+
+			<h:panelGroup id="dlgAgencia">
+				<h:panelGroup rendered="#{sucursalCRUDBean.dlgAgencia}">
 					<div class="modal-dialog-bg"
-						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
-					<div class="modal-dialog p6n-popup"
-						style="left: 502px; top: 200px;">
-						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Creacion
-								satisfactoria</span><span class="modal-dialog-title-close"></span>
-						</div>
-						<div class="modal-dialog-content ng-binding">La persona fue
-							creada satistactoriamente.</div>
-						<div class="modal-dialog-buttons">
-							<h:commandButton value="Crear nuevo"
-								action="create?faces-redirect=true" icon="ui-icon-print" />
-							<h:commandButton value="Volver" action="list" immediate="true" />
-						</div>
-					</div>
-				</h:form>
-			</h:panelGroup>
-			<h:panelGroup rendered="#{personanaturalCRUDBean.failure}">
-				<h:form>
-					<div class="p6n-api-access-in-page-error" style="left: 516px;">
-						<div>
-							<div>
-								<p>
-									<h:messages />
-								</p>
+						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+					<div class="modal-dialog p6n-popup" style="left: 402px; top: 50px;">
+						<h:form id="formDlgAgencia">
+							<div class="modal-dialog-content p6n-acl-add-member-popup"
+								style="width: 385px;">
+								<div class="p6n-api-consent-screen-inputs">
+									<div class="sf-separator">
+										<h3 class="p6n-api-consent-screen-title">AGENCIA</h3>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">DENOMINACION</div>
+										<div>
+											<h:inputText id="txtDenominacionAgencia"
+												value="#{sucursalCRUDBean.denominacionAgencia}"
+												required="true" requiredMessage="Ingrese denominacion" />
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtDenominacionAgencia" />
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">ABREVIATURA</div>
+										<div>
+											<h:inputText id="txtAbreviaturaAgencia"
+												value="#{sucursalCRUDBean.abreviaturaAgencia}"
+												required="true" requiredMessage="Ingrese abreviatura" />
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtAbreviaturaAgencia" />
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">CODIGO</div>
+										<div>
+											<h:inputText id="txtCodigoAgencia"
+												value="#{sucursalCRUDBean.codigoAgencia}" required="true"
+												requiredMessage="Ingrese codigo" />
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtCodigoAgencia" />
+									</div>
+								</div>
+								<br />
 							</div>
-						</div>
+							<div class="modal-dialog-buttons" style="float: left;">
+								<h:commandButton value="Guardar" styleClass="action blue"
+									style="float:left">
+									<f:ajax listener="#{sucursalCRUDBean.saveAgencia()}"
+										execute="@form"
+										render=":dlgAgencia @form :formSucursal:tablaAgencias" />
+								</h:commandButton>
+								<h:commandButton value="Cancelar" styleClass="action">
+									<f:ajax listener="#{sucursalCRUDBean.setDlgAgencia(false)}"
+										render="@form :dlgAgencia" />
+								</h:commandButton>
+							</div>
+						</h:form>
 					</div>
-				</h:form>
+				</h:panelGroup>
 			</h:panelGroup>
 
 		</ui:define>
