@@ -117,7 +117,7 @@ public class Titular implements Serializable {
 			return false;
 		}
 		final Titular other = (Titular) obj;
-		return other.getIdtitular() == this.idtitular ? true : false;
+		return other.getIdtitular().equals(this.idtitular) ? true : false;
 	}
 
 	@Override

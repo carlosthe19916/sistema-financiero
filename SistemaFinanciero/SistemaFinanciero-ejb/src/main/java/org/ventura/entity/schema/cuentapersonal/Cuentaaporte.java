@@ -121,7 +121,7 @@ public class Cuentaaporte implements Serializable {
 			return false;
 		}
 		final Cuentaaporte other = (Cuentaaporte) obj;
-		return other.getIdcuentaaporte() == this.idcuentaaporte ? true : false;
+		return other.getIdcuentaaporte().equals(this.idcuentaaporte) ? true : false;
 	}
 
 	@Override

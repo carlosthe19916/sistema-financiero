@@ -146,7 +146,7 @@ public class Menu implements Serializable {
 		// a room can be uniquely identified by it's number and the building it
 		// belongs to
 		final Menu other = (Menu) obj;
-		return other.getIdmenu() == idmenu ? true : false;
+		return other.getIdmenu().equals(idmenu) ? true : false;
 	}
 
 	@Override

@@ -78,7 +78,7 @@ public class Tipomoneda implements Serializable {
         }
         // a room can be uniquely identified by it's number and the building it belongs to
         final Tipomoneda other = (Tipomoneda) obj;
-        return other.getIdtipomoneda()== idtipomoneda ? true:false;
+        return other.getIdtipomoneda().equals(idtipomoneda) ? true:false;
 	}
 	
 	@Override

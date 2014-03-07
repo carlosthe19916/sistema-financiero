@@ -131,7 +131,7 @@ public class Socio implements Serializable {
 			return false;
 		}
 		final Socio other = (Socio) obj;
-		return other.getIdsocio() == this.idsocio ? true : false;
+		return other.getIdsocio().equals(this.idsocio) ? true : false;
 	}
 
 	@Override

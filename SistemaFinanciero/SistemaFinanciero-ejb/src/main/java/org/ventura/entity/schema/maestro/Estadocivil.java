@@ -76,7 +76,7 @@ public class Estadocivil implements Serializable {
         }
         // a room can be uniquely identified by it's number and the building it belongs to
         final Estadocivil other = (Estadocivil) obj;
-        return other.getIdestadocivil() == idestadocivil ? true:false;
+        return other.getIdestadocivil().equals(idestadocivil) ? true:false;
 	}
 	
 	@Override

@@ -105,7 +105,7 @@ public class Rol implements Serializable {
 		// a room can be uniquely identified by it's number and the building it
 		// belongs to
 		final Rol other = (Rol) obj;
-		return other.getIdrol() == idrol ? true : false;
+		return other.getIdrol().equals(idrol) ? true : false;
 	}
 
 	@Override

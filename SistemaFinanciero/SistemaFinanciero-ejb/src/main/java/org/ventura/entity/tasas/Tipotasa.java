@@ -124,7 +124,7 @@ public class Tipotasa implements Serializable {
         }
         // a room can be uniquely identified by it's number and the building it belongs to
         final Tipotasa other = (Tipotasa) obj;
-        return other.getIdtipotasa() == idtipotasa ? true:false;
+        return other.getIdtipotasa().equals(idtipotasa) ? true:false;
 	}
 	
 	@Override

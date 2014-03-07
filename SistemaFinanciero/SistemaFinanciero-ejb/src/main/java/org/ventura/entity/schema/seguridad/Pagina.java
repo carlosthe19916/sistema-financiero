@@ -94,7 +94,7 @@ public class Pagina implements Serializable {
         }
         // a room can be uniquely identified by it's number and the building it belongs to
         final Pagina other = (Pagina) obj;
-        return other.getIdpagina() == idpagina ? true:false;
+        return other.getIdpagina().equals(idpagina) ? true:false;
 	}
 	
 	@Override

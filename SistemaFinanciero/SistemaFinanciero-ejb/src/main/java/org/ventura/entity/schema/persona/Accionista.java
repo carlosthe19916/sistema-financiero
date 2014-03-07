@@ -77,7 +77,7 @@ public class Accionista implements Serializable {
 		// a room can be uniquely identified by it's number and the building it
 		// belongs to
 		final Accionista other = (Accionista) obj;
-		return other.getIdaccionista() == idaccionista ? true : false;
+		return other.getIdaccionista().equals(idaccionista) ? true : false;
 	}
 
 	@Override

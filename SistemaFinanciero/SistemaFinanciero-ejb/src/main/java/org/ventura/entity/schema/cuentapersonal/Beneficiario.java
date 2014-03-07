@@ -115,7 +115,7 @@ public class Beneficiario implements Serializable {
 			return false;
 		}
 		final Beneficiario other = (Beneficiario) obj;
-		return other.getIdbeneficiario() == this.idbeneficiario ? true : false;
+		return other.getIdbeneficiario().equals(this.idbeneficiario) ? true : false;
 	}
 
 	@Override

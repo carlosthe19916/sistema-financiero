@@ -109,7 +109,7 @@ public class Grupo implements Serializable {
 		// a room can be uniquely identified by it's number and the building it
 		// belongs to
 		final Grupo other = (Grupo) obj;
-		return other.getIdgrupo() == idgrupo ? true : false;
+		return other.getIdgrupo().equals(idgrupo) ? true : false;
 	}
 
 	@Override

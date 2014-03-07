@@ -146,7 +146,7 @@ public class Tipodocumento implements Serializable {
 		// a room can be uniquely identified by it's number and the building it
 		// belongs to
 		final Tipodocumento other = (Tipodocumento) obj;
-		return other.getIdtipodocumento() == idtipodocumento ? true : false;
+		return other.getIdtipodocumento().equals(idtipodocumento) ? true : false;
 	}
 
 	@Override

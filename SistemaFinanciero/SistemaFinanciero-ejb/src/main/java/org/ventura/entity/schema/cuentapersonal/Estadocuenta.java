@@ -70,7 +70,7 @@ public class Estadocuenta implements Serializable {
 			return false;
 		}
 		final Estadocuenta other = (Estadocuenta) obj;
-		return other.getIdestadocuenta() == this.idestadocuenta ? true : false;
+		return other.getIdestadocuenta().equals(this.idestadocuenta) ? true : false;
 	}
 
 	@Override

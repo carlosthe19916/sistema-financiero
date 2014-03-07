@@ -175,7 +175,7 @@ public class Modulo implements Serializable {
 		}
 
 		final Modulo other = (Modulo) obj;
-		return other.getIdmodulo() == idmodulo ? true : false;
+		return other.getIdmodulo().equals(idmodulo) ? true : false;
 	}
 
 	@Override

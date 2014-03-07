@@ -77,7 +77,7 @@ public class Sexo implements Serializable {
         }
         // a room can be uniquely identified by it's number and the building it belongs to
         final Sexo other = (Sexo) obj;
-        return other.getIdsexo() == idsexo ? true:false;
+        return other.getIdsexo().equals(idsexo) ? true:false;
 	}
 	
 	@Override
