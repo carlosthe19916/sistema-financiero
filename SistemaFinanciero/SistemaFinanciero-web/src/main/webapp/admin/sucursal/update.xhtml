@@ -40,7 +40,7 @@
 						</div>
 						<div class="modal-dialog-content ng-binding">La sucursal fue
 							creada satistactoriamente.</div>
-						<div class="modal-dialog-buttons">							
+						<div class="modal-dialog-buttons">
 							<h:commandButton value="Volver" action="list?faces-redirect=true"
 								immediate="true" />
 						</div>
@@ -77,7 +77,7 @@
 										<div class="p6n-api-consent-screen-label">DENOMINACION</div>
 										<div>
 											<h:inputText id="txtDenominacion" required="true"
-												value="#{sucursalCRUDBean.denominacion}" />
+												value="#{sucursalCRUDBean.denominacion}" maxlength="140" />
 										</div>
 									</div>
 									<div
@@ -88,7 +88,7 @@
 										<div class="p6n-api-consent-screen-label">ABREVIATURA</div>
 										<div>
 											<h:inputText id="txtAbreviatura" required="true"
-												value="#{sucursalCRUDBean.abreviatura}" />
+												value="#{sucursalCRUDBean.abreviatura}" maxlength="10" />
 										</div>
 									</div>
 									<div
@@ -257,7 +257,8 @@
 										<div>
 											<h:inputText id="txtDenominacionAgencia"
 												value="#{sucursalCRUDBean.denominacionAgencia}"
-												required="true" requiredMessage="Ingrese denominacion" />
+												required="true" requiredMessage="Ingrese denominacion"
+												maxlength="140" />
 										</div>
 									</div>
 									<div
@@ -269,7 +270,8 @@
 										<div>
 											<h:inputText id="txtAbreviaturaAgencia"
 												value="#{sucursalCRUDBean.abreviaturaAgencia}"
-												required="true" requiredMessage="Ingrese abreviatura" />
+												required="true" requiredMessage="Ingrese abreviatura"
+												maxlength="10" />
 										</div>
 									</div>
 									<div
@@ -281,7 +283,7 @@
 										<div>
 											<h:inputText id="txtCodigoAgencia"
 												value="#{sucursalCRUDBean.codigoAgencia}" required="true"
-												requiredMessage="Ingrese codigo" />
+												requiredMessage="Ingrese codigo" maxlength="3" />
 										</div>
 									</div>
 									<div
