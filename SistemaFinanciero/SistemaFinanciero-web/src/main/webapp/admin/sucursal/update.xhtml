@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewParam name="id" value="#{sucursalCRUDBean.idsucursal}" />
+		<f:viewAction action="#{sucursalCRUDBean.loadSucursalForEdit()}" />
+		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Sucursal" />
+		</ui:define>
+
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+
+
+			<h:panelGroup rendered="#{sucursalCRUDBean.succes}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 502px; top: 200px;">
+						<div class="modal-dialog-title modal-dialog-title-draggable">
+							<span class="modal-dialog-title-text">Creacion
+								satisfactoria</span><span class="modal-dialog-title-close"></span>
+						</div>
+						<div class="modal-dialog-content ng-binding">La sucursal fue
+							creada satistactoriamente.</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Crear nuevo"
+								action="create?faces-redirect=true" />
+							<h:commandButton value="Volver" action="list" immediate="true" />
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{sucursalCRUDBean.failure}">
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
+			<h:form>
+
+				<br />
+				<div>
+					<div style="margin-left: 50px;">
+						<div>
+							<div>
+								<div class="p6n-api-consent-screen-title">SUCURSAL</div>
+								<div class="p6n-api-consent-screen-inputs">
+									<div class="sf-separator">
+										<h3 class="p6n-api-consent-screen-title"
+											style="color: #298B11;">Datos Generales</h3>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">DENOMINACION</div>
+										<div>
+											<h:inputText id="txtDenominacion" required="true"
+												value="#{sucursalCRUDBean.denominacion}" />
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtDenominacion" />
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label">ABREVIATURA</div>
+										<div>
+											<h:inputText id="txtAbreviatura" required="true"
+												value="#{sucursalCRUDBean.abreviatura}" />
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtAbreviatura" />
+									</div>
+
+									<br />
+									<div class="sf-separator">
+										<h3 class="p6n-api-consent-screen-title"
+											style="color: #298B11;">Ubigeo</h3>
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label">DEPARTAMENTO</div>
+												<div>
+													<h:selectOneMenu id="cmbDepartamento"
+														value="#{sucursalCRUDBean.idDepartamentoSelected}"
+														required="true"
+														requiredMessage="Seleccione tipo departamento">
+														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+														<f:selectItems
+															value="#{sucursalCRUDBean.mapDepartamentos.entrySet()}"
+															var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+														<f:ajax
+															listener="#{sucursalCRUDBean.actualizarProvincias()}"
+															execute="@this" render="cmbProvincia cmbDistrito"></f:ajax>
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="cmbDepartamento" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label">PROVINCIA</div>
+												<div>
+													<h:selectOneMenu id="cmbProvincia"
+														value="#{sucursalCRUDBean.idProvinciaSelected}"
+														required="true"
+														requiredMessage="Seleccione tipo provincia">
+														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+														<f:selectItems
+															value="#{sucursalCRUDBean.mapProvincias.entrySet()}"
+															var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+														<f:ajax
+															listener="#{sucursalCRUDBean.actualizarDistritos()}"
+															execute="@this" render="cmbDistrito"></f:ajax>
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="cmbProvincia" />
+											</div>
+											<div class="p6n-api-consent-screen-input-section">
+												<div class="p6n-api-consent-screen-label">DISTRITO</div>
+												<div>
+													<h:selectOneMenu id="cmbDistrito"
+														value="#{sucursalCRUDBean.idDistritoSelected}"
+														required="true"
+														requiredMessage="Seleccione tipo provincia">
+														<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+														<f:selectItems
+															value="#{sucursalCRUDBean.mapDistritos.entrySet()}"
+															var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div
+												class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+												<h:message for="cmbDistrito" />
+											</div>
+										</div>
+									</div>
+
+									<br />
+									<div class="sf-buttons" style="float: left;">
+										<h:commandButton value="Guardar"
+											action="#{sucursalCRUDBean.updateUsuario()}"
+											styleClass="action blue" />
+										<h:commandButton value="Cancelar" immediate="true"
+											action="list?faces-redirect=true" styleClass="action" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+			<h:panelGroup rendered="#{personanaturalCRUDBean.success}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 502px; top: 200px;">
+						<div class="modal-dialog-title modal-dialog-title-draggable">
+							<span class="modal-dialog-title-text">Creacion
+								satisfactoria</span><span class="modal-dialog-title-close"></span>
+						</div>
+						<div class="modal-dialog-content ng-binding">La persona fue
+							creada satistactoriamente.</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Crear nuevo"
+								action="create?faces-redirect=true" icon="ui-icon-print" />
+							<h:commandButton value="Volver" action="list" immediate="true" />
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{personanaturalCRUDBean.failure}">
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+</html>

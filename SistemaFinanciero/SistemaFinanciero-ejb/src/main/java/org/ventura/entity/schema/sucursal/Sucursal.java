@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.maestro.Ubigeo;
+
 /**
  * The persistent class for the sucursal database table.
  * 
@@ -11,11 +13,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sucursal", schema = "sucursal")
 @NamedQuery(name = "Sucursal.findAll", query = "SELECT s FROM Sucursal s")
+@NamedQueries({ @NamedQuery(name = Sucursal.f_allActive, query = "SELECT s FROM Sucursal s WHERE s.estado = TRUE") })
 public class Sucursal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public final static String f_allActive = "org.ventura.entity.schema.sucursal.Sucursal.f_allActive";
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idsucursal;
 
@@ -28,8 +34,9 @@ public class Sucursal implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable = false, length = 6)
-	private String idubigeo;
+	@ManyToOne
+	@JoinColumn(name = "idubigeo")
+	private Ubigeo ubigeo;
 
 	public Sucursal() {
 	}
@@ -66,25 +73,25 @@ public class Sucursal implements Serializable {
 		this.estado = estado;
 	}
 
-	public String getIdubigeo() {
-		return this.idubigeo;
-	}
-
-	public void setIdubigeo(String idubigeo) {
-		this.idubigeo = idubigeo;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if ((obj == null) || !(obj instanceof Sucursal)) {
 			return false;
 		}
 		final Sucursal other = (Sucursal) obj;
-		return other.getIdsucursal() == this.idsucursal ? true : false;
+		return other.getIdsucursal().equals(this.idsucursal) ? true : false;
 	}
 
 	@Override
 	public int hashCode() {
 		return idsucursal;
+	}
+
+	public Ubigeo getUbigeo() {
+		return ubigeo;
+	}
+
+	public void setUbigeo(Ubigeo ubigeo) {
+		this.ubigeo = ubigeo;
 	}
 }
