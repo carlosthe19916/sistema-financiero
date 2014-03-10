@@ -24,19 +24,21 @@ public class Trabajador implements Serializable {
 	public final static String f_idagencia = "org.ventura.entity.schema.rrhh.Trabajador.f_idusuario";
 	public final static String f_idagencia_searched = "org.ventura.entity.schema.rrhh.Trabajador.f_searched";
 	public final static String f_idagencia_idtipodocumento_numerodocumento = "org.ventura.entity.schema.rrhh.Trabajador.f_idtipodocumento_numerodocumento";
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idtrabajador;
 
 	@Column(nullable = false)
-	private Integer idagencia;
+	private Boolean estado;
 
 	@ManyToOne
 	@JoinColumn(name = "idpersonanatural")
 	private Personanatural personanatural;
 
 	@ManyToOne
-	@JoinColumn(name = "idagencia", insertable = false, updatable = false)
+	@JoinColumn(name = "idagencia")
 	private Agencia agencia;
 
 	public Trabajador() {
@@ -48,14 +50,6 @@ public class Trabajador implements Serializable {
 
 	public void setPersonanatural(Personanatural personanatural) {
 		this.personanatural = personanatural;
-	}
-
-	public Integer getIdagencia() {
-		return idagencia;
-	}
-
-	public void setIdagencia(Integer idagencia) {
-		this.idagencia = idagencia;
 	}
 
 	public Agencia getAgencia() {
@@ -86,6 +80,14 @@ public class Trabajador implements Serializable {
 	@Override
 	public int hashCode() {
 		return idtrabajador;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
 }

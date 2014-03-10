@@ -126,10 +126,6 @@ public class PersonanaturalCRUDBean implements Serializable {
 				personanatural.setCelular(celular);
 				personanatural.setEmail(email);
 				
-				
-				System.out.println(nombres);
-				
-				
 				Object obj = this.personanaturalServiceLocal.find(comboTipodocumento.getObjectItemSelected(), numerodocumento);
 				if(obj == null){
 					this.personanaturalServiceLocal.create(personanatural);

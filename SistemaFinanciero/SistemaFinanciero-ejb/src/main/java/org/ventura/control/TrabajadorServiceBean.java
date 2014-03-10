@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -13,9 +14,11 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TrabajadorServiceLocal;
 import org.ventura.boundary.remote.TrabajadorServiceRemote;
 import org.ventura.dao.impl.TrabajadorDAO;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.rrhh.Trabajador;
 import org.ventura.entity.schema.sucursal.Agencia;
@@ -32,6 +35,8 @@ public class TrabajadorServiceBean implements TrabajadorServiceLocal {
 	private Log log;
 
 	@EJB private TrabajadorDAO trabajadorDAO;
+	
+	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	
 	@Override
 	public List<Trabajador> getTrabajadores(Agencia agencia) throws Exception {
@@ -71,6 +76,64 @@ public class TrabajadorServiceBean implements TrabajadorServiceLocal {
 			throw e;
 		}
 		return list;
+	}
+
+	@Override
+	public void create(Trabajador trabajador) throws Exception {		
+		try {
+			Personanatural personanatural = trabajador.getPersonanatural();			
+			Personanatural personanaturalDB = personanaturalServiceLocal.createIfNotExistsUpdateIfExist(personanatural);
+			trabajador.setPersonanatural(personanaturalDB);
+			trabajadorDAO.create(trabajador);	
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
+
+	@Override
+	public void update(Trabajador trabajador) throws Exception {
+		try {
+			Personanatural personanatural = trabajador.getPersonanatural();			
+			Personanatural personanaturalDB = personanaturalServiceLocal.createIfNotExistsUpdateIfExist(personanatural);
+			trabajador.setPersonanatural(personanaturalDB);
+			trabajadorDAO.update(trabajador);	
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
+
+	@Override
+	public void delete(Trabajador trabajador) throws Exception {
+		try {
+			Trabajador trabajadorDB = trabajadorDAO.find(trabajador.getIdtrabajador());
+			trabajadorDB.setEstado(false);
+			trabajadorDAO.update(trabajadorDB);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
+
+	@Override
+	public Trabajador find(Object id) throws Exception {
+		Trabajador trabajador;
+		try {
+			trabajador = trabajadorDAO.find(id);	
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return trabajador;
 	}
 
 	
