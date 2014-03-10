@@ -83,7 +83,7 @@
 								style="margin-top: 0px;">
 								<div>
 									<div class="ng-scope">
-										<p:dataTable var="trabajador"
+										<p:dataTable id="tablaTrabajador" var="trabajador"
 											value="#{administrarTrabajadorBean.tablaTrabajador.rows}"
 											selectionMode="single"
 											selection="#{administrarTrabajadorBean.tablaTrabajador.selectedRow}"
@@ -123,11 +123,19 @@
 													<f:convertDateTime pattern="dd/MM/yyyy" />
 												</h:outputText>
 											</p:column>
-											<p:column headerText="STATUS">
-												<h:button value="Edit" outcome="update"
-													styleClass="action green" style="margin: 0px;">
-													<f:param name="id" value="#{trabajador.idtrabajador}" />
-												</h:button>
+											<p:column headerText="STATUS" width="137">
+												<div class="buttons">
+													<h:button value="Edit" outcome="update"
+														styleClass="action green" style="margin: 0 2px 0 0;">
+														<f:param name="id" value="#{trabajador.idtrabajador}" />
+													</h:button>
+													<h:commandButton value="Delete" styleClass="action red"
+														style="margin: 0 0 0 2px;">
+														<f:ajax
+															listener="#{administrarTrabajadorBean.deleteTrabajador(trabajador)}"
+															render="@form"></f:ajax>
+													</h:commandButton>
+												</div>
 											</p:column>
 										</p:dataTable>
 									</div>

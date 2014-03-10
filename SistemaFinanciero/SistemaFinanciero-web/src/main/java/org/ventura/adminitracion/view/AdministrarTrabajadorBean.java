@@ -52,23 +52,13 @@ public class AdministrarTrabajadorBean implements Serializable {
 		}
 	}
 	
-	public void editTrabajador(Personanatural personanatural){
-		
-	}
-	
-	public void deleteBoveda() throws Exception {
-		/*try {
-			//loadBoveda();
-			Boveda boveda =  new Boveda();
-			boveda.setIdboveda(idboveda);
-			bovedaServiceLocal.inactive(boveda);
-			refreshBean();
-
-			JsfUtil.addSuccessMessage("Boveda Desactivada");
+	public void deleteTrabajador(Trabajador trabajador) throws Exception {
+		try {
+			trabajadorServiceLocal.delete(trabajador);
+			tablaTrabajador.removeRow(trabajador);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			JsfUtil.addErrorMessage(e, "Error al Inactivar Boveda");
-		}*/
+		}
 	}
 
 	public TablaBean<Trabajador> getTablaTrabajador() {
