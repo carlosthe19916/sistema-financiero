@@ -33,8 +33,8 @@
 					<div class="modal-dialog p6n-popup"
 						style="left: 502px; top: 200px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Creacion
-								satisfactoria</span><span class="modal-dialog-title-close"></span>
+							<span class="modal-dialog-title-text">Creación
+								Satisfactoria</span><span class="modal-dialog-title-close"></span>
 						</div>
 						<div class="modal-dialog-content ng-binding">La sucursal fue
 							creada satistactoriamente.</div>
@@ -77,7 +77,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">DENOMINACION</div>
 										<div>
-											<h:inputText id="txtDenominacion" required="true"
+											<h:inputText id="txtDenominacion" required="true" onkeyup="this.value = this.value.toUpperCase();"
 												value="#{sucursalCRUDBean.denominacion}" maxlength="140" />
 										</div>
 									</div>
@@ -88,7 +88,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">ABREVIATURA</div>
 										<div>
-											<h:inputText id="txtAbreviatura" required="true"
+											<h:inputText id="txtAbreviatura" required="true" onkeyup="this.value = this.value.toUpperCase();"
 												value="#{sucursalCRUDBean.abreviatura}" maxlength="10" />
 										</div>
 									</div>
@@ -255,7 +255,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">DENOMINACION</div>
 										<div>
-											<h:inputText id="txtDenominacionAgencia"
+											<h:inputText id="txtDenominacionAgencia" onkeyup="this.value = this.value.toUpperCase();"
 												value="#{sucursalCRUDBean.denominacionAgencia}"
 												required="true" requiredMessage="Ingrese denominacion"
 												maxlength="140" />
@@ -268,7 +268,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">ABREVIATURA</div>
 										<div>
-											<h:inputText id="txtAbreviaturaAgencia"
+											<h:inputText id="txtAbreviaturaAgencia" onkeyup="this.value = this.value.toUpperCase();"
 												value="#{sucursalCRUDBean.abreviaturaAgencia}"
 												required="true" requiredMessage="Ingrese abreviatura"
 												maxlength="10" />

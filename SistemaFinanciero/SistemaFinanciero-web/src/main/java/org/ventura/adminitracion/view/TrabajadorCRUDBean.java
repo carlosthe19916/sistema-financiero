@@ -164,6 +164,7 @@ public class TrabajadorCRUDBean implements Serializable {
 				personanatural.setEmail(email);
 				
 				trabajador.setAgencia(agencia);
+				trabajador.setEstado(true);
 				trabajador.setPersonanatural(personanatural);
 				trabajadorServiceLocal.create(trabajador);
 				
