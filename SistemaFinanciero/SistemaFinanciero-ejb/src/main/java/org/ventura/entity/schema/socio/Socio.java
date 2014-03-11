@@ -68,7 +68,7 @@ public class Socio implements Serializable {
 	private Personajuridica personajuridica;
 
 	@ManyToOne
-	@JoinColumn(name = "idcuentaaporte", nullable = false)
+	@JoinColumn(name = "idcuentaaporte")
 	private Cuentaaporte cuentaaporte;
 
 	@OneToMany(mappedBy = "socio")

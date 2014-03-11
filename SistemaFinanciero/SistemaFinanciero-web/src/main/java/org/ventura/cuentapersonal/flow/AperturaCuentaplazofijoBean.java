@@ -39,6 +39,7 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
+import org.ventura.session.AgenciaBean;
 import org.ventura.session.CajaBean;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.ProduceObject;
@@ -141,6 +142,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	private String apellidoMaternoBeneficiario;
 	private String nombresBeneficiario;
 	private Integer porcentajeBeneficio;
+	
+	@Inject private AgenciaBean agenciaBean;
 	
 	@Inject private CajaBean cajaBean;
 	@Inject private Caja caja;
@@ -264,7 +267,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					
 					BigDecimal teaReal = tea.divide(new BigDecimal(100));
 					BigDecimal treaReal = trea.divide(new BigDecimal(100));
-					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio,montoApertura, teaReal, treaReal, caja);
+					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio,montoApertura, teaReal, treaReal, caja, agenciaBean.getAgencia());
 					
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();
@@ -326,7 +329,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 						cuentabancaria.setTitulares(listTitulares);
 						cuentabancaria.setBeneficiarios(listBeneficiarios);
 						
-						cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio,tea, trea);
+						cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio,tea, trea, agenciaBean.getAgencia());
 						
 						cuentaCreada = true;
 						numeroCuenta = cuentabancaria.getNumerocuenta();

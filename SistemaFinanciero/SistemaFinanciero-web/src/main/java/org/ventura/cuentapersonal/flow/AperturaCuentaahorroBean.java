@@ -34,6 +34,7 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
+import org.ventura.session.AgenciaBean;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -126,6 +127,8 @@ public class AperturaCuentaahorroBean implements Serializable {
 	private String apellidoMaternoBeneficiario;
 	private String nombresBeneficiario;
 	private Integer porcentajeBeneficio;
+	
+	@Inject AgenciaBean agenciaBean;
 	
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
@@ -227,7 +230,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 					cuentabancaria.setTitulares(listTitulares);
 					cuentabancaria.setBeneficiarios(listBeneficiarios);
 					
-					cuentabancaria = cuentabancariaServiceLocal.createCuentaahorroPersonanatural(cuentabancaria, personaNaturalSocio);
+					cuentabancaria = cuentabancariaServiceLocal.createCuentaahorroPersonanatural(cuentabancaria, personaNaturalSocio,agenciaBean.getAgencia());
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();
 					fechaApertura = cuentabancaria.getFechaapertura();
@@ -279,7 +282,7 @@ public class AperturaCuentaahorroBean implements Serializable {
 						cuentabancaria.setTitulares(listTitulares);
 						cuentabancaria.setBeneficiarios(listBeneficiarios);
 						
-						cuentabancaria = cuentabancariaServiceLocal.createCuentaahorroPersonajuridica(cuentabancaria, personaJuridicaSocio);
+						cuentabancaria = cuentabancariaServiceLocal.createCuentaahorroPersonajuridica(cuentabancaria, personaJuridicaSocio, agenciaBean.getAgencia());
 						
 						cuentaCreada = true;
 						numeroCuenta = cuentabancaria.getNumerocuenta();

@@ -14,6 +14,7 @@ import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 
@@ -22,17 +23,17 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 
 	public Cuentabancaria create(Cuentabancaria cuentabancaria) throws Exception;
 	
-	public Cuentabancaria createCuentaahorroPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural) throws Exception;
+	public Cuentabancaria createCuentaahorroPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia) throws Exception;
 	
-	public Cuentabancaria createCuentaahorroPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica) throws Exception;
+	public Cuentabancaria createCuentaahorroPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia) throws Exception;
 	
-	public Cuentabancaria createCuentacorrientePersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural) throws Exception;
+	public Cuentabancaria createCuentacorrientePersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia) throws Exception;
 	
-	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica) throws Exception;
+	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia) throws Exception;
 	
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, BigDecimal trea, Caja caja) throws Exception;
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, BigDecimal trea, Caja caja, Agencia agencia) throws Exception;
 	
-	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea) throws Exception;
+	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea, Agencia agencia) throws Exception;
 	
 	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria, int periodo, BigDecimal tea, BigDecimal trea, Caja  caja) throws Exception;
 	

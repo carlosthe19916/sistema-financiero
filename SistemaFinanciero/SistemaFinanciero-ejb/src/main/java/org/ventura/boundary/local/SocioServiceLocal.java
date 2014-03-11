@@ -22,6 +22,10 @@ public interface SocioServiceLocal extends SocioServiceRemote{
 	
 	public Socio createSocioPersonajuridica(Socio socio) throws Exception;
 	
+	public Socio createSocioPersonanaturalSinCuentaaporte(Socio socio) throws Exception;
+	
+	public Socio createSocioPersonajuridicaSinCuentaaporte(Socio socio) throws Exception;
+	
 	public Socio find(Object id) throws Exception;
 	
 	public Socio find(Personanatural personanatural) throws Exception;

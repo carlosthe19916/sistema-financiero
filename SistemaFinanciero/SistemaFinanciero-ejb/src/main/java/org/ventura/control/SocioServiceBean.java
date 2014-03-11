@@ -74,7 +74,8 @@ public class SocioServiceBean implements SocioServiceLocal {
 		try {				
 			Socio socioDB = find(socio.getPersonanatural());
 			if(socioDB != null){
-				throw new PreexistingEntityException("El cliente ya tiene una cuenta de aportes activa");
+				if(socioDB.getCuentaaporte() != null)
+					throw new PreexistingEntityException("El cliente ya tiene una cuenta de aportes activa");
 			}
 			
 			Personanatural personanatural = socio.getPersonanatural();
@@ -92,23 +93,26 @@ public class SocioServiceBean implements SocioServiceLocal {
 			cuentaaporte.setSaldo(new Moneda());				
 			cuentaaporte = cuentaaporteServiceLocal.create(cuentaaporte);
 			
-			socio.setEstado(true);
-			socio.setFechaasociado(Calendar.getInstance().getTime());
-			socio.setCuentaaporte(cuentaaporte);
-			socio.setPersonanatural(personanatural);
-			if(apoderado != null) {
-				socio.setApoderado(apoderado);
-			}					
-			socioDAO.create(socio);
-			
+			if(socioDB == null){
+				if(apoderado != null) {
+					socio.setApoderado(apoderado);
+				}
+				socio.setEstado(true);
+				socio.setFechaasociado(Calendar.getInstance().getTime());
+				socio.setCuentaaporte(cuentaaporte);
+				socio.setPersonanatural(personanatural);
+				socioDAO.create(socio);
+			} else {
+				if(apoderado != null) {
+					socioDB.setApoderado(apoderado);
+				}
+				socioDB.setCuentaaporte(cuentaaporte);
+				socioDAO.update(socioDB);
+			}
+				
 			cuentaaporte = cuentaaporteServiceLocal.find(cuentaaporte.getIdcuentaaporte());
 			
 			return socio;
-		} catch (IllegalEntityException | PreexistingEntityException e) {			
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception(e.getMessage());	
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -143,12 +147,6 @@ public class SocioServiceBean implements SocioServiceLocal {
 			socioDAO.create(socio);
 			
 			return socio;
-		} catch (IllegalEntityException | PreexistingEntityException e) {					
-			socio.setIdsocio(null);
-			log.error("Exception:" + e.getClass());
-			log.error(e.getMessage());
-			log.error("Caused by:" + e.getCause());
-			throw new Exception(e.getMessage());	
 		} catch (Exception e) {			
 			socio.setIdsocio(null);
 			log.error("Exception:" + e.getClass());
@@ -424,6 +422,66 @@ public class SocioServiceBean implements SocioServiceLocal {
 			throw e;
 		}
 		return cuentaaporte;
+	}
+
+	@Override
+	public Socio createSocioPersonanaturalSinCuentaaporte(Socio socio) throws Exception {
+		try {				
+			Socio socioDB = find(socio.getPersonanatural());
+			if(socioDB != null){
+				throw new PreexistingEntityException("El cliente ya es socio no se puede crear nuevamente");
+			}
+			
+			Personanatural personanatural = socio.getPersonanatural();
+			Personanatural apoderado = socio.getApoderado();	
+			personanatural = personanaturalServiceLocal.createIfNotExistsUpdateIfExist(personanatural);
+			if(apoderado != null){
+				apoderado = personanaturalServiceLocal.createIfNotExistsUpdateIfExistWithOnlyRequiredColumns(apoderado);
+			}
+			
+			socio.setEstado(true);
+			socio.setFechaasociado(Calendar.getInstance().getTime());
+			socio.setCuentaaporte(null);
+			socio.setPersonanatural(personanatural);
+			if(apoderado != null) {
+				socio.setApoderado(apoderado);
+			}					
+			socioDAO.create(socio);
+			
+			return socio;
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		} 	
+	}
+
+	@Override
+	public Socio createSocioPersonajuridicaSinCuentaaporte(Socio socio) throws Exception {
+		try {				
+			Socio socioDB = find(socio.getPersonajuridica());
+			if(socioDB != null){
+				throw new PreexistingEntityException("El cliente ya es socio no se puede crear nuevamente");
+			}
+				
+			Personajuridica personajuridica = socio.getPersonajuridica();
+			personajuridica = personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
+			
+			socio.setEstado(true);
+			socio.setFechaasociado(Calendar.getInstance().getTime());
+			socio.setCuentaaporte(null);
+			socio.setPersonajuridica(personajuridica);	
+			socioDAO.create(socio);
+			
+			return socio;
+		} catch (Exception e) {			
+			socio.setIdsocio(null);
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e);
+		} 	
 	}
 
 	

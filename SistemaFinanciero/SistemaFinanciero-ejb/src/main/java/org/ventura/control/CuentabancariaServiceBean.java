@@ -48,6 +48,7 @@ import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.socio.Socio;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.IllegalEntityException;
@@ -213,12 +214,15 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentaahorroPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural) throws Exception {
+	public Cuentabancaria createCuentaahorroPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personanatural);
 			if(socio == null){
-				throw new PreexistingEntityException("El cliente necesita ser socio antes de obtener una cuenta de ahorros");
-			}
+				socio = new Socio();
+				socio.setPersonanatural(personanatural);
+				socio.setAgencia(agencia);
+				socio = socioServiceLocal.createSocioPersonanaturalSinCuentaaporte(socio);
+			} 
 			
 			personanaturalServiceLocal.createIfNotExistsUpdateIfExist(personanatural);
 			List<Titular> listTitulares = cuentabancaria.getTitulares();
@@ -312,11 +316,14 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Cuentabancaria createCuentaahorroPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica) throws Exception {
+	public Cuentabancaria createCuentaahorroPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personajuridica);
 			if(socio == null){
-				throw new PreexistingEntityException("El cliente necesita ser socio antes de obtener una cuenta de ahorros");
+				socio = new Socio();
+				socio.setPersonajuridica(personajuridica);
+				socio.setAgencia(agencia);
+				socio = socioServiceLocal.createSocioPersonajuridicaSinCuentaaporte(socio);
 			}
 			
 			personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
@@ -368,11 +375,14 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentacorrientePersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural) throws Exception {
+	public Cuentabancaria createCuentacorrientePersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personanatural);
 			if(socio == null){
-				throw new PreexistingEntityException("El cliente necesita ser socio antes de obtener una cuenta de ahorros");
+				socio = new Socio();
+				socio.setPersonanatural(personanatural);
+				socio.setAgencia(agencia);
+				socio = socioServiceLocal.createSocioPersonanaturalSinCuentaaporte(socio);
 			}
 				
 			personanaturalServiceLocal.createIfNotExistsUpdateIfExist(personanatural);
@@ -424,11 +434,14 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica)throws Exception {
+	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia)throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personajuridica);
 			if(socio == null){
-				throw new PreexistingEntityException("El cliente necesita ser socio antes de obtener una cuenta de ahorros");
+				socio = new Socio();
+				socio.setPersonajuridica(personajuridica);
+				socio.setAgencia(agencia);
+				socio = socioServiceLocal.createSocioPersonajuridicaSinCuentaaporte(socio);
 			}
 			
 			personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
@@ -480,11 +493,14 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, BigDecimal trea, Caja caja) throws Exception {
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, BigDecimal trea, Caja caja, Agencia agencia) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personanatural);
 			if(socio == null){
-				throw new PreexistingEntityException("El cliente necesita ser socio antes de obtener una cuenta de ahorros");
+				socio = new Socio();
+				socio.setPersonanatural(personanatural);
+				socio.setAgencia(agencia);
+				socio = socioServiceLocal.createSocioPersonanaturalSinCuentaaporte(socio);
 			}
 			
 			Calendar fechaCreacion = Calendar.getInstance();
@@ -551,11 +567,14 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea) throws Exception {
+	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea, Agencia agencia) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personajuridica);
 			if(socio == null){
-				throw new PreexistingEntityException("El cliente necesita ser socio antes de obtener una cuenta de ahorros");
+				socio = new Socio();
+				socio.setPersonajuridica(personajuridica);
+				socio.setAgencia(agencia);
+				socio = socioServiceLocal.createSocioPersonajuridicaSinCuentaaporte(socio);
 			}
 			
 			personajuridicaServiceLocal.createIfNotExistsUpdateIfExist(personajuridica);
