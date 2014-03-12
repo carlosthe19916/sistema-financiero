@@ -27,20 +27,21 @@
 
 			<h:panelGroup rendered="#{trabajadorCRUDBean.succes}">
 				<h:form>
+					<p:focus id="bottomFocus" for="salir"/>
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
 					<div class="modal-dialog p6n-popup"
 						style="left: 502px; top: 200px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Creacion
-								satisfactoria</span><span class="modal-dialog-title-close"></span>
+							<span class="modal-dialog-title-text">Creación
+								Satisfactoria</span><span class="modal-dialog-title-close"></span>
 						</div>
 						<div class="modal-dialog-content ng-binding">El trabajador
 							fue creado satistactoriamente.</div>
 						<div class="modal-dialog-buttons">
 							<h:commandButton value="Crear nuevo"
 								action="create?faces-redirect=true" immediate="true" />
-							<h:commandButton value="Volver" action="list?faces-redirect=true"
+							<h:commandButton id="salir" value="Volver" action="list?faces-redirect=true"
 								immediate="true" />
 						</div>
 					</div>
@@ -61,6 +62,7 @@
 			</h:panelGroup>
 
 			<h:form>
+				<p:focus id="formFocus" for="cmbTipodocumento"/>
 				<br />
 				<div>
 					<div style="margin-left: 50px;">
@@ -75,7 +77,8 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div style="display: inline-block; width: 190px;">
 											<div class="p6n-api-consent-screen-label">
-												&nbsp;&nbsp;<h:outputLabel
+												&nbsp;&nbsp;
+												<h:outputLabel
 													value="#{trabajadorCRUDBean.agencia.denominacion}" />
 											</div>
 										</div>
@@ -109,7 +112,7 @@
 											<div>
 												<h:inputText id="txtNumerodocumento"
 													value="#{trabajadorCRUDBean.numerodocumento}"
-													required="true" maxlength="15"
+													required="true" maxlength="15" autocomplete="off"
 													requiredMessage="Ingrese numero documento"
 													validatorMessage="Número de documento Invalido"
 													converterMessage="Número de documento Invalido"
@@ -136,7 +139,7 @@
 												<div>
 													<h:inputText id="txtApellidoPaterno"
 														value="#{trabajadorCRUDBean.apellidopaterno}"
-														required="true" maxlength="50"
+														required="true" maxlength="50" autocomplete="off"
 														requiredMessage="Ingrese apellido paterno"
 														onkeyup="this.value = this.value.toUpperCase();"
 														pt:placeholder="Apellido Paterno">
@@ -151,7 +154,7 @@
 												<div>
 													<h:inputText id="txtApellidoMaterno"
 														value="#{trabajadorCRUDBean.apellidomaterno}"
-														required="true" maxlength="50"
+														required="true" maxlength="50" autocomplete="off"
 														requiredMessage="Ingrese apellido paterno"
 														onkeyup="this.value = this.value.toUpperCase();"
 														pt:placeholder="Apellido Paterno">
@@ -169,7 +172,7 @@
 										<div class="p6n-api-consent-screen-label">NOMBRES</div>
 										<div>
 											<div>
-												<h:inputText id="txtNombres"
+												<h:inputText id="txtNombres" autocomplete="off"
 													value="#{trabajadorCRUDBean.nombres}" required="true"
 													maxlength="60" requiredMessage="Ingrese nombres"
 													onkeyup="this.value = this.value.toUpperCase();"
@@ -204,7 +207,7 @@
 												NACIMIENTO</div>
 											<div>
 												<div>
-													<p:calendar id="txtFechanacimiento"
+													<p:calendar id="txtFechanacimiento" autocomplete="off"
 														value="#{trabajadorCRUDBean.fechanacimiento}"
 														navigator="true" pattern="dd/MM/yy" required="true"
 														requiredMessage="Ingrese fecha de nacimiento"
@@ -231,7 +234,7 @@
 											<div style="display: inline-block; width: 190px;">
 												<div class="p6n-api-consent-screen-label">ESTADO CIVIL</div>
 												<div>
-													<h:selectOneMenu id="cmbEstadocivil"
+													<h:selectOneMenu id="cmbEstadocivil" 
 														value="#{trabajadorCRUDBean.comboEstadocivil.itemSelected}">
 														<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 														<f:selectItems
@@ -246,7 +249,7 @@
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.ocupacion}"
 														onkeyup="this.value = this.value.toUpperCase();"
-														maxlength="70" pt:placeholder="Ocupacion" />
+														maxlength="70" pt:placeholder="Ocupacion" autocomplete="off"/>
 												</div>
 											</div>
 										</div>
@@ -258,7 +261,7 @@
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.direccion}"
 														onkeyup="this.value = this.value.toUpperCase();"
-														maxlength="150" pt:placeholder="Direccion">
+														maxlength="150" pt:placeholder="Direccion" autocomplete="off">
 													</h:inputText>
 												</div>
 											</div>
@@ -269,7 +272,7 @@
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.referencia}"
 														onkeyup="this.value = this.value.toUpperCase();"
-														maxlength="100" pt:placeholder="Referencia">
+														maxlength="100" pt:placeholder="Referencia" autocomplete="off">
 													</h:inputText>
 												</div>
 											</div>
@@ -281,7 +284,7 @@
 											<div>
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.telefono}"
-														maxlength="25" pt:placeholder="066000000">
+														maxlength="25" pt:placeholder="066000000" autocomplete="off">
 													</h:inputText>
 												</div>
 											</div>
@@ -291,7 +294,7 @@
 											<div>
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.celular}"
-														maxlength="25" pt:placeholder="Ceular/RPM">
+														maxlength="25" pt:placeholder="Ceular/RPM" autocomplete="off">
 													</h:inputText>
 												</div>
 											</div>
@@ -304,7 +307,7 @@
 												<h:inputText value="#{trabajadorCRUDBean.email}"
 													onkeyup="this.value = this.value.toUpperCase();"
 													maxlength="50" pt:placeholder="example@domain.com"
-													style="width:339px;" />
+													style="width:339px;" autocomplete="off"/>
 											</div>
 										</div>
 									</div>
