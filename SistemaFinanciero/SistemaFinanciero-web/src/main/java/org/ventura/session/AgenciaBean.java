@@ -19,16 +19,12 @@ public class AgenciaBean implements Serializable {
 	@Inject
 	private Agencia agencia;
 
+	@Inject
+	private UsuarioMB usuarioMB;
+	
 	@PostConstruct
 	private void init() {
-		agencia.setDenominacion("AYACUCHO");
-		agencia.setCodigoagencia("001");
-		agencia.setIdagencia(1);
-		
-		Sucursal sucursal = new Sucursal();
-		sucursal.setIdsucursal(1);
-		
-		agencia.setSucursal(sucursal);
+		agencia = usuarioMB.getUsuario().getTrabajador().getAgencia();
 	}
 
 	public Agencia getAgencia() {

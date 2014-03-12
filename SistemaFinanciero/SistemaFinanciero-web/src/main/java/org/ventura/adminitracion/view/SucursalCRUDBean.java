@@ -10,8 +10,6 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.swing.text.TabableView;
-
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.dependent.TablaBean;
