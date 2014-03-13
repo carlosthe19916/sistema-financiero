@@ -133,7 +133,7 @@
 													<tr style="vertical-align: center;">
 														<td colspan="1"
 															style="text-align: center; font-weight: bold; font-size: 12px;">
-															<p:graphicImage name="logo_coop_voucher.png" library="images/logo_coop" />
+															<p:graphicImage name="logo_coop_header.png" library="images/logo_coop" />
 														</td>
 														<td colspan="3"
 															style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">COOPERATIVA
@@ -141,8 +141,8 @@
 													</tr>
 													<tr>
 														<td colspan="1"
-															style="width: 25%; font-weight: bold; font-size: 12px;">Nº TRANS:</td>
-														<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
+															style="font-weight: bold; font-size: 12px;">Nº TRANS:</td>
+														<td colspan="3" style="font-size: 12px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
 													</tr>
 													<tr>
 														<td colspan="1"
@@ -241,6 +241,7 @@
 
 							<h:panelGroup
 								rendered="#{!transaccionCuentaaporteCajaBean.success}">
+								<p:focus for="cmbTipoTransaccion"/>
 								<div class="p6n-api-consent-screen-inputs">
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"

@@ -42,6 +42,7 @@
 			</h:panelGroup>
 
 			<h:form id="formPrincipal">
+				<p:focus id="updateFocus" for="txtUsuario"/>
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
@@ -95,7 +96,7 @@
 									<div>
 										<div style="float: left;">
 											<h:inputText id="txtTrabajador"
-												value="#{usuarioCRUDBean.trabajador.personanatural.apellidopaterno} #{usuarioCRUDBean.trabajador.personanatural.nombres}"
+												value="#{usuarioCRUDBean.trabajador.personanatural.apellidopaterno} #{usuarioCRUDBean.trabajador.personanatural.apellidomaterno} #{usuarioCRUDBean.trabajador.personanatural.nombres}"
 												required="true" requiredMessage="Ingrese trabajador"
 												readonly="true" />
 										</div>
@@ -120,7 +121,7 @@
 									<div class="p6n-api-consent-screen-label">USUARIO</div>
 									<div>
 										<div>
-											<h:inputText id="txtUsuario"
+											<h:inputText id="txtUsuario" autocomplete="off"
 												value="#{usuarioCRUDBean.username}" maxlength="150"
 												required="true" requiredMessage="Ingrese usuario" />
 										</div>

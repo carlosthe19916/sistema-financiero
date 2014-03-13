@@ -24,6 +24,7 @@
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
 			<h:form>
+				<p:focus for="txtDenominacion"/>
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
@@ -40,7 +41,7 @@
 									<div class="p6n-api-consent-screen-label">DENOMINACION</div>
 									<div>
 										<div>
-											<h:inputText id="txtDenominacion"
+											<h:inputText id="txtDenominacion" autocomplete="off"
 												value="#{cajaCRUDBean.denominacion}" maxlength="150"
 												required="true"
 												requiredMessage="Denominacion no debe de ser vacio" />
@@ -54,7 +55,7 @@
 								<div class="p6n-api-consent-screen-input-section">
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">ABREVIATURA</div>
 									<div>
-										<h:inputText id="txtAbreviatura"
+										<h:inputText id="txtAbreviatura" autocomplete="off"
 											value="#{cajaCRUDBean.abreviatura}" maxlength="150"
 											required="true"
 											requiredMessage="Abreviatura no debe de ser vacio" />

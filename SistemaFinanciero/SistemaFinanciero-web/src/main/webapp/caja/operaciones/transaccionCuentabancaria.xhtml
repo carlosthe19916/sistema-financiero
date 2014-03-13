@@ -272,6 +272,7 @@
 							</h:panelGroup>
 							<h:panelGroup
 								rendered="#{!transaccionCuentabancariaCajaBean.success}">
+								<p:focus for="cmbTipoTransaccion"/>
 								<div class="p6n-api-consent-screen-inputs">
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"
@@ -297,7 +298,7 @@
 										<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
 										<div>
 											<div style="float: left;">
-												<h:inputText id="txtNumerocuenta"
+												<h:inputText id="txtNumerocuenta" autocomplete="off"
 													value="#{transaccionCuentabancariaCajaBean.cuentabancaria.numerocuenta}"
 													required="true" pt:placeholder="Número de Cuenta"
 													requiredMessage="Ingrese un numero de cuenta"
@@ -349,7 +350,7 @@
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">MONTO</div>
 										<div style="float: left;">
-											<h:inputText id="txtMonto"
+											<h:inputText id="txtMonto" autocomplete="off"
 												value="#{transaccionCuentabancariaCajaBean.monto}"
 												required="true" maxlenght="16">
 												<f:ajax event="blur" render="@this"
@@ -367,7 +368,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 										<div>
-											<h:inputText pt:placeholder="Referencia"
+											<h:inputText pt:placeholder="Referencia" autocomplete="off"
 												onkeyup="this.value = this.value.toUpperCase();"
 												value="#{transaccionCuentabancariaCajaBean.referencia}"
 												size="30" maxlenght="200" />
@@ -490,17 +491,19 @@
 			</h:form>
 
 			<div id="dlbBuscarCuentabancaria" class="modal-dialog p6n-popup"
-				style="left: 412.5px; top: 40px;">
+				style="left: 412.5px; top: 100px;">
 				<h:form>
+					
 					<div class="modal-dialog-content">
 						<div id="p6n-cloudsql-content">
 							<div>
 								<div>
 									<div>
 										<div>
-											<h:inputText onkeyup="this.value = this.value.toUpperCase();"
+											<h:inputText id="txtSearch" onkeyup="this.value = this.value.toUpperCase();"
 												value="#{transaccionCuentabancariaCajaBean.valorBusqueda}"
-												style="width: 250px;float: left;" />
+												style="width: 250px;float: left;" >
+											</h:inputText>
 											&nbsp;
 											<h:commandLink styleClass="button"
 												style="margin: 0px;float: left;">
