@@ -88,6 +88,8 @@ public class TransaccionBovedaBean implements Serializable {
 			comboTipoentidad.putItem(1, "CAJA");
 			comboTipoentidad.putItem(2, "OTRO");
 		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
 		}		
 	}
 
