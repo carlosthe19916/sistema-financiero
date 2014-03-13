@@ -47,8 +47,8 @@ public class TrabajadorCRUDBean implements Serializable {
 	@Size(min = 0, max = 50) private String ocupacion;
 	@Size(min = 0, max = 50) private String direccion;
 	@Size(min = 0, max = 50) private String referencia;
-	@Size(min = 0, max = 20) private String telefono;
-	@Size(min = 0, max = 20) private String celular;
+	@Size(min = 0, max = 30) private String telefono;
+	@Size(min = 0, max = 30) private String celular;
 	@Email private String email;
 	
 	private Integer idtrabajador;

@@ -52,8 +52,8 @@ public class MovimientosCajaBean implements Serializable{
 			List<CajaMovimientoView> list = transaccionCajaServiceLocal.getTransaccionesCajaWithHistorialActivo(caja);
 			tablaMovimientos.setRows(list);
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e.getMessage());
-			throw e;
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());			
 		}
 	}
 	

@@ -22,6 +22,17 @@
 		<ui:define name="content">
 			<h:outputStylesheet library="css" name="main.css" />
 
+
+			<h:panelGroup rendered="#{movimientosCajaBovedaBean.failure}">
+				<div class="p6n-api-access-in-page-error" style="left: 516px;">
+					<div>
+						<p>
+							<h:messages />
+						</p>
+					</div>
+				</div>
+			</h:panelGroup>
+			
 			<br />
 
 			<div>

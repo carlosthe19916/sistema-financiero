@@ -99,27 +99,19 @@ public class TransaccionBovedaBean implements Serializable {
 				result = this.validateBean();
 				if (result == true) {
 					Boveda boveda = this.boveda;
-					Tipotransaccion tipotransaccion = comboTipotransaccion
-							.getObjectItemSelected();
+					Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();
 					Caja caja = comboCaja.getObjectItemSelected();
-					Entidadfinanciera entidadfinanciera = comboEntidadfinanciera
-							.getObjectItemSelected();
-					List<Detalletransaccionboveda> detalletransaccionbovedas = tablaDetalletransaccionboveda
-							.getAllRows();
+					Entidadfinanciera entidadfinanciera = comboEntidadfinanciera.getObjectItemSelected();
+					List<Detalletransaccionboveda> detalletransaccionbovedas = tablaDetalletransaccionboveda.getAllRows();
 
 					transaccionboveda.setTipotransaccion(tipotransaccion);
-					transaccionboveda
-							.setDetalletransaccionbovedas(detalletransaccionbovedas);
+					transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
 
 					Transaccionboveda transaccionbovedaResult;
 					if (isCaja()) {
-						transaccionbovedaResult = bovedaServiceLocal
-								.createTransaccionboveda(boveda, caja,
-										transaccionboveda);
+						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda, caja,transaccionboveda);
 					} else {
-						transaccionbovedaResult = bovedaServiceLocal
-								.createTransaccionboveda(boveda,
-										entidadfinanciera, transaccionboveda);
+						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,entidadfinanciera, transaccionboveda);
 					}
 					this.transaccionboveda = transaccionbovedaResult;
 					voucherDetalleTransaccionBovedaView = transaccionboveda.getDetalletransaccionbovedas();

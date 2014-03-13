@@ -39,6 +39,8 @@ public class MovimientosCajaBovedaBean implements Serializable{
 	@EJB private CajaServiceLocal cajaServiceLocal;
 	@EJB private BovedaServiceLocal bovedaServiceLocal;
 	
+	private boolean failure;
+	
 	public MovimientosCajaBovedaBean() {
 		dlgDetalleTransaccion = false;
 	}
@@ -51,8 +53,8 @@ public class MovimientosCajaBovedaBean implements Serializable{
 			List<CajaTransaccionesBovedaView> list = cajaServiceLocal.getTransaccionesDelDia(caja);
 			tablaTransacciones.setRows(list);
 		} catch (Exception e) {
+			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
-			throw e;
 		}
 	}
 	
@@ -120,6 +122,14 @@ public class MovimientosCajaBovedaBean implements Serializable{
 
 	public void setDlgDetalleTransaccion(boolean dlgDetalleTransaccion) {
 		this.dlgDetalleTransaccion = dlgDetalleTransaccion;
+	}
+
+	public boolean isFailure() {
+		return failure;
+	}
+
+	public void setFailure(boolean failure) {
+		this.failure = failure;
 	}
 
 }

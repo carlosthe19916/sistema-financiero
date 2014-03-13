@@ -58,7 +58,8 @@
 													<tr style="vertical-align: center;">
 														<td colspan="1"
 															style="text-align: center; font-weight: bold; font-size: 12px;">
-															<p:graphicImage name="logo_coop_voucher.png" library="images/logo_coop" />
+															<p:graphicImage name="logo_coop_voucher.png"
+																library="images/logo_coop" />
 														</td>
 														<td colspan="3"
 															style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">COOPERATIVA
@@ -117,6 +118,13 @@
 																value="#{transaccionBovedaBean.voucherBovedaView.denominacionEntidad}" /></td>
 													</tr>
 													<tr>
+														<td colspan="1"
+															style="font-weight: bold; font-size: 12px;">OBS.:</td>
+														<td colspan="3" style="font-size: 12px;"><h:outputLabel
+																value="#{transaccionBovedaBean.transaccionboveda.observacion}" />
+														</td>
+													</tr>
+													<tr>
 														<td colspan="4">&nbsp;</td>
 													</tr>
 													<tr>
@@ -153,7 +161,7 @@
 															</table>
 														</td>
 													</tr>
-													
+
 													<tr>
 														<td colspan="1"
 															style="font-weight: bold; font-size: 12px;">TOTAL
@@ -316,6 +324,17 @@
 										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 										<h:message for="cmbEntidadfinanciera" />
 									</div>
+
+
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">OBSERVACION</div>
+										<div>
+											<h:inputText
+												value="#{transaccionBovedaBean.transaccionboveda.observacion}" />
+										</div>
+									</div>
+
 
 									<div class="sf-separator"></div>
 									<div class="p6n-api-consent-screen-input-section">

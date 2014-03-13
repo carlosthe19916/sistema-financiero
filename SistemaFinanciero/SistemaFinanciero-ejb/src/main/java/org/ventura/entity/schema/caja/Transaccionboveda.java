@@ -40,6 +40,9 @@ public class Transaccionboveda implements Serializable {
 	@Column(nullable = false)
 	private BigDecimal saldodisponible;
 
+	@Column
+	private String observacion;
+	
 	@OneToMany(mappedBy = "transaccionboveda")
 	private List<Detalletransaccionboveda> detalletransaccionbovedas;
 
@@ -59,6 +62,7 @@ public class Transaccionboveda implements Serializable {
 	@JoinColumn(name = "identidadfinanciera")
 	private Entidadfinanciera entidadfinanciera;
 
+	
 	public Transaccionboveda() {
 	}
 
@@ -155,5 +159,13 @@ public class Transaccionboveda implements Serializable {
 	@Override
 	public int hashCode() {
 		return idtransaccionboveda;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 }
