@@ -907,7 +907,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new EJBException(e);
+			throw new EJBException(e.getMessage());
 		}
 		return transaccionboveda;
 	}

@@ -39,6 +39,7 @@
 			</h:panelGroup>
 
 			<h:form id="formPrincipal">
+				
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
@@ -92,7 +93,7 @@
 									<div>
 										<div style="float: left;">
 											<h:inputText id="txtTrabajador"
-												value="#{usuarioCRUDBean.trabajador.personanatural.apellidopaterno} #{usuarioCRUDBean.trabajador.personanatural.nombres}"
+												value="#{usuarioCRUDBean.trabajador.personanatural.apellidopaterno} #{usuarioCRUDBean.trabajador.personanatural.apellidomaterno} #{usuarioCRUDBean.trabajador.personanatural.nombres}"
 												required="true" requiredMessage="Ingrese trabajador"
 												readonly="true" />
 										</div>
@@ -117,7 +118,7 @@
 									<div class="p6n-api-consent-screen-label">USUARIO</div>
 									<div>
 										<div>
-											<h:inputText id="txtUsuario"
+											<h:inputText id="txtUsuario" autocomplete="off"
 												value="#{usuarioCRUDBean.username}" maxlength="150"
 												required="true" requiredMessage="Ingrese usuario" />
 										</div>
@@ -171,7 +172,7 @@
 											<div class="modal-dialog-content ng-binding">El usuario
 												fue creado satistactoriamente.</div>
 											<div class="modal-dialog-buttons">
-												<h:commandButton value="Crear nuevo"
+												<h:commandButton value="Crear Nuevo"
 													action="createUsuario?faces-redirect=true" immediate="true" />
 												<h:commandButton value="Volver"
 													action="list?faces-redirect=true" immediate="true" />
@@ -189,15 +190,16 @@
 				<h:panelGroup rendered="#{usuarioCRUDBean.dlgBuscarTrabajador}">
 					<h:form id="formDlgBuscarTrabajador">
 						<div class="modal-dialog p6n-popup"
-							style="left: 412.5px; top: 50px;">
-							<div class="p6n-popup-title">Buscar trabajador</div>
+							style="left: 412.5px; top: 100px;">
+							<div class="p6n-popup-title" style="text-align: center;">BUSCAR TRABAJADOR</div>
 							<div class="modal-dialog-content">
 								<h:form>
+									<p:focus id="searchFocus" for="search"/>
 									<div class="modal-dialog-content">
 										<div id="p6n-cloudsql-content">
 											<div>
 												<div>
-													<h:inputText
+													<h:inputText id="search"
 														onkeyup="this.value = this.value.toUpperCase();"
 														value="#{usuarioCRUDBean.valorBusqueda}"
 														style="width: 250px;float: left;" />
@@ -212,7 +214,7 @@
 													</h:commandLink>
 													<h:selectOneMenu id="cmbTipoBusqueda"
 														value="#{usuarioCRUDBean.comboTipoDocumento.itemSelected}">
-														<f:selectItem itemLabel="Ap. y Nombres" itemValue="" />
+														<f:selectItem itemLabel="Apellidos y Nombres" itemValue="" />
 														<f:selectItems
 															value="#{usuarioCRUDBean.comboTipoDocumento.items.entrySet()}"
 															var="val" itemLabel="#{val.value.abreviatura}"
@@ -268,7 +270,7 @@
 								</h:form>
 							</div>
 							<div class="modal-dialog-buttons">
-								<h:commandButton value="Guardar" styleClass="action blue">
+								<h:commandButton value="Aceptar" styleClass="action blue">
 									<f:ajax
 										listener="#{usuarioCRUDBean.setDlgBuscarTrabajador(false)}"
 										render=":dlgBuscarTrabajador :formPrincipal:resumenTrabajador :formPrincipal:txtTrabajador"

@@ -23,6 +23,7 @@
 		<div>
 			<h:panelGroup rendered="#{aperturaCuentaaporteBean.personanatural}">
 				<h:form>
+					<p:focus for="check"/>
 					<div style="margin-left: 50px;">
 						<div>
 							<div>
@@ -33,7 +34,7 @@
 												style="color: #298B11;">Apoderado</h3>
 										</div>
 										<div style="display: inline-block;">
-											<h:selectBooleanCheckbox
+											<h:selectBooleanCheckbox id="check"
 												value="#{aperturaCuentaaporteBean.existeApoderado}">
 												<f:ajax></f:ajax>
 											</h:selectBooleanCheckbox>

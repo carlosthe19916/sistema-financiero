@@ -31,6 +31,11 @@
 									<h:messages />
 								</p>
 							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Volver"
+									action="/jefeCaja/boveda/operaciones/transaccion?faces-redirect=true"
+									styleClass="p6n-api-access-in-page-error-link" />
+							</div>
 						</div>
 					</div>
 				</h:form>
@@ -199,7 +204,8 @@
 									</div>
 								</div>
 							</h:panelGroup>
-
+							
+							<p:focus for="cmbBoveda"/>
 							<h:panelGroup rendered="#{!transaccionBovedaBean.success}">
 								<div class="p6n-api-consent-screen-inputs">
 									<div class="p6n-api-consent-screen-input-section">
