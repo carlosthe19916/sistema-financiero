@@ -236,14 +236,24 @@
 				<h:form>
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
-					<div class="modal-dialog p6n-popup" style="left: 452px; top: 40px;">
+					<div class="modal-dialog p6n-popup" style="left: 452px; top: 50px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Crear Pendiente</span><span
+							<span class="modal-dialog-title-text">CREAR PENDIENTE</span><span
 								class="modal-dialog-title-close"></span>
 						</div>
 						<div class="modal-dialog-content ng-binding">
 							<div>
 								<div class="p6n-api-consent-screen-inputs">
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">FECHA</div>
+										<div>
+											<h:outputText
+												value="#{abrirCajaBean.fechaPendiente}" >
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss a" timeZone="EST" />
+											</h:outputText>
+										</div>
+									</div>
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">TIPO PENDIENTE</div>
@@ -258,18 +268,18 @@
 											<div class="p6n-api-consent-screen-label">TIPO MONEDA</div>
 											<div>
 												<h:outputText
-													value="#{abrirCajaBean.tipomonedaPendiente.abreviatura} #{abrirCajaBean.tipomonedaPendiente.denominacion}" />
+													value="#{abrirCajaBean.tipomonedaPendiente.denominacion}" />
 											</div>
 										</div>
 										<div style="display: inline-block; width: 190px;">
 											<div class="p6n-api-consent-screen-label">MONTO</div>
 											<div>
-												<h:outputText value="#{abrirCajaBean.montoPendiente}" />
+												<h:outputText value="#{abrirCajaBean.tipomonedaPendiente.abreviatura} #{abrirCajaBean.montoPendiente}" />
 											</div>
 										</div>
 									</div>
 									<div class="p6n-api-consent-screen-input-section">
-										<div class="p6n-api-consent-screen-label">Observación</div>
+										<div class="p6n-api-consent-screen-label">OBSERVACIÓN</div>
 										<div>
 											<div>
 												<p:inputTextarea rows="10" cols="60" queryDelay="750"

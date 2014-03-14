@@ -275,7 +275,7 @@
 											<f:ajax execute="@this" />
 											<f:ajax event="change"
 												listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
-												render="inplace oupTipoCambio txtMontoRecibido :formCalculadora" />
+												render="inplace oupTipoCambio txtMontoRecibido :formCalculadora optMontoRecibido" />
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -303,7 +303,7 @@
 											<f:ajax execute="@this" />
 											<f:ajax event="change"
 												listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
-												render="inplace oupTipoCambio" />
+												render="inplace oupTipoCambio optMontoEntregado" />
 											<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
 										</h:selectOneMenu>
 									</div>
@@ -349,7 +349,8 @@
 									<div class="p6n-api-consent-screen-label" style="width: 100px;">MONTO
 										RECIBIDO</div>
 									<div style="float: left;">
-										<h:inputText id="txtMontoRecibido"
+										<h:outputText style="text-align: center; font-weight: bold; font-size: 18px; vertical-align: bottom" id="optMontoRecibido" value="#{transaccionCompraVentaCajaBean.comboTipomonedaRecibido.objectItemSelected.abreviatura}" />
+										<h:inputText id="txtMontoRecibido" size="15"
 											value="#{transaccionCompraVentaCajaBean.montoRecibido}"
 											required="true" maxlenght="16"
 											requiredMessage="Ingrese el monto a recibir"
@@ -375,7 +376,8 @@
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">MONTO
 										ENTREGADO</div>
 									<div style="float: left;">
-										<h:inputText id="txtMontoEntregado"
+										<h:outputText style="text-align: center; font-weight: bold; font-size: 18px; vertical-align: bottom" id="optMontoEntregado" value="#{transaccionCompraVentaCajaBean.comboTipomonedaEntregado.objectItemSelected.abreviatura}" />
+										<h:inputText id="txtMontoEntregado" size="15"
 											value="#{transaccionCompraVentaCajaBean.montoEntregado}"
 											required="true" maxlenght="16"
 											requiredMessage="Ingrese el monto entregado">

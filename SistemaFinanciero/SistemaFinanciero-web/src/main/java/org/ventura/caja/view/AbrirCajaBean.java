@@ -2,6 +2,8 @@ package org.ventura.caja.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,7 @@ public class AbrirCajaBean implements Serializable{
 	private BigDecimal montoPendiente;
 	private Tipomoneda tipomonedaPendiente;
 	private String observacionPendiente;
+	private Date fechaPendiente;
 	
 	private Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaApertura;
 	private Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaCierre;
@@ -135,7 +138,8 @@ public class AbrirCajaBean implements Serializable{
 			PendienteCaja pendienteCaja = new PendienteCaja();
 			pendienteCaja.setMonto(new Moneda(montoPendiente));
 			pendienteCaja.setObservacion(observacionPendiente);
-			pendienteCaja.setTipomoneda(tipomonedaPendiente);			
+			pendienteCaja.setTipomoneda(tipomonedaPendiente);
+			pendienteCaja.setFecha(fechaPendiente);
 			cajaServiceLocal.crearPendiente(caja, pendienteCaja);
 			
 			successPendiente = true;
@@ -171,6 +175,7 @@ public class AbrirCajaBean implements Serializable{
 		montoPendiente = mapDiferenciaSaldos.get(tipomoneda);
 		tipomonedaPendiente = tipomoneda;
 		observacionPendiente = "";
+		fechaPendiente = Calendar.getInstance().getTime();
 	}
 	
 	public void cancelarPendiente(){
@@ -200,9 +205,9 @@ public class AbrirCajaBean implements Serializable{
 			msg = "Cuadre de caja correcto";
 		} else {
 			if(montoPendiente.compareTo(BigDecimal.ZERO) == 1){
-				msg = "Sobrante";
+				msg = "SOBRANTE";
 			} else {
-				msg = "Faltante";
+				msg = "FALTANTE";
 			}
 		}
 		return msg;
@@ -335,4 +340,11 @@ public class AbrirCajaBean implements Serializable{
 		this.historialcaja = historialcaja;
 	}
 
+	public Date getFechaPendiente() {
+		return fechaPendiente;
+	}
+
+	public void setFechaPendiente(Date fechaPendiente) {
+		this.fechaPendiente = fechaPendiente;
+	}
 }

@@ -1,6 +1,7 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -47,7 +48,9 @@ public class PendienteCaja implements Serializable {
 	@Column(nullable = false, length = 10)
 	private String tipopendiente;
 
-	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
+	private Date fecha;
 
 	public Integer getIdpendientecaja() {
 		return this.idpendientecaja;
@@ -97,4 +100,11 @@ public class PendienteCaja implements Serializable {
 		this.tipomoneda = tipomoneda;
 	}
 
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
 }

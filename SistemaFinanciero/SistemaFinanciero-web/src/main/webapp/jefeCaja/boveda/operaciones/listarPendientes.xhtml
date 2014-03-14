@@ -69,15 +69,7 @@
 								</p:column>
 								
 								
-								<p:column headerText="Fecha" sortBy="fechaTransaccionboveda">
-									<h:outputText value="#{transaccion.fechaTransaccionboveda}">
-										<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
-									</h:outputText>
-								</p:column>
-								<p:column headerText="Hora" sortBy="horaTransaccionboveda">
-									<h:outputText
-										value="#{listarTransaccionesBovedaBean.getStringTime(transaccion.horaTransaccionboveda)}" />
-								</p:column>
+								
 							</p:dataTable>
 						</div>
 					</h:form>

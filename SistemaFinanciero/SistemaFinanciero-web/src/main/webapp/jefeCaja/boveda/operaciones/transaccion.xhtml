@@ -187,18 +187,46 @@
 													<tr>
 														<td colspan="4">&nbsp;</td>
 													</tr>
-
-													<tr>
-														<td colspan="2" style="text-align: center;">------------------------------</td>
-														<td colspan="2" style="text-align: left;">------------------------------</td>
-													</tr>
-													<tr>
-														<td colspan="2"
-															style="text-align: center; font-weight: bold; font-size: 12px;">JEFE
-															DE CAJA</td>
-														<td colspan="2"
-															style="text-align: center; font-weight: bold; font-size: 12px;">CAJERO</td>
-													</tr>
+													<h:panelGroup rendered="#{transaccionBovedaBean.isCaja()}">
+														<tr>
+															<td colspan="2" style="text-align: center;">------------------------------</td>
+															<td colspan="2" style="text-align: left;">------------------------------</td>
+														</tr>
+														<tr>
+															<td colspan="2"
+																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE
+																DE CAJA</td>
+															<td colspan="2"
+																style="text-align: center; font-weight: bold; font-size: 12px;">CAJERO</td>
+														</tr>
+													</h:panelGroup>
+													<h:panelGroup
+														rendered="#{transaccionBovedaBean.isAgencia()}">
+														<tr>
+															<td colspan="2" style="text-align: center;">------------------------------</td>
+															<td colspan="2" style="text-align: left;">------------------------------</td>
+														</tr>
+														<tr>
+															<td colspan="2"
+																style="text-align: center; font-weight: bold; font-size: 12px;">ADMINISTRADOR</td>
+															<td colspan="2"
+																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE
+																CAJA</td>
+														</tr>
+													</h:panelGroup>
+													<h:panelGroup rendered="#{transaccionBovedaBean.isOtro()}">
+														<tr>
+															<td colspan="2" style="text-align: center;">------------------------------</td>
+															<td colspan="2" style="text-align: left;">------------------------------</td>
+														</tr>
+														<tr>
+															<td colspan="2"
+																style="text-align: center; font-weight: bold; font-size: 12px;">ADMINISTRADOR</td>
+															<td colspan="2"
+																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE
+																CAJA</td>
+														</tr>
+													</h:panelGroup>
 												</table>
 											</h:panelGroup>
 										</div>
@@ -455,7 +483,7 @@
 											value="Aceptar" styleClass="action blue" />
 										<h:commandButton
 											action="/jefeCaja/boveda/administracion/list?faces-redirect=true"
-											value="Cancelar" styleClass="action red" immediate="true"/>
+											value="Cancelar" styleClass="action red" immediate="true" />
 									</div>
 								</div>
 							</h:panelGroup>
