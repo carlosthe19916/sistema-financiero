@@ -56,14 +56,14 @@
 					</div>
 					<br />
 					<div class="p6n-api-consent-screen-title"
-						style="margin-left: 10px;">Transacciones(Boveda) del dia</div>
+						style="margin-left: 10px;">Transacciones del Día con Boveda</div>
 				</div>
 				<div>
 					<h:form>
 						<div style="margin: 5px;">
 							<p:dataTable var="transaccion"
 								value="#{movimientosCajaBovedaBean.tablaTransacciones.rows}"
-								selectionMode="single"
+								selectionMode="single" paginatorPosition="bottom"
 								selection="#{movimientosCajaBovedaBean.tablaTransacciones.selectedRow}"
 								rowKey="#{transaccion}" rowIndexVar="row" paginator="true"
 								rows="10" sortMode="multiple"
@@ -71,7 +71,7 @@
 								rowsPerPageTemplate="5,10,15">
 
 								<f:facet name="header">  
-						            Transacciones de boveda 
+						            Transacciones de Boveda 
 						        </f:facet>
 								<p:column headerText="Nro" width="5%" style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
@@ -129,7 +129,7 @@
 								rowKey="#{detalle}" rowIndexVar="row" style="width:500px;">
 
 								<f:facet name="header">  
-						            Detalle de transaccion
+						            Detalle de Transaccion
 						        </f:facet>
 								<p:column headerText="Nro" width="5%" style="text-align:center;">
 									<h:outputText value="#{row + 1}" />

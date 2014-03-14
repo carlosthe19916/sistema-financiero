@@ -109,7 +109,7 @@
 					</div>
 					<br />
 					<div class="p6n-api-consent-screen-title"
-						style="margin-left: 10px;">Transacciones(Cliente) del dia</div>
+						style="margin-left: 10px;">Transacciones del Día en Caja</div>
 					<div style="margin-left: 10px;">
 						<h:form>
 							<div class="p6n-api-consent-screen-input-section">
@@ -144,7 +144,7 @@
 						<div style="margin: 5px;">
 							<p:dataTable var="transaccion"
 								value="#{movimientosCajaBean.tablaMovimientos.rows}"
-								selectionMode="single"
+								selectionMode="single" paginatorPosition="bottom"
 								selection="#{movimientosCajaBean.tablaMovimientos.selectedRow}"
 								rowKey="#{transaccion}" rowIndexVar="row" paginator="true"
 								rows="10" sortMode="multiple"
@@ -216,8 +216,8 @@
 					style="opacity: 0.4; width: 1366px; height: 902px;"></div>
 				<div class="modal-dialog p6n-popup"
 					style="left: 512.5px; top: 100px;">
-					<div class="modal-dialog-content">Transaccion extornada
-						satisfactoriamente</div>
+					<div class="modal-dialog-content">Transacción Extornada
+						Satisfactoriamente</div>
 					<div class="modal-dialog-buttons">
 						<h:form>
 							<h:commandButton value="Aceptar"
