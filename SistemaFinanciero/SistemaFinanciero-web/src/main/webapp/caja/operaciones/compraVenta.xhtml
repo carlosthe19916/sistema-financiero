@@ -218,7 +218,7 @@
 										o RUC</div>
 									<div style="float: left;">
 										<h:inputText id="txtDniRuc" required="true"
-											requiredMessage="Ingrese DNI o Ruc"
+											requiredMessage="Ingrese DNI o Ruc" autocomplete="off"
 											value="#{transaccionCompraVentaCajaBean.dniRuc}" size="15"
 											maxlength="11" validatorMessage="Dni o Ruc Invalido">
 											<f:validateRegex pattern="((?=.*[0-9]).{8,})" />
@@ -240,7 +240,7 @@
 										o RAZON SOCIAL</div>
 									<div style="float: left;">
 										<h:inputText id="txtNombresRazonSocial" required="true"
-											requiredMessage="Ingrese Nombres o Razon Social"
+											requiredMessage="Ingrese Nombres o Razon Social" autocomplete="off"
 											value="#{transaccionCompraVentaCajaBean.nombresRazonSocial}"
 											onkeyup="this.value = this.value.toUpperCase();" size="50"
 											maxlenght="200">

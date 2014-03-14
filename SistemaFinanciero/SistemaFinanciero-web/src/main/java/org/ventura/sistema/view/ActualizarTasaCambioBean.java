@@ -444,30 +444,20 @@ public class ActualizarTasaCambioBean implements Serializable {
 	
 	//calcula las tasas de dolar a euro y viceversa en compra
 	public void calculateTasaCambioCompra(){
-		TasaCambio compraDolarSol = tipoCambioCompraDolarSol.getTipocambio();
-		TasaCambio ventaEuroSol = tipoCambioVentaEuroSol.getTipocambio();
+		TasaCambio ventaDolarSol = tipoCambioVentaDolarSol.getTipocambio();
+		TasaCambio compraEuroSol = tipoCambioCompraEuroSol.getTipocambio();
 		
-		tipoCambioCompraEuroDolar.setTipocambio(compraDolarSol.divide(ventaEuroSol));
-	 	tipoCambioVentaDolarEuro.setTipocambio(compraDolarSol.divide(ventaEuroSol));
+		tipoCambioCompraEuroDolar.setTipocambio(compraEuroSol.divide(ventaDolarSol));
+	 	tipoCambioVentaDolarEuro.setTipocambio(compraEuroSol.divide(ventaDolarSol));
 	}
 	
 	//calcula las tasas de dolar a euro y viceversa en venta
 	public void calculateTasaCambioVenta(){
-		TasaCambio ventaDolarSol = tipoCambioVentaDolarSol.getTipocambio();
-		TasaCambio compraEuroSol = tipoCambioCompraEuroSol.getTipocambio();
+		TasaCambio compraDolarSol = tipoCambioCompraDolarSol.getTipocambio();
+		TasaCambio ventaEuroSol = tipoCambioVentaEuroSol.getTipocambio();	
 		
-		tipoCambioCompraDolarEuro.setTipocambio(compraEuroSol.divide(ventaDolarSol));
-		tipoCambioVentaEuroDolar.setTipocambio(compraEuroSol.divide(ventaDolarSol));
-	}
-	
-	public void imprimir(){
-		System.out.println("Tipos de cambio para la compra");
-		System.out.println("Compra de $ ---> S/. " + tipoCambioCompraDolarSol.getIdtipocambio());
-		System.out.println("Compra de € ---> S/. " + tipoCambioCompraEuroSol.getIdtipocambio());
-		System.out.println("*************************************");
-		System.out.println("Tipos de cambio para la Venta");
-		System.out.println("Venta de $ ---> S/. " + tipoCambioVentaDolarSol.getIdtipocambio());
-		System.out.println("Venta de € ---> S/. " + tipoCambioVentaEuroSol.getIdtipocambio());
+		tipoCambioCompraDolarEuro.setTipocambio(compraDolarSol.divide(ventaEuroSol));
+		tipoCambioVentaEuroDolar.setTipocambio(compraDolarSol.divide(ventaEuroSol));
 	}
 
 	public boolean isValidBean() {

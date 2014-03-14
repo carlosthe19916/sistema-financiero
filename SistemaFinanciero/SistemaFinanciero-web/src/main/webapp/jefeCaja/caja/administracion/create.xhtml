@@ -34,7 +34,7 @@
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">
 										AGENCIA</div>
 									<div>
-										<h:outputLabel value="#{cajaCRUDBean.agencia.denominacion}" />
+										<h:outputLabel style="font-weight: bold;" value="#{cajaCRUDBean.agencia.denominacion}" />
 									</div>
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
@@ -43,7 +43,7 @@
 										<div>
 											<h:inputText id="txtDenominacion" autocomplete="off"
 												value="#{cajaCRUDBean.denominacion}" maxlength="150"
-												required="true"
+												required="true" onkeyup="this.value = this.value.toUpperCase();"
 												requiredMessage="Denominacion no debe de ser vacio" />
 										</div>
 									</div>
@@ -57,7 +57,7 @@
 									<div>
 										<h:inputText id="txtAbreviatura" autocomplete="off"
 											value="#{cajaCRUDBean.abreviatura}" maxlength="150"
-											required="true"
+											required="true" onkeyup="this.value = this.value.toUpperCase();"
 											requiredMessage="Abreviatura no debe de ser vacio" />
 									</div>
 								</div>

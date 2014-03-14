@@ -16,19 +16,22 @@
 		<div>
 			<table style="width: 230px; border: solid 1px #E9E6E6;">
 				<tr style="vertical-align: center;">
-					<td colspan="1" style="text-align: center; font-weight: bold; font-size: 12px;">
-						<p:graphicImage name="logo_coop_voucher.png" library="images/logo_coop" />
+					<td colspan="1" style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">
+						<p:graphicImage name="logo_coop_header.png" library="images/logo_coop" />
 					</td>
 					<td colspan="3"
-						style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">COOPERATIVA
-						DE AHORRO Y CREDITO CAJA VENTURA</td>
+						style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">
+						<h:outputText value="C.A.C." />
+						<br />
+						<h:outputText style="font-size: 16px;" value="CAJA VENTURA" />
+					</td>
 				</tr>
 				<tr>
 				</tr>
 				<tr style="vertical-align: center;">
 					<td colspan="4" style="text-align: center; font-weight: bold; font-size: 12px;">
-						<h:outputText value="VENTA M.E." rendered="#{transaccionCompraVentaCajaBean.compra}"/>
-						<h:outputText value="COMPRA M.E." rendered="#{transaccionCompraVentaCajaBean.venta}"/>
+						<h:outputText value="COMPRA M.E." rendered="#{transaccionCompraVentaCajaBean.compra}"/>
+						<h:outputText value="VENTA M.E." rendered="#{transaccionCompraVentaCajaBean.venta}"/>
 					</td>
 				</tr>
 				<tr>
@@ -64,8 +67,11 @@
 				</tr>
 				<tr>
 					<td colspan="1" style="font-weight: bold; font-size: 12px;">CLIENTE:</td>
-					<td colspan="3" style="font-size: 10px;">#{transaccionCompraVentaCajaBean.voucherCompraVenta.dniRuc}
-						#{transaccionCompraVentaCajaBean.voucherCompraVenta.nombresRazonsocial}</td>
+					<td colspan="3" style="font-size: 12px;">
+						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.dniRuc}" />
+						<br />
+						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.nombresRazonsocial}" />
+					</td>
 				</tr>
 				<tr></tr>
 				<tr></tr>
@@ -77,8 +83,8 @@
 				</tr>
 				<tr>
 					<td colspan="2" style="font-weight: bold; font-size: 12px;">
-						<h:outputText value="VENTA M.E." rendered="#{transaccionCompraVentaCajaBean.compra}"/>
-						<h:outputText value="COMPRA M.E." rendered="#{transaccionCompraVentaCajaBean.venta}"/>
+						<h:outputText value="COMPRA M.E." rendered="#{transaccionCompraVentaCajaBean.compra}"/>
+						<h:outputText value="VENTA M.E." rendered="#{transaccionCompraVentaCajaBean.venta}"/>
 					</td>
 					<td colspan="2" style="text-align: right; font-size: 12px;">
 					<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.montoRecibido}" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
