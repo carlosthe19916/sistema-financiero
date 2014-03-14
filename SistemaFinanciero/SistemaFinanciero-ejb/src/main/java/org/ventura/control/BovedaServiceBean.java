@@ -913,6 +913,115 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 	
 	@Override
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Agencia agencia,Transaccionboveda transaccionboveda) throws Exception {
+		List<Detalletransaccionboveda> detalletransaccionbovedas = null;
+		try {
+			detalletransaccionbovedas = transaccionboveda.getDetalletransaccionbovedas();
+			Historialboveda historialboveda = getHistorialbovedaLastActive(boveda);
+			if (historialboveda != null) {
+
+				TipoTransaccionType tipoTransaccion = ProduceObject.getTipotransaccion(transaccionboveda.getTipotransaccion());
+				boolean isTransaccionvalida = false;
+
+				switch (tipoTransaccion) {
+				case DEPOSITO:
+					isTransaccionvalida = isDepositoValido(boveda,transaccionboveda);
+					break;
+				case RETIRO:
+					isTransaccionvalida = isRetiroValido(boveda,transaccionboveda);
+					break;
+				default:
+					throw new Exception("Tipo de transaccion no valida");
+				}
+
+				if (isTransaccionvalida == true) {
+					
+					//obteniendo monto transaccion y saldo disponible
+					List<Detallehistorialboveda> detallehistorialbovedasSaldo = historialboveda.getDetallehistorialbovedas();
+					BigDecimal saldoTotal = BigDecimal.ZERO;
+					BigDecimal transaccionTotal = BigDecimal.ZERO;
+					BigDecimal saldoDisponible = BigDecimal.ZERO;
+					for (Detallehistorialboveda d : detallehistorialbovedasSaldo) {
+						int cantidad = d.getCantidad();
+						BigDecimal valor = d.getDenominacionmoneda().getValor().getValue();
+						saldoTotal = saldoTotal.add(valor.multiply(new BigDecimal(cantidad)));
+					}
+					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
+						int cantidad = e.getCantidad();
+						BigDecimal valor = e.getDenominacionmoneda().getValor().getValue();
+						transaccionTotal = transaccionTotal.add(valor.multiply(new BigDecimal(cantidad)));
+					}			
+					switch (tipoTransaccion) {
+					case DEPOSITO:
+						saldoDisponible = saldoTotal.add(transaccionTotal);
+						break;
+					case RETIRO:
+						saldoDisponible = saldoTotal.subtract(transaccionTotal);
+						break;
+					default:
+						throw new Exception("Tipo de transaccion no valida");
+					}
+					
+					transaccionboveda.setHistorialboveda(historialboveda);
+					preCreateTransaccionboveda(transaccionboveda);
+					transaccionboveda.setAgencia(agencia);
+					transaccionboveda.setSaldodisponible(saldoDisponible);
+					transaccionbovedaDAO.create(transaccionboveda);
+
+					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
+						e.setTransaccionboveda(transaccionboveda);
+						detalletransaccionbovedaDAO.create(e);
+					}
+					
+					transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
+
+					// ACTUALIZAR DETALLEHISTORIALBOVEDA
+					List<Detallehistorialboveda> detallehistorialbovedas = historialboveda.getDetallehistorialbovedas();
+
+					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
+						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
+						Integer cantidad = e.getCantidad();
+						for (Detallehistorialboveda d : detallehistorialbovedas) {
+							if (d.getDenominacionmoneda().equals(denominacionmoneda)) {
+								switch (tipoTransaccion) {
+								case DEPOSITO:
+									d.setCantidad(d.getCantidad() + cantidad);
+									break;
+								case RETIRO:
+									d.setCantidad(d.getCantidad() - cantidad);
+									break;
+								}
+								detallehistorialbovedaDAO.update(d);
+								break;
+							}
+						}
+					}
+
+				} else {
+					switch (tipoTransaccion) {
+					case DEPOSITO:
+						throw new InvalidTransactionBovedaException("Transaccion no permitida");
+					case RETIRO:
+						throw new InsufficientMoneyForTransactionException("Fondos Insuficientes para Retiro");
+					}
+				}
+			} else {
+				throw new RollbackFailureException("Error: La boveda no tiene un historial activo");
+			}
+		} catch (Exception e) {
+			transaccionboveda.setIdtransaccionboveda(null);
+			for (Detalletransaccionboveda d : detalletransaccionbovedas) {
+				d.setIddetalletransaccionboveda(null);
+			}
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return transaccionboveda;
+	}
+	
+	@Override
 	public Transaccionboveda createTransaccionboveda(Boveda boveda, Entidadfinanciera entidadfinanciera,Transaccionboveda transaccionboveda) throws Exception {
 		List<Detalletransaccionboveda> detalletransaccionbovedas = null;
 		try {

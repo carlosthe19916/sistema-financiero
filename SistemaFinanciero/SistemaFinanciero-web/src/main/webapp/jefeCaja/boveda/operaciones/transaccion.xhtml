@@ -53,6 +53,10 @@
 							</div>
 
 							<h:panelGroup rendered="#{transaccionBovedaBean.success}">
+								<br />
+								<div>
+									<div>
+										<div>
 											<h:panelGroup id="voucherBoveda">
 												<table
 													style="width: 420px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
@@ -63,15 +67,12 @@
 																library="images/logo_coop" />
 														</td>
 														<td colspan="3"
-															style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">
-															<h:outputText value="C.A.C." />
-															<br />
-															<h:outputText style="font-size: 22px;" value="CAJA VENTURA" />
-														</td>
+															style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">COOPERATIVA
+															DE AHORRO Y CREDITO CAJA VENTURA</td>
 													</tr>
 													<tr style="vertical-align: center;">
 														<td colspan="4"
-															style="text-align: center; font-weight: bold; font-size: 13px;">TRANSACCION
+															style="text-align: center; font-weight: bold; font-size: 12px;">TRANSACCION
 															BOVEDA</td>
 													</tr>
 													<tr>
@@ -128,7 +129,9 @@
 																value="#{transaccionBovedaBean.transaccionboveda.observacion}" />
 														</td>
 													</tr>
-													
+													<tr>
+														<td colspan="4">&nbsp;</td>
+													</tr>
 													<tr>
 														<td colspan="4">
 															<table
@@ -148,17 +151,16 @@
 																</thead>
 																<tbody>
 																	<ui:repeat
-																	value="#{transaccionBovedaBean.voucherDetalleTransaccionBovedaView}"
-																	var="voucherBoveda">
-																		<h:panelGroup
-																		rendered="#{voucherBoveda.cantidad==0 ? false : true}">
-																			<tr class="ng-scope">
-																				<td><h:outputLabel
+																		value="#{transaccionBovedaBean.voucherDetalleTransaccionBovedaView}"
+																		var="voucherBoveda">
+																		<tr class="ng-scope">
+																			<td><h:outputLabel
 																					value="#{voucherBoveda.denominacionmoneda.denominacion}" /></td>
-																				<td><h:outputLabel value="#{voucherBoveda.cantidad}" /></td>
-																				<td><h:outputLabel value="#{voucherBoveda.subtotal}" /></td>
-																			</tr>
-																		</h:panelGroup>
+																			<td><h:outputLabel
+																					value="#{voucherBoveda.cantidad}" /></td>
+																			<td><h:outputLabel
+																					value="#{voucherBoveda.subtotal}" /></td>
+																		</tr>
 																	</ui:repeat>
 																</tbody>
 															</table>
@@ -187,7 +189,7 @@
 													</tr>
 
 													<tr>
-														<td colspan="2" style="text-align: center;">----------------------------</td>
+														<td colspan="2" style="text-align: center;">------------------------------</td>
 														<td colspan="2" style="text-align: left;">------------------------------</td>
 													</tr>
 													<tr>
@@ -199,6 +201,8 @@
 													</tr>
 												</table>
 											</h:panelGroup>
+										</div>
+									</div>
 									<div style="margin-left: 280px;">
 										<h:commandButton value="Imprimir" styleClass="action blue">
 											<p:printer target="voucherBoveda" />
@@ -206,6 +210,7 @@
 										<h:commandButton value="Salir"
 											action="transaccion?faces-redirect=true" />
 									</div>
+								</div>
 							</h:panelGroup>
 
 							<p:focus for="cmbBoveda" />
@@ -275,7 +280,7 @@
 												style="width: 150px;">ENTIDAD</div>
 											<h:panelGroup id="panelOrigen">
 												<h:selectOneMenu id="cmbEntidad"
-													rendered="#{(!transaccionBovedaBean.isCaja()) and (!transaccionBovedaBean.isOtro())}"
+													rendered="#{(!transaccionBovedaBean.isCaja()) and (!transaccionBovedaBean.isOtro()) and (!transaccionBovedaBean.isAgencia())}"
 													required="true" requiredMessage="Seleccione una Entidad">
 													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 												</h:selectOneMenu>
@@ -286,6 +291,17 @@
 													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 													<f:selectItems
 														value="#{transaccionBovedaBean.comboCaja.items.entrySet()}"
+														var="val" itemLabel="#{val.value.denominacion}"
+														itemValue="#{val.key}" />
+													<f:ajax render="panelOrigen" execute="@this" />
+												</h:selectOneMenu>
+												<h:selectOneMenu id="cmbAgencia"
+													value="#{transaccionBovedaBean.comboAgencia.itemSelected}"
+													rendered="#{transaccionBovedaBean.isAgencia()}"
+													required="true" requiredMessage="Seleccione una agencia">
+													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+													<f:selectItems
+														value="#{transaccionBovedaBean.comboAgencia.items.entrySet()}"
 														var="val" itemLabel="#{val.value.denominacion}"
 														itemValue="#{val.key}" />
 													<f:ajax render="panelOrigen" execute="@this" />
@@ -331,7 +347,7 @@
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">OBSERVACION</div>
 										<div>
-											<h:inputText size="61" onkeyup="this.value = this.value.toUpperCase();"
+											<h:inputText
 												value="#{transaccionBovedaBean.transaccionboveda.observacion}" />
 										</div>
 									</div>
@@ -375,7 +391,7 @@
 																		</h:inputText></td>
 																	<td></td>
 																	<td><h:outputLabel id="txtTotal"
-																			value="#{transaccionBovedaBean.comboBoveda.objectItemSelected.tipomoneda.abreviatura} #{detalle.getSubtotal()}"
+																			value="#{detalle.getSubtotal()}"
 																			style="width: 110px; vertical-align: middle;" /></td>
 																</tr>
 															</ui:repeat>
@@ -425,7 +441,7 @@
 													style="width: 150px;">TOTAL TRANSACCION</div>
 												<div>
 													<h:outputLabel id="txtTotaltransaccion"
-														value="#{transaccionBovedaBean.comboBoveda.objectItemSelected.tipomoneda.abreviatura} #{transaccionBovedaBean.getTotalTransaccion()}">
+														value="#{transaccionBovedaBean.getTotalTransaccion()}">
 													</h:outputLabel>
 												</div>
 											</div>
