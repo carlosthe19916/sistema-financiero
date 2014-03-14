@@ -15,7 +15,7 @@
 
 		<!-- Definiendo la cabecera de la pagina -->
 		<ui:define name="title">
-			<h:outputText value="Transacciones" />
+			<h:outputText value="Pendientes" />
 		</ui:define>
 
 		<!-- Definiendo el cuerpo de la pagina -->
@@ -28,41 +28,47 @@
 				<div>
 					<br />
 					<div class="p6n-api-consent-screen-title"
-						style="margin-left: 10px;">Transacciones del Día en Boveda</div>
+						style="margin-left: 10px;">Pendientes de Caja</div>
 				</div>
 				<div>
 					<h:form>
 						<div style="margin: 5px;">
-							<p:dataTable var="transaccion"
-								value="#{listarTransaccionesBovedaBean.tablaTransacciones.rows}"
+							<p:dataTable var="pendiente"
+								value="#{listarPendientesCajaBean.tablaPendienteCaja.rows}"
 								selectionMode="single"
-								selection="#{listarTransaccionesBovedaBean.tablaTransacciones.selectedRow}"
-								rowKey="#{transaccion}" rowIndexVar="row" paginator="true"
+								selection="#{listarPendientesCajaBean.tablaPendienteCaja.selectedRow}"
+								rowKey="#{pendiente}" rowIndexVar="row" paginator="true"
 								rows="10" sortMode="simple" paginatorPosition="bottom"
 								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="5,10,15">
 
 								<f:facet name="header">  
-						            Transacciones de boveda 
+						            Pendientes de Caja 
 						        </f:facet>
 								<p:column headerText="Nro" width="5%" style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
-								<p:column headerText="Tipo Entidad"
-									sortBy="denominacionTipoentidad">
-									<h:outputText value="#{transaccion.denominacionTipoentidad}" />
+								<p:column headerText="Codigo Pendiente"
+									sortBy="idpendientecaja">
+									<h:outputText value="#{pendiente.idpendientecaja}" />
 								</p:column>
-								<p:column headerText="Entidad" sortBy="denominacionEntidad">
-									<h:outputText value="#{transaccion.denominacionEntidad}" />
+								<p:column headerText="Moneda">
+									<h:outputText value="#{pendiente.tipomoneda.denominacion}" />
 								</p:column>
-								<p:column headerText="Nro trans" sortBy="idTransaccionboveda">
-									<h:outputText value="#{transaccion.idTransaccionboveda}" />
+								<p:column headerText="Monto" sortBy="monto">
+									<h:outputText value="#{pendiente.monto}" />
 								</p:column>
-								<p:column headerText="Tipo transaccion"
+								<p:column headerText="Tipo Pendiente"
 									sortBy="denominacionTipotransaccion">
 									<h:outputText
-										value="#{transaccion.denominacionTipotransaccion}" />
+										value="#{pendiente.tipopendiente}" />
 								</p:column>
+								<p:column headerText="Observación">
+									<h:outputText
+										value="#{pendiente.observacion}" />
+								</p:column>
+								
+								
 								<p:column headerText="Fecha" sortBy="fechaTransaccionboveda">
 									<h:outputText value="#{transaccion.fechaTransaccionboveda}">
 										<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
@@ -71,18 +77,6 @@
 								<p:column headerText="Hora" sortBy="horaTransaccionboveda">
 									<h:outputText
 										value="#{listarTransaccionesBovedaBean.getStringTime(transaccion.horaTransaccionboveda)}" />
-								</p:column>
-								<p:column headerText="Moneda" sortBy="denominacionTipomoneda">
-									<h:outputText value="#{transaccion.denominacionTipomoneda}" />
-								</p:column>
-								<p:column headerText="Monto">
-									<h:outputText value="#{transaccion.total}" />
-								</p:column>
-								<p:column headerText="DETALLE" style="text-align: center;">
-									<h:commandButton value="Detalle"
-										action="#{listarTransaccionesBovedaBean.verDetalle(transaccion)}"
-										styleClass="action green" style="margin: 0px;"
-										onclick="onSubmitButton();" />
 								</p:column>
 							</p:dataTable>
 						</div>

@@ -52,6 +52,7 @@ import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.CajaTransaccionesBovedaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.seguridad.Usuario;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.exception.RollbackFailureException;
@@ -1145,6 +1146,21 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 		return list;
 	}
-
 	
+	@Override
+	public List<PendienteCaja> getPendientesCaja(Agencia agencia) throws Exception {
+		List<PendienteCaja> list;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idagencia", agencia.getIdagencia());
+			
+			list = pendienteCajaDAO.findByNamedQuery(PendienteCaja.Pendientes_by_Agencia,parameters);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return list;
+	}
 }
