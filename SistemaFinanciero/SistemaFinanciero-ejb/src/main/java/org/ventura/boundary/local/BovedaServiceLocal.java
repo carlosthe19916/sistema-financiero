@@ -72,6 +72,8 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 
 	public Transaccionboveda createTransaccionboveda(Boveda boveda, Caja caja, Transaccionboveda oTransaccionboveda) throws Exception;
 	
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Agencia agencia, Transaccionboveda oTransaccionboveda) throws Exception;
+	
 	public Transaccionboveda createTransaccionboveda(Boveda boveda, Entidadfinanciera entidadfinanciera, Transaccionboveda oTransaccionboveda) throws Exception;
 	
 	public Transaccionboveda findTransaccionboveda(Object id) throws Exception;

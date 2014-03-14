@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.BovedaServiceLocal;
+import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Boveda;
@@ -25,6 +26,7 @@ import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.ventura.entity.schema.caja.view.VoucherbovedaView;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
@@ -40,6 +42,8 @@ public class TransaccionBovedaBean implements Serializable {
 
 	@EJB
 	private BovedaServiceLocal bovedaServiceLocal;
+	@EJB
+	private SucursalServiceLocal sucursalServiceLocal;
 	
 	@Inject
 	private AgenciaBean agenciaBean;
@@ -56,6 +60,8 @@ public class TransaccionBovedaBean implements Serializable {
 	private ComboBean<String> comboTipoentidad;
 	@Inject
 	private ComboBean<Entidadfinanciera> comboEntidadfinanciera;
+	@Inject
+	private ComboBean<Agencia> comboAgencia;
 	@Inject
 	private ComboBean<Caja> comboCaja;
 	@Inject
@@ -86,7 +92,8 @@ public class TransaccionBovedaBean implements Serializable {
 			comboTipotransaccion.initValuesFromNamedQueryName(Tipotransaccion.ALL_ACTIVE);
 
 			comboTipoentidad.putItem(1, "CAJA");
-			comboTipoentidad.putItem(2, "OTRO");
+			comboTipoentidad.putItem(2, "AGENCIA");
+			comboTipoentidad.putItem(3, "OTRO");
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -102,19 +109,25 @@ public class TransaccionBovedaBean implements Serializable {
 				if (result == true) {
 					Boveda boveda = this.boveda;
 					Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();
-					Caja caja = comboCaja.getObjectItemSelected();
+					
+					Caja caja = comboCaja.getObjectItemSelected();					
+					Agencia agencia = comboAgencia.getObjectItemSelected();
 					Entidadfinanciera entidadfinanciera = comboEntidadfinanciera.getObjectItemSelected();
+					
 					List<Detalletransaccionboveda> detalletransaccionbovedas = tablaDetalletransaccionboveda.getAllRows();
 
 					transaccionboveda.setTipotransaccion(tipotransaccion);
 					transaccionboveda.setDetalletransaccionbovedas(detalletransaccionbovedas);
 
-					Transaccionboveda transaccionbovedaResult;
+					Transaccionboveda transaccionbovedaResult = null;
 					if (isCaja()) {
 						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda, caja,transaccionboveda);
-					} else {
-						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,entidadfinanciera, transaccionboveda);
 					}
+					if(isAgencia())
+						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,agencia, transaccionboveda);
+					if(isOtro())
+						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,entidadfinanciera, transaccionboveda);
+					
 					this.transaccionboveda = transaccionbovedaResult;
 					voucherDetalleTransaccionBovedaView = transaccionboveda.getDetalletransaccionbovedas();
 					success = true;
@@ -144,18 +157,29 @@ public class TransaccionBovedaBean implements Serializable {
 		boolean result = true;
 		Boveda boveda = this.boveda;
 		Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();
+		
 		Caja caja = null;
+		Agencia agencia = null;
 		Entidadfinanciera entidadfinanciera = null;
+		
 		List<Detalletransaccionboveda> detalletransaccionbovedas = tablaDetalletransaccionboveda.getAllRows();
 		if (isCaja()) {
 			caja = comboCaja.getObjectItemSelected();
 			entidadfinanciera = null;
+			agencia = null;
 		} else {
-			if (isOtro()) {
-				entidadfinanciera = comboEntidadfinanciera.getObjectItemSelected();
+			if(isAgencia()){
+				agencia = comboAgencia.getObjectItemSelected();
 				caja = null;
+				entidadfinanciera = null;
 			} else {
-				throw new Exception("Tipo de entidad origen no valida");
+				if (isOtro()) {
+					entidadfinanciera = comboEntidadfinanciera.getObjectItemSelected();
+					caja = null;
+					agencia = null;
+				} else {
+					throw new Exception("Tipo de entidad origen no valida");
+				}
 			}
 		}
 		if (boveda == null) {
@@ -164,7 +188,7 @@ public class TransaccionBovedaBean implements Serializable {
 		if (tipotransaccion == null) {
 			return false;
 		}
-		if (caja == null && entidadfinanciera == null) {
+		if (caja == null && entidadfinanciera == null && agencia == null) {
 			return false;
 		}
 		if (detalletransaccionbovedas == null) {
@@ -232,11 +256,17 @@ public class TransaccionBovedaBean implements Serializable {
 				comboCaja.initValuesFromNamedQueryName(Caja.findAllByBovedaAndState, parameters);
 				comboEntidadfinanciera.clean();
 			} else {
-				if (key == 2) {
-					comboEntidadfinanciera.initValuesFromNamedQueryName(Entidadfinanciera.ALL_ACTIVE);
+				if (key == 2) {									
+					List<Agencia> list = sucursalServiceLocal.getAllAgenciasActive();
+					comboAgencia.setItems(list);
 					comboCaja.clean();
 				} else {
-					throw new Exception("Tipo de entidad no valida");
+					if(key == 3){
+						comboEntidadfinanciera.initValuesFromNamedQueryName(Entidadfinanciera.ALL_ACTIVE);
+						comboCaja.clean();
+					} else{
+						throw new Exception("Tipo de entidad no valida");
+					}					
 				}
 			}
 		} else {
@@ -257,10 +287,22 @@ public class TransaccionBovedaBean implements Serializable {
 		}
 	}
 
+	public boolean isAgencia() {
+		Integer key = comboTipoentidad.getItemSelected();
+		if (key != null) {
+			if (key == 2)
+				return true;
+			else
+				return false;
+		} else {
+			return false;
+		}
+	}
+	
 	public boolean isOtro() {
 		Integer key = comboTipoentidad.getItemSelected();
 		if(key != null){
-			if (key == 2)
+			if (key == 3)
 				return true;
 			else
 				return false;
@@ -384,6 +426,14 @@ public class TransaccionBovedaBean implements Serializable {
 	public void setVoucherDetalleTransaccionBovedaView(
 			List<Detalletransaccionboveda> voucherDetalleTransaccionBovedaView) {
 		this.voucherDetalleTransaccionBovedaView = voucherDetalleTransaccionBovedaView;
+	}
+
+	public ComboBean<Agencia> getComboAgencia() {
+		return comboAgencia;
+	}
+
+	public void setComboAgencia(ComboBean<Agencia> comboAgencia) {
+		this.comboAgencia = comboAgencia;
 	}
 
 }

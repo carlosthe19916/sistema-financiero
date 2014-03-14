@@ -21,8 +21,6 @@ import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.boundary.remote.SucursalServiceRemote;
 import org.ventura.dao.impl.AgenciaDAO;
 import org.ventura.dao.impl.SucursalDAO;
-import org.ventura.entity.schema.persona.Accionista;
-import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.schema.sucursal.Sucursal;
 import org.ventura.util.logger.Log;
@@ -146,6 +144,20 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 			throw e;
 		}
 		return sucursal;
+	}
+
+	@Override
+	public List<Agencia> getAllAgenciasActive() throws Exception {
+		List<Agencia> list;
+		try {
+			list = agenciaDAO.findByNamedQuery(Agencia.f_allActive);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return list;
 	}
 
 }
