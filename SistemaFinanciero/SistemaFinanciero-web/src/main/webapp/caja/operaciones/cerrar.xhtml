@@ -97,13 +97,14 @@
 								</div>
 								<br />
 								<div>
-									<p:accordionPanel
+									<p:accordionPanel multiple="true"
 										value="#{abrirCajaBean.mapDetalleHistorialcajaApertura.entrySet().toArray()}"
 										var="boveda">
 										<p:tab title="#{boveda.key.denominacion}">
 											<p:panelGrid columns="2" style="margin-left:1px;">
 												<p:outputPanel>
-													<h3>Detalle Inicio del Dia</h3>
+													<h:outputText style="font-weight: bold; font-size: 12px;" value="Detalle Inicio del Día" />
+													
 													<p:dataTable var="cajaDetalle" value="#{boveda.value}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
 														<p:column headerText="Nro" width="15"
@@ -126,7 +127,7 @@
 													</p:dataTable>
 												</p:outputPanel>
 												<p:outputPanel>
-													<h3>Detalle Final del Día</h3>
+													<h:outputText style="font-weight: bold; font-size: 12px;" value="Detalle Final del Día" />
 													<p:dataTable id="tabla" var="cajaDetalle"
 														value="#{abrirCajaBean.retornarDetalle(boveda.key)}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
@@ -184,7 +185,7 @@
 						style="left: 502px; top: 100px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
 							<span class="modal-dialog-title-text">Verificacion de
-								saldos</span><span class="modal-dialog-title-close"></span>
+								Saldos</span><span class="modal-dialog-title-close"></span>
 						</div>
 						<div class="modal-dialog-content ng-binding">
 							<p:panelGrid columns="4">
@@ -237,7 +238,7 @@
 						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
 					<div class="modal-dialog p6n-popup" style="left: 452px; top: 40px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Crear pendiente</span><span
+							<span class="modal-dialog-title-text">Crear Pendiente</span><span
 								class="modal-dialog-title-close"></span>
 						</div>
 						<div class="modal-dialog-content ng-binding">

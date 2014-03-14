@@ -53,10 +53,6 @@
 							</div>
 
 							<h:panelGroup rendered="#{transaccionBovedaBean.success}">
-								<br />
-								<div>
-									<div>
-										<div>
 											<h:panelGroup id="voucherBoveda">
 												<table
 													style="width: 420px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
@@ -67,12 +63,15 @@
 																library="images/logo_coop" />
 														</td>
 														<td colspan="3"
-															style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">COOPERATIVA
-															DE AHORRO Y CREDITO CAJA VENTURA</td>
+															style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">
+															<h:outputText value="C.A.C." />
+															<br />
+															<h:outputText style="font-size: 22px;" value="CAJA VENTURA" />
+														</td>
 													</tr>
 													<tr style="vertical-align: center;">
 														<td colspan="4"
-															style="text-align: center; font-weight: bold; font-size: 12px;">TRANSACCION
+															style="text-align: center; font-weight: bold; font-size: 13px;">TRANSACCION
 															BOVEDA</td>
 													</tr>
 													<tr>
@@ -129,9 +128,7 @@
 																value="#{transaccionBovedaBean.transaccionboveda.observacion}" />
 														</td>
 													</tr>
-													<tr>
-														<td colspan="4">&nbsp;</td>
-													</tr>
+													
 													<tr>
 														<td colspan="4">
 															<table
@@ -151,16 +148,17 @@
 																</thead>
 																<tbody>
 																	<ui:repeat
-																		value="#{transaccionBovedaBean.voucherDetalleTransaccionBovedaView}"
-																		var="voucherBoveda">
-																		<tr class="ng-scope">
-																			<td><h:outputLabel
+																	value="#{transaccionBovedaBean.voucherDetalleTransaccionBovedaView}"
+																	var="voucherBoveda">
+																		<h:panelGroup
+																		rendered="#{voucherBoveda.cantidad==0 ? false : true}">
+																			<tr class="ng-scope">
+																				<td><h:outputLabel
 																					value="#{voucherBoveda.denominacionmoneda.denominacion}" /></td>
-																			<td><h:outputLabel
-																					value="#{voucherBoveda.cantidad}" /></td>
-																			<td><h:outputLabel
-																					value="#{voucherBoveda.subtotal}" /></td>
-																		</tr>
+																				<td><h:outputLabel value="#{voucherBoveda.cantidad}" /></td>
+																				<td><h:outputLabel value="#{voucherBoveda.subtotal}" /></td>
+																			</tr>
+																		</h:panelGroup>
 																	</ui:repeat>
 																</tbody>
 															</table>
@@ -189,7 +187,7 @@
 													</tr>
 
 													<tr>
-														<td colspan="2" style="text-align: center;">------------------------------</td>
+														<td colspan="2" style="text-align: center;">----------------------------</td>
 														<td colspan="2" style="text-align: left;">------------------------------</td>
 													</tr>
 													<tr>
@@ -201,8 +199,6 @@
 													</tr>
 												</table>
 											</h:panelGroup>
-										</div>
-									</div>
 									<div style="margin-left: 280px;">
 										<h:commandButton value="Imprimir" styleClass="action blue">
 											<p:printer target="voucherBoveda" />
@@ -210,7 +206,6 @@
 										<h:commandButton value="Salir"
 											action="transaccion?faces-redirect=true" />
 									</div>
-								</div>
 							</h:panelGroup>
 
 							<p:focus for="cmbBoveda" />
@@ -336,7 +331,7 @@
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">OBSERVACION</div>
 										<div>
-											<h:inputText
+											<h:inputText size="61" onkeyup="this.value = this.value.toUpperCase();"
 												value="#{transaccionBovedaBean.transaccionboveda.observacion}" />
 										</div>
 									</div>
@@ -380,7 +375,7 @@
 																		</h:inputText></td>
 																	<td></td>
 																	<td><h:outputLabel id="txtTotal"
-																			value="#{detalle.getSubtotal()}"
+																			value="#{transaccionBovedaBean.comboBoveda.objectItemSelected.tipomoneda.abreviatura} #{detalle.getSubtotal()}"
 																			style="width: 110px; vertical-align: middle;" /></td>
 																</tr>
 															</ui:repeat>
@@ -430,7 +425,7 @@
 													style="width: 150px;">TOTAL TRANSACCION</div>
 												<div>
 													<h:outputLabel id="txtTotaltransaccion"
-														value="#{transaccionBovedaBean.getTotalTransaccion()}">
+														value="#{transaccionBovedaBean.comboBoveda.objectItemSelected.tipomoneda.abreviatura} #{transaccionBovedaBean.getTotalTransaccion()}">
 													</h:outputLabel>
 												</div>
 											</div>
