@@ -45,31 +45,42 @@
 								<f:facet name="header">  
 						            Pendientes de Caja 
 						        </f:facet>
+						        
 								<p:column headerText="Nro" width="5%" style="text-align:center;">
 									<h:outputText value="#{row + 1}" />
 								</p:column>
+								
 								<p:column headerText="Codigo Pendiente"
 									sortBy="idpendientecaja">
 									<h:outputText value="#{pendiente.idpendientecaja}" />
 								</p:column>
+								
+								<p:column headerText="Fecha">
+									<h:outputText value="#{pendiente.fecha}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss a"
+											timeZone="EST" />
+									</h:outputText>
+								</p:column>
+								
 								<p:column headerText="Moneda">
 									<h:outputText value="#{pendiente.tipomoneda.denominacion}" />
 								</p:column>
+								
 								<p:column headerText="Monto" sortBy="monto">
-									<h:outputText value="#{pendiente.monto}" />
+									<h:outputText value="#{pendiente.tipomoneda.abreviatura} #{pendiente.monto}"/>
 								</p:column>
+								
 								<p:column headerText="Tipo Pendiente"
 									sortBy="denominacionTipotransaccion">
 									<h:outputText
 										value="#{pendiente.tipopendiente}" />
 								</p:column>
+								
 								<p:column headerText="Observación">
 									<h:outputText
 										value="#{pendiente.observacion}" />
 								</p:column>
-								
-								
-								
+
 							</p:dataTable>
 						</div>
 					</h:form>
