@@ -53,7 +53,6 @@
 							</div>
 
 							<h:panelGroup rendered="#{transaccionBovedaBean.success}">
-								<br />
 								<div>
 									<div>
 										<div>
@@ -67,12 +66,15 @@
 																library="images/logo_coop" />
 														</td>
 														<td colspan="3"
-															style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">COOPERATIVA
-															DE AHORRO Y CREDITO CAJA VENTURA</td>
+															style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">
+															<h:outputText value="C.A.C." />
+															<br />
+															<h:outputText style="font-size: 24px;" value="CAJA VENTURA" />
+														</td>
 													</tr>
 													<tr style="vertical-align: center;">
 														<td colspan="4"
-															style="text-align: center; font-weight: bold; font-size: 12px;">TRANSACCION
+															style="text-align: center; font-weight: bold; font-size: 13px;">TRANSACCION
 															BOVEDA</td>
 													</tr>
 													<tr>
@@ -83,13 +85,13 @@
 													<tr>
 														<td colspan="1"
 															style="width: 35%; font-weight: bold; font-size: 12px;">FECHA:</td>
-														<td colspan="1" style="width: 35%; font-size: 12px;"><h:outputText
+														<td colspan="1" style="width: 20%; font-size: 12px;"><h:outputText
 																value="#{transaccionBovedaBean.voucherBovedaView.fechaTransaccionboveda}">
-																<f:convertDateTime pattern="dd/MM/yyyy" />
+																<f:convertDateTime pattern="dd/MM/yyyy"/>
 															</h:outputText></td>
 														<td colspan="1"
-															style="width: 15%; font-weight: bold; font-size: 12px;">HORA:</td>
-														<td colspan="1" style="width: 15%; font-size: 12px;"><h:outputText
+															style="width: 10%; font-weight: bold; font-size: 12px;">HORA:</td>
+														<td colspan="1" style="width: 35%; font-size: 12px;"><h:outputText
 																value="#{transaccionBovedaBean.voucherBovedaView.horaTransaccionboveda}">
 																<f:convertDateTime dateStyle="full" timeZone="EST"
 																	type="time" />
@@ -150,9 +152,11 @@
 																	</tr>
 																</thead>
 																<tbody>
+																	
 																	<ui:repeat
 																		value="#{transaccionBovedaBean.voucherDetalleTransaccionBovedaView}"
 																		var="voucherBoveda">
+																		<h:panelGroup rendered="#{voucherBoveda.cantidad == 0 ? false : true}">
 																		<tr class="ng-scope">
 																			<td><h:outputLabel
 																					value="#{voucherBoveda.denominacionmoneda.denominacion}" /></td>
@@ -161,7 +165,9 @@
 																			<td><h:outputLabel
 																					value="#{voucherBoveda.subtotal}" /></td>
 																		</tr>
+																		</h:panelGroup>
 																	</ui:repeat>
+																	
 																</tbody>
 															</table>
 														</td>
@@ -190,7 +196,7 @@
 													<h:panelGroup rendered="#{transaccionBovedaBean.isCaja()}">
 														<tr>
 															<td colspan="2" style="text-align: center;">------------------------------</td>
-															<td colspan="2" style="text-align: left;">------------------------------</td>
+															<td colspan="2" style="text-align: center;">------------------------------</td>
 														</tr>
 														<tr>
 															<td colspan="2"
@@ -203,28 +209,27 @@
 													<h:panelGroup
 														rendered="#{transaccionBovedaBean.isAgencia()}">
 														<tr>
-															<td colspan="2" style="text-align: center;">------------------------------</td>
-															<td colspan="2" style="text-align: left;">------------------------------</td>
+															<td colspan="2" style="text-align: center;">--------------------------------------</td>
+															<td colspan="2" style="text-align: center;">--------------------------------------</td>
 														</tr>
 														<tr>
 															<td colspan="2"
-																style="text-align: center; font-weight: bold; font-size: 12px;">ADMINISTRADOR</td>
+																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE DE CAJA AG. #{agenciaBean.agencia.denominacion}</td>
 															<td colspan="2"
-																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE
-																CAJA</td>
+																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE DE
+																CAJA AG. #{transaccionBovedaBean.comboAgencia.objectItemSelected.denominacion}</td>
 														</tr>
 													</h:panelGroup>
 													<h:panelGroup rendered="#{transaccionBovedaBean.isOtro()}">
 														<tr>
-															<td colspan="2" style="text-align: center;">------------------------------</td>
-															<td colspan="2" style="text-align: left;">------------------------------</td>
+															<td colspan="2" style="text-align: center;">------------------------------------------</td>
+															<td colspan="2" style="text-align: center;">----------------------------------------</td>
 														</tr>
 														<tr>
+															<td colspan="2" 
+																style="text-align: center; font-weight: bold; font-size: 12px;">ADMINISTRADOR AG. #{agenciaBean.agencia.denominacion}</td>
 															<td colspan="2"
-																style="text-align: center; font-weight: bold; font-size: 12px;">ADMINISTRADOR</td>
-															<td colspan="2"
-																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE
-																CAJA</td>
+																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE DE CAJA AG. #{agenciaBean.agencia.denominacion}</td>
 														</tr>
 													</h:panelGroup>
 												</table>
@@ -375,7 +380,7 @@
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">OBSERVACION</div>
 										<div>
-											<h:inputText
+											<h:inputText size="61"
 												value="#{transaccionBovedaBean.transaccionboveda.observacion}" />
 										</div>
 									</div>
@@ -386,7 +391,7 @@
 										<div>
 											<h:panelGroup id="panelDetalletransaccion">
 												<div style="display: inline-block; vertical-align: top;">
-
+													
 													<table>
 														<thead>
 															<tr>
@@ -406,6 +411,7 @@
 															<ui:repeat
 																value="#{transaccionBovedaBean.tablaDetalletransaccionboveda.rows}"
 																var="detalle">
+																
 																<tr>
 																	<td style="text-align: right; vertical-align: middle;"><h:outputLabel
 																			value="#{detalle.denominacionmoneda.denominacion}" /></td>
@@ -419,9 +425,10 @@
 																		</h:inputText></td>
 																	<td></td>
 																	<td><h:outputLabel id="txtTotal"
-																			value="#{detalle.getSubtotal()}"
+																			value="#{transaccionBovedaBean.comboBoveda.objectItemSelected.tipomoneda.abreviatura} #{detalle.getSubtotal()}"
 																			style="width: 110px; vertical-align: middle;" /></td>
 																</tr>
+																
 															</ui:repeat>
 														</tbody>
 													</table>
@@ -469,7 +476,7 @@
 													style="width: 150px;">TOTAL TRANSACCION</div>
 												<div>
 													<h:outputLabel id="txtTotaltransaccion"
-														value="#{transaccionBovedaBean.getTotalTransaccion()}">
+														value=" #{transaccionBovedaBean.comboBoveda.objectItemSelected.tipomoneda.abreviatura} #{transaccionBovedaBean.getTotalTransaccion()}">
 													</h:outputLabel>
 												</div>
 											</div>
