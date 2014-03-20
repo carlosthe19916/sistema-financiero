@@ -53,6 +53,10 @@ public class ComboBean<E> {
 		this.items = map;
 	}
 	
+	public void addItem(E e){
+		this.items.put(e.hashCode(), e);
+	}
+	
 	public void clean(){
 		this.items.clear();
 		this.itemSelected = new Integer(-1);

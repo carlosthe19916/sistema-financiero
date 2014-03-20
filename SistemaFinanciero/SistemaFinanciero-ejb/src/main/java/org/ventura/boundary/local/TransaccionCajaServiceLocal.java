@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Transaccioncajacaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
@@ -54,10 +55,24 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	public void extornarTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
 	
 	public void extornarTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
+	
+	public void crearTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja, Caja origen, Caja destino) throws Exception;
+	
+	public void confirmarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) throws Exception;
+	
+	public void cancelarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) throws Exception;
+	
 	/**
 	 * Operaciones no transaccionales**/
 	
 	public List<CajaMovimientoView> getTransaccionesCajaWithHistorialActivo(Caja caja) throws Exception;
 	
 	public List<CajaMovimientoView> buscarTransaccionCaja(Caja caja, Integer id) throws Exception;
+
+	public List<Transaccioncajacaja> getTransaccionesCajaCaja(Caja caja) throws Exception;
+
+	public List<Transaccioncajacaja> getTransaccionesEnviadasCajaCaja(Caja caja) throws Exception;
+
+	public List<Transaccioncajacaja> getTransaccionesPorConfirmarCajaCaja(Caja caja) throws Exception;
+
 }
