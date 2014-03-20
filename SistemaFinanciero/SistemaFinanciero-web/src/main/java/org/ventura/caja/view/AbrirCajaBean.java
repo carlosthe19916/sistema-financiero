@@ -54,6 +54,7 @@ public class AbrirCajaBean implements Serializable{
 	private Map<Tipomoneda, List<Detallehistorialcaja>> mapDetalleHistorialcajaCierre;
 	
 	private Map<Tipomoneda, BigDecimal> mapDiferenciaSaldos;
+	private Moneda totalCaja;
 	
 	@Inject private CajaBean cajaBean;
 	@Inject private Caja caja;
@@ -62,13 +63,21 @@ public class AbrirCajaBean implements Serializable{
 	@Inject private Agencia agencia;
 	
 	@EJB private CajaServiceLocal cajaServiceLocal;
+	
+	private PendienteCaja pendientecaja;
+	
+	private boolean print;
+	
 	public AbrirCajaBean() {
+		pendientecaja = new PendienteCaja();
 		success = false;
 		failure = false;
 		successPendiente = false;
 		dlgVerificarSaldos = false;
 		dlgCrearPendiente = false;
 		mapDiferenciaSaldos = new HashMap<Tipomoneda, BigDecimal>();
+		totalCaja = new Moneda();
+		print = false;
 	}
 	
 	@PostConstruct
@@ -133,6 +142,18 @@ public class AbrirCajaBean implements Serializable{
 		}
 	}
 	
+	public String getTotal(List<Detallehistorialcaja> a){
+		Moneda total = new Moneda();
+		if(a != null){
+			for (Detallehistorialcaja detallehistorialcaja : a) {		
+				totalCaja = totalCaja.add(detallehistorialcaja.getSubtotal());
+				total = total.add(detallehistorialcaja.getSubtotal());
+			}
+		}
+		
+		return total.toString();
+	}
+	
 	public void crearPendiente(){
 		try {
 			PendienteCaja pendienteCaja = new PendienteCaja();
@@ -140,16 +161,21 @@ public class AbrirCajaBean implements Serializable{
 			pendienteCaja.setObservacion(observacionPendiente);
 			pendienteCaja.setTipomoneda(tipomonedaPendiente);
 			pendienteCaja.setFecha(fechaPendiente);
-			cajaServiceLocal.crearPendiente(caja, pendienteCaja);
+			setPendientecaja(cajaServiceLocal.crearPendiente(caja, pendienteCaja));
 			
 			successPendiente = true;
 			JsfUtil.addSuccessMessage("Pendiente creado");
 			setDlgCrearPendiente(false);
 			verificarSaldos();
+			setPrint(true);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
+	}
+	
+	public void cancelarDlgPrintPendiente(){
+		print = false;
 	}
 	
 	public void congelar(){
@@ -346,5 +372,35 @@ public class AbrirCajaBean implements Serializable{
 
 	public void setFechaPendiente(Date fechaPendiente) {
 		this.fechaPendiente = fechaPendiente;
+	}
+
+	public Moneda getTotalCaja() {
+		return totalCaja;
+	}
+
+	public void setTotalCaja(Moneda totalCaja) {
+		this.totalCaja = totalCaja;
+	}
+
+	public boolean isPrint() {
+		return print;
+	}
+
+	public void setPrint(boolean print) {
+		this.print = print;
+	}
+
+	/**
+	 * @return the pendientecaja
+	 */
+	public PendienteCaja getPendientecaja() {
+		return pendientecaja;
+	}
+
+	/**
+	 * @param pendientecaja the pendientecaja to set
+	 */
+	public void setPendientecaja(PendienteCaja pendientecaja) {
+		this.pendientecaja = pendientecaja;
 	}
 }

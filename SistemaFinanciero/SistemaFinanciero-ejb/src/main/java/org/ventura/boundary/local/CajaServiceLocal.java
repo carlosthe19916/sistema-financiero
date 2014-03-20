@@ -17,6 +17,7 @@ import org.ventura.entity.schema.caja.PendienteCaja;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.CajaTransaccionesBovedaView;
+import org.ventura.entity.schema.caja.view.PendientesView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
@@ -74,7 +75,7 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	
 	/**
 	 * Transaccional**/
-	public void crearPendiente(Caja caja, PendienteCaja pendienteCaja) throws Exception;
+	public PendienteCaja crearPendiente(Caja caja, PendienteCaja pendienteCaja) throws Exception;
 	
 	public void updateSaldo(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
 	
@@ -88,5 +89,7 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	public List<Usuario> getUsuariosFromCaja(Caja oCaja) throws Exception;
 	
 	/*Pendientes Caja*/
-	public List<PendienteCaja> getPendientesCaja(Agencia agencia) throws Exception;
+	public List<PendientesView> getPendientesCaja(Agencia agencia) throws Exception;
+	
+	public PendientesView finPendienteCaja(Object id) throws Exception;
 }

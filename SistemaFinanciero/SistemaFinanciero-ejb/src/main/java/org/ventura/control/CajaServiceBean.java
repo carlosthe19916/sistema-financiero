@@ -35,6 +35,7 @@ import org.ventura.dao.impl.PendienteCajaDAO;
 import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
 import org.ventura.dao.impl.UsuarioDAO;
+import org.ventura.dao.impl.ViewPendienteCajaDAO;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.BovedaCaja;
@@ -50,6 +51,7 @@ import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.CajaTransaccionesBovedaView;
+import org.ventura.entity.schema.caja.view.PendientesView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
@@ -93,6 +95,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@EJB private TransaccioncuentaaporteDAO transaccioncuentaaporteDAO;
 	@EJB private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
 	@EJB private PendienteCajaDAO pendienteCajaDAO;
+	@EJB private ViewPendienteCajaDAO viewPendienteCajaDAO;
 	
 	@EJB private CajaTransaccionesBovedaViewDAO cajaTransaccionesBovedaViewDAO;
 	
@@ -1089,7 +1092,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 	}
 
 	@Override
-	public void crearPendiente(Caja caja, PendienteCaja pendienteCaja) throws Exception {
+	public PendienteCaja crearPendiente(Caja caja, PendienteCaja pendienteCaja) throws Exception {
 		try {
 			pendienteCaja.setIdhistorialcaja(getHistorialcajaLastActive(caja));
 			if(pendienteCaja.getMonto().isGreaterThan(new Moneda())){
@@ -1122,6 +1125,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 			log.error("Caused by:" + e.getCause());
 			throw new EJBException(e.getMessage());
 		}
+		return pendienteCaja;
 	}
 
 	@Override
@@ -1148,13 +1152,13 @@ public class CajaServiceBean implements CajaServiceLocal{
 	}
 	
 	@Override
-	public List<PendienteCaja> getPendientesCaja(Agencia agencia) throws Exception {
-		List<PendienteCaja> list;
+	public List<PendientesView> getPendientesCaja(Agencia agencia) throws Exception {
+		List<PendientesView> list;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("idagencia", agencia.getIdagencia());
 			
-			list = pendienteCajaDAO.findByNamedQuery(PendienteCaja.Pendientes_by_Agencia,parameters);
+			list = viewPendienteCajaDAO.findByNamedQuery(PendientesView.Pendientes_by_Agencia, parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -1162,5 +1166,19 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw e;
 		}
 		return list;
+	}
+	
+	@Override
+	public PendientesView finPendienteCaja(Object id) throws Exception {
+		PendientesView pendiente = null;
+		try {
+			pendiente = viewPendienteCajaDAO.find(id);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new Exception("Error interno, inténtelo nuevamente");
+		}
+		return pendiente;
 	}
 }

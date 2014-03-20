@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewParam name="idPendienteCaja" value="#{listarPendientesCajaBean.idPendienteCaja}" />
+		<f:viewAction action="#{listarPendientesCajaBean.loadPendienteCajaForPrint()}" />
+		<f:viewAction action="#{menuMB.updateMenu(10)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Update Pendiente Caja" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+
+			<h:panelGroup rendered="#{listarPendientesCajaBean.faliure}">
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Volver"
+									action="/jefeCaja/caja/operaciones/listarPendientes?faces-redirect=true"
+									styleClass="p6n-api-access-in-page-error-link" />
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
+			<h:form id="formPendiente">
+				<br />
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<h:panelGroup id="voucherPendiente">
+								<table
+									style="width: 350px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
+									<tr style="vertical-align: center;">
+										<td colspan="1"
+											style="width:35%; text-align: center; font-weight: bold; font-size: 12px;">
+											<p:graphicImage name="logo_coop_voucher.png"
+												library="images/logo_coop" />
+										</td>
+										<td colspan="3"
+											style="width:65%; text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">
+											<h:outputText value="C.A.C." /> <br /> <h:outputText
+												style="font-size: 24px;" value="CAJA VENTURA" />
+										</td>
+									</tr>
+									<tr style="vertical-align: center;">
+										<td colspan="4"
+											style="text-align: center; font-weight: bold; font-size: 13px;">PENDIENTE CAJA</td>
+									</tr>
+									<tr>
+										<td style="font-weight: bold; font-size: 12px;" colspan="1">AGENCIA:</td>
+										<td colspan="3">#{listarPendientesCajaBean.pendienteCajaView.denominacionAgencia}</td>
+									</tr>
+									<tr>
+										<td style="font-weight: bold; font-size: 12px;" colspan="1">ID PENDIENTE:</td>
+										<td colspan="3">#{listarPendientesCajaBean.pendienteCajaView.idpendientecaja}</td>
+									</tr>
+									<tr>
+										<td style="font-weight: bold; font-size: 12px;" colspan="1">TIPO PENDIENTE:</td>
+										<td colspan="3">#{listarPendientesCajaBean.pendienteCajaView.tipopendiente}</td>
+									</tr>
+									<tr>
+										<td colspan="1"
+											style="font-weight: bold; font-size: 12px;">FECHA:</td>
+										<td colspan="3" style="font-size: 12px;"><h:outputText
+												value="#{listarPendientesCajaBean.pendienteCajaView.fecha}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss a" timeZone="EST" />
+											</h:outputText></td>
+									</tr>
+									<tr>
+										<td colspan="1" style="font-weight: bold; font-size: 12px;">MONEDA:</td>
+										<td colspan="3" style="font-size: 12px;"><h:outputText
+												value="#{listarPendientesCajaBean.pendienteCajaView.tipomoneda.denominacion} (#{listarPendientesCajaBean.pendienteCajaView.tipomoneda.abreviatura})" /></td>
+									</tr>
+									<tr style="vertical-align: center;">
+										<td colspan="1" style="font-weight: bold; font-size: 12px;"><h:outputText
+												value="MONTO:" /></td>
+										<td colspan="3" style="font-size: 12px;"><h:outputText
+												value="#{listarPendientesCajaBean.pendienteCajaView.tipomoneda.abreviatura}#{listarPendientesCajaBean.pendienteCajaView.monto}" />
+										</td>
+									</tr>
+									<tr>
+										<td colspan="1" style="font-weight: bold; font-size: 12px;">CAJA:</td>
+										<td colspan="3" style="font-size: 12px;"><h:outputText
+												value="#{listarPendientesCajaBean.pendienteCajaView.denominacionCaja} - #{listarPendientesCajaBean.pendienteCajaView.abreviaturaCaja}" /></td>
+									</tr>
+									<tr>
+										<td colspan="1" style="font-weight: bold; font-size: 12px;">USUARIO:</td>
+										<td colspan="3" style="font-size: 12px;"><h:outputText
+												value="#{listarPendientesCajaBean.pendienteCajaView.username}" /></td>
+									</tr>
+									<tr>
+										<td colspan="1" style="font-weight: bold; font-size: 12px;">CAJERO:</td>
+										<td colspan="3" style="font-size: 12px;">
+											<h:outputText value="#{listarPendientesCajaBean.pendienteCajaView.abreviaturatipodocumento} #{listarPendientesCajaBean.pendienteCajaView.numerodocumento}" /> <br /> 
+											<h:outputText value="#{listarPendientesCajaBean.pendienteCajaView.nombrecompleto}" />	
+										</td>
+									</tr>
+									<tr>
+										<td colspan="1" style="font-weight: bold; font-size: 12px;">OBSERVACIÓN:</td>
+										<td colspan="3" style="font-size: 12px;"><h:outputLabel
+												value="#{listarPendientesCajaBean.pendienteCajaView.observacion}" />
+										</td>
+									</tr>
+								
+									<tr>
+										<td colspan="4">&nbsp;</td>
+									</tr>
+									<tr>
+										<td colspan="4">&nbsp;</td>
+									</tr>
+									<tr>
+										<td colspan="4">&nbsp;</td>
+									</tr>
+									<tr>
+										<td colspan="2" style="text-align: center;">-------------------------</td>
+										<td colspan="2" style="text-align: center;">-------------------------</td>
+									</tr>
+									<tr>
+										<td colspan="2"
+											style="text-align: center; font-weight: bold; font-size: 12px;">JEFE
+											DE CAJA</td>
+										<td colspan="2"
+											style="text-align: center; font-weight: bold; font-size: 12px;">CAJERO</td>
+										</tr>
+								</table>
+							</h:panelGroup>
+							<div style="margin-left: 10px;">
+								<h:commandButton value="Imprimir" styleClass="action blue">
+									<p:printer target="voucherPendiente" />
+								</h:commandButton>
+								<h:commandButton value="Salir"
+									action="listarPendientes?faces-redirect=true" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>
