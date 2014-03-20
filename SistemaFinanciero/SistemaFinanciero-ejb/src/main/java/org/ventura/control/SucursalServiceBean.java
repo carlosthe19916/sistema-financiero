@@ -20,10 +20,14 @@ import javax.inject.Named;
 import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.boundary.remote.SucursalServiceRemote;
 import org.ventura.dao.impl.AgenciaDAO;
+import org.ventura.dao.impl.CajaDAO;
 import org.ventura.dao.impl.SucursalDAO;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.schema.sucursal.Sucursal;
 import org.ventura.util.logger.Log;
+import org.ventura.util.maestro.EstadoAperturaType;
+import org.ventura.util.maestro.ProduceObject;
 
 @Named
 @Stateless
@@ -37,6 +41,7 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 	
 	private @EJB SucursalDAO sucursalDAO;
 	private @EJB AgenciaDAO agenciaDAO;
+	private @EJB CajaDAO cajaDAO;
 	
 	@Override
 	public void create(Sucursal sucursal) throws Exception {
@@ -151,6 +156,23 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 		List<Agencia> list;
 		try {
 			list = agenciaDAO.findByNamedQuery(Agencia.f_allActive);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public List<Caja> getCajas(Agencia agencia) throws Exception {
+		List<Caja> list;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idagencia", agencia.getIdagencia());
+			parameters.put("idestadoapertura", ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO).getIdestadoapertura());
+			list = cajaDAO.findByNamedQuery(Caja.f_idagencia_idestadoapertura,parameters);
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

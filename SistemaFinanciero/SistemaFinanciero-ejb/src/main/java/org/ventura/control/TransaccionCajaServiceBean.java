@@ -1,6 +1,9 @@
 package org.ventura.control;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +32,7 @@ import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.CuentabancariaDAO;
 import org.ventura.dao.impl.TasainteresDAO;
 import org.ventura.dao.impl.TransaccioncajaDAO;
+import org.ventura.dao.impl.TransaccioncajacajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
@@ -44,6 +48,7 @@ import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncaja;
+import org.ventura.entity.schema.caja.Transaccioncajacaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
@@ -106,6 +111,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	@EJB
 	private CajaMovimientoViewDAO cajaMovimientoViewDAO;
 
+	@EJB
+	private TransaccioncajacajaDAO transaccioncajacajaDAO;
 	
 	@Override
 	public Transaccioncuentabancaria createTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria)throws Exception {
@@ -1187,6 +1194,210 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw new EJBException(e.getMessage());
 		}
+	}
+
+
+	@Override
+	public void crearTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja,Caja origen, Caja destino) throws Exception {
+		try {
+			Calendar calendar = Calendar.getInstance();
+			Date date = calendar.getTime();
+			
+			Historialcaja historialOrigen = cajaServiceLocal.getHistorialcajaLastActive(origen);
+			Historialcaja historialDestino = cajaServiceLocal.getHistorialcajaLastActive(destino);
+			
+			Caja cajaOrigen = historialOrigen.getCaja();
+			Caja cajaDestino = historialDestino.getCaja();
+			if(cajaOrigen.equals(cajaDestino)){
+				throw new Exception("Caja origen y destino deben de ser diferentes");
+			}
+			
+			//verificar si ambas cajas tienen las monedas de la transaccion
+			Tipomoneda tipomoneda = transaccioncajacaja.getTipomoneda();
+			
+			List<Tipomoneda> monedasOrigen = new ArrayList<Tipomoneda>();
+			List<Tipomoneda> monedasDestino = new ArrayList<Tipomoneda>();
+			for (Boveda b : cajaOrigen.getBovedas()) {
+				monedasOrigen.add(b.getTipomoneda());				
+			}
+			for (Boveda b : cajaDestino.getBovedas()) {
+				monedasDestino.add(b.getTipomoneda());				
+			}
+			if(!monedasOrigen.contains(tipomoneda) || !monedasDestino.contains(tipomoneda)){
+				throw new Exception("La caja origen y/o destino no tiene la moneda de transaccion asignada");
+			}
+			
+			//verificacion superada
+			transaccioncajacaja.setHistorialcajaorigen(historialOrigen);
+			transaccioncajacaja.setHistorialcajadestino(historialDestino);
+			transaccioncajacaja.setEstadoconfirmacion(false);
+			transaccioncajacaja.setEstadosolicitud(true);
+			transaccioncajacaja.setFecha(date);
+			transaccioncajacaja.setHora(new Timestamp(date.getTime()));
+			
+			transaccioncajacajaDAO.create(transaccioncajacaja);
+			
+			//no se actualizan los saldos porque la transaccion no fue confirmada
+		} catch (Exception e) {			
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
+
+	@Override
+	public void confirmarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) throws Exception {
+		try {
+			Transaccioncajacaja transaccioncajacajaDB = transaccioncajacajaDAO.find(transaccioncajacaja.getIdtransaccioncajacaja());
+			if(transaccioncajacajaDB.getEstadosolicitud() == true){
+				transaccioncajacajaDB.setEstadoconfirmacion(true);
+				transaccioncajacajaDAO.update(transaccioncajacajaDB);
+				
+				//actualizar saldos de caja
+				Tipomoneda tipomoneda = transaccioncajacajaDB.getTipomoneda();
+				BigDecimal montoTransaccion = transaccioncajacajaDB.getMonto();
+				
+				Historialcaja historialOrigen = transaccioncajacajaDB.getHistorialcajaorigen();
+				Historialcaja historialDestino = transaccioncajacajaDB.getHistorialcajadestino();
+					
+				boolean saldoModificadoOrigen = false;
+				boolean saldoModificadoDestino = false;
+				for (Boveda b : historialOrigen.getCaja().getBovedas()) {
+					if(b.getTipomoneda().equals(tipomoneda)){
+						saldoModificadoOrigen = true;
+						
+						BovedaCajaPK pk = new BovedaCajaPK();
+						pk.setIdboveda(b.getIdboveda());
+						pk.setIdcaja(historialOrigen.getCaja().getIdcaja());
+						
+						BovedaCaja bovedaCaja = bovedaCajaDAO.find(pk);
+						Moneda saldoFinal = bovedaCaja.getSaldototal().subtract(new Moneda(montoTransaccion));	
+						if(saldoFinal.isGreaterThanOrEqual(new Moneda())){
+							bovedaCaja.setSaldototal(saldoFinal);
+							bovedaCajaDAO.update(bovedaCaja);
+						} else{
+							throw new EJBException("El saldo actual de la caja es insuficiente para realizar la transaccion");
+						}						
+					}				
+				}
+				for (Boveda b : historialDestino.getCaja().getBovedas()) {
+					if(b.getTipomoneda().equals(tipomoneda)){
+						saldoModificadoDestino = true;
+						
+						BovedaCajaPK pk = new BovedaCajaPK();
+						pk.setIdboveda(b.getIdboveda());
+						pk.setIdcaja(historialDestino.getCaja().getIdcaja());
+						
+						BovedaCaja bovedaCaja = bovedaCajaDAO.find(pk);
+						Moneda saldoFinal = bovedaCaja.getSaldototal().add(new Moneda(montoTransaccion));						
+						bovedaCaja.setSaldototal(saldoFinal);
+						bovedaCajaDAO.update(bovedaCaja);
+					}				
+				}
+				
+				if(saldoModificadoOrigen == false || saldoModificadoDestino == false){
+					throw new Exception("Los saldos de las cajas no pudieron ser modificadas");
+				}
+			} else{
+				throw new Exception("La transaccion fue cancelada por la caja origen");
+			}		
+		} catch (Exception e) {			
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
+
+
+	@Override
+	public void cancelarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) throws Exception {
+		try {
+			Transaccioncajacaja transaccioncajacajaDB = transaccioncajacajaDAO.find(transaccioncajacaja.getIdtransaccioncajacaja());
+			if(transaccioncajacajaDB.getEstadosolicitud() == true && transaccioncajacajaDB.getEstadoconfirmacion() == true){
+				throw new Exception("La transaccion ya fue confirmada no se puede cancelar");
+			} else{
+				transaccioncajacajaDB.setEstadosolicitud(false);
+				transaccioncajacajaDB.setEstadoconfirmacion(false);
+				transaccioncajacajaDAO.update(transaccioncajacajaDB);
+			}		
+		} catch (Exception e) {			
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
+	
+	@Override
+	public List<Transaccioncajacaja> getTransaccionesCajaCaja(Caja caja) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Transaccioncajacaja> getTransaccionesEnviadasCajaCaja(Caja caja) throws Exception {
+		List<Transaccioncajacaja> transaccioncajacajas;
+		try {
+			Historialcaja historialcaja = cajaServiceLocal.getHistorialcajaLastActive(caja);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idhistorialcajaorigen", historialcaja.getIdhistorialcaja());
+			
+			transaccioncajacajas = transaccioncajacajaDAO.findByNamedQuery(Transaccioncajacaja.f_idhistorialorigen,parameters);	
+			for (Transaccioncajacaja transaccioncajacaja : transaccioncajacajas) {
+				Historialcaja ho = transaccioncajacaja.getHistorialcajaorigen();
+				Historialcaja hd = transaccioncajacaja.getHistorialcajadestino();
+				Caja co = ho.getCaja();
+				Caja cd = hd.getCaja();
+				
+				ho.setCaja(co);
+				hd.setCaja(cd);
+				
+				transaccioncajacaja.setHistorialcajadestino(ho);
+				transaccioncajacaja.setHistorialcajadestino(hd);
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return transaccioncajacajas;
+	}
+
+
+	@Override
+	public List<Transaccioncajacaja> getTransaccionesPorConfirmarCajaCaja(Caja caja) throws Exception {
+		List<Transaccioncajacaja> transaccioncajacajas;
+		try {
+			Historialcaja historialcaja = cajaServiceLocal.getHistorialcajaLastActive(caja);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idhistorialcajadestino", historialcaja.getIdhistorialcaja());
+			
+			transaccioncajacajas = transaccioncajacajaDAO.findByNamedQuery(Transaccioncajacaja.f_idhistorialdestino,parameters);	
+			for (Transaccioncajacaja transaccioncajacaja : transaccioncajacajas) {
+				Historialcaja ho = transaccioncajacaja.getHistorialcajaorigen();
+				Historialcaja hd = transaccioncajacaja.getHistorialcajadestino();
+				Caja co = ho.getCaja();
+				Caja cd = hd.getCaja();
+				
+				ho.setCaja(co);
+				hd.setCaja(cd);
+				
+				transaccioncajacaja.setHistorialcajadestino(ho);
+				transaccioncajacaja.setHistorialcajadestino(hd);
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return transaccioncajacajas;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.SucursalServiceRemote;
+import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.schema.sucursal.Sucursal;
 
@@ -20,5 +21,7 @@ public interface SucursalServiceLocal extends SucursalServiceRemote {
 	public Sucursal find(Object idsucursal) throws Exception;
 	
 	public List<Agencia> getAllAgenciasActive() throws Exception;
+
+	public List<Caja> getCajas(Agencia agencia) throws Exception;
 
 }
