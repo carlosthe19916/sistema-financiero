@@ -16,11 +16,8 @@ import org.ventura.tipodato.Moneda;
 @Entity
 @Table(name="pendiente_caja", schema = "caja")
 @NamedQuery(name="PendienteCaja.findAll", query="SELECT p FROM PendienteCaja p")
-@NamedQueries({@NamedQuery(name = PendienteCaja.Pendientes_by_Agencia, query = "select distinct p from PendienteCaja p inner join p.idhistorialcaja hc inner join hc.caja c inner join c.bovedas b inner join b.agencia a where a.idagencia = :idagencia")})
 public class PendienteCaja implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	public final static String Pendientes_by_Agencia = "org.ventura.entity.schema.caja.PendienteCaja.Pendientes_by_Agencia";
 
 	public PendienteCaja() {
 	}

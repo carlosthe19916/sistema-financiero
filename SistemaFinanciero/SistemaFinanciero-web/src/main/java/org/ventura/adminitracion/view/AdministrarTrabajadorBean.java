@@ -11,7 +11,6 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.TrabajadorServiceLocal;
 import org.ventura.dependent.TablaBean;
-import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.rrhh.Trabajador;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;

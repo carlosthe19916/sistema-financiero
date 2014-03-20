@@ -50,16 +50,21 @@
 									<h:outputText value="#{row + 1}" />
 								</p:column>
 								
-								<p:column headerText="Codigo Pendiente"
-									sortBy="idpendientecaja">
-									<h:outputText value="#{pendiente.idpendientecaja}" />
-								</p:column>
-								
 								<p:column headerText="Fecha">
 									<h:outputText value="#{pendiente.fecha}">
 										<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss a"
 											timeZone="EST" />
 									</h:outputText>
+								</p:column>
+								
+								<p:column headerText="Caja"
+									sortBy="denominacionCaja">
+									<h:outputText value="#{pendiente.denominacionCaja}" />
+								</p:column>
+								
+								<p:column headerText="Usuario"
+									sortBy="username">
+									<h:outputText value="#{pendiente.username}" />
 								</p:column>
 								
 								<p:column headerText="Moneda">
@@ -81,6 +86,15 @@
 										value="#{pendiente.observacion}" />
 								</p:column>
 
+								<p:column headerText="STATUS" width="137">
+									<div class="buttons">
+										<h:button value="Imprimir" outcome="printPendienteCaja"
+											styleClass="action green" style="margin: 0 2px 0 0;">
+											<f:param name="idPendienteCaja" value="#{pendiente.idpendientecaja}" />
+										</h:button>
+									</div>
+								</p:column>
+								
 							</p:dataTable>
 						</div>
 					</h:form>

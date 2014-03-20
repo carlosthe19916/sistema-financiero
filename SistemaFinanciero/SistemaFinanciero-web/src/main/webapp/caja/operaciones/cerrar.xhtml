@@ -24,7 +24,7 @@
 
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
-
+			<h:form id="closeCaja">
 			<h:panelGroup rendered="#{abrirCajaBean.failure}">
 				<div class="p6n-api-access-in-page-error" style="left: 516px;">
 					<div>
@@ -33,13 +33,18 @@
 								<h:messages />
 							</p>
 						</div>
+						<div style="text-align: center;">
+							<h:commandLink value="Volver"
+								action="/caja/operaciones/index?faces-redirect=true" immediate="true"
+								styleClass="p6n-api-access-in-page-error-link" />
+						</div>
 					</div>
 				</div>
 				<div class="modal-dialog-bg"
 					style="opacity: 0.4; width: 1366px; height: 602px;"></div>
 			</h:panelGroup>
 
-			<h:form>
+			
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
@@ -49,6 +54,7 @@
 									style="float:none;" />
 								<h:commandButton action="#{abrirCajaBean.congelar()}"
 									value=" Congelar " styleClass="action red" style="float:none;" />
+								
 							</div>
 							<br /> <br />
 							<div class="p6n-api-consent-screen-title">Cerrar Caja</div>
@@ -103,10 +109,11 @@
 										<p:tab title="#{boveda.key.denominacion}">
 											<p:panelGrid columns="2" style="margin-left:1px;">
 												<p:outputPanel>
-													<h:outputText style="font-weight: bold; font-size: 12px;" value="Detalle Inicio del Día" />
-													
 													<p:dataTable var="cajaDetalle" value="#{boveda.value}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
+														<f:facet name="header"> 
+															<h:outputText style="font-size: 13px;" value="DETALLE INICIO DEL DÍA"/> 
+						        						</f:facet>
 														<p:column headerText="Nro" width="15"
 															style="text-align:center;height:19px">
 															<h:outputText value="#{row + 1}" />
@@ -124,13 +131,19 @@
 															style="text-align:right;">
 															<h:outputText value="#{cajaDetalle.getSubtotal()}" />
 														</p:column>
+														<f:facet name="footer"> 
+															<h:outputText style="font-size: 13px;" value="TOTAL: #{boveda.key.abreviatura}"/>
+															<h:outputText style="font-size: 13px;" value="#{abrirCajaBean.getTotal(boveda.value)}"/> 
+						        						</f:facet>
 													</p:dataTable>
 												</p:outputPanel>
 												<p:outputPanel>
-													<h:outputText style="font-weight: bold; font-size: 12px;" value="Detalle Final del Día" />
 													<p:dataTable id="tabla" var="cajaDetalle"
 														value="#{abrirCajaBean.retornarDetalle(boveda.key)}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
+														<f:facet name="header"> 
+															<h:outputText style="font-size: 13px;" value="DETALLE FINAL DEL DÍA"/> 
+						        						</f:facet>
 														<p:column headerText="Nro" width="15"
 															style="text-align:center;">
 															<h:outputText value="#{row + 1}" />
@@ -147,7 +160,7 @@
 																maxlength="6" requiredMessage="requerido"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 																style="text-align:left; width:100px; height:20px">
-																<f:ajax event="blur" execute="@this" render="tabla" />
+																<f:ajax event="blur" execute="@this" render="tabla"/>
 															</h:inputText>
 															<div
 																class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
@@ -158,6 +171,10 @@
 															style="text-align:right;">
 															<h:outputText value="#{cajaDetalle.getSubtotal()}" />
 														</p:column>
+														<f:facet name="footer"> 
+															<h:outputText style="font-size: 13px;" value="TOTAL: #{boveda.key.abreviatura}"/>
+															<h:outputText style="font-size: 13px;" value="#{abrirCajaBean.getTotal(cajaDetalle)}"/> 
+						        						</f:facet>
 													</p:dataTable>
 												</p:outputPanel>
 											</p:panelGrid>
@@ -180,7 +197,7 @@
 			<h:panelGroup rendered="#{abrirCajaBean.dlgVerificarSaldos}">
 				<h:form>
 					<div class="modal-dialog-bg"
-						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+						style="opacity: 0.4; width: 1366px; height: 1800px;"></div>
 					<div class="modal-dialog p6n-popup"
 						style="left: 502px; top: 100px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
@@ -193,7 +210,7 @@
 									value="#{abrirCajaBean.mapDiferenciaSaldos.entrySet().toArray()}"
 									var="panelMoneda">
 									<p:outputPanel>
-										<label>----------------------------------------------</label>
+										<label>--------------------------------------------------------</label>
 										<h3 class="sf-label-bold">#{panelMoneda.key.denominacion}</h3>
 										<div>
 											<h:outputLabel
@@ -206,7 +223,7 @@
 											<h:commandButton value="Crear pendiente"
 												action="#{abrirCajaBean.cargarPendiente(panelMoneda.key)}" />
 										</div>
-										<label>-----------------------------------------------</label>
+										<label>------------------------------------------------------</label>
 									</p:outputPanel>
 								</ui:repeat>
 							</p:panelGrid>
@@ -225,7 +242,7 @@
 
 			<h:panelGroup rendered="#{abrirCajaBean.successPendiente}">
 				<div class="p6n-butterbar" id="p6n-manualbutterbar0"
-					style="left: 41%;">
+					style="left: 25%;">
 					<div>
 						<h:messages />
 					</div>
@@ -237,7 +254,7 @@
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
 					<div class="modal-dialog p6n-popup" style="left: 452px; top: 50px;">
-						<div class="modal-dialog-title modal-dialog-title-draggable">
+						<div class="modal-dialog-title modal-dialog-title-draggable" style="text-align: center; font-weight: bold; font-size: 16px;">
 							<span class="modal-dialog-title-text">CREAR PENDIENTE</span><span
 								class="modal-dialog-title-close"></span>
 						</div>
@@ -323,6 +340,127 @@
 					</div>
 				</h:form>
 			</h:panelGroup>
+
+			<h:panelGroup rendered="#{abrirCajaBean.print}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+					<div class="modal-dialog p6n-popup" style="left: 500px; top: 5px;">
+
+						<div class="modal-dialog-content ng-binding">
+							<h:form id="formPendiente">
+								<div style="margin-left: 0px;">
+									<h:panelGroup id="voucherPendiente">
+										<table
+											style="width: 400px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
+											<tr style="vertical-align: center;">
+												<td colspan="1"
+													style="width: 30%; text-align: center; font-weight: bold; font-size: 12px;">
+													<p:graphicImage name="logo_coop_voucher.png"
+														library="images/logo_coop" />
+												</td>
+												<td colspan="3"
+													style="width: 70%; text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">
+													<h:outputText value="C.A.C." /> <br /> <h:outputText
+														style="font-size: 24px;" value="CAJA VENTURA" />
+												</td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="4"
+													style="text-align: center; font-weight: bold; font-size: 13px;">PENDIENTE
+													CAJA</td>
+											</tr>
+											<tr>
+												<td style="font-weight: bold; font-size: 12px;" colspan="1">AGENCIA:</td>
+												<td colspan="3">#{abrirCajaBean.agencia.denominacion}</td>
+											</tr>
+											<tr>
+												<td style="font-weight: bold; font-size: 12px;" colspan="1">ID
+													PENDIENTE:</td>
+												<td colspan="3">#{abrirCajaBean.pendientecaja.idpendientecaja}</td>
+											</tr>
+											<tr>
+												<td style="font-weight: bold; font-size: 12px;" colspan="1">TIPO
+													PENDIENTE:</td>
+												<td colspan="3">#{abrirCajaBean.pendientecaja.tipopendiente}</td>
+											</tr>
+											<tr>
+												<td colspan="1" style="font-weight: bold; font-size: 12px;">FECHA:</td>
+												<td colspan="3" style="font-size: 12px;"><h:outputText
+														value="#{abrirCajaBean.pendientecaja.fecha}">
+														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss a"
+															timeZone="EST" />
+													</h:outputText></td>
+											</tr>
+											<tr>
+												<td colspan="1" style="font-weight: bold; font-size: 12px;">MONEDA:</td>
+												<td colspan="3" style="font-size: 12px;"><h:outputText
+														value="#{abrirCajaBean.pendientecaja.tipomoneda.denominacion} (#{abrirCajaBean.pendientecaja.tipomoneda.abreviatura})" /></td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="1" style="font-weight: bold; font-size: 12px;"><h:outputText
+														value="MONTO:" /></td>
+												<td colspan="3" style="font-size: 12px;"><h:outputText
+														value="#{abrirCajaBean.pendientecaja.tipomoneda.abreviatura} #{abrirCajaBean.pendientecaja.monto}" />
+												</td>
+											</tr>
+											<tr>
+												<td colspan="1" style="font-weight: bold; font-size: 12px;">CAJA:</td>
+												<td colspan="3" style="font-size: 12px;"><h:outputText
+														value="#{abrirCajaBean.caja.denominacion} (#{abrirCajaBean.caja.abreviatura})" /></td>
+											</tr>
+											<tr>
+												<td colspan="1" style="font-weight: bold; font-size: 12px;">USUARIO:</td>
+												<td colspan="3" style="font-size: 12px;"><h:outputText
+														value="#{usuarioMB.usuario.username}" /></td>
+											</tr>
+											<tr>
+												<td colspan="1" style="font-weight: bold; font-size: 12px;">CAJERO:</td>
+												<td colspan="3" style="font-size: 12px;"><h:outputText
+														value="#{usuarioMB.usuario.trabajador.personanatural.tipodocumento.abreviatura} #{usuarioMB.usuario.trabajador.personanatural.numerodocumento}" />
+													<br /> <h:outputText
+														value="#{usuarioMB.usuario.trabajador.personanatural.apellidopaterno} #{usuarioMB.usuario.trabajador.personanatural.apellidomaterno} #{usuarioMB.usuario.trabajador.personanatural.nombres}" />
+												</td>
+											</tr>
+											<tr>
+												<td colspan="1" style="font-weight: bold; font-size: 12px;">OBSERVACIÓN:</td>
+												<td colspan="3" style="font-size: 12px;"><p:inputTextarea
+														value="#{abrirCajaBean.pendientecaja.observacion}"
+														rows="3" cols="45" readonly="true" /></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align: center;">-------------------------</td>
+												<td colspan="2" style="text-align: center;">-------------------------</td>
+											</tr>
+											<tr>
+												<td colspan="2"
+													style="text-align: center; font-weight: bold; font-size: 12px;">JEFE
+													DE CAJA</td>
+												<td colspan="2"
+													style="text-align: center; font-weight: bold; font-size: 12px;">CAJERO</td>
+											</tr>
+										</table>
+									</h:panelGroup>
+									<div style="margin-left: 10px;">
+										<h:commandButton value="Imprimir" styleClass="action blue">
+											<p:printer target="voucherPendiente" />
+										</h:commandButton>
+										<h:commandButton value="Salir"
+											action="#{abrirCajaBean.cancelarDlgPrintPendiente()}" />
+									</div>
+								</div>
+							</h:form>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
 		</ui:define>
 	</ui:composition>
 </f:view>
