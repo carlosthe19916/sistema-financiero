@@ -668,10 +668,16 @@ public class CajaServiceBean implements CajaServiceLocal{
 		parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
 		parameters.put("idhistorialcaja", historialcaja.getIdhistorialcaja());
 		List<Detallehistorialcaja> detalleHCByTipoMoneda = detallehistorialcajaDAO.findByNamedQuery(Detallehistorialcaja.detalleHistorialCajaByTipoMoneda, parameters);
+		
+		List<Detallehistorialcaja> result = new ArrayList<Detallehistorialcaja>();
 		for (Detallehistorialcaja e : detalleHCByTipoMoneda) {
-			e.setCantidad(0);
+			Detallehistorialcaja detallehistorialcaja = new Detallehistorialcaja();
+			detallehistorialcaja.setCantidad(0);
+			detallehistorialcaja.setDenominacionmoneda(e.getDenominacionmoneda());
+			detallehistorialcaja.setHistorialcaja(e.getHistorialcaja());			
+			result.add(detallehistorialcaja);
 		}
-		return detalleHCByTipoMoneda;
+		return result;
 	}
 	
 	
@@ -730,7 +736,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 		try {
 			Historialcaja historialcaja = getHistorialcajaLastActive(caja);
 			List<Detallehistorialcaja> result = null;
-			HashMap<Tipomoneda, List<Detallehistorialcaja>> colecctionDetealleHistorialCaja = new HashMap<>();
+			HashMap<Tipomoneda, List<Detallehistorialcaja>> colecctionDetalleHistorialCaja = new HashMap<>();
 			
 			for (int i = 0; i < caja.getBovedas().size(); i++) {
 				Tipomoneda tipomoneda = caja.getBovedas().get(i).getTipomoneda();	
@@ -740,7 +746,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 				if (historialcaja == null) {
 					result = new ArrayList<Detallehistorialcaja>();
 				}else{
-					result = getDetalleHistorialCajaInZero(tipomoneda, historialcaja);
+					result = getDetalleHistorialCajaInZero(tipomoneda, historialcaja);					
 					for (Detallehistorialcaja e : result) {
 						Denominacionmoneda denominacionmoneda = e.getDenominacionmoneda();
 						denominacionmonedasAllFromHistorial.add(denominacionmoneda);
@@ -755,9 +761,9 @@ public class CajaServiceBean implements CajaServiceLocal{
 					
 					result.add(detallehistorialcaja);
 				}
-				colecctionDetealleHistorialCaja.put(tipomoneda, result);
+				colecctionDetalleHistorialCaja.put(tipomoneda, result);
 			}
-			return colecctionDetealleHistorialCaja;
+			return colecctionDetalleHistorialCaja;
 		} catch (RollbackFailureException e) {
 			caja.setIdcaja(null);
 			log.error("Exception:" + e.getClass());
