@@ -199,10 +199,9 @@
 										value="#{transaccionCompraVentaCajaBean.comboTipotransaccion.items.entrySet()}"
 										var="val" itemLabel="#{val.value.abreviatura}"
 										itemValue="#{val.key}" />
-									<f:ajax execute="@this" />
-									<f:ajax event="change"
+									<f:ajax event="change" execute="@this"
 										listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
-										render="inplace oupTipoCambio" />
+										render="oupTipoCambio optCompraVenta optMontoTotal txtMontoRecibido txtMontoTotal"/>
 								</h:selectOneMenu>
 							</div>
 						</div>
@@ -275,7 +274,7 @@
 											<f:ajax execute="@this" />
 											<f:ajax event="change"
 												listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
-												render="inplace oupTipoCambio txtMontoRecibido :formCalculadora optMontoRecibido" />
+												render="oupTipoCambio txtMontoRecibido txtMontoTotal :formCalculadora optMoneda1 optMoneda2" />
 										</h:selectOneMenu>
 									</div>
 								</div>
@@ -303,7 +302,7 @@
 											<f:ajax execute="@this" />
 											<f:ajax event="change"
 												listener="#{transaccionCompraVentaCajaBean.cagarTipoCambio()}"
-												render="inplace oupTipoCambio optMontoEntregado" />
+												render="oupTipoCambio txtMontoRecibido txtMontoTotal optMoneda1 optMoneda2 " />
 											<!--se actualizan los siguientes datos    <f:ajax render="txtMonto :formCalculadora" />  -->
 										</h:selectOneMenu>
 									</div>
@@ -335,8 +334,8 @@
 										requiredMessage="Ingrese el tipo de cambio">
 										<f:converter converterId="TasaCambioConverter"></f:converter>
 										<f:ajax event="blur"
-											listener="#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}"
-											render="txtMontoEntregado @this" />
+											listener="#{transaccionCompraVentaCajaBean.calculateMontoTotal()}"
+											render="txtMontoTotal @this" />
 									</h:inputText>
 								</h:panelGroup>
 								<br />
@@ -346,10 +345,17 @@
 						<h:panelGrid columns="2">
 							<p:outputPanel>
 								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label" style="width: 100px;">MONTO
-										RECIBIDO</div>
+									<div class="p6n-api-consent-screen-label" style="width: 110px;">
+										<h:panelGroup id="optCompraVenta">
+											<h:outputText value="MONTO DE COMPRA" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
+											<h:outputText value="MONTO DE VENTA" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
+										</h:panelGroup>
+									</div>
 									<div style="float: left;">
-										<h:outputText style="text-align: center; font-weight: bold; font-size: 18px; vertical-align: bottom" id="optMontoRecibido" value="#{transaccionCompraVentaCajaBean.comboTipomonedaRecibido.objectItemSelected.abreviatura}" />
+										<h:panelGroup id="optMoneda1">
+											<h:outputText style="text-align: center; font-weight: bold; font-size: 15px; vertical-align: bottom" value="#{transaccionCompraVentaCajaBean.comboTipomonedaRecibido.objectItemSelected.abreviatura}" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
+											<h:outputText style="text-align: center; font-weight: bold; font-size: 15px; vertical-align: bottom" value="#{transaccionCompraVentaCajaBean.comboTipomonedaEntregado.objectItemSelected.abreviatura}" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
+										</h:panelGroup>
 										<h:inputText id="txtMontoRecibido" size="15"
 											value="#{transaccionCompraVentaCajaBean.montoRecibido}"
 											required="true" maxlenght="16"
@@ -357,8 +363,8 @@
 											validatorMessage="Monto recibido Invalido">
 											<f:converter converterId="MonedaConverter"></f:converter>
 											<f:ajax event="blur"
-												listener="#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}"
-												render="txtMontoEntregado" />
+												listener="#{transaccionCompraVentaCajaBean.calculateMontoTotal()}"
+												render="txtMontoTotal" />
 										</h:inputText>
 									</div>
 
@@ -373,19 +379,20 @@
 
 							<p:outputPanel>
 								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">MONTO
-										ENTREGADO</div>
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">
+										<h:panelGroup id="optMontoTotal">
+											<h:outputText value="MONTO TOTAL" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
+											<h:outputText value="MONTO TOTAL" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
+										</h:panelGroup>
+									</div>
 									<div style="float: left;">
-										<h:outputText style="text-align: center; font-weight: bold; font-size: 18px; vertical-align: bottom" id="optMontoEntregado" value="#{transaccionCompraVentaCajaBean.comboTipomonedaEntregado.objectItemSelected.abreviatura}" />
-										<h:inputText id="txtMontoEntregado" size="15"
-											value="#{transaccionCompraVentaCajaBean.montoEntregado}"
-											required="true" maxlenght="16"
-											requiredMessage="Ingrese el monto entregado">
+										<h:panelGroup id="optMoneda2">
+											<h:outputText style="text-align: center; font-weight: bold; font-size: 15px; vertical-align: bottom" value="#{transaccionCompraVentaCajaBean.comboTipomonedaRecibido.objectItemSelected.abreviatura}" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
+											<h:outputText style="text-align: center; font-weight: bold; font-size: 15px; vertical-align: bottom" value="#{transaccionCompraVentaCajaBean.comboTipomonedaEntregado.objectItemSelected.abreviatura}" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
+										</h:panelGroup>
+										<h:outputText style="font-weight: bold; font-size: 12px; vertical-align: bottom" id="txtMontoTotal" value=" #{transaccionCompraVentaCajaBean.montoEntregado}">
 											<f:converter converterId="MonedaConverter"></f:converter>
-											<f:ajax event="blur"
-												listener="#{transaccionCompraVentaCajaBean.calculateMontoRecibido()}"
-												render="txtMontoRecibido @this" />
-										</h:inputText>
+										</h:outputText>
 									</div>
 								</div>
 							</p:outputPanel>
@@ -466,12 +473,12 @@
 				<h:commandButton value="Guardar" styleClass="action blue">
 					<f:ajax execute="@form"
 						listener="#{transaccionCompraVentaCajaBean.setMontoFromCalculadora()}"
-						render="formCalculadora :formTransaccion:txtMontoRecibido :formTransaccion:txtMontoEntregado"
+						render="formCalculadora :formTransaccion:txtMontoRecibido :formTransaccion:txtMontoTotal"
 						onevent="closeDlgCalculadora">
 					</f:ajax>
 					<f:ajax
-						listener="#{transaccionCompraVentaCajaBean.calculateMontoEntregado()}"
-						render=":formTransaccion:txtMontoRecibido :formTransaccion:txtMontoEntregado">
+						listener="#{transaccionCompraVentaCajaBean.calculateMontoTotal()}"
+						render=":formTransaccion:txtMontoRecibido :formTransaccion:txtMontoTotal">
 					</f:ajax>
 				</h:commandButton>
 				<input type="button" value="Cancelar" class="action"

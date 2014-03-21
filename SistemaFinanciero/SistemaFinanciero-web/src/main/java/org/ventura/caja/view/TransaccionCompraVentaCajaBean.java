@@ -142,18 +142,21 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		comboTipomonedaRecibido.initValuesFromNamedQueryName(Tipomoneda.ALL_ACTIVE_BY_CAJA, parameters);
 	}
 	
-	public void calculateMontoEntregado(){
+	public void calculateMontoTotal() {
 		Moneda cero = new Moneda();
 		if (montoRecibido.isGreaterThan(cero)) {
 			Moneda money = montoRecibido.multiply(tipoCambio);
 			setMontoEntregado(money);
-		}else {
+		} else {
 			montoRecibido = new Moneda();
 			montoEntregado = new Moneda();
 		}
+		
+		
+		
 	}
 	
-	public void calculateMontoRecibido(){
+	/*public void calculateMontoRecibido(){
 		Moneda cero = new Moneda();
 		if (montoEntregado.isGreaterThan(cero)) {
 			Moneda money = montoEntregado.multiply(tipoCambio);
@@ -162,7 +165,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 			montoRecibido = new Moneda();
 			montoEntregado = new Moneda();
 		}
-	}
+	}*/
 	
 	public void loadDenominacionmonedaCalculadora() {
 		List<Denominacionmoneda> list;
@@ -206,11 +209,17 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 					transaccionCompraVenta.setDniRuc(dniRuc);
 					transaccionCompraVenta.setNombresRazonSocial(nombresRazonSocial);
 					transaccionCompraVenta.setTipocambio(tipoCambio);
-					transaccionCompraVenta.setMontorecibido(montoRecibido);
-					transaccionCompraVenta.setMontoentregado(montoEntregado);
 					transaccionCompraVenta.setTipomonedaEntregado(tipomonedaEntregado);
 					transaccionCompraVenta.setTipomonedaRecibido(tipomonedaRecibido);
 					transaccionCompraVenta.setEstado(true);
+					
+					if (isCompra()) {
+						transaccionCompraVenta.setMontorecibido(montoRecibido);
+						transaccionCompraVenta.setMontoentregado(montoEntregado);
+					} if (isVenta()) {
+						transaccionCompraVenta.setMontorecibido(montoEntregado);
+						transaccionCompraVenta.setMontoentregado(montoRecibido);
+					}
 
 					if (validateSaldoCaja(caja, transaccionCompraVenta)) {
 						try {
@@ -218,8 +227,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 							ViewvouchercompraventaView vouchercompraventaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionCompraVentaMoneda(transaccionCompraVenta);
 							setVoucherCompraVenta(vouchercompraventaView);
 						} catch (Exception e) {
-							JsfUtil.addErrorMessage(e, "Error al realizar la transacción");
-							return "failure";
+							
 						}
 						pageVoucher = true;
 						return null;
@@ -376,6 +384,8 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		Integer key = (Integer) event.getNewValue();
 		Tipotransaccioncompraventa tipotransaccionCompraVentaSelected = comboTipotransaccion.getObjectItemSelected(key);
 		this.tipotransaccioncompraventa = tipotransaccionCompraVentaSelected;
+		this.montoRecibido = new Moneda();
+		this.montoEntregado = new Moneda();
 	}
 
 	public void changeTipomonedaEntregado(ValueChangeEvent event) {
@@ -383,6 +393,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		Tipomoneda tipomonedaSelected = comboTipomonedaEntregado.getObjectItemSelected(key);
 		this.tipomonedaEntregado = tipomonedaSelected;
 		this.montoEntregado = new Moneda();
+		this.montoRecibido = new Moneda();
 	}
 	
 	public void changeTipomonedaRecibido(ValueChangeEvent event) {
@@ -390,6 +401,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 		Tipomoneda tipomonedaSelected = comboTipomonedaRecibido.getObjectItemSelected(key);
 		this.tipomonedaRecibido = tipomonedaSelected;
 		this.montoRecibido = new Moneda();
+		this.montoEntregado = new Moneda();
 		loadDenominacionmonedaCalculadora();
 	}
 
