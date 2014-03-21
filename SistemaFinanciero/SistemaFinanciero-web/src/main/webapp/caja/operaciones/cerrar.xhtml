@@ -44,7 +44,7 @@
 					style="opacity: 0.4; width: 1366px; height: 602px;"></div>
 			</h:panelGroup>
 
-			
+
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
@@ -53,16 +53,13 @@
 									value="Descongelar" styleClass="action green"
 									style="float:none;" />
 								<h:commandButton action="#{abrirCajaBean.congelar()}"
-									value=" Congelar " styleClass="action red" style="float:none;" />
-								
+									value="Congelar" styleClass="action red" style="float:none;" />
 							</div>
 							<br /> <br />
 							<div class="p6n-api-consent-screen-title">Cerrar Caja</div>
-
 							<div class="p6n-api-consent-screen-inputs">
 								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">
-										AGENCIA</div>
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">AGENCIA</div>
 									<div>
 										<h:outputLabel value="#{abrirCajaBean.agencia.denominacion}" />
 									</div>
@@ -96,8 +93,7 @@
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">MOVIMIENTOS</div>
 										<div>
-											<h:outputLabel
-												value="#{abrirCajaBean.historialcaja.estadomovimiento.denominacion}" />
+											<h:outputLabel id="hola" value="#{abrirCajaBean.historialcaja.estadomovimiento.denominacion}" />
 										</div>
 									</div>
 								</div>
@@ -111,9 +107,10 @@
 												<p:outputPanel>
 													<p:dataTable var="cajaDetalle" value="#{boveda.value}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
-														<f:facet name="header"> 
-															<h:outputText style="font-size: 13px;" value="DETALLE INICIO DEL DÍA"/> 
-						        						</f:facet>
+														<f:facet name="header">
+															<h:outputText style="font-size: 13px;"
+																value="DETALLE INICIO DEL DÍA" />
+														</f:facet>
 														<p:column headerText="Nro" width="15"
 															style="text-align:center;height:19px">
 															<h:outputText value="#{row + 1}" />
@@ -131,19 +128,22 @@
 															style="text-align:right;">
 															<h:outputText value="#{cajaDetalle.getSubtotal()}" />
 														</p:column>
-														<f:facet name="footer"> 
-															<h:outputText style="font-size: 13px;" value="TOTAL: #{boveda.key.abreviatura}"/>
-															<h:outputText style="font-size: 13px;" value="#{abrirCajaBean.getTotal(boveda.value)}"/> 
-						        						</f:facet>
+														<f:facet name="footer">
+															<h:outputText style="font-size: 13px;"
+																value="TOTAL: #{boveda.key.abreviatura}" />
+															<h:outputText style="font-size: 13px;"
+																value="#{abrirCajaBean.getTotal(boveda.value)}" />
+														</f:facet>
 													</p:dataTable>
 												</p:outputPanel>
 												<p:outputPanel>
 													<p:dataTable id="tabla" var="cajaDetalle"
 														value="#{abrirCajaBean.retornarDetalle(boveda.key)}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
-														<f:facet name="header"> 
-															<h:outputText style="font-size: 13px;" value="DETALLE FINAL DEL DÍA"/> 
-						        						</f:facet>
+														<f:facet name="header">
+															<h:outputText style="font-size: 13px;"
+																value="DETALLE FINAL DEL DÍA" />
+														</f:facet>
 														<p:column headerText="Nro" width="15"
 															style="text-align:center;">
 															<h:outputText value="#{row + 1}" />
@@ -160,7 +160,7 @@
 																maxlength="6" requiredMessage="requerido"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 																style="text-align:left; width:100px; height:20px">
-																<f:ajax event="blur" execute="@this" render="tabla"/>
+																<f:ajax event="blur" execute="@this" render="tabla" />
 															</h:inputText>
 															<div
 																class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
@@ -171,10 +171,12 @@
 															style="text-align:right;">
 															<h:outputText value="#{cajaDetalle.getSubtotal()}" />
 														</p:column>
-														<f:facet name="footer"> 
-															<h:outputText style="font-size: 13px;" value="TOTAL: #{boveda.key.abreviatura}"/>
-															<h:outputText style="font-size: 13px;" value="#{abrirCajaBean.getTotal(cajaDetalle)}"/> 
-						        						</f:facet>
+														<f:facet name="footer">
+															<h:outputText style="font-size: 13px;"
+																value="TOTAL: #{boveda.key.abreviatura}" />
+															<h:outputText style="font-size: 13px;"
+																value="#{abrirCajaBean.getTotal(cajaDetalle)}" />
+														</f:facet>
 													</p:dataTable>
 												</p:outputPanel>
 											</p:panelGrid>
@@ -189,6 +191,7 @@
 										value="Cancelar" styleClass="action" immediate="true" />
 								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>

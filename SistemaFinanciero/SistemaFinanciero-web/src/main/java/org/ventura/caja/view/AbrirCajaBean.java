@@ -181,6 +181,7 @@ public class AbrirCajaBean implements Serializable{
 	public void congelar(){
 		try {
 			cajaServiceLocal.freezeCaja(caja);
+			historialcaja = cajaServiceLocal.getHistorialcajaLastActive(caja);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -190,6 +191,7 @@ public class AbrirCajaBean implements Serializable{
 	public void descongelar(){
 		try {
 			cajaServiceLocal.defrostCaja(caja);
+			historialcaja = cajaServiceLocal.getHistorialcajaLastActive(caja);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
