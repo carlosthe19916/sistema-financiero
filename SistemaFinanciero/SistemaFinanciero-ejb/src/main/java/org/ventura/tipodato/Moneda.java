@@ -162,7 +162,6 @@ public class Moneda implements Serializable {
 
 	public int getDecimalValue() {
 		BigDecimal d = value;
-		System.out.println("Probando: "+ d);
 		BigDecimal result = d.subtract(d.setScale(0, RoundingMode.FLOOR))
 				.movePointRight(d.scale());
 		return result.intValue();
@@ -190,16 +189,22 @@ public class Moneda implements Serializable {
 		if (value == null)
 			return null;
 		int realScale = value.scale();
-		System.out.println("real scale " + realScale);
 		
 		if (realScale == 2) {
 			int doubleValue = getDecimalValue();
-			System.out.println("double vallue " + doubleValue);
 
 			if (doubleValue % 10 == 0) {
 				stringValue = "." + doubleValue + stringValue;
 			} else {
-				stringValue = "." + doubleValue + stringValue;
+				if(doubleValue<10){
+					if(doubleValue > 0){
+						stringValue = "." + "0"+doubleValue + stringValue;
+					} else{
+						stringValue = "." + "00"+doubleValue + stringValue;
+					}					
+				} else {
+					stringValue = "." + doubleValue + stringValue;
+				}			
 			}
 
 			int intValue = getIntValue();
