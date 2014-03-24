@@ -57,13 +57,13 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 	private BigDecimal interesCuenta;
 	private BigDecimal totalCuenta;
 	private Integer periodoCuenta;
-	private BigDecimal treaCuenta;
+	//private BigDecimal treaCuenta;
 	private BigDecimal teaCuenta;
 
 	private Integer periodoRenovacion;
 	private BigDecimal montoRenovacion;
 	private BigDecimal teaRenovacion;
-	private BigDecimal treaRenovacion;
+	//private BigDecimal treaRenovacion;
 	private Date fechaAperturaRenovacion;
 	private Date fechaCierreRenovacion;
 	private BigDecimal interesRenovacion;
@@ -113,9 +113,9 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 				Cuentabancaria cuentabancaria = new Cuentabancaria();
 				cuentabancaria.setIdcuentabancaria(cuentabancariaViewSelected.getIdCuentabancaria());
 				BigDecimal teaReal = teaRenovacion.divide(new BigDecimal(100));
-				BigDecimal treaReal = treaRenovacion.divide(new BigDecimal(100));
+				//BigDecimal treaReal = treaRenovacion.divide(new BigDecimal(100));
 				
-				cuentaPlazofijoCreado = cuentabancariaServiceLocal.renovarCuentaplazofijo(cuentabancaria,periodoRenovacion, teaReal, treaReal, caja);				
+				cuentaPlazofijoCreado = cuentabancariaServiceLocal.renovarCuentaplazofijo(cuentabancaria,periodoRenovacion, teaReal, caja);				
 				cuentaCreada = true;
 				cargarContrato();
 			} else {
@@ -188,13 +188,13 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 				
 				//cargar las tasas de interes para la cuenta
 				this.teaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TEA, cuentabancariaViewSelected.getIdCuentabancaria());
-				this.treaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TREA, cuentabancariaViewSelected.getIdCuentabancaria());
+				//this.treaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TREA, cuentabancariaViewSelected.getIdCuentabancaria());
 				
 				teaCuenta = teaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
-				treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
+				//treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
 				
 				teaCuenta = teaCuenta.setScale(2);
-				treaCuenta = treaCuenta.setScale(2);
+				//treaCuenta = treaCuenta.setScale(2);
 			} catch (Exception e) {
 				JsfUtil.addErrorMessage(e, e.getMessage());
 				e.printStackTrace();
@@ -345,14 +345,6 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 		this.teaRenovacion = teaRenovacion;
 	}
 
-	public BigDecimal getTreaRenovacion() {
-		return treaRenovacion;
-	}
-
-	public void setTreaRenovacion(BigDecimal treaRenovacion) {
-		this.treaRenovacion = treaRenovacion;
-	}
-
 	public Cuentabancaria getCuentaPlazofijoCreado() {
 		return cuentaPlazofijoCreado;
 	}
@@ -407,14 +399,6 @@ public class RenovarCuentaplazofijoBean implements Serializable {
 
 	public void setPersonajuridica(Personajuridica personajuridica) {
 		this.personajuridica = personajuridica;
-	}
-
-	public BigDecimal getTreaCuenta() {
-		return treaCuenta;
-	}
-
-	public void setTreaCuenta(BigDecimal treaCuenta) {
-		this.treaCuenta = treaCuenta;
 	}
 
 	public BigDecimal getTeaCuenta() {
