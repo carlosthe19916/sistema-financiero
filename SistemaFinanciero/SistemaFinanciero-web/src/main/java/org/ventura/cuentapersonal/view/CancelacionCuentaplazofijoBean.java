@@ -45,7 +45,7 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 	private BigDecimal totalCuenta;
 	private BigDecimal interesCuenta;
 	private Integer periodoCuenta;
-	private BigDecimal treaCuenta;
+	//private BigDecimal treaCuenta;
 	private BigDecimal teaCuenta;
 	private CuentabancariaView cuentabancariaView;
 	private Cuentabancaria cuentabancaria;
@@ -186,13 +186,13 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 				
 				//cargar las tasas de interes para la cuenta
 				this.teaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TEA, cuentabancariaView.getIdCuentabancaria());
-				this.treaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TREA, cuentabancariaView.getIdCuentabancaria());
+				//this.treaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TREA, cuentabancariaView.getIdCuentabancaria());
 				
 				teaCuenta = teaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
-				treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
+				//treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
 				
 				teaCuenta = teaCuenta.setScale(2,RoundingMode.HALF_DOWN);
-				treaCuenta = treaCuenta.setScale(2,RoundingMode.HALF_DOWN);
+				//treaCuenta = treaCuenta.setScale(2,RoundingMode.HALF_DOWN);
 			} catch (Exception e) {
 				JsfUtil.addErrorMessage(e, e.getMessage());			
 			}
@@ -305,14 +305,6 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 
 	public void setPeriodoCuenta(Integer periodoCuenta) {
 		this.periodoCuenta = periodoCuenta;
-	}
-
-	public BigDecimal getTreaCuenta() {
-		return treaCuenta;
-	}
-
-	public void setTreaCuenta(BigDecimal treaCuenta) {
-		this.treaCuenta = treaCuenta;
 	}
 
 	public BigDecimal getTeaCuenta() {

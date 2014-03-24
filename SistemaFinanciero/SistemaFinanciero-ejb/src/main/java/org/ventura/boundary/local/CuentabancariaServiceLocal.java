@@ -31,15 +31,15 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia) throws Exception;
 	
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, BigDecimal trea, Caja caja, Agencia agencia) throws Exception;
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia) throws Exception;
 	
-	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea, Agencia agencia) throws Exception;
+	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, Agencia agencia) throws Exception;
 	
-	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria, int periodo, BigDecimal tea, BigDecimal trea, Caja  caja) throws Exception;
+	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria, int periodo, BigDecimal tea, Caja  caja) throws Exception;
 	
 	public Cuentabancaria cancelacionAnticipadaCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea, BigDecimal trea) throws Exception;
 	
-	public Cuentabancaria recalculoCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea, BigDecimal trea) throws Exception;
+	public Cuentabancaria recalculoCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea) throws Exception;
 	
 	public Transaccioncuentabancaria cancelarCuentaplazofijo(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception;
 	

@@ -291,17 +291,7 @@
 															styleClass="sf-label-bold" />
 													</div>
 												</div>
-											</div>
-											<div style="display: inline-block; width: 300px;">
-												<div class="p6n-api-consent-screen-label">TREA</div>
-												<div>
-													<div>
-														<h:outputLabel
-															value="#{renovarCuentaplazofijoBean.treaCuenta}"
-															styleClass="sf-label-bold" />
-													</div>
-												</div>
-											</div>
+											</div>											
 
 										</div>
 
@@ -431,25 +421,7 @@
 												<div
 													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 													<h:message for="txtTea" />
-												</div>
-												<div class="p6n-api-consent-screen-input-section">
-													<div class="p6n-api-consent-screen-label">TREA</div>
-													<div>
-														<h:inputText id="txtTrea" required="true"
-															requiredMessage="Ingrese trea"
-															converterMessage="Ingrese trea valido Ejemplo: 9.00"
-															value="#{renovarCuentaplazofijoBean.treaRenovacion}"
-															pt:placeholder="0.00">
-															<f:converter converterId="javax.faces.BigDecimal"
-																maxFractionDigits="2" minFractionDigits="2"
-																pattern="0.00" />
-														</h:inputText>
-													</div>
-												</div>
-												<div
-													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-													<h:message for="txtTrea" />
-												</div>
+												</div>												
 												<br />
 												<div class="sf-buttons" style="float: left;">
 													<h:commandButton value="Aceptar"
@@ -722,10 +694,7 @@
 										<td colspan="1" style="font-weight: bold; font-size: 12px;">Interés
 											Generado:</td>
 										<td colspan="1" style="font-size: 12px;">#{renovarCuentaplazofijoBean.cuentaPlazofijoCreado.tipomoneda.abreviatura}
-											#{renovarCuentaplazofijoBean.interesRenovacion}</td>
-										<td colspan="1" style="font-weight: bold; font-size: 12px;">TREA:</td>
-										<td colspan="1" style="font-size: 12px;">#{renovarCuentaplazofijoBean.treaRenovacion}
-											%</td>
+											#{renovarCuentaplazofijoBean.interesRenovacion}</td>										
 									</tr>
 
 									<tr>
@@ -1023,9 +992,7 @@
 											Generado:</td>
 										<td colspan="1" style="font-size: 12px;">#{renovarCuentaplazofijoBean.cuentaPlazofijoCreado.tipomoneda.abreviatura}
 											#{renovarCuentaplazofijoBean.interesRenovacion}</td>
-										<td colspan="1" style="font-weight: bold; font-size: 12px;">TREA:</td>
-										<td colspan="1" style="font-size: 12px;">#{renovarCuentaplazofijoBean.treaRenovacion}
-											%</td>
+										
 									</tr>
 
 									<tr>

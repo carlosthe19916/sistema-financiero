@@ -44,14 +44,14 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 	private BigDecimal interesCuenta;
 	private BigDecimal totalCuenta;
 	private Integer periodoCuenta;
-	private BigDecimal treaCuenta;
+	//private BigDecimal treaCuenta;
 	private BigDecimal teaCuenta;
 
 	//datos de entrada
 	private BigDecimal interesRecalculado;
 	private BigDecimal totalRecalculado;
 	private BigDecimal teaRecalculo;
-	private BigDecimal treaRecalculo;
+	//private BigDecimal treaRecalculo;
 	private Date fechaRecalculo;
 	private Integer periodoRecalculo;
 	
@@ -82,9 +82,9 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 				Cuentabancaria cuentabancaria = new Cuentabancaria();
 				cuentabancaria.setIdcuentabancaria(cuentabancariaViewSelected.getIdCuentabancaria());
 				BigDecimal teaReal = teaRecalculo.divide(new BigDecimal(100));
-				BigDecimal treaReal = treaRecalculo.divide(new BigDecimal(100));
+				//BigDecimal treaReal = treaRecalculo.divide(new BigDecimal(100));
 				
-				cuentaPlazofijoCreado = cuentabancariaServiceLocal.recalculoCuentaplazofijo(cuentabancaria, fechaRecalculo, teaReal, treaReal);
+				cuentaPlazofijoCreado = cuentabancariaServiceLocal.recalculoCuentaplazofijo(cuentabancaria, fechaRecalculo, teaReal);
 				cuentaCreada = true;
 			}
 		} catch (Exception e) {
@@ -172,13 +172,13 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 				
 				//cargar las tasas de interes para la cuenta
 				this.teaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TEA, cuentabancariaViewSelected.getIdCuentabancaria());
-				this.treaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TREA, cuentabancariaViewSelected.getIdCuentabancaria());
+				//this.treaCuenta = cuentabancariaServiceLocal.getTasainteres(TipotasaCuentasPersonalesType.TREA, cuentabancariaViewSelected.getIdCuentabancaria());
 				
 				teaCuenta = teaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
-				treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
+				//treaCuenta = treaCuenta.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
 				
 				teaCuenta = teaCuenta.setScale(2);
-				treaCuenta = treaCuenta.setScale(2);
+				//treaCuenta = treaCuenta.setScale(2);
 			} catch (Exception e) {
 				JsfUtil.addErrorMessage(e, e.getMessage());
 				e.printStackTrace();
@@ -288,14 +288,6 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 		this.teaRecalculo = teaRecalculo;
 	}
 
-	public BigDecimal getTreaRecalculo() {
-		return treaRecalculo;
-	}
-
-	public void setTreaRecalculo(BigDecimal treaRecalculo) {
-		this.treaRecalculo = treaRecalculo;
-	}
-
 	public Date getFechaRecalculo() {
 		return fechaRecalculo;
 	}
@@ -327,14 +319,6 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 	public void setCuentabancariaViewSelected(
 			CuentabancariaView cuentabancariaViewSelected) {
 		this.cuentabancariaViewSelected = cuentabancariaViewSelected;
-	}
-
-	public BigDecimal getTreaCuenta() {
-		return treaCuenta;
-	}
-
-	public void setTreaCuenta(BigDecimal treaCuenta) {
-		this.treaCuenta = treaCuenta;
 	}
 
 	public BigDecimal getTeaCuenta() {

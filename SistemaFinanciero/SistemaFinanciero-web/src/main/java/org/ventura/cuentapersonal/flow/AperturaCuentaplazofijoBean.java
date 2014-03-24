@@ -70,7 +70,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	@Inject private ComboBean<Tipomoneda> comboTipomoneda;
 	private BigDecimal montoApertura;
 	private Integer periodoDeposito;
-	private BigDecimal trea;
+	//private BigDecimal trea;
 	private BigDecimal tea;
 	private BigDecimal interesGenerado;
 	
@@ -162,7 +162,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		
 		montoApertura = null;
 		periodoDeposito = null;
-		trea = null;
+		//trea = null;
 		tea = new BigDecimal("0.00");
 		interesGenerado = null;
 		
@@ -266,8 +266,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					cuentabancaria.setBeneficiarios(listBeneficiarios);
 					
 					BigDecimal teaReal = tea.divide(new BigDecimal(100));
-					BigDecimal treaReal = trea.divide(new BigDecimal(100));
-					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio,montoApertura, teaReal, treaReal, caja, agenciaBean.getAgencia());
+					//BigDecimal treaReal = trea.divide(new BigDecimal(100));
+					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio,montoApertura, teaReal, caja, agenciaBean.getAgencia());
 					
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();
@@ -329,7 +329,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 						cuentabancaria.setTitulares(listTitulares);
 						cuentabancaria.setBeneficiarios(listBeneficiarios);
 						
-						cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio,tea, trea, agenciaBean.getAgencia());
+						cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio,tea, agenciaBean.getAgencia());
 						
 						cuentaCreada = true;
 						numeroCuenta = cuentabancaria.getNumerocuenta();
@@ -1516,14 +1516,6 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 
 	public void setPeriodoDeposito(Integer periodoDeposito) {
 		this.periodoDeposito = periodoDeposito;
-	}
-
-	public BigDecimal getTrea() {
-		return trea;
-	}
-
-	public void setTrea(BigDecimal trea) {
-		this.trea = trea;
 	}
 
 	public BigDecimal getTea() {
