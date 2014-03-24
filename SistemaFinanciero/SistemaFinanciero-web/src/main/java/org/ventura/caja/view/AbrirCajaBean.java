@@ -142,10 +142,24 @@ public class AbrirCajaBean implements Serializable{
 		}
 	}
 	
-	public String getTotal(List<Detallehistorialcaja> a){
+	public String getTotal(Tipomoneda key){
+		List<Detallehistorialcaja> list = retornarDetalle(key);
 		Moneda total = new Moneda();
-		if(a != null){
-			for (Detallehistorialcaja detallehistorialcaja : a) {		
+		if(list != null){
+			for (Detallehistorialcaja detallehistorialcaja : list) {		
+				totalCaja = totalCaja.add(detallehistorialcaja.getSubtotal());
+				total = total.add(detallehistorialcaja.getSubtotal());
+			}
+		}
+		
+		return total.toString();
+	}
+	
+	public String getTotalAbrir(Tipomoneda key){
+		List<Detallehistorialcaja> list = mapDetalleHistorialcajaApertura.get(key);
+		Moneda total = new Moneda();
+		if(list != null){
+			for (Detallehistorialcaja detallehistorialcaja : list) {		
 				totalCaja = totalCaja.add(detallehistorialcaja.getSubtotal());
 				total = total.add(detallehistorialcaja.getSubtotal());
 			}

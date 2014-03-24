@@ -25,24 +25,24 @@
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
 			<h:form id="closeCaja">
-			<h:panelGroup rendered="#{abrirCajaBean.failure}">
-				<div class="p6n-api-access-in-page-error" style="left: 516px;">
-					<div>
+				<h:panelGroup rendered="#{abrirCajaBean.failure}">
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
 						<div>
-							<p>
-								<h:messages />
-							</p>
-						</div>
-						<div style="text-align: center;">
-							<h:commandLink value="Volver"
-								action="/caja/operaciones/index?faces-redirect=true" immediate="true"
-								styleClass="p6n-api-access-in-page-error-link" />
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Volver"
+									action="/caja/operaciones/index?faces-redirect=true"
+									immediate="true" styleClass="p6n-api-access-in-page-error-link" />
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="modal-dialog-bg"
-					style="opacity: 0.4; width: 1366px; height: 602px;"></div>
-			</h:panelGroup>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 602px;"></div>
+				</h:panelGroup>
 
 
 				<div style="margin-left: 50px;">
@@ -93,7 +93,8 @@
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">MOVIMIENTOS</div>
 										<div>
-											<h:outputLabel id="hola" value="#{abrirCajaBean.historialcaja.estadomovimiento.denominacion}" />
+											<h:outputLabel id="hola"
+												value="#{abrirCajaBean.historialcaja.estadomovimiento.denominacion}" />
 										</div>
 									</div>
 								</div>
@@ -132,7 +133,7 @@
 															<h:outputText style="font-size: 13px;"
 																value="TOTAL: #{boveda.key.abreviatura}" />
 															<h:outputText style="font-size: 13px;"
-																value="#{abrirCajaBean.getTotal(boveda.value)}" />
+																value="#{abrirCajaBean.getTotalAbrir(boveda.key)}" />
 														</f:facet>
 													</p:dataTable>
 												</p:outputPanel>
@@ -175,7 +176,7 @@
 															<h:outputText style="font-size: 13px;"
 																value="TOTAL: #{boveda.key.abreviatura}" />
 															<h:outputText style="font-size: 13px;"
-																value="#{abrirCajaBean.getTotal(cajaDetalle)}" />
+																value="#{abrirCajaBean.getTotal(boveda.key)}" />
 														</f:facet>
 													</p:dataTable>
 												</p:outputPanel>
@@ -257,7 +258,8 @@
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
 					<div class="modal-dialog p6n-popup" style="left: 452px; top: 50px;">
-						<div class="modal-dialog-title modal-dialog-title-draggable" style="text-align: center; font-weight: bold; font-size: 16px;">
+						<div class="modal-dialog-title modal-dialog-title-draggable"
+							style="text-align: center; font-weight: bold; font-size: 16px;">
 							<span class="modal-dialog-title-text">CREAR PENDIENTE</span><span
 								class="modal-dialog-title-close"></span>
 						</div>
@@ -268,9 +270,9 @@
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">FECHA</div>
 										<div>
-											<h:outputText
-												value="#{abrirCajaBean.fechaPendiente}" >
-												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss a" timeZone="EST" />
+											<h:outputText value="#{abrirCajaBean.fechaPendiente}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss a"
+													timeZone="EST" />
 											</h:outputText>
 										</div>
 									</div>
@@ -294,7 +296,8 @@
 										<div style="display: inline-block; width: 190px;">
 											<div class="p6n-api-consent-screen-label">MONTO</div>
 											<div>
-												<h:outputText value="#{abrirCajaBean.tipomonedaPendiente.abreviatura} #{abrirCajaBean.montoPendiente}" />
+												<h:outputText
+													value="#{abrirCajaBean.tipomonedaPendiente.abreviatura} #{abrirCajaBean.montoPendiente}" />
 											</div>
 										</div>
 									</div>
@@ -314,7 +317,7 @@
 						<div class="modal-dialog-buttons">
 							<h:commandButton action="#{abrirCajaBean.crearPendiente()}"
 								value="Guardar" styleClass="action blue"
-								onclick="onSubmitButton();"/>
+								onclick="onSubmitButton();" />
 							<h:commandButton value="Cancelar"
 								action="#{abrirCajaBean.cancelarPendiente()}" immediate="true"
 								styleClass="action" />
@@ -337,7 +340,8 @@
 							<div>La caja se cerro correctamente...</div>
 						</div>
 						<div class="modal-dialog-buttons">
-							<h:commandButton value="Salir" action="/caja/index?faces-redirect=true" immediate="true"
+							<h:commandButton value="Salir"
+								action="/caja/index?faces-redirect=true" immediate="true"
 								styleClass="action" />
 						</div>
 					</div>
