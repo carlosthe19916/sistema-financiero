@@ -493,7 +493,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, BigDecimal trea, Caja caja, Agencia agencia) throws Exception {
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personanatural);
 			if(socio == null){
@@ -537,7 +537,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			
 			//crear tasas de interes 
 			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
-			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+			//Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
 						
 			CuentabancariaTipotasa cuentabancariaTipotasaTEA =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();
@@ -546,15 +546,15 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			pkTEA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
 			
-			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
+			/*CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
 			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();	
 			cuentabancariaTipotasaTREA.setId(pkTREA);
 			cuentabancariaTipotasaTREA.setTasainteres(trea);	
 			pkTREA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
-			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
+			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());*/
 			
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTEA);
-			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
+			//cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
 			
 			return cuentabancaria;
 		} catch (Exception e) {
@@ -567,7 +567,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, BigDecimal trea, Agencia agencia) throws Exception {
+	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, Agencia agencia) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personajuridica);
 			if(socio == null){
@@ -597,7 +597,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			
 			//crear tasas de interes 
 			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
-			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+			//Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
 					
 			CuentabancariaTipotasa cuentabancariaTipotasaTEA =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();
@@ -606,15 +606,15 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			pkTEA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
 			
-			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
+			/*CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
 			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();	
 			cuentabancariaTipotasaTREA.setId(pkTREA);
 			cuentabancariaTipotasaTREA.setTasainteres(trea);	
 			pkTREA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
-			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
+			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());*/
 			
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTEA);
-			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
+			//cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
 				
 			return cuentabancaria;
 		} catch (IllegalEntityException | PreexistingEntityException e) {		
@@ -759,7 +759,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria,int periodo, BigDecimal tea, BigDecimal trea, Caja caja) throws Exception {
+	public Cuentabancaria renovarCuentaplazofijo(Cuentabancaria cuentabancaria,int periodo, BigDecimal tea, Caja caja) throws Exception {
 		Cuentabancaria cuentabancariaNew = null;
 		try {							
 			Cuentabancaria cuentabancariaOld = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
@@ -873,7 +873,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 				
 			//crear los intereses para la nueva cuenta a plazo fijo
 			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
-			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+			//Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
 						
 			CuentabancariaTipotasa cuentabancariaTipotasaTEA =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();
@@ -882,15 +882,15 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			pkTEA.setIdcuentabancaria(cuentabancariaNew.getIdcuentabancaria());
 			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());
 			
-			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
+			/*CuentabancariaTipotasa cuentabancariaTipotasaTREA =  new CuentabancariaTipotasa();			
 			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();	
 			cuentabancariaTipotasaTREA.setId(pkTREA);
 			cuentabancariaTipotasaTREA.setTasainteres(trea);	
 			pkTREA.setIdcuentabancaria(cuentabancariaNew.getIdcuentabancaria());
-			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
+			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());*/
 			
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTEA);
-			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
+			//cuentabancariaTipotasaDAO.create(cuentabancariaTipotasaTREA);
 			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
@@ -954,7 +954,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Cuentabancaria recalculoCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea,BigDecimal trea) throws Exception {
+	public Cuentabancaria recalculoCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea) throws Exception {
 		Cuentabancaria cuentabancariaBD;
 		try {							
 			cuentabancariaBD = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
@@ -965,7 +965,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 				
 			//actualizar los intereses para la nueva cuenta a plazo fijo
 			Tipotasa tipotasaTEA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TEA);
-			Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
+			//Tipotasa tipotasaTREA = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.TREA);
 									
 			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();		
 			pkTEA.setIdcuentabancaria(cuentabancariaBD.getIdcuentabancaria());
@@ -974,12 +974,12 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancariaTipotasaTEA.setTasainteres(tea);
 			cuentabancariaTipotasaDAO.update(cuentabancariaTipotasaTEA);
 			
-			CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();		
+			/*CuentabancariaTipotasaPK pkTREA = new CuentabancariaTipotasaPK();		
 			pkTREA.setIdcuentabancaria(cuentabancariaBD.getIdcuentabancaria());
 			pkTREA.setIdtipotasa(tipotasaTREA.getIdtipotasa());
 			CuentabancariaTipotasa cuentabancariaTipotasaTREA =  cuentabancariaTipotasaDAO.find(pkTREA);	
 			cuentabancariaTipotasaTREA.setTasainteres(trea);
-			cuentabancariaTipotasaDAO.update(cuentabancariaTipotasaTREA);		
+			cuentabancariaTipotasaDAO.update(cuentabancariaTipotasaTREA);*/		
 			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
