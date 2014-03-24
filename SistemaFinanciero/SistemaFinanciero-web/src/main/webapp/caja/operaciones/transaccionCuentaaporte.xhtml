@@ -115,10 +115,9 @@
 										operaciones son de responsabilidad del usuario en session</div>
 								</div>
 							</div>
-
-							<br /> <br />
-							<div class="p6n-api-consent-screen-title">Transaccion Caja
-								- Cuenta de Aportes</div>
+							<br /><br />
+							<div class="p6n-api-consent-screen-title"> Transaccion Caja - Cuenta de Aportes
+							</div>
 
 							<!-- voucher -->
 							<h:panelGroup id="voucher"
@@ -129,98 +128,90 @@
 										<div>
 											<div>
 												<table
-													style="width: 230px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
+													style="width: 220px; border: solid 0px #E9E6E6; margin-bottom: 0px;">
 													<tr style="vertical-align: center;">
 														<td colspan="1"
 															style="text-align: center; font-weight: bold; font-size: 12px;">
 															<p:graphicImage name="logo_coop_header.png" library="images/logo_coop" />
 														</td>
 														<td colspan="3"
-															style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">COOPERATIVA
-															DE AHORRO Y CREDITO CAJA VENTURA</td>
+															style="text-align: center; font-weight: bold; font-size: 10px; vertical-align: middle">
+															<h:outputText value="C.A.C." /> <br /> <h:outputText
+																style="font-size: 15px;" value="CAJA VENTURA" />
+														</td>
+													</tr>
+													<tr style="vertical-align: center;">
+														<td colspan="4"
+															style="text-align: center; font-weight: bold; font-size: 11px;">
+															<h:outputText value="DEPOSITO CUENTA APORTE"/>
+														</td>
 													</tr>
 													<tr>
 														<td colspan="1"
-															style="font-weight: bold; font-size: 12px;">Nº TRANS:</td>
-														<td colspan="3" style="font-size: 12px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
+															style="font-weight: bold; font-size: 9px;">Nº TRANS:</td>
+														<td colspan="3" style="font-size: 9px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.idTransaccioncaja}</td>
 													</tr>
 													<tr>
 														<td colspan="1"
-															style="width: 25%; font-weight: bold; font-size: 12px;">Nº
+															style="font-weight: bold; font-size: 9px;">AGENCIA:</td>
+														<td colspan="3" style="font-size: 9px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.denominacionAgencia}</td>
+													</tr>
+													<tr>
+														<td colspan="1"
+															style="width: 25%; font-weight: bold; font-size: 9px;">Nº
 															OP:</td>
-														<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentaaporteCajaBean.returnNumOperacion()}</td>
+														<td colspan="1" style="width: 25%; font-size: 9px;">#{transaccionCuentaaporteCajaBean.returnNumOperacion()}</td>
 														<td colspan="1"
-															style="width: 25%; font-weight: bold; font-size: 12px;">Caja:</td>
-														<td colspan="1" style="width: 25%; font-size: 12px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.denominacionCaja}</td>
+															style="width: 15%; font-weight: bold; font-size: 9px;">CAJA:</td>
+														<td colspan="1" style="width: 35%; font-size: 9px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.denominacionCaja}</td>
 													</tr>
 													<tr>
-														<td style="font-weight: bold; font-size: 11px;">FECHA:</td>
-														<td style="font-size: 12px;"><h:outputText
+														<td style="font-weight: bold; font-size: 9px;">FECHA:</td>
+														<td style="font-size: 9px;"><h:outputText
 																value="#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.fechaTransaccioncaja}">
 																<f:convertDateTime pattern="dd/MM/yyyy" />
 															</h:outputText></td>
-														<td style="font-weight: bold; font-size: 11px;">HORA:</td>
-														<td style="font-size: 12px;"><h:outputLabel
+														<td style="font-weight: bold; font-size: 9px;">HORA:</td>
+														<td style="font-size: 9px;"><h:outputLabel
 																value="#{transaccionCuentaaporteCajaBean.getStringTime(transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.horaTransaccioncaja)}">
 															</h:outputLabel></td>
 													</tr>
 													<tr>
 														<td colspan="1"
-															style="font-weight: bold; font-size: 11px;">AGENCIA:</td>
-														<td colspan="3" style="font-size: 12px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.denominacionAgencia}</td>
-													</tr>
-													<tr>
-														<td colspan="4"
-															style="text-align: center; text-decoration: underline; font-weight: bold; font-size: 12px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.denominacionTipotransaccion}</td>
-													</tr>
-													<tr>
-														<td colspan="1"
-															style="font-weight: bold; font-size: 11px;">CUENTA:</td>
-														<td colspan="3" style="font-size: 12px;"><h:outputLabel
+															style="font-weight: bold; font-size: 9px;">Nº CUENTA:</td>
+														<td colspan="3" style="font-size: 9px;"><h:outputLabel
 																value="#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.numeroCuentaaporte}" />
 														</td>
 													</tr>
 													<tr>
 														<td colspan="1"
-															style="font-weight: bold; font-size: 11px;">T. CTA:</td>
-														<td colspan="3" style="font-size: 11px;"><h:outputLabel
-																value="CUENTA DE APORTES" /></td>
+															style="font-weight: bold; font-size: 9px;">SOCIO:</td>
+														<td colspan="3" style="font-size: 9px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.persona}</td>
 													</tr>
 													<tr>
 														<td colspan="1"
-															style="font-weight: bold; font-size: 11px;">SOCIO:</td>
-														<td colspan="3" style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.persona}</td>
+															style="font-weight: bold; font-size: 9px;">REF:</td>
+														<td colspan="3" style="font-size: 9px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.referenciaTransaccioncuentaaporte}</td>
 													</tr>
 													<tr>
-														<td colspan="1"
-															style="font-weight: bold; font-size: 11px;">REF:</td>
-														<td colspan="3" style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.referenciaTransaccioncuentaaporte}</td>
+														<td colspan="4" style="font-size: 5px;">&nbsp;</td>
 													</tr>
 													<tr>
-														<td colspan="1"
-															style="font-weight: bold; font-size: 11px;">MONEDA:</td>
-														<td colspan="3" style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.denominacionTipomonedaTransaccion}</td>
+														<td colspan="2"
+															style="font-weight: bold; font-size: 9px;">IMPORTE RECIBIDO:</td>
+														<td colspan="2" style="font-size: 10px; text-align: right;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.abreviaturaTipomonedaTransaccion}#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.montoTransaccioncuentaaporte}</td>
 													</tr>
 													<tr>
-														<td colspan="1"
-															style="font-weight: bold; font-size: 11px;">IMPORTE:</td>
-														<td colspan="3" style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.abreviaturaTipomonedaTransaccion}#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.montoTransaccioncuentaaporte}</td>
-													</tr>
-												</table>
-
-												<table style="width: 245px; border: solid 1px #E9E6E6;">
-													<tr>
-														<td colspan="1"
-															style="font-weight: bold; font-size: 11px; width: 25%;">S.
-															TOTAL:</td>
-														<td colspan="3" style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.abreviaturaTipomonedaTransaccion}#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.saldodissponibleTransaccioncuentaaporte}</td>
+														<td colspan="2"
+															style="font-weight: bold; font-size: 9px; width: 25%;">SALDO TOTAL:</td>
+														<td colspan="2" style="font-size: 10px; text-align: right;">#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.abreviaturaTipomonedaTransaccion}#{transaccionCuentaaporteCajaBean.vouchercajaCuentaaporteView.saldodissponibleTransaccioncuentaaporte}</td>
 													</tr>
 													<tr>
-														<td>&nbsp;</td>
+														<td colspan="4" style="font-size: 3px;">&nbsp;</td>
 													</tr>
 													<tr>
 														<td colspan="4"
-															style="text-align: center; font-size: 10px;">"Verifique
+															style="text-align: center; font-size: 9px;">"Verifique
 															su dinero antes de retirarse de la ventanilla"</td>
 													</tr>
 												</table>
@@ -228,9 +219,11 @@
 										</div>
 									</h:panelGroup>
 									<div class="modal-dialog-buttons">
-										<h:commandButton value="Imprimir">
+										<h:commandButton value="Imprimir" type="button"
+											icon="ui-icon-print" styleClass="action blue">
 											<p:printer target="printVoucher" />
 										</h:commandButton>
+										
 										<h:commandButton value="Salir" styleClass="action red"
 											action="transaccionCuentaaporte?faces-redirect=true" />
 									</div>
@@ -241,17 +234,17 @@
 
 							<h:panelGroup
 								rendered="#{!transaccionCuentaaporteCajaBean.success}">
-								<p:focus for="cmbTipoTransaccion"/>
+								<p:focus for="txtNumerocuenta"/>
 								<div class="p6n-api-consent-screen-inputs">
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">TIPO TRANSACCION</div>
 										<div>
-											<h:selectOneMenu id="cmbTipoTransaccion"
+											<h:selectOneMenu id="cmbTipoTransaccion" disabled="true"
 												value="#{transaccionCuentaaporteCajaBean.comboTipotransaccion.itemSelected}"
 												required="true"
 												requiredMessage="Seleccione un tipo de transaccion">
-												<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+												<f:selectItem itemLabel="--Seleccione--" itemValue=""/>
 												<f:selectItems
 													value="#{transaccionCuentaaporteCajaBean.comboTipotransaccion.items.entrySet()}"
 													var="val" itemLabel="#{val.value.denominacion}"
@@ -297,7 +290,7 @@
 										<div class="p6n-api-consent-screen-label"
 											style="width: 150px;">TIPO MONEDA</div>
 										<div>
-											<h:selectOneMenu id="cmbTipomoneda"
+											<h:selectOneMenu id="cmbTipomoneda" disabled="true"
 												value="#{transaccionCuentaaporteCajaBean.comboTipomoneda.itemSelected}"
 												valueChangeListener="#{transaccionCuentaaporteCajaBean.changeTipomoneda}"
 												required="true" requiredMessage="Seleccione una moneda"
@@ -325,12 +318,7 @@
 												<f:converter converterId="MonedaConverter"></f:converter>
 											</h:inputText>
 										</div>
-										<div style="float: left;">
-											<h:outputLink id="btnCalculadora" value="#"
-												styleClass="button" style="margin: 0 0 0 1px;">
-												<span class="icon icon32"></span>
-											</h:outputLink>
-										</div>
+										
 									</div>
 									<br /> <br />
 									<div class="p6n-api-consent-screen-input-section">

@@ -24,7 +24,7 @@
 			<div style="margin-left: 50px;">
 				<div>
 					<div>
-						<div class="p6n-api-consent-screen-title p6n-action-bar">TITULARES</div>
+						<div class="p6n-api-consent-screen-title p6n-action-bar">TITULAR (ES)</div>
 
 					</div>
 				</div>
@@ -37,7 +37,7 @@
 						<div class="p6n-main-pane ng-isolate-scope">
 							<div class="">
 								<div class="ng-scope">
-									<div class="p6n-api-consent-screen-input-section"
+									<!-- <div class="p6n-api-consent-screen-input-section"
 										style="margin-top: 0px;">
 										<div class="p6n-api-consent-screen-label"
 											style="width: 190px;">CANTIDAD RETIRANTES</div>
@@ -52,7 +52,7 @@
 												</h:inputText>
 											</div>
 										</div>
-									</div>
+									</div> -->
 									<div
 										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 										<h:message for="txtCantidadRetirantes" />
@@ -218,21 +218,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="p6n-content ng-scope">
-					<div class="p6n-envelope">
-						<div class="p6n-content-no-nav">
-							<div class="p6n-main-pane p6n-acl-pane">
-								<div class="p6n-action-bar" style="padding-bottom: 45px;">
-									<h:commandButton value="Añadir Titular" class="actionn red">
-										<f:ajax
-											listener="#{aperturaCuentaplazofijoBean.setDlgTitularOpen(true)}"
-											render=":panelGroupDlgTitular :formDialogTitular" />
-									</h:commandButton>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 				<!-- END TITULARES -->
 				<!-- BENEFICIARIOS -->
 				<br />
@@ -359,187 +345,9 @@
 							actionListener="#{aperturaCuentaplazofijoBean.addTitularDefecto()}"
 							styleClass="action" />
 					</h:panelGroup>
-
 				</div>
-
 			</h:form>
 
-
-
-			<h:panelGroup id="panelGroupDlgTitular">
-				<h:panelGroup
-					rendered="#{aperturaCuentaplazofijoBean.dlgTitularOpen}">
-					<div class="modal-dialog-bg"
-						style="opacity: 0.4; width: 1366px; height: 702px;"></div>
-					<div class="modal-dialog p6n-popup" style="left: 402px; top: 50px;">
-						<h:form id="formDialogTitular">
-							<div class="modal-dialog-content p6n-acl-add-member-popup"
-								style="width: 385px;">
-								<div class="p6n-api-consent-screen-inputs">
-									<div class="sf-separator">
-										<h3 class="p6n-api-consent-screen-title">Datos Generales</h3>
-									</div>
-									<div class="p6n-api-consent-screen-input-section">
-										<div style="display: inline-block; width: 190px;">
-											<div class="p6n-api-consent-screen-label">TIPO
-												DOCUMENTO</div>
-											<div>
-												<h:selectOneMenu id="cmbTipodocumentoTitular"
-													value="#{aperturaCuentaplazofijoBean.comboTipodocumentoTitular.itemSelected}"
-													valueChangeListener="#{aperturaCuentaplazofijoBean.changeTipodocumentoTitular}"
-													required="true"
-													requiredMessage="Seleccione tipo de documento">
-													<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
-													<f:selectItems
-														value="#{aperturaCuentaplazofijoBean.comboTipodocumentoTitular.items.entrySet()}"
-														var="val" itemLabel="#{val.value.abreviatura}"
-														itemValue="#{val.key}" />
-													<f:ajax></f:ajax>
-												</h:selectOneMenu>
-											</div>
-										</div>
-										<div style="display: inline-block; width: 190px;">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 180px;">NUMERO DOCUMENTO</div>
-											<div>
-												<h:inputText id="txtDniTitular"
-													value="#{aperturaCuentaplazofijoBean.numeroDocumentoTitular}"
-													required="true" maxlength="15"
-													requiredMessage="Ingrese numero documento"
-													validatorMessage="Número de documento Invalido"
-													converterMessage="Número de documento Invalido"
-													onkeypress="if (event.keyCode == 13) {onchange(); return false; }"
-													pt:placeholder="Número Documento">
-													<f:convertNumber type="number" integerOnly="true"
-														groupingUsed="false" />
-													<f:ajax
-														listener="#{aperturaCuentaplazofijoBean.buscarPersonanaturalTitular()}"
-														render="@form"></f:ajax>
-												</h:inputText>
-											</div>
-										</div>
-									</div>
-									<div
-										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-										<h:message for="cmbTipodocumentoTitular" />
-										<h:message for="txtDniTitular" />
-									</div>
-									<div class="p6n-api-consent-screen-input-section">
-										<div style="display: inline-block; width: 190px;">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 190px;">APELLIDO PATERNO</div>
-											<div>
-												<div>
-													<h:inputText id="txtApellidoPaternoTitular"
-														value="#{aperturaCuentaplazofijoBean.apellidoPaternoTitular}"
-														required="true" maxlength="50"
-														requiredMessage="Ingrese apellido paterno"
-														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="Apellido Paterno">
-													</h:inputText>
-												</div>
-											</div>
-										</div>
-										<div style="display: inline-block; width: 190px;">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 180px;">APELLIDO MATERNO</div>
-											<div>
-												<div>
-													<h:inputText id="txtApellidoMaternoTitular"
-														value="#{aperturaCuentaplazofijoBean.apellidoMaternoTitular}"
-														required="true" maxlength="50"
-														requiredMessage="Ingrese apellido materno"
-														onkeyup="this.value = this.value.toUpperCase();"
-														pt:placeholder="Apellido Materno">
-													</h:inputText>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div
-										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-										<h:message for="txtApellidoPaternoTitular" />
-										<h:message for="txtApellidoMaternoTitular" />
-									</div>
-									<div class="p6n-api-consent-screen-input-section"
-										style="width: 190px;">
-										<div class="p6n-api-consent-screen-label"
-											style="width: 190px;">NOMBRES</div>
-										<div>
-											<div>
-												<h:inputText id="txtNombresTitular"
-													value="#{aperturaCuentaplazofijoBean.nombresTitular}"
-													required="true" maxlength="50"
-													requiredMessage="Ingrese nombres"
-													onkeyup="this.value = this.value.toUpperCase();"
-													style="width:339px;" pt:placeholder="Nombres">
-												</h:inputText>
-											</div>
-										</div>
-									</div>
-									<div
-										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-										<h:message for="txtNombresTitular" />
-									</div>
-									<div class="p6n-api-consent-screen-input-section">
-										<div style="display: inline-block; width: 190px;">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 190px;">SEXO</div>
-											<div>
-												<div>
-													<h:selectOneMenu id="cmbSexoTitular"
-														value="#{aperturaCuentaplazofijoBean.comboSexoTitular.itemSelected}"
-														required="true" requiredMessage="Seleccione sexo">
-														<f:selectItem itemLabel="--Seleccione--" itemValue="" />
-														<f:selectItems
-															value="#{aperturaCuentaplazofijoBean.comboSexoTitular.items.entrySet()}"
-															var="val" itemLabel="#{val.value.denominacion}"
-															itemValue="#{val.key}" />
-													</h:selectOneMenu>
-												</div>
-											</div>
-										</div>
-										<div style="display: inline-block;">
-											<div class="p6n-api-consent-screen-label"
-												style="width: 180px;">FECHA DE NACIMIENTO</div>
-											<div>
-												<div>
-													<p:calendar id="txtFechanacimientoTitular"
-														value="#{aperturaCuentaplazofijoBean.fechaNacimientoTitular}"
-														navigator="true" pattern="dd/MM/yyyy" required="true"
-														requiredMessage="Ingrese fecha de nacimiento"
-														converterMessage="formato incorrecto"
-														pt:placeholder="dd/mm/yyyy">
-														<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
-													</p:calendar>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div
-										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-										<h:message for="cmbSexoTitular" />
-										<h:message for="txtFechanacimientoTitular" />
-									</div>
-								</div>
-								<br />
-							</div>
-
-							<div class="modal-dialog-buttons">
-								<h:commandButton value="Guardar" styleClass="action blue">
-									<f:ajax listener="#{aperturaCuentaplazofijoBean.addTitular()}"
-										execute="@form" render="@form :formBeneficiariosTitulares" />
-								</h:commandButton>
-								<h:commandButton value="Cancelar" styleClass="action">
-									<f:ajax
-										listener="#{aperturaCuentaplazofijoBean.setDlgTitularOpen(false)}"
-										render="@form :panelGroupDlgTitular" />
-								</h:commandButton>
-							</div>
-						</h:form>
-					</div>
-				</h:panelGroup>
-			</h:panelGroup>
 			<h:panelGroup id="panelGroupDlgBeneficiario">
 				<h:panelGroup
 					rendered="#{aperturaCuentaplazofijoBean.dlgBeneficiarioOpen}">
