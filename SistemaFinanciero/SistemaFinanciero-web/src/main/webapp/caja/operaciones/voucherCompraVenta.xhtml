@@ -12,102 +12,142 @@
 
 	<h:outputStylesheet library="css" name="main.css" />
 	<h:form id="print">
-	<body>
-		<div>
-			<table style="width: 220px; border: solid 0px #E9E6E6;">
-				<tr style="vertical-align: center;">
-					<td colspan="1" style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">
-						<p:graphicImage name="logo_coop_header.png" library="images/logo_coop" />
-					</td>
-					<td colspan="3"
-						style="text-align: center; font-weight: bold; font-size: 10px; vertical-align: middle">
-						<h:outputText value="C.A.C." />
-						<br />
-						<h:outputText style="font-size: 15px;" value="CAJA VENTURA" />
-					</td>
-				</tr>
-				<tr style="vertical-align: center;">
-					<td colspan="4" style="text-align: center; font-weight: bold; font-size: 11px;">
-						<h:outputText value="COMPRA M.E." rendered="#{transaccionCompraVentaCajaBean.compra}"/>
-						<h:outputText value="VENTA M.E." rendered="#{transaccionCompraVentaCajaBean.venta}"/>
-					</td>
-				</tr>
-				<tr>
-					<td style="font-weight: bold; font-size: 9px;">Nº TRANS:</td>
-					<td style="font-size: 9px;">#{transaccionCompraVentaCajaBean.voucherCompraVenta.idTransaccioncaja}</td>
-				</tr>
-				<tr>
-					<td style="font-weight: bold; font-size: 9px;">Nº OP:</td>
-					<td style="font-size: 9px;">#{transaccionCompraVentaCajaBean.returnNumOperacion()}</td>
-					<td style="font-weight: bold; font-size: 9px;">CAJA:</td>
-					<td style="font-size: 9px;">#{transaccionCompraVentaCajaBean.voucherCompraVenta.denominacionCaja}</td>
-				</tr>
-				<tr>
-					<td style="font-weight: bold; font-size: 9px;">FECHA:</td>
-					<td style="font-size: 9px;">
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.fecha}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</td>
-					<td style="font-weight: bold; font-size: 9px;">HORA:</td>
-					<td style="font-size: 9px;">
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.hora}">
-							<f:convertDateTime dateStyle="full" timeZone="EST" type="time"/> 
-						</h:outputText>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="1" style="font-weight: bold; font-size: 9px;">MONEDA:</td>
-					<td colspan="3" style="font-size: 9px;">
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.denominacion}" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.denominacion}" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="1" style="font-weight: bold; font-size: 9px;">CLIENTE:</td>
-					<td colspan="3" style="font-size: 9px;">
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.dniRuc}" />
-						<br />
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.nombresRazonsocial}" />
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2"
-						style="text-align: center; font-weight: bold; font-size: 9px;">OPERACION</td>
-					<td colspan="2"
-						style="text-align: center; font-weight: bold; font-size: 9px;">IMPORTE</td>
-				</tr>
-				<tr>
-					<td colspan="2" style="font-weight: bold; font-size: 9px;">
-						<h:outputText value="COMPRA M.E." rendered="#{transaccionCompraVentaCajaBean.compra}"/>
-						<h:outputText value="VENTA M.E." rendered="#{transaccionCompraVentaCajaBean.venta}"/>
-					</td>
-					<td colspan="2" style="text-align: right; font-size: 9px;">
-					<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.montoRecibido}" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
-					<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.montoEntregado}" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" style="font-weight: bold; font-size: 9px;">TIPO CAMBIO</td>
-					<td colspan="2" style="text-align: right; font-size: 9px;">
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.tipoCambio}" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.tipoCambio}" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" style="font-weight: bold; font-size: 9px;">TOTAL</td>
-					<td colspan="2" style="text-align: right; font-size: 9px;">
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.montoEntregado}" rendered="#{transaccionCompraVentaCajaBean.compra}"/>
-						<h:outputText value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.montoRecibido}" rendered="#{transaccionCompraVentaCajaBean.venta}"/>
-					</td>
-				</tr>
-				<tr></tr>
-				<tr style="height: 0px">
-					<td colspan="4" style="text-align: center; font-size: 9px;">"Verifique su dinero antes de retirarse de la ventanilla"</td>
-				</tr>
-			</table>
-		</div>
-	</body>
+		<body>
+			<div>
+				<table style="width: 220px; border: solid 0px #E9E6E6;">
+					<tr style="vertical-align: center;">
+						<td colspan="1"
+							style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">
+							<p:graphicImage name="logo_coop_voucher.png"
+								library="images/logo_coop" />
+						</td>
+						<td colspan="3"
+							style="text-align: left; font-weight: bold; font-size: 9px; vertical-align: middle; font-family: Century Gothic;">
+							<h:outputText value="C.A.C." /> <br /> <h:outputText
+								style="font-size: 16px;"
+								value="CAJA VENTURA" />
+						</td>
+					</tr>
+					<tr style="vertical-align: center;">
+						<td colspan="4"
+							style="text-align: center; font-weight: bold; font-size: 12px; font-family: Century Gothic;">
+							<h:outputText value="COMPRA M.E."
+								rendered="#{transaccionCompraVentaCajaBean.compra}" /> <h:outputText
+								value="VENTA M.E."
+								rendered="#{transaccionCompraVentaCajaBean.venta}" />
+						</td>
+					</tr>
+					<tr>
+						<td
+							style="font-weight: bold; font-size: 10px;">AGENCIA:</td>
+						<td style="font-size: 10px; font-family: Century Gothic;">#{transaccionCompraVentaCajaBean.voucherCompraVenta.abreviaturaAgencia}</td>
+						<td
+							style="text-align: right; font-weight: bold; font-size: 10px;">Nº
+							TRANS:</td>
+						<td style="font-size: 11px; font-family: Century Gothic;">#{transaccionCompraVentaCajaBean.voucherCompraVenta.idTransaccioncaja}</td>
+					</tr>
+					<tr>
+						<td
+							style="font-weight: bold; font-size: 10px;">Nº
+							OP:</td>
+						<td style="font-size: 11px; font-family: Century Gothic;">#{transaccionCompraVentaCajaBean.returnNumOperacion()}</td>
+						<td
+							style="text-align: right; font-weight: bold; font-size: 10px;">CAJA:</td>
+						<td style="font-size: 11px; font-family: Century Gothic;">#{transaccionCompraVentaCajaBean.voucherCompraVenta.abreviaturaCaja}</td>
+					</tr>
+					<tr>
+						<td
+							style="font-weight: bold; font-size: 10px;">FECHA:</td>
+						<td style="font-size: 11px; font-family: Century Gothic;"><h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.fecha}">
+								<f:convertDateTime pattern="dd/MM/yy" />
+							</h:outputText></td>
+						<td
+							style="text-align: right; font-weight: bold; font-size: 10px;">HORA:</td>
+						<td style="font-size: 11px; font-family: Century Gothic;"><h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.hora}">
+								<f:convertDateTime dateStyle="full" timeZone="EST" type="time" />
+							</h:outputText></td>
+					</tr>
+					<tr>
+						<td colspan="1"
+							style="font-weight: bold; font-size: 10px;">MONEDA:</td>
+						<td colspan="3"
+							style="font-size: 10px; font-family: Century Gothic;"><h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.denominacion}"
+								rendered="#{transaccionCompraVentaCajaBean.compra}" /> <h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.denominacion}"
+								rendered="#{transaccionCompraVentaCajaBean.venta}" /></td>
+					</tr>
+					<tr>
+						<td colspan="1"
+							style="font-weight: bold; font-size: 10px;">CLIENTE:</td>
+						<td colspan="3"
+							style="font-size: 10px; font-family: Century Gothic;"><h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.dniRuc}" />
+							<br /> <h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.nombresRazonsocial}" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"
+							style="text-align: center; font-weight: bold; font-size: 10px;">OPERACION</td>
+						<td colspan="2"
+							style="text-align: center; font-weight: bold; font-size: 10px;">IMPORTE</td>
+					</tr>
+					<tr>
+						<td colspan="2"
+							style="font-weight: bold; font-size: 10px;">
+							<h:outputText value="COMPRA M.E."
+								rendered="#{transaccionCompraVentaCajaBean.compra}" /> <h:outputText
+								value="VENTA M.E."
+								rendered="#{transaccionCompraVentaCajaBean.venta}" />
+						</td>
+						<td colspan="2"
+							style="text-align: right; font-size: 11px; font-family: Century Gothic;;">
+							<h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.montoRecibido}"
+								rendered="#{transaccionCompraVentaCajaBean.compra}" /> <h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.montoEntregado}"
+								rendered="#{transaccionCompraVentaCajaBean.venta}" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"
+							style="font-weight: bold; font-size: 10px;">TIPO
+							CAMBIO</td>
+						<td colspan="2"
+							style="text-align: right; font-size: 11px; font-family: Century Gothic;">
+							<h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.tipoCambio}"
+								rendered="#{transaccionCompraVentaCajaBean.venta}" /> <h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.tipoCambio}"
+								rendered="#{transaccionCompraVentaCajaBean.compra}" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"
+							style="font-weight: bold; font-size: 10px;">TOTAL</td>
+						<td colspan="2"
+							style="text-align: right; font-size: 11px; font-family: Century Gothic;">
+							<h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedaentregado.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.montoEntregado}"
+								rendered="#{transaccionCompraVentaCajaBean.compra}" /> <h:outputText
+								value="#{transaccionCompraVentaCajaBean.voucherCompraVenta.tipomonedarecibido.abreviatura} #{transaccionCompraVentaCajaBean.voucherCompraVenta.montoRecibido}"
+								rendered="#{transaccionCompraVentaCajaBean.venta}" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" style="font-size: 6px;">&nbsp;</td>
+					</tr>
+					<tr style="height: 0px">
+						<td colspan="4"
+							style="text-align: center; font-size: 9px; font-family: Century Gothic;">"Verifique
+							su dinero antes de retirarse de la ventanilla"</td>
+					</tr>
+				</table>
+			</div>
+		</body>
 	</h:form>
 	<h:form>
 		<div class="sf-buttons" style="float: left;">
