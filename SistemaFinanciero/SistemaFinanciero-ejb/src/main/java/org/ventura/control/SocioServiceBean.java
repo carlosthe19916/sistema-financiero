@@ -36,7 +36,6 @@ import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.socio.ViewSocioPJ;
 import org.ventura.entity.schema.socio.ViewSocioPN;
 import org.ventura.tipodato.Moneda;
-import org.ventura.util.exception.IllegalEntityException;
 import org.ventura.util.exception.PreexistingEntityException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadocuentaType;
@@ -363,18 +362,18 @@ public class SocioServiceBean implements SocioServiceLocal {
 			
 			Estadocuenta estadocuenta = ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO);
 			List<Cuentabancaria> cuentabancarias = getCuentasBancarias(socio);
-			String mensajeErrorCuentasbancariasActivas = "No se puede desactivar al Socio; Cuentas activas:\n";
+			String mensajeErrorCuentasbancariasActivas = "Error al dar de baja al Socio; Cuentas Activas:\n";
 			boolean existeCuentasActivas = false;
 			for (Cuentabancaria cuentabancaria : cuentabancarias) {
 				if(!estadocuenta.equals(cuentabancaria.getEstadocuenta())){		
 					existeCuentasActivas = true;
 					mensajeErrorCuentasbancariasActivas = mensajeErrorCuentasbancariasActivas + 
-							" -Cuenta:" + cuentabancaria.getTipocuentabancaria().getDenominacion() 
+							" " + cuentabancaria.getTipocuentabancaria().getDenominacion() 
 							+ " Numero:" + cuentabancaria.getNumerocuenta() + "\n";
 				}
 			}
 			if(existeCuentasActivas == true){
-				mensajeErrorCuentasbancariasActivas = mensajeErrorCuentasbancariasActivas + "desactive las cuentas primero";
+				mensajeErrorCuentasbancariasActivas = mensajeErrorCuentasbancariasActivas + "Debe cancelar esta(s) cuenta(s) primero.";
 				throw new Exception(mensajeErrorCuentasbancariasActivas);
 			}
 					

@@ -175,7 +175,7 @@
 															<td style="font-size: 11px; font-family: Century Gothic;"><h:outputText
 																	value="#{transaccionCuentabancariaCajaBean.vouchercajaView.hora}">
 																	<f:convertDateTime dateStyle="full" timeZone="EST"
-																	type="time" />
+																		type="time" />
 																</h:outputText></td>
 														</tr>
 														<tr>
@@ -490,8 +490,8 @@
 
 			<div id="dlbBuscarCuentabancaria" class="modal-dialog p6n-popup"
 				style="left: 412.5px; top: 100px;">
-				<h:form>
-					
+				<h:form id="formBuscarCuenta">
+					<p:focus context="txtSearch"></p:focus>
 					<div class="modal-dialog-content">
 						<div id="p6n-cloudsql-content">
 							<div>

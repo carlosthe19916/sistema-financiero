@@ -495,13 +495,14 @@
 					<div class="modal-dialog p6n-popup"
 						style="left: 412.5px; top: 100px;">
 						<h:form id="formBuscarCuenta">
+							<p:focus for="search"></p:focus>
 							<div class="modal-dialog-content">
 								<div id="p6n-cloudsql-content">
 									<div>
 										<div>
 											<div>
 												<div>
-													<h:inputText
+													<h:inputText id="search"
 														value="#{transaccionCuentaaporteCajaBean.valorBusqueda}"
 														onkeyup="this.value = this.value.toUpperCase();"
 														style="width: 250px;float: left;" />
@@ -570,7 +571,7 @@
 							<div class="modal-dialog-buttons">
 								<h:commandButton value="Aceptar"
 									action="#{transaccionCuentaaporteCajaBean.setRowSelectToTransaccion()}"
-									styleClass="action blue" />
+									styleClass="action green" />
 								<h:commandButton value="Cancelar" styleClass="action">
 									<f:ajax
 										render=":panelGroupDialogBuscarCuenta :formBuscarCuenta"
