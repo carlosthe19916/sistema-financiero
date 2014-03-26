@@ -1,11 +1,15 @@
 package org.ventura.boundary.local;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
 import org.ventura.boundary.remote.TransaccionCajaServiceRemote;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Denominacionmoneda;
+import org.ventura.entity.schema.caja.Detalletransaccioncaja;
+import org.ventura.entity.schema.caja.Transaccioncaja;
 import org.ventura.entity.schema.caja.Transaccioncajacaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
@@ -40,9 +44,9 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	/**
 	 * Operaciones transaccionales*/
 	
-	public Transaccioncuentabancaria deposito(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
+	public Transaccioncuentabancaria deposito(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion) throws Exception;
 	
-	public Transaccioncuentabancaria retiro(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
+	public Transaccioncuentabancaria retiro(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion) throws Exception;
 	
 	public Transaccioncuentaaporte deposito(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
 	
@@ -74,5 +78,7 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	public List<Transaccioncajacaja> getTransaccionesEnviadasCajaCaja(Caja caja) throws Exception;
 
 	public List<Transaccioncajacaja> getTransaccionesPorConfirmarCajaCaja(Caja caja) throws Exception;
+
+	public List<Detalletransaccioncaja> getDetalleTransaccionCaja(Transaccioncaja transaccioncaja) throws Exception;;
 
 }

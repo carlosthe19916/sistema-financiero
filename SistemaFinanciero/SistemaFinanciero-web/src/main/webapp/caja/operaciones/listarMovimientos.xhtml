@@ -123,7 +123,8 @@
 									<div style="float: left;">
 										<h:commandLink
 											action="#{movimientosCajaBean.buscarTransaccioncaja()}"
-											styleClass="button" style="margin: 0 0 0 1px;" onclick="onSubmitButton();" >
+											styleClass="button" style="margin: 0 0 0 1px;"
+											onclick="onSubmitButton();">
 											<span class="icon icon198"></span>
 										</h:commandLink>
 									</div>
@@ -193,16 +194,26 @@
 									<h:outputText
 										value="#{transaccion.estadoTransaccion ? 'ACTIVO' : 'EXTORNADO'}" />
 								</p:column>
-								<p:column headerText="STATUS" style="text-align: center;">
+								<p:column headerText="STATUS" style="text-align: center;"
+									width="159">
 									<h:panelGroup rendered="#{transaccion.estadoTransaccion}">
-										<h:commandButton
-											action="#{movimientosCajaBean.autorizarExtornacion(transaccion)}"
-											value="Extornar" styleClass="action red" style="margin: 0px;"
-											onclick="onSubmitButton();" />
+										<div class="buttons">
+											<h:commandButton
+												action="#{movimientosCajaBean.autorizarExtornacion(transaccion)}"
+												value="Extornar" styleClass="action red"
+												style="margin: 0 2px 0 0;" onclick="onSubmitButton();" />
+											<h:commandButton value="Detalle" styleClass="action"
+												style="margin: 0 0 0 2px;" onclick="onSubmitButton();">
+												<f:ajax
+													listener="#{movimientosCajaBean.verDetalleTransaccion(transaccion)}"
+													render=":dlgDetalle"></f:ajax>
+											</h:commandButton>
+										</div>
 									</h:panelGroup>
 									<h:panelGroup rendered="#{!transaccion.estadoTransaccion}">
 										<h:commandButton value="No disp." styleClass="action"
-											style="margin: 0px;" onclick="onSubmitButton();" />
+											style="margin: 0px;">
+										</h:commandButton>
 									</h:panelGroup>
 								</p:column>
 							</p:dataTable>
@@ -210,6 +221,56 @@
 					</h:form>
 				</div>
 			</div>
+
+			<h:panelGroup id="dlgDetalle">
+				<h:panelGroup rendered="#{movimientosCajaBean.dlgDetalle}">
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 512.5px; top: 100px;">
+						<div class="modal-dialog-content">
+							<h2>Detalle de transaccion</h2>
+							<br/>
+							<table style="width: 220px;">
+								<thead>
+									<tr>
+										<td style="text-align: right"><label
+											style="font-size: 14px;">Denominacion</label></td>
+										<td style="text-align: right"><label
+											style="font-size: 14px;">Cantidad</label></td>
+										<td style="text-align: right"><label
+											style="font-size: 14px;">Subtotal</label></td>
+									</tr>
+								</thead>
+								<tbody>
+									<ui:repeat
+										value="#{movimientosCajaBean.listDetalleTransaccion}"
+										var="detalle">
+										<tr>
+											<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+													value="#{detalle.denominacionmoneda.denominacion}"
+													style="font-size: 12px;" /></td>
+											<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+													value="#{detalle.cantidad}" style="font-size: 12px;" /></td>
+											<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+													id="txtSubtotal" value="#{detalle.getSubtotal()}"
+													style="font-size: 12px;" /></td>
+										</tr>
+									</ui:repeat>
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-dialog-buttons">
+							<h:form>
+								<h:commandButton value="Cancelar" styleClass="action blue">
+									<f:ajax listener="#{movimientosCajaBean.setDlgDetalle(false)}"
+										render="dlgDetalle"></f:ajax>
+								</h:commandButton>
+							</h:form>
+						</div>
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
 
 			<h:panelGroup rendered="#{movimientosCajaBean.success}">
 				<div class="modal-dialog-bg"
@@ -227,8 +288,6 @@
 					</div>
 				</div>
 			</h:panelGroup>
-
-
 
 			<h:panelGroup rendered="#{movimientosCajaBean.failure}">
 				<div class="p6n-api-access-in-page-error" style="left: 516px;">

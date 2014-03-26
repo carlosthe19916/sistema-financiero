@@ -2,8 +2,11 @@ package org.ventura.caja.view;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,6 +17,8 @@ import javax.inject.Named;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Detalletransaccioncaja;
+import org.ventura.entity.schema.caja.Transaccioncaja;
 import org.ventura.entity.schema.caja.view.CajaMovimientoView;
 import org.ventura.session.CajaBean;
 import org.venturabank.util.JsfUtil;
@@ -31,6 +36,9 @@ public class MovimientosCajaBean implements Serializable{
 	@Inject private TablaBean<CajaMovimientoView> tablaMovimientos;
 	@Inject private CajaMovimientoView cajaMovimientoViewSelected;
 	
+	private boolean dlgDetalle;
+	private List<Detalletransaccioncaja> listDetalleTransaccion;
+	
 	@Inject private CajaBean cajaBean;
 	@Inject private Caja caja;
 	
@@ -42,6 +50,8 @@ public class MovimientosCajaBean implements Serializable{
 		idTransaccioncaja = null;
 		success = false;
 		failure = false;
+		
+		dlgDetalle = false;
 	}
 	
 	@PostConstruct
@@ -82,6 +92,27 @@ public class MovimientosCajaBean implements Serializable{
 		} catch (Exception e) {
 			failure = true;
 			success = false;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void verDetalleTransaccion(CajaMovimientoView cajaMovimientoView){
+		try {
+			Integer idTransaccioncaja = cajaMovimientoView.getIdTransaccioncaja();
+			Transaccioncaja transaccioncaja = new Transaccioncaja();
+			transaccioncaja.setIdtransaccioncaja(idTransaccioncaja);
+			List<Detalletransaccioncaja> detalletransaccioncaja = transaccionCajaServiceLocal.getDetalleTransaccionCaja(transaccioncaja);
+			
+			Map<Integer, Detalletransaccioncaja> map = new TreeMap<Integer, Detalletransaccioncaja>();
+			for (Detalletransaccioncaja d : detalletransaccioncaja) {
+				if(d.getCantidad() != 0)
+					map.put(d.getCantidad(), d);
+			}
+			detalletransaccioncaja = new ArrayList<Detalletransaccioncaja>(map.values());
+			this.listDetalleTransaccion = detalletransaccioncaja;
+			dlgDetalle = true;
+		} catch (Exception e) {
+			failure = true;			
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
@@ -146,6 +177,23 @@ public class MovimientosCajaBean implements Serializable{
 	public void setCajaMovimientoViewSelected(
 			CajaMovimientoView cajaMovimientoViewSelected) {
 		this.cajaMovimientoViewSelected = cajaMovimientoViewSelected;
+	}
+
+	public boolean isDlgDetalle() {
+		return dlgDetalle;
+	}
+
+	public void setDlgDetalle(boolean dlgDetalle) {
+		this.dlgDetalle = dlgDetalle;
+	}
+
+	public List<Detalletransaccioncaja> getListDetalleTransaccion() {
+		return listDetalleTransaccion;
+	}
+
+	public void setListDetalleTransaccion(
+			List<Detalletransaccioncaja> listDetalleTransaccion) {
+		this.listDetalleTransaccion = listDetalleTransaccion;
 	}
 
 }

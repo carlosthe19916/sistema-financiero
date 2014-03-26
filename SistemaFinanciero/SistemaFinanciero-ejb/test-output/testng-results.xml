@@ -1,109 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="4" passed="4">
+<testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="30" started-at="2013-09-20T13:50:40Z" finished-at="2013-09-20T13:50:40Z">
+  <suite name="Default suite" duration-ms="27" started-at="2014-03-21T17:53:49Z" finished-at="2014-03-21T17:53:49Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="30" started-at="2013-09-20T13:50:40Z" finished-at="2013-09-20T13:50:40Z">
-      <class name="org.ventura.control.CuentaahorroServiceBeanTest">
-        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="beforeSuite" is-config="true" duration-ms="7" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
+    <test name="Default test" duration-ms="27" started-at="2014-03-21T17:53:49Z" finished-at="2014-03-21T17:53:49Z">
+      <class name="org.ventura.tipodato.pruebaMOneda">
+        <test-method status="PASS" signature="pruebaMOneda()[pri:0, instance:org.ventura.tipodato.pruebaMOneda@159a8bf2]" name="pruebaMOneda" duration-ms="14" started-at="2014-03-21T12:53:49Z" finished-at="2014-03-21T12:53:49Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- beforeSuite -->
-        <test-method status="PASS" signature="beforeTest()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="beforeTest" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- beforeTest -->
-        <test-method status="PASS" signature="beforeClass()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="beforeClass" is-config="true" duration-ms="1" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- beforeClass -->
-        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- beforeMethod -->
-        <test-method status="PASS" signature="create()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="create" duration-ms="6" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- create -->
-        <test-method status="PASS" signature="afterMethod()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="afterMethod" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterMethod -->
-        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- beforeMethod -->
-        <test-method status="PASS" signature="f(java.lang.Integer, java.lang.String)[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="f" duration-ms="1" started-at="2013-09-20T08:50:40Z" data-provider="dp" finished-at="2013-09-20T08:50:40Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[1]]>
-              </value>
-            </param>
-            <param index="1">
-              <value>
-                <![CDATA[a]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- f -->
-        <test-method status="PASS" signature="afterMethod()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="afterMethod" is-config="true" duration-ms="1" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterMethod -->
-        <test-method status="PASS" signature="f(java.lang.Integer, java.lang.String)[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="f" duration-ms="1" started-at="2013-09-20T08:50:40Z" data-provider="dp" finished-at="2013-09-20T08:50:40Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[2]]>
-              </value>
-            </param>
-            <param index="1">
-              <value>
-                <![CDATA[b]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- f -->
-        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- beforeMethod -->
-        <test-method status="PASS" signature="afterMethod()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="afterMethod" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterMethod -->
-        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- beforeMethod -->
-        <test-method status="PASS" signature="update()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="update" duration-ms="2" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- update -->
-        <test-method status="PASS" signature="afterMethod()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="afterMethod" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterMethod -->
-        <test-method status="PASS" signature="afterClass()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="afterClass" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterClass -->
-        <test-method status="PASS" signature="afterTest()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="afterTest" is-config="true" duration-ms="0" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterTest -->
-        <test-method status="PASS" signature="afterSuite()[pri:0, instance:org.ventura.control.CuentaahorroServiceBeanTest@28e732dc]" name="afterSuite" is-config="true" duration-ms="1" started-at="2013-09-20T08:50:40Z" finished-at="2013-09-20T08:50:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterSuite -->
-      </class> <!-- org.ventura.control.CuentaahorroServiceBeanTest -->
+        </test-method> <!-- pruebaMOneda -->
+      </class> <!-- org.ventura.tipodato.pruebaMOneda -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
