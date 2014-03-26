@@ -22,7 +22,7 @@
 		<ui:define name="content">
 			<h:outputStylesheet library="css" name="main.css" />
 
-			<h:form>
+			<h:form id="failureMessage">
 				<h:panelGroup rendered="#{transaccionCajaCajaBean.failure}">
 					<div class="p6n-api-access-in-page-error" style="left: 516px;">
 						<div>
@@ -116,7 +116,8 @@
 										rendered="#{transaccionCajaCajaBean.getEstadoTransaccion(transaccion.estadosolicitud,transaccion.estadoconfirmacion) == 'Por confirmar'}">
 										<p:commandButton value="Confirmar" styleClass="blue"
 											actionListener="#{transaccionCajaCajaBean.confirmarTransaccion(transaccion)}"
-											update="tablaTransaccionesRecibidas" style="margin:0px;">
+											update="tablaTransaccionesRecibidas, :failureMessage"
+											style="margin:0px;">
 											<p:confirm header="Confirmacion" message="¿Está Seguro?"
 												icon="ui-icon-alert" />
 										</p:commandButton>
@@ -146,7 +147,8 @@
 				<div class="buttons">
 					<h:form>
 						<div>
-							<h:commandButton value="Crear Transaccion" styleClass="action green">
+							<h:commandButton value="Crear Transaccion"
+								styleClass="action green">
 								<f:ajax
 									listener="#{transaccionCajaCajaBean.setDlgCrearTransasccion(true)}"
 									render=":dlgCrearTransaccion :formCrearTransaccion"></f:ajax>
