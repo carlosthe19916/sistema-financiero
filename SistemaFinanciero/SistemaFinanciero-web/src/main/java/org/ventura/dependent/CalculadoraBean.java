@@ -1,7 +1,9 @@
 package org.ventura.dependent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
@@ -35,6 +37,14 @@ public class CalculadoraBean {
 		}
 	}
 
+	public Map<Denominacionmoneda, Integer> getDenominaciones() {
+		Map<Denominacionmoneda, Integer> map = new HashMap<Denominacionmoneda, Integer>(); 		
+		for (CalculadoraRowBean e : list) {
+			map.put(e.getDenominacionmoneda(), e.getCantidad());
+		}
+		return map;
+	}
+	
 	public Moneda getTotal() {
 		Moneda result = new Moneda();
 		for (CalculadoraRowBean e : list) {

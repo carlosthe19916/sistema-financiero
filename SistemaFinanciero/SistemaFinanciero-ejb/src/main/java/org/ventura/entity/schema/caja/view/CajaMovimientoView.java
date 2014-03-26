@@ -15,7 +15,7 @@ import java.util.Date;
 @Table(name = "caja_movimientos_view", schema = "caja")
 @NamedQuery(name = "CajaMovimiento.findAll", query = "SELECT c FROM CajaMovimientoView c")
 @NamedQueries({
-		@NamedQuery(name = CajaMovimientoView.f_idcaja_idhistorialcaja, query = "SELECT c FROM CajaMovimientoView c WHERE c.idCaja = :idcaja AND c.idhistorialcaja = :idhistorialcaja ORDER BY c.numerooperacionTransaccioncaja"),
+		@NamedQuery(name = CajaMovimientoView.f_idcaja_idhistorialcaja, query = "SELECT c FROM CajaMovimientoView c WHERE c.idCaja = :idcaja AND c.idhistorialcaja = :idhistorialcaja ORDER BY c.numerooperacionTransaccioncaja DESC"),
 		@NamedQuery(name = CajaMovimientoView.f_idtransaccioncaja_idcaja_idhistorialcaja, query = "SELECT c FROM CajaMovimientoView c WHERE c.idTransaccioncaja = :idtransaccioncaja AND c.idCaja = :idcaja AND c.idhistorialcaja = :idhistorialcaja") })
 public class CajaMovimientoView implements Serializable {
 

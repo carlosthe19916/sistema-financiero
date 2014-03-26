@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -155,6 +156,8 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 					if(!tipocuentabancaria.equals(cuentabancaria.getTipocuentabancaria())){
 						if(monto.compareTo(BigDecimal.ZERO) > 0){
 							try {
+								Map<Denominacionmoneda, Integer> detalleTranssaccion = calculadoraBean.getDenominaciones();
+								
 								Transaccioncuentabancaria transaccioncuentabancaria = new Transaccioncuentabancaria();
 
 								transaccioncuentabancaria.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
@@ -167,10 +170,10 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 								TipoTransaccionType tipoTransaccionType = ProduceObject.getTipotransaccion(tipotransaccion);
 								switch (tipoTransaccionType) {
 								case DEPOSITO:
-									this.transaccioncuentabancaria = transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria);
+									this.transaccioncuentabancaria = transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion);
 									break;
 								case RETIRO:
-									this.transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria);
+									this.transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion);
 									break;
 								default:
 									break;

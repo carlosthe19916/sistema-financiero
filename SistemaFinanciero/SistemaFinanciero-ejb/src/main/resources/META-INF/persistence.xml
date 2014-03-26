@@ -94,6 +94,7 @@
 		<class>org.ventura.entity.schema.caja.view.EstadocuentaView</class>
 		<class>org.ventura.entity.schema.caja.Transaccioncajacaja</class>
 		<class>org.ventura.entity.schema.caja.view.PendientesView</class>
+		<class>org.ventura.entity.schema.caja.Detalletransaccioncaja</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="validate" />

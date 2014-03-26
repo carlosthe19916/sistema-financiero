@@ -30,6 +30,7 @@ import org.ventura.dao.impl.BovedaCajaDAO;
 import org.ventura.dao.impl.CajaMovimientoViewDAO;
 import org.ventura.dao.impl.CuentaaporteDAO;
 import org.ventura.dao.impl.CuentabancariaDAO;
+import org.ventura.dao.impl.DetalletransaccioncajaDAO;
 import org.ventura.dao.impl.TasainteresDAO;
 import org.ventura.dao.impl.TransaccioncajaDAO;
 import org.ventura.dao.impl.TransaccioncajacajaDAO;
@@ -44,6 +45,8 @@ import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.caja.BovedaCaja;
 import org.ventura.entity.schema.caja.BovedaCajaPK;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Denominacionmoneda;
+import org.ventura.entity.schema.caja.Detalletransaccioncaja;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Tipotransaccion;
@@ -107,6 +110,8 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	private BovedaCajaDAO bovedaCajaDAO;
 	@EJB
 	private TasainteresDAO tasainteresDAO;
+	@EJB
+	private DetalletransaccioncajaDAO detalletransaccioncajaDAO;
 	
 	@EJB
 	private CajaMovimientoViewDAO cajaMovimientoViewDAO;
@@ -725,7 +730,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	/**
 	 * Transccionales*/
 	@Override
-	public Transaccioncuentabancaria deposito(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria) throws Exception {
+	public Transaccioncuentabancaria deposito(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion) throws Exception {
 		try {
 			int cuentabancariaPKey = cuentabancariaVista.getIdcuentabancaria();			
 			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.find(cuentabancariaPKey);		
@@ -753,7 +758,21 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncaja.setHora(calendar.getTime());
 			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
 			transaccioncajaDAO.create(transaccioncaja);
-						
+				
+			//creando el detalle de la transaccion
+			if(detalleTransaccion != null){
+				for(Denominacionmoneda key : detalleTransaccion.keySet()) {
+					Integer cantidad = detalleTransaccion.get(key);
+					
+					Detalletransaccioncaja detalletransaccioncaja = new Detalletransaccioncaja();
+					detalletransaccioncaja.setCantidad(cantidad);
+					detalletransaccioncaja.setDenominacionmoneda(key);
+					detalletransaccioncaja.setTransaccioncaja(transaccioncaja);
+					detalletransaccioncajaDAO.create(detalletransaccioncaja);
+				}				
+			}
+			
+			//
 			Moneda saldoFinal = cuentabancaria.getSaldo();
 			Moneda montoTransaccion = transaccioncuentabancaria.getMonto();
 			saldoFinal = saldoFinal.add(montoTransaccion);
@@ -781,7 +800,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncuentabancaria retiro(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria) throws Exception {
+	public Transaccioncuentabancaria retiro(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion) throws Exception {
 		try {
 			int cuentabancariaPKey = cuentabancariaVista.getIdcuentabancaria();			
 			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.find(cuentabancariaPKey);		
@@ -817,6 +836,20 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
 			transaccioncajaDAO.create(transaccioncaja);
 			
+			//creando el detalle de la transaccion
+			if(detalleTransaccion != null){
+				for(Denominacionmoneda key : detalleTransaccion.keySet()) {
+					Integer cantidad = detalleTransaccion.get(key);
+					
+					Detalletransaccioncaja detalletransaccioncaja = new Detalletransaccioncaja();
+					detalletransaccioncaja.setCantidad(cantidad);
+					detalletransaccioncaja.setDenominacionmoneda(key);
+					detalletransaccioncaja.setTransaccioncaja(transaccioncaja);
+					detalletransaccioncajaDAO.create(detalletransaccioncaja);
+				}				
+			}
+			
+			//creando la transaccion bancaria
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));
 			transaccioncuentabancaria.setTransaccioncaja(transaccioncaja);
 			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
@@ -1227,6 +1260,24 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 				throw new Exception("La caja origen y/o destino no tiene la moneda de transaccion asignada");
 			}
 			
+			//verificar si la caja origen tiene el monto de la transaccion en su boveda
+			Boveda bovedaTransaccion = null;
+			for (Boveda b : cajaOrigen.getBovedas()) {
+				if(b.getTipomoneda().equals(tipomoneda)){
+					bovedaTransaccion = b;
+				}
+			}
+			if(bovedaTransaccion == null){
+				throw new Exception("No se encontraron bovedas para la moneda, en la caja transaccion origen");
+			}
+			BovedaCajaPK bovedaCajaPK = new BovedaCajaPK();
+			bovedaCajaPK.setIdboveda(bovedaTransaccion.getIdboveda());
+			bovedaCajaPK.setIdcaja(cajaOrigen.getIdcaja());
+			BovedaCaja bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
+			if(bovedaCaja.getSaldototal().isLessThan(new Moneda(transaccioncajacaja.getMonto()))){
+				throw new Exception("El saldo de la caja es:"+bovedaCaja.getSaldototal().getValue()+" y la transaccion es:"+transaccioncajacaja.getMonto());
+			}
+			
 			//verificacion superada
 			transaccioncajacaja.setHistorialcajaorigen(historialOrigen);
 			transaccioncajacaja.setHistorialcajadestino(historialDestino);
@@ -1398,6 +1449,25 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			throw e;
 		}
 		return transaccioncajacajas;
+	}
+
+
+	@Override
+	public List<Detalletransaccioncaja> getDetalleTransaccionCaja(Transaccioncaja transaccioncaja) throws Exception {
+		List<Detalletransaccioncaja> detalletransaccioncajas;
+		try {		
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idtransaccioncaja", transaccioncaja.getIdtransaccioncaja());
+			
+			detalletransaccioncajas = detalletransaccioncajaDAO.findByNamedQuery(Detalletransaccioncaja.f_idtransaccioncaja,parameters);	
+						
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return detalletransaccioncajas;
 	}
 
 }

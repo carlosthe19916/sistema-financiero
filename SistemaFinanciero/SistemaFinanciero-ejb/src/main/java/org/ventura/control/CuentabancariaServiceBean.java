@@ -527,7 +527,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(new Moneda(monto));
 			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO));
-			transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria);
+			transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,null);
 			
 			//crear titulares y beneficiarios
 			cuentabancaria.setTitulares(listTitulares);
@@ -1066,7 +1066,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(cuentabancaria.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
 			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
-			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria);
+			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria,null);
 			
 			//cancelar la cuenta
 			cuentabancaria.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
@@ -1102,7 +1102,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(cuentabancariaDB.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
 			transaccioncuentabancaria.setTipomoneda(cuentabancariaDB.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
-			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria);
+			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria,null);
 			
 			//cancelar la cuenta
 			cuentabancariaDB.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
@@ -1138,7 +1138,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(cuentabancariaDB.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
 			transaccioncuentabancaria.setTipomoneda(cuentabancariaDB.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
-			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria);
+			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria,null);
 			
 			//cancelar la cuenta
 			cuentabancariaDB.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
