@@ -1257,7 +1257,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 				monedasDestino.add(b.getTipomoneda());				
 			}
 			if(!monedasOrigen.contains(tipomoneda) || !monedasDestino.contains(tipomoneda)){
-				throw new Exception("La caja origen y/o destino no tiene la moneda de transaccion asignada");
+				throw new Exception("La caja origen y/o destino no esta asignado con este tipo de moneda");
 			}
 			
 			//verificar si la caja origen tiene el monto de la transaccion en su boveda
