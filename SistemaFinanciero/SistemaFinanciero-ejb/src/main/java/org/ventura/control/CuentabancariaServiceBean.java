@@ -1038,10 +1038,10 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 				if(calendarRenovacion.compareTo(calendarVencimiento) == 1){
 					
 				} else {
-					throw new Exception("La cuenta no puede ser cancelada porque no vencio aun");
+					throw new Exception("Error al cancelar la cuenta, fantan días para su vencimiento.");
 				}
 			} else {
-				throw new Exception("La cuenta no puede ser cancelada porque no vencio aun");
+				throw new Exception("Error al cancelar la cuenta, fantan días para su vencimiento.");
 			}
 			
 			//generar interes de cuenta OLD
