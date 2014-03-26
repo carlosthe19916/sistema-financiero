@@ -156,15 +156,16 @@
 																	<ui:repeat
 																		value="#{transaccionBovedaBean.voucherDetalleTransaccionBovedaView}"
 																		var="voucherBoveda">
-																		<h:panelGroup rendered="#{voucherBoveda.cantidad == 0 ? false : true}">
-																		<tr class="ng-scope">
-																			<td><h:outputLabel
-																					value="#{voucherBoveda.denominacionmoneda.denominacion}" /></td>
-																			<td><h:outputLabel
-																					value="#{voucherBoveda.cantidad}" /></td>
-																			<td><h:outputLabel
-																					value="#{voucherBoveda.subtotal}" /></td>
-																		</tr>
+																		<h:panelGroup
+																			rendered="#{voucherBoveda.cantidad == 0 ? false : true}">
+																			<tr class="ng-scope">
+																				<td><h:outputLabel
+																						value="#{voucherBoveda.denominacionmoneda.denominacion}" /></td>
+																				<td><h:outputLabel
+																						value="#{voucherBoveda.cantidad}" /></td>
+																				<td><h:outputLabel
+																						value="#{voucherBoveda.subtotal}" /></td>
+																			</tr>
 																		</h:panelGroup>
 																	</ui:repeat>
 																	

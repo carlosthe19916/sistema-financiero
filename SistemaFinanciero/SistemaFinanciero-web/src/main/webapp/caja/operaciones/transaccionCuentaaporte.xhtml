@@ -80,17 +80,26 @@
 				</h:panelGroup>
 			</h:panelGroup>
 
-			<h:panelGroup rendered="#{transaccionCuentaaporteCajaBean.failure}">
-				<div class="p6n-api-access-in-page-error" style="left: 416px;">
-					<div>
+			<h:form>
+				<h:panelGroup rendered="#{transaccionCuentaaporteCajaBean.failure}">
+					<div class="p6n-api-access-in-page-error" style="left: 416px;">
 						<div>
-							<p>
-								<h:messages />
-							</p>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Volver"
+									action="/caja/operaciones/transaccionCuentaaporte?faces-redirect=true"
+									immediate="true" styleClass="p6n-api-access-in-page-error-link" />
+							</div>
 						</div>
 					</div>
-				</div>
-			</h:panelGroup>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+				</h:panelGroup>
+			</h:form>
 
 			<h:form id="formTransaccion">
 				<br />
