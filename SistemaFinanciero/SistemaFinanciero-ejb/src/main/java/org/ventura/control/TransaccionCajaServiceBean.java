@@ -1258,7 +1258,6 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			}
 			if(!monedasOrigen.contains(tipomoneda) || !monedasDestino.contains(tipomoneda)){
 				throw new Exception("La caja origen y/o destino no esta asignado con este tipo de moneda");
-<<<<<<< HEAD
 			}
 			
 			//verificar si la caja origen tiene el monto de la transaccion en su boveda
@@ -1277,8 +1276,6 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			BovedaCaja bovedaCaja = bovedaCajaDAO.find(bovedaCajaPK);
 			if(bovedaCaja.getSaldototal().isLessThan(new Moneda(transaccioncajacaja.getMonto()))){
 				throw new Exception("El saldo de la caja es:"+bovedaCaja.getSaldototal().getValue()+" y la transaccion es:"+transaccioncajacaja.getMonto());
-=======
->>>>>>> branch 'master' of https://code.google.com/p/sistema-financiero/
 			}
 			
 			//verificacion superada
