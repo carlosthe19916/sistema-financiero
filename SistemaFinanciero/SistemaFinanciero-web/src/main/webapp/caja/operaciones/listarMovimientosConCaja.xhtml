@@ -22,16 +22,28 @@
 		<ui:define name="content">
 			<h:outputStylesheet library="css" name="main.css" />
 
-
-			<h:panelGroup rendered="#{transaccionCajaCajaBean.failure}">
-				<div class="p6n-api-access-in-page-error" style="left: 516px;">
-					<div>
-						<p>
-							<h:messages />
-						</p>
+			<h:form>
+				<h:panelGroup rendered="#{transaccionCajaCajaBean.failure}">
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Volver"
+									action="/caja/operaciones/listarMovimientosConCaja?faces-redirect=true"
+									immediate="true" styleClass="p6n-api-access-in-page-error-link" />
+							</div>
+						</div>
 					</div>
-				</div>
-			</h:panelGroup>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 1000px;"></div>
+				</h:panelGroup>
+			</h:form>
+
+
 			<h:panelGroup
 				rendered="#{transaccionCajaCajaBean.successCrearTransaccion}">
 				<h:form>
@@ -40,10 +52,10 @@
 					<div class="modal-dialog p6n-popup"
 						style="left: 502px; top: 200px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Creacion
-								satisfactoria</span><span class="modal-dialog-title-close"></span>
+							<span class="modal-dialog-title-text">Creación
+								Satisfactoria</span><span class="modal-dialog-title-close"></span>
 						</div>
-						<div class="modal-dialog-content ng-binding">La transaccion
+						<div class="modal-dialog-content ng-binding">La transacción
 							fue registrada satistactoriamente.</div>
 						<div class="modal-dialog-buttons">
 							<h:commandButton value="Aceptar"
@@ -56,8 +68,8 @@
 
 			<br />
 			<br />
-			<p:panel header="Transacciones recibidas"
-				footer="Necesitas confirmar cada transaccion para realizarla correctamente">
+			<p:panel header="Transacciones Recibidas"
+				footer="Necesitas confirmar cada transacción para que se efectúe correctamente">
 				<div>
 					<h:form>
 						<div style="margin: 5px;">
@@ -102,15 +114,15 @@
 								<p:column headerText="STATUS" style="text-align: center;">
 									<h:panelGroup
 										rendered="#{transaccionCajaCajaBean.getEstadoTransaccion(transaccion.estadosolicitud,transaccion.estadoconfirmacion) == 'Por confirmar'}">
-										<p:commandButton value="Confirmar"
+										<p:commandButton value="Confirmar" styleClass="blue"
 											actionListener="#{transaccionCajaCajaBean.confirmarTransaccion(transaccion)}"
 											update="tablaTransaccionesRecibidas" style="margin:0px;">
-											<p:confirm header="Confirmacion" message="¿Estas seguro?"
+											<p:confirm header="Confirmacion" message="¿Está Seguro?"
 												icon="ui-icon-alert" />
 										</p:commandButton>
 										<p:confirmDialog global="true" showEffect="fade"
 											hideEffect="explode">
-											<p:commandButton value="Yes" type="button"
+											<p:commandButton value="Si" type="button"
 												styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 											<p:commandButton value="No" type="button"
 												styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -129,12 +141,12 @@
 			</p:panel>
 			<br />
 			<br />
-			<p:panel header="Transacciones enviadas"
-				footer="La caja destino debe de confirmar la transaccion">
+			<p:panel header="Transacciones Enviadas"
+				footer="La caja destino debe confirmar la transaccion">
 				<div class="buttons">
 					<h:form>
 						<div>
-							<h:commandButton value="Crear transaccion" styleClass="action">
+							<h:commandButton value="Crear Transaccion" styleClass="action green">
 								<f:ajax
 									listener="#{transaccionCajaCajaBean.setDlgCrearTransasccion(true)}"
 									render=":dlgCrearTransaccion :formCrearTransaccion"></f:ajax>
@@ -186,10 +198,10 @@
 								<p:column headerText="STATUS" style="text-align: center;">
 									<h:panelGroup
 										rendered="#{transaccionCajaCajaBean.getEstadoTransaccion(transaccion.estadosolicitud,transaccion.estadoconfirmacion) == 'Por confirmar'}">
-										<p:commandButton value="Cancelar"
+										<p:commandButton value="Cancelar" styleClass="red"
 											actionListener="#{transaccionCajaCajaBean.cancelarTransaccion(transaccion)}"
 											update="tablaTransaccionesEnviadas" style="margin:0px;">
-											<p:confirm header="Confirmacion" message="¿Estas seguro?"
+											<p:confirm header="Confirmacion" message="¿Estas Seguro?"
 												icon="ui-icon-alert" />
 										</p:commandButton>
 										<p:confirmDialog global="true" showEffect="fade"
