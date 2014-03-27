@@ -108,6 +108,7 @@
 								- Estado de Cuenta</div>
 							
 							<h:panelGroup>
+								<p:focus for="cmbTipoCuenta"></p:focus>
 								<div class="p6n-api-consent-screen-inputs">
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label"
@@ -379,7 +380,7 @@
 												sortMode="multiple">
 
 												<f:facet name="header"> 
-													<h:outputText style="font-size: 14px;" value="ESTADO DE CUENTA"/> 
+													<h:outputText style="font-size: 12px;" value="ESTADO DE CUENTA"/> 
 						        				</f:facet>
 							
 												<p:column style="font-size: 11px;" headerText="Fecha" sortBy="fechaTransaccioncaja">
@@ -390,7 +391,9 @@
 
 												<p:column style="font-size: 11px;" headerText="Hora">
 													<h:outputText style="font-size: 11px;"
-														value="#{estadoCuentaBean.getStringTime(estadocuenta.horaTransaccioncaja)}" />
+														value="#{estadocuenta.horaTransaccioncaja}">
+														<f:convertDateTime dateStyle="full" timeZone="EST" type="time" />	
+													</h:outputText>
 												</p:column>
 
 												<p:column style="font-size: 11px;" headerText="Tipo Movimiento" sortBy="denominacionTransaccion">
@@ -419,8 +422,8 @@
 														value="#{estadocuenta.estadoTransaccion ? 'ACTIVO' : 'EXTORNADO'}" />
 												</p:column>
 												<f:facet name="footer">  
-            										<h:outputText style="font-size: 13px;" value="Saldo Disponible: #{estadoCuentaBean.cuentaaporteViewSelected.saldoCuentaaporte}" rendered = "#{estadoCuentaBean.esCuentaAporte}"/>
-            										<h:outputText style="font-size: 13px;" value="Saldo Disponible: #{estadoCuentaBean.cuentabancaria.saldo}" rendered="#{estadoCuentaBean.esCuentaBancaria}"/>  
+            										<h:outputText style="font-size: 12px;" value="Saldo Disponible: #{estadoCuentaBean.cuentabancariaView.abreviaturaTipomomeda} #{estadoCuentaBean.cuentaaporteViewSelected.saldoCuentaaporte}" rendered = "#{estadoCuentaBean.esCuentaAporte}"/>
+            										<h:outputText style="font-size: 12px;" value="Saldo Disponible: #{estadoCuentaBean.cuentabancariaView.abreviaturaTipomomeda} #{estadoCuentaBean.cuentabancaria.saldo}" rendered="#{estadoCuentaBean.esCuentaBancaria}"/>  
         										</f:facet>
 										</p:dataTable>
 										</h:panelGroup>
@@ -450,16 +453,18 @@
 					<div class="modal-dialog p6n-popup"
 						style="left: 412.5px; top: 100px;">
 						<h:form id="formBuscarCuentaAporte">
+							<p:focus for="searchCuentaAporte"></p:focus>
 							<div class="modal-dialog-content">
 								<div id="p6n-cloudsql-content">
 									<div>
 										<div>
 											<div>
 												<div>
-													<h:inputText
+													<h:inputText id="searchCuentaAporte"
 														value="#{estadoCuentaBean.valorBusqueda}" offline="true"
 														onkeyup="this.value = this.value.toUpperCase();"
-														style="width: 250px;float: left;" />
+														style="width: 250px;float: left;" >
+													</h:inputText>
 													&nbsp;
 													<h:commandLink styleClass="button"
 														style="margin: 0px;float: left;">
@@ -546,13 +551,14 @@
 					<div class="modal-dialog p6n-popup"
 						style="left: 412.5px; top: 100px;">
 						<h:form id="formBuscarCuentaBancaria">
+						<p:focus for="searchCuentaBancaria"></p:focus>
 							<div class="modal-dialog-content">
 								<div id="p6n-cloudsql-content">
 									<div>
 										<div>
 											<div>
 												<div>
-													<h:inputText
+													<h:inputText id="searchCuentaBancaria"
 														value="#{estadoCuentaBean.valorBusqueda}" offline="true"
 														onkeyup="this.value = this.value.toUpperCase();"
 														style="width: 250px;float: left;" />

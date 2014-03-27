@@ -268,7 +268,7 @@
 										</div>
 									</div>
 									<div class="modal-dialog-buttons">
-										<h:commandButton value="Imprimir">
+										<h:commandButton value="Imprimir" styleClass="action blue">
 											<p:printer target="voucher1" />
 										</h:commandButton>
 										<h:commandButton value="Salir" styleClass="action red"
@@ -284,11 +284,11 @@
 											<tr style="vertical-align: center;">
 												<td colspan="1"
 													style="text-align: center; font-weight: bold; font-size: 12px;">
-													<p:graphicImage name="logo_coop_header.png"
+													<p:graphicImage name="logo_coop_voucher.png"
 														library="images/logo_coop" />
 												</td>
 												<td colspan="3"
-													style="text-align: center; font-weight: bold; font-size: 10px; vertical-align: middle">
+													style="text-align: left; font-weight: bold; font-size: 9px; vertical-align: middle">
 													<h:outputText value="C.A.C." /> <br /> <h:outputText
 														style="font-size: 15px;" value="CAJA VENTURA" />
 												</td>
@@ -296,61 +296,80 @@
 											<tr style="vertical-align: center;">
 												<td colspan="4"
 													style="text-align: center; font-weight: bold; font-size: 11px;">
-													<h:outputText
-														value="#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionTipotransaccion} CUENTA AHORRO" />
+													<h:outputText value="DETALLE CALCULADORA" />
 												</td>
 											</tr>
 											<tr>
 												<td colspan="1" style="font-weight: bold; font-size: 10px;">Nº
 													TRANS:</td>
-												<td colspan="1" style="font-size: 11px;font-family: Century Gothic;">#{transaccionCuentabancariaCajaBean.vouchercajaView.idTransaccioncaja}</td>
+												<td colspan="1"
+													style="font-size: 11px; font-family: Century Gothic;">#{transaccionCuentabancariaCajaBean.vouchercajaView.idTransaccioncaja}</td>
 											</tr>
 											<tr>
 												<td colspan="1" style="font-weight: bold; font-size: 10px;">AGENCIA:</td>
-												<td colspan="3" style="font-size: 11px;font-family: Century Gothic;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionAgencia}</td>
+												<td colspan="3"
+													style="font-size: 11px; font-family: Century Gothic;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionAgencia}</td>
 											</tr>
 											<tr>
 												<td colspan="1"
 													style="width: 25%; font-weight: bold; font-size: 10px;">Nº
 													OP:</td>
-												<td colspan="1" style="width: 25%; font-size: 11px;font-family: Century Gothic;">#{transaccionCuentabancariaCajaBean.returnNumOperacion()}</td>
+												<td colspan="1"
+													style="width: 25%; font-size: 11px; font-family: Century Gothic;">#{transaccionCuentabancariaCajaBean.returnNumOperacion()}</td>
 												<td colspan="1"
 													style="width: 15%; font-weight: bold; font-size: 10px;">CAJA:</td>
-												<td colspan="1" style="width: 35%; font-size: 11px;font-family: Century Gothic;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionCaja}</td>
+												<td colspan="1"
+													style="width: 35%; font-size: 11px; font-family: Century Gothic;">#{transaccionCuentabancariaCajaBean.vouchercajaView.denominacionCaja}</td>
+											</tr>
+											<tr>
+												<td style="font-weight: bold; font-size: 10px;">CUENTA:</td>
+												<td colspan="3"
+													style="font-size: 11px; font-family: Century Gothic;"><h:outputText
+														value="#{transaccionCuentabancariaCajaBean.vouchercajaView.numeroCuenta}" />
+												</td>
 											</tr>
 										</table>
 										<table style="width: 220px;">
 											<thead>
 												<tr>
-													<td style="text-align: right"><label
-														style="font-size: 10px; font-family: Century Gothic;">Denominacion</label></td>
-													<td style="text-align: right"><label
-														style="font-size: 10px; font-family: Century Gothic;">Cantidad</label></td>
-													<td style="text-align: right"><label
-														style="font-size: 10px; font-family: Century Gothic;">Subtotal</label></td>
+													<td
+														style="font-weight: bold; font-size: 10px; font-family: Century Gothic;"><label>Denominacion</label></td>
+													<td
+														style="font-weight: bold; font-size: 10px; font-family: Century Gothic;"><label>Cantidad</label></td>
+													<td
+														style="font-weight: bold; font-size: 10px; font-family: Century Gothic;"><label>Subtotal</label></td>
 												</tr>
 											</thead>
 											<tbody>
 												<ui:repeat
 													value="#{transaccionCuentabancariaCajaBean.calculadoraBean.list}"
 													var="detalle">
-													<tr>
-														<td style="text-align: right; vertical-align: middle;"><h:outputLabel
-																value="#{detalle.denominacionmoneda.denominacion}"
-																style="font-size: 10px; font-family: Century Gothic;" /></td>
-														<td style="text-align: right; vertical-align: middle;"><h:outputLabel
-																value="#{detalle.cantidad}"
-																style="font-size: 10px; font-family: Century Gothic;" /></td>
-														<td style="text-align: right; vertical-align: middle;"><h:outputLabel
-																id="txtSubtotal" value="#{detalle.getSubtotal()}"
-																style="font-size: 10px; font-family: Century Gothic;" /></td>
-													</tr>
+													<h:panelGroup
+														rendered="#{detalle.cantidad == 0 ? false : true}">
+														<tr>
+															<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+																	value="#{detalle.denominacionmoneda.denominacion}"
+																	style="font-size: 10px; font-family: Century Gothic;" /></td>
+															<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+																	value="#{detalle.cantidad}"
+																	style="font-size: 10px; font-family: Century Gothic;" /></td>
+															<td style="text-align: right; vertical-align: middle;"><h:outputLabel
+																	id="txtSubtotal" value="#{detalle.getSubtotal()}"
+																	style="font-size: 10px; font-family: Century Gothic;" /></td>
+														</tr>
+													</h:panelGroup>
 												</ui:repeat>
 											</tbody>
+											<tr>
+												<td colspan="2"
+													style="font-weight: bold; font-size: 9px; text-align: right;">TOTAL
+													TRANSACCIÓN:</td>
+												<td colspan="2" style="font-size: 10px; text-align: right;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.monto}</td>
+											</tr>
 										</table>
 									</h:panelGroup>
 									<div class="modal-dialog-buttons">
-										<h:commandButton value="Imprimir">
+										<h:commandButton value="Imprimir" styleClass="action blue">
 											<p:printer target="detalleTransaccion" />
 										</h:commandButton>
 									</div>
