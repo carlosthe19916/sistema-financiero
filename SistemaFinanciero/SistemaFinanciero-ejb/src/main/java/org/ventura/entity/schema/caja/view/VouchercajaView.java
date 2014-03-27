@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.tipodato.Moneda;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -220,7 +222,11 @@ public class VouchercajaView implements Serializable {
 	public BigDecimal getMonto() {
 		return this.monto;
 	}
-
+	
+	public String getMontoAsString() {
+		return Moneda.getMonedaFormat(this.monto);
+	}
+	
 	public void setMonto(BigDecimal monto) {
 		this.monto = monto;
 	}

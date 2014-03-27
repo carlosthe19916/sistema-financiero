@@ -39,6 +39,14 @@ public class Moneda implements Serializable {
 	}
 
 	public Moneda(String value) {
+		if(value.contains(" ")){
+			String r = "";
+			for (int i = 0; i < value.length(); i++) {
+				if (value.charAt(i) != ' ')
+					r += value.charAt(i);
+			}
+			value = r;
+		}
 		if (value.contains(",")) {
 			String r = "";
 			for (int i = 0; i < value.length(); i++) {
@@ -178,12 +186,49 @@ public class Moneda implements Serializable {
 
 	@Override
 	public String toString() {
-		/*
-		 * String s =
-		 * NumberFormat.getCurrencyInstance().format(value).toString(); s =
-		 * s.substring(0, s.length() - 1); return s;
-		 */
 
+		String result = "";
+		String resultIntValue="";
+		String resultDecimalValue="";
+		int intValue = value.intValue();	
+		int decimalValue = getDecimalValue();
+		
+		if(intValue == 0){
+			resultIntValue = "0";
+		}
+		//string para parte entera
+		int contador = 0; //cuenta 3 digitos a la derecha
+		while(intValue % 10 != 0){
+			contador++;
+			resultIntValue = ( intValue % 10 ) + resultIntValue;
+			intValue = intValue / 10;
+			
+			if(contador == 3 && (intValue % 10 != 0)){
+				contador = 0;
+				resultIntValue = " " + resultIntValue;
+			}
+		}
+		
+		
+		//string para parte decimal
+		if(value.scale() == 2){
+			if(decimalValue>10){
+				resultDecimalValue = decimalValue+"";
+			} else {
+				resultDecimalValue = "0"+decimalValue;
+			}
+		}
+		if(value.scale() == 1){
+			resultDecimalValue = decimalValue+"0";
+		}
+		if(value.scale() == 0){
+			resultDecimalValue = "00";
+		}
+		
+		
+		return resultIntValue+"."+resultDecimalValue;
+		
+		/*
 		String stringValue = "";
 
 		if (value == null)
@@ -276,7 +321,52 @@ public class Moneda implements Serializable {
 							"Scale of Money object is > 2, should never happen, Money object is faulty.");
 				}
 			}
+		}*/
+	}
+	
+	public static String getMonedaFormat(BigDecimal number){
+		String result = "";
+		String resultIntValue="";
+		String resultDecimalValue="";
+		int intValue = number.intValue();	
+		int decimalValue =  number.subtract(number.setScale(0, RoundingMode.FLOOR)).movePointRight(number.scale()).intValue();
+		
+		
+		if(intValue == 0){
+			resultIntValue = "0";
 		}
+		
+		//string para parte entera
+		int contador = 0; //cuenta 3 digitos a la derecha
+		while(intValue != 0){
+			contador++;
+			resultIntValue = ( intValue % 10 ) + resultIntValue;
+			intValue = intValue / 10;
+			
+			if(contador == 3 && (intValue % 10 != 0)){
+				contador = 0;
+				resultIntValue = " " + resultIntValue;
+			}
+		}
+		
+		
+		//string para parte decimal
+		if(number.scale() == 2){
+			if(decimalValue>10){
+				resultDecimalValue = decimalValue+"";
+			} else {
+				resultDecimalValue = "0"+decimalValue;
+			}
+		}
+		if(number.scale() == 1){
+			resultDecimalValue = decimalValue+"0";
+		}
+		if(number.scale() == 0){
+			resultDecimalValue = "00";
+		}
+		
+		
+		return resultIntValue+"."+resultDecimalValue;
 	}
 
 	public int compareTo(Moneda val) {
