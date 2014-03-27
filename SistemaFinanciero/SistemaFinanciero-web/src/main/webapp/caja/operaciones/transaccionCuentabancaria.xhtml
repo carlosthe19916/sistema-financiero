@@ -437,7 +437,7 @@
 											<h:selectOneMenu id="cmbTipomoneda"
 												value="#{transaccionCuentabancariaCajaBean.comboTipomoneda.itemSelected}"
 												valueChangeListener="#{transaccionCuentabancariaCajaBean.changeTipomoneda}"
-												required="true" requiredMessage="Seleccione una moneda">
+												required="true" requiredMessage="Seleccione una moneda" readonly="true" disabled="true">
 												<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 												<f:selectItems
 													value="#{transaccionCuentabancariaCajaBean.comboTipomoneda.items.entrySet()}"
@@ -678,7 +678,7 @@
 							<f:ajax
 								listener="#{transaccionCuentabancariaCajaBean.setRowSelectToTransaccion()}"
 								execute="@form"
-								render=":formTransaccion:txtNumerocuenta :formTransaccion:cuentabancariaResultadobusqueda"
+								render=":formTransaccion:txtNumerocuenta :formTransaccion:cmbTipomoneda :formTransaccion:cuentabancariaResultadobusqueda"
 								onevent="closeDlgBuscarCuentabancaria" />
 						</h:commandButton>
 						<input type="button" value="Cancelar" class="action"
