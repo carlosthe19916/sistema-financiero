@@ -295,6 +295,9 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 			if (cuentabancariaView != null) {
 				this.cuentabancaria = cuentabancariaServiceLocal.find(cuentabancariaView.getIdCuentabancaria());
 				this.isCuentabancariaValid = true;
+				comboTipomoneda.setItemSelected(cuentabancaria.getTipomoneda());
+				this.monto = new BigDecimal("0.00");
+				loadDenominacionmonedaCalculadora(cuentabancaria.getTipomoneda());
 			} else {
 				this.cuentabancariaView = new CuentabancariaView();
 				cuentabancaria = new Cuentabancaria();
