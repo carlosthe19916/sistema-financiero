@@ -485,6 +485,9 @@
 										<h:commandButton
 											action="#{transaccionCuentabancariaCajaBean.createTransaccioncaja()}"
 											value="Aceptar" styleClass="action blue" />
+										<h:commandButton
+											action="/caja/operaciones/index?faces-redirect=true" immediate="true"
+											value="Cancelar" styleClass="action red" />
 									</div>
 								</div>
 
