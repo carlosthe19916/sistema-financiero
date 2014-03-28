@@ -81,7 +81,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	private CuentabancariaView cuentabancariaView;
 	@Inject
 	private ComboBean<Tipomoneda> comboTipomoneda;
-	BigDecimal monto;
+	private BigDecimal monto;
 	private String referencia;
 
 	private Transaccioncuentabancaria transaccioncuentabancaria;
@@ -467,6 +467,10 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		this.cuentabancariaView = cuentabancariaView;
 	}
 
+	public String getMontoAsString() {
+		return Moneda.getMonedaFormat(monto);
+	}
+	
 	public BigDecimal getMonto() {
 		return monto;
 	}

@@ -2,12 +2,12 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="27" started-at="2014-03-21T17:53:49Z" finished-at="2014-03-21T17:53:49Z">
+  <suite name="Default suite" duration-ms="27" started-at="2014-03-27T21:27:09Z" finished-at="2014-03-27T21:27:09Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="27" started-at="2014-03-21T17:53:49Z" finished-at="2014-03-21T17:53:49Z">
+    <test name="Default test" duration-ms="27" started-at="2014-03-27T21:27:09Z" finished-at="2014-03-27T21:27:09Z">
       <class name="org.ventura.tipodato.pruebaMOneda">
-        <test-method status="PASS" signature="pruebaMOneda()[pri:0, instance:org.ventura.tipodato.pruebaMOneda@159a8bf2]" name="pruebaMOneda" duration-ms="14" started-at="2014-03-21T12:53:49Z" finished-at="2014-03-21T12:53:49Z">
+        <test-method status="PASS" signature="pruebaMOneda()[pri:0, instance:org.ventura.tipodato.pruebaMOneda@3f7e6f05]" name="pruebaMOneda" duration-ms="13" started-at="2014-03-27T16:27:09Z" finished-at="2014-03-27T16:27:09Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- pruebaMOneda -->

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.tipodato.Moneda;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -299,7 +301,11 @@ public class VouchercajaCuentaaporteView implements Serializable {
 	public BigDecimal getMontoTransaccioncuentaaporte() {
 		return this.montoTransaccioncuentaaporte;
 	}
-
+	
+	public String getMontoTransaccioncuentaaporteAsString() {
+		return Moneda.getMonedaFormat(this.montoTransaccioncuentaaporte);
+	}
+	
 	public void setMontoTransaccioncuentaaporte(
 			BigDecimal montoTransaccioncuentaaporte) {
 		this.montoTransaccioncuentaaporte = montoTransaccioncuentaaporte;
@@ -343,6 +349,10 @@ public class VouchercajaCuentaaporteView implements Serializable {
 		return this.saldodissponibleTransaccioncuentaaporte;
 	}
 
+	public String getSaldodissponibleTransaccioncuentaaporteAsString() {
+		return Moneda.getMonedaFormat(this.saldodissponibleTransaccioncuentaaporte);
+	}
+	
 	public void setSaldodissponibleTransaccioncuentaaporte(
 			BigDecimal saldodissponibleTransaccioncuentaaporte) {
 		this.saldodissponibleTransaccioncuentaaporte = saldodissponibleTransaccioncuentaaporte;

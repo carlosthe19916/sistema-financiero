@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.tipodato.Moneda;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -174,10 +176,14 @@ public class CajaMovimientoView implements Serializable {
 		return this.montoTransaccion;
 	}
 
+	public String getMontoTransaccionFormat() {
+		return new Moneda(montoTransaccion).toString();
+	}
+
 	public void setMontoTransaccion(String montoTransaccion) {
 		this.montoTransaccion = montoTransaccion;
 	}
-
+	
 	public Integer getNumerooperacionTransaccioncaja() {
 		return this.numerooperacionTransaccioncaja;
 	}

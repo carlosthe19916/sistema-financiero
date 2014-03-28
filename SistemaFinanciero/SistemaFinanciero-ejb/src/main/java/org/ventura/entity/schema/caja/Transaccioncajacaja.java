@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.tipodato.Moneda;
 
 import java.sql.Timestamp;
 import java.math.BigDecimal;
@@ -107,6 +108,10 @@ public class Transaccioncajacaja implements Serializable {
 		return this.monto;
 	}
 
+	public String getMontoAsString() {
+		return Moneda.getMonedaFormat(this.monto);
+	}
+	
 	public void setMonto(BigDecimal monto) {
 		this.monto = monto;
 	}

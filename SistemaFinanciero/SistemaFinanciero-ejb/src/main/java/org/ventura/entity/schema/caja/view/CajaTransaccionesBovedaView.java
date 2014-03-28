@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.tipodato.Moneda;
 
 import java.sql.Timestamp;
 import java.math.BigDecimal;
@@ -168,6 +169,11 @@ public class CajaTransaccionesBovedaView implements Serializable {
 		return this.total;
 	}
 
+	public String getTotalAsString() {
+		System.out.println(this.total);
+		return Moneda.getMonedaFormat(this.total);
+	}
+	
 	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
