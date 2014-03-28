@@ -24,15 +24,21 @@
 								<div class="sf-header-td-right">
 									<ul>	
 										<li>
-											<h:outputLabel value="Rol:" />											
-											<h:outputLabel value="#{usuarioMB.rol.descripcion}" styleClass="sf-label-bold"/>										
-										</li>
-										<li>
-											<h:outputLabel value="Usuario:" />											
+											<h:outputLabel value="USUARIO:" />											
 											<h:outputLabel value="#{usuarioMB.usuario.username}" styleClass="sf-label-bold"/>										
+										</li>
+										<h:panelGroup
+											rendered="#{cajaBean.caja.idcaja == null ? false : true}">
+											<li><h:outputLabel value="CAJA:" /> <h:outputLabel
+													value="#{cajaBean.caja.abreviatura}"
+													styleClass="sf-label-bold" /></li>
+										</h:panelGroup>
+										<li>
+											<h:outputLabel value="ROL:" />											
+											<h:outputLabel value="#{usuarioMB.rol.descripcion}" styleClass="sf-label-bold"/>										
 										</li>									
 										<li>			
-											<h:outputLabel value="Agencia:" />										
+											<h:outputLabel value="AGENCIA:" />										
 											<h:outputLabel value="#{usuarioMB.usuario.trabajador.agencia.denominacion}" styleClass="sf-label-bold"/>										
 										</li>
 										<li>

@@ -19,7 +19,7 @@ import java.util.List;
 		@NamedQuery(name = Caja.findAllByBovedaAndState, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b INNER JOIN c.hitorialcajas hc WHERE b.idboveda = :idboveda AND c.estado = true and c.estadoapertura = :estadoapertura AND hc.estadomovimiento = :estadomovimiento AND hc.idcreacion = (SELECT MAX(hc.idcreacion) FROM Historialcaja hc WHERE hc.caja.idcaja = c.idcaja)"),
 		@NamedQuery(name = Caja.ALL_ACTIVE_BY_AGENCIA, query = "Select c from Caja c inner join c.bovedas b where c.estado = true and b.agencia.idagencia = :idagencia group by c.idcaja"),
 		@NamedQuery(name = Caja.ALL_FOR_USUARIO, query = "SELECT c FROM Caja c INNER JOIN c.usuarios u WHERE u.idusuario = :idusuario"),
-		@NamedQuery(name = Caja.f_idagencia_idestadoapertura, query = "SELECT c FROM Caja c INNER JOIN c.bovedas b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND c.estado = TRUE AND c.estadoapertura.idestadoapertura = :idestadoapertura") })
+		@NamedQuery(name = Caja.f_idagencia_idestadoapertura, query = "SELECT DISTINCT c FROM Caja c INNER JOIN c.bovedas b INNER JOIN b.agencia a WHERE a.idagencia = :idagencia AND c.estado = TRUE AND c.estadoapertura.idestadoapertura = :idestadoapertura") })
 public class Caja implements Serializable {
 
 	private static final long serialVersionUID = 1L;

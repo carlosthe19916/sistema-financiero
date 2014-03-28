@@ -62,6 +62,9 @@ public class TransaccionCajaCajaBean implements Serializable {
 	private void initialize() {
 		try {
 			List<Caja> cajas = sucursalServiceLocal.getCajas(agenciaBean.getAgencia());
+			System.out.println("Cajas11111: "+ cajas.size());
+			cajas.remove(cajaBean.getCaja());
+			System.out.println("Cajas2222: "+ cajas.size());
 			comboCaja.setItems(cajas);
 			
 			List<Boveda> bovedas = cajaServiceLocal.getBovedas(cajaBean.getCaja());
