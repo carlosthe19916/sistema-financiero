@@ -9,6 +9,7 @@ import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Estadomovimiento;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
+import org.ventura.tipodato.Moneda;
 
 /**
  * The persistent class for the boveda_view database table.
@@ -184,6 +185,10 @@ public class BovedaView implements Serializable {
 		return saldo;
 	}
 
+	public String getSaldoAsString() {
+		return Moneda.getMonedaFormat(saldo);
+	}
+	
 	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
