@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.tipodato.Moneda;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -230,6 +232,10 @@ public class CuentabancariaView implements Serializable {
 		return this.saldoCuentabancaria;
 	}
 
+	public String getSaldoCuentabancariaAsString() {
+		return Moneda.getMonedaFormat(this.saldoCuentabancaria);
+	}
+	
 	public void setSaldoCuentabancaria(BigDecimal saldoCuentabancaria) {
 		this.saldoCuentabancaria = saldoCuentabancaria;
 	}

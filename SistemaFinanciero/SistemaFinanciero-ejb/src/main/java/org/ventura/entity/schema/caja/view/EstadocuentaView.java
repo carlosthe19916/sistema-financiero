@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.ventura.tipodato.Moneda;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -115,7 +117,11 @@ public class EstadocuentaView implements Serializable {
 	public BigDecimal getMontoTransaccon() {
 		return this.montoTransaccon;
 	}
-
+	
+	public String getMontoTransacconAsString() {
+		return Moneda.getMonedaFormat(this.montoTransaccon);
+	}
+	
 	public void setMontoTransaccon(BigDecimal montoTransaccon) {
 		this.montoTransaccon = montoTransaccon;
 	}
@@ -148,6 +154,10 @@ public class EstadocuentaView implements Serializable {
 		return this.saldodisponible;
 	}
 
+	public String getSaldodisponibleAsString() {
+		return Moneda.getMonedaFormat(this.saldodisponible);
+	}
+	
 	public void setSaldodisponible(BigDecimal saldodisponible) {
 		this.saldodisponible = saldodisponible;
 	}
