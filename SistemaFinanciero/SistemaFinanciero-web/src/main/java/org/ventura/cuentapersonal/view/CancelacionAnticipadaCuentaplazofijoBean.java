@@ -20,6 +20,7 @@ import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 import org.venturabank.util.JsfUtil;
@@ -252,6 +253,13 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 		return totalCuenta;
 	}
 
+	public String getTotalCuentaAsString() {
+		if(totalCuenta != null)
+			return Moneda.getMonedaFormat(totalCuenta);
+		else
+			return "";
+	}
+	
 	public void setTotalCuenta(BigDecimal totalCuenta) {
 		this.totalCuenta = totalCuenta;
 	}
@@ -276,6 +284,10 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 		return totalRecalculado;
 	}
 
+	public String getTotalRecalculadoAsString() {
+		return Moneda.getMonedaFormat(totalRecalculado);
+	}
+	
 	public void setTotalRecalculado(BigDecimal totalRecalculado) {
 		this.totalRecalculado = totalRecalculado;
 	}

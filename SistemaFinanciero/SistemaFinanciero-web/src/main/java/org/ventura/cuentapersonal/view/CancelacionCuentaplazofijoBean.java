@@ -27,6 +27,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.session.CajaBean;
+import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipodocumentoType;
@@ -295,6 +296,13 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 		return totalCuenta;
 	}
 
+	public String getTotalCuentaAsString() {
+		if(totalCuenta != null)
+			return Moneda.getMonedaFormat(totalCuenta);
+		else
+			return "";
+	}
+	
 	public void setTotalCuenta(BigDecimal totalCuenta) {
 		this.totalCuenta = totalCuenta;
 	}
