@@ -191,19 +191,21 @@ public class Moneda implements Serializable {
 		String resultIntValue="";
 		String resultDecimalValue="";
 		int intValue = value.intValue();	
-		int decimalValue = getDecimalValue();
+		int decimalValue =  getDecimalValue();
+		
 		
 		if(intValue == 0){
 			resultIntValue = "0";
 		}
+		
 		//string para parte entera
 		int contador = 0; //cuenta 3 digitos a la derecha
-		while(intValue % 10 != 0){
+		while(intValue != 0){
 			contador++;
 			resultIntValue = ( intValue % 10 ) + resultIntValue;
 			intValue = intValue / 10;
 			
-			if(contador == 3 && (intValue % 10 != 0)){
+			if(contador == 3 && intValue != 0){
 				contador = 0;
 				resultIntValue = " " + resultIntValue;
 			}
@@ -224,104 +226,9 @@ public class Moneda implements Serializable {
 		if(value.scale() == 0){
 			resultDecimalValue = "00";
 		}
-		
-		
+			
 		return resultIntValue+"."+resultDecimalValue;
 		
-		/*
-		String stringValue = "";
-
-		if (value == null)
-			return null;
-		int realScale = value.scale();
-		
-		if (realScale == 2) {
-			int doubleValue = getDecimalValue();
-
-			if (doubleValue % 10 == 0) {
-				stringValue = "." + doubleValue + stringValue;
-			} else {
-				if(doubleValue<10){
-					if(doubleValue > 0){
-						stringValue = "." + "0"+doubleValue + stringValue;
-					} else{
-						stringValue = "." + "00"+doubleValue + stringValue;
-					}					
-				} else {
-					stringValue = "." + doubleValue + stringValue;
-				}			
-			}
-
-			int intValue = getIntValue();
-			if (intValue == 0) {
-				stringValue = "0" + stringValue;
-			}
-
-			int contador = 0;
-			while (intValue != 0) {
-				int q = intValue / 10;
-				int r = intValue % 10;
-				intValue = q;
-				stringValue = r + stringValue;
-				contador++;
-				if (contador == 3 && intValue != 0) {
-					stringValue = "," + stringValue;
-					contador = 0;
-				}
-			}
-			return stringValue;
-		} else {
-			if (realScale == 1) {
-				int doubleValue = getDecimalValue();
-
-				stringValue = "." + doubleValue + stringValue + "0";
-
-				int intValue = getIntValue();
-				if (intValue == 0) {
-					stringValue = "0" + stringValue;
-				}
-				
-				int contador = 0;
-				while (intValue != 0) {
-					int q = intValue / 10;
-					int r = intValue % 10;
-					intValue = q;
-					stringValue = r + stringValue;
-					contador++;
-					if (contador == 3 && intValue != 0) {
-						stringValue = "," + stringValue;
-						contador = 0;
-					}
-				}
-				return stringValue;
-			} else {
-				if (realScale == 0) {
-					stringValue = "." + stringValue + "00";
-
-					int intValue = getIntValue();
-					if (intValue == 0) {
-						stringValue = "0" + stringValue;
-					}
-					
-					int contador = 0;
-					while (intValue != 0) {
-						int q = intValue / 10;
-						int r = intValue % 10;
-						intValue = q;
-						stringValue = r + stringValue;
-						contador++;
-						if (contador == 3 && intValue != 0) {
-							stringValue = "," + stringValue;
-							contador = 0;
-						}
-					}
-					return stringValue;
-				} else {
-					throw new RuntimeException(
-							"Scale of Money object is > 2, should never happen, Money object is faulty.");
-				}
-			}
-		}*/
 	}
 	
 	public static String getMonedaFormat(BigDecimal number){
@@ -330,7 +237,6 @@ public class Moneda implements Serializable {
 		String resultDecimalValue="";
 		int intValue = number.intValue();	
 		int decimalValue =  number.subtract(number.setScale(0, RoundingMode.FLOOR)).movePointRight(number.scale()).intValue();
-		
 		
 		if(intValue == 0){
 			resultIntValue = "0";
@@ -343,7 +249,7 @@ public class Moneda implements Serializable {
 			resultIntValue = ( intValue % 10 ) + resultIntValue;
 			intValue = intValue / 10;
 			
-			if(contador == 3 && (intValue % 10 != 0)){
+			if(contador == 3 && intValue != 0){
 				contador = 0;
 				resultIntValue = " " + resultIntValue;
 			}
@@ -364,8 +270,7 @@ public class Moneda implements Serializable {
 		if(number.scale() == 0){
 			resultDecimalValue = "00";
 		}
-		
-		
+			
 		return resultIntValue+"."+resultDecimalValue;
 	}
 

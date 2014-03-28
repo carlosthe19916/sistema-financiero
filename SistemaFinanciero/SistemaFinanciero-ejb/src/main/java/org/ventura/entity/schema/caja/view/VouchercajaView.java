@@ -259,6 +259,10 @@ public class VouchercajaView implements Serializable {
 		return this.saldo;
 	}
 
+	public String getSaldoAsString() {
+		return Moneda.getMonedaFormat(this.saldo);
+	}
+	
 	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
