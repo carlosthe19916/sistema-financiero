@@ -60,6 +60,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	private boolean cuentaValida;
 	private boolean cuentaCreada;
 	private String numeroCuenta;
+	private int idCuentaPlazoFijoPersonaNatural;
+	private int idCuentaPlazoFijoPersonaJuridica;
 	private Date fechaApertura;
 	private Cuentabancaria cuentabancariaCreada;
 	
@@ -271,6 +273,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();
+					idCuentaPlazoFijoPersonaNatural = cuentabancaria.getIdcuentabancaria();
 					fechaApertura = cuentabancaria.getFechaapertura();	
 					
 					this.cuentabancariaCreada = cuentabancaria;
@@ -333,8 +336,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 						
 						cuentaCreada = true;
 						numeroCuenta = cuentabancaria.getNumerocuenta();
+						idCuentaPlazoFijoPersonaJuridica = cuentabancaria.getIdcuentabancaria();
 						fechaApertura = cuentabancaria.getFechaapertura();
-						
 						this.cuentabancariaCreada = cuentabancaria;
 					} else {
 						throw new Exception("El tipo de persona no es valido");
@@ -349,6 +352,24 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		}
 
 		return null;
+	}
+	
+	public String returnNumeroCertificado(Integer idPlazoFijo){
+		String numeroCertificado = null;
+		if(idPlazoFijo>0 && idPlazoFijo<10){
+			numeroCertificado = "0000000" + idPlazoFijo;
+		}if(idPlazoFijo>=10 && idPlazoFijo<100){
+			numeroCertificado = "000000" + idPlazoFijo;
+		}if(idPlazoFijo>=100 && idPlazoFijo<1000){
+			numeroCertificado = "00000" + idPlazoFijo;
+		}if(idPlazoFijo>=1000 && idPlazoFijo<10000){
+			numeroCertificado = "0000" + idPlazoFijo;
+		}if(idPlazoFijo>=10000 && idPlazoFijo<100000){
+			numeroCertificado = "000" + idPlazoFijo;
+		}if(idPlazoFijo>=100000 && idPlazoFijo<1000000){
+			numeroCertificado = "00" + idPlazoFijo;
+		}
+		return numeroCertificado;
 	}
 	
 	public void cagarTasaInteresTEA() {
@@ -1570,4 +1591,21 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		this.loginBean = loginBean;
 	}
 
+	public int getIdCuentaPlazoFijoPersonaNatural() {
+		return idCuentaPlazoFijoPersonaNatural;
+	}
+
+	public void setIdCuentaPlazoFijoPersonaNatural(
+			int idCuentaPlazoFijoPersonaNatural) {
+		this.idCuentaPlazoFijoPersonaNatural = idCuentaPlazoFijoPersonaNatural;
+	}
+
+	public int getIdCuentaPlazoFijoPersonaJuridica() {
+		return idCuentaPlazoFijoPersonaJuridica;
+	}
+
+	public void setIdCuentaPlazoFijoPersonaJuridica(
+			int idCuentaPlazoFijoPersonaJuridica) {
+		this.idCuentaPlazoFijoPersonaJuridica = idCuentaPlazoFijoPersonaJuridica;
+	}
 }

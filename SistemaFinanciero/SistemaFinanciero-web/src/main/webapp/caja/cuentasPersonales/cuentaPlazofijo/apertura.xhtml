@@ -58,9 +58,15 @@
 				<div></div>
 				<div></div>
 				<div class="sf-buttons" style="float: left;">
-					<h:form>
+					<h:form id="formPlazoFijo">
+						<script type="text/javascript">
+							window.onload = function test(){
+        						document.getElementById('formPlazoFijo:crearPlazoFijo').focus();
+        					}
+    					</script>
+
 						<div class="sf-separator">
-							<h:commandButton value="Crear cuenta a plazo fijo"
+							<h:commandButton value="Crear cuenta a plazo fijo" id="crearPlazoFijo"
 								styleClass="action red" action="aperturaCuentaplazofijo-flow">
 							</h:commandButton>
 						</div>

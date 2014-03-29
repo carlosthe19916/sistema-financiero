@@ -31,7 +31,7 @@
 						<div>
 							<div class="p6n-api-consent-screen-title">
 								APERTURA DE CUENTA PLAZO FIJO
-								<h:messages />
+								
 							</div>
 							<div class="p6n-api-consent-screen-inputs" style="float: none;">
 								<div class="p6n-api-consent-screen-input-section">
@@ -97,9 +97,9 @@
 														<div class="p6n-api-consent-screen-label">NUMERO
 															DOCUMENTO</div>
 														<div>
-															<h:inputText id="txtDni"
+															<h:inputText id="txtDni" autocomplete="off"
 																value="#{aperturaCuentaplazofijoBean.numeroDocumentoPersonanatural}"
-																required="true" maxlength="15"
+																required="true" maxlength="15" 
 																requiredMessage="Ingrese numero documento"
 																validatorMessage="Número de documento Invalido"
 																converterMessage="Número de documento Invalido"
@@ -109,7 +109,7 @@
 																	groupingUsed="false" />
 																<f:ajax
 																	listener="#{aperturaCuentaplazofijoBean.buscarPersonanaturalSocio()}"
-																	render="@form"></f:ajax>
+																	render="txtApellidoPaterno txtApellidoMaterno txtNombres cmbSexo txtFechanacimiento cmbEstadocivil txtOcupacion txtDireccion txtReferencia txtTelefono txtCelular txtEmail" />
 															</h:inputText>
 														</div>
 													</div>
@@ -238,7 +238,7 @@
 															<div class="p6n-api-consent-screen-label">OCUPACION</div>
 															<div>
 																<div>
-																	<h:inputText
+																	<h:inputText id="txtOcupacion"
 																		value="#{aperturaCuentaplazofijoBean.ocupacionPersonanatural}"
 																		onkeyup="this.value = this.value.toUpperCase();"
 																		maxlength="70" pt:placeholder="Ocupacion" />
@@ -252,7 +252,7 @@
 														<div class="p6n-api-consent-screen-label">DIRECCION</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtDireccion"
 																	value="#{aperturaCuentaplazofijoBean.direccionPersonanatural}"
 																	onkeyup="this.value = this.value.toUpperCase();"
 																	maxlength="150" pt:placeholder="Direccion">
@@ -264,7 +264,7 @@
 														<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtReferencia"
 																	value="#{aperturaCuentaplazofijoBean.referenciaPersonanatural}"
 																	onkeyup="this.value = this.value.toUpperCase();"
 																	maxlength="100" pt:placeholder="Referencia">
@@ -278,7 +278,7 @@
 														<div class="p6n-api-consent-screen-label">TELEFONO</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtTelefono"
 																	value="#{aperturaCuentaplazofijoBean.telefonoPersonanatural}"
 																	maxlength="25" pt:placeholder="066000000">
 																</h:inputText>
@@ -289,7 +289,7 @@
 														<div class="p6n-api-consent-screen-label">CELULAR</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtCelular"
 																	value="#{aperturaCuentaplazofijoBean.celularPersonanatural}"
 																	maxlength="25" pt:placeholder="Celular/RPM">
 																</h:inputText>
@@ -301,7 +301,7 @@
 													<div class="p6n-api-consent-screen-label">EMAIL</div>
 													<div>
 														<div>
-															<h:inputText
+															<h:inputText id="txtEmail"
 																value="#{aperturaCuentaplazofijoBean.emailPersonanatural}"
 																onkeyup="this.value = this.value.toUpperCase();"
 																maxlength="50" pt:placeholder="example@domain.com"
@@ -315,7 +315,7 @@
 														action="/caja/index?faces-redirect=true"
 														immediate="true" styleClass="action" />
 													<h:commandButton value="Siguiente »"
-														action="aperturaCuentaplazofijo-flowB" styleClass="action" />
+														action="aperturaCuentaplazofijo-flowB" styleClass="action green" />
 												</div>
 											</div>
 										</div>

@@ -287,7 +287,7 @@
 																value="#{beneficiario.porcentajebeneficio}%" />
 													</a></td>
 													<td><h:commandButton value="Edit"
-															styleClass="action green" style="margin: 0px;">
+															styleClass="action blue" style="margin: 0px;">
 															<f:ajax
 																listener="#{aperturaCuentaplazofijoBean.editBeneficiario(beneficiario)}"
 																render=":panelGroupDlgBeneficiario :formDialogBeneficiario" />
@@ -312,8 +312,15 @@
 						<div class="p6n-content-no-nav">
 							<div class="p6n-main-pane p6n-acl-pane">
 								<div class="p6n-action-bar" style="padding-bottom: 45px;">
-									<h:commandButton value="Añadir Beneficiario"
-										class="actionn red">
+
+									<script type="text/javascript">
+										window.onload = function test(){
+        									document.getElementById('formBeneficiariosTitulares:buttomBeneficiario').focus();
+        								}
+    								</script>
+
+									<h:commandButton value="Añadir Beneficiario" id="buttomBeneficiario"
+										styleClass="action red">
 										<f:ajax
 											listener="#{aperturaCuentaplazofijoBean.setDlgBeneficiarioOpen(true)}"
 											render=":panelGroupDlgBeneficiario :formDialogBeneficiario" />
@@ -334,7 +341,7 @@
 						<h:commandButton value="Siguiente »"
 							action="aperturaCuentaplazofijo-flowC"
 							actionListener="#{aperturaCuentaplazofijoBean.addTitularDefecto()}"
-							styleClass="action" />
+							styleClass="action green" />
 					</h:panelGroup>
 					<h:panelGroup
 						rendered="#{aperturaCuentaplazofijoBean.personajuridica}">
@@ -343,7 +350,7 @@
 						<h:commandButton value="Siguiente »"
 							action="aperturaCuentaplazofijo-flowC"
 							actionListener="#{aperturaCuentaplazofijoBean.addTitularDefecto()}"
-							styleClass="action" />
+							styleClass="action green" />
 					</h:panelGroup>
 				</div>
 			</h:form>
@@ -355,6 +362,7 @@
 						style="opacity: 0.4; width: 1366px; height: 702px;"></div>
 					<div class="modal-dialog p6n-popup" style="left: 402px; top: 50px;">
 						<h:form id="formDialogBeneficiario">
+							<p:focus for="txtNumerodocumentoBeneficiario"></p:focus>
 							<div class="modal-dialog-content p6n-acl-add-member-popup"
 								style="width: 385px;">
 								<div class="p6n-api-consent-screen-inputs">
@@ -458,7 +466,7 @@
 								<br />
 							</div>
 							<div class="modal-dialog-buttons">
-								<h:commandButton value="Guardar" styleClass="action blue">
+								<h:commandButton value="Guardar" styleClass="action green">
 									<f:ajax
 										listener="#{aperturaCuentaplazofijoBean.addBeneficiario()}"
 										execute="@form" render="@form :formBeneficiariosTitulares" />
