@@ -43,6 +43,7 @@ public class TransaccionCajaCajaBean implements Serializable {
 	private boolean failure;
 	private boolean successCrearTransaccion;
 	
+	private Transaccioncajacaja transaccioncajacaja;
 	
 	@Inject AgenciaBean agenciaBean;
 	@Inject CajaBean cajaBean;
@@ -88,7 +89,7 @@ public class TransaccionCajaCajaBean implements Serializable {
 				Transaccioncajacaja transaccioncajacaja = new Transaccioncajacaja();;
 				transaccioncajacaja.setMonto(monto);
 				transaccioncajacaja.setTipomoneda(comboTipomoneda.getObjectItemSelected());			
-				transaccionCajaServiceLocal.crearTransaccioncajacaja(transaccioncajacaja, cajaBean.getCaja(), comboCaja.getObjectItemSelected());
+				this.transaccioncajacaja = transaccionCajaServiceLocal.crearTransaccioncajacaja(transaccioncajacaja, cajaBean.getCaja(), comboCaja.getObjectItemSelected());
 				
 				successCrearTransaccion = true;
 				dlgCrearTransasccion = false;
@@ -102,10 +103,14 @@ public class TransaccionCajaCajaBean implements Serializable {
 	
 	public void confirmarTransaccion(Transaccioncajacaja transaccioncajacaja){
 		try {
-			transaccionCajaServiceLocal.confirmarTransaccioncajacaja(transaccioncajacaja);		
-						
-			List<Transaccioncajacaja> transasccionesSolicitadas = transaccionCajaServiceLocal.getTransaccionesPorConfirmarCajaCaja(cajaBean.getCaja());		
-			tablaTransasccionesSolicitadas.setRows(transasccionesSolicitadas);		
+			if(successCrearTransaccion != true){
+				this.transaccioncajacaja =  transaccionCajaServiceLocal.confirmarTransaccioncajacaja(transaccioncajacaja);		
+				
+				List<Transaccioncajacaja> transasccionesSolicitadas = transaccionCajaServiceLocal.getTransaccionesPorConfirmarCajaCaja(cajaBean.getCaja());		
+				tablaTransasccionesSolicitadas.setRows(transasccionesSolicitadas);	
+				
+				successCrearTransaccion = true;
+			}					
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -211,6 +216,30 @@ public class TransaccionCajaCajaBean implements Serializable {
 
 	public void setSuccessCrearTransaccion(boolean successCrearTransaccion) {
 		this.successCrearTransaccion = successCrearTransaccion;
+	}
+
+	public AgenciaBean getAgenciaBean() {
+		return agenciaBean;
+	}
+
+	public void setAgenciaBean(AgenciaBean agenciaBean) {
+		this.agenciaBean = agenciaBean;
+	}
+
+	public CajaBean getCajaBean() {
+		return cajaBean;
+	}
+
+	public void setCajaBean(CajaBean cajaBean) {
+		this.cajaBean = cajaBean;
+	}
+
+	public Transaccioncajacaja getTransaccioncajacaja() {
+		return transaccioncajacaja;
+	}
+
+	public void setTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) {
+		this.transaccioncajacaja = transaccioncajacaja;
 	}
 
 }

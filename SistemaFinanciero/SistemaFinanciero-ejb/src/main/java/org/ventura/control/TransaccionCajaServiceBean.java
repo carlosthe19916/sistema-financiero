@@ -1231,7 +1231,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 
 	@Override
-	public void crearTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja,Caja origen, Caja destino) throws Exception {
+	public Transaccioncajacaja crearTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja,Caja origen, Caja destino) throws Exception {
 		try {
 			Calendar calendar = Calendar.getInstance();
 			Date date = calendar.getTime();
@@ -1295,12 +1295,14 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw new EJBException(e.getMessage());
 		}
+		return transaccioncajacaja;
 	}
 
 	@Override
-	public void confirmarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) throws Exception {
+	public Transaccioncajacaja confirmarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) throws Exception {
+		Transaccioncajacaja transaccioncajacajaDB = null;
 		try {
-			Transaccioncajacaja transaccioncajacajaDB = transaccioncajacajaDAO.find(transaccioncajacaja.getIdtransaccioncajacaja());
+			transaccioncajacajaDB = transaccioncajacajaDAO.find(transaccioncajacaja.getIdtransaccioncajacaja());
 			if(transaccioncajacajaDB.getEstadosolicitud() == true){
 				transaccioncajacajaDB.setEstadoconfirmacion(true);
 				transaccioncajacajaDAO.update(transaccioncajacajaDB);
@@ -1359,6 +1361,9 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			log.error("Caused by:" + e.getCause());
 			throw new EJBException(e.getMessage());
 		}
+		transaccioncajacajaDB.getHistorialcajaorigen().getCaja();
+		transaccioncajacajaDB.getHistorialcajadestino().getCaja();
+		return transaccioncajacajaDB;
 	}
 
 

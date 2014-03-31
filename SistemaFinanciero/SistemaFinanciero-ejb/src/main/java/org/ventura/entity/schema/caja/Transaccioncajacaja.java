@@ -109,7 +109,10 @@ public class Transaccioncajacaja implements Serializable {
 	}
 
 	public String getMontoAsString() {
-		return Moneda.getMonedaFormat(this.monto);
+		if(monto != null)
+			return Moneda.getMonedaFormat(this.monto);
+		else
+			return "";
 	}
 	
 	public void setMonto(BigDecimal monto) {
