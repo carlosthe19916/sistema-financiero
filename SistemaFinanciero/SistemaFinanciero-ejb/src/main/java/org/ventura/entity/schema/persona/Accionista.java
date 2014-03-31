@@ -23,7 +23,7 @@ public class Accionista implements Serializable {
 	@Column(nullable = false)
 	private Integer idaccionista;
 
-	@Column(nullable = false, precision = 5, scale = 2)
+	@Column(nullable = false, precision = 6, scale = 2)
 	private BigDecimal porcentajeparticipacion;
 
 	@ManyToOne
