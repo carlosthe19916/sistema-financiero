@@ -233,7 +233,10 @@ public class CuentabancariaView implements Serializable {
 	}
 
 	public String getSaldoCuentabancariaAsString() {
-		return Moneda.getMonedaFormat(this.saldoCuentabancaria);
+		if(this.saldoCuentabancaria!=null)
+			return Moneda.getMonedaFormat(this.saldoCuentabancaria);
+		else 
+			return "";
 	}
 	
 	public void setSaldoCuentabancaria(BigDecimal saldoCuentabancaria) {

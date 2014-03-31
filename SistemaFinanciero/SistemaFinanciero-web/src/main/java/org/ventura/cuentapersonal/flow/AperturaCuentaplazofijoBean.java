@@ -1526,6 +1526,13 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		return montoApertura;
 	}
 
+	public String getMontoAperturaAsString() {
+		if(montoApertura != null)
+			return Moneda.getMonedaFormat(montoApertura);
+		else
+			return "";
+	}
+	
 	public void setMontoApertura(BigDecimal montoApertura) {
 		this.montoApertura = montoApertura;
 		this.montoApertura = this.montoApertura.setScale(2, RoundingMode.DOWN);
