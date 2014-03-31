@@ -73,7 +73,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	private BigDecimal montoApertura;
 	private Integer periodoDeposito;
 	//private BigDecimal trea;
-	private BigDecimal tea;
+	private BigDecimal tea = new BigDecimal("12.00");
 	private BigDecimal interesGenerado;
 	
 	@Inject private ComboBean<Tipodocumento> comboTipodocumentoPersonanatural;
@@ -165,7 +165,6 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		montoApertura = null;
 		periodoDeposito = null;
 		//trea = null;
-		tea = new BigDecimal("0.00");
 		interesGenerado = null;
 		
 		isPersonanatural = false;

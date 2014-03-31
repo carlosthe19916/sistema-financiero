@@ -84,7 +84,7 @@
 			</div>
 		</h:panelGroup>
 
-		<h:form>
+		<h:form id="recalculo">
 			<div id="p6n-cloudsql-content">
 				<div>
 					<div class="p6n-cloudsql-create-summary" style="top: 150px;">
@@ -169,7 +169,7 @@
 													var="val"
 													itemLabel="#{val.value.abreviatura} #{val.value.denominacion}"
 													itemValue="#{val.key}" />
-											</h:selectOneMenu>											
+											</h:selectOneMenu>
 										</div>
 									</div>
 								</div>
@@ -208,6 +208,8 @@
 												value="#{aperturaCuentaplazofijoBean.periodoDeposito}">
 												<f:convertNumber integerOnly="true" type="number"
 													groupingUsed="false" />
+												<f:ajax render=":recalculo" execute="@this cmbTipomonedaCuentaplazofijo txtMonto"
+													listener="#{aperturaCuentaplazofijoBean.calcularInteresGenerado()}"></f:ajax>
 											</h:inputText>
 										</div>
 									</div>
@@ -230,23 +232,26 @@
 													<h:outputText value="Editar" />
 												</h:commandLink>
 											</h:panelGroup>
-											
+
 											<h:panelGroup
 												rendered="#{aperturaCuentaplazofijoBean.loginBean.autenticado}">
 												<h:inputText id="txtTea" size="5" required="true"
 													requiredMessage="Ingrese una tasa de interés"
 													converterMessage="Ingrese tasa de interés valido Ejemplo: 9.99"
 													pt:placeholder="0.00"
-													value="#{aperturaCuentaplazofijoBean.tea}"
-													maxlenght="5">
-													<f:converter converterId="javax.faces.BigDecimal" maxFractionDigits="2" minFractionDigits="2"/>
+													value="#{aperturaCuentaplazofijoBean.tea}" maxlenght="5">
+													<f:converter converterId="javax.faces.BigDecimal"
+														maxFractionDigits="2" minFractionDigits="2" />
 												</h:inputText>
 											</h:panelGroup>
-											
+
 											&nbsp;&nbsp;&nbsp;&nbsp;
-											<h:commandLink>
-												<h:outputText value="Obtener Tasa"/>
-												<f:ajax listener="#{aperturaCuentaplazofijoBean.cagarTasaInteresTEA()}" execute="cmbTipomonedaCuentaplazofijo txtMonto txtPeriodo" render="@form"/>
+											<h:commandLink rendered="false">
+												<h:outputText value="Obtener Tasa" />
+												<f:ajax
+													listener="#{aperturaCuentaplazofijoBean.cagarTasaInteresTEA()}"
+													execute="cmbTipomonedaCuentaplazofijo txtMonto txtPeriodo"
+													render="@form" />
 											</h:commandLink>
 										</div>
 									</div>
@@ -254,7 +259,7 @@
 								<div
 									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 									<h:message for="txtTea" />
-								</div>								
+								</div>
 							</div>
 
 							<br />
@@ -264,7 +269,9 @@
 									actionListener="#{aperturaCuentaplazofijoBean.removeTitularDefecto()}"
 									styleClass="action" />
 								<h:commandButton value="Siguiente »"
-									action="aperturaCuentaplazofijo-flowD" styleClass="action green" />
+									actionListener="#{aperturaCuentaplazofijoBean.calcularInteresGenerado()}"
+									action="aperturaCuentaplazofijo-flowD"
+									styleClass="action green" />
 							</div>
 						</div>
 					</div>
