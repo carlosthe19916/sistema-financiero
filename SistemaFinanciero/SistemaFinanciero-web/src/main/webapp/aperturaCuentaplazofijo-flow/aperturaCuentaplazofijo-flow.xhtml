@@ -364,7 +364,7 @@
 														<div>
 															<h:inputText id="txtNumerodocumentoPersonajuridica"
 																value="#{aperturaCuentaplazofijoBean.numeroDocumentoPersonajuridica}"
-																required="true" maxlength="15"
+																required="true" maxlength="15" autocomplete="off"
 																requiredMessage="Ingrese numero documento"
 																validatorMessage="Número de documento Invalido"
 																converterMessage="Número de documento Invalido"
@@ -374,7 +374,7 @@
 																	groupingUsed="false" />
 																<f:ajax
 																	listener="#{aperturaCuentaplazofijoBean.buscarPersonajuridicaSocio()}"
-																	render="@form"></f:ajax>
+																	render="txtTazonsocial txtNombrecomercial txtActividadprincipal txtFechaconstitucion cmbTipoempresa cmbFinsocial txtDireccion txtReferencia txtTelefono txtCelular txtEmail"></f:ajax>
 															</h:inputText>
 														</div>
 													</div>
@@ -390,7 +390,7 @@
 															SOCIAL</div>
 														<div>
 															<div>
-																<h:inputText id="txtTazonsocial"
+																<h:inputText id="txtTazonsocial" autocomplete="off"
 																	value="#{aperturaCuentaplazofijoBean.razonSocial}"
 																	required="true" maxlength="50"
 																	requiredMessage="Ingrese la razon social"
@@ -405,7 +405,7 @@
 															COMERCIAL</div>
 														<div>
 															<div>
-																<h:inputText id="txtNombrecomercial"
+																<h:inputText id="txtNombrecomercial" autocomplete="off"
 																	value="#{aperturaCuentaplazofijoBean.nombreComercial}"
 																	maxlength="50"
 																	onkeyup="this.value = this.value.toUpperCase();"
@@ -428,7 +428,7 @@
 															<div>
 																<h:inputText id="txtActividadprincipal"
 																	value="#{aperturaCuentaplazofijoBean.actividadPrincipal}"
-																	maxlength="50"
+																	maxlength="50" autocomplete="off"
 																	onkeyup="this.value = this.value.toUpperCase();"
 																	pt:placeholder="Actividad Principal">
 																</h:inputText>
@@ -512,7 +512,7 @@
 														<div class="p6n-api-consent-screen-label">DIRECCION</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtDireccion" autocomplete="off"
 																	value="#{aperturaCuentaplazofijoBean.direccionPersonajuridica}"
 																	onkeyup="this.value = this.value.toUpperCase();"
 																	maxlength="150" pt:placeholder="Direccion">
@@ -524,7 +524,7 @@
 														<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtReferencia" autocomplete="off"
 																	value="#{aperturaCuentaplazofijoBean.referenciaPersonajuridica}"
 																	onkeyup="this.value = this.value.toUpperCase();"
 																	maxlength="100" pt:placeholder="Referencia">
@@ -538,7 +538,7 @@
 														<div class="p6n-api-consent-screen-label">TELEFONO</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtTelefono" autocomplete="off"
 																	value="#{aperturaCuentaplazofijoBean.telefonoPersonajuridica}"
 																	maxlength="20" pt:placeholder="066000000">
 																</h:inputText>
@@ -548,8 +548,8 @@
 													<div style="display: inline-block;">
 														<div class="p6n-api-consent-screen-label">CELULAR</div>
 														<div>
-															<div>
-																<h:inputText
+															<div> 
+																<h:inputText id="txtCelular" autocomplete="off"
 																	value="#{aperturaCuentaplazofijoBean.celularPersonajuridica}"
 																	maxlength="20" pt:placeholder="Celular/RPM">
 																</h:inputText>
@@ -561,8 +561,9 @@
 													<div class="p6n-api-consent-screen-label">EMAIL</div>
 													<div>
 														<div>
-															<h:inputText
+															<h:inputText id="txtEmail" autocomplete="off"
 																value="#{aperturaCuentaplazofijoBean.emailPersonajuridica}"
+																onkeyup="this.value = this.value.toUpperCase();"
 																pt:placeholder="example@domain.com" style="width:339px;"
 																maxlength="50" />
 														</div>
@@ -574,7 +575,7 @@
 														action="/caja/index?faces-redirect=true"
 														immediate="true" styleClass="action" />
 													<h:commandButton value="Siguiente »"
-														action="aperturaCuentaplazofijo-flowA" styleClass="action" />
+														action="aperturaCuentaplazofijo-flowA" styleClass="action green" />
 												</div>
 											</div>
 										</div>

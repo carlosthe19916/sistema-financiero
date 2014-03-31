@@ -35,6 +35,7 @@
 										</div>
 									</div>
 									<h:panelGroup id="formRepresentantelegal">
+									<p:focus for="cmbTipodocumentoRepresentantelegal"></p:focus>
 										<div>
 											<div class="p6n-api-consent-screen-input-section">
 												<div style="display: inline-block; width: 190px;">
@@ -61,7 +62,7 @@
 													<div>
 														<h:inputText id="txtNumerodocumentoRepresentantelegal"
 															value="#{aperturaCuentaplazofijoBean.numeroDocumentoRepresentantelegal}"
-															required="true" maxlength="15"
+															required="true" maxlength="15" autocomplete="off"
 															requiredMessage="Ingrese numero de documento"
 															validatorMessage="Número de documento Invalido"
 															converterMessage="Número de documento Invalido"
@@ -71,7 +72,7 @@
 																groupingUsed="false" />
 															<f:ajax
 																listener="#{aperturaCuentaplazofijoBean.buscarPersonanaturalRepresentantelegal()}"
-																render="formRepresentantelegal"></f:ajax>
+																render="txtApellidoPaternoRepresentantelegal txtApellidoMaternoRepresentantelegal txtNombresRepresentantelegal cmbSexoRepresentantelegal txtFechanacimientoRepresentantelegal"></f:ajax>
 														</h:inputText>
 													</div>
 												</div>
@@ -89,7 +90,7 @@
 														<div>
 															<h:inputText id="txtApellidoPaternoRepresentantelegal"
 																value="#{aperturaCuentaplazofijoBean.apellidoPaternoRepresentantelegal}"
-																required="true" maxlength="50"
+																required="true" maxlength="50" autocomplete="off"
 																requiredMessage="Ingrese apellido paterno"
 																onkeyup="this.value = this.value.toUpperCase();"
 																pt:placeholder="Apellido Paterno">
@@ -104,7 +105,7 @@
 														<div>
 															<h:inputText id="txtApellidoMaternoRepresentantelegal"
 																value="#{aperturaCuentaplazofijoBean.apellidoMaternoRepresentantelegal}"
-																required="true" maxlength="50"
+																required="true" maxlength="50" autocomplete="off"
 																requiredMessage="Ingrese apellido materno"
 																onkeyup="this.value = this.value.toUpperCase();"
 																pt:placeholder="Apellido Materno">
@@ -124,7 +125,7 @@
 													<div>
 														<h:inputText id="txtNombresRepresentantelegal"
 															value="#{aperturaCuentaplazofijoBean.nombresRepresentantelegal}"
-															required="true" maxlength="50"
+															required="true" maxlength="50" autocomplete="off"
 															requiredMessage="Ingrese nombres"
 															onkeyup="this.value = this.value.toUpperCase();"
 															style="width:339px;" pt:placeholder="Nombres">
@@ -199,37 +200,35 @@
 																	<table class="p6n-table">
 																		<thead>
 																			<tr>
-																				<th><a href="javascript:;"
+																				<th><a
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Tipo documento </a></th>
-																				<th><a href="javascript:;"
+																				<th><a
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Nro documento </a></th>
-																				<th><a href="javascript:;"
+																				<th><a
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Apellido paterno </a></th>
-																				<th><a href="javascript:;"
+																				<th><a
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Apellido materno </a></th>
-																				<th><a href="javascript:;"
+																				<th><a
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Nombres </a></th>
-																				<th><a href="javascript:;"
+																				<th><a
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Sexo </a></th>
-																				<th><a href="javascript:;"
+																				<th><a
 																					class="ng-isolate-scope p6n-clickable-link">
 																						F.nacimiento </a></th>
-																				<th><a href="javascript:;"
+																				<th><a
 																					class="ng-isolate-scope p6n-clickable-link">
 																						(%) </a></th>
 																				<th class="p6n-api-list-col-status"><a
-																					href="javascript:;"
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Status </a></th>
 
 																				<th class="p6n-api-list-col-status"><a
-																					href="javascript:;"
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Status </a></th>
 																			</tr>
@@ -239,48 +238,48 @@
 																				value="#{aperturaCuentaplazofijoBean.listAccionistas()}"
 																				var="accionista">
 																				<tr class="ng-scope">
-																					<td><a href="javascript:;"
+																					<td><a
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.tipodocumento.abreviatura}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.numerodocumento}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.apellidopaterno}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.apellidomaterno}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.nombres}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.sexo.denominacion}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.fechanacimiento}">
 																								<f:convertDateTime pattern="dd/MM/yyyy" />
 																							</h:outputLabel>
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a 
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.porcentajeparticipacion}%">
 																							</h:outputLabel>
 																					</a></td>
-																					<td><h:commandButton value="Edit"
+																					<td><h:commandButton value="Editar"
 																							styleClass="action green" style="margin: 0px;">
 																							<f:ajax
 																								listener="#{aperturaCuentaplazofijoBean.editAccionista(accionista)}"
 																								render=":panelGroupDlgAccionista :formDialogAccionista" />
 																						</h:commandButton></td>
-																					<td><h:commandButton value="Remove"
+																					<td><h:commandButton value="Eliminar"
 																							styleClass="action red" style="margin: 0px;">
 																							<f:ajax
 																								listener="#{aperturaCuentaplazofijoBean.removeAccionista(accionista)}"
@@ -325,7 +324,7 @@
 										<h:commandButton value="« Anterior" immediate="true"
 											action="aperturaCuentaplazofijo-flow" styleClass="action" />
 										<h:commandButton value="Siguiente »"
-											action="aperturaCuentaplazofijo-flowB" styleClass="action" />
+											action="aperturaCuentaplazofijo-flowB" styleClass="action green" />
 									</div>
 
 								</div>
@@ -338,6 +337,7 @@
 					<h:panelGroup
 						rendered="#{aperturaCuentaplazofijoBean.dlgAccionistaOpen}">
 						<h:form id="formDialogAccionista">
+						<p:focus for="cmbTipodocumentoTitular"></p:focus>
 							<div class="modal-dialog-bg"
 								style="opacity: 0.4; width: 1366px; height: 902px;"></div>
 							<div class="modal-dialog p6n-popup"
@@ -383,7 +383,7 @@
 															groupingUsed="false" />
 														<f:ajax
 															listener="#{aperturaCuentaplazofijoBean.buscarPersonanaturalAccionista()}"
-															render="@form"></f:ajax>
+															render="txtApellidoPaternoAccionista txtApellidoMaternoAccionista txtNombresAccionista cmbSexoAccionista txtFechanacimientoAccionista"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>
@@ -399,7 +399,7 @@
 													style="width: 190px;">APELLIDO PATERNO</div>
 												<div>
 													<div>
-														<h:inputText id="txtApellidoPaternoTitular"
+														<h:inputText id="txtApellidoPaternoAccionista"
 															value="#{aperturaCuentaplazofijoBean.apellidoPaternoAccionista}"
 															required="true" maxlength="50"
 															requiredMessage="Ingrese apellido paterno"
@@ -414,7 +414,7 @@
 													style="width: 180px;">APELLIDO MATERNO</div>
 												<div>
 													<div>
-														<h:inputText id="txtApellidoMaternoTitular"
+														<h:inputText id="txtApellidoMaternoAccionista"
 															value="#{aperturaCuentaplazofijoBean.apellidoMaternoAccionista}"
 															required="true" maxlength="50"
 															requiredMessage="Ingrese apellido materno"
@@ -427,8 +427,8 @@
 										</div>
 										<div
 											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-											<h:message for="txtApellidoPaternoTitular" />
-											<h:message for="txtApellidoMaternoTitular" />
+											<h:message for="txtApellidoPaternoAccionista" />
+											<h:message for="txtApellidoMaternoAccionista" />
 										</div>
 										<div class="p6n-api-consent-screen-input-section"
 											style="width: 190px;">
@@ -436,7 +436,7 @@
 												style="width: 190px;">NOMBRES</div>
 											<div>
 												<div>
-													<h:inputText id="txtNombresTitular"
+													<h:inputText id="txtNombresAccionista"
 														value="#{aperturaCuentaplazofijoBean.nombresAccionista}"
 														required="true" maxlength="50"
 														requiredMessage="Ingrese nombres"
@@ -448,7 +448,7 @@
 										</div>
 										<div
 											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-											<h:message for="txtNombresTitular" />
+											<h:message for="txtNombresAccionista" />
 										</div>
 										<div class="p6n-api-consent-screen-input-section">
 											<div style="display: inline-block; width: 190px;">
@@ -456,7 +456,7 @@
 													style="width: 190px;">SEXO</div>
 												<div>
 													<div>
-														<h:selectOneMenu id="cmbSexoTitular"
+														<h:selectOneMenu id="cmbSexoAccionista"
 															value="#{aperturaCuentaplazofijoBean.comboSexoAccionista.itemSelected}"
 															required="true" requiredMessage="Seleccione sexo">
 															<f:selectItem itemLabel="--Seleccione--" itemValue="" />
@@ -473,7 +473,7 @@
 													style="width: 180px;">FECHA DE NACIMIENTO</div>
 												<div>
 													<div>
-														<p:calendar id="txtFechanacimientoTitular"
+														<p:calendar id="txtFechanacimientoAccionista"
 															value="#{aperturaCuentaplazofijoBean.fechaNacimientoAccionista}"
 															navigator="true" pattern="dd/MM/yyyy" required="true"
 															requiredMessage="Ingrese fecha de nacimiento"
@@ -487,8 +487,8 @@
 										</div>
 										<div
 											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
-											<h:message for="cmbSexoTitular" />
-											<h:message for="txtFechanacimientoTitular" />
+											<h:message for="cmbSexoAccionista" />
+											<h:message for="txtFechanacimientoAccionista" />
 										</div>
 										<div class="p6n-api-consent-screen-input-section"
 											style="width: 190px;">
@@ -515,7 +515,7 @@
 									<br />
 								</div>
 								<div class="modal-dialog-buttons">
-									<h:commandButton value="Guardar" styleClass="action blue">
+									<h:commandButton value="Guardar" styleClass="action green">
 										<f:ajax
 											listener="#{aperturaCuentaplazofijoBean.addAccionista()}"
 											execute="@form"
@@ -532,11 +532,7 @@
 					</h:panelGroup>
 				</h:panelGroup>
 			</h:panelGroup>
-
 		</div>
-
-
 	</ui:define>
-
 </ui:composition>
 </html>
