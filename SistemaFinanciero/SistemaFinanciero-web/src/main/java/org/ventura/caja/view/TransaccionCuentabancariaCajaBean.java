@@ -81,7 +81,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	private CuentabancariaView cuentabancariaView;
 	@Inject
 	private ComboBean<Tipomoneda> comboTipomoneda;
-	private BigDecimal monto;
+	private Moneda monto;
 	private String referencia;
 
 	private Transaccioncuentabancaria transaccioncuentabancaria;
@@ -106,7 +106,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		isCuentabancariaValid = true;
 		success = false;
 		failure = false;
-		monto = new BigDecimal("0.00");
+		monto = new Moneda();
 		isTitular = false;
 	}
 
@@ -154,7 +154,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 				if (comboTipomoneda.getObjectItemSelected().equals(tipomoneda)) {
 					Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
 					if(!tipocuentabancaria.equals(cuentabancaria.getTipocuentabancaria())){
-						if(monto.compareTo(BigDecimal.ZERO) > 0){
+						if(monto.getValue().compareTo(BigDecimal.ZERO) > 0){
 							try {
 								Map<Denominacionmoneda, Integer> detalleTranssaccion = calculadoraBean.getDenominaciones();
 								
@@ -162,7 +162,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 								transaccioncuentabancaria.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
 								transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
-								transaccioncuentabancaria.setMonto(new Moneda(monto));
+								transaccioncuentabancaria.setMonto(monto);
 								transaccioncuentabancaria.setReferencia(referencia);
 								transaccioncuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
 				
@@ -296,7 +296,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 				this.cuentabancaria = cuentabancariaServiceLocal.find(cuentabancariaView.getIdCuentabancaria());
 				this.isCuentabancariaValid = true;
 				comboTipomoneda.setItemSelected(cuentabancaria.getTipomoneda());
-				this.monto = new BigDecimal("0.00");
+				this.monto = new Moneda();
 				loadDenominacionmonedaCalculadora(cuentabancaria.getTipomoneda());
 			} else {
 				this.cuentabancariaView = new CuentabancariaView();
@@ -313,8 +313,8 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	}
 	
 	public void validarMontoTransaccion(){
-		if (monto.compareTo(BigDecimal.ZERO)<=0) {
-			monto = new BigDecimal("0.00");
+		if (monto.isLessThan(new Moneda())) {
+			monto = new Moneda();
 		}
 	}
 	
@@ -345,7 +345,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	public void changeTipomoneda(ValueChangeEvent event) {	
 		Integer key = (Integer) event.getNewValue();
 		Tipomoneda tipomonedaSelected = comboTipomoneda.getObjectItemSelected(key);
-		this.monto = new BigDecimal("0.00");
+		this.monto = new Moneda();
 		loadDenominacionmonedaCalculadora(tipomonedaSelected);
 	}
 	
@@ -356,7 +356,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 	public void setMontoFromCalculadora() {
 		Moneda result = this.calculadoraBean.getTotal();
-		this.monto = result.getValue();
+		this.monto = result;
 	}
 	
 	public DenominacionmonedaServiceLocal getDenominacionmonedaServiceLocal() {
@@ -468,14 +468,14 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	}
 
 	public String getMontoAsString() {
-		return Moneda.getMonedaFormat(monto);
+		return monto.toString();
 	}
 	
-	public BigDecimal getMonto() {
+	public Moneda getMonto() {
 		return monto;
 	}
 
-	public void setMonto(BigDecimal monto) {
+	public void setMonto(Moneda monto) {
 		this.monto = monto;
 	}
 

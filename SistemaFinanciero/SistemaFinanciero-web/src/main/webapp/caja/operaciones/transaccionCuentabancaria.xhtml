@@ -457,6 +457,7 @@
 											<h:inputText id="txtMonto" autocomplete="off"
 												value="#{transaccionCuentabancariaCajaBean.monto}"
 												required="true" maxlenght="16">
+												<f:converter converterId="MonedaConverter"></f:converter>
 												<f:ajax event="blur" render="@this"
 													listener="#{transaccionCuentabancariaCajaBean.validarMontoTransaccion()}" />
 											</h:inputText>
