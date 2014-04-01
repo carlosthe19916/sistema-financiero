@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -53,6 +55,8 @@ import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.CajaTransaccionesBovedaView;
 import org.ventura.entity.schema.caja.view.PendientesView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.persona.Accionista;
+import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.tipodato.Moneda;
@@ -113,7 +117,11 @@ public class CajaServiceBean implements CajaServiceLocal{
 	public Caja create(Caja oCaja) throws Exception {
 		try {
 			preCreateCaja(oCaja);
-			cajaDAO.create(oCaja);
+			if(oCaja.getUsuarios().size() > 1){
+				throw new Exception("Una caja no puede tener asignado mas de un usuario");
+			} 
+			cajaDAO.create(oCaja);			
+				
 		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
 			oCaja.setIdcaja(null);
 			log.error("Exception:" + e.getClass());
@@ -124,7 +132,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error Interno: No se pudo Crear el Boveda");
+			throw e;
 		}
 		return oCaja;
 	}
@@ -197,12 +205,68 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@Override
 	public void update(Caja oCaja) throws Exception {
 		try {
-			cajaDAO.update(oCaja);
+			Integer id = oCaja.getIdcaja();
+			Caja cajaDB = cajaDAO.find(id);
+			cajaDB.setAbreviatura(oCaja.getAbreviatura());
+			cajaDB.setDenominacion(oCaja.getDenominacion());			
+			if(oCaja.getUsuarios().size() < 2){
+				cajaDB.setUsuarios(oCaja.getUsuarios());
+			} else {
+				throw new Exception("Una caja no puede tener asignado mas de un usuario");
+			}
+			
+			List<Boveda> listAccionistasView = oCaja.getBovedas();
+			
+			Map<Integer, Boveda> mapFromView = new HashMap<Integer, Boveda>();
+			for (Boveda b : listAccionistasView) {				
+				mapFromView.put(b.getIdboveda(), b);
+			}
+			
+			Map<Integer, Boveda> mapFromDB = new HashMap<Integer, Boveda>();
+			for (Boveda b : cajaDB.getBovedas()) {				
+				mapFromDB.put(b.getIdboveda(), b);
+			}
+			
+			Set<Integer> union = new HashSet<Integer>(mapFromView.keySet());
+			union.addAll(mapFromDB.keySet());
+			
+			Set<Integer> restDelete = new HashSet<Integer>(union);
+			restDelete.removeAll(mapFromView.keySet());
+			
+			Set<Integer> restCreate = new HashSet<Integer>(union);
+			restCreate.removeAll(mapFromDB.keySet());
+				
+			for (Integer key : restDelete) {
+				Boveda boveda = mapFromDB.get(key);
+				BovedaCajaPK pk = new BovedaCajaPK();
+				pk.setIdboveda(boveda.getIdboveda());
+				pk.setIdcaja(cajaDB.getIdcaja());
+				BovedaCaja bovedaCaja = bovedaCajaDAO.find(pk);
+				if(bovedaCaja.getSaldototal().isGreaterThan(new Moneda("0"))){
+					throw new Exception("La boveda tiene saldo, imposible desactivar boveda para caja");
+				} else {
+					bovedaCajaDAO.delete(bovedaCaja);	
+				}				
+			}
+			
+			for (Integer key : restCreate) {
+				Boveda boveda = mapFromView.get(key);				
+				BovedaCajaPK pk = new BovedaCajaPK();
+				pk.setIdboveda(boveda.getIdboveda());
+				pk.setIdcaja(cajaDB.getIdcaja());
+				BovedaCaja bovedaCaja = new BovedaCaja();
+				bovedaCaja.setId(pk);
+				bovedaCaja.setSaldototal(new Moneda());
+				bovedaCajaDAO.create(bovedaCaja);
+			}
+						
+			cajaDAO.update(cajaDB);
+			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
-			throw new Exception("Error interno, inténtelo nuevamente");
+			throw e;
 		}
 		
 	}

@@ -283,6 +283,9 @@
 									<h:outputText
 										value="#{transaccion.historialcajadestino.caja.denominacion}" />
 								</p:column>
+								<p:column headerText="Moneda">
+									<h:outputText value="#{transaccion.tipomoneda.denominacion}" />
+								</p:column>
 								<p:column headerText="Monto">
 									<h:outputText value="#{transaccion.montoAsString}" />
 								</p:column>
@@ -368,6 +371,9 @@
 								<p:column headerText="Destino">
 									<h:outputText
 										value="#{transaccion.historialcajadestino.caja.denominacion}" />
+								</p:column>
+								<p:column headerText="Moneda">
+									<h:outputText value="#{transaccion.tipomoneda.denominacion}" />
 								</p:column>
 								<p:column headerText="Monto">
 									<h:outputText value="#{transaccion.montoAsString}" />

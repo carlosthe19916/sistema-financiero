@@ -161,7 +161,7 @@
 														requiredMessage="Ingrese fecha de nacimiento"
 														converterMessage="formato incorrecto"
 														pt:placeholder="dd/mm/yyyy">
-														<f:convertDateTime pattern="dd/MM/yy" timeZone="EST"/> 
+														<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 													</p:calendar>
 												</div>
 											</div>
@@ -288,7 +288,8 @@
 						<div class="modal-dialog-buttons">
 							<h:commandButton value="Crear nuevo"
 								action="create?faces-redirect=true" icon="ui-icon-print" />
-							<h:commandButton value="Volver" action="list" immediate="true" />
+							<h:commandButton value="Volver" action="list?faces-redirect=true"
+								immediate="true" />
 						</div>
 					</div>
 				</h:form>

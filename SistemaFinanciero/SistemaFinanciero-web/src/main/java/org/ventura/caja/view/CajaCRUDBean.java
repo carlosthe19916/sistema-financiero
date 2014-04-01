@@ -53,6 +53,9 @@ public class CajaCRUDBean implements Serializable {
 	
 	private boolean update;
 	
+	private boolean failure;
+	private boolean success;
+	
 	public CajaCRUDBean() {
 		//dualList for Boveda
 		dualListModelBoveda = new DualListModel<Boveda>();
@@ -63,6 +66,9 @@ public class CajaCRUDBean implements Serializable {
 		dualListModelUsuario = new DualListModel<Usuario>();
 		dualListModelUsuario.setSource(new ArrayList<Usuario>());
 		dualListModelUsuario.setTarget(new ArrayList<Usuario>());
+		
+		failure = false;
+		success = false;
 	}
 	
 	@PostConstruct
@@ -130,42 +136,46 @@ public class CajaCRUDBean implements Serializable {
 	public void createCaja() throws Exception {
 		Caja caja;
 		try {
-			caja = new Caja();
-			caja.setDenominacion(denominacion);
-			caja.setAbreviatura(abreviatura);
+			if(success == false){
+				caja = new Caja();
+				caja.setDenominacion(denominacion);
+				caja.setAbreviatura(abreviatura);
 
-			List<Boveda> bovedas = dualListModelBoveda.getTarget();
-			caja.setBovedas(bovedas);
-			
-			List<Usuario> usuarios = dualListModelUsuario.getTarget();
-			caja.setUsuarios(usuarios);
-			
-			this.cajaServiceLocal.create(caja);
-
-			JsfUtil.addSuccessMessage("Caja Creada");
-
+				List<Boveda> bovedas = dualListModelBoveda.getTarget();
+				caja.setBovedas(bovedas);
+				
+				List<Usuario> usuarios = dualListModelUsuario.getTarget();
+				caja.setUsuarios(usuarios);
+				
+				this.cajaServiceLocal.create(caja);
+				success = true;
+			}	
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, "Error al crear Caja");			
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());			
 		}		
 	}
 	
 	public void updateCaja() throws Exception {
 		Caja caja = this.caja;
 		try {
-			caja.setDenominacion(denominacion);
-			caja.setAbreviatura(abreviatura);
-			
-			List<Boveda> bovedas = dualListModelBoveda.getTarget();
-			caja.setBovedas(bovedas);
-			
-			List<Usuario> usuarios = dualListModelUsuario.getTarget();
-			caja.setUsuarios(usuarios);
-			
-			this.cajaServiceLocal.update(caja);
-			update = true;
-			JsfUtil.addSuccessMessage("Caja Actualizada Correctamente");
+			if(success == false){
+				caja.setDenominacion(denominacion);
+				caja.setAbreviatura(abreviatura);
+				
+				List<Boveda> bovedas = dualListModelBoveda.getTarget();
+				caja.setBovedas(bovedas);
+				
+				List<Usuario> usuarios = dualListModelUsuario.getTarget();
+				caja.setUsuarios(usuarios);
+				
+				this.cajaServiceLocal.update(caja);
+				update = true;
+				success = true;
+			}	
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, "Error al actualizar Caja");
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
 
@@ -239,6 +249,22 @@ public class CajaCRUDBean implements Serializable {
 
 	public void setUpdate(boolean update) {
 		this.update = update;
+	}
+
+	public boolean isFailure() {
+		return failure;
+	}
+
+	public void setFailure(boolean failure) {
+		this.failure = failure;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 }

@@ -33,7 +33,7 @@ public class Boveda implements Serializable {
 
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(unique = true, nullable = false)
 	private Integer idboveda;
 
@@ -56,8 +56,8 @@ public class Boveda implements Serializable {
 	private Agencia agencia;
 
 		
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy="bovedas")
-	//@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idcaja") }, inverseJoinColumns = { @JoinColumn(name = "idboveda") })
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "boveda_caja", schema = "caja", joinColumns = { @JoinColumn(name = "idboveda") }, inverseJoinColumns = { @JoinColumn(name = "idcaja") })
 	private List<Caja> cajas;
 
 	@OneToMany(mappedBy = "boveda")

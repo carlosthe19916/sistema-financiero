@@ -24,7 +24,7 @@
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
 			<h:form>
-				<p:focus for="txtDenominacion"/>
+				<p:focus for="txtDenominacion" />
 				<div style="margin-left: 50px;">
 					<div>
 						<div>
@@ -34,7 +34,8 @@
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">
 										AGENCIA</div>
 									<div>
-										<h:outputLabel style="font-weight: bold;" value="#{cajaCRUDBean.agencia.denominacion}" />
+										<h:outputLabel style="font-weight: bold;"
+											value="#{cajaCRUDBean.agencia.denominacion}" />
 									</div>
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
@@ -43,7 +44,8 @@
 										<div>
 											<h:inputText id="txtDenominacion" autocomplete="off"
 												value="#{cajaCRUDBean.denominacion}" maxlength="150"
-												required="true" onkeyup="this.value = this.value.toUpperCase();"
+												required="true"
+												onkeyup="this.value = this.value.toUpperCase();"
 												requiredMessage="Denominacion no debe de ser vacio" />
 										</div>
 									</div>
@@ -57,7 +59,8 @@
 									<div>
 										<h:inputText id="txtAbreviatura" autocomplete="off"
 											value="#{cajaCRUDBean.abreviatura}" maxlength="150"
-											required="true" onkeyup="this.value = this.value.toUpperCase();"
+											required="true"
+											onkeyup="this.value = this.value.toUpperCase();"
 											requiredMessage="Abreviatura no debe de ser vacio" />
 									</div>
 								</div>
@@ -66,16 +69,16 @@
 									<h:message for="txtAbreviatura" />
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDAS ASIGNADAS
-										</div>
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">BOVEDAS
+										ASIGNADAS</div>
 									<div>
 										<p:pickList id="pickBovedas"
 											value="#{cajaCRUDBean.dualListModelBoveda}" var="boveda"
 											itemLabel="#{boveda}" itemValue="#{boveda}"
 											converter="DualPickListConverter" required="true"
 											requiredMessage="Seleccione por lo menos una boveda">
-											<f:facet name="sourceCaption">Bovedas No Asignados</f:facet>  
-        									<f:facet name="targetCaption">Bovedas Asignados</f:facet>
+											<f:facet name="sourceCaption">Bovedas No Asignados</f:facet>
+											<f:facet name="targetCaption">Bovedas Asignados</f:facet>
 										</p:pickList>
 									</div>
 								</div>
@@ -84,16 +87,17 @@
 									<h:message for="pickBovedas" />
 								</div>
 								<div class="p6n-api-consent-screen-input-section">
-									<div class="p6n-api-consent-screen-label" style="width: 150px;">USUARIOS ASIGNADOS
-										</div>
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">USUARIOS
+										ASIGNADOS</div>
 									<div>
 										<p:pickList id="pickListUsuarios"
 											value="#{cajaCRUDBean.dualListModelUsuario}" var="usuario"
-											itemLabel="#{cajaCRUDBean.nombreUsuario(usuario)}" itemValue="#{usuario}"
- 											converter="UsuarioDualPickListConverter"
+											itemLabel="#{cajaCRUDBean.nombreUsuario(usuario)}"
+											itemValue="#{usuario}"
+											converter="UsuarioDualPickListConverter"
 											requiredMessage="Seleccione por lo menos un usuario">
-											<f:facet name="sourceCaption">Usuarios No Asignados</f:facet>  
-        									<f:facet name="targetCaption">Usuarios Asignados</f:facet>
+											<f:facet name="sourceCaption">Usuarios No Asignados</f:facet>
+											<f:facet name="targetCaption">Usuarios Asignados</f:facet>
 										</p:pickList>
 									</div>
 								</div>
@@ -102,9 +106,9 @@
 									<h:message for="pickListUsuarios" />
 								</div>
 								<div class="sf-buttons" style="float: left;">
-									<h:commandButton actionListener="#{cajaCRUDBean.createCaja()}"
-										action="list?faces-redirect=true" value="Guardar"
-										styleClass="action blue" onclick="onSubmitButton();" />
+									<h:commandButton action="#{cajaCRUDBean.createCaja()}"
+										value="Guardar" styleClass="action blue"
+										onclick="onSubmitButton();" />
 									<h:commandButton value="Cancelar"
 										action="list?faces-redirect=true" immediate="true"
 										styleClass="action" />
@@ -114,6 +118,41 @@
 					</div>
 				</div>
 			</h:form>
+
+			<h:panelGroup rendered="#{cajaCRUDBean.success}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 502px; top: 200px;">
+						<div class="modal-dialog-title modal-dialog-title-draggable">
+							<span class="modal-dialog-title-text">Creacion
+								satisfactoria</span><span class="modal-dialog-title-close"></span>
+						</div>
+						<div class="modal-dialog-content ng-binding">La caja fue
+							creada satistactoriamente.</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Crear nuevo"
+								action="create?faces-redirect=true" icon="ui-icon-print" />
+							<h:commandButton value="Volver" action="list?faces-redirect=true"
+								immediate="true" />
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{cajaCRUDBean.failure}">
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
 		</ui:define>
 
 	</ui:composition>
