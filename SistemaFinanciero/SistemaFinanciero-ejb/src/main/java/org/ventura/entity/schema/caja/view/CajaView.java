@@ -60,6 +60,9 @@ public class CajaView implements Serializable {
 	@Column(name = "saldo")
 	private String saldo;
 
+	@Column(name = "usuario")
+	private String usuario;
+	
 	public CajaView() {
 	}
 
@@ -175,6 +178,14 @@ public class CajaView implements Serializable {
 
 	public void setSaldo(String saldo) {
 		this.saldo = saldo;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 }
