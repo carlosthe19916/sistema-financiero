@@ -482,12 +482,14 @@
 						</tr>
 					</table>
 				</div>
-
-
-				<!-- Cartilla de Informacion y Certificado de Plazo fijo para persona Juridica -->
 			</h:panelGroup>
+			
+			
+			<!-- Cartilla de Informacion y Certificado de Plazo fijo para persona Juridica -->
 			<h:panelGroup
 				rendered="#{aperturaCuentaplazofijoBean.personajuridica}">
+				
+				<!-- cartilla de información -->
 				<div
 					style="border: 0pt solid #FF4000; text-align: center; width: 670px; height: 950px">
 					<table
@@ -499,76 +501,86 @@
 									library="images/logo_coop" />
 							</td>
 							<td colspan="3"
-								style="text-align: center; font-weight: bold; font-size: 24px; vertical-align: middle;">COOPERATIVA
-								DE AHORRO Y CREDITO CAJA VENTURA</td>
+								style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle; text-decoration:underline">
+								<h:outputText value="ANEXO" /> 
+								<br /> 
+								<h:outputText style="font-size: 20px;" value="CARTILLA DE INFORMACIÓN" />
+								<br /> 
+								<h:outputText style="font-size: 14px;" value="PLAZO FIJO - CLÁSICO" />
+							</td>
 						</tr>
-
 						<tr>
 							<td colspan="4"
-								style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle;">APERTURA
-								DE CUENTA A PLAZO FIJO</td>
+								style="text-align: justify; font-size: 10px; vertical-align: middle;">El
+								presente documento forma parte integrante de las condiciones
+								aplicables al Contrato de Operciones Pasivas, suscritos por las
+								partes, tiene por finalidad cumplir con la normatividad del
+								marco legal del Decreto Legislativo Nº 716 Ley de Protección al
+								Consumidor, la Ley Nº 28587 - Ley Complementaria en materia de
+								servicios financieros y Resolución SBS Nº 1765-2005 Reglamento
+								de Transparecia de información y Disposiciones Aplicables a la
+								Contratación con Usuarios del Sistema Financiero.</td>
 						</tr>
 						<tr>
 							<td colspan="4"
-								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DATOS
+								style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">DATOS
 								BASICOS DEL SOCIO</td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Razón
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Razón
 								Social:</td>
-							<td colspan="3">#{aperturaCuentaplazofijoBean.razonSocial}</td>
+							<td colspan="3" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.razonSocial}</td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Dirección:</td>
-							<td colspan="3">#{aperturaCuentaplazofijoBean.direccionPersonajuridica}
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Dirección:</td>
+							<td colspan="3" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.direccionPersonajuridica}
 								- #{aperturaCuentaplazofijoBean.referenciaPersonajuridica}</td>
 						</tr>
 						<tr>
 							<td colspan="1"
-								style="width: 25%; font-weight: bold; font-size: 12px;">#{aperturaCuentaplazofijoBean.comboTipodocumentoPersonajuridica.objectItemSelected.abreviatura}:</td>
-							<td colspan="1" style="width: 25%;">#{aperturaCuentaplazofijoBean.numeroDocumentoPersonajuridica}</td>
+								style="width: 25%; font-weight: bold; font-size: 11px;">#{aperturaCuentaplazofijoBean.comboTipodocumentoPersonajuridica.objectItemSelected.abreviatura}:</td>
+							<td colspan="1" style="width: 25%; font-size: 11px;">#{aperturaCuentaplazofijoBean.numeroDocumentoPersonajuridica}</td>
 							<td colspan="1"
-								style="width: 25%; font-weight: bold; font-size: 12px;">Fecha
+								style="width: 25%; font-weight: bold; font-size: 11px;">Fecha
 								de Constitución:</td>
-							<td colspan="1" style="width: 25%;"><h:outputText
+							<td colspan="1" style="width: 25%; font-size: 11px;"><h:outputText
 									value="#{aperturaCuentaplazofijoBean.fechaConstitucion}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText></td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Telefono
-								Fijo:</td>
-							<td colspan="1">#{aperturaCuentaplazofijoBean.telefonoPersonajuridica}</td>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Tipo
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Telefono:</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.telefonoPersonajuridica}</td>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Tipo
 								Empresa:</td>
-							<td colspan="1">#{aperturaCuentaplazofijoBean.comboTipoempresa.objectItemSelected.denominacion}</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.comboTipoempresa.objectItemSelected.denominacion}</td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Celular:</td>
-							<td colspan="1">#{aperturaCuentaplazofijoBean.celularPersonajuridica}</td>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Email:</td>
-							<td colspan="1">#{aperturaCuentaplazofijoBean.emailPersonajuridica}</td>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Celular:</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.celularPersonajuridica}</td>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Email:</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.emailPersonajuridica}</td>
 						</tr>
-
+						
 						<tr>
 							<td colspan="4"
-								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DATOS
-								BASICOS DEL REPRESENTANTE LEGAL</td>
+								style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">
+								REPRESENTANTE LEGAL</td>
 						</tr>
-
+						
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Apellidos
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Apellidos
 								y Nombres:</td>
-							<td colspan="3">#{aperturaCuentaplazofijoBean.apellidoPaternoRepresentantelegal}
+							<td colspan="3" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.apellidoPaternoRepresentantelegal}
 								#{aperturaCuentaplazofijoBean.apellidoMaternoRepresentantelegal}
 								#{aperturaCuentaplazofijoBean.nombresRepresentantelegal}</td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">#{aperturaCuentaplazofijoBean.comboTipodocumentoRepresentantelegal.objectItemSelected.abreviatura}:</td>
-							<td colspan="1">#{aperturaCuentaplazofijoBean.numeroDocumentoRepresentantelegal}</td>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Fecha
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">#{aperturaCuentaplazofijoBean.comboTipodocumentoRepresentantelegal.objectItemSelected.abreviatura}:</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.numeroDocumentoRepresentantelegal}</td>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Fecha
 								de Nacimiento</td>
-							<td colspan="1"><h:outputText
+							<td colspan="1" style="font-size: 11px;"><h:outputText
 									value="#{aperturaCuentaplazofijoBean.fechaNacimientoRepresentantelegal}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText></td>
@@ -576,22 +588,22 @@
 
 						<tr>
 							<td colspan="4"
-								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">TITULARES</td>
+								style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">TITULARES</td>
 						</tr>
 						<tr>
 							<td colspan="4">
-								<table class="p6n-table">
+								<table>
 									<thead>
 										<tr>
-											<th><label class="ng-isolate-scope"> Tipo Doc. </label></th>
-											<th><label class="ng-isolate-scope "> Nº Doc. </label></th>
-											<th><label class="ng-isolate-scope "> Ap.
+											<th style="font-weight: bold; font-size: 11px;"><label  class="ng-isolate-scope"> Tipo Doc. </label></th>
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Nº Doc. </label></th>
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Ap.
 													Paterno </label></th>
-											<th><label class="ng-isolate-scope "> Ap.
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Ap.
 													Materno </label></th>
-											<th><label class="ng-isolate-scope "> Nombres </label></th>
-											<th><label class="ng-isolate-scope"> Sexo </label></th>
-											<th><label class="ng-isolate-scope "> Fec. Nac.
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Nombres </label></th>
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope"> Sexo </label></th>
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Fec. Nac.
 											</label></th>
 										</tr>
 									</thead>
@@ -600,49 +612,47 @@
 											value="#{aperturaCuentaplazofijoBean.listTitulares()}"
 											var="titulares">
 											<tr class="ng-scope">
-												<td><h:outputLabel
+												<td><h:outputLabel style="font-size: 11px;"
 														value="#{titulares.tipodocumento.abreviatura}" /></td>
-												<td><h:outputLabel value="#{titulares.numerodocumento}" /></td>
-												<td><h:outputLabel value="#{titulares.apellidopaterno}" /></td>
-												<td><h:outputLabel value="#{titulares.apellidomaterno}" /></td>
-												<td><h:outputLabel value="#{titulares.nombres}" /></td>
-												<td><h:outputLabel
+												<td><h:outputLabel style="font-size: 11px;" value="#{titulares.numerodocumento}" /></td>
+												<td><h:outputLabel style="font-size: 11px;" value="#{titulares.apellidopaterno}" /></td>
+												<td><h:outputLabel style="font-size: 11px;" value="#{titulares.apellidomaterno}" /></td>
+												<td><h:outputLabel style="font-size: 11px;" value="#{titulares.nombres}" /></td>
+												<td><h:outputLabel style="font-size: 11px;"
 														value="#{titulares.sexo.denominacion}" /></td>
-												<td><h:outputLabel value="#{titulares.fechanacimiento}">
+												<td><h:outputLabel style="font-size: 11px;" value="#{titulares.fechanacimiento}">
 														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel></td>
 											</tr>
 										</ui:repeat>
 									</tbody>
 								</table> <h:outputText value="MODALIDAD DE LA CUENTA: "
-									style="font-weight: bold; font-size: 12px;" /> <h:outputText
+									style="font-weight: bold; font-size: 11px;" /> <h:outputText style="font-size: 11px;"
 									value="#{aperturaCuentaplazofijoBean.cantidadRetirantes>1 ? 'CONJUNTA' : 'INDIVIDUAL'}" />
 							</td>
 						</tr>
 
 						<tr>
 							<td colspan="4"
-								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DATOS
-								BASICOS DE LOS ACCIONISTAS</td>
+								style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">ACCIONISTAS</td>
 						</tr>
 
 						<tr>
 							<td colspan="4">
-								<table class="p6n-table">
+								<table>
 									<thead>
 										<tr>
-											<th><label class="ng-isolate-scope"> Tipo Doc. </label></th>
-											<th><label class="ng-isolate-scope "> Nº Doc. </label></th>
-											<th><label class="ng-isolate-scope "> Ap.
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope"> Tipo Doc. </label></th>
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Nº Doc. </label></th>
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Ap.
 													Paterno </label></th>
-											<th><label class="ng-isolate-scope "> Ap.
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Ap.
 													Materno </label></th>
-											<th><label class="ng-isolate-scope "> Nombres </label></th>
-											<th><label class="ng-isolate-scope"> Sexo </label></th>
-											<th><label class="ng-isolate-scope "> Fec. Nac.
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Nombres </label></th>
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope"> Sexo </label></th>
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> Fec. Nac.
 											</label></th>
-											<th><label class="ng-isolate-scope "> (%) </label></th>
-
+											<th style="font-weight: bold; font-size: 11px;"><label class="ng-isolate-scope "> (%) </label></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -650,24 +660,24 @@
 											value="#{aperturaCuentaplazofijoBean.listAccionistas()}"
 											var="accionista">
 											<tr class="ng-scope">
-												<td><h:outputLabel
+												<td style="font-size: 11px;"><h:outputLabel
 														value="#{accionista.personanatural.tipodocumento.abreviatura}" />
 												</td>
-												<td><h:outputLabel
+												<td style="font-size: 11px;"><h:outputLabel
 														value="#{accionista.personanatural.numerodocumento}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 11px;"><h:outputLabel
 														value="#{accionista.personanatural.apellidopaterno}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 11px;"><h:outputLabel
 														value="#{accionista.personanatural.apellidomaterno}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 11px;"><h:outputLabel
 														value="#{accionista.personanatural.nombres}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 11px;"><h:outputLabel
 														value="#{accionista.personanatural.sexo.denominacion}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 11px;"><h:outputLabel
 														value="#{accionista.personanatural.fechanacimiento}">
 														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel></td>
-												<td><h:outputLabel
+												<td style="font-size: 11px;"><h:outputLabel
 														value="#{accionista.porcentajeparticipacion}" /></td>
 											</tr>
 										</ui:repeat>
@@ -675,77 +685,319 @@
 								</table>
 							</td>
 						</tr>
-
+						
 						<tr>
 							<td colspan="4"
-								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">
+								style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">
 								PRODUCTOS Y SERVICIOS</td>
 						</tr>
-
+						
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Producto:</td>
-							<td colspan="1" style="font-size: 12px;">CUENTA A PLAZO FIJO</td>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Número
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Producto:</td>
+							<td colspan="1" style="font-size: 11px;">CUENTA A PLAZO FIJO</td>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Número
 								de Cuenta:</td>
-							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.numeroCuenta}</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.numeroCuenta}</td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Moneda:</td>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Moneda:</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.denominacion}
+								(#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura})</td>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Monto
+								de Apertura:</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura}
+								#{aperturaCuentaplazofijoBean.montoAperturaAsString}</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Fecha
+								de Apertura:</td>
+							<td colspan="1" style="font-size: 11px;"><h:outputText
+									value="#{aperturaCuentaplazofijoBean.fechaApertura}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText></td>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Fecha
+								de Vencimiento:</td>
+							<td colspan="1" style="font-size: 11px;"><h:outputText
+									value="#{aperturaCuentaplazofijoBean.cuentabancariaCreada.fechacierre}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText></td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Periodo:</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.periodoDeposito}
+								Días</td>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">TEA:</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.tea}
+								%</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 11px;">Interés
+								Generado:</td>
+							<td colspan="1" style="font-size: 11px;">#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura}
+								#{aperturaCuentaplazofijoBean.interesGenerado}</td>
+
+						</tr>
+						<tr>
+							<td colspan="4"
+								style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">
+								DECLARACIONES Y FIRMAS</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="text-align: justify; font-size: 10px;">
+								<h:outputText value="INFORMACIÓN ADICIONAL"
+									style="font-weight: bold;" />
+								<div style="padding-left: 20px">
+									<ul>
+										<li type="disc">Deposito cubierto por el fondo de seguro
+											de depósitos establecido por el BCRP hasta por S/.82 073.00</li>
+										<li type="disc">Una vez concluido el plazo pactado y al
+											no recibir instrucciones de EL CLIENTE, LA CAJA VENTURA renovará
+											automaticamente el depósito al plazo inicial y con la tasa
+											del tarifario vigente.</li>
+										<li type="disc">A efectos de la plena conformidad de EL
+											CLIENTE respecto a sus operaciones y saldo(s) de su(s)
+											cuenta(s) aperturada(s) en LA CAJA VENTURA, EL CLIENTE asume
+											la obligación de verificar periódicamente el saldo de su(s)
+											cuenta(s), quien podrá utilizar los medios puestos a su
+											disposicion por LA CAJA VENTURA como son: Oficinas ó Agencias de
+											Atención, Página Web o Medios Electronicos; con la finalidad
+											de acceder a la información descrita anteriormente. Asimismo
+											EL CLIENTE podrá instruir a LA CAJA VENTURA, remitir a su
+											domicilio la documentación corresppondiente, previa solicitud
+											suscrita para tal finalidad y con costos establecidos en
+											nuestro tarifario vigente.</li>
+										<li type="disc">La asignación de tasas especiales sólo
+											tienen una vigencia de 360 dias, posterior a ello el plazo
+											fijo se renovará al plazo inicial y con la tasa efectiva del
+											tarifario vigente.</li>
+									</ul>
+								</div>
+								<h:outputText value="PENALIDADES EN CASO DE INCUMPLIMIENTO DEL PLAZO PACTADO"
+									style="font-weight: bold;" />
+								<div style="padding-left: 20px">
+									<ul>
+										<li type="disc">Al momento de cancelar se le recalculará
+											con la tasa de interés de ahorro corriente, si el interés se
+											pagó por adelantado el monto será descontado del capital al
+											momento de la cancelación.</li>
+									</ul>
+								</div>
+								<h:outputText value="DECLARACIÓN FINAL DEL CLIENTE: "
+									style="font-weight: bold;" />
+								<h:outputText
+									value="Declaro haber leido previamente las condiciones establecidas 
+										en el Contrato de Depósito y la Cartilla de Información, asi como 
+										haber sido instruido acerca de los alcances y significados de los 
+										términos y condiciones establecidos en dicho documento habiendo 
+										sido absueltas y aclaradas a mi satisfacción todas las consultas 
+										efectuadas y/o dudas, suscribe el presente documento en duplicado 
+										y con pleno y exacto conocimiento de los mismos." />
+								<br />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 11px; text-align: right;"><h:outputText
+									value="#{aperturaCuentaplazofijoBean.fechaApertura}">
+									<f:convertDateTime pattern="'Ayacucho, ' dd ' de ' MMMM ' del ' yyyy"/>
+								</h:outputText></td>
+						</tr>
+						<tr>
+							<td colspan="4">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="2" style="font-size: 11px; text-align: center;">
+								<h:outputText value="---------------------------" />
+								<br />
+								<h:outputText value="CLIENTE" />
+							</td>
+							<td colspan="2" style="font-size: 11px; text-align: center;">
+								<h:outputText value="---------------------------" />
+								<br />
+								<h:outputText value="CAJA VENTURA" />
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				
+				<!-- Certificado de Plazo Fijo -->
+				<div
+					style="border: 0px solid; text-align: center; width: 670px; height: 900px; vertical-align: center;">
+					<table
+						style="width: 600px; height: 840px; border: solid 1px #E9E6E6; margin-left: 35px; margin-top: 55px;">
+						<tr>
+							<td colspan="4"
+								style="text-align: left; font-weight: bold; font-size: 12px;">
+								<p:graphicImage name="logo_coop_contrato.png"
+									library="images/logo_coop" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4"
+								style="text-align: right; font-size: 12px; text-decoration: underline;">
+								<h:outputText value="Nº " /> <h:outputText
+									value="#{aperturaCuentaplazofijoBean.returnNumeroCertificado(aperturaCuentaplazofijoBean.idCuentaPlazoFijoPersonaJuridica)}" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 10px">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4"
+								style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle; text-decoration: underline">
+								<h:outputText style="font-size: 24px;"
+									value="CERTIFICADO DE PLAZO FIJO" /> <br /> <h:outputText
+									style="font-size: 12px;" value="PLAZO FIJO CLÁSICO" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 10px">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4"
+								style="text-align: center; font-size: 11px; vertical-align: middle;">
+								<h:outputText
+									value="LA CAJA
+								VENTURA ESTA AUTORIZADO POR LA SUPERINTENDENCIA DE BANCA Y
+								SEGUROS " /><br />
+								<h:outputText value="PARA CAPTAR FONDOS DEL PÚBLICO" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 10px">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4"
+								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DATOS
+								BÁSICOS</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 5px">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">AGENCIA:</td>
+							<td colspan="3" style="font-size: 12px;">#{agenciaBean.agencia.denominacion}</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">NÚMERO
+								DE CUENTA:</td>
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.numeroCuenta}</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">TITULAR:</td>
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.apellidoPaternoTitular}
+								#{aperturaCuentaplazofijoBean.apellidoMaternoTitular}
+								#{aperturaCuentaplazofijoBean.nombresTitular}</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">TIPO
+								DE CUENTA:</td>
+							<td colspan="3" style="font-size: 12px;"><h:outputText
+									value="#{aperturaCuentaplazofijoBean.cantidadRetirantes>1 ? 'CONJUNTA' : 'INDIVIDUAL'}" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">TIPO
+								DE MONEDA:</td>
 							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.denominacion}
 								(#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura})</td>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Monto
-								de Apertura:</td>
-							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura}
-								#{aperturaCuentaplazofijoBean.montoApertura}</td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Fecha
-								de Apertura:</td>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">MONTO
+								DE APERTURA:</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura}#{aperturaCuentaplazofijoBean.montoAperturaAsString}</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">INTERÉS
+								GENERADO:</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura}#{aperturaCuentaplazofijoBean.interesGenerado}</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">PLAZO:</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.periodoDeposito}
+								Días</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">FECHA
+								DE APERTURA:</td>
 							<td colspan="1" style="font-size: 12px;"><h:outputText
 									value="#{aperturaCuentaplazofijoBean.fechaApertura}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText></td>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Fecha
-								de Vencimiento:</td>
+						</tr>
+						<tr>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">FECHA
+								DE VENCIMIENTO:</td>
 							<td colspan="1" style="font-size: 12px;"><h:outputText
 									value="#{aperturaCuentaplazofijoBean.cuentabancariaCreada.fechacierre}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText></td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Periodo:</td>
-							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.periodoDeposito}
-								Días</td>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">TEA:</td>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">TASA
+								EFECTIVA ANUAL:</td>
 							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.tea}
 								%</td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">Interés
-								Generado:</td>
-							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.comboTipomoneda.objectItemSelected.abreviatura}
-								#{aperturaCuentaplazofijoBean.interesGenerado}</td>
-
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">FREC.
+								CAPITALIZACÍON:</td>
+							<td colspan="1" style="font-size: 12px;">AL FINAL DEL PLAZO</td>
 						</tr>
-
 						<tr>
-							<td colspan="4"
-								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">
-								DECLARACIONES Y FIRMAS</td>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">RETIRO
+								INTERESÉS:</td>
+							<td colspan="1" style="font-size: 12px;">AL FINAL DEL PLAZO</td>
 						</tr>
-
 						<tr>
-							<td colspan="4" style="text-align: justify; font-size: 12px;">Son
-								los aportes individuales que han sido pagadas por los Asociados
-								en forma periódica de conformidad con lo establecido en el
-								Estatuto y el Reglamento de Aportes Sociales de la Cooperativa.
-								El aporte social ordinario de cada Asociado será mínimo el
-								equivalente al 3% y máximo al 10% del salario mensual
-								certificado. Los asociados sin vinculación laboral, aportarán
-								como mínimo sobre el Salario Mínimo Legal Mensual Vigente.</td>
+							<td colspan="4" style="font-size: 10px">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 10px">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="text-align: justify; font-size: 11px;">
+								<h:outputText value="IMPORTANTE:" style="font-weight: bold;" />
+								<div style="padding-left: 20px">
+									<ul>
+										<li type="disc">DEPÓSITO CUBIERTO POR EL FONDO DE SEGURO
+											DE DEPÓSITOS ESTABLECIDO POR EL BANCO CENTRAL DE RESERVA DEL
+											PERÚ HASTA S/.82 073.00</li>
+										<li type="disc">LAS PERSONAS JURÍDICAS SIN FINES DE LUCRO
+											SON CUBIERTAS POR EL FONDO DE SEGURO DE DEPÓSITOS.</li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 10px">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 11px; text-align: right;"><h:outputText
+									value="#{aperturaCuentaplazofijoBean.fechaApertura}">
+									<f:convertDateTime
+										pattern="'Ayacucho, ' dd ' de ' MMMM ' del ' yyyy" />
+								</h:outputText></td>
+						</tr>
+						<tr>
+							<td colspan="4">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 12px; text-align: center;">
+								<h:outputText value="------------------------------------" /> <br />
+								<h:outputText value="C.A.C. CAJA VENTURA" />
+							</td>
 						</tr>
 					</table>
 				</div>
+
+
 			</h:panelGroup>
 		</h:panelGroup>
 
