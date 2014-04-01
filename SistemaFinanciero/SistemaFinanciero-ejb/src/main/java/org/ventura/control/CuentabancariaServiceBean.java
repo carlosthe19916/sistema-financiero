@@ -602,6 +602,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			CuentabancariaTipotasa cuentabancariaTipotasaTEA =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pkTEA = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasaTEA.setId(pkTEA);
+			
 			cuentabancariaTipotasaTEA.setTasainteres(tea);
 			pkTEA.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pkTEA.setIdtipotasa(tipotasaTEA.getIdtipotasa());

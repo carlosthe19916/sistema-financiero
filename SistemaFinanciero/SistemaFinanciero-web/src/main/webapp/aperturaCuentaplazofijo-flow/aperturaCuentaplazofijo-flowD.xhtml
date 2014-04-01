@@ -373,10 +373,20 @@
 							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.numeroCuenta}</td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">TITULAR:</td>
-							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.apellidoPaterno}
-								#{aperturaCuentaplazofijoBean.apellidoMaterno}
-								#{aperturaCuentaplazofijoBean.nombres}</td>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">TITULAR(ES):</td>
+							<td colspan="3" style="font-size: 12px;">
+								<table>
+										<ui:repeat
+											value="#{aperturaCuentaplazofijoBean.listTitulares()}"
+											var="titulares">
+											<tr>
+												<td><h:outputText value="#{titulares.tipodocumento.abreviatura}:" />
+												<h:outputText value="#{titulares.numerodocumento} | " />
+												<h:outputText value=" #{titulares.apellidopaterno} #{titulares.apellidomaterno} #{titulares.nombres}" /></td>
+											</tr>
+										</ui:repeat>
+								</table>
+							</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">TIPO
@@ -490,10 +500,9 @@
 				rendered="#{aperturaCuentaplazofijoBean.personajuridica}">
 				
 				<!-- cartilla de información -->
-				<div
-					style="border: 0pt solid #FF4000; text-align: center; width: 670px; height: 950px">
+				<div style="border: 0pt solid #FF4000; text-align: center; width: 670px; height: 970px">
 					<table
-						style="width: 669px; height: 840px; border: solid 0px #E9E6E6;">
+						style="width: 650px; height: 840px; border: solid 0px #E9E6E6; margin-left: 10px; margin-top: 10px;">
 						<tr>
 							<td colspan="1"
 								style="text-align: center; font-weight: bold; font-size: 12px;">
@@ -588,7 +597,7 @@
 
 						<tr>
 							<td colspan="4"
-								style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">TITULARES</td>
+								style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">TITULAR(ES)</td>
 						</tr>
 						<tr>
 							<td colspan="4">
@@ -822,6 +831,7 @@
 					</table>
 				</div>
 				
+				<br/>
 				
 				<!-- Certificado de Plazo Fijo -->
 				<div
@@ -887,10 +897,20 @@
 							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.numeroCuenta}</td>
 						</tr>
 						<tr>
-							<td colspan="1" style="font-weight: bold; font-size: 12px;">TITULAR:</td>
-							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaplazofijoBean.apellidoPaternoTitular}
-								#{aperturaCuentaplazofijoBean.apellidoMaternoTitular}
-								#{aperturaCuentaplazofijoBean.nombresTitular}</td>
+							<td colspan="1" style="font-weight: bold; font-size: 12px;">TITULAR(ES):</td>
+							<td colspan="3" style="font-size: 12px;">
+								<table>
+										<ui:repeat
+											value="#{aperturaCuentaplazofijoBean.listTitulares()}"
+											var="titulares">
+											<tr>
+												<td><h:outputText value="#{titulares.tipodocumento.abreviatura}:" />
+												<h:outputText value="#{titulares.numerodocumento} | " />
+												<h:outputText value=" #{titulares.apellidopaterno} #{titulares.apellidomaterno} #{titulares.nombres}" /></td>
+											</tr>
+										</ui:repeat>
+								</table>
+							</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">TIPO

@@ -331,7 +331,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 						cuentabancaria.setTitulares(listTitulares);
 						cuentabancaria.setBeneficiarios(listBeneficiarios);
 						
-						cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio,tea, agenciaBean.getAgencia());
+						BigDecimal teaReal = tea.divide(new BigDecimal(100));
+						cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio, teaReal, agenciaBean.getAgencia());
 						
 						cuentaCreada = true;
 						numeroCuenta = cuentabancaria.getNumerocuenta();
