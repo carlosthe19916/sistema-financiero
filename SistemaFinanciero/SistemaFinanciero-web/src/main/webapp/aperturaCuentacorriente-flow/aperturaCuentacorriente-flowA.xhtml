@@ -24,6 +24,7 @@
 			<h:panelGroup id="panelGroupPersonajuridica"
 				rendered="#{aperturaCuentacorrienteBean.personajuridica}">
 				<h:form id="formPersonajuridica">
+					<p:focus for="cmbTipodocumentoRepresentantelegal"></p:focus>
 					<div style="margin-left: 50px;">
 						<div>
 							<div>
@@ -71,7 +72,7 @@
 																groupingUsed="false" />
 															<f:ajax
 																listener="#{aperturaCuentacorrienteBean.buscarPersonanaturalRepresentantelegal()}"
-																render="formRepresentantelegal"></f:ajax>
+																render="txtApellidoPaternoRepresentantelegal txtApellidoMaternoRepresentantelegal txtNombresRepresentantelegal cmbSexoRepresentantelegal txtFechanacimientoRepresentantelegal"></f:ajax>
 														</h:inputText>
 													</div>
 												</div>
@@ -199,37 +200,35 @@
 																	<table class="p6n-table">
 																		<thead>
 																			<tr>
-																				<th><a href="javascript:;"
+																				<th><a 
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Tipo documento </a></th>
-																				<th><a href="javascript:;"
+																				<th><a 
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Nro documento </a></th>
-																				<th><a href="javascript:;"
+																				<th><a 
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Apellido paterno </a></th>
-																				<th><a href="javascript:;"
+																				<th><a 
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Apellido materno </a></th>
-																				<th><a href="javascript:;"
+																				<th><a 
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Nombres </a></th>
-																				<th><a href="javascript:;"
+																				<th><a 
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Sexo </a></th>
-																				<th><a href="javascript:;"
+																				<th><a 
 																					class="ng-isolate-scope p6n-clickable-link">
 																						F.nacimiento </a></th>
-																				<th><a href="javascript:;"
+																				<th><a 
 																					class="ng-isolate-scope p6n-clickable-link">
 																						(%) </a></th>
 																				<th class="p6n-api-list-col-status"><a
-																					href="javascript:;"
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Status </a></th>
 
 																				<th class="p6n-api-list-col-status"><a
-																					href="javascript:;"
 																					class="ng-isolate-scope p6n-clickable-link">
 																						Status </a></th>
 																			</tr>
@@ -239,48 +238,48 @@
 																				value="#{aperturaCuentacorrienteBean.listAccionistas()}"
 																				var="accionista">
 																				<tr class="ng-scope">
-																					<td><a href="javascript:;"
+																					<td><a 
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.tipodocumento.abreviatura}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a 
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.numerodocumento}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a 
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.apellidopaterno}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a 
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.apellidomaterno}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a 
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.nombres}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a 
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.sexo.denominacion}" />
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a 
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.personanatural.fechanacimiento}">
 																								<f:convertDateTime pattern="dd/MM/yyyy" />
 																							</h:outputLabel>
 																					</a></td>
-																					<td><a href="javascript:;"
+																					<td><a 
 																						class="p6n-clickable-link ng-binding"> <h:outputLabel
 																								value="#{accionista.porcentajeparticipacion}%">
 																							</h:outputLabel>
 																					</a></td>
-																					<td><h:commandButton value="Edit"
+																					<td><h:commandButton value="Editar"
 																							styleClass="action green" style="margin: 0px;">
 																							<f:ajax
 																								listener="#{aperturaCuentacorrienteBean.editAccionista(accionista)}"
 																								render=":panelGroupDlgAccionista :formDialogAccionista" />
 																						</h:commandButton></td>
-																					<td><h:commandButton value="Remove"
+																					<td><h:commandButton value="Eliminar"
 																							styleClass="action red" style="margin: 0px;">
 																							<f:ajax
 																								listener="#{aperturaCuentacorrienteBean.removeAccionista(accionista)}"
@@ -325,7 +324,7 @@
 										<h:commandButton value="« Anterior" immediate="true"
 											action="aperturaCuentacorriente-flow" styleClass="action" />
 										<h:commandButton value="Siguiente »"
-											action="aperturaCuentacorriente-flowB" styleClass="action" />
+											action="aperturaCuentacorriente-flowB" styleClass="action green" />
 									</div>
 
 								</div>

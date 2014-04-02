@@ -50,9 +50,14 @@
 				<div></div>
 				<div></div>
 				<div class="sf-buttons" style="float: left;">
-					<h:form>
+					<h:form id="formCuentaCorriente">
+						<script type="text/javascript">
+							window.onload = function test(){
+        						document.getElementById('formCuentaCorriente:cuentaCorriente').focus();
+        					}
+    					</script>
 						<div class="sf-separator">
-							<h:commandButton value="Crear cuenta corriente"
+							<h:commandButton value="Crear cuenta corriente" id="cuentaCorriente"
 								styleClass="action red" action="aperturaCuentacorriente-flow" />
 						</div>
 					</h:form>

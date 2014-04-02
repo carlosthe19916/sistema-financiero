@@ -96,14 +96,14 @@
 														<div class="p6n-api-consent-screen-label">NUMERO
 															DOCUMENTO</div>
 														<div>
-															<h:inputText id="txtDni"
+															<h:inputText id="txtDni" autocomplete="off"
 																value="#{aperturaCuentaaporteBean.numeroDocumentoPersonanatural}"
 																required="true" maxlength="14"
 																requiredMessage="Ingrese numero documento"
 																validatorMessage="Número de DNI Invalido">
 																<f:ajax event="blur"
 																	listener="#{aperturaCuentaaporteBean.buscarPersonanaturalSocio()}"
-																	render="@form"></f:ajax>
+																	render="txtApellidoPaterno txtApellidoMaterno txtNombres cmbSexo txtFechanacimiento cmbEstadocivil txtOcupacion txtDireccion txtReferencia txtTelefono txtCelular txtEmail"></f:ajax>
 															</h:inputText>
 														</div>
 													</div>
@@ -119,7 +119,7 @@
 															PATERNO</div>
 														<div>
 															<div>
-																<h:inputText id="txtApellidoPaterno"
+																<h:inputText id="txtApellidoPaterno" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.apellidoPaterno}"
 																	required="true" maxlength="50"
 																	requiredMessage="Ingrese apellido paterno"
@@ -133,7 +133,7 @@
 															MATERNO</div>
 														<div>
 															<div>
-																<h:inputText id="txtApellidoMaterno"
+																<h:inputText id="txtApellidoMaterno" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.apellidoMaterno}"
 																	required="true" maxlength="50"
 																	requiredMessage="Ingrese apellido materno"
@@ -152,7 +152,7 @@
 													<div class="p6n-api-consent-screen-label">NOMBRES</div>
 													<div>
 														<div>
-															<h:inputText id="txtNombres"
+															<h:inputText id="txtNombres" autocomplete="off"
 																value="#{aperturaCuentaaporteBean.nombres}"
 																required="true" maxlength="50"
 																requiredMessage="Ingrese nombres"
@@ -188,7 +188,7 @@
 															NACIMIENTO</div>
 														<div>
 															<div>
-																<p:calendar id="txtFechanacimiento"
+																<p:calendar id="txtFechanacimiento" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.fechaNacimiento}"
 																	navigator="true" pattern="dd/MM/yyyy" required="true"
 																	requiredMessage="Ingrese fecha de nacimiento"
@@ -229,7 +229,7 @@
 															<div class="p6n-api-consent-screen-label">OCUPACION</div>
 															<div>
 																<div>
-																	<h:inputText
+																	<h:inputText id="txtOcupacion" autocomplete="off"
 																		onkeyup="this.value = this.value.toUpperCase();"
 																		value="#{aperturaCuentaaporteBean.ocupacion}" />
 																</div>
@@ -242,7 +242,7 @@
 														<div class="p6n-api-consent-screen-label">DIRECCION</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtDireccion" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.direccionPersonanatural}"
 																	onkeyup="this.value = this.value.toUpperCase();">
 																</h:inputText>
@@ -253,7 +253,7 @@
 														<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtReferencia" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.referenciaPersonanatural}"
 																	onkeyup="this.value = this.value.toUpperCase();">
 																</h:inputText>
@@ -266,7 +266,7 @@
 														<div class="p6n-api-consent-screen-label">TELEFONO</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtTelefono" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.telefonoPersonanatural}">
 																</h:inputText>
 															</div>
@@ -276,7 +276,7 @@
 														<div class="p6n-api-consent-screen-label">CELULAR</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtCelular" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.celularPersonanatural}">
 																</h:inputText>
 															</div>
@@ -287,7 +287,7 @@
 													<div class="p6n-api-consent-screen-label">EMAIL</div>
 													<div>
 														<div>
-															<h:inputText
+															<h:inputText id="txtEmail" autocomplete="off"
 																onkeyup="this.value = this.value.toUpperCase();"
 																value="#{aperturaCuentaaporteBean.emailPersonanatural}"
 																style="width:339px;" />
@@ -301,7 +301,7 @@
 														immediate="true" styleClass="action" />
 													<h:commandButton value="Siguiente »"
 														action="aperturaCuentaaporte-flowA.xhtml"
-														styleClass="action" />
+														styleClass="action green" />
 												</div>
 											</div>
 										</div>
@@ -348,7 +348,7 @@
 														<div class="p6n-api-consent-screen-label">NUMERO
 															DOCUMENTO</div>
 														<div>
-															<h:inputText id="txtNumerodocumentoPersonajuridica"
+															<h:inputText id="txtNumerodocumentoPersonajuridica" autocomplete="off"
 																value="#{aperturaCuentaaporteBean.numeroDocumentoPersonajuridica}"
 																required="true" maxlength="11"
 																requiredMessage="Ingrese numero documento"
@@ -357,7 +357,7 @@
 																<f:validateRegex pattern="(^[0-9]{11}$)" />
 																<f:ajax
 																	listener="#{aperturaCuentaaporteBean.buscarPersonajuridicaSocio()}"
-																	render="@form"></f:ajax>
+																	render="txtTazonsocial txtNombrecomercial txtActividadprincipal txtFechaconstitucion cmbTipoempresa cmbFinsocial txtDireccion txtReferencia txtTelefono txtCelular txtEmail"></f:ajax>
 															</h:inputText>
 														</div>
 													</div>
@@ -373,7 +373,7 @@
 															SOCIAL</div>
 														<div>
 															<div>
-																<h:inputText id="txtTazonsocial"
+																<h:inputText id="txtTazonsocial" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.razonSocial}"
 																	required="true" maxlength="50"
 																	requiredMessage="Ingrese la razon social"
@@ -387,7 +387,7 @@
 															COMERCIAL</div>
 														<div>
 															<div>
-																<h:inputText id="txtNombrecomercial"
+																<h:inputText id="txtNombrecomercial" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.nombreComercial}"
 																	maxlength="50"
 																	onkeyup="this.value = this.value.toUpperCase();">
@@ -407,7 +407,7 @@
 															PRINCIPAL</div>
 														<div>
 															<div>
-																<h:inputText id="txtActividadprincipal"
+																<h:inputText id="txtActividadprincipal" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.actividadPrincipal}"
 																	maxlength="50"
 																	onkeyup="this.value = this.value.toUpperCase();">
@@ -420,7 +420,7 @@
 															CONSTITUCION</div>
 														<div>
 															<div>
-																<p:calendar id="txtFechaconstitucion"
+																<p:calendar id="txtFechaconstitucion" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.fechaConstitucion}"
 																	navigator="true" pattern="dd/MM/yyyy" required="true"
 																	requiredMessage="Ingrese Fecha de constitucion"
@@ -490,7 +490,7 @@
 														<div class="p6n-api-consent-screen-label">DIRECCION</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtDireccion" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.direccionPersonajuridica}"
 																	onkeyup="this.value = this.value.toUpperCase();">
 																</h:inputText>
@@ -501,7 +501,7 @@
 														<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtReferencia" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.referenciaPersonajuridica}"
 																	onkeyup="this.value = this.value.toUpperCase();">
 																</h:inputText>
@@ -514,7 +514,7 @@
 														<div class="p6n-api-consent-screen-label">TELEFONO</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtTelefono" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.telefonoPersonajuridica}">
 																</h:inputText>
 															</div>
@@ -524,7 +524,7 @@
 														<div class="p6n-api-consent-screen-label">CELULAR</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtCelular" autocomplete="off"
 																	value="#{aperturaCuentaaporteBean.celularPersonajuridica}">
 																</h:inputText>
 															</div>
@@ -535,7 +535,7 @@
 													<div class="p6n-api-consent-screen-label">EMAIL</div>
 													<div>
 														<div>
-															<h:inputText
+															<h:inputText id="txtEmail" autocomplete="off"
 																onkeyup="this.value = this.value.toUpperCase();"
 																value="#{aperturaCuentaaporteBean.emailPersonajuridica}"
 																style="width:339px;" />
@@ -549,7 +549,7 @@
 														immediate="true" styleClass="action" />
 													<h:commandButton value="Siguiente »"
 														action="aperturaCuentaaporte-flowA.xhtml"
-														styleClass="action" />
+														styleClass="action green" />
 												</div>
 											</div>
 										</div>

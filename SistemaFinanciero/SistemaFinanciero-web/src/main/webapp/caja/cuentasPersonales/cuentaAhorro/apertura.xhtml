@@ -30,7 +30,7 @@
 							<div>La creacion de cuentas de ahorro implica la
 								disponibilidad inmediata del dinero.</div>
 							<div>
-								<span class="p6n-api-em">Note:</span> no puede hacer uso de
+								<span class="p6n-api-em">Nota:</span> No puede hacer uso de
 								chequeras.
 							</div>
 						</div>
@@ -49,10 +49,14 @@
 				<div></div>
 				<div></div>
 				<div class="sf-buttons" style="float: left;">
-					<h:form>
-						<p:focus for="CAH"/>
+					<h:form id="formCuentaAhorro">
+						<script type="text/javascript">
+							window.onload = function test(){
+        						document.getElementById('formCuentaAhorro:crearCuentaAhorro').focus();
+        					}
+    					</script>
 						<div class="sf-separator">
-							<h:commandButton id="CAH" value="Crear cuenta de ahorros"
+							<h:commandButton id="crearCuentaAhorro" value="Crear cuenta de ahorros"
 								styleClass="action red" action="aperturaCuentaahorro-flow" />
 						</div>
 					</h:form>

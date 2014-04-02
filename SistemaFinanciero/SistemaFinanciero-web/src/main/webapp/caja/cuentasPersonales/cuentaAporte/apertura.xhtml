@@ -31,11 +31,16 @@
 						<div class="p6n-api-consent-screen-header ng-scope">
 							<div class="p6n-api-consent-screen-title">APERTURA CUENTA
 								DE APORTES</div>
-							<div>La creacion de una cuenta de aportes implic la
-								asociacion a la entidad financiera.</div>
-							<div>
-								<span class="p6n-api-em">Note:</span> tome en cuenta el tipo de
-								persona
+							<div style="text-align: justify; width: 1000px;">
+								<span class="p6n-api-em"></span> La aportación es un monto
+								pecuniario obligatorio que debe depositar mensualmente todo
+								asociado. Este monto es designado por el Consejo de
+								Administración y aprobado en la Asamblea General de Delegados.
+								Actualmente la aportación mensual asciende a 10 soles. <br />
+								Las aportaciones constituyen el capital social y es importante su
+								puntualidad para el otorgamiento de préstamos; no genera
+								intereses, pero participa de la distribución anual de utilidades
+								que obtiene la cooperativa.
 							</div>
 						</div>
 						<table>
@@ -53,9 +58,14 @@
 				<div></div>
 				<div></div>
 				<div class="sf-buttons" style="float: left;">
-					<h:form>
+					<h:form id="formCuentaAportes">
+						<script type="text/javascript">
+							window.onload = function test(){
+        						document.getElementById('formCuentaAportes:crearCuentaAportes').focus();
+        					}
+    					</script>
 						<div class="sf-separator">
-							<h:commandButton value="Crear cuenta aporte"
+							<h:commandButton value="Crear cuenta aporte" id="crearCuentaAportes"
 								styleClass="action red" action="aperturaCuentaaporte-flow" />
 						</div>
 					</h:form>

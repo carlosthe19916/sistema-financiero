@@ -261,10 +261,14 @@ public class AperturaCuentaaporteBean implements Serializable {
 						socio = socioServiceLocal.createSocioPersonajuridica(socio);
 						
 						cuentaCreada = true;
-						numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
 						fechaApertura = socio.getCuentaaporte().getFechaapertura();
 						
 						this.socio = socio;
+						Cuentaaporte cuentaaporte = socioServiceLocal.getCuentaaporte(socio);
+						numeroCuenta = cuentaaporte.getNumerocuentaaporte();
+						
+						//numeroCuenta = socio.getCuentaaporte().getNumerocuentaaporte();
+						//fechaApertura = socio.getCuentaaporte().getFechaapertura();
 					} else {
 						throw new Exception("El tipo de persona no es valido");
 					}

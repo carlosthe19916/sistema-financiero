@@ -36,22 +36,22 @@
 			<h:panelGroup
 				rendered="#{aperturaCuentacorrienteBean.personanatural}">
 				<div
-					style="border: 0pt solid #FF4000; text-align: center; width: 670px; height: 970px">
+					style="border: 0pt solid #000000; text-align: center; width: 670px; height: 970px">
 					<table
-						style="width: 650px; height: 840px; border: solid 0px #E9E6E6; margin-left: 10px; margin-top: 10px;">
+						style="width: 650px; height: 850px; border: solid 0px #E9E6E6; margin-left: 10px; margin-top: 10px;">
 						<tr>
 							<td colspan="1"
 								style="text-align: center; font-weight: bold; font-size: 12px;">
-								<p:graphicImage name="logo_coop_contrato.png" library="images/logo_coop" />
+								<p:graphicImage name="logo_coop_contrato.png"
+									library="images/logo_coop" />
 							</td>
 							<td colspan="3"
-								style="text-align: center; font-weight: bold; font-size: 24px; vertical-align: middle;">COOPERATIVA
-								DE AHORRO Y CREDITO CAJA VENTURA</td>
-						</tr>
-						<tr>
-							<td colspan="4"
-								style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle;">APERTURA
-								CUENTA CORRIENTE</td>
+								style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle; text-decoration:underline">
+								<br /> 
+								<h:outputText style="font-size: 24px;" value="CARTILLA DE INFORMACIÓN" />
+								<br /> 
+								<h:outputText style="font-size: 14px;" value="APERTURA DE CUENTA DE CORRIENTE" />
+							</td>
 						</tr>
 						<tr>
 							<td colspan="4"
@@ -61,23 +61,23 @@
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Apellidos
 								y Nombres:</td>
-							<td colspan="3">#{aperturaCuentacorrienteBean.apellidoPaterno}
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentacorrienteBean.apellidoPaterno}
 								#{aperturaCuentacorrienteBean.apellidoMaterno}
 								#{aperturaCuentacorrienteBean.nombres}</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Dirección:</td>
-							<td colspan="3">#{aperturaCuentacorrienteBean.direccionPersonanatural}
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentacorrienteBean.direccionPersonanatural}
 								- #{aperturaCuentacorrienteBean.referenciaPersonanatural}</td>
 						</tr>
 						<tr>
 							<td colspan="1"
 								style="width: 25%; font-weight: bold; font-size: 12px;">#{aperturaCuentacorrienteBean.comboTipodocumentoPersonanatural.objectItemSelected.abreviatura}:</td>
-							<td colspan="1" style="width: 25%;">#{aperturaCuentacorrienteBean.numeroDocumentoPersonanatural}</td>
+							<td colspan="1" style="width: 25%; font-size: 12px;">#{aperturaCuentacorrienteBean.numeroDocumentoPersonanatural}</td>
 							<td colspan="1"
 								style="width: 25%; font-weight: bold; font-size: 12px;">Fecha
 								de Nacimiento:</td>
-							<td colspan="1" style="width: 25%"><h:outputText
+							<td colspan="1" style="width: 25%; font-size: 12px;"><h:outputText
 									value="#{aperturaCuentacorrienteBean.fechaNacimiento}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText></td>
@@ -85,20 +85,16 @@
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Telefono
 								Fijo:</td>
-							<td colspan="1">#{aperturaCuentacorrienteBean.telefonoPersonanatural}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentacorrienteBean.telefonoPersonanatural}</td>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Estado
 								Civil:</td>
-							<td colspan="1">#{aperturaCuentacorrienteBean.comboEstadocivil.objectItemSelected.denominacion}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentacorrienteBean.comboEstadocivil.objectItemSelected.denominacion}</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Celular:</td>
-							<td colspan="1">#{aperturaCuentacorrienteBean.celularPersonanatural}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentacorrienteBean.celularPersonanatural}</td>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Email:</td>
-							<td colspan="1">#{aperturaCuentacorrienteBean.emailPersonanatural}</td>
-						</tr>
-
-						<tr>
-							<td>&nbsp;</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentacorrienteBean.emailPersonanatural}</td>
 						</tr>
 
 						<tr>
@@ -107,18 +103,18 @@
 						</tr>
 						<tr>
 							<td colspan="4">
-								<table class="p6n-table">
+								<table>
 									<thead>
 										<tr>
-											<th><label class="ng-isolate-scope"> Tipo Doc. </label></th>
-											<th><label class="ng-isolate-scope "> Nº Doc. </label></th>
-											<th><label class="ng-isolate-scope "> Ap.
+											<th style="font-weight: bold; font-size: 12px;"><label class="ng-isolate-scope"> Tipo Doc. </label></th>
+											<th style="font-weight: bold; font-size: 12px;"><label class="ng-isolate-scope "> Nº Doc. </label></th>
+											<th style="font-weight: bold; font-size: 12px;"><label class="ng-isolate-scope "> Ap.
 													Paterno </label></th>
-											<th><label class="ng-isolate-scope "> Ap.
+											<th style="font-weight: bold; font-size: 12px;"><label class="ng-isolate-scope "> Ap.
 													Materno </label></th>
-											<th><label class="ng-isolate-scope "> Nombres </label></th>
-											<th><label class="ng-isolate-scope"> Sexo </label></th>
-											<th><label class="ng-isolate-scope "> Fec. Nac.
+											<th style="font-weight: bold; font-size: 12px;"><label class="ng-isolate-scope "> Nombres </label></th>
+											<th style="font-weight: bold; font-size: 12px;"><label class="ng-isolate-scope"> Sexo </label></th>
+											<th style="font-weight: bold; font-size: 12px;"><label class="ng-isolate-scope "> Fec. Nac.
 											</label></th>
 										</tr>
 									</thead>
@@ -126,28 +122,24 @@
 										<ui:repeat value="#{aperturaCuentacorrienteBean.listTitulares()}"
 											var="titulares">
 											<tr class="ng-scope">
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{titulares.tipodocumento.abreviatura}" /></td>
-												<td><h:outputLabel value="#{titulares.numerodocumento}" /></td>
-												<td><h:outputLabel value="#{titulares.apellidopaterno}" /></td>
-												<td><h:outputLabel value="#{titulares.apellidomaterno}" /></td>
-												<td><h:outputLabel value="#{titulares.nombres}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel value="#{titulares.numerodocumento}" /></td>
+												<td style="font-size: 12px;"><h:outputLabel value="#{titulares.apellidopaterno}" /></td>
+												<td style="font-size: 12px;"><h:outputLabel value="#{titulares.apellidomaterno}" /></td>
+												<td style="font-size: 12px;"><h:outputLabel value="#{titulares.nombres}" /></td>
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{titulares.sexo.denominacion}" /></td>
-												<td><h:outputLabel value="#{titulares.fechanacimiento}">
+												<td style="font-size: 12px;"><h:outputLabel value="#{titulares.fechanacimiento}">
 														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel></td>
 											</tr>
 										</ui:repeat>
 									</tbody>
 								</table> <h:outputText value="MODALIDAD DE LA CUENTA: "
-									style="font-weight: bold; font-size: 12px;" /> <h:outputText
+									style="font-weight: bold; font-size: 12px;" /> <h:outputText style="font-size: 12px;"
 									value="#{aperturaCuentacorrienteBean.cantidadRetirantes>1 ? 'CONJUNTA' : 'INDIVIDUAL'}" />
 							</td>
-						</tr>
-
-						<tr>
-							<td>&nbsp;</td>
 						</tr>
 
 						<tr>
@@ -181,23 +173,67 @@
 						</tr>
 
 						<tr>
-							<td>&nbsp;</td>
-						</tr>
-
-						<tr>
 							<td colspan="4"
 								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DECLARACIONES
 								Y FIRMAS</td>
 						</tr>
 						<tr>
-							<td colspan="4" style="text-align: justify; font-size: 12px;">Los
-								aportes individuales que han sido pagadas por los Asociados en
-								forma periódica de conformidad con lo establecido en el Estatuto
-								y el Reglamento de Aportes Sociales de la Cooperativa. El aporte
-								social ordinario de cada Asociado será mínimo el equivalente al
-								3% y máximo al 10% del salario mensual certificado. Los
-								asociados sin vinculación laboral, aportarán como mínimo sobre
-								el Salario Mínimo Legal Mensual Vigente.</td>
+							<td colspan="4" style="text-align: justify; font-size: 11px;">
+								<h:outputText value="INFORMACIÓN ADICIONAL"
+									style="font-weight: bold;" />
+								<div style="padding-left: 20px">
+									<ul>
+										<li type="disc">la tasa de rendimiento efectiva anual
+											(trea), es aquella que permite igualar el monto que se ha
+											depositado con el valor actual del monto que efectivamente se
+											recibe al vencimiento del plazo, considerando todos los
+											cargos por comisiones y gastos, incluidos los seguros, cuando
+											corresponda, y bajo el supuesto de cumplimiento de todas las
+											condiciones pactadas. no se incluyen en este cálculo aquellos
+											pagos por servicios provistos por terceros que directamente
+											sean pagados por el cliente ni los tributos que resulten
+											aplicables. como ejemplo corresponde a un saldo inicial de
+											s/.1,000.00 o usd 1,000.00 que se mantiene sin movimientos
+											durante 12 meses.</li>
+										<li type="disc">Los intereses se capitalizan
+											mensualmente, y para su cálculo se establece que el año base
+											tiene 360 días.</li>
+										<li type="disc">La fecha de corte para el abono de los
+											intereses generados es el último día calendario de cada mes y
+											se realiza mediante el abono respectivo en la misma cuenta.</li>
+										<li type="disc">El saldo mínimo de equilibrio es aquel
+											que se requiere mantener en una cuenta en la cual no se
+											realice ninguna operación, y que permita generar intereses
+											suficientes en un mes de 30 días que compensen las comisiones
+											y gastos asociados con el mantenimiento de dicha cuenta, de
+											tal forma que no se pierda ni se gane rendimientos al final
+											del mes.</li>
+									</ul>
+								</div>
+								<h:outputText value="DECLARACIÓN FINAL DEL CLIENTE: "
+									style="font-weight: bold;" />
+								<h:outputText
+									value="Declaro haber leido previamente las condiciones establecidas 
+										en el Contrato de Depósito y la Cartilla de Información, asi como 
+										haber sido instruido acerca de los alcances y significados de los 
+										términos y condiciones establecidos en dicho documento habiendo 
+										sido absueltas y aclaradas a mi satisfacción todas las consultas 
+										efectuadas y/o dudas, suscribe el presente documento en duplicado 
+										y con pleno y exacto conocimiento de los mismos." />
+								<br />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 5px">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 5px">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 11px; text-align: right;"><h:outputText
+									value="#{aperturaCuentacorrienteBean.fechaApertura}">
+									<f:convertDateTime pattern="'Ayacucho, ' dd ' de ' MMMM ' del ' yyyy"/>
+								</h:outputText></td>
 						</tr>
 					</table>
 				</div>
@@ -436,21 +472,31 @@
 			</h:panelGroup>
 		</h:panelGroup>
 
-		<h:form>
+		<h:form id="formCreateCuentaCorriente">
+			<script type="text/javascript">
+							window.onload = function test(){
+        						document.getElementById('formCreateCuentaCorriente:CreateCuentaCorriente').focus();
+        					}
+    					</script>
 			<div style="margin-left: 470px;">
 				<h:commandButton action="aperturaCuentacorriente-flowB"
 					immediate="true"
 					actionListener="#{aperturaCuentacorrienteBean.removeTitularDefecto()}"
 					value="« Anterior " />
-				<h:commandButton
+				<h:commandButton id="CreateCuentaCorriente"
 					action="#{aperturaCuentacorrienteBean.crearCuentacorriente()}"
-					value="Crear Cuenta" styleClass="action blue" />
+					value="Crear Cuenta" styleClass="action green" />
 
 			</div>
 		</h:form>
 
 		<h:panelGroup rendered="#{aperturaCuentacorrienteBean.cuentaCreada}">
-			<h:form>
+			<h:form id="formPrint">
+				<script type="text/javascript">
+							window.onload = function test(){
+        						document.getElementById('formPrint:print').focus();
+        					}
+    					</script>
 				<div class="modal-dialog-bg"
 					style="opacity: 0.4; width: 1666px; height: 1302px;"></div>
 				<div class="modal-dialog p6n-popup" style="left: 502px; top: 200px;">
@@ -461,7 +507,7 @@
 					<div class="modal-dialog-content ng-binding">La cuenta
 						corriente fue creada satistactoriamente.</div>
 					<div class="modal-dialog-buttons">
-						<h:commandButton value="Imprimir" icon="ui-icon-print">
+						<h:commandButton value="Imprimir" id="print" icon="ui-icon-print">
 							<p:printer target=":panelGroupPrint" />
 						</h:commandButton>
 						<h:commandButton value="Salir"

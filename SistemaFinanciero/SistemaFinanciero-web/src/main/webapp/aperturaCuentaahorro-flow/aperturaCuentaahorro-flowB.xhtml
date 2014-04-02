@@ -32,6 +32,7 @@
 
 			<!-- TITULARES -->
 			<h:form id="formBeneficiariosTitulares">
+				<p:focus for="txtCantidadRetirantes"></p:focus>
 				<div class="p6n-content ng-scope">
 					<div class="p6n-content-no-nav ng-scope">
 						<div class="p6n-main-pane ng-isolate-scope">
@@ -43,7 +44,7 @@
 											style="width: 190px;">CANTIDAD RETIRANTES</div>
 										<div>
 											<div>
-												<h:inputText id="txtCantidadRetirantes"
+												<h:inputText id="txtCantidadRetirantes" size="5"
 													value="#{aperturaCuentaahorroBean.cantidadRetirantes}"
 													required="true" requiredMessage="Ingrese cantidad"
 													converterMessage="Número invalido"
@@ -62,31 +63,31 @@
 									<table class="p6n-table">
 										<thead>
 											<tr>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Tipo
 														documento </a></th>
-												<th><a href="javascript:;"
-													class="ng-isolate-scope p6n-clickable-link"> Nro
+												<th><a  
+													class="ng-isolate-scope p6n-clickable-link"> Nº
 														documento </a></th>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Apellido
 														paterno </a></th>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Apellido
 														materno </a></th>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Nombres </a></th>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Sexo </a></th>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link">
 														F.nacimiento </a></th>
 												<th class="p6n-api-list-col-status"><a
-													href="javascript:;"
+													 
 													class="ng-isolate-scope p6n-clickable-link"> Status </a></th>
 
 												<th class="p6n-api-list-col-status"><a
-													href="javascript:;"
+													 
 													class="ng-isolate-scope p6n-clickable-link"> Status </a></th>
 											</tr>
 										</thead>
@@ -94,31 +95,31 @@
 											<h:panelGroup
 												rendered="#{aperturaCuentaahorroBean.personanatural}">
 												<tr class="ng-scope">
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.comboTipodocumentoPersonanatural.objectItemSelected.abreviatura}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.numeroDocumentoPersonanatural}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.apellidoPaternoPersonanatural}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.apellidoMaternoPersonanatural}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.nombresPersonanatural}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.comboSexoPersonanatural.objectItemSelected.denominacion}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.fechaNacimientoPersonanatural}">
 																<f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -130,31 +131,31 @@
 											<h:panelGroup
 												rendered="#{aperturaCuentaahorroBean.personajuridica}">
 												<tr class="ng-scope">
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.comboTipodocumentoRepresentantelegal.objectItemSelected.abreviatura}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.numeroDocumentoRepresentantelegal}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.apellidoPaternoRepresentantelegal}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.apellidoMaternoRepresentantelegal}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.nombresRepresentantelegal}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.comboSexoRepresentantelegal.objectItemSelected.denominacion}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{aperturaCuentaahorroBean.fechaNacimientoRepresentantelegal}">
 																<f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -167,43 +168,43 @@
 												value="#{aperturaCuentaahorroBean.listTitulares()}"
 												var="persona">
 												<tr class="ng-scope">
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{persona.tipodocumento.abreviatura}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{persona.numerodocumento}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{persona.apellidopaterno}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{persona.apellidomaterno}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{persona.nombres}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{persona.sexo.denominacion}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{persona.fechanacimiento}">
 																<f:convertDateTime pattern="dd/MM/yyyy" />
 															</h:outputLabel>
 													</a></td>
-													<td><h:commandButton value="Edit"
+													<td><h:commandButton value="Editar"
 															styleClass="action green" style="margin: 0px;">
 															<f:ajax
 																listener="#{aperturaCuentaahorroBean.editTitular(persona)}"
 																render=":panelGroupDlgTitular :formDialogTitular" />
 														</h:commandButton></td>
-													<td><h:commandButton value="Remove"
+													<td><h:commandButton value="Eliminar"
 															styleClass="action red" style="margin: 0px;">
 															<f:ajax
 																listener="#{aperturaCuentaahorroBean.removeTitular(persona)}"
@@ -253,25 +254,25 @@
 									<table class="p6n-table">
 										<thead>
 											<tr>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Nro
 														documento </a></th>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Apellido
 														paterno </a></th>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Apellido
 														materno </a></th>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Nombres </a></th>
-												<th><a href="javascript:;"
+												<th><a  
 													class="ng-isolate-scope p6n-clickable-link"> Porcentaje
 												</a></th>
 												<th class="p6n-api-list-col-status"><a
-													href="javascript:;"
+													 
 													class="ng-isolate-scope p6n-clickable-link"> Status </a></th>
 												<th class="p6n-api-list-col-status"><a
-													href="javascript:;"
+													 
 													class="ng-isolate-scope p6n-clickable-link"> Status </a></th>
 											</tr>
 										</thead>
@@ -280,23 +281,23 @@
 												value="#{aperturaCuentaahorroBean.listBeneficiarios()}"
 												var="beneficiario">
 												<tr class="ng-scope">
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{beneficiario.dni}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{beneficiario.apellidopaterno}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{beneficiario.apellidomaterno}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{beneficiario.nombres}" />
 													</a></td>
-													<td><a href="javascript:;"
+													<td><a  
 														class="p6n-clickable-link ng-binding"> <h:outputLabel
 																value="#{beneficiario.porcentajebeneficio}%" />
 													</a></td>
@@ -347,7 +348,7 @@
 						<h:commandButton value="Siguiente »"
 							action="aperturaCuentaahorro-flowC"
 							actionListener="#{aperturaCuentaahorroBean.addTitularDefecto()}"
-							styleClass="action" />
+							styleClass="action green" />
 					</h:panelGroup>
 					<h:panelGroup
 						rendered="#{aperturaCuentaahorroBean.personajuridica}">
@@ -356,7 +357,7 @@
 						<h:commandButton value="Siguiente »"
 							action="aperturaCuentaahorro-flowC"
 							actionListener="#{aperturaCuentaahorroBean.addTitularDefecto()}"
-							styleClass="action" />
+							styleClass="action green" />
 					</h:panelGroup>
 
 				</div>
@@ -371,6 +372,7 @@
 						style="opacity: 0.4; width: 1366px; height: 702px;"></div>
 					<div class="modal-dialog p6n-popup" style="left: 402px; top: 50px;">
 						<h:form id="formDialogTitular">
+							<p:focus for="cmbTipodocumentoTitular"></p:focus>
 							<div class="modal-dialog-content p6n-acl-add-member-popup"
 								style="width: 385px;">
 								<div class="p6n-api-consent-screen-inputs">
@@ -412,7 +414,7 @@
 														groupingUsed="false" />
 													<f:ajax
 														listener="#{aperturaCuentaahorroBean.buscarPersonanaturalTitular()}"
-														render="@form"></f:ajax>
+														render="txtApellidoPaternoTitular txtApellidoMaternoTitular txtNombresTitular cmbSexoTitular txtFechanacimientoTitular"></f:ajax>
 												</h:inputText>
 											</div>
 										</div>
@@ -524,7 +526,7 @@
 							</div>
 
 							<div class="modal-dialog-buttons">
-								<h:commandButton value="Guardar" styleClass="action blue">
+								<h:commandButton value="Guardar" styleClass="action green">
 									<f:ajax listener="#{aperturaCuentaahorroBean.addTitular()}"
 										execute="@form" render="@form :formBeneficiariosTitulares" />
 								</h:commandButton>
@@ -545,6 +547,7 @@
 						style="opacity: 0.4; width: 1366px; height: 702px;"></div>
 					<div class="modal-dialog p6n-popup" style="left: 402px; top: 50px;">
 						<h:form id="formDialogBeneficiario">
+						<p:focus for="txtNumerodocumentoBeneficiario"></p:focus>
 							<div class="modal-dialog-content p6n-acl-add-member-popup"
 								style="width: 385px;">
 								<div class="p6n-api-consent-screen-inputs">
@@ -648,7 +651,7 @@
 								<br />
 							</div>
 							<div class="modal-dialog-buttons">
-								<h:commandButton value="Guardar" styleClass="action blue">
+								<h:commandButton value="Guardar" styleClass="action green">
 									<f:ajax
 										listener="#{aperturaCuentaahorroBean.addBeneficiario()}"
 										execute="@form" render="@form :formBeneficiariosTitulares" />

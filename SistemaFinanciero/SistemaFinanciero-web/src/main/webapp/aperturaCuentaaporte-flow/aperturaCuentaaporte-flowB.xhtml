@@ -34,22 +34,25 @@
 		<h:panelGroup id="panelGroupPrint">
 			<h:panelGroup rendered="#{aperturaCuentaaporteBean.personanatural}">
 				<div
-					style="border: 0pt solid #FF4000; text-align: center; width: 670px; height: 970px">
+					style="border: 0pt solid #FF4000; text-align: center; width: 670px; height: 900px">
 					<table
 						style="width: 650px; height: 840px; border: solid 0px #E9E6E6; margin-left: 10px; margin-top: 10px;">
 						<tr>
 							<td colspan="1"
 								style="text-align: center; font-weight: bold; font-size: 12px;">
-								<p:graphicImage name="logo_coop_contrato.png" library="images/logo_coop" />
+								<p:graphicImage name="logo_coop_contrato.png"
+									library="images/logo_coop" />
 							</td>
 							<td colspan="3"
-								style="text-align: center; font-weight: bold; font-size: 24px; vertical-align: middle;">COOPERATIVA
-								DE AHORRO Y CREDITO CAJA VENTURA</td>
+								style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle; text-decoration:underline">
+								<br /> 
+								<h:outputText style="font-size: 24px;" value="CARTILLA DE INFORMACIÓN" />
+								<br /> 
+								<h:outputText style="font-size: 14px;" value="APERTURA DE CUENTA DE APORTES" />
+							</td>
 						</tr>
 						<tr>
-							<td colspan="4"
-								style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle;">APERTURA
-								DE CUENTA DE APORTE</td>
+							<td colspan="4" style="font-size: 10px">&nbsp;</td>
 						</tr>
 						<tr>
 							<td colspan="4"
@@ -59,28 +62,28 @@
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Código
 								Socio:</td>
-							<td colspan="3">#{aperturaCuentaaporteBean.socio.idsocio}</td>
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaaporteBean.socio.idsocio}</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Apellidos
 								y Nombres:</td>
-							<td colspan="3">#{aperturaCuentaaporteBean.apellidoPaterno}
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaaporteBean.apellidoPaterno}
 								#{aperturaCuentaaporteBean.apellidoMaterno}
 								#{aperturaCuentaaporteBean.nombres}</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Dirección:</td>
-							<td colspan="3">#{aperturaCuentaaporteBean.direccionPersonanatural}
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaaporteBean.direccionPersonanatural}
 								- #{aperturaCuentaaporteBean.referenciaPersonanatural}</td>
 						</tr>
 						<tr>
 							<td colspan="1"
 								style="width: 25%; font-weight: bold; font-size: 12px;">#{aperturaCuentaaporteBean.comboTipodocumentoPersonanatural.objectItemSelected.abreviatura}:</td>
-							<td colspan="1" style="width: 25%;">#{aperturaCuentaaporteBean.numeroDocumentoPersonanatural}</td>
+							<td colspan="1" style="width: 25%; font-size: 12px;">#{aperturaCuentaaporteBean.numeroDocumentoPersonanatural}</td>
 							<td colspan="1"
 								style="width: 25%; font-weight: bold; font-size: 12px;">Fecha
 								de Nacimiento:</td>
-							<td colspan="1" style="width: 25%"><h:outputText
+							<td colspan="1" style="width: 25%; font-size: 12px;"><h:outputText
 									value="#{aperturaCuentaaporteBean.fechaNacimiento}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText></td>
@@ -88,16 +91,16 @@
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Telefono
 								Fijo:</td>
-							<td colspan="1">#{aperturaCuentaaporteBean.telefonoPersonanatural}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.telefonoPersonanatural}</td>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Estado
 								Civil:</td>
-							<td colspan="1">#{aperturaCuentaaporteBean.comboEstadocivil.objectItemSelected.denominacion}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.comboEstadocivil.objectItemSelected.denominacion}</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Celular:</td>
-							<td colspan="1">#{aperturaCuentaaporteBean.celularPersonanatural}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.celularPersonanatural}</td>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Email:</td>
-							<td colspan="1">#{aperturaCuentaaporteBean.emailPersonanatural}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.emailPersonanatural}</td>
 						</tr>
 
 						<h:panelGroup rendered = "#{aperturaCuentaaporteBean.existeApoderado}">
@@ -107,19 +110,19 @@
 							<tr>
 							<td colspan="4"
 								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DATOS
-								BASICOS DEL APODERADO</td>
+								DEL APODERADO</td>
 						</tr>
 							<tr>
-								<td colspan="1" style="font-weight: bold; font-size: 12px;">Apellidos
+								<td colspan="1" style="font-size: 12px;">Apellidos
 									y Nombres:</td>
-								<td colspan="3">#{aperturaCuentaaporteBean.apellidoPaternoApoderado} #{aperturaCuentaaporteBean.apellidoMaternoApoderado} #{aperturaCuentaaporteBean.nombres}</td>
+								<td colspan="3" style="font-size: 12px;">#{aperturaCuentaaporteBean.apellidoPaternoApoderado} #{aperturaCuentaaporteBean.apellidoMaternoApoderado} #{aperturaCuentaaporteBean.nombresApoderado}</td>
 							</tr>
 							<tr>
 								<td colspan="1" style="font-weight: bold; font-size: 12px;">#{aperturaCuentaaporteBean.comboTipodocumentoApoderado.objectItemSelected.abreviatura}:</td>
-								<td colspan="1">#{aperturaCuentaaporteBean.numeroDocumentoApoderado}</td>
+								<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.numeroDocumentoApoderado}</td>
 								<td colspan="1" style="font-weight: bold; font-size: 12px;">Fecha
 									de Nacimiento</td>
-								<td colspan="1"><h:outputText
+								<td colspan="1" style="font-size: 12px;"><h:outputText
 										value="#{aperturaCuentaaporteBean.fechaNacimientoApoderado}">
 										<f:convertDateTime pattern="dd/MM/yyyy" />
 									</h:outputText></td>
@@ -170,7 +173,7 @@
 						</tr>
 						<tr>
 							<td colspan="4" style="text-align: justify; font-size: 12px;">Los
-								aportes individuales que han sido pagadas por los Asociados en
+								aportes individuales serán pagados por los Asociados en
 								forma periódica de conformidad con lo establecido en el Estatuto
 								y el Reglamento de Aportes Sociales de la Cooperativa. El aporte
 								social ordinario de cada Asociado será mínimo el equivalente al
@@ -200,7 +203,15 @@
 								condiciones hasta tanto hayan transcurrido 6 meses para efectos
 								de crédito.</td>
 						</tr>
-
+						<tr>
+							<td colspan="4" style="font-size: 5px"></td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 11px; text-align: right;"><h:outputText
+									value="#{aperturaCuentaaporteBean.fechaApertura}">
+									<f:convertDateTime pattern="'Ayacucho, ' dd ' de ' MMMM ' del ' yyyy"/>
+								</h:outputText></td>
+						</tr>
 					</table>
 				</div>
 			</h:panelGroup>
@@ -208,22 +219,22 @@
 
 			<h:panelGroup rendered="#{aperturaCuentaaporteBean.personajuridica}">
 				<div
-					style="border: 0pt solid #FF4000; text-align: center; width: 670px; height: 950px">
+					style="border: 0pt solid #FF4000; text-align: center; width: 670px; height: 900px">
 					<table
-						style="width: 669px; height: 840px; border: solid 0px #E9E6E6;">
+						style="width: 650px; height: 850px; border: solid 0px #E9E6E6; margin-left: 10px; margin-top: 30px;">
 						<tr>
 							<td colspan="1"
 								style="text-align: center; font-weight: bold; font-size: 12px;">
-								<p:graphicImage name="logo_coop_contrato.png" library="images/logo_coop" />
+								<p:graphicImage name="logo_coop_contrato.png"
+									library="images/logo_coop" />
 							</td>
 							<td colspan="3"
-								style="text-align: center; font-weight: bold; font-size: 24px; vertical-align: middle;">COOPERATIVA
-								DE AHORRO Y CREDITO CAJA VENTURA</td>
-						</tr>
-						<tr>
-							<td colspan="4"
-								style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle;">APERTURA
-								DE CUENTA DE APORTE</td>
+								style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle; text-decoration:underline">
+								<br /> 
+								<h:outputText style="font-size: 24px;" value="CARTILLA DE INFORMACIÓN" />
+								<br /> 
+								<h:outputText style="font-size: 14px;" value="APERTURA DE CUENTA DE APORTES" />
+							</td>
 						</tr>
 						<tr>
 							<td colspan="4"
@@ -233,26 +244,26 @@
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Código
 								Socio:</td>
-							<td colspan="3">#{aperturaCuentaaporteBean.socio.idsocio}</td>
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaaporteBean.socio.idsocio}</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Razón
 								Social:</td>
-							<td colspan="3">#{aperturaCuentaaporteBean.razonSocial}</td>
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaaporteBean.razonSocial}</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Dirección:</td>
-							<td colspan="3">#{aperturaCuentaaporteBean.direccionPersonajuridica}
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaaporteBean.direccionPersonajuridica}
 								- #{aperturaCuentaaporteBean.referenciaPersonajuridica}</td>
 						</tr>
 						<tr>
 							<td colspan="1"
 								style="width: 25%; font-weight: bold; font-size: 12px;">#{aperturaCuentaaporteBean.comboTipodocumentoPersonajuridica.objectItemSelected.abreviatura}:</td>
-							<td colspan="1" style="width: 25%;">#{aperturaCuentaaporteBean.numeroDocumentoPersonajuridica}</td>
+							<td colspan="1" style="width: 25%; font-size: 12px;">#{aperturaCuentaaporteBean.numeroDocumentoPersonajuridica}</td>
 							<td colspan="1"
 								style="width: 25%; font-weight: bold; font-size: 12px;">Fecha
 								de Constitución:</td>
-							<td colspan="1" style="width: 25%;"><h:outputText
+							<td colspan="1" style="width: 25%; font-size: 12px;"><h:outputText
 									value="#{aperturaCuentaaporteBean.fechaConstitucion}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText></td>
@@ -260,72 +271,60 @@
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Telefono
 								Fijo:</td>
-							<td colspan="1">#{aperturaCuentaaporteBean.telefonoPersonajuridica}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.telefonoPersonajuridica}</td>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Tipo
 								Empresa:</td>
-							<td colspan="1">#{aperturaCuentaaporteBean.comboTipoempresa.objectItemSelected.denominacion}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.comboTipoempresa.objectItemSelected.denominacion}</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Celular:</td>
-							<td colspan="1">#{aperturaCuentaaporteBean.celularPersonajuridica}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.celularPersonajuridica}</td>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Email:</td>
-							<td colspan="1">#{aperturaCuentaaporteBean.emailPersonajuridica}</td>
-						</tr>
-
-						<tr>
-							<td colspan="4">&nbsp;</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.emailPersonajuridica}</td>
 						</tr>
 
 						<tr>
 							<td colspan="4"
 								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DATOS
-								BASICOS DEL REPRESENTANTE LEGAL</td>
+								DEL REPRESENTANTE LEGAL</td>
 						</tr>
-
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Apellidos
 								y Nombres:</td>
-							<td colspan="3">#{aperturaCuentaaporteBean.apellidoPaternoRepresentantelegal}
+							<td colspan="3" style="font-size: 12px;">#{aperturaCuentaaporteBean.apellidoPaternoRepresentantelegal}
 								#{aperturaCuentaaporteBean.apellidoMaternoRepresentantelegal}
 								#{aperturaCuentaaporteBean.nombresRepresentantelegal}</td>
 						</tr>
 						<tr>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">#{aperturaCuentaaporteBean.comboTipodocumentoRepresentantelegal.objectItemSelected.abreviatura}:</td>
-							<td colspan="1">#{aperturaCuentaaporteBean.numeroDocumentoRepresentantelegal}</td>
+							<td colspan="1" style="font-size: 12px;">#{aperturaCuentaaporteBean.numeroDocumentoRepresentantelegal}</td>
 							<td colspan="1" style="font-weight: bold; font-size: 12px;">Fecha
 								de Nacimiento</td>
-							<td colspan="1"><h:outputText
+							<td colspan="1" style="font-size: 12px;"><h:outputText
 									value="#{aperturaCuentaaporteBean.fechaNacimientoRepresentantelegal}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText></td>
 						</tr>
-
-						<tr>
-							<td colspan="4">&nbsp;</td>
-						</tr>
-
 						<tr>
 							<td colspan="4"
-								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DATOS
-								BASICOS DE LOS ACCIONISTAS</td>
+								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">ACCIONISTAS</td>
 						</tr>
-
 						<tr>
 							<td colspan="4">
-								<table class="p6n-table">
+								<table>
 									<thead>
 										<tr>
-											<th><label class="ng-isolate-scope"> Tipo Doc. </label></th>
-											<th><label class="ng-isolate-scope "> Nº Doc. </label></th>
-											<th><label class="ng-isolate-scope "> Ap.
+											<th style="font-weight: bold; font-size: 12px"><label class="ng-isolate-scope"> Tipo Doc. </label></th>
+											<th style="font-weight: bold; font-size: 12px"><label class="ng-isolate-scope"> Nº Doc. </label></th>
+											<th style="font-weight: bold; font-size: 12px"><label class="ng-isolate-scope"> Ap.
 													Paterno </label></th>
-											<th><label class="ng-isolate-scope "> Ap.
+											<th style="font-weight: bold; font-size: 12px"><label class="ng-isolate-scope"> Ap.
 													Materno </label></th>
-											<th><label class="ng-isolate-scope "> Nombres </label></th>
-											<th><label class="ng-isolate-scope"> Sexo </label></th>
-											<th><label class="ng-isolate-scope "> Fec. Nac.
+											<th style="font-weight: bold; font-size: 12px" ><label class="ng-isolate-scope"> Nombres </label></th>
+											<th style="font-weight: bold; font-size: 12px"><label class="ng-isolate-scope"> Sexo </label></th>
+											<th style="font-weight: bold; font-size: 12px"><label class="ng-isolate-scope"> Fec. Nac.
 											</label></th>
-											<th><label class="ng-isolate-scope "> (%) </label></th>
+											<th style="font-weight: bold; font-size: 12px"><label class="ng-isolate-scope"> (%) </label></th>
 
 										</tr>
 									</thead>
@@ -334,24 +333,24 @@
 											value="#{aperturaCuentaaporteBean.listAccionistas()}"
 											var="accionista">
 											<tr class="ng-scope">
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{accionista.personanatural.tipodocumento.abreviatura}" />
 												</td>
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{accionista.personanatural.numerodocumento}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{accionista.personanatural.apellidopaterno}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{accionista.personanatural.apellidomaterno}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{accionista.personanatural.nombres}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{accionista.personanatural.sexo.denominacion}" /></td>
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{accionista.personanatural.fechanacimiento}">
 														<f:convertDateTime pattern="dd/MM/yyyy" />
 													</h:outputLabel></td>
-												<td><h:outputLabel
+												<td style="font-size: 12px;"><h:outputLabel
 														value="#{accionista.porcentajeparticipacion}" /></td>
 											</tr>
 										</ui:repeat>
@@ -392,24 +391,50 @@
 						</tr>
 
 						<tr>
-							<td colspan="4">&nbsp;</td>
-						</tr>
-
-						<tr>
 							<td colspan="4"
 								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">
 								DECLARACIONES Y FIRMAS</td>
 						</tr>
-
 						<tr>
-							<td colspan="4" style="text-align: justify; font-size: 12px;">Son
-								los aportes individuales que han sido pagadas por los Asociados
-								en forma periódica de conformidad con lo establecido en el
-								Estatuto y el Reglamento de Aportes Sociales de la Cooperativa.
-								El aporte social ordinario de cada Asociado será mínimo el
-								equivalente al 3% y máximo al 10% del salario mensual
-								certificado. Los asociados sin vinculación laboral, aportarán
-								como mínimo sobre el Salario Mínimo Legal Mensual Vigente.</td>
+							<td colspan="4" style="text-align: justify; font-size: 12px;">Los
+								aportes individuales serán pagados por los Asociados en
+								forma periódica de conformidad con lo establecido en el Estatuto
+								y el Reglamento de Aportes Sociales de la Cooperativa. El aporte
+								social ordinario de cada Asociado será mínimo el equivalente al
+								3% y máximo al 10% del salario mensual certificado. Los
+								asociados sin vinculación laboral, aportarán como mínimo sobre
+								el Salario Mínimo Legal Mensual Vigente.</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="text-align: justify; font-size: 12px;">Cuando
+								los aportes sociales individuales del Asociado superen la suma
+								equivalente a los 10 salarios mínimos legales mensuales
+								vigentes, su aporte mensual podrá reducirse al 2% del sueldo.
+								Cuando los aportes sociales individuales superen los 15 salarios
+								mínimos mensuales legales vigentes, su aporte mensual podrá
+								reducirse al 1.5% del sueldo. Si los aportes individuales
+								superan los 20 salarios mínimos mensuales legales vigentes, su
+								aporte mensual podrá ser del 1% del sueldo.</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="text-align: justify; font-size: 12px;">Cuando
+								el sueldo básico del Asociado sea modificado, automáticamente su
+								aportación periódica se reajustará al valor que corresponda,
+								conservando el mismo porcentaje, previa certificación del nuevo
+								sueldo. Si un Asociado omite informar su nuevo sueldo por uno o
+								varios años y si al efectuar el ajuste este supera el 50% de la
+								base de aportes, entonces no se tendrán en cuenta las nuevas
+								condiciones hasta tanto hayan transcurrido 6 meses para efectos
+								de crédito.</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 5px"></td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-size: 11px; text-align: right;"><h:outputText
+									value="#{aperturaCuentaaporteBean.fechaApertura}">
+									<f:convertDateTime pattern="'Ayacucho, ' dd ' de ' MMMM ' del ' yyyy"/>
+								</h:outputText></td>
 						</tr>
 					</table>
 				</div>
@@ -419,17 +444,29 @@
 
 		<div style="margin-left: 470px;">
 			<h:form id="formCreacion">
+				<script type="text/javascript">
+					window.onload = function test(){
+        				document.getElementById('formCreacion:crearCuentaAporte').focus();
+        			}	
+    			</script>
+				
 				<h:commandButton action="aperturaCuentaaporte-flowA"
 					value="« Anterior " />
-				<h:commandButton
+				<h:commandButton id="crearCuentaAporte"
 					action="#{aperturaCuentaaporteBean.crearCuentaaporte()}"
-					value="Crear Cuenta" styleClass="action blue">
+					value="Crear Cuenta" styleClass="action green">
 				</h:commandButton>
 			</h:form>
 		</div>
 
 		<h:panelGroup rendered="#{aperturaCuentaaporteBean.cuentaCreada}">
-			<h:form>
+			<h:form id="printCuentaAportes">
+				<script type="text/javascript">
+					window.onload = function test(){
+        				document.getElementById('printCuentaAportes:print').focus();
+        			}	
+    			</script>
+    			
 				<div class="modal-dialog-bg"
 					style="opacity: 0.4; width: 1366px; height: 1202px;"></div>
 				<div class="modal-dialog p6n-popup" style="left: 502px; top: 200px;">
@@ -440,7 +477,7 @@
 					<div class="modal-dialog-content ng-binding">El cliente fue
 						asociado satistactoriamente.</div>
 					<div class="modal-dialog-buttons">
-						<h:commandButton value="Imprimir" icon="ui-icon-print">
+						<h:commandButton value="Imprimir" id="print" icon="ui-icon-print">
 							<p:printer target=":panelGroupPrint" />
 						</h:commandButton>
 						<h:commandButton value="Salir"

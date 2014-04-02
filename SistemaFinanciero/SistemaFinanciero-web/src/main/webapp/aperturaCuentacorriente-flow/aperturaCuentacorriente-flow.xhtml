@@ -35,6 +35,7 @@
 										TIPO DE PERSONA</div>
 									<div>
 										<h:form>
+											<p:focus for="cmbTipopersona"></p:focus>
 											<h:selectOneMenu id="cmbTipopersona"
 												value="#{aperturaCuentacorrienteBean.comboTipopersona.itemSelected}"
 												valueChangeListener="#{aperturaCuentacorrienteBean.changeTipopersona}"
@@ -104,7 +105,7 @@
 																	groupingUsed="false" />
 																<f:ajax
 																	listener="#{aperturaCuentacorrienteBean.buscarPersonanaturalSocio()}"
-																	render="@form"></f:ajax>
+																	render="txtApellidoPaterno txtApellidoMaterno txtNombres cmbSexo txtFechanacimiento cmbEstadocivil txtOcupacion txtDireccion txtReferencia txtTelefono txtCelular txtEmail"></f:ajax>
 															</h:inputText>
 														</div>
 													</div>
@@ -233,7 +234,7 @@
 															<div class="p6n-api-consent-screen-label">OCUPACION</div>
 															<div>
 																<div>
-																	<h:inputText
+																	<h:inputText id="txtOcupacion"
 																		value="#{aperturaCuentacorrienteBean.ocupacionPersonanatural}"
 																		onkeyup="this.value = this.value.toUpperCase();"
 																		maxlength="70" pt:placeholder="Ocupacion" />
@@ -247,7 +248,7 @@
 														<div class="p6n-api-consent-screen-label">DIRECCION</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtDireccion"
 																	value="#{aperturaCuentacorrienteBean.direccionPersonanatural}"
 																	onkeyup="this.value = this.value.toUpperCase();"
 																	maxlength="150" pt:placeholder="Direccion">
@@ -259,7 +260,7 @@
 														<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtReferencia"
 																	value="#{aperturaCuentacorrienteBean.referenciaPersonanatural}"
 																	onkeyup="this.value = this.value.toUpperCase();"
 																	maxlength="100" pt:placeholder="Referencia">
@@ -273,7 +274,7 @@
 														<div class="p6n-api-consent-screen-label">TELEFONO</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtTelefono"
 																	value="#{aperturaCuentacorrienteBean.telefonoPersonanatural}"
 																	maxlength="25" pt:placeholder="066000000">
 																</h:inputText>
@@ -284,7 +285,7 @@
 														<div class="p6n-api-consent-screen-label">CELULAR</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtCelular"
 																	value="#{aperturaCuentacorrienteBean.celularPersonanatural}"
 																	maxlength="25" pt:placeholder="Celular/RPM">
 																</h:inputText>
@@ -296,7 +297,7 @@
 													<div class="p6n-api-consent-screen-label">EMAIL</div>
 													<div>
 														<div>
-															<h:inputText
+															<h:inputText id="txtEmail"
 																value="#{aperturaCuentacorrienteBean.emailPersonanatural}"
 																onkeyup="this.value = this.value.toUpperCase();"
 																maxlength="50" pt:placeholder="example@domain.com"
@@ -310,7 +311,7 @@
 														action="/caja/index?faces-redirect=true" immediate="true"
 														styleClass="action" />
 													<h:commandButton value="Siguiente »"
-														action="aperturaCuentacorriente-flowB" styleClass="action" />
+														action="aperturaCuentacorriente-flowB" styleClass="action green" />
 												</div>
 											</div>
 										</div>
@@ -369,7 +370,7 @@
 																	groupingUsed="false" />
 																<f:ajax
 																	listener="#{aperturaCuentacorrienteBean.buscarPersonajuridicaSocio()}"
-																	render="@form"></f:ajax>
+																	render="txtTazonsocial txtNombrecomercial txtActividadprincipal txtFechaconstitucion cmbTipoempresa cmbFinsocial txtDireccion txtReferencia txtTelefono txtCelular txtEmail"></f:ajax>
 															</h:inputText>
 														</div>
 													</div>
@@ -507,7 +508,7 @@
 														<div class="p6n-api-consent-screen-label">DIRECCION</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtDireccion"
 																	value="#{aperturaCuentacorrienteBean.direccionPersonajuridica}"
 																	onkeyup="this.value = this.value.toUpperCase();"
 																	maxlength="150" pt:placeholder="Direccion">
@@ -519,7 +520,7 @@
 														<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtReferencia"
 																	value="#{aperturaCuentacorrienteBean.referenciaPersonajuridica}"
 																	onkeyup="this.value = this.value.toUpperCase();"
 																	maxlength="100" pt:placeholder="Referencia">
@@ -533,7 +534,7 @@
 														<div class="p6n-api-consent-screen-label">TELEFONO</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtTelefono"
 																	value="#{aperturaCuentacorrienteBean.telefonoPersonajuridica}"
 																	maxlength="20" pt:placeholder="066000000">
 																</h:inputText>
@@ -544,7 +545,7 @@
 														<div class="p6n-api-consent-screen-label">CELULAR</div>
 														<div>
 															<div>
-																<h:inputText
+																<h:inputText id="txtCelular"
 																	value="#{aperturaCuentacorrienteBean.celularPersonajuridica}"
 																	maxlength="20" pt:placeholder="Celular/RPM">
 																</h:inputText>
@@ -555,8 +556,8 @@
 												<div class="p6n-api-consent-screen-input-section">
 													<div class="p6n-api-consent-screen-label">EMAIL</div>
 													<div>
-														<div>
-															<h:inputText
+														<div> 
+															<h:inputText id="txtEmail"
 																value="#{aperturaCuentacorrienteBean.emailPersonajuridica}"
 																onkeyup="this.value = this.value.toUpperCase();"
 																pt:placeholder="example@domain.com" style="width:339px;"
@@ -570,7 +571,7 @@
 														action="/caja/index?faces-redirect=true" immediate="true"
 														styleClass="action" />
 													<h:commandButton value="Siguiente »"
-														action="aperturaCuentacorriente-flowA" styleClass="action" />
+														action="aperturaCuentacorriente-flowA" styleClass="action green" />
 												</div>
 											</div>
 										</div>
