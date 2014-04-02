@@ -337,6 +337,7 @@
 					<h:panelGroup
 						rendered="#{aperturaCuentacorrienteBean.dlgAccionistaOpen}">
 						<h:form id="formDialogAccionista">
+						<p:focus for="cmbTipodocumentoTitular"></p:focus>
 							<div class="modal-dialog-bg"
 								style="opacity: 0.4; width: 1366px; height: 902px;"></div>
 							<div class="modal-dialog p6n-popup"
@@ -382,7 +383,7 @@
 															groupingUsed="false" />
 														<f:ajax
 															listener="#{aperturaCuentacorrienteBean.buscarPersonanaturalAccionista()}"
-															render="@form"></f:ajax>
+															render="txtApellidoPaternoTitular txtApellidoMaternoTitular txtNombresTitular cmbSexoTitular txtFechanacimientoTitular"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>
@@ -514,7 +515,7 @@
 									<br />
 								</div>
 								<div class="modal-dialog-buttons">
-									<h:commandButton value="Guardar" styleClass="action blue">
+									<h:commandButton value="Guardar" styleClass="action green">
 										<f:ajax
 											listener="#{aperturaCuentacorrienteBean.addAccionista()}"
 											execute="@form"
