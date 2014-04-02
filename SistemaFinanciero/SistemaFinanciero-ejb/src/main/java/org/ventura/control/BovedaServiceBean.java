@@ -45,6 +45,7 @@ import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.ventura.entity.schema.caja.view.BovedaTransaccionesHistorialactivoView;
 import org.ventura.entity.schema.caja.view.VoucherbovedaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.InsufficientMoneyForTransactionException;
@@ -778,7 +779,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 
 	@Override
-	public Transaccionboveda createTransaccionboveda(Boveda boveda, Caja caja,Transaccionboveda transaccionboveda) throws Exception {
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Caja caja,Transaccionboveda transaccionboveda, Usuario usuario) throws Exception {
 		List<Detalletransaccionboveda> detalletransaccionbovedas = null;
 		try {
 			detalletransaccionbovedas = transaccionboveda.getDetalletransaccionbovedas();
@@ -857,6 +858,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 					preCreateTransaccionboveda(transaccionboveda);
 					transaccionboveda.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
 					transaccionboveda.setSaldodisponible(saldoDisponible);
+					transaccionboveda.setUsuario(usuario);
 					transaccionbovedaDAO.create(transaccionboveda);
 
 					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
@@ -913,7 +915,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 	
 	@Override
-	public Transaccionboveda createTransaccionboveda(Boveda boveda, Agencia agencia,Transaccionboveda transaccionboveda) throws Exception {
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Agencia agencia,Transaccionboveda transaccionboveda, Usuario usuario) throws Exception {
 		List<Detalletransaccionboveda> detalletransaccionbovedas = null;
 		try {
 			detalletransaccionbovedas = transaccionboveda.getDetalletransaccionbovedas();
@@ -966,6 +968,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 					preCreateTransaccionboveda(transaccionboveda);
 					transaccionboveda.setAgencia(agencia);
 					transaccionboveda.setSaldodisponible(saldoDisponible);
+					transaccionboveda.setUsuario(usuario);
 					transaccionbovedaDAO.create(transaccionboveda);
 
 					for (Detalletransaccionboveda e : detalletransaccionbovedas) {
@@ -1022,7 +1025,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 	}
 	
 	@Override
-	public Transaccionboveda createTransaccionboveda(Boveda boveda, Entidadfinanciera entidadfinanciera,Transaccionboveda transaccionboveda) throws Exception {
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Entidadfinanciera entidadfinanciera,Transaccionboveda transaccionboveda, Usuario usuario) throws Exception {
 		List<Detalletransaccionboveda> detalletransaccionbovedas = null;
 		try {
 			detalletransaccionbovedas = transaccionboveda.getDetalletransaccionbovedas();
@@ -1075,6 +1078,7 @@ public class BovedaServiceBean implements BovedaServiceLocal {
 					preCreateTransaccionboveda(transaccionboveda);
 					transaccionboveda.setEntidadfinanciera(entidadfinanciera);
 					transaccionboveda.setSaldodisponible(saldoDisponible);
+					transaccionboveda.setUsuario(usuario);
 					transaccionbovedaDAO.create(transaccionboveda);
 
 					for (Detalletransaccionboveda e : detalletransaccionbovedas) {

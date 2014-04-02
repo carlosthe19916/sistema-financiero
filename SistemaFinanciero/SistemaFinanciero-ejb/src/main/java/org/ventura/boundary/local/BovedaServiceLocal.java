@@ -16,6 +16,7 @@ import org.ventura.entity.schema.caja.Historialboveda;
 import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.ventura.entity.schema.caja.view.BovedaTransaccionesHistorialactivoView;
 import org.ventura.entity.schema.caja.view.VoucherbovedaView;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 
 @Local
@@ -70,11 +71,11 @@ public interface BovedaServiceLocal extends BovedaServiceRemote{
 	 * Transacciones de boveda
 	 */
 
-	public Transaccionboveda createTransaccionboveda(Boveda boveda, Caja caja, Transaccionboveda oTransaccionboveda) throws Exception;
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Caja caja, Transaccionboveda oTransaccionboveda, Usuario usuario) throws Exception;
 	
-	public Transaccionboveda createTransaccionboveda(Boveda boveda, Agencia agencia, Transaccionboveda oTransaccionboveda) throws Exception;
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Agencia agencia, Transaccionboveda oTransaccionboveda, Usuario usuario) throws Exception;
 	
-	public Transaccionboveda createTransaccionboveda(Boveda boveda, Entidadfinanciera entidadfinanciera, Transaccionboveda oTransaccionboveda) throws Exception;
+	public Transaccionboveda createTransaccionboveda(Boveda boveda, Entidadfinanciera entidadfinanciera, Transaccionboveda oTransaccionboveda, Usuario usuario) throws Exception;
 	
 	public Transaccionboveda findTransaccionboveda(Object id) throws Exception;
 	

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.tipodato.Moneda;
 
@@ -66,6 +67,10 @@ public class Transaccionboveda implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idagencia")
 	private Agencia agencia;
+	
+	@ManyToOne
+	@JoinColumn(name = "idusuario")
+	private Usuario usuario;
 	
 	public Transaccionboveda() {
 	}
@@ -179,5 +184,13 @@ public class Transaccionboveda implements Serializable {
 
 	public void setAgencia(Agencia agencia) {
 		this.agencia = agencia;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

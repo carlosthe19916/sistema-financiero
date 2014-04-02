@@ -28,6 +28,7 @@ import org.ventura.entity.schema.caja.Transaccionboveda;
 import org.ventura.entity.schema.caja.view.VoucherbovedaView;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
+import org.ventura.session.UsuarioMB;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
@@ -45,6 +46,8 @@ public class TransaccionBovedaBean implements Serializable {
 	@EJB
 	private SucursalServiceLocal sucursalServiceLocal;
 	
+	@Inject
+	private UsuarioMB usuarioMB;
 	@Inject
 	private AgenciaBean agenciaBean;
 	@Inject
@@ -121,12 +124,12 @@ public class TransaccionBovedaBean implements Serializable {
 
 					Transaccionboveda transaccionbovedaResult = null;
 					if (isCaja()) {
-						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda, caja,transaccionboveda);
+						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda, caja,transaccionboveda, usuarioMB.getUsuario());
 					}
 					if(isAgencia())
-						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,agencia, transaccionboveda);
+						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,agencia, transaccionboveda, usuarioMB.getUsuario());
 					if(isOtro())
-						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,entidadfinanciera, transaccionboveda);
+						transaccionbovedaResult = bovedaServiceLocal.createTransaccionboveda(boveda,entidadfinanciera, transaccionboveda, usuarioMB.getUsuario());
 					
 					this.transaccionboveda = transaccionbovedaResult;
 					voucherDetalleTransaccionBovedaView = transaccionboveda.getDetalletransaccionbovedas();
