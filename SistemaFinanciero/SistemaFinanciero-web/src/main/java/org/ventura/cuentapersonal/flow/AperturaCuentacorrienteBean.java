@@ -671,6 +671,17 @@ public class AperturaCuentacorrienteBean implements Serializable {
 		} 
 	}
 	
+	public void cancelDlgTitular(){
+		setDlgTitularOpen(false);
+		comboTipodocumentoTitular.setItemSelected(-1);
+		numeroDocumentoTitular = "";
+		apellidoPaternoTitular = "";
+		apellidoMaternoTitular = "";
+		nombresTitular = "";
+		fechaNacimientoTitular = null;
+		comboSexoTitular.setItemSelected(-1);
+	}
+	
 	public void removeTitular(Object obj) {
 		if(obj instanceof Personanatural){
 			Personanatural personanatural = (Personanatural) obj;
@@ -711,6 +722,15 @@ public class AperturaCuentacorrienteBean implements Serializable {
 			
 			setDlgBeneficiarioOpen(true);
 		} 
+	}
+	
+	public void cancelDlgBeneficiario(){
+		setDlgBeneficiarioOpen(false);
+		numeroDocumentoBeneficiario = "";
+		apellidoPaternoBeneficiario = "";
+		apellidoMaternoBeneficiario = "";
+		nombresBeneficiario = "";
+		porcentajeBeneficio = 0;
 	}
 	
 	public void removeBeneficiario(Object obj) {

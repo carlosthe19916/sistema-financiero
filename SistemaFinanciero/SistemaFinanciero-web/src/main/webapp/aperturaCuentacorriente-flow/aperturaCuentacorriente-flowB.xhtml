@@ -530,7 +530,7 @@
 								</h:commandButton>
 								<h:commandButton value="Cancelar" styleClass="action">
 									<f:ajax
-										listener="#{aperturaCuentacorrienteBean.setDlgTitularOpen(false)}"
+										listener="#{aperturaCuentacorrienteBean.cancelDlgTitular()}"
 										render="@form :panelGroupDlgTitular" />
 								</h:commandButton>
 							</div>
@@ -656,7 +656,7 @@
 								</h:commandButton>
 								<h:commandButton value="Cancelar" styleClass="action">
 									<f:ajax
-										listener="#{aperturaCuentacorrienteBean.setDlgBeneficiarioOpen(false)}"
+										listener="#{aperturaCuentacorrienteBean.cancelDlgBeneficiario()}"
 										render="@form :panelGroupDlgBeneficiario" />
 								</h:commandButton>
 							</div>
