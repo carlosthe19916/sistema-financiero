@@ -61,9 +61,9 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	
 	public void extornarTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
 	
-	public Transaccioncajacaja crearTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja, Caja origen, Caja destino) throws Exception;
+	public Transaccioncajacaja crearTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja, Caja origen, Caja destino, Usuario usuarioSolicita) throws Exception;
 	
-	public Transaccioncajacaja confirmarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) throws Exception;
+	public Transaccioncajacaja confirmarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja, Usuario usuarioConfirma) throws Exception;
 	
 	public void cancelarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) throws Exception;
 	

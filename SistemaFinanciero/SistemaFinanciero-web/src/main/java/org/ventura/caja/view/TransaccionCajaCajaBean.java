@@ -23,6 +23,7 @@ import org.ventura.entity.schema.caja.Transaccioncajacaja;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.session.AgenciaBean;
 import org.ventura.session.CajaBean;
+import org.ventura.session.UsuarioMB;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -47,6 +48,7 @@ public class TransaccionCajaCajaBean implements Serializable {
 	
 	@Inject AgenciaBean agenciaBean;
 	@Inject CajaBean cajaBean;
+	@Inject UsuarioMB usuarioMB;
 	
 	@EJB private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
 	@EJB  private CajaServiceLocal cajaServiceLocal;
@@ -87,7 +89,7 @@ public class TransaccionCajaCajaBean implements Serializable {
 				Transaccioncajacaja transaccioncajacaja = new Transaccioncajacaja();;
 				transaccioncajacaja.setMonto(monto);
 				transaccioncajacaja.setTipomoneda(comboTipomoneda.getObjectItemSelected());			
-				this.transaccioncajacaja = transaccionCajaServiceLocal.crearTransaccioncajacaja(transaccioncajacaja, cajaBean.getCaja(), comboCaja.getObjectItemSelected());
+				this.transaccioncajacaja = transaccionCajaServiceLocal.crearTransaccioncajacaja(transaccioncajacaja, cajaBean.getCaja(), comboCaja.getObjectItemSelected(), usuarioMB.getUsuario());
 				
 				successCrearTransaccion = true;
 				dlgCrearTransasccion = false;
@@ -102,7 +104,7 @@ public class TransaccionCajaCajaBean implements Serializable {
 	public void confirmarTransaccion(Transaccioncajacaja transaccioncajacaja){
 		try {
 			if(successCrearTransaccion != true){
-				this.transaccioncajacaja =  transaccionCajaServiceLocal.confirmarTransaccioncajacaja(transaccioncajacaja);		
+				this.transaccioncajacaja =  transaccionCajaServiceLocal.confirmarTransaccioncajacaja(transaccioncajacaja,usuarioMB.getUsuario());		
 				
 				List<Transaccioncajacaja> transasccionesSolicitadas = transaccionCajaServiceLocal.getTransaccionesPorConfirmarCajaCaja(cajaBean.getCaja());		
 				tablaTransasccionesSolicitadas.setRows(transasccionesSolicitadas);	

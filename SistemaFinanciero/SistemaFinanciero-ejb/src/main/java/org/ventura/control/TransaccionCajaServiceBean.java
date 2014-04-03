@@ -1234,7 +1234,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 
 	@Override
-	public Transaccioncajacaja crearTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja,Caja origen, Caja destino) throws Exception {
+	public Transaccioncajacaja crearTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja,Caja origen, Caja destino, Usuario usuarioSolicita) throws Exception {
 		try {
 			Calendar calendar = Calendar.getInstance();
 			Date date = calendar.getTime();
@@ -1288,7 +1288,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncajacaja.setEstadosolicitud(true);
 			transaccioncajacaja.setFecha(date);
 			transaccioncajacaja.setHora(new Timestamp(date.getTime()));
-			
+			transaccioncajacaja.setUsuarioSolicita(usuarioSolicita);
 			transaccioncajacajaDAO.create(transaccioncajacaja);
 			
 			//no se actualizan los saldos porque la transaccion no fue confirmada
@@ -1302,12 +1302,13 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncajacaja confirmarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja) throws Exception {
+	public Transaccioncajacaja confirmarTransaccioncajacaja(Transaccioncajacaja transaccioncajacaja, Usuario usuarioConfirma) throws Exception {
 		Transaccioncajacaja transaccioncajacajaDB = null;
 		try {
 			transaccioncajacajaDB = transaccioncajacajaDAO.find(transaccioncajacaja.getIdtransaccioncajacaja());
 			if(transaccioncajacajaDB.getEstadosolicitud() == true){
 				transaccioncajacajaDB.setEstadoconfirmacion(true);
+				transaccioncajacajaDB.setUsuarioConfirma(usuarioConfirma);
 				transaccioncajacajaDAO.update(transaccioncajacajaDB);
 				
 				//actualizar saldos de caja

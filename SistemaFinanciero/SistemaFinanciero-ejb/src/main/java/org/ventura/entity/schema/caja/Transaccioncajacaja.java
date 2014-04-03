@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.tipodato.Moneda;
 
 import java.sql.Timestamp;
@@ -61,6 +62,14 @@ public class Transaccioncajacaja implements Serializable {
 	@JoinColumn(name = "idtipomoneda", nullable = false)
 	private Tipomoneda tipomoneda;
 
+	@ManyToOne
+	@JoinColumn(name = "idusuariosolicita")
+	private Usuario usuarioSolicita;
+	
+	@ManyToOne
+	@JoinColumn(name = "idusuarioconfirma")
+	private Usuario usuarioConfirma;
+	
 	public Transaccioncajacaja() {
 	}
 
@@ -141,6 +150,22 @@ public class Transaccioncajacaja implements Serializable {
 
 	public void setHistorialcajadestino(Historialcaja historialcajadestino) {
 		this.historialcajadestino = historialcajadestino;
+	}
+
+	public Usuario getUsuarioSolicita() {
+		return usuarioSolicita;
+	}
+
+	public void setUsuarioSolicita(Usuario usuarioSolicita) {
+		this.usuarioSolicita = usuarioSolicita;
+	}
+
+	public Usuario getUsuarioConfirma() {
+		return usuarioConfirma;
+	}
+
+	public void setUsuarioConfirma(Usuario usuarioConfirma) {
+		this.usuarioConfirma = usuarioConfirma;
 	}
 
 }
