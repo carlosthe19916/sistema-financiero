@@ -64,7 +64,7 @@
 											<h:inputText id="txtDenominacion"
 												value="#{cajaCRUDBean.denominacion}"
 												disabled="#{!cajaCRUDBean.isValidBean()}" maxlength="150"
-												required="true"
+												required="true" onkeyup="this.value = this.value.toUpperCase();"
 												requiredMessage="Denominacion no debe de ser vacio" />
 										</div>
 									</div>
@@ -79,7 +79,7 @@
 										<h:inputText id="txtAbreviatura"
 											value="#{cajaCRUDBean.abreviatura}"
 											disabled="#{!cajaCRUDBean.isValidBean()}" maxlength="150"
-											required="true"
+											required="true" onkeyup="this.value = this.value.toUpperCase();"
 											requiredMessage="Abreviatura no debe de ser vacio" />
 									</div>
 								</div>

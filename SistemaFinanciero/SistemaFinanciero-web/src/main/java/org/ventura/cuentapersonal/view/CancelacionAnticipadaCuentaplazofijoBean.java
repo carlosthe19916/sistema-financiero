@@ -21,7 +21,9 @@ import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.tipodato.Moneda;
+import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipocuentabancariaType;
+import org.ventura.util.maestro.TipodocumentoType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
 import org.venturabank.util.JsfUtil;
 
@@ -71,6 +73,8 @@ public class CancelacionAnticipadaCuentaplazofijoBean implements Serializable {
 	private void initialize(){	
 		try {
 			comboTipodocumento.initValuesFromNamedQueryName(Tipodocumento.All_active);
+			Tipodocumento tipodocumento = ProduceObject.getTipodocumento(TipodocumentoType.DNI);
+			comboTipodocumento.setItemSelected(tipodocumento);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}		

@@ -175,13 +175,15 @@
 														</p:column>
 														<p:column headerText="Total" width="150"
 															style="text-align:right;">
-															<h:outputText value="#{cajaDetalle.getSubtotal()}" />
+															<h:outputText id="SubTotal" value="#{cajaDetalle.getSubtotal()}" />
 														</p:column>
 														<f:facet name="footer">
 															<h:outputText style="font-size: 13px;"
 																value="TOTAL: #{boveda.key.abreviatura}" />
-															<h:outputText style="font-size: 13px;"
-																value="#{abrirCajaBean.getTotal(boveda.key)}" />
+															<h:panelGroup id="footer">
+																<h:outputText style="font-size: 13px;"
+																	value="#{abrirCajaBean.getTotal(boveda.key)}" />
+															</h:panelGroup>
 														</f:facet>
 													</p:dataTable>
 												</p:outputPanel>
@@ -192,7 +194,7 @@
 								<div class="sf-buttons" style="float: left;">
 									<h:commandButton value="Cerrar"
 										action="#{abrirCajaBean.verificarSaldos()}"
-										styleClass="action blue" />
+										styleClass="action green" />
 									<h:commandButton action="/caja/index?faces-redirect=true"
 										value="Cancelar" styleClass="action" immediate="true" />
 								</div>
@@ -239,7 +241,7 @@
 						</div>
 						<div class="modal-dialog-buttons">
 							<h:commandButton value="Cerrar caja"
-								action="#{abrirCajaBean.closeCaja()}" styleClass="action blue">
+								action="#{abrirCajaBean.closeCaja()}" styleClass="action green">
 							</h:commandButton>
 							<h:commandButton value="Cancelar"
 								action="#{abrirCajaBean.setDlgVerificarSaldos(false)}"
@@ -321,7 +323,7 @@
 						</div>
 						<div class="modal-dialog-buttons">
 							<h:commandButton action="#{abrirCajaBean.crearPendiente()}"
-								value="Guardar" styleClass="action blue"
+								value="Guardar" styleClass="action green"
 								onclick="onSubmitButton();" />
 							<h:commandButton value="Cancelar"
 								action="#{abrirCajaBean.cancelarPendiente()}" immediate="true"
@@ -460,7 +462,7 @@
 										</table>
 									</h:panelGroup>
 									<div style="margin-left: 10px;">
-										<h:commandButton value="Imprimir" styleClass="action blue">
+										<h:commandButton value="Imprimir" styleClass="action green">
 											<p:printer target="voucherPendiente" />
 										</h:commandButton>
 										<h:commandButton value="Salir"
