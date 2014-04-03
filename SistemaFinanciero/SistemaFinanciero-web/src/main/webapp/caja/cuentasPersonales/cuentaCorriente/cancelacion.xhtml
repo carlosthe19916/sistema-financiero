@@ -125,7 +125,7 @@
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton
 									action="#{cancelacionCuentacorrienteBean.cancelarCuentacorriente()}"
-									value="Aceptar" styleClass="action blue" />
+									value="Aceptar" styleClass="action green" />
 								<h:commandButton value="Cancelar"
 									action="/caja/cuentasPersonales/index?faces-redirect=true"
 									styleClass="action" immediate="true" />
@@ -226,7 +226,7 @@
 					</h:panelGroup>
 					<h:form>
 						<h:commandButton value="Imprimir" type="button"
-							icon="ui-icon-print" styleClass="action blue">
+							icon="ui-icon-print" styleClass="action green">
 							<p:printer target=":voucher" />
 						</h:commandButton>
 						<h:commandButton value="Salir"
@@ -238,9 +238,13 @@
 				<h:panelGroup id="dlgBuscarcuenta">
 					<h:panelGroup rendered="#{cancelacionCuentacorrienteBean.dialogOpen}">
 						<div class="modal-dialog p6n-popup"
-							style="left: 412.5px; top: 50px; width: 600px;">
+							style="left: 350px; top: 100px; width: 600px;">
 							<h:form id="formBuscarcuentaporte">
 								<p:focus for="search"></p:focus>
+								<div class="modal-dialog-title modal-dialog-title-draggable">
+									<span class="modal-dialog-title-text">BUSCAR CUENTA</span><span
+										class="modal-dialog-title-close"></span>
+								</div>
 								<div class="modal-dialog-content">
 									<div id="p6n-cloudsql-content">
 										<div>
@@ -289,31 +293,31 @@
 															value="#{cancelacionCuentacorrienteBean.tablaCuentabancaria.rows}"
 															selectionMode="single"
 															selection="#{cancelacionCuentacorrienteBean.cuentabancariaView}"
-															rowKey="#{cuenta}" rowIndexVar="row">
+															rowKey="#{cuenta}" rowIndexVar="row" paginator="true"
+															rows="5" paginatorPosition="bottom"
+															paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+															rowsPerPageTemplate="5">
 
-															<p:column headerText="Nro"
+															<p:column headerText="Nº"
 																style="text-align:center; font-size: 11px; width:10px;">
 																<h:outputText value="#{row + 1}" />
 															</p:column>
-															<p:column headerText="Tipo Cta"
-																style="font-size: 11px; width:95px;">
-																<h:outputText value="#{cuenta.denominacionTipocuentabancaria}" />
+															<p:column headerText="Tipo Cuenta"
+																style="font-size: 11px; width:120px;">
+																<h:outputText
+																	value="#{cuenta.denominacionTipocuentabancaria}" />
 															</p:column>
-															<p:column headerText="Nro Cuenta"
-																style="font-size: 11px; width:90px;">
+															<p:column headerText="Nº Cuenta"
+																style="font-size: 11px; width:100px;">
 																<h:outputText value="#{cuenta.numerocuenta}" />
 															</p:column>
-															<p:column headerText="Titular"
-																style="font-size: 11px;width:120px;">
+															<p:column headerText="Socio"
+																style="font-size: 11px;width:150px;">
 																<h:outputText value="#{cuenta.socio}" />
 															</p:column>
-															<p:column headerText="T.doc"
-																style="font-size: 11px; width:40px;">
-																<h:outputText value="#{cuenta.abreviaturaTipodocumento}" />
-															</p:column>
-															<p:column headerText="Nro.doc"
-																style="font-size: 11px; width:70px;">
-																<h:outputText value="#{cuenta.numeroDocumento}" />
+															<p:column headerText="Nº Doc."
+																style="font-size: 11px; width:90px;">
+																<h:outputText value="#{cuenta.abreviaturaTipodocumento}: #{cuenta.numeroDocumento}" />
 															</p:column>
 														</p:dataTable>
 													</div>
@@ -325,7 +329,7 @@
 								<div class="modal-dialog-buttons">
 									<h:commandButton value="Aceptar"
 										action="#{cancelacionCuentacorrienteBean.setDialogOpen(false)}"
-										styleClass="action blue">
+										styleClass="action green">
 									</h:commandButton>
 									<h:commandButton value="Cancelar">
 										<f:ajax

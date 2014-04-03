@@ -38,8 +38,7 @@
 
 			<div style="margin-left: 50px;">
 				<br />
-				<div class="p6n-api-consent-screen-title">Cancelación Cuenta
-					Ahorro</div>
+				<div class="p6n-api-consent-screen-title">CANCELACIÓN CUENTA DE AHORRO</div>
 
 				<h:panelGroup rendered="#{!cancelacionCuentaahorroBean.success}">
 					<h:form id="formCancelacion">
@@ -125,7 +124,7 @@
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton
 									action="#{cancelacionCuentaahorroBean.cancelarCuentaahorro()}"
-									value="Aceptar" styleClass="action blue" />
+									value="Aceptar" styleClass="action green" />
 								<h:commandButton value="Cancelar"
 									action="/caja/cuentasPersonales/index?faces-redirect=true"
 									styleClass="action" immediate="true" />
@@ -226,7 +225,7 @@
 					</h:panelGroup>
 					<h:form>
 						<h:commandButton value="Imprimir" type="button"
-							icon="ui-icon-print" styleClass="action blue">
+							icon="ui-icon-print" styleClass="action green">
 							<p:printer target=":voucher" />
 						</h:commandButton>
 						<h:commandButton value="Salir" 
@@ -324,7 +323,7 @@
 								<div class="modal-dialog-buttons">
 									<h:commandButton value="Aceptar"
 										action="#{cancelacionCuentaahorroBean.setDialogOpen(false)}"
-										styleClass="action blue">
+										styleClass="action green">
 									</h:commandButton>
 									<h:commandButton value="Cancelar">
 										<f:ajax

@@ -427,10 +427,8 @@
         										</f:facet>
 										</p:dataTable>
 										</h:panelGroup>
-										
-									
 									<h:commandButton value="Imprimir"
-										styleClass="action blue">
+										styleClass="action green">
 										<p:printer target="imprimirEstadoCuenta" />
 									</h:commandButton>
 								</div>
@@ -454,6 +452,10 @@
 						style="left: 412.5px; top: 100px;">
 						<h:form id="formBuscarCuentaAporte">
 							<p:focus for="searchCuentaAporte"></p:focus>
+							<div class="modal-dialog-title modal-dialog-title-draggable">
+								<span class="modal-dialog-title-text">BUSCAR CUENTA</span><span
+									class="modal-dialog-title-close"></span>
+							</div>
 							<div class="modal-dialog-content">
 								<div id="p6n-cloudsql-content">
 									<div>
@@ -530,7 +532,7 @@
 							<div class="modal-dialog-buttons">
 								<h:commandButton value="Aceptar"
 									action="#{estadoCuentaBean.setRowSelectToTransaccionCA()}"
-									styleClass="action blue" />
+									styleClass="action green" />
 								<h:commandButton value="Cancelar" styleClass="action">
 									<f:ajax
 										render=":panelGroupDialogBuscarCuentaAporte :formBuscarCuentaAporte"
@@ -627,7 +629,7 @@
 							<div class="modal-dialog-buttons">
 								<h:commandButton value="Aceptar"
 									action="#{estadoCuentaBean.setRowSelectToTransaccionCB()}"
-									styleClass="action blue" />
+									styleClass="action green" />
 								<h:commandButton value="Cancelar" styleClass="action">
 									<f:ajax
 										render=":panelGroupDialogBuscarCuentaBancaria :formBuscarCuentaBancaria"

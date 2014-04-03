@@ -117,11 +117,11 @@
 										
 										<tr>
 											<td colspan="2" style="font-weight: bold; font-size: 10px;">IMPORTE:</td>
-											<td colspan="2" style="font-size: 11px; text-align: right;">#{transaccionCajaCajaBean.transaccioncajacaja.tipomoneda.abreviatura}#{transaccionCajaCajaBean.transaccioncajacaja.montoAsString}</td>
+											<td colspan="2" style="font-size: 11px; text-align: right; font-family: Century Gothic;">#{transaccionCajaCajaBean.transaccioncajacaja.tipomoneda.abreviatura}#{transaccionCajaCajaBean.transaccioncajacaja.montoAsString}</td>
 										</tr>
 										<tr>
 											<td colspan="2" style="font-weight: bold; font-size: 10px;">ESTADO:</td>
-											<td colspan="2" style="font-size: 11px; text-align: right;"><h:outputText
+											<td colspan="2" style="font-size: 11px; text-align: right; font-family: Century Gothic;"><h:outputText
 													value="#{transaccionCajaCajaBean.transaccioncajacaja.estadoconfirmacion ?  'CONFIRMADO' : 'NO CONFIRMADO'} " />
 											</td>
 										</tr>
@@ -133,10 +133,10 @@
 											</td>
 										</tr>
 										<tr>
-											<td colspan="4" style="font-size: 10px; text-align: center;">
+											<td colspan="4" style="font-size: 10px; text-align: center; font-family: Century Gothic;">
 												<h:outputText value="#{usuarioMB.usuario.trabajador.personanatural.apellidopaterno} #{usuarioMB.usuario.trabajador.personanatural.apellidomaterno} #{usuarioMB.usuario.trabajador.personanatural.nombres}"/>
 												<br />
-												<h:outputText value="Caja: #{cajaBean.caja.abreviatura}"/>
+												<h:outputText value="CAJA: #{cajaBean.caja.abreviatura}"/>
 											</td>
 										</tr>
 									</table>
@@ -167,7 +167,7 @@
     					</script>
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
-					<div class="modal-dialog p6n-popup" style="left: 501px; top: 77px;">
+					<div class="modal-dialog p6n-popup" style="left: 501px; top: 75px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
 							<span class="modal-dialog-title-text">Creación Satisfactoria</span><span class="modal-dialog-title-close"></span>
 						</div>
@@ -216,8 +216,10 @@
 												value="#{transaccionCajaCajaBean.transaccioncajacaja.fecha}">
 												<f:convertDateTime pattern="dd/MM/yy" />
 											</h:outputText></td>
+									</tr>
+									<tr>
 										<td
-											style="text-align: right; font-weight: bold; font-size: 10px;">HORA:</td>
+											style="font-weight: bold; font-size: 10px;">HORA:</td>
 										<td style="font-size: 11px; font-family: Century Gothic;"><h:outputText
 												value="#{transaccionCajaCajaBean.transaccioncajacaja.hora}">
 												<f:convertDateTime dateStyle="full" timeZone="EST"
@@ -234,11 +236,11 @@
 									</tr>
 									<tr>
 										<td colspan="2" style="font-weight: bold; font-size: 10px;">IMPORTE:</td>
-										<td colspan="2" style="font-size: 11px; text-align: right; text-align: right;">#{transaccionCajaCajaBean.transaccioncajacaja.tipomoneda.abreviatura}#{transaccionCajaCajaBean.transaccioncajacaja.montoAsString}</td>
+										<td colspan="2" style="font-size: 11px; text-align: right; text-align: right; font-family: Century Gothic;">#{transaccionCajaCajaBean.transaccioncajacaja.tipomoneda.abreviatura}#{transaccionCajaCajaBean.transaccioncajacaja.montoAsString}</td>
 									</tr>
 									<tr>
 										<td colspan="2" style="font-weight: bold; font-size: 9px;">ESTADO:</td>
-										<td colspan="2" style="font-size: 10px; text-align: right;"><h:outputText
+										<td colspan="2" style="font-size: 10px; text-align: right; font-family: Century Gothic;"><h:outputText
 												value="#{transaccionCajaCajaBean.transaccioncajacaja.estadoconfirmacion ?  'CONFIRMADO' : 'NO CONFIRMADO'} " />
 										</td>
 									</tr>

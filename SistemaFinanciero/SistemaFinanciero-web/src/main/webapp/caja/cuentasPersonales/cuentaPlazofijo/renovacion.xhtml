@@ -46,11 +46,12 @@
 							<div>
 								<div>
 									<div class="p6n-api-consent-screen-title">RENOVAR CUENTA
-										PLAZO FIJO</div>
+										A PLAZO FIJO</div>
 									<div class="p6n-api-consent-screen-inputs">
 										<h:form>
+											<p:focus for="txtNumeroCuenta"></p:focus>
 											<div class="p6n-api-consent-screen-input-section">
-												<div class="p6n-api-consent-screen-label">NUMERO
+												<div class="p6n-api-consent-screen-label">NÚMERO
 													CUENTA</div>
 												<div>
 													<div style="float: left;">
@@ -79,14 +80,14 @@
 											<h:panelGroup
 												rendered="#{renovarCuentaplazofijoBean.dlgBusquedaOpen}">
 												<h:form id="formDialog">
+													<p:focus for="txtSearch"></p:focus>
 													<div class="modal-dialog-bg"
 														style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
 													<div class="modal-dialog p6n-popup"
-														style="left: 302px; top: 50px;">
+														style="left: 302px; top: 60px;">
 														<div
 															class="modal-dialog-title modal-dialog-title-draggable">
-															<span class="modal-dialog-title-text">Buscar
-																Cuenta</span><span class="modal-dialog-title-close"></span>
+															<span class="modal-dialog-title-text">BUSCAR CUENTA</span><span class="modal-dialog-title-close"></span>
 														</div>
 														<div class="modal-dialog-content">
 															<div id="p6n-cloudsql-content">
@@ -94,7 +95,7 @@
 																	<div>
 																		<div>
 																			<div>
-																				<h:inputText
+																				<h:inputText id="txtSearch"
 																					value="#{renovarCuentaplazofijoBean.campoBusqueda}"
 																					style="width: 250px;float: left;" />
 																				&nbsp;
@@ -138,13 +139,15 @@
 																					value="#{renovarCuentaplazofijoBean.tablaCuentabancaria.rows}"
 																					selectionMode="single"
 																					selection="#{renovarCuentaplazofijoBean.cuentabancariaViewSelected}"
-																					rowKey="#{cuenta}" rowIndexVar="row">
+																					rowKey="#{cuenta}" rowIndexVar="row" paginator="true" rows="5" paginatorPosition="bottom"
+																					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+																					rowsPerPageTemplate="5">
 
-																					<p:column headerText="Nro"
+																					<p:column headerText="Nº"
 																						style="text-align:center;">
 																						<h:outputText value="#{row + 1}" />
 																					</p:column>
-																					<p:column headerText="Nro Cuenta">
+																					<p:column headerText="Nº Cuenta">
 																						<h:outputText value="#{cuenta.numerocuenta}" />
 																					</p:column>
 																					<p:column headerText="Tipo Cta">
@@ -155,10 +158,10 @@
 																						<h:outputText
 																							value="#{cuenta.denominacionTipomoneda}" />
 																					</p:column>
-																					<p:column headerText="Titular">
+																					<p:column headerText="Socio">
 																						<h:outputText value="#{cuenta.socio}" />
 																					</p:column>
-																					<p:column headerText="Nro Documento">
+																					<p:column headerText="Nº Doc.">
 																						<h:outputText
 																							value="#{cuenta.abreviaturaTipodocumento}: #{cuenta.numeroDocumento}" />
 																					</p:column>
@@ -176,7 +179,7 @@
 														<div class="modal-dialog-buttons">
 															<h:commandButton value="Aceptar"
 																action="#{renovarCuentaplazofijoBean.setCuentabancariaSelected()}"
-																styleClass="action blue">
+																styleClass="action green">
 															</h:commandButton>
 															<h:commandButton value="Cancelar" styleClass="action">
 																<f:ajax render=":panelGroupDialog :formDialog"
@@ -426,7 +429,7 @@
 												<div class="sf-buttons" style="float: left;">
 													<h:commandButton value="Aceptar"
 														action="#{renovarCuentaplazofijoBean.renovarCuentaaporte()}"
-														styleClass="action blue" />
+														styleClass="action green" />
 													<h:commandButton value="Cancelar" immediate="true"
 														styleClass="action"
 														action="/modules/cuentasPersonales/index?faces-redirect=true" />

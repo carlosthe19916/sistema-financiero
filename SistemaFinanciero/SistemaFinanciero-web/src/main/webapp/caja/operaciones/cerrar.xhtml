@@ -25,6 +25,11 @@
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
 			<h:form id="closeCaja">
+				<script type="text/javascript">
+					window.onload = function test(){
+        			document.getElementById('closeCaja:buttomDescongelar').focus();
+        		}
+    			</script>
 				<h:panelGroup rendered="#{abrirCajaBean.failure}">
 					<div class="p6n-api-access-in-page-error" style="left: 516px;">
 						<div>
@@ -49,7 +54,7 @@
 					<div>
 						<div>
 							<div>
-								<h:commandButton action="#{abrirCajaBean.descongelar()}"
+								<h:commandButton id="buttomDescongelar" action="#{abrirCajaBean.descongelar()}"
 									value="Descongelar" styleClass="action green"
 									style="float:none;" />
 								<h:commandButton action="#{abrirCajaBean.congelar()}"

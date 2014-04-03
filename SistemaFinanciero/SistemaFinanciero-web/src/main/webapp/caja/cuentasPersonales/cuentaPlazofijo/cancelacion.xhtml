@@ -45,8 +45,7 @@
 
 			<div style="margin-left: 50px;">
 				<br />
-				<div class="p6n-api-consent-screen-title">Cancelación Cuenta
-					Plazo Fijo</div>
+				<div class="p6n-api-consent-screen-title">CANCELACIÓN CUENTA A PLAZO FIJO</div>
 
 				<h:panelGroup id="panelGroupCancelacion"
 					rendered="#{!cancelacionCuentaplazofijoBean.success}">
@@ -54,7 +53,7 @@
 						<p:focus for="txtNumerocuenta"></p:focus>
 						<div class="p6n-api-consent-screen-inputs">
 							<div class="p6n-api-consent-screen-input-section">
-								<div class="p6n-api-consent-screen-label">NUMERO CUENTA</div>
+								<div class="p6n-api-consent-screen-label">NÚMERO CUENTA</div>
 								<div>
 									<div style="float: left;">
 										<h:inputText id="txtNumerocuenta"
@@ -268,7 +267,7 @@
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton
 									action="#{cancelacionCuentaplazofijoBean.cancelarCuentaplazofijo()}"
-									value="Aceptar" styleClass="action blue" />
+									value="Aceptar" styleClass="action green" />
 								<h:commandButton value="Cancelar" action="/caja/cuentasPersonales/index?faces-redirect=true" styleClass="action" immediate="true"/>
 							</div>
 						</div>
@@ -367,7 +366,7 @@
 					</h:panelGroup>
 					<h:form>
 						<h:commandButton value="Imprimir" type="button" 
-							icon="ui-icon-print" styleClass="action blue">
+							icon="ui-icon-print" styleClass="action green">
 							<p:printer target=":voucher" />
 						</h:commandButton>
 						<h:commandButton value="Salir"
@@ -380,9 +379,13 @@
 					<h:panelGroup
 						rendered="#{cancelacionCuentaplazofijoBean.dialogOpen}">
 						<div class="modal-dialog p6n-popup"
-							style="left: 412.5px; top: 100px; width: 670px;">
+							style="left: 350px; top: 100px; width: 670px;">
 							<h:form id="formBuscarcuentaporte">
 								<p:focus for="search"></p:focus>
+								<div class="modal-dialog-title modal-dialog-title-draggable">
+									<span class="modal-dialog-title-text">BUSCAR CUENTA</span><span
+										class="modal-dialog-title-close"></span>
+								</div>
 								<div class="modal-dialog-content">
 									<div id="p6n-cloudsql-content">
 										<div>
@@ -431,7 +434,10 @@
 															value="#{cancelacionCuentaplazofijoBean.tablaCuentabancaria.rows}"
 															selectionMode="single"
 															selection="#{cancelacionCuentaplazofijoBean.cuentabancariaView}"
-															rowKey="#{cuenta}" rowIndexVar="row">
+															rowKey="#{cuenta}" rowIndexVar="row" paginator="true"
+															rows="5" paginatorPosition="bottom"
+															paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+															rowsPerPageTemplate="5">
 
 															<p:column headerText="Nro"
 																style="text-align:center; font-size: 11px; width:10px;">
@@ -446,25 +452,23 @@
 																style="font-size: 11px; width:90px;">
 																<h:outputText value="#{cuenta.numerocuenta}" />
 															</p:column>
-															<p:column headerText="Titular"
-																style="font-size: 11px;width:120px;">
+															<p:column headerText="Socio"
+																style="font-size: 11px;width:130px;">
 																<h:outputText value="#{cuenta.socio}" />
 															</p:column>
-															<p:column headerText="T.Doc."
-																style="font-size: 11px; width:40px;">
-																<h:outputText value="#{cuenta.abreviaturaTipodocumento}" />
-															</p:column>
 															<p:column headerText="Nº Doc."
-																style="font-size: 11px; width:70px;">
-																<h:outputText value="#{cuenta.numeroDocumento}" />
+																style="font-size: 11px; width:80px;">
+																<h:outputText
+																	value="#{cuenta.abreviaturaTipodocumento}: #{cuenta.numeroDocumento}" />
 															</p:column>
 															<p:column headerText="Saldo">
 																<h:outputText
 																	value="#{cuenta.abreviaturaTipomomeda}#{cuenta.saldoCuentabancaria}" />
 															</p:column>
-															<p:column headerText="Fec. Cierre" style="font-size: 11px; width:80px;">
+															<p:column headerText="Fec. Cierre"
+																style="font-size: 11px; width:80px;">
 																<h:outputText
-																	value="#{cuenta.fechacierreCuentabancaria}" >
+																	value="#{cuenta.fechacierreCuentabancaria}">
 																	<f:convertDateTime pattern="dd/MM/yyyy" />
 																</h:outputText>
 															</p:column>
@@ -478,7 +482,7 @@
 								<div class="modal-dialog-buttons">
 									<h:commandButton value="Aceptar"
 										action="#{cancelacionCuentaplazofijoBean.setCuentabancariaSelected()}"
-										styleClass="action blue">
+										styleClass="action green">
 									</h:commandButton>
 									<h:commandButton value="Cancelar" immediate="true"
 										action="#{cancelacionCuentaplazofijoBean.setDialogOpen(false)}">
