@@ -20,15 +20,16 @@ import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
 import org.ventura.entity.schema.caja.view.VouchercajaView;
 import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
+import org.ventura.entity.schema.seguridad.Usuario;
 
 @Local
 public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemote{
 	
 	public Transaccioncuentabancaria createTransaccionCuentabancaria(Caja caja, Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
 	
-	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa) throws Exception;
+	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa, Usuario usuario) throws Exception;
 	
-	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
+	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte, Usuario usuario) throws Exception;
 
 	public VouchercajaView getVoucherTransaccionBancaria(Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
 	
@@ -44,9 +45,9 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	/**
 	 * Operaciones transaccionales*/
 	
-	public Transaccioncuentabancaria deposito(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion) throws Exception;
+	public Transaccioncuentabancaria deposito(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion, Usuario usuario) throws Exception;
 	
-	public Transaccioncuentabancaria retiro(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion) throws Exception;
+	public Transaccioncuentabancaria retiro(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion, Usuario usuario) throws Exception;
 	
 	public Transaccioncuentaaporte deposito(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
 	

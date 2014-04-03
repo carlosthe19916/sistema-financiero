@@ -35,6 +35,7 @@ import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.tasas.Tipotasa;
 import org.ventura.session.CajaBean;
+import org.ventura.session.UsuarioMB;
 import org.ventura.tipodato.Moneda;
 import org.ventura.tipodato.TasaCambio;
 import org.ventura.util.maestro.EstadoAperturaType;
@@ -105,6 +106,9 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	private boolean validateSaldoTotalCaja;
 	private boolean pageVoucher;
 	private boolean loginsuccess;
+	
+	@Inject
+	private UsuarioMB usuarioMB;
 	
 	public TransaccionCompraVentaCajaBean(){
 		isValidBean = true;
@@ -223,7 +227,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 					if (validateSaldoCaja(caja, transaccionCompraVenta)) {
 						try {
-							transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta);
+							transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta, usuarioMB.getUsuario());
 							ViewvouchercompraventaView vouchercompraventaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionCompraVentaMoneda(transaccionCompraVenta);
 							setVoucherCompraVenta(vouchercompraventaView);
 						} catch (Exception e) {

@@ -14,6 +14,7 @@ import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
@@ -31,7 +32,7 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia) throws Exception;
 	
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia) throws Exception;
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia, Usuario usuario) throws Exception;
 	
 	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, Agencia agencia) throws Exception;
 	
@@ -41,11 +42,11 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public Cuentabancaria recalculoCuentaplazofijo(Cuentabancaria cuentabancaria, Date fechaRecalculo, BigDecimal tea) throws Exception;
 	
-	public Transaccioncuentabancaria cancelarCuentaplazofijo(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception;
+	public Transaccioncuentabancaria cancelarCuentaplazofijo(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion, Usuario usuario) throws Exception;
 	
-	public Transaccioncuentabancaria cancelarCuentaahorro(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception;;
+	public Transaccioncuentabancaria cancelarCuentaahorro(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion, Usuario usuario) throws Exception;;
 	
-	public Transaccioncuentabancaria cancelarCuentacorriente(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception;;
+	public Transaccioncuentabancaria cancelarCuentacorriente(Caja caja, Cuentabancaria cuentabancaria, Date fechaCancelacion, Usuario usuario) throws Exception;;
 	
 	public List<Cuentabancaria> findAll() throws Exception;
 	

@@ -47,6 +47,7 @@ import org.ventura.entity.schema.persona.Accionista;
 import org.ventura.entity.schema.persona.Personajuridica;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.tasas.Tipotasa;
@@ -493,7 +494,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia) throws Exception {
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia, Usuario usuario) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personanatural);
 			if(socio == null){
@@ -527,7 +528,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(new Moneda(monto));
 			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO));
-			transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,null);
+			transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,null, usuario);
 			
 			//crear titulares y beneficiarios
 			cuentabancaria.setTitulares(listTitulares);
@@ -1016,7 +1017,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncuentabancaria cancelarCuentaplazofijo(Caja caja,Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception {
+	public Transaccioncuentabancaria cancelarCuentaplazofijo(Caja caja,Cuentabancaria cuentabancaria, Date fechaCancelacion, Usuario usuario) throws Exception {
 		Transaccioncuentabancaria transaccioncuentabancaria = null;
 		try {
 			cuentabancaria = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
@@ -1067,7 +1068,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(cuentabancaria.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
 			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
-			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria,null);
+			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria,null,usuario);
 			
 			//cancelar la cuenta
 			cuentabancaria.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
@@ -1084,7 +1085,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Transaccioncuentabancaria cancelarCuentaahorro(Caja caja,Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception {
+	public Transaccioncuentabancaria cancelarCuentaahorro(Caja caja,Cuentabancaria cuentabancaria, Date fechaCancelacion, Usuario usuario) throws Exception {
 		Transaccioncuentabancaria transaccioncuentabancaria = null;
 		try {
 			Cuentabancaria cuentabancariaDB = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
@@ -1103,7 +1104,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(cuentabancariaDB.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
 			transaccioncuentabancaria.setTipomoneda(cuentabancariaDB.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
-			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria,null);
+			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria,null, usuario);
 			
 			//cancelar la cuenta
 			cuentabancariaDB.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));
@@ -1120,7 +1121,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncuentabancaria cancelarCuentacorriente(Caja caja,Cuentabancaria cuentabancaria, Date fechaCancelacion) throws Exception {
+	public Transaccioncuentabancaria cancelarCuentacorriente(Caja caja,Cuentabancaria cuentabancaria, Date fechaCancelacion, Usuario usuario) throws Exception {
 		Transaccioncuentabancaria transaccioncuentabancaria = null;
 		try {
 			Cuentabancaria cuentabancariaDB = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
@@ -1139,7 +1140,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(cuentabancariaDB.getSaldo().subtract(transaccioncuentabancaria.getMonto()));
 			transaccioncuentabancaria.setTipomoneda(cuentabancariaDB.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
-			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria,null);
+			transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancariaDB, transaccioncuentabancaria,null, usuario);
 			
 			//cancelar la cuenta
 			cuentabancariaDB.setEstadocuenta(ProduceObject.getEstadocuenta(EstadocuentaType.INACTIVO));

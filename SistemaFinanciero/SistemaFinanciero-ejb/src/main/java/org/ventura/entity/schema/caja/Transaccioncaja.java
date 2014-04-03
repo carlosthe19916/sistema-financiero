@@ -5,6 +5,8 @@ import java.math.BigInteger;
 
 import javax.persistence.*;
 
+import org.ventura.entity.schema.seguridad.Usuario;
+
 import java.util.Date;
 
 /**
@@ -38,6 +40,10 @@ public class Transaccioncaja implements Serializable {
 	@JoinColumn(name = "idhistorialcaja", nullable = false)
 	private Historialcaja historialcaja;
 
+	@ManyToOne
+	@JoinColumn(name = "idusuario")
+	private Usuario usuario;
+	
 	public Transaccioncaja() {
 	}
 
@@ -93,6 +99,14 @@ public class Transaccioncaja implements Serializable {
 	@Override
 	public int hashCode() {
 		return idtransaccioncaja;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 }

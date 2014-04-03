@@ -41,6 +41,7 @@ import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.persona.Tipoempresa;
 import org.ventura.session.AgenciaBean;
 import org.ventura.session.CajaBean;
+import org.ventura.session.UsuarioMB;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.ProduceObject;
 import org.venturabank.util.JsfUtil;
@@ -54,6 +55,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Inject private UsuarioMB usuarioMB;
+	
 	private boolean isPersonanatural;
 	private boolean isPersonajuridica;
 	
@@ -268,7 +271,7 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					
 					BigDecimal teaReal = tea.divide(new BigDecimal(100));
 					//BigDecimal treaReal = trea.divide(new BigDecimal(100));
-					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio,montoApertura, teaReal, caja, agenciaBean.getAgencia());
+					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio,montoApertura, teaReal, caja, agenciaBean.getAgencia(), usuarioMB.getUsuario());
 					
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();

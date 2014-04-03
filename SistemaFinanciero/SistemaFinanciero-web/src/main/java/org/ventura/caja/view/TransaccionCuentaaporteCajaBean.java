@@ -39,6 +39,7 @@ import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.session.CajaBean;
+import org.ventura.session.UsuarioMB;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
@@ -54,6 +55,8 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject private UsuarioMB usuarioMB;
+	
 	@Inject private CajaBean cajaBean;
 	@Inject private Caja caja;
 	@Inject private Estadomovimiento estadomovimientoCaja;
@@ -169,7 +172,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 									transaccioncuentaaporte.setTipomoneda(tipomoneda);
 									transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getId().getMes());
 					
-									transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja,transaccioncuentaaporte);
+									transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja,transaccioncuentaaporte, usuarioMB.getUsuario());
 									
 									this.transaccioncuentaaporte = transaccioncuentaaporte;
 									success = true;

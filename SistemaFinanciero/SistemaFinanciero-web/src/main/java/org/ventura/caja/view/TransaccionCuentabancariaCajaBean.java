@@ -38,7 +38,9 @@ import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.session.CajaBean;
+import org.ventura.session.UsuarioMB;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.EstadoMovimientoType;
@@ -54,6 +56,8 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject
+	private UsuarioMB usuarioMB;
 	@Inject
 	private CajaBean cajaBean;
 	@Inject
@@ -170,10 +174,10 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 								TipoTransaccionType tipoTransaccionType = ProduceObject.getTipotransaccion(tipotransaccion);
 								switch (tipoTransaccionType) {
 								case DEPOSITO:
-									this.transaccioncuentabancaria = transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion);
+									this.transaccioncuentabancaria = transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion, usuarioMB.getUsuario());
 									break;
 								case RETIRO:
-									this.transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion);
+									this.transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion, usuarioMB.getUsuario());
 									break;
 								default:
 									break;

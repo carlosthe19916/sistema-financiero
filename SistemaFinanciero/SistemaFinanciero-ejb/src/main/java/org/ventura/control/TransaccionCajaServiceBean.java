@@ -63,6 +63,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Estadocuenta;
 import org.ventura.entity.schema.maestro.Tipomoneda;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.exception.InsufficientMoneyForTransactionException;
 import org.ventura.util.exception.InvalidTransactionBovedaException;
@@ -269,15 +270,14 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja,
-			Transaccioncompraventa transaccioncompraventa) throws Exception {
+	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja,Transaccioncompraventa transaccioncompraventa, Usuario usuario) throws Exception {
 		try {
 			boolean extornar = false;
 			Transaccioncaja transaccioncaja = new Transaccioncaja();
 			transaccioncaja.setFecha(Calendar.getInstance().getTime());
 			transaccioncaja.setHora(Calendar.getInstance().getTime());
-			transaccioncaja.setHistorialcaja(cajaServiceLocal
-					.getHistorialcajaLastActive(caja));
+			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncaja.setUsuario(usuario);
 			transaccioncajaDAO.create(transaccioncaja);
 
 			transaccioncompraventa.setTransaccioncaja(transaccioncaja);
@@ -589,7 +589,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception {
+	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte, Usuario usuario) throws Exception {
 		try {
 			String numeroCuentaaporte = transaccioncuentaaporte.getCuentaaporte().getNumerocuentaaporte();
 			Cuentaaporte cuentaaporte = cuentaaporteServiceLocal.findByNumerocuenta(numeroCuentaaporte);
@@ -652,6 +652,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncaja.setFecha(Calendar.getInstance().getTime());
 			transaccioncaja.setHora(Calendar.getInstance().getTime());
 			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncaja.setUsuario(usuario);
 			transaccioncajaDAO.create(transaccioncaja);
 			
 			transaccioncuentaaporte.setTransaccioncaja(transaccioncaja);
@@ -730,7 +731,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	/**
 	 * Transccionales*/
 	@Override
-	public Transaccioncuentabancaria deposito(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion) throws Exception {
+	public Transaccioncuentabancaria deposito(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion, Usuario usuario) throws Exception {
 		try {
 			int cuentabancariaPKey = cuentabancariaVista.getIdcuentabancaria();			
 			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.find(cuentabancariaPKey);		
@@ -757,6 +758,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncaja.setFecha(calendar.getTime());
 			transaccioncaja.setHora(calendar.getTime());
 			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncaja.setUsuario(usuario);
 			transaccioncajaDAO.create(transaccioncaja);
 				
 			//creando el detalle de la transaccion
@@ -800,7 +802,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncuentabancaria retiro(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion) throws Exception {
+	public Transaccioncuentabancaria retiro(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion, Usuario usuario) throws Exception {
 		try {
 			int cuentabancariaPKey = cuentabancariaVista.getIdcuentabancaria();			
 			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.find(cuentabancariaPKey);		
@@ -834,6 +836,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncaja.setFecha(calendar.getTime());
 			transaccioncaja.setHora(calendar.getTime());
 			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncaja.setUsuario(usuario);
 			transaccioncajaDAO.create(transaccioncaja);
 			
 			//creando el detalle de la transaccion

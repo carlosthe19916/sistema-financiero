@@ -27,6 +27,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.session.CajaBean;
+import org.ventura.session.UsuarioMB;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipocuentabancariaType;
@@ -40,6 +41,9 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject
+	private UsuarioMB usuarioMB;
+	
 	private boolean success;
 	private boolean failure;
 	
@@ -94,7 +98,7 @@ public class CancelacionCuentaplazofijoBean implements Serializable{
 				Cuentabancaria cuentabancaria =  new Cuentabancaria();
 				cuentabancaria.setIdcuentabancaria(cuentabancariaView.getIdCuentabancaria());
 				
-				transaccioncuentabancaria = cuentabancariaServiceLocal.cancelarCuentaplazofijo(caja, cuentabancaria, fechaCancelacion);
+				transaccioncuentabancaria = cuentabancariaServiceLocal.cancelarCuentaplazofijo(caja, cuentabancaria, fechaCancelacion, usuarioMB.getUsuario());
 				success = true;
 				failure = false;
 				loadVoucher();
