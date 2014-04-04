@@ -27,7 +27,7 @@
 
 			<h:panelGroup rendered="#{trabajadorCRUDBean.succes}">
 				<h:form>
-					<p:focus id="bottomFocus" for="salir"/>
+					<p:focus id="bottomFocus" for="salir" />
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
 					<div class="modal-dialog p6n-popup"
@@ -41,8 +41,8 @@
 						<div class="modal-dialog-buttons">
 							<h:commandButton value="Crear nuevo"
 								action="create?faces-redirect=true" immediate="true" />
-							<h:commandButton id="salir" value="Volver" action="list?faces-redirect=true"
-								immediate="true" />
+							<h:commandButton id="salir" value="Volver"
+								action="list?faces-redirect=true" immediate="true" />
 						</div>
 					</div>
 				</h:form>
@@ -62,7 +62,7 @@
 			</h:panelGroup>
 
 			<h:form>
-				<p:focus id="formFocus" for="cmbTipodocumento"/>
+				<p:focus id="formFocus" for="cmbTipodocumento" />
 				<br />
 				<div>
 					<div style="margin-left: 50px;">
@@ -95,14 +95,15 @@
 											<div>
 												<h:selectOneMenu id="cmbTipodocumento"
 													value="#{trabajadorCRUDBean.comboTipodocumento.itemSelected}"
+													valueChangeListener="#{trabajadorCRUDBean.changeTipodocumento}"
 													required="true"
 													requiredMessage="Seleccione tipo de documento">
 													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 													<f:selectItems
 														value="#{trabajadorCRUDBean.comboTipodocumento.items.entrySet()}"
 														var="val" itemLabel="#{val.value.abreviatura}"
-														itemValue="#{val.key}"/>
-													<f:ajax></f:ajax>
+														itemValue="#{val.key}" />
+													<f:ajax render="txtNumerodocumento" execute="@this"></f:ajax>
 												</h:selectOneMenu>
 											</div>
 										</div>
@@ -112,7 +113,9 @@
 											<div>
 												<h:inputText id="txtNumerodocumento"
 													value="#{trabajadorCRUDBean.numerodocumento}"
-													required="true" maxlength="15" autocomplete="off"
+													required="true"
+													maxlength="#{trabajadorCRUDBean.longitudDocumento}"
+													autocomplete="off"
 													requiredMessage="Ingrese numero documento"
 													validatorMessage="Número de documento Invalido"
 													converterMessage="Número de documento Invalido"
@@ -234,7 +237,7 @@
 											<div style="display: inline-block; width: 190px;">
 												<div class="p6n-api-consent-screen-label">ESTADO CIVIL</div>
 												<div>
-													<h:selectOneMenu id="cmbEstadocivil" 
+													<h:selectOneMenu id="cmbEstadocivil"
 														value="#{trabajadorCRUDBean.comboEstadocivil.itemSelected}">
 														<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 														<f:selectItems
@@ -249,7 +252,8 @@
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.ocupacion}"
 														onkeyup="this.value = this.value.toUpperCase();"
-														maxlength="70" pt:placeholder="Ocupacion" autocomplete="off"/>
+														maxlength="70" pt:placeholder="Ocupacion"
+														autocomplete="off" />
 												</div>
 											</div>
 										</div>
@@ -261,7 +265,8 @@
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.direccion}"
 														onkeyup="this.value = this.value.toUpperCase();"
-														maxlength="150" pt:placeholder="Direccion" autocomplete="off">
+														maxlength="150" pt:placeholder="Direccion"
+														autocomplete="off">
 													</h:inputText>
 												</div>
 											</div>
@@ -272,7 +277,8 @@
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.referencia}"
 														onkeyup="this.value = this.value.toUpperCase();"
-														maxlength="100" pt:placeholder="Referencia" autocomplete="off">
+														maxlength="100" pt:placeholder="Referencia"
+														autocomplete="off">
 													</h:inputText>
 												</div>
 											</div>
@@ -284,7 +290,8 @@
 											<div>
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.telefono}"
-														maxlength="25" pt:placeholder="066000000" autocomplete="off">
+														maxlength="25" pt:placeholder="066000000"
+														autocomplete="off">
 													</h:inputText>
 												</div>
 											</div>
@@ -294,7 +301,8 @@
 											<div>
 												<div>
 													<h:inputText value="#{trabajadorCRUDBean.celular}"
-														maxlength="25" pt:placeholder="Ceular/RPM" autocomplete="off">
+														maxlength="25" pt:placeholder="Ceular/RPM"
+														autocomplete="off">
 													</h:inputText>
 												</div>
 											</div>
@@ -307,7 +315,7 @@
 												<h:inputText value="#{trabajadorCRUDBean.email}"
 													onkeyup="this.value = this.value.toUpperCase();"
 													maxlength="50" pt:placeholder="example@domain.com"
-													style="width:339px;" autocomplete="off"/>
+													style="width:339px;" autocomplete="off" />
 											</div>
 										</div>
 									</div>

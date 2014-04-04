@@ -140,7 +140,7 @@ public class Tipodocumento implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if ((obj == null) || !(obj instanceof Sexo)) {
+		if ((obj == null) || !(obj instanceof Tipodocumento)) {
 			return false;
 		}
 		// a room can be uniquely identified by it's number and the building it

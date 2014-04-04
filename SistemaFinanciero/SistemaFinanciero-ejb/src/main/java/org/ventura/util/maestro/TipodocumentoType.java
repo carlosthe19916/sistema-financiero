@@ -9,6 +9,6 @@ public enum TipodocumentoType {
 	/**
 	 * Retiro representa un egreso de dinero
 	 */
-	RUC
+	RUC, CARNET_EXTRANGERIA, PASAPORTE
 
 }

@@ -48,6 +48,7 @@
 											<div>
 												<h:selectOneMenu id="cmbTipodocumento"
 													value="#{personanaturalCRUDBean.comboTipodocumento.itemSelected}"
+													valueChangeListener="#{personanaturalCRUDBean.changeTipodocumento}"
 													required="true"
 													requiredMessage="Seleccione tipo de documento">
 													<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
@@ -55,7 +56,7 @@
 														value="#{personanaturalCRUDBean.comboTipodocumento.items.entrySet()}"
 														var="val" itemLabel="#{val.value.abreviatura}"
 														itemValue="#{val.key}" />
-													<f:ajax></f:ajax>
+													<f:ajax render="txtDni" execute="@this"></f:ajax>
 												</h:selectOneMenu>
 											</div>
 										</div>
@@ -65,7 +66,8 @@
 											<div>
 												<h:inputText id="txtDni"
 													value="#{personanaturalCRUDBean.numerodocumento}"
-													required="true" maxlength="15"
+													required="true"
+													maxlength="#{personanaturalCRUDBean.longitudDocumento}"
 													requiredMessage="Ingrese numero documento"
 													validatorMessage="Número de documento Invalido"
 													converterMessage="Número de documento Invalido"
@@ -163,7 +165,7 @@
 														requiredMessage="Ingrese fecha de nacimiento"
 														converterMessage="formato incorrecto"
 														pt:placeholder="dd/mm/yyyy">
-														<f:convertDateTime pattern="dd/MM/yy" timeZone="EST"/> 
+														<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 													</p:calendar>
 												</div>
 											</div>
@@ -198,7 +200,8 @@
 												<div class="p6n-api-consent-screen-label">OCUPACION</div>
 												<div>
 													<h:inputText value="#{personanaturalCRUDBean.ocupacion}"
-														maxlength="70" pt:placeholder="ocupacion" onkeyup="this.value = this.value.toUpperCase();">
+														maxlength="70" pt:placeholder="ocupacion"
+														onkeyup="this.value = this.value.toUpperCase();">
 													</h:inputText>
 												</div>
 											</div>
@@ -287,8 +290,8 @@
 						<div class="modal-dialog-content ng-binding">La persona fue
 							actualizada satistactoriamente.</div>
 						<div class="modal-dialog-buttons">
-							<h:commandButton value="Aceptar" action="list?faces-redirect=true"
-								immediate="true" />
+							<h:commandButton value="Aceptar"
+								action="list?faces-redirect=true" immediate="true" />
 						</div>
 					</div>
 				</h:form>

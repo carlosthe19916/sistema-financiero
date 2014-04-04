@@ -45,6 +45,7 @@
 											<div>
 												<h:selectOneMenu id="cmbTipodocumento"
 													value="#{personanaturalCRUDBean.comboTipodocumento.itemSelected}"
+													valueChangeListener="#{personanaturalCRUDBean.changeTipodocumento}"
 													required="true"
 													requiredMessage="Seleccione tipo de documento">
 													<f:selectItem itemLabel="--Seleccione--" itemValue="" />
@@ -52,7 +53,8 @@
 														value="#{personanaturalCRUDBean.comboTipodocumento.items.entrySet()}"
 														var="val" itemLabel="#{val.value.abreviatura}"
 														itemValue="#{val.key}" />
-													<f:ajax></f:ajax>
+													<f:ajax render="txtDni"
+														execute="@this"></f:ajax>
 												</h:selectOneMenu>
 											</div>
 										</div>
@@ -62,7 +64,8 @@
 											<div>
 												<h:inputText id="txtDni"
 													value="#{personanaturalCRUDBean.numerodocumento}"
-													required="true" maxlength="15"
+													required="true"
+													maxlength="#{personanaturalCRUDBean.longitudDocumento}"
 													requiredMessage="Ingrese numero documento"
 													validatorMessage="Número de documento Invalido"
 													converterMessage="Número de documento Invalido"

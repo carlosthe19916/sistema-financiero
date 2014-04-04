@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,10 +16,13 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.dependent.ComboBean;
+import org.ventura.entity.schema.caja.Boveda;
 import org.ventura.entity.schema.maestro.Estadocivil;
 import org.ventura.entity.schema.maestro.Sexo;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipodocumentoType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -27,6 +31,8 @@ public class PersonanaturalCRUDBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private int longitudDocumento;
+	
 	@Inject 
 	ComboBean<Tipodocumento> comboTipodocumento;
 	@NotNull 
@@ -68,6 +74,7 @@ public class PersonanaturalCRUDBean implements Serializable {
 	public PersonanaturalCRUDBean() {
 		success = false;
 		failure = false;
+		longitudDocumento = 15;
 	}
 	
 	@PostConstruct
@@ -180,7 +187,23 @@ public class PersonanaturalCRUDBean implements Serializable {
 		 * true; }
 		 */return true;
 	}
-
+	
+	public void changeTipodocumento(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		Tipodocumento tipodocumento = comboTipodocumento.getObjectItemSelected(key);
+		if(tipodocumento != null){
+			if(ProduceObject.getTipodocumento(TipodocumentoType.DNI).equals(tipodocumento)){
+				this.longitudDocumento = 8;
+			}
+			if(ProduceObject.getTipodocumento(TipodocumentoType.PASAPORTE).equals(tipodocumento)){
+				this.longitudDocumento = 11;
+			}
+			if(ProduceObject.getTipodocumento(TipodocumentoType.CARNET_EXTRANGERIA).equals(tipodocumento)){
+				this.longitudDocumento = 11;
+			}
+		}		
+	}
+	
 	public ComboBean<Tipodocumento> getComboTipodocumento() {
 		return comboTipodocumento;
 	}
@@ -324,6 +347,14 @@ public class PersonanaturalCRUDBean implements Serializable {
 
 	public void setFailure(boolean failure) {
 		this.failure = failure;
+	}
+
+	public int getLongitudDocumento() {
+		return longitudDocumento;
+	}
+
+	public void setLongitudDocumento(int longitudDocumento) {
+		this.longitudDocumento = longitudDocumento;
 	}
 
 }

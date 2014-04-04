@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,6 +26,8 @@ import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.rrhh.Trabajador;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipodocumentoType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -35,6 +38,8 @@ public class TrabajadorCRUDBean implements Serializable {
 
 	private boolean succes;
 	private boolean failure;
+	
+	private int longitudDocumento;
 	
 	@Inject private ComboBean<Tipodocumento> comboTipodocumento;
 	@NotNull private String numerodocumento;
@@ -65,6 +70,8 @@ public class TrabajadorCRUDBean implements Serializable {
 		succes = false;
 		failure = false;
 		idtrabajador = -1;
+		
+		longitudDocumento = 15;
 	}
 	
 	@PostConstruct
@@ -226,6 +233,21 @@ public class TrabajadorCRUDBean implements Serializable {
 		return personanatural;
 	}
 		
+	public void changeTipodocumento(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		Tipodocumento tipodocumento = comboTipodocumento.getObjectItemSelected(key);
+		if(tipodocumento != null){
+			if(ProduceObject.getTipodocumento(TipodocumentoType.DNI).equals(tipodocumento)){
+				this.longitudDocumento = 8;
+			}
+			if(ProduceObject.getTipodocumento(TipodocumentoType.PASAPORTE).equals(tipodocumento)){
+				this.longitudDocumento = 11;
+			}
+			if(ProduceObject.getTipodocumento(TipodocumentoType.CARNET_EXTRANGERIA).equals(tipodocumento)){
+				this.longitudDocumento = 11;
+			}
+		}		
+	}
 
 	public boolean isSucces() {
 		return succes;
@@ -377,6 +399,14 @@ public class TrabajadorCRUDBean implements Serializable {
 
 	public void setTrabajador(Trabajador trabajador) {
 		this.trabajador = trabajador;
+	}
+
+	public int getLongitudDocumento() {
+		return longitudDocumento;
+	}
+
+	public void setLongitudDocumento(int longitudDocumento) {
+		this.longitudDocumento = longitudDocumento;
 	}
 	
 }

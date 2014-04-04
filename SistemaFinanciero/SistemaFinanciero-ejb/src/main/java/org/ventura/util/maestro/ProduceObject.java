@@ -268,6 +268,12 @@ public class ProduceObject {
 		switch (tipodocumentoType) {
 		case DNI:
 			tipodocumento.setIdtipodocumento(1);
+			break;		
+		case CARNET_EXTRANGERIA:
+			tipodocumento.setIdtipodocumento(2);
+			break;
+		case PASAPORTE:
+			tipodocumento.setIdtipodocumento(3);
 			break;
 		case RUC:
 			tipodocumento.setIdtipodocumento(5);
