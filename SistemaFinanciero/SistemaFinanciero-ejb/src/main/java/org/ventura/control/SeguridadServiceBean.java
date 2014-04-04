@@ -114,6 +114,20 @@ public class SeguridadServiceBean implements SeguridadServiceLocal {
 	} 
 	
 	@Override
+	public List<Usuario> getUsuarios() throws Exception {
+		List<Usuario> list;
+		try {				
+			list = usuarioDAO.findByNamedQuery(Usuario.ALL_ACTIVE);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return list;
+	}
+	
+	@Override
 	public List<Usuario> getUsuariosFromAgencia(Agencia agencia) throws Exception {
 		List<Usuario> list;
 		try {	
@@ -135,11 +149,18 @@ public class SeguridadServiceBean implements SeguridadServiceLocal {
 	public List<Usuario> getUsuariosFromRol(Rol rol, Agencia agencia) throws Exception {
 		List<Usuario> list;
 		try {	
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("idrol", rol.getIdrol());
-			parameters.put("idagencia", agencia.getIdagencia());
 			
-			list = usuarioDAO.findByNamedQuery(Usuario.f_idrol_idagencia,parameters);
+			if(agencia != null){
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("idrol", rol.getIdrol());
+				parameters.put("idagencia", agencia.getIdagencia());
+				list = usuarioDAO.findByNamedQuery(Usuario.f_idrol_idagencia,parameters);
+			} else {
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("idrol", rol.getIdrol());				
+				list = usuarioDAO.findByNamedQuery(Usuario.f_idrol,parameters);
+			}
+			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

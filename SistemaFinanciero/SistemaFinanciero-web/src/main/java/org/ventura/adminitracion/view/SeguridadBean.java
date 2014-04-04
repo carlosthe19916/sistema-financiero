@@ -1,14 +1,17 @@
 package org.ventura.adminitracion.view;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.digester.parser.GenericParser;
 import org.primefaces.model.DualListModel;
 import org.ventura.boundary.local.SeguridadServiceLocal;
 import org.ventura.dependent.TablaBean;
@@ -17,6 +20,7 @@ import org.ventura.entity.schema.seguridad.Grupo;
 import org.ventura.entity.schema.seguridad.Rol;
 import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.session.AgenciaBean;
+import org.ventura.session.UsuarioMB;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -25,6 +29,8 @@ public class SeguridadBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject private UsuarioMB usuarioMB;
+	
 	private boolean dlgRol;
 	private boolean dlgGrupo;
 	private boolean dlgUsuario;
@@ -47,7 +53,7 @@ public class SeguridadBean implements Serializable {
 	
 	@EJB
 	private SeguridadServiceLocal seguridadServiceLocal;
-
+	
 	public SeguridadBean() {
 		dlgRol = false;
 		dlgGrupo = false;
@@ -63,7 +69,13 @@ public class SeguridadBean implements Serializable {
 		try {
 			List<Rol> roles = seguridadServiceLocal.getRoles();
 			List<Grupo> grupos = seguridadServiceLocal.getGrupos();
-			List<Usuario> usuarios = seguridadServiceLocal.getUsuariosFromAgencia(agenciaBean.getAgencia());
+			
+			List<Usuario> usuarios = null;
+			if(usuarioMB.getRol().getNombre().toLowerCase().equals("administrador") || usuarioMB.getRol().getNombre().toLowerCase().equals("admin")){
+				usuarios = seguridadServiceLocal.getUsuarios();
+			} else {
+				 usuarios = seguridadServiceLocal.getUsuariosFromAgencia(agenciaBean.getAgencia());
+			}
 			
 			tablaRol.setRows(roles);
 			tablaGrupo.setRows(grupos);
@@ -76,7 +88,13 @@ public class SeguridadBean implements Serializable {
 	public void mostrarMiembrosDeRol(Rol rol){
 		try {
 			dlgRol = true;
-			List<Usuario> list = seguridadServiceLocal.getUsuariosFromRol(rol, agenciaBean.getAgencia());
+			List<Usuario> list = null;
+			if(usuarioMB.getRol().getNombre().toLowerCase().equals("administrador") || usuarioMB.getRol().getNombre().toLowerCase().equals("admin")){
+				list = seguridadServiceLocal.getUsuariosFromRol(rol,null);
+			} else {
+				list = seguridadServiceLocal.getUsuariosFromRol(rol, agenciaBean.getAgencia());
+			}
+			 
 			tablaUsuarioMiembros.setRows(list);
 		} catch (Exception e) {
 			failure = true;
@@ -92,7 +110,13 @@ public class SeguridadBean implements Serializable {
 			tablaUsuarioMiembros.setRows(list);
 			
 			List<Usuario> target = list;
-			List<Usuario> source = seguridadServiceLocal.getUsuariosFromAgencia(agenciaBean.getAgencia());
+			List<Usuario> source = null;
+			if(usuarioMB.getRol().getNombre().toLowerCase().equals("administrador") || usuarioMB.getRol().getNombre().toLowerCase().equals("admin")){
+				source = seguridadServiceLocal.getUsuarios();
+			} else {
+				source = seguridadServiceLocal.getUsuariosFromAgencia(agenciaBean.getAgencia());
+			}
+			 
 			source.removeAll(target);
 			
 			usuariosPickList.setTarget(target);

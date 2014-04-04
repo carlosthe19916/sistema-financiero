@@ -25,6 +25,7 @@ import java.util.List;
 		@NamedQuery(name = Usuario.fadministrador_idagencia_usuario_password, query = "Select u From Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a WHERE a.idagencia = :idagencia AND u.username = :usuario AND u.password = :password AND u.estado = TRUE"),
 		@NamedQuery(name = Usuario.f_idagencia, query = "SELECT DISTINCT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a LEFT JOIN u.grupos g LEFT JOIN g.rols r WHERE a.idagencia= :idagencia AND u.estado = TRUE ORDER BY u.idusuario"),
 		@NamedQuery(name = Usuario.f_idrol_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND r.idrol = :idrol AND u.estado = TRUE ORDER BY u.idusuario"),
+		@NamedQuery(name = Usuario.f_idrol, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE r.idrol = :idrol AND u.estado = TRUE ORDER BY u.idusuario"),
 		@NamedQuery(name = Usuario.f_idgrupo_idagencia, query = "SELECT u FROM Usuario u INNER JOIN u.trabajador t INNER JOIN t.agencia a INNER JOIN u.grupos g INNER JOIN g.rols r WHERE a.idagencia= :idagencia AND g.idgrupo = :idgrupo AND u.estado = TRUE ORDER BY u.idusuario"),
 		@NamedQuery(name = Usuario.ALL_USER_ACTIVE_BY_AGENCIA, query = "Select u from Usuario u where u.estado = true and u.trabajador.agencia.idagencia = :idagencia order by u.trabajador.personanatural.apellidopaterno"),
 		@NamedQuery(name = Usuario.ALL_USER_FOR_CAJA, query = "select u from Usuario u inner join u.cajas c where c.idcaja = :idcaja")})
@@ -41,6 +42,7 @@ public class Usuario implements Serializable {
 	public final static String fadministrador_idagencia_usuario_password = "org.ventura.entity.schema.seguridad.Usuario.fadministrador_idagencia_usuario_password";
 	public final static String f_idagencia = "org.ventura.entity.schema.seguridad.Usuario.f_idagencia";
 	public final static String f_idrol_idagencia = "org.ventura.entity.schema.seguridad.Usuario.f_idrol_iagencia";
+	public final static String f_idrol = "org.ventura.entity.schema.seguridad.Usuario.f_idrol";
 	public final static String f_idgrupo_idagencia = "org.ventura.entity.schema.seguridad.Usuario.f_idgrupo_idagencia";
 	
 	public final static String ALL_USER_ACTIVE_BY_AGENCIA = "org.ventura.model.Usuario.ALL_USER_ACTIVE_BY_AGENCIA";

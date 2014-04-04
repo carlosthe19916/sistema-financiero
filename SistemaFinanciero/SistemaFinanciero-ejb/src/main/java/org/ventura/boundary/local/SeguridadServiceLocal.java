@@ -23,6 +23,8 @@ public interface SeguridadServiceLocal extends SeguridadServiceRemote{
 	
 	public Usuario findUsuario(Object idusuario) throws Exception;
 	
+	public List<Usuario> getUsuarios() throws Exception;;
+	
 	public List<Usuario> getUsuariosFromAgencia(Agencia agencia) throws Exception;
 	
 	public List<Usuario> getUsuariosFromRol(Rol rol, Agencia agencia) throws Exception;
@@ -44,4 +46,6 @@ public interface SeguridadServiceLocal extends SeguridadServiceRemote{
 
 	/*caja*/
 	public List<Usuario> findByNamedQuery(String namedQueryName, Map<String, Object> parameters) throws Exception;
+
+	
 }
