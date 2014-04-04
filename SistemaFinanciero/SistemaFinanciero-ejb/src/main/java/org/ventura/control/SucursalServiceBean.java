@@ -123,6 +123,12 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 		List<Sucursal> list;
 		try {
 			list = sucursalDAO.findByNamedQuery(Sucursal.f_allActive);
+			for (Sucursal sucursal : list) {
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("idsucursal", sucursal.getIdsucursal());
+				List<Agencia> listAgencia = agenciaDAO.findByNamedQuery(Agencia.f_idsucursal,parameters);
+				sucursal.setAgencias(listAgencia);
+			}
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

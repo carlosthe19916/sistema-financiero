@@ -11,12 +11,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "agencia", schema = "sucursal")
 @NamedQuery(name = "Agencia.findAll", query = "SELECT a FROM Agencia a")
-@NamedQueries({ @NamedQuery(name = Agencia.f_allActive, query = "SELECT a FROM Agencia a WHERE a.estado = TRUE") })
+@NamedQueries({
+		@NamedQuery(name = Agencia.f_allActive, query = "SELECT a FROM Agencia a WHERE a.estado = TRUE"),
+		@NamedQuery(name = Agencia.f_idsucursal, query = "SELECT a FROM Agencia a WHERE a.sucursal.idsucursal = :idsucursal AND a.estado = TRUE") })
 public class Agencia implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public final static String f_allActive = "org.ventura.entity.schema.sucursal.f_allActive";
+	public final static String f_idsucursal = "org.ventura.entity.schema.sucursal.f_idsucursal";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -88,7 +91,7 @@ public class Agencia implements Serializable {
 			return false;
 		}
 		final Agencia other = (Agencia) obj;
-		if(this.idagencia != null && other.idagencia != null)
+		if (this.idagencia != null && other.idagencia != null)
 			return other.getIdagencia().equals(this.idagencia) ? true : false;
 		else
 			return other.hashCode() == this.hashCode() ? true : false;
@@ -96,10 +99,11 @@ public class Agencia implements Serializable {
 
 	@Override
 	public int hashCode() {
-		if(idagencia != null)
+		if (idagencia != null)
 			return idagencia;
 		else
-			return denominacion.hashCode()+abreviatura.hashCode()+codigoagencia.hashCode();
+			return denominacion.hashCode() + abreviatura.hashCode()
+					+ codigoagencia.hashCode();
 	}
 
 	public Sucursal getSucursal() {

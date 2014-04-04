@@ -68,6 +68,11 @@
 											<p:column headerText="ABREVIATURA">
 												<h:outputText value="#{sucursal.abreviatura}" />
 											</p:column>
+											<p:column headerText="AGENCIAS">
+												<ui:repeat var="agencia" value="#{sucursal.agencias}">
+													<h:outputText value="|&nbsp;&nbsp;#{agencia.denominacion}&nbsp;&nbsp;|" />
+												</ui:repeat>
+											</p:column>
 											<p:column headerText="ESTADO">
 												<h:outputText
 													value="#{sucursal.estado ? 'Activo' : 'Inactivo'}" />
