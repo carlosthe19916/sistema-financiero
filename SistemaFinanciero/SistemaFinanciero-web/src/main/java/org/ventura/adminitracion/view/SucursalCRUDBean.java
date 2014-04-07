@@ -1,15 +1,20 @@
 package org.ventura.adminitracion.view;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.dependent.TablaBean;
@@ -66,14 +71,76 @@ public class SucursalCRUDBean implements Serializable {
 	
 	@PostConstruct
 	private void initialize() throws Exception {
+		Map<String, String> mapDepartamentosNoOrdenados = new HashMap<String, String>();
 		try {
 			List<Ubigeo> listDepartamentos = maestrosServiceLocal.getDepartamentos();	
 			for (Ubigeo u : listDepartamentos) {
-				mapDepartamentos.put(u.getIdubigeo().substring(0,2), u.getDepartamento());
+				mapDepartamentosNoOrdenados.put(u.getIdubigeo().substring(0,2), u.getDepartamento());
 			}
+			//ordenando map departamentos 
+			mapDepartamentos = ordenarMap(mapDepartamentosNoOrdenados);
+			
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	public void actualizarProvincias(){
+		Map<String, String> mapProvinciasNoOrdenados = new HashMap<String, String>();
+		try {
+			Ubigeo ubigeo = new Ubigeo();
+			ubigeo.setIdubigeo(idDepartamentoSelected);
+			List<Ubigeo> list = maestrosServiceLocal.getProvincias(ubigeo);
+			mapProvinciasNoOrdenados.clear();
+			mapProvincias.clear();
+			for (Ubigeo u : list) {
+				mapProvinciasNoOrdenados.put(u.getIdubigeo().substring(2, 4), u.getProvincia());
+			}
+			
+			//ordenar map provincias
+			mapProvincias = ordenarMap(mapProvinciasNoOrdenados);
+			
+			idProvinciaSelected = null;
+			mapDistritos.clear();
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void actualizarDistritos(){
+		Map<String, String> mapDistritosNoOrdenados = new HashMap<String, String>();
+		try {
+			Ubigeo ubigeo = new Ubigeo();
+			ubigeo.setIdubigeo(idDepartamentoSelected+idProvinciaSelected);
+			List<Ubigeo> list = maestrosServiceLocal.getDistritos(ubigeo);
+			mapDistritosNoOrdenados.clear();
+			mapDistritos.clear();
+			for (Ubigeo u : list) {
+				mapDistritosNoOrdenados.put(u.getIdubigeo().substring(4, 6), u.getDistrito());
+			}
+			
+			//ordenar map distritos
+			mapDistritos = ordenarMap(mapDistritosNoOrdenados);
+			
+			idDistritoSelected = null;
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public Map<String, String> ordenarMap(Map<String, String> map){
+		HashMap<String, String> mapOrdenado = new LinkedHashMap<String, String>();
+		List<String> mapKeys = new ArrayList<>(map.keySet());
+		List<String> mapValues = new ArrayList<String>(map.values());
+		
+		TreeSet<String> conjuntoOrdenado = new TreeSet<String>(mapValues);
+		String[] arrayOrdenado = conjuntoOrdenado.toArray(new String[conjuntoOrdenado.size()]);
+		for (int i = 0; i < arrayOrdenado.length; i++) {
+			mapOrdenado.put(mapKeys.get(mapValues.indexOf(arrayOrdenado[i])), arrayOrdenado[i]);
+		}
+		return mapOrdenado;
 	}
 	
 	public void loadSucursalForEdit(){
@@ -186,42 +253,6 @@ public class SucursalCRUDBean implements Serializable {
 		denominacionAgencia = agencia.getDenominacion();
 		abreviaturaAgencia = agencia.getAbreviatura();
 		codigoAgencia = agencia.getCodigoagencia();
-	}
-	
-	
-	public void actualizarProvincias(){
-		try {
-			Ubigeo ubigeo = new Ubigeo();
-			ubigeo.setIdubigeo(idDepartamentoSelected);
-			List<Ubigeo> list = maestrosServiceLocal.getProvincias(ubigeo);
-			mapProvincias.clear();
-			for (Ubigeo u : list) {
-				mapProvincias.put(u.getIdubigeo().substring(2, 4), u.getProvincia());
-			}
-			
-			idProvinciaSelected = null;
-			mapDistritos.clear();
-		} catch (Exception e) {
-			failure = true;
-			JsfUtil.addErrorMessage(e.getMessage());
-		}
-	}
-	
-	public void actualizarDistritos(){
-		try {
-			Ubigeo ubigeo = new Ubigeo();
-			ubigeo.setIdubigeo(idDepartamentoSelected+idProvinciaSelected);
-			List<Ubigeo> list = maestrosServiceLocal.getDistritos(ubigeo);
-			mapDistritos.clear();
-			for (Ubigeo u : list) {
-				mapDistritos.put(u.getIdubigeo().substring(4, 6), u.getDistrito());
-			}
-			
-			idDistritoSelected = null;
-		} catch (Exception e) {
-			failure = true;
-			JsfUtil.addErrorMessage(e.getMessage());
-		}
 	}
 
 	public boolean isSucces() {

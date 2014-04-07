@@ -1,7 +1,11 @@
 package org.ventura.control;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -101,6 +105,7 @@ public class MaestrosServiceBean implements MaestrosServiceLocal {
 				mapDepartamentos.put(idDepartamento, ubigeo);
 			}	
 			list = new ArrayList<Ubigeo>(mapDepartamentos.values());
+			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

@@ -12,9 +12,9 @@ import javax.persistence.*;
 @Table(name = "ubigeo", schema = "maestro")
 @NamedQuery(name = "Ubigeo.findAll", query = "SELECT u FROM Ubigeo u")
 @NamedQueries({
-		@NamedQuery(name = Ubigeo.f_departamentos, query = "SELECT u FROM Ubigeo u ORDER BY u.idubigeo"),
-		@NamedQuery(name = Ubigeo.f_provincias, query = "SELECT u FROM Ubigeo u WHERE SUBSTRING(u.idubigeo,1,2) = :iddepartamento ORDER BY u.idubigeo"),
-		@NamedQuery(name = Ubigeo.f_distritos, query = "SELECT u FROM Ubigeo u WHERE SUBSTRING(u.idubigeo,1,4) = :idprovincia ORDER BY u.idubigeo") })
+		@NamedQuery(name = Ubigeo.f_departamentos, query = "SELECT u FROM Ubigeo u ORDER BY u.departamento"),
+		@NamedQuery(name = Ubigeo.f_provincias, query = "SELECT u FROM Ubigeo u WHERE SUBSTRING(u.idubigeo,1,2) = :iddepartamento ORDER BY u.provincia"),
+		@NamedQuery(name = Ubigeo.f_distritos, query = "SELECT u FROM Ubigeo u WHERE SUBSTRING(u.idubigeo,1,4) = :idprovincia ORDER BY u.distrito") })
 public class Ubigeo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
