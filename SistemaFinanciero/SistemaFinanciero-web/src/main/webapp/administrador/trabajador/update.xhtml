@@ -77,7 +77,7 @@
 										<div class="p6n-api-consent-screen-input-section">
 											<div style="display: inline-block; width: 190px;">
 												<div class="p6n-api-consent-screen-label">
-													<h:outputLabel
+													<h:outputLabel style="font-size: 14px;"
 														value="#{trabajadorCRUDBean.agencia.denominacion}" />
 												</div>
 											</div>
@@ -249,7 +249,7 @@
 											<div style="display: inline-block;">
 												<div class="p6n-api-consent-screen-label">OCUPACION</div>
 												<div>
-													<h:inputText value="#{trabajadorCRUDBean.ocupacion}"
+													<h:inputText id="txtOcupacion" value="#{trabajadorCRUDBean.ocupacion}"
 														onkeyup="this.value = this.value.toUpperCase();"
 														maxlength="70" pt:placeholder="Ocupacion"
 														autocomplete="off" />
@@ -262,7 +262,7 @@
 											<div class="p6n-api-consent-screen-label">DIRECCION</div>
 											<div>
 												<div>
-													<h:inputText value="#{trabajadorCRUDBean.direccion}"
+													<h:inputText id="txtDireccion" value="#{trabajadorCRUDBean.direccion}"
 														onkeyup="this.value = this.value.toUpperCase();"
 														maxlength="150" pt:placeholder="Direccion"
 														autocomplete="off">
@@ -274,7 +274,7 @@
 											<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 											<div>
 												<div>
-													<h:inputText value="#{trabajadorCRUDBean.referencia}"
+													<h:inputText id="txtReferencia" value="#{trabajadorCRUDBean.referencia}"
 														onkeyup="this.value = this.value.toUpperCase();"
 														maxlength="100" pt:placeholder="Referencia"
 														autocomplete="off">
@@ -288,7 +288,7 @@
 											<div class="p6n-api-consent-screen-label">TELEFONO</div>
 											<div>
 												<div>
-													<h:inputText value="#{trabajadorCRUDBean.telefono}"
+													<h:inputText id="txtTelefono" value="#{trabajadorCRUDBean.telefono}"
 														maxlength="25" pt:placeholder="066000000"
 														autocomplete="off">
 													</h:inputText>
@@ -299,7 +299,7 @@
 											<div class="p6n-api-consent-screen-label">CELULAR</div>
 											<div>
 												<div>
-													<h:inputText value="#{trabajadorCRUDBean.celular}"
+													<h:inputText id="txtCelular" value="#{trabajadorCRUDBean.celular}"
 														maxlength="25" pt:placeholder="Ceular/RPM"
 														autocomplete="off">
 													</h:inputText>
@@ -311,7 +311,7 @@
 										<div class="p6n-api-consent-screen-label">EMAIL</div>
 										<div>
 											<div>
-												<h:inputText value="#{trabajadorCRUDBean.email}"
+												<h:inputText id="txtEmail" value="#{trabajadorCRUDBean.email}"
 													onkeyup="this.value = this.value.toUpperCase();"
 													maxlength="50" pt:placeholder="example@domain.com"
 													style="width:339px;" autocomplete="off" />
@@ -322,7 +322,7 @@
 									<div class="sf-buttons" style="float: left;">
 										<h:commandButton value="Guardar"
 											action="#{trabajadorCRUDBean.createTrabajador()}"
-											styleClass="action blue" />
+											styleClass="action green" />
 										<h:commandButton value="Cancelar" immediate="true"
 											action="list?faces-redirect=true" styleClass="action" />
 									</div>
