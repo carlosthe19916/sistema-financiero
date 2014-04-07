@@ -37,7 +37,6 @@ import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.ProduceObjectTasainteres;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipotasaCuentasPersonalesType;
-import org.ventura.util.math.BigDecimalMath;
 
 @Named
 @Stateless
@@ -85,7 +84,8 @@ public class SistemaServiceBean implements SistemaServiceLocal {
 			int currentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 			
 			if(lastDayOfMonth == currentDayOfMonth){
-				generarCapitalizacionCuentaAhorroAndCorriente(fecha);
+				//comentado para que no genere la capitalizacion mensual correspondiente
+				//generarCapitalizacionCuentaAhorroAndCorriente(fecha);
 			}	
 		} catch (Exception e) {
 			log.error(e.getMessage());
