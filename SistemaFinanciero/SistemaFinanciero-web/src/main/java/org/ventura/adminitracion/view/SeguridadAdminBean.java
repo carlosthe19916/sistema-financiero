@@ -1,6 +1,7 @@
 package org.ventura.adminitracion.view;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,18 +12,20 @@ import javax.inject.Named;
 
 import org.primefaces.model.DualListModel;
 import org.ventura.boundary.local.SeguridadServiceLocal;
+import org.ventura.boundary.local.SucursalServiceLocal;
+import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.seguridad.Grupo;
 import org.ventura.entity.schema.seguridad.Rol;
 import org.ventura.entity.schema.seguridad.Usuario;
-import org.ventura.session.AgenciaBean;
+import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.UsuarioMB;
 import org.venturabank.util.JsfUtil;
 
 @Named
 @ViewScoped
-public class SeguridadBean implements Serializable {
+public class SeguridadAdminBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,12 +49,14 @@ public class SeguridadBean implements Serializable {
 	
 	@Inject private TablaBean<Usuario> tablaUsuarioMiembros;
 	
-	@Inject private AgenciaBean agenciaBean;
+	@Inject private ComboBean<Agencia> comboAgencia;
 	
 	@EJB
 	private SeguridadServiceLocal seguridadServiceLocal;
+	@EJB
+	private SucursalServiceLocal sucursalServiceLocal;
 	
-	public SeguridadBean() {
+	public SeguridadAdminBean() {
 		dlgRol = false;
 		dlgGrupo = false;
 		success = false;
@@ -67,16 +72,14 @@ public class SeguridadBean implements Serializable {
 			List<Rol> roles = seguridadServiceLocal.getRoles();
 			List<Grupo> grupos = seguridadServiceLocal.getGrupos();
 			
-			List<Usuario> usuarios = null;
-			//if(usuarioMB.getRol().getNombre().toLowerCase().equals("administrador") || usuarioMB.getRol().getNombre().toLowerCase().equals("admin")){
-			//	usuarios = seguridadServiceLocal.getUsuarios();
-			//} else {
-				 usuarios = seguridadServiceLocal.getUsuariosFromAgencia(agenciaBean.getAgencia());
-			//}
-			
+			List<Usuario> usuarios = new ArrayList<Usuario>();
+		
 			tablaRol.setRows(roles);
 			tablaGrupo.setRows(grupos);
 			tablaUsuario.setRows(usuarios);
+			
+			List<Agencia> listAgencias = sucursalServiceLocal.getAllAgenciasActive();
+			comboAgencia.setItems(listAgencias);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -86,11 +89,8 @@ public class SeguridadBean implements Serializable {
 		try {
 			dlgRol = true;
 			List<Usuario> list = null;
-			//if(usuarioMB.getRol().getNombre().toLowerCase().equals("administrador") || usuarioMB.getRol().getNombre().toLowerCase().equals("admin")){
-				//list = seguridadServiceLocal.getUsuariosFromRol(rol,null);
-			//} else {
-				list = seguridadServiceLocal.getUsuariosFromRol(rol, agenciaBean.getAgencia());
-			//}
+
+			list = seguridadServiceLocal.getUsuariosFromRol(rol, comboAgencia.getObjectItemSelected());
 			 
 			tablaUsuarioMiembros.setRows(list);
 		} catch (Exception e) {
@@ -100,19 +100,16 @@ public class SeguridadBean implements Serializable {
 	}
 	
 	public void mostrarMiembrosDeGrupo(Grupo grupo){
-		try {
+		try {			
 			grupoSelected = grupo;
 			dlgGrupo = true;
-			List<Usuario> list = seguridadServiceLocal.getUsuariosFromGrupo(grupo, agenciaBean.getAgencia());
+			List<Usuario> list = seguridadServiceLocal.getUsuariosFromGrupo(grupo, comboAgencia.getObjectItemSelected());
 			tablaUsuarioMiembros.setRows(list);
 			
 			List<Usuario> target = list;
 			List<Usuario> source = null;
-			//if(usuarioMB.getRol().getNombre().toLowerCase().equals("administrador") || usuarioMB.getRol().getNombre().toLowerCase().equals("admin")){
-				//source = seguridadServiceLocal.getUsuarios();
-			//} else {
-				source = seguridadServiceLocal.getUsuariosFromAgencia(agenciaBean.getAgencia());
-			//}
+			
+			source = seguridadServiceLocal.getUsuariosFromAgencia(comboAgencia.getObjectItemSelected());
 			 
 			source.removeAll(target);
 			
@@ -241,6 +238,23 @@ public class SeguridadBean implements Serializable {
 		return result;
 	}
 	
+	public void changeAgencia() {
+		Agencia agencia = comboAgencia.getObjectItemSelected();
+		try {
+			List<Usuario> usuarios;
+			if (agencia != null) {			
+				usuarios = seguridadServiceLocal.getUsuariosFromAgencia(agencia);
+			}
+			else {
+				usuarios = new ArrayList<Usuario>();
+			}
+			tablaUsuario.setRows(usuarios);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}	
+	}
+	
 	public TablaBean<Usuario> getTablaUsuario() {
 		return tablaUsuario;
 	}
@@ -343,6 +357,14 @@ public class SeguridadBean implements Serializable {
 
 	public void setUsuarioSelected(Usuario usuarioSelected) {
 		this.usuarioSelected = usuarioSelected;
+	}
+
+	public ComboBean<Agencia> getComboAgencia() {
+		return comboAgencia;
+	}
+
+	public void setComboAgencia(ComboBean<Agencia> comboAgencia) {
+		this.comboAgencia = comboAgencia;
 	}
 
 }

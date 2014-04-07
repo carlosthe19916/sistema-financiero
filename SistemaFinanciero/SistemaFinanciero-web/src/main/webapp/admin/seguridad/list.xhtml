@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(22)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Control acceso" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<style>
+.ui-picklist .ui-picklist-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+	height: 200px;
+	width: 250px;
+}
+</style>
+			<h:outputStylesheet library="css" name="main.css" />
+			<br></br>
+			<h:panelGroup rendered="#{seguridadAdminBean.failure}">
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
+			<h:form>
+				<div class="p6n-api-consent-screen-inputs">
+					<div class="p6n-api-consent-screen-input-section">
+						<div class="p6n-api-consent-screen-label">AGENCIA</div>
+						<div>
+							<div style="float: left;">
+								<h:selectOneMenu id="cmbAgencia"
+									value="#{seguridadAdminBean.comboAgencia.itemSelected}"
+									required="true" requiredMessage="Seleccione agencia" style="height: 29px; min-width: 180px;">
+									<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+									<f:selectItems
+										value="#{seguridadAdminBean.comboAgencia.items.entrySet()}"
+										var="val" itemLabel="#{val.value.denominacion}"
+										itemValue="#{val.key}" />
+								</h:selectOneMenu>
+							</div>
+							<div style="float: left;">
+								<h:commandButton value="Buscar" style="margin: 0 0 0 1px;">
+									<f:ajax render=":tabView:formTab1 :tabView:formTab2 :tabView:formTab3" execute="@form"
+										listener="#{seguridadAdminBean.changeAgencia()}"></f:ajax>
+								</h:commandButton>								
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+			<br/><br/><br/><br/><br/><br/>
+
+			<p:tabView id="tabView">
+				<p:tab id="tab1" title="USUARIOS">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">
+								<h3>USUARIOS</h3>
+							</div>
+							<p>Los usuarios deben de estar dentro de algun grupo</p>
+						</div>
+						<br /> <br />
+						<h:form id="formTab1">
+							<div>
+								<div class="tiptip">
+									<h:commandLink action="createUsuario?faces-redirect=true"
+										styleClass="button left" title="Nuevo usuario">
+										<span class="icon icon3"></span>
+										<span class="label">Nuevo</span>
+									</h:commandLink>
+								</div>
+							</div>
+							<div>
+								<p:dataTable var="usuario"
+									value="#{seguridadAdminBean.tablaUsuario.rows}"
+									selectionMode="single"
+									selection="#{seguridadAdminBean.tablaUsuario.selectedRow}"
+									rowKey="#{usuario}" rowIndexVar="row">
+									<p:column headerText="Nro" width="5%"
+										style="text-align:center;">
+										<h:outputText value="#{row + 1}" />
+									</p:column>
+									<p:column headerText="USUARIO">
+										<h:outputText value="#{usuario.username}" />
+									</p:column>
+									<p:column headerText="TRABAJADOR">
+										<h:outputText
+											value="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno},#{usuario.trabajador.personanatural.nombres}" />
+									</p:column>
+									<p:column headerText="ROLES">
+										<h:outputText
+											value="#{seguridadAdminBean.listarRolesOfUsuario(usuario)}" />
+									</p:column>
+									<p:column headerText="GRUPOS">
+										<h:outputText
+											value="#{seguridadAdminBean.listarGrupos(usuario)}" />
+									</p:column>
+									<p:column headerText="ESTADO">
+										<h:outputText
+											value="#{usuario.estado ? 'Activo' : 'Inactivo'}" />
+									</p:column>
+									<p:column headerText="STATUS" style="text-align:center;"
+										width="137">
+										<div class="buttons">
+											<h:commandButton value="Grupos" styleClass="action green"
+												style="margin: 0 0 0 2px;">
+												<f:ajax
+													listener="#{seguridadAdminBean.mostrarGruposDeUsuario(usuario)}"
+													render=":dlgUsuario :formDlgUsuario"></f:ajax>
+											</h:commandButton>
+										</div>
+
+									</p:column>
+								</p:dataTable>
+							</div>
+						</h:form>
+
+					</div>
+				</p:tab>
+
+				<p:tab id="tab2" title="GRUPOS">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">
+								<h3>GRUPOS</h3>
+							</div>
+							<p>Los grupos involucran un conjunto de usuarios</p>
+						</div>
+						<br /> <br />
+						<h:form id="formTab2">
+							<div>
+								<p:dataTable var="grupo"
+									value="#{seguridadAdminBean.tablaGrupo.rows}"
+									selectionMode="single"
+									selection="#{seguridadAdminBean.tablaGrupo.selectedRow}"
+									rowKey="#{grupo}" rowIndexVar="row">
+									<p:column headerText="Nro" width="5%"
+										style="text-align:center;">
+										<h:outputText value="#{row + 1}" />
+									</p:column>
+									<p:column headerText="DENOMINACION">
+										<h:outputText value="#{grupo.nombre.toUpperCase()}" />
+									</p:column>
+									<p:column headerText="DESCRIPCION">
+										<h:outputText value="#{grupo.descripcion}" />
+									</p:column>
+									<p:column headerText="ROLES">
+										<h:outputText
+											value="#{seguridadAdminBean.listarRolesOfGrupo(grupo)}" />
+									</p:column>
+									<p:column headerText="ESTADO">
+										<h:outputText value="#{grupo.estado ? 'Activo' : 'Inactivo'}" />
+									</p:column>
+									<p:column headerText="STATUS" style="text-align:center;"
+										width="30px;">
+										<h:commandButton value="Miembros" styleClass="action green">
+											<f:ajax render=":dlgGrupo :formDlgGrupo"
+												listener="#{seguridadAdminBean.mostrarMiembrosDeGrupo(grupo)}"></f:ajax>
+										</h:commandButton>
+									</p:column>
+								</p:dataTable>
+							</div>
+						</h:form>
+					</div>
+				</p:tab>
+
+				<p:tab id="tab3" title="ROLES">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">
+								<h3>ROLES</h3>
+							</div>
+							<p>Los roles no pueden ser modificados</p>
+						</div>
+						<br /> <br />
+
+						<h:form id="formTab3">
+							<div>
+								<p:dataTable var="rol"
+									value="#{seguridadAdminBean.tablaRol.rows}"
+									selectionMode="single"
+									selection="#{seguridadAdminBean.tablaRol.selectedRow}"
+									rowKey="#{rol}" rowIndexVar="row">
+									<p:column headerText="Nro" width="5%"
+										style="text-align:center;">
+										<h:outputText value="#{row + 1}" />
+									</p:column>
+									<p:column headerText="DENOMINACION">
+										<h:outputText value="#{rol.nombre.toUpperCase()}" />
+									</p:column>
+									<p:column headerText="DESCRIPCION">
+										<h:outputText value="#{rol.descripcion}" />
+									</p:column>
+									<p:column headerText="ESTADO">
+										<h:outputText value="#{rol.estado ? 'Activo' : 'Inactivo'}" />
+									</p:column>
+									<p:column headerText="STATUS" style="text-align:center;"
+										width="30px;">
+										<h:commandButton value="Miembros" styleClass="action green">
+											<f:ajax render=":dlgRol"
+												listener="#{seguridadAdminBean.mostrarMiembrosDeRol(rol)}"></f:ajax>
+										</h:commandButton>
+									</p:column>
+								</p:dataTable>
+							</div>
+						</h:form>
+					</div>
+				</p:tab>
+			</p:tabView>
+			<h:panelGroup id="dlgUsuario">
+				<h:panelGroup rendered="#{seguridadAdminBean.dlgUsuario}">
+					<h:form id="formDlgUsuario">
+						<div class="modal-dialog p6n-popup"
+							style="left: 412.5px; top: 50px;">
+							<div class="p6n-popup-title">
+								Grupos del usuario:
+								<h:outputLabel
+									value="#{seguridadAdminBean.usuarioSelected.trabajador.personanatural.apellidopaterno} #{seguridadAdminBean.usuarioSelected.trabajador.personanatural.apellidomaterno},#{seguridadAdminBean.usuarioSelected.trabajador.personanatural.nombres}">
+								</h:outputLabel>
+							</div>
+							<div class="modal-dialog-content">
+								<p:pickList value="#{seguridadAdminBean.gruposPickList}"
+									var="grupo" itemLabel="#{grupo}" itemValue="#{grupo}">
+									<f:facet name="sourceCaption">No asignados</f:facet>
+									<f:facet name="targetCaption">Asignados</f:facet>
+								</p:pickList>
+								<div></div>
+							</div>
+							<div class="modal-dialog-buttons">
+								<h:commandButton value="Cancelar" styleClass="action">
+									<f:ajax render=":dlgUsuario"
+										listener="#{seguridadAdminBean.setDlgUsuario(false)}"></f:ajax>
+								</h:commandButton>
+							</div>
+						</div>
+					</h:form>
+					<div id="modal-dialog-bg" class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+				</h:panelGroup>
+			</h:panelGroup>
+
+			<h:panelGroup id="dlgGrupo">
+				<h:panelGroup rendered="#{seguridadAdminBean.dlgGrupo}">
+					<h:form id="formDlgGrupo">
+						<div class="modal-dialog p6n-popup"
+							style="left: 412.5px; top: 50px;">
+							<div class="p6n-popup-title">
+								Miembros del grupo:
+								<h:outputLabel
+									value="#{seguridadAdminBean.grupoSelected.nombre}" />
+							</div>
+							<div class="modal-dialog-content">
+								<p:pickList value="#{seguridadAdminBean.usuariosPickList}"
+									var="usuario"
+									itemLabel="#{seguridadAdminBean.nombreUsuario(usuario)}"
+									itemValue="#{usuario}" converter="UsuarioDualPickListConverter">
+									<f:facet name="sourceCaption">No asignados</f:facet>
+									<f:facet name="targetCaption">Asignados</f:facet>
+								</p:pickList>
+								<div></div>
+							</div>
+							<div class="modal-dialog-buttons">
+
+								<h:commandButton value="Guardar" styleClass="action blue">
+									<f:ajax render=":dlgGrupo"
+										listener="#{seguridadAdminBean.guardarMiembrosDeGrupo()}"
+										execute="@form"></f:ajax>
+								</h:commandButton>
+								<h:commandButton value="Cancelar" styleClass="action">
+									<f:ajax render=":dlgGrupo"
+										listener="#{seguridadAdminBean.setDlgGrupo(false)}"></f:ajax>
+								</h:commandButton>
+
+							</div>
+						</div>
+					</h:form>
+					<div id="modal-dialog-bg" class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+				</h:panelGroup>
+			</h:panelGroup>
+
+			<h:panelGroup id="dlgRol">
+				<h:panelGroup rendered="#{seguridadAdminBean.dlgRol}">
+					<div class="modal-dialog p6n-popup"
+						style="left: 312.5px; top: 50px;">
+						<div class="p6n-popup-title">Miembros</div>
+						<div class="modal-dialog-content">
+							<div>
+								<p:dataTable var="usuario"
+									value="#{seguridadAdminBean.tablaUsuarioMiembros.rows}"
+									selectionMode="single"
+									selection="#{seguridadAdminBean.tablaUsuarioMiembros.selectedRow}"
+									rowKey="#{usuario}" rowIndexVar="row">
+									<p:column headerText="Nro" width="5%"
+										style="text-align:center;">
+										<h:outputText value="#{row + 1}" />
+									</p:column>
+									<p:column headerText="USUARIO">
+										<h:outputText value="#{usuario.username}" />
+									</p:column>
+									<p:column headerText="TRABAJADOR">
+										<h:outputText
+											value="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno}, #{usuario.trabajador.personanatural.nombres}" />
+									</p:column>
+									<p:column headerText="ESTADO">
+										<h:outputText
+											value="#{usuario.estado ? 'Activo' : 'Inactivo'}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+						<div class="modal-dialog-buttons">
+							<h:form>
+								<h:commandButton value="Aceptar" styleClass="action blue">
+									<f:ajax render=":dlgRol"
+										listener="#{seguridadAdminBean.setDlgRol(false)}"></f:ajax>
+								</h:commandButton>
+							</h:form>
+						</div>
+					</div>
+					<div id="modal-dialog-bg" class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+				</h:panelGroup>
+			</h:panelGroup>
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+</html>
