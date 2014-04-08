@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,11 +17,14 @@ import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.persona.Personanatural;
+import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.seguridad.Grupo;
 import org.ventura.entity.schema.seguridad.Rol;
 import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.UsuarioMB;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipodocumentoType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -253,6 +257,14 @@ public class SeguridadAdminBean implements Serializable {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}	
+	}
+	
+	public void changeComboAgencia(ValueChangeEvent event) {
+		Integer key = (Integer) event.getNewValue();
+		Agencia agencia = comboAgencia.getObjectItemSelected(key);
+		if(agencia != null){
+			comboAgencia.setItemSelected(key);
+		}		
 	}
 	
 	public TablaBean<Usuario> getTablaUsuario() {
