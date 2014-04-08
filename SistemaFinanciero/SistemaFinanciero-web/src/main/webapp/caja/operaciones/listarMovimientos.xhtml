@@ -30,7 +30,12 @@
 				<div class="modal-dialog p6n-popup"
 					style="left: 512.5px; top: 100px;">
 					<div>AUTENTICACION</div>
-					<h:form>
+					<h:form id="formLogin">
+						<script type="text/javascript">
+							window.onload = function test(){
+								document.getElementById('formLogin:txtUsuario').focus();
+        					}
+						</script>
 						<div class="modal-dialog-content">
 							<div id="p6n-cloudsql-content">
 								<div>
@@ -79,7 +84,7 @@
 							<h:commandButton value="Aceptar"
 								actionListener="#{movimientosCajaBean.loginBean.login()}"
 								action="#{movimientosCajaBean.extornarTransaccioncaja()}"
-								styleClass="action blue" onclick="onSubmitButton();" />
+								styleClass="action green" onclick="onSubmitButton();" />
 							<h:commandButton value="Cancelar"
 								action="#{movimientosCajaBean.loginBean.setDlgLogin(false)}"
 								immediate="true" styleClass="action" onclick="onSubmitButton();">
@@ -112,13 +117,14 @@
 						style="margin-left: 10px;">Transacciones del Día en Caja</div>
 					<div style="margin-left: 10px;">
 						<h:form>
+							<p:focus for="txtSearched"></p:focus>
 							<div class="p6n-api-consent-screen-input-section">
 								<div>
 									<div style="float: left;">
 										<h:inputText id="txtSearched"
 											value="#{movimientosCajaBean.idTransaccioncaja}"
 											maxlength="50" size="50" required="true"
-											pt:placeholder="Nro transaccion" autocomplete="off" />
+											pt:placeholder="Nº Transacción" autocomplete="off" />
 									</div>
 									<div style="float: left;">
 										<h:commandLink

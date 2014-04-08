@@ -322,7 +322,7 @@
 								<h:panelGroup rendered="#{!transaccionCompraVentaCajaBean.loginBean.autenticado}">
 									<h:outputLabel id="oupTipoCambio" value="#{transaccionCompraVentaCajaBean.tipoCambio}"/>
 									&nbsp;&nbsp;&nbsp;&nbsp;
-									<h:commandLink action="#{transaccionCompraVentaCajaBean.loginBean.setDlgLogin(true)}" >
+									<h:commandLink action="#{transaccionCompraVentaCajaBean.loginBean.setDlgLogin(true)}" immediate="true">
 										<h:outputText value="Editar" />
 									</h:commandLink>
 								</h:panelGroup>

@@ -23,6 +23,9 @@
 		<ui:define name="content">
 
 			<h:outputStylesheet library="css" name="main.css" />
+
+			
+
 			<br />
 			<h:form id="closeCaja">
 				<script type="text/javascript">
@@ -143,6 +146,7 @@
 													</p:dataTable>
 												</p:outputPanel>
 												<p:outputPanel>
+													
 													<p:dataTable id="tabla" var="cajaDetalle"
 														value="#{abrirCajaBean.retornarDetalle(boveda.key)}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
@@ -166,26 +170,28 @@
 																maxlength="6" requiredMessage="requerido"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 																style="text-align:left; width:100px; height:20px">
-																<f:ajax event="blur" execute="@this" render="tabla" />
+																<f:ajax event="blur" execute="@this" render="tabla"/>
 															</h:inputText>
 															<div
 																class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 																<h:message for="txtCantidadMoneda" />
 															</div>
 														</p:column>
+													
 														<p:column headerText="Total" width="150"
 															style="text-align:right;">
-															<h:outputText id="SubTotal" value="#{cajaDetalle.getSubtotal()}" />
+															<h:outputText id="subTotal" value="#{cajaDetalle.getSubtotal()}" />
 														</p:column>
+														
 														<f:facet name="footer">
 															<h:outputText style="font-size: 13px;"
 																value="TOTAL: #{boveda.key.abreviatura}" />
-															<h:panelGroup id="footer">
-																<h:outputText style="font-size: 13px;"
-																	value="#{abrirCajaBean.getTotal(boveda.key)}" />
-															</h:panelGroup>
+															<h:outputText style="font-size: 13px;"
+																value="#{abrirCajaBean.getTotal(boveda.key)}"/>
 														</f:facet>
+														
 													</p:dataTable>
+													
 												</p:outputPanel>
 											</p:panelGrid>
 										</p:tab>
@@ -210,10 +216,9 @@
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 1800px;"></div>
 					<div class="modal-dialog p6n-popup"
-						style="left: 502px; top: 100px;">
+						style="left: 500px; top: 100px;">
 						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Verificacion de
-								Saldos</span><span class="modal-dialog-title-close"></span>
+							<span class="modal-dialog-title-text">VERIFICACIÓN DE SALDOS</span><span class="modal-dialog-title-close"></span>
 						</div>
 						<div class="modal-dialog-content ng-binding">
 							<p:panelGrid columns="4">
@@ -231,8 +236,8 @@
 											<h:outputLabel value="#{panelMoneda.value}" />
 										</div>
 										<div>
-											<h:commandButton value="Crear pendiente"
-												action="#{abrirCajaBean.cargarPendiente(panelMoneda.key)}" />
+											<h:commandButton value="Crear pendiente" action="#{abrirCajaBean.loginBean.setDlgLogin(true)}"
+												actionListener="#{abrirCajaBean.cargarPendiente(panelMoneda.key)}" />
 										</div>
 										<label>------------------------------------------------------</label>
 									</p:outputPanel>
@@ -259,8 +264,73 @@
 					</div>
 				</div>
 			</h:panelGroup>
+			
+			<h:panelGroup
+				rendered="#{abrirCajaBean.loginBean.dlgLogin}">
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 1000px;"></div>
+				<div class="modal-dialog p6n-popup"
+					style="left: 530px; top: 205px;">
+					<div style="font-weight: bold;">AUTENTICACION</div>
+					<h:form>
+						<div class="modal-dialog-content">
+							<div id="p6n-cloudsql-content">
+								<div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<br />
+										<h:outputLabel value="Usuario y/o password invalidos"
+											rendered="#{!abrirCajaBean.loginBean.autenticado and abrirCajaBean.loginBean.success}" />
+									</div>
+									<div class="p6n-api-consent-screen-inputs">
+										<div class="p6n-api-consent-screen-input-section">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 150px;">USUARIO</div>
+											<div>
+												<h:inputText id="txtUsuario"
+													value="#{abrirCajaBean.loginBean.usuario}"
+													required="true" requiredMessage="Ingrese usuario"
+													autocomplete="off" />
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtUsuario" />
+										</div>
+										<div class="p6n-api-consent-screen-input-section">
+											<div class="p6n-api-consent-screen-label"
+												style="width: 150px;">PASSWORD</div>
+											<div>
+												<h:inputSecret id="txtPassword"
+													value="#{abrirCajaBean.loginBean.password}"
+													required="true" requiredMessage="Ingrese password"
+													autocomplete="off" />
+											</div>
+										</div>
+										<div
+											class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+											<h:message for="txtPassword" />
+										</div>
+										<br />
+										<br />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Aceptar"
+								actionListener="#{abrirCajaBean.loginBean.login()}"
+								styleClass="action green" onclick="onSubmitButton();" />
+							<h:commandButton value="Cancelar"
+								action="#{abrirCajaBean.loginBean.setDlgLogin(false)}"
+								immediate="true" styleClass="action" onclick="onSubmitButton();">
+							</h:commandButton>
+						</div>
+					</h:form>
+				</div>
+			</h:panelGroup>
 
-			<h:panelGroup rendered="#{abrirCajaBean.dlgCrearPendiente}">
+			<h:panelGroup rendered="#{abrirCajaBean.loginBean.autenticado and abrirCajaBean.dlgCrearPendiente}">
 				<h:form>
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
@@ -359,98 +429,95 @@
 				<h:form>
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
-					<div class="modal-dialog p6n-popup" style="left: 500px; top: 5px;">
+					<div class="modal-dialog p6n-popup" style="left: 515px; top: 80px;">
 
 						<div class="modal-dialog-content ng-binding">
 							<h:form id="formPendiente">
 								<div style="margin-left: 0px;">
 									<h:panelGroup id="voucherPendiente">
 										<table
-											style="width: 400px; border: solid 1px #E9E6E6; margin-bottom: 0px;">
+											style="width: 220px; border: solid 0px #E9E6E6; margin-bottom: 0px;">
 											<tr style="vertical-align: center;">
 												<td colspan="1"
-													style="width: 30%; text-align: center; font-weight: bold; font-size: 12px;">
+													style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">
 													<p:graphicImage name="logo_coop_voucher.png"
 														library="images/logo_coop" />
 												</td>
 												<td colspan="3"
-													style="width: 70%; text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle">
+													style="text-align: left; font-weight: bold; font-size: 9px; vertical-align: middle; font-family: Century Gothic;">
 													<h:outputText value="C.A.C." /> <br /> <h:outputText
-														style="font-size: 24px;" value="CAJA VENTURA" />
+														style="font-size: 16px;" value="CAJA VENTURA" />
 												</td>
 											</tr>
 											<tr style="vertical-align: center;">
 												<td colspan="4"
-													style="text-align: center; font-weight: bold; font-size: 13px;">PENDIENTE
+													style="text-align: center; font-weight: bold; font-size: 12px;">PENDIENTE
 													CAJA</td>
 											</tr>
 											<tr>
-												<td style="font-weight: bold; font-size: 12px;" colspan="1">AGENCIA:</td>
-												<td colspan="3">#{abrirCajaBean.agencia.denominacion}</td>
+												<td style="font-weight: bold; font-size: 10px;" colspan="1">AGENCIA:</td>
+												<td colspan="3" style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.agencia.denominacion}</td>
 											</tr>
 											<tr>
-												<td style="font-weight: bold; font-size: 12px;" colspan="1">ID
+												<td style="font-weight: bold; font-size: 10px;" colspan="1">ID
 													PENDIENTE:</td>
-												<td colspan="3">#{abrirCajaBean.pendientecaja.idpendientecaja}</td>
+												<td colspan="3" style="font-size: 11px; font-family: Century Gothic;">#{abrirCajaBean.pendientecaja.idpendientecaja}</td>
 											</tr>
 											<tr>
-												<td style="font-weight: bold; font-size: 12px;" colspan="1">TIPO
+												<td style="font-weight: bold; font-size: 10px;" colspan="1">T.
 													PENDIENTE:</td>
-												<td colspan="3">#{abrirCajaBean.pendientecaja.tipopendiente}</td>
+												<td colspan="3" style="font-size: 11px; font-family: Century Gothic;">#{abrirCajaBean.pendientecaja.tipopendiente}</td>
 											</tr>
 											<tr>
-												<td colspan="1" style="font-weight: bold; font-size: 12px;">FECHA:</td>
-												<td colspan="3" style="font-size: 12px;"><h:outputText
+												<td colspan="1" style="font-weight: bold; font-size: 10px;">FECHA:</td>
+												<td colspan="3" style="font-size: 11px; font-family: Century Gothic;"><h:outputText
 														value="#{abrirCajaBean.pendientecaja.fecha}">
 														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss a"
 															timeZone="EST" />
 													</h:outputText></td>
 											</tr>
 											<tr>
-												<td colspan="1" style="font-weight: bold; font-size: 12px;">MONEDA:</td>
-												<td colspan="3" style="font-size: 12px;"><h:outputText
+												<td colspan="1" style="font-weight: bold; font-size: 10px;">MONEDA:</td>
+												<td colspan="3" style="font-size: 11px; font-family: Century Gothic;"><h:outputText
 														value="#{abrirCajaBean.pendientecaja.tipomoneda.denominacion} (#{abrirCajaBean.pendientecaja.tipomoneda.abreviatura})" /></td>
 											</tr>
 											<tr style="vertical-align: center;">
-												<td colspan="1" style="font-weight: bold; font-size: 12px;"><h:outputText
+												<td colspan="1" style="font-weight: bold; font-size: 10px;"><h:outputText
 														value="MONTO:" /></td>
-												<td colspan="3" style="font-size: 12px;"><h:outputText
-														value="#{abrirCajaBean.pendientecaja.tipomoneda.abreviatura} #{abrirCajaBean.pendientecaja.monto}" />
+												<td colspan="3" style="font-size: 11px; font-family: Century Gothic;"><h:outputText
+														value="#{abrirCajaBean.pendientecaja.tipomoneda.abreviatura}#{abrirCajaBean.pendientecaja.monto}" />
 												</td>
 											</tr>
 											<tr>
-												<td colspan="1" style="font-weight: bold; font-size: 12px;">CAJA:</td>
-												<td colspan="3" style="font-size: 12px;"><h:outputText
+												<td colspan="1" style="font-weight: bold; font-size: 10px;">CAJA:</td>
+												<td colspan="3" style="font-size: 11px; font-family: Century Gothic;"><h:outputText
 														value="#{abrirCajaBean.caja.denominacion} (#{abrirCajaBean.caja.abreviatura})" /></td>
 											</tr>
 											<tr>
-												<td colspan="1" style="font-weight: bold; font-size: 12px;">USUARIO:</td>
-												<td colspan="3" style="font-size: 12px;"><h:outputText
+												<td colspan="1" style="font-weight: bold; font-size: 10px;">USUARIO:</td>
+												<td colspan="3" style="font-size: 11px; font-family: Century Gothic;"><h:outputText
 														value="#{usuarioMB.usuario.username}" /></td>
 											</tr>
 											<tr>
-												<td colspan="1" style="font-weight: bold; font-size: 12px;">CAJERO:</td>
-												<td colspan="3" style="font-size: 12px;"><h:outputText
-														value="#{usuarioMB.usuario.trabajador.personanatural.tipodocumento.abreviatura} #{usuarioMB.usuario.trabajador.personanatural.numerodocumento}" />
+												<td colspan="1" style="font-weight: bold; font-size: 10px;">CAJERO:</td>
+												<td colspan="3" style="font-size: 10px; font-family: Century Gothic;"><h:outputText
+														value="#{usuarioMB.usuario.trabajador.personanatural.tipodocumento.abreviatura}: #{usuarioMB.usuario.trabajador.personanatural.numerodocumento}" />
 													<br /> <h:outputText
 														value="#{usuarioMB.usuario.trabajador.personanatural.apellidopaterno} #{usuarioMB.usuario.trabajador.personanatural.apellidomaterno} #{usuarioMB.usuario.trabajador.personanatural.nombres}" />
 												</td>
 											</tr>
 											<tr>
-												<td colspan="1" style="font-weight: bold; font-size: 12px;">OBSERVACIÓN:</td>
-												<td colspan="3" style="font-size: 12px;"><p:inputTextarea
+												<td colspan="1" style="font-weight: bold; font-size: 10px;">OBSERVACIÓN:</td>
+												<td colspan="3" style="font-size: 10px; font-family: Century Gothic;"><h:outputText
 														value="#{abrirCajaBean.pendientecaja.observacion}"
-														rows="3" cols="45" readonly="true" /></td>
+														rows="5" cols="20" readonly="true" /></td>
 											</tr>
 											<tr>
 												<td colspan="4">&nbsp;</td>
 											</tr>
 											<tr>
-												<td colspan="4">&nbsp;</td>
-											</tr>
-											<tr>
-												<td colspan="2" style="text-align: center;">-------------------------</td>
-												<td colspan="2" style="text-align: center;">-------------------------</td>
+												<td colspan="2" style="text-align: center;">....................</td>
+												<td colspan="2" style="text-align: center;">....................</td>
 											</tr>
 											<tr>
 												<td colspan="2"

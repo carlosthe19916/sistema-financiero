@@ -62,6 +62,8 @@ public class AbrirCajaBean implements Serializable{
 	@Inject private AgenciaBean agenciaBean;
 	@Inject private Agencia agencia;
 	
+	@Inject private LoginBean loginBean;
+	
 	@EJB private CajaServiceLocal cajaServiceLocal;
 	
 	private PendienteCaja pendientecaja;
@@ -418,5 +420,13 @@ public class AbrirCajaBean implements Serializable{
 	 */
 	public void setPendientecaja(PendienteCaja pendientecaja) {
 		this.pendientecaja = pendientecaja;
+	}
+
+	public LoginBean getLoginBean() {
+		return loginBean;
+	}
+
+	public void setLoginBean(LoginBean loginBean) {
+		this.loginBean = loginBean;
 	}
 }

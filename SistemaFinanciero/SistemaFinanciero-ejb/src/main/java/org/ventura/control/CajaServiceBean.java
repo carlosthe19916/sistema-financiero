@@ -479,7 +479,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 	
 	//comparar saldo de cierre en caja con saldo en base de datos Soles
 	public Map<Integer, Moneda> compareSaldoTotalCajaSoles(Caja caja) throws Exception {
-		System.out.println("Solessssssssssss");
 		Map<Integer, Moneda> hashMapSoles = new HashMap<Integer, Moneda>();
 		
 		Tipomoneda tipoMonedaSoles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
@@ -520,8 +519,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 	
 	// comparar saldo de cierre en caja con saldo en base de datos Dolares
 	public Map<Integer, Moneda> compareSaldoTotalCajaDolares(Caja caja) throws Exception {
-		System.out.println("Dolaresssssssssss");
-		
 		Map<Integer, Moneda> hashMapDolares = new HashMap<Integer, Moneda>();
 		
 		Tipomoneda tipoMonedaDolares = ProduceObject
@@ -564,7 +561,6 @@ public class CajaServiceBean implements CajaServiceLocal{
 	
 	// comparar saldo de cierre en caja con saldo en base de datos Euros
 	public Map<Integer, Moneda> compareSaldoTotalCajaEuros(Caja caja) throws Exception {
-		System.out.println("Eurosssssssssssss");
 		Map<Integer, Moneda> hashMapEuros = new HashMap<Integer, Moneda>();
 		
 		Tipomoneda tipoMonedaEuros = ProduceObject
@@ -1087,7 +1083,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 				BigDecimal totalDB = saldoDB.get(tipomoneda);
 				BigDecimal totalVista = saldoVista.get(tipomoneda);
 				if(totalDB.compareTo(totalVista) != 0){
-					throw new Exception("Los saldos de la moneda " + tipomoneda.getDenominacion().toUpperCase() + "no coinciden");
+					throw new Exception("Los saldos de la moneda " + tipomoneda.getDenominacion().toUpperCase() + " no coinciden");
 				}
 			}
 			
