@@ -1,6 +1,7 @@
 package org.ventura.adminitracion.view;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +13,7 @@ import javax.inject.Named;
 import org.primefaces.model.DualListModel;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.SeguridadServiceLocal;
+import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.boundary.local.TrabajadorServiceLocal;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
@@ -20,17 +22,16 @@ import org.ventura.entity.schema.rrhh.Trabajador;
 import org.ventura.entity.schema.seguridad.Grupo;
 import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
-import org.ventura.session.AgenciaBean;
 import org.venturabank.util.JsfUtil;
 import org.venturabank.util.MD5Util;
 
 @Named
 @ViewScoped
-public class UsuarioCRUDBean implements Serializable {
+public class UsuarioCRUDAdminBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject private AgenciaBean agenciaBean;
+	private Integer idAgencia;
 
 	private Trabajador trabajador;
 	@Inject private TablaBean<Trabajador> tablaTrabajador;
@@ -54,8 +55,9 @@ public class UsuarioCRUDBean implements Serializable {
 	@EJB private SeguridadServiceLocal seguridadServiceLocal;
 	@EJB private TrabajadorServiceLocal trabajadorServiceLocal;
 	@EJB private MaestrosServiceLocal maestrosServiceLocal;
+	@EJB private SucursalServiceLocal sucursalServiceLocal;
 
-	public UsuarioCRUDBean() {
+	public UsuarioCRUDAdminBean() {
 		passwordChanged = false;
 		succes = false;
 		failure = false;
@@ -65,20 +67,30 @@ public class UsuarioCRUDBean implements Serializable {
 	
 	@PostConstruct
 	private void initialize() throws Exception {
-		try {
-			this.agencia = agenciaBean.getAgencia();
+		try {			
 			List<Grupo> grupos = seguridadServiceLocal.getGrupos();
 			List<Tipodocumento> tipodocumentos = maestrosServiceLocal.getTipodocumentoForPersonaNatural();
 						
 			gruposPickList = new DualListModel<Grupo>();
-			//gruposPickList.setSource(grupos);
-			
+			gruposPickList.setSource(grupos);
+			gruposPickList.setTarget(new ArrayList<Grupo>());
 			comboTipoDocumento.setItems(tipodocumentos);
 		} catch (Exception e) {
 			throw e;
 		}
 	}
 
+	public void loadAgencia(){		
+		try {
+			if(idAgencia != null)
+				agencia = sucursalServiceLocal.findAgencia(idAgencia);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	
+	}
+	
 	public void loadUsuarioForEdit(){
 		try {
 			if(idusuario != null && idusuario != -1){
@@ -276,19 +288,14 @@ public class UsuarioCRUDBean implements Serializable {
 	public void setComboTipoDocumento(ComboBean<Tipodocumento> comboTipoDocumento) {
 		this.comboTipoDocumento = comboTipoDocumento;
 	}
+
+	public Integer getIdAgencia() {
+		return idAgencia;
+	}
+
+	public void setIdAgencia(Integer idAgencia) {
+		this.idAgencia = idAgencia;
+	}
 	
-	/*public void updateUsuario() throws Exception {
-		Boveda boveda = this.usuario;
-		try {
-			boveda.setDenominacion(denominacion);
-			boveda.setTipomoneda(tipomoneda);
-
-			this.bovedaServiceLocal.update(boveda);
-
-			JsfUtil.addSuccessMessage("Boveda Actualizada");
-		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, "Error al actualizar Boveda");			
-		}		
-	}*/
 
 }

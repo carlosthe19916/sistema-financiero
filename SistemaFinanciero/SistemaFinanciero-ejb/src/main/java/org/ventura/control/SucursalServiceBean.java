@@ -25,6 +25,8 @@ import org.ventura.dao.impl.SucursalDAO;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.schema.sucursal.Sucursal;
+import org.ventura.util.exception.IllegalEntityException;
+import org.ventura.util.exception.NonexistentEntityException;
 import org.ventura.util.logger.Log;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.ProduceObject;
@@ -186,6 +188,24 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 			throw e;
 		}
 		return list;
+	}
+
+	@Override
+	public Agencia findAgencia(Integer idAgencia) {
+		Agencia agencia = null;
+			try {
+				agencia = agenciaDAO.find(idAgencia);
+			} catch (IllegalEntityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NonexistentEntityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			return agencia;
 	}
 
 }

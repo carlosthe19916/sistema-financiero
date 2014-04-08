@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(32)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Administracion" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+			<div class="p6n-content ng-scope">
+				<div class="p6n-project-dashboard ng-scope">
+					<div class="p6n-project-detail-pane">
+						<div class="p6n-project-detail-samples-pane">
+							<div class="p6n-project-detail-samples-welcome"
+								style="margin-top: 50px; font-weight: bold; font-size: 18px; color: red;">ADMINISTRADOR</div>
+							<div class="p6n-project-detail-samples-welcome"
+								style="margin-top: 15px; font-size: 15px; text-align: justify; margin-left: 20px; margin-right: 30px;">
+								<table>
+									<tr>
+										<td colspan="1"
+											style="font-size: 13px; text-align: center;">
+											<br /> <p:graphicImage name="administrador.png"
+												library="images/administrador" />
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<!-- ngIf: showEnableBillingForGCE -->
+					</div>
+				</div>
+			</div>
+
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+</html>

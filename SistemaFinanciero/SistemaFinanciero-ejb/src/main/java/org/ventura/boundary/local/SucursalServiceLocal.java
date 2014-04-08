@@ -24,4 +24,6 @@ public interface SucursalServiceLocal extends SucursalServiceRemote {
 
 	public List<Caja> getCajas(Agencia agencia) throws Exception;
 
+	public Agencia findAgencia(Integer idAgencia);
+
 }

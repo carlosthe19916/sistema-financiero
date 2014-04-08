@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<f:metadata>
+		<f:viewParam name="id" value="#{usuarioCRUDAdminBean.idAgencia}" />
+		<f:viewAction
+			action="#{usuarioCRUDAdminBean.loadAgencia()}" />
+		<f:viewAction action="#{menuMB.updateMenu(32)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Nuevo" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+			<br />
+
+			<h:panelGroup rendered="#{usuarioCRUDAdminBean.failure}">
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
+			<h:form id="formPrincipal">
+
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">Crear Usuario</div>
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">
+										AGENCIA</div>
+									<div>
+										<h:outputLabel value="#{usuarioCRUDAdminBean.agencia.denominacion}" />
+									</div>
+								</div>
+
+								<h:panelGroup id="resumenTrabajador">
+									<div class="p6n-api-consent-screen-preview-image"
+										style="height: 244px;">
+										<div class="p6n-api-consent-screen-preview-image-bg">
+
+											<div class="p6n-api-consent-screen-inputs">
+												<div class="p6n-api-consent-screen-input-section">
+													<div>
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NRO
+															DOCUMENTO</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{usuarioCRUDAdminBean.trabajador.personanatural.tipodocumento.abreviatura}:#{usuarioCRUDAdminBean.trabajador.personanatural.numerodocumento}" />
+														</div>
+													</div>
+												</div>
+												<div class="p6n-api-consent-screen-input-section">
+													<div>
+														<div class="p6n-api-consent-screen-label"
+															style="width: 350px; text-align: left; margin-left: 20px; font-size: 14px;">TRABAJADOR</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{usuarioCRUDAdminBean.trabajador.personanatural.apellidopaterno} #{usuarioCRUDAdminBean.trabajador.personanatural.apellidomaterno},#{usuarioCRUDAdminBean.trabajador.personanatural.nombres}" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</h:panelGroup>
+
+
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">TRABAJADOR</div>
+									<div>
+										<div style="float: left;">
+											<h:inputText id="txtTrabajador"
+												value="#{usuarioCRUDAdminBean.trabajador.personanatural.apellidopaterno} #{usuarioCRUDAdminBean.trabajador.personanatural.apellidomaterno} #{usuarioCRUDAdminBean.trabajador.personanatural.nombres}"
+												required="true" requiredMessage="Ingrese trabajador"
+												readonly="true" />
+										</div>
+										<div style="float: left;">
+											<h:commandLink styleClass="button" style="margin: 0 0 0 1px;">
+												<f:ajax
+													render=":dlgBuscarTrabajador :formDlgBuscarTrabajador"
+													listener="#{usuarioCRUDAdminBean.setDlgBuscarTrabajador(true)}"></f:ajax>
+												<span class="icon icon198"></span>
+											</h:commandLink>
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+									style="float: inherit;">
+									<h:message for="txtTrabajador" />
+								</div>
+								<br /> <br />
+
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">USUARIO</div>
+									<div>
+										<div>
+											<h:inputText id="txtUsuario" autocomplete="off"
+												value="#{usuarioCRUDAdminBean.username}" maxlength="150"
+												required="true" requiredMessage="Ingrese usuario" />
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtUsuario" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">PASSWORD</div>
+									<div>
+										<h:inputSecret id="txtPassword"
+											value="#{usuarioCRUDAdminBean.password}" maxlength="150"
+											required="true" requiredMessage="Ingrese password" />
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtPassword" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">ASIGNAR
+										GRUPOS</div>
+									<div>
+										<p:pickList value="#{usuarioCRUDAdminBean.gruposPickList}"
+											var="grupo" itemLabel="#{grupo}" itemValue="#{grupo}"
+											converter="GrupoDualPickListConverter">
+											<f:facet name="sourceCaption">No asignados</f:facet>
+											<f:facet name="targetCaption">Asignados</f:facet>
+										</p:pickList>
+									</div>
+								</div>
+								<br /> <br />
+								<div>
+									<h:commandButton action="#{usuarioCRUDAdminBean.createUsuario()}"
+										value="Guardar" styleClass="action blue"
+										onclick="onSubmitButton();" />
+									<h:commandButton value="Cancelar"
+										action="list?faces-redirect=true" immediate="true"
+										styleClass="action" />
+
+									<h:panelGroup rendered="#{usuarioCRUDAdminBean.succes}">
+										<div class="modal-dialog-bg"
+											style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+										<div class="modal-dialog p6n-popup"
+											style="left: 502px; top: 200px;">
+											<div class="modal-dialog-title modal-dialog-title-draggable">
+												<span class="modal-dialog-title-text">Creacion
+													satisfactoria</span><span class="modal-dialog-title-close"></span>
+											</div>
+											<div class="modal-dialog-content ng-binding">El usuario
+												fue creado satistactoriamente.</div>
+											<div class="modal-dialog-buttons">
+												<h:commandButton value="Crear Nuevo"
+													action="createUsuario?faces-redirect=true" immediate="true" />
+												<h:commandButton value="Volver"
+													action="list?faces-redirect=true" immediate="true" />
+											</div>
+										</div>
+									</h:panelGroup>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+
+			<h:panelGroup id="dlgBuscarTrabajador">
+				<h:panelGroup rendered="#{usuarioCRUDAdminBean.dlgBuscarTrabajador}">
+					<h:form id="formDlgBuscarTrabajador">
+						<div class="modal-dialog p6n-popup"
+							style="left: 412.5px; top: 100px;">
+							<div class="p6n-popup-title" style="text-align: center;">BUSCAR
+								TRABAJADOR</div>
+							<div class="modal-dialog-content">
+								<h:form>
+									<p:focus id="searchFocus" for="search" />
+									<div class="modal-dialog-content">
+										<div id="p6n-cloudsql-content">
+											<div>
+												<div>
+													<h:inputText id="search"
+														onkeyup="this.value = this.value.toUpperCase();"
+														value="#{usuarioCRUDAdminBean.valorBusqueda}"
+														style="width: 250px;float: left;" />
+													&nbsp;
+													<h:commandLink styleClass="button"
+														style="margin: 0px;float: left;">
+														<span class="icon icon198"></span>
+														<span class="label"></span>
+														<f:ajax execute="@form"
+															listener="#{usuarioCRUDAdminBean.buscarTrabajador()}"
+															render="tblResultadoBusqueda" />
+													</h:commandLink>
+													<h:selectOneMenu id="cmbTipoBusqueda"
+														value="#{usuarioCRUDAdminBean.comboTipoDocumento.itemSelected}">
+														<f:selectItem itemLabel="Apellidos y Nombres" itemValue="" />
+														<f:selectItems
+															value="#{usuarioCRUDAdminBean.comboTipoDocumento.items.entrySet()}"
+															var="val" itemLabel="#{val.value.abreviatura}"
+															itemValue="#{val.key}" />
+													</h:selectOneMenu>
+												</div>
+												<div
+													class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+													<h:messages />
+												</div>
+											</div>
+											<hr />
+											<div class="p6n-cloudsql-form">
+												<div
+													class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
+													<div class="p6n-cloudsql-name-input ">
+														<div class="p6n-input-prepend">
+															<p:dataTable id="tblResultadoBusqueda" var="trabajador"
+																value="#{usuarioCRUDAdminBean.tablaTrabajador.rows}"
+																selectionMode="single"
+																selection="#{usuarioCRUDAdminBean.trabajador}"
+																rowKey="#{trabajador}" rowIndexVar="row">
+																<p:column headerText="Nro" width="5%"
+																	style="text-align:center;">
+																	<h:outputText value="#{row + 1}" />
+																</p:column>
+
+																<p:column headerText="Nro doc" style="font-size: 12px;">
+																	<h:outputText
+																		value="#{trabajador.personanatural.tipodocumento.abreviatura}:#{trabajador.personanatural.numerodocumento}" />
+																</p:column>
+																<p:column headerText="Ap. paterno"
+																	style="font-size: 12px;">
+																	<h:outputText
+																		value="#{trabajador.personanatural.apellidopaterno}" />
+																</p:column>
+																<p:column headerText="Ap. materno"
+																	style="font-size: 12px;">
+																	<h:outputText
+																		value="#{trabajador.personanatural.apellidomaterno}" />
+																</p:column>
+																<p:column headerText="Nombres" style="font-size: 12px;">
+																	<h:outputText
+																		value="#{trabajador.personanatural.nombres}" />
+																</p:column>
+															</p:dataTable>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</h:form>
+							</div>
+							<div class="modal-dialog-buttons">
+								<h:commandButton value="Aceptar" styleClass="action blue">
+									<f:ajax
+										listener="#{usuarioCRUDAdminBean.setDlgBuscarTrabajador(false)}"
+										render=":dlgBuscarTrabajador :formPrincipal:resumenTrabajador :formPrincipal:txtTrabajador"
+										execute="@form"></f:ajax>
+								</h:commandButton>
+								<h:commandButton value="Cancelar" styleClass="action">
+									<f:ajax render=":dlgBuscarTrabajador"
+										listener="#{usuarioCRUDAdminBean.setDlgBuscarTrabajador(false)}"></f:ajax>
+								</h:commandButton>
+							</div>
+						</div>
+					</h:form>
+					<div id="modal-dialog-bg" class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
+				</h:panelGroup>
+			</h:panelGroup>
+
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>
+
+
+
+
+
+
+
+

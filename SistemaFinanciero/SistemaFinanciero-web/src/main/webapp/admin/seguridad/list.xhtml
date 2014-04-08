@@ -9,7 +9,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(22)}" />
+		<f:viewAction action="#{menuMB.updateMenu(32)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 		<!-- Definiendo la cabecera de la pagina -->
@@ -54,7 +54,8 @@
 							<div style="float: left;">
 								<h:selectOneMenu id="cmbAgencia"
 									value="#{seguridadAdminBean.comboAgencia.itemSelected}"
-									required="true" requiredMessage="Seleccione agencia" style="height: 29px; min-width: 180px;">
+									required="true" requiredMessage="Seleccione agencia"
+									style="height: 29px; min-width: 180px;">
 									<f:selectItem itemLabel="--Seleccione--" itemValue="" />
 									<f:selectItems
 										value="#{seguridadAdminBean.comboAgencia.items.entrySet()}"
@@ -64,15 +65,22 @@
 							</div>
 							<div style="float: left;">
 								<h:commandButton value="Buscar" style="margin: 0 0 0 1px;">
-									<f:ajax render=":tabView:formTab1 :tabView:formTab2 :tabView:formTab3" execute="@form"
+									<f:ajax
+										render=":tabView:formTab1 :tabView:formTab2 :tabView:formTab3"
+										execute="@form"
 										listener="#{seguridadAdminBean.changeAgencia()}"></f:ajax>
-								</h:commandButton>								
+								</h:commandButton>
 							</div>
 						</div>
 					</div>
 				</div>
 			</h:form>
-			<br/><br/><br/><br/><br/><br/>
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
 
 			<p:tabView id="tabView">
 				<p:tab id="tab1" title="USUARIOS">
@@ -87,11 +95,12 @@
 						<h:form id="formTab1">
 							<div>
 								<div class="tiptip">
-									<h:commandLink action="createUsuario?faces-redirect=true"
+									<h:link outcome="createUsuario"
 										styleClass="button left" title="Nuevo usuario">
+										<f:param name="id" value="#{seguridadAdminBean.comboAgencia.itemSelected}" />
 										<span class="icon icon3"></span>
 										<span class="label">Nuevo</span>
-									</h:commandLink>
+									</h:link>
 								</div>
 							</div>
 							<div>
