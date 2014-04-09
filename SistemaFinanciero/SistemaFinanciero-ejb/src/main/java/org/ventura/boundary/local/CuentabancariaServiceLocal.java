@@ -69,5 +69,7 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	public List<CuentabancariaView> findCuentabancariaViewByNombre(String nombre) throws Exception;
 		
 	public BigDecimal getInteresGeneradoPlazofijo(Integer idcuentaplazofijo) throws Exception;
+
+	public void capitalizarCuenta(Cuentabancaria cuentabancaria);
 	
 }

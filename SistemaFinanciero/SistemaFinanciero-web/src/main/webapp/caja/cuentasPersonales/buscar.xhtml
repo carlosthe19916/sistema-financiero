@@ -25,13 +25,12 @@
 			<h:outputStylesheet library="css" name="main.css" />
 			<br></br>
 			<h:form>
-				<div style="margin-left: 50px;">
+				<div style="margin-left: 45px;">
 					<div>
 						<div>
 							<div class="p6n-api-consent-screen-title">BUSCAR CUENTA
 								BANCARIA</div>
 							<div>
-
 								<div class="p6n-api-consent-screen-input-section">
 									<div>
 										<div style="float: left;">
@@ -62,25 +61,17 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="buttons">
-					<div class="tiptip">
-						<h:commandLink value="">
-							<f:ajax listener="#{administrarCuentabancaria.capitalizar()}"></f:ajax>
-						</h:commandLink>
-						<h:link outcome="/jefeCaja/caja/operaciones/close"
-							styleClass="button right" title="Cerrar Caja"
-							includeViewParams="true">
-							<span class="icon icon122">&nbsp;</span>
-							<span class="label">Cerrar Caja</span>
-							<f:param name="idcaja"
-								value="#{administrarCajaBeanReplace.idcaja}" />
-						</h:link>
-					</div>
-
-				</div>
-
 				<br />
+				<div class="buttons" style="margin-left: 40px;">
+					<div class="tiptip">
+						<h:commandLink styleClass="button" title="Capitalizar cuenta">
+							<span class="icon icon122">&nbsp;</span>
+							<span class="label">Capitalizar</span>
+							<f:ajax listener="#{administrarCuentabancaria.capitalizar()}"
+								execute="tablaCuentas"></f:ajax>
+						</h:commandLink>
+					</div>
+				</div>
 				<!-- PERSONA NATURAL -->
 				<div class="p6n-api-consent-screen-inputs">
 					<div class="p6n-content ng-scope">
@@ -114,6 +105,9 @@
 											<p:column headerText="Saldo" style="font-size: 12px;">
 												<h:outputText value="#{cuenta.saldoCuentabancariaAsString}" />
 											</p:column>
+											<p:column headerText="Fecha apertura" style="font-size: 12px;">
+												<h:outputText value="#{cuenta.fechaaperturaCuentabancaria}" />
+											</p:column>
 											<p:column headerText="Estado" style="font-size: 12px;">
 												<h:outputText value="#{cuenta.denominacionEstadocuenta}" />
 											</p:column>
@@ -133,6 +127,39 @@
 				</div>
 			</h:form>
 			<!-- END PERSONA NATURAL -->
+
+			<h:panelGroup rendered="#{administrarCuentabancaria.success}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+					<div class="modal-dialog p6n-popup"
+						style="left: 502px; top: 200px;">
+						<div class="modal-dialog-title modal-dialog-title-draggable">
+							<span class="modal-dialog-title-text">Capitalizacion
+								finalizada</span><span class="modal-dialog-title-close"></span>
+						</div>
+						<div class="modal-dialog-content ng-binding">La
+							capitalizacion fue registrada correctamente.</div>
+						<div class="modal-dialog-buttons">
+							<h:commandButton value="Aceptar"
+								action="buscar?faces-redirect=true" immediate="true" />
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{administrarCuentabancaria.failure}">
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
 		</ui:define>
 	</ui:composition>
 </f:view>

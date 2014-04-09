@@ -1156,4 +1156,47 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 		return transaccioncuentabancaria;
 	}
 
+	@Override
+	public void capitalizarCuenta(Cuentabancaria cuentabancaria) {
+		try {
+			Cuentabancaria cuentabancariasDB = cuentabancariaDAO.find(cuentabancaria.getIdcuentabancaria());
+			if(cuentabancariasDB == null)
+				throw new Exception("Cuenta bancaria no existente");
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcuentabancaria",cuentabancaria.getIdcuentabancaria());
+
+			Moneda saldoFinal = cuentabancariasDB.getSaldo();
+			Moneda interesTotal = new Moneda();
+			List<Interesdiario> result = interesdiarioDAO.findByNamedQuery(Interesdiario.InteresesCapitalizable, parameters);	
+			for (Interesdiario interesdiario : result) {
+				interesTotal = interesTotal.add(interesdiario.getInteres());
+			}
+
+			//capitalizar cuenta bancaria
+			saldoFinal = saldoFinal.add(interesTotal);
+			cuentabancariasDB.setSaldo(saldoFinal);
+			cuentabancariaDAO.update(cuentabancariasDB);
+		
+			//actualizar ultimo interes generado
+			List<Interesdiario> intereses = interesdiarioDAO.findByNamedQuery(Interesdiario.InteresesMaxDate, parameters);
+			if(intereses.size() >= 2) {
+				throw new Exception("Mas de un interes activo");
+			}			
+			else {
+				if(intereses.size() == 1){
+					Interesdiario interesUltimo = intereses.get(0);	
+					interesUltimo.setEstadocapitalizacion(true);
+					interesdiarioDAO.update(interesUltimo);
+				}							
+			}
+			
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			log.error("Cause:" + e.getCause());
+			log.error("Class:" + e.getClass());
+			throw new EJBException(e);
+		}
+	}
+
 }
