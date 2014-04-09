@@ -20,14 +20,14 @@
 		<!-- Definiendo el cuerpo de la pagina -->
 		<ui:define name="content">
 
-<style>
+			<style>
 .ui-picklist .ui-picklist-list {
-list-style-type: none;
-margin: 0;
-padding: 0;
-overflow: auto;
-height: 200px;
-width: 250px;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+	height: 200px;
+	width: 250px;
 }
 </style>
 			<h:outputStylesheet library="css" name="main.css" />
@@ -60,7 +60,7 @@ width: 250px;
 						<h:form>
 							<div>
 								<div class="tiptip">
-									<h:commandLink action="createUsuario?faces-redirect=true"
+									<h:commandLink action="createUsuario?faces-redirect=true" disabled="true"
 										styleClass="button left" title="Nuevo usuario">
 										<span class="icon icon3"></span>
 										<span class="label">Nuevo</span>
@@ -99,8 +99,8 @@ width: 250px;
 									<p:column headerText="STATUS" style="text-align:center;"
 										width="137">
 										<div class="buttons">
-											<h:button value="Edit" outcome="updateUsuario"
-												styleClass="action blue" style="margin: 0 2px 0 0;">
+											<h:button value="Edit" outcome="updateUsuario" disabled="true"
+												styleClass="action" style="margin: 0 2px 0 0;">
 												<f:param name="id" value="#{usuario.idusuario}" />
 											</h:button>
 
@@ -260,7 +260,7 @@ width: 250px;
 							</div>
 							<div class="modal-dialog-buttons">
 
-								<h:commandButton value="Guardar" styleClass="action blue">
+								<h:commandButton value="Guardar" styleClass="action" disabled="true">
 									<f:ajax render=":dlgGrupo"
 										listener="#{seguridadBean.guardarMiembrosDeGrupo()}"
 										execute="@form"></f:ajax>

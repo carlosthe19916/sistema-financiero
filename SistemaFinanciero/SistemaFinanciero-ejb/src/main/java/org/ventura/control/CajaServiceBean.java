@@ -55,8 +55,6 @@ import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.CajaTransaccionesBovedaView;
 import org.ventura.entity.schema.caja.view.PendientesView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
-import org.ventura.entity.schema.persona.Accionista;
-import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.tipodato.Moneda;

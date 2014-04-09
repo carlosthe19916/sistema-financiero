@@ -343,9 +343,14 @@
 			<p:panel header="TRANSACCIONES ENVIADAS"
 				footer="La caja destino debe confirmar la transaccion">
 				<div class="buttons">
-					<h:form>
+					<h:form id="formTransEnviadas">
+						<script type="text/javascript">
+							window.onload = function test(){
+        						document.getElementById('formTransEnviadas:crearTransaccion').focus();
+        					}
+    					</script>
 						<div>
-							<h:commandButton value="Crear Transaccion"
+							<h:commandButton id="crearTransaccion" value="Crear Transaccion"
 								styleClass="action green">
 								<f:ajax
 									listener="#{transaccionCajaCajaBean.setDlgCrearTransasccion(true)}"
