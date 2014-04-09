@@ -75,6 +75,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	@Inject
 	private ComboBean<Tipodocumento> comboTipodocumento;
 	private String valorBusqueda;
+	private boolean dlgBusquedaCuentaOpen;
 
 	// pagina principal
 	@Inject
@@ -112,6 +113,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 		failure = false;
 		monto = new Moneda();
 		isTitular = false;
+		dlgBusquedaCuentaOpen = false;
 	}
 
 	@PostConstruct
@@ -534,5 +536,13 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 	public void setTitular(boolean isTitular) {
 		this.isTitular = isTitular;
+	}
+
+	public boolean isDlgBusquedaCuentaOpen() {
+		return dlgBusquedaCuentaOpen;
+	}
+
+	public void setDlgBusquedaCuentaOpen(boolean dlgBusquedaCuentaOpen) {
+		this.dlgBusquedaCuentaOpen = dlgBusquedaCuentaOpen;
 	}
 }

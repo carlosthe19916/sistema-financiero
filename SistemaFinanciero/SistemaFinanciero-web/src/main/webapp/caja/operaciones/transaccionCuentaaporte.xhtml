@@ -283,7 +283,7 @@
 											<div style="float: left;">
 												<h:inputText id="txtNumerocuenta"
 													value="#{transaccionCuentaaporteCajaBean.numeroCuenta}"
-													required="true"
+													required="true" pt:placeholder="Número de Cuenta"
 													requiredMessage="Ingrese un numero de cuenta"
 													validatorMessage="Numero de cuenta no valida"
 													maxlength="14" readonly="true">
@@ -513,7 +513,7 @@
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
 					<div class="modal-dialog p6n-popup"
-						style="left: 412.5px; top: 100px;">
+						style="left: 350px; top: 150px; width: 650px">
 						<h:form id="formBuscarCuenta">
 							<p:focus for="search"></p:focus>
 							<div class="modal-dialog-content">
@@ -561,7 +561,7 @@
 											class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
 											<div class="p6n-cloudsql-name-input ">
 												<div class="p6n-input-prepend" style="display: initial;">
-													<p:dataTable id="tblResultadoBusqueda" var="cuenta"
+													<p:dataTable id="tblResultadoBusqueda" var="cuenta" style="width:650px"
 														value="#{transaccionCuentaaporteCajaBean.tablaCuentaaporte.rows}"
 														selectionMode="single"
 														selection="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected}"

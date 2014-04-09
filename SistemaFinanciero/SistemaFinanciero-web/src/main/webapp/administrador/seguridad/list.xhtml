@@ -72,17 +72,18 @@ width: 250px;
 									value="#{seguridadBean.tablaUsuario.rows}"
 									selectionMode="single"
 									selection="#{seguridadBean.tablaUsuario.selectedRow}"
-									rowKey="#{usuario}" rowIndexVar="row">
+									rowKey="#{usuario}" rowIndexVar="row" paginator="true" rows="15" paginatorPosition="bottom" rowsPerPageTemplate="15,30,50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 									<p:column headerText="Nro" width="5%"
 										style="text-align:center;">
 										<h:outputText value="#{row + 1}" />
 									</p:column>
-									<p:column headerText="USUARIO">
+									<p:column headerText="USUARIO" sortBy="username">
 										<h:outputText value="#{usuario.username}" />
 									</p:column>
 									<p:column headerText="TRABAJADOR">
 										<h:outputText
-											value="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno},#{usuario.trabajador.personanatural.nombres}" />
+											value="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno}, #{usuario.trabajador.personanatural.nombres}" />
 									</p:column>
 									<p:column headerText="ROLES">
 										<h:outputText

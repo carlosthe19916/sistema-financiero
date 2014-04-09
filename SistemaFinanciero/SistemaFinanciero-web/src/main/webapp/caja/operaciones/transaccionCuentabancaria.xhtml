@@ -81,6 +81,7 @@
 
 
 			<h:form id="formTransaccion">
+				<p:focus for="titular"/>
 				<br />
 				<div style="margin-left: 50px;">
 					<div>
@@ -213,19 +214,19 @@
 														</tr>
 														<tr>
 															<td colspan="2"
-																style="font-weight: bold; font-size: 9px; font-family: Century Gothic;">IMPORTE
+																style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">IMPORTE
 																RECIBIDO:</td>
 															<td colspan="2"
-																style="font-size: 10px; text-align: right;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.montoAsString}</td>
+																style="font-size: 10px; text-align: right; font-family: Century Gothic;">#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.montoAsString}</td>
 														</tr>
 														<tr>
 															<td colspan="2"
-																style="font-weight: bold; font-size: 9px;"><h:outputText
+																style="font-weight: bold; font-size: 9px; font-family: Century Gothic;"><h:outputText
 																	id="textTotal" value="SALDO TOTAL"
 																	rendered="#{transaccionCuentabancariaCajaBean.titular}" />
 															</td>
 															<td colspan="2"
-																style="font-size: 10px; text-align: right;"><h:outputText
+																style="font-size: 10px; text-align: right; font-family: Century Gothic;"><h:outputText
 																	id="total"
 																	value="#{transaccionCuentabancariaCajaBean.vouchercajaView.abreviaturaMoneda}#{transaccionCuentabancariaCajaBean.vouchercajaView.saldoAsString}"
 																	rendered="#{transaccionCuentabancariaCajaBean.titular}" />
@@ -416,10 +417,13 @@
 												</h:inputText>
 											</div>
 											<div style="float: left;">
-												<h:outputLink id="btnBuscarCuentabancaria" value="#"
-													styleClass="button" style="margin: 0 0 0 1px;">
+												<h:commandLink styleClass="button"
+													style="margin: 0 0 0 1px;">
 													<span class="icon icon198"></span>
-												</h:outputLink>
+													<f:ajax
+														listener="#{transaccionCuentabancariaCajaBean.setDlgBusquedaCuentaOpen(true)}"
+														render=":panelGroupDialogBuscarCuenta :formBuscarCuenta" />
+												</h:commandLink>
 											</div>
 										</div>
 									</div>
@@ -546,14 +550,14 @@
 														<div class="p6n-api-consent-screen-label"
 															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">SOCIO</div>
 														<div
-															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															style="text-align: left; margin-left: 20px; font-size: 14px;">
 															<h:outputLabel
 																value="#{transaccionCuentabancariaCajaBean.cuentabancariaView.socio}" />
 														</div>
 													</div>
 													<div style="display: inline-block; width: 190px;">
 														<div class="p6n-api-consent-screen-label"
-															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">CODIGO</div>
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">CODIGO SOCIO</div>
 														<div
 															style="text-align: left; margin-left: 20px; font-size: 16px;">
 															<h:outputLabel
@@ -579,12 +583,12 @@
 															value="#{transaccionCuentabancariaCajaBean.cuentabancaria.titulares}"
 															var="titular">
 															<h:column>
-                                                                                                                #{titular.personanatural.apellidopaterno}&nbsp;#{titular.personanatural.apellidomaterno}, #{titular.personanatural.nombres}
-                                                                                                        </h:column>
+                                                            	#{titular.personanatural.apellidopaterno}&nbsp;#{titular.personanatural.apellidomaterno}, #{titular.personanatural.nombres}
+                                                            </h:column>
 															<h:column>
-                                                                                                                &nbsp;|&nbsp;
-                                                                                                                #{titular.personanatural.tipodocumento.abreviatura}:#{titular.personanatural.numerodocumento}
-                                                                                                        </h:column>
+                                                            	&nbsp;|&nbsp;
+                                                                #{titular.personanatural.tipodocumento.abreviatura}:#{titular.personanatural.numerodocumento}
+                                                            </h:column>
 														</h:dataTable>
 													</div>
 												</div>
@@ -598,100 +602,112 @@
 				</div>
 			</h:form>
 
-			<div id="dlbBuscarCuentabancaria" class="modal-dialog p6n-popup"
-				style="left: 412.5px; top: 100px;">
-				<h:form id="formBuscarCuenta">
-					<div class="modal-dialog-title modal-dialog-title-draggable">
-						<span class="modal-dialog-title-text">BUSCAR CUENTA</span><span
-							class="modal-dialog-title-close"></span>
-					</div>
-					<div class="modal-dialog-content">
-						<div id="p6n-cloudsql-content">
-							<div>
-								<div>
+			<h:panelGroup id="panelGroupDialogBuscarCuenta">
+				<h:panelGroup
+					rendered="#{transaccionCuentabancariaCajaBean.dlgBusquedaCuentaOpen}">
+					<div id="dlbBuscarCuentabancaria" class="modal-dialog p6n-popup"
+						style="left: 350px; top: 50px; width: 650px;">
+						<h:form id="formBuscarCuenta">
+							
+							<p:focus for="txtSearch"></p:focus>
+							<div class="modal-dialog-title modal-dialog-title-draggable">
+								<span class="modal-dialog-title-text" style="font-weight: bold;">BUSCAR CUENTA</span><span
+									class="modal-dialog-title-close"></span>
+							</div>
+							<div class="modal-dialog-content">
+								<div id="p6n-cloudsql-content">
 									<div>
 										<div>
-											<h:inputText id="txtSearch"
-												onkeyup="this.value = this.value.toUpperCase();"
-												value="#{transaccionCuentabancariaCajaBean.valorBusqueda}"
-												style="width: 250px;float: left;">
-											</h:inputText>
-											&nbsp;
-											<h:commandLink styleClass="button"
-												style="margin: 0px;float: left;">
-												<span class="icon icon198"></span>
-												<span class="label"></span>
-												<f:ajax execute="@form"
-													listener="#{transaccionCuentabancariaCajaBean.searchCuentabancaria()}"
-													render="tblResultadoBusqueda" />
-											</h:commandLink>
-											<h:selectOneMenu id="cmbTipoBusqueda"
-												value="#{transaccionCuentabancariaCajaBean.comboTipodocumento.itemSelected}"
-												requiredMessage="Seleccione un Tipo de Busueda">
-												<f:selectItem itemLabel="Ap. y Nombres / Razón Social"
-													itemValue="" />
-												<f:selectItems
-													value="#{transaccionCuentabancariaCajaBean.comboTipodocumento.items.entrySet()}"
-													var="val" itemLabel="#{val.value.abreviatura}"
-													itemValue="#{val.key}" />
-											</h:selectOneMenu>
+											<div>
+												<div>
+													<h:inputText id="txtSearch" autocomplete="off"
+														onkeyup="this.value = this.value.toUpperCase();"
+														value="#{transaccionCuentabancariaCajaBean.valorBusqueda}"
+														style="width: 250px;float: left;">
+													</h:inputText>
+													&nbsp;
+													<h:commandLink styleClass="button"
+														style="margin: 0px;float: left;">
+														<span class="icon icon198"></span>
+														<span class="label"></span>
+														<f:ajax execute="@form"
+															listener="#{transaccionCuentabancariaCajaBean.searchCuentabancaria()}"
+															render="tblResultadoBusqueda" />
+													</h:commandLink>
+													<h:selectOneMenu id="cmbTipoBusqueda"
+														value="#{transaccionCuentabancariaCajaBean.comboTipodocumento.itemSelected}"
+														requiredMessage="Seleccione un Tipo de Busueda">
+														<f:selectItem itemLabel="Ap. y Nombres / Razón Social"
+															itemValue="" />
+														<f:selectItems
+															value="#{transaccionCuentabancariaCajaBean.comboTipodocumento.items.entrySet()}"
+															var="val" itemLabel="#{val.value.abreviatura}"
+															itemValue="#{val.key}" />
+													</h:selectOneMenu>
+												</div>
+												<div
+													class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
+													<h:messages />
+												</div>
+											</div>
 										</div>
+									</div>
+									<hr />
+									<div class="p6n-cloudsql-form">
 										<div
-											class="p6n-cloudsql-name-message p6n-cloudsql-input-message">
-											<h:messages />
-										</div>
-									</div>
-								</div>
-							</div>
-							<hr />
-							<div class="p6n-cloudsql-form">
-								<div
-									class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
-									<div class="p6n-cloudsql-name-input ">
-										<div class="p6n-input-prepend">
-											<p:dataTable id="tblResultadoBusqueda" var="cuenta"
-												value="#{transaccionCuentabancariaCajaBean.tablaCuentabancaria.rows}"
-												selectionMode="single"
-												selection="#{transaccionCuentabancariaCajaBean.cuentabancariaView}"
-												rowKey="#{cuenta}" rowIndexVar="row">
+											class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name" >
+											<div class="p6n-cloudsql-name-input" >
+												<div class="p6n-input-prepend" >
+													<p:dataTable id="tblResultadoBusqueda" var="cuenta" style="width:650px"
+														value="#{transaccionCuentabancariaCajaBean.tablaCuentabancaria.rows}"
+														selectionMode="single"
+														selection="#{transaccionCuentabancariaCajaBean.cuentabancariaView}"
+														rowKey="#{cuenta}" rowIndexVar="row" paginator="true" rows="5" paginatorPosition="bottom"
+														paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+														>
 
-												<p:column headerText="Nro"
-													style="text-align:center; font-size: 12px;">
-													<h:outputText value="#{row + 1}" />
-												</p:column>
-												<p:column headerText="Nro Cuenta" style="font-size: 12px;">
-													<h:outputText value="#{cuenta.numerocuenta}" />
-												</p:column>
-												<p:column headerText="Tipo Cta" style="font-size: 12px;">
-													<h:outputText
-														value="#{cuenta.denominacionTipocuentabancaria}" />
-												</p:column>
-												<p:column headerText="Moneda" style="font-size: 12px;">
-													<h:outputText value="#{cuenta.denominacionTipomoneda}" />
-												</p:column>
-												<p:column headerText="Socio" style="font-size: 12px;">
-													<h:outputText value="#{cuenta.socio}" />
-												</p:column>
-											</p:dataTable>
+														<p:column headerText="Nro"
+															style="text-align:center; font-size: 12px;">
+															<h:outputText value="#{row + 1}" />
+														</p:column>
+														<p:column headerText="Nro Cuenta" style="font-size: 12px;">
+															<h:outputText value="#{cuenta.numerocuenta}" />
+														</p:column>
+														<p:column headerText="Tipo Cta" style="font-size: 12px;">
+															<h:outputText
+																value="#{cuenta.denominacionTipocuentabancaria}" />
+														</p:column>
+														<p:column headerText="Moneda" style="font-size: 12px;">
+															<h:outputText value="#{cuenta.denominacionTipomoneda}" />
+														</p:column>
+														<p:column headerText="Socio" style="font-size: 12px;">
+															<h:outputText value="#{cuenta.socio}" />
+														</p:column>
+													</p:dataTable>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+							<div class="modal-dialog-buttons">
+								<h:commandButton value="Aceptar" styleClass="action green">
+									<f:ajax
+										listener="#{transaccionCuentabancariaCajaBean.setRowSelectToTransaccion()}"
+										execute="@form"
+										render=":formTransaccion:txtNumerocuenta :formTransaccion:cmbTipomoneda :formCalculadora :formTransaccion:cuentabancariaResultadobusqueda"
+										onevent="closeDlgBuscarCuentabancaria" />
+								</h:commandButton>
+								<h:commandButton value="Cancelar" styleClass="action">
+									<f:ajax
+										render=":panelGroupDialogBuscarCuenta :formBuscarCuenta"
+										listener="#{transaccionCuentabancariaCajaBean.setDlgBusquedaCuentaOpen(false)}" />
+								</h:commandButton>
+							</div>
+						</h:form>
 					</div>
-					<div class="modal-dialog-buttons">
-						<h:commandButton value="Aceptar" styleClass="action green">
-							<f:ajax
-								listener="#{transaccionCuentabancariaCajaBean.setRowSelectToTransaccion()}"
-								execute="@form"
-								render=":formTransaccion:txtNumerocuenta :formTransaccion:cmbTipomoneda :formCalculadora :formTransaccion:cuentabancariaResultadobusqueda"
-								onevent="closeDlgBuscarCuentabancaria" />
-						</h:commandButton>
-						<input type="button" value="Cancelar" class="action"
-							onclick="closeDlgBuscarCuentabancaria()" />
-					</div>
-				</h:form>
-			</div>
+				</h:panelGroup>
+			</h:panelGroup>
 
 			<div id="dlgCalculadora" class="modal-dialog p6n-popup"
 				style="left: 412.5px; top: 5px;">
