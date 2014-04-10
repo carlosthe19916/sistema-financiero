@@ -11,8 +11,11 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.dependent.TablaBean;
+import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipocuentabancariaType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -53,9 +56,16 @@ public class AdministrarCuentabancaria implements Serializable{
 	public void capitalizar(){
 		try {
 			if(success == false) {
-				CuentabancariaView cuentabancariaView = tablaCuentabancaria.getSelectedRow();
-				Cuentabancaria cuentabancaria = new Cuentabancaria();
-				cuentabancaria.setIdcuentabancaria(cuentabancariaView.getIdCuentabancaria());
+				CuentabancariaView cuentabancariaView = tablaCuentabancaria.getSelectedRow();				
+				
+				Tipocuentabancaria tipocuentabancaria = new Tipocuentabancaria();
+				tipocuentabancaria.setIdtipocuentabancaria(cuentabancariaView.getIdTipocuentabancaria());
+				if(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO).equals(tipocuentabancaria)) {
+					throw new Exception("Cuenta plazo fijo no se puede capitalizar");
+				}
+				
+				Cuentabancaria cuentabancaria = new Cuentabancaria();				
+				cuentabancaria.setIdcuentabancaria(cuentabancariaView.getIdCuentabancaria());				
 				cuentabancariaServiceLocal.capitalizarCuenta(cuentabancaria);
 				success = true;
 			}			

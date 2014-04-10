@@ -1163,6 +1163,11 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			if(cuentabancariasDB == null)
 				throw new Exception("Cuenta bancaria no existente");
 			
+			Tipocuentabancaria tipocuentabancaria = cuentabancariasDB.getTipocuentabancaria();
+			if(ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO).equals(tipocuentabancaria)) {
+				throw new Exception("Cuenta plazo fijo no se puede capitalizar");
+			}
+			
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("idcuentabancaria",cuentabancaria.getIdcuentabancaria());
 

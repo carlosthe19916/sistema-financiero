@@ -9,7 +9,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(3)}" />
+		<f:viewAction action="#{menuMB.updateMenu(1)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -68,7 +68,7 @@
 							<span class="icon icon122">&nbsp;</span>
 							<span class="label">Capitalizar</span>
 							<f:ajax listener="#{administrarCuentabancaria.capitalizar()}"
-								execute="tablaCuentas"></f:ajax>
+								execute="tablaCuentas" render=":panelStatus"></f:ajax>
 						</h:commandLink>
 					</div>
 				</div>
@@ -105,18 +105,12 @@
 											<p:column headerText="Saldo" style="font-size: 12px;">
 												<h:outputText value="#{cuenta.saldoCuentabancariaAsString}" />
 											</p:column>
-											<p:column headerText="Fecha apertura" style="font-size: 12px;">
+											<p:column headerText="Fecha apertura"
+												style="font-size: 12px;">
 												<h:outputText value="#{cuenta.fechaaperturaCuentabancaria}" />
 											</p:column>
 											<p:column headerText="Estado" style="font-size: 12px;">
 												<h:outputText value="#{cuenta.denominacionEstadocuenta}" />
-											</p:column>
-											<p:column headerText="STATUS">
-												<h:button value="Edit" outcome="update"
-													styleClass="action green" style="margin: 0px;"
-													target="_blank">
-													<f:param name="id" value="#{cuenta.idCuentabancaria}" />
-												</h:button>
 											</p:column>
 										</p:dataTable>
 									</div>
@@ -128,37 +122,39 @@
 			</h:form>
 			<!-- END PERSONA NATURAL -->
 
-			<h:panelGroup rendered="#{administrarCuentabancaria.success}">
-				<h:form>
-					<div class="modal-dialog-bg"
-						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
-					<div class="modal-dialog p6n-popup"
-						style="left: 502px; top: 200px;">
-						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Capitalizacion
-								finalizada</span><span class="modal-dialog-title-close"></span>
-						</div>
-						<div class="modal-dialog-content ng-binding">La
-							capitalizacion fue registrada correctamente.</div>
-						<div class="modal-dialog-buttons">
-							<h:commandButton value="Aceptar"
-								action="buscar?faces-redirect=true" immediate="true" />
-						</div>
-					</div>
-				</h:form>
-			</h:panelGroup>
-			<h:panelGroup rendered="#{administrarCuentabancaria.failure}">
-				<h:form>
-					<div class="p6n-api-access-in-page-error" style="left: 516px;">
-						<div>
-							<div>
-								<p>
-									<h:messages />
-								</p>
+			<h:panelGroup id="panelStatus">
+				<h:panelGroup rendered="#{administrarCuentabancaria.success}">
+					<h:form>
+						<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+						<div class="modal-dialog p6n-popup"
+							style="left: 502px; top: 200px;">
+							<div class="modal-dialog-title modal-dialog-title-draggable">
+								<span class="modal-dialog-title-text">Capitalizacion
+									finalizada</span><span class="modal-dialog-title-close"></span>
+							</div>
+							<div class="modal-dialog-content ng-binding">La
+								capitalizacion fue registrada correctamente.</div>
+							<div class="modal-dialog-buttons">
+								<h:commandButton value="Aceptar"
+									action="buscar?faces-redirect=true" immediate="true" />
 							</div>
 						</div>
-					</div>
-				</h:form>
+					</h:form>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{administrarCuentabancaria.failure}">
+					<h:form>
+						<div class="p6n-api-access-in-page-error" style="left: 516px;">
+							<div>
+								<div>
+									<p>
+										<h:messages />
+									</p>
+								</div>
+							</div>
+						</div>
+					</h:form>
+				</h:panelGroup>
 			</h:panelGroup>
 		</ui:define>
 	</ui:composition>
