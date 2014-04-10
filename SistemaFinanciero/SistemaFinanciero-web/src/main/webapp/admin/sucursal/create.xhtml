@@ -62,7 +62,7 @@
 			</h:panelGroup>
 
 			<h:form id="formSucursal">
-
+				<p:focus for="txtDenominacion"></p:focus>
 				<br />
 				<div>
 					<div style="margin-left: 50px;">
@@ -119,7 +119,7 @@
 																itemValue="#{val.key}" />
 															<f:ajax
 																listener="#{sucursalCRUDBean.actualizarProvincias()}"
-																execute="@this" render="cmbProvincia cmbDistrito"></f:ajax>
+																execute="@this" render="cmbProvincia"></f:ajax>
 														</h:selectOneMenu>
 													</div>
 												</div>

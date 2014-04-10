@@ -109,6 +109,7 @@
 			<web-resource-name>Caja</web-resource-name>
 			<description></description>
 			<url-pattern>/caja/*</url-pattern>
+			<url-pattern>/miPerfil/*</url-pattern>
 			<http-method>GET</http-method>
 			<http-method>PUT</http-method>
 			<http-method>POST</http-method>
@@ -150,6 +151,7 @@
 			<web-resource-name>JefeCaja</web-resource-name>
 			<description></description>
 			<url-pattern>/jefeCaja/*</url-pattern>
+			<url-pattern>/miPerfil/*</url-pattern>
 			<http-method>GET</http-method>
 			<http-method>PUT</http-method>
 			<http-method>POST</http-method>
@@ -179,6 +181,7 @@
 		<web-resource-collection>
 			<web-resource-name>Index page</web-resource-name>
 			<url-pattern>/index.xhtml</url-pattern>
+			<url-pattern>/miPerfil/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<description>Tiene acceso</description>

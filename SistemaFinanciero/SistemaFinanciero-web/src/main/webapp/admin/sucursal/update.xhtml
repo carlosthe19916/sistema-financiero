@@ -62,6 +62,7 @@
 			</h:panelGroup>
 
 			<h:form id="formSucursal">
+				<p:focus for="txtDenominacion"></p:focus>
 				<br />
 				<div>
 					<div style="margin-left: 50px;">
@@ -118,7 +119,7 @@
 																itemValue="#{val.key}" />
 															<f:ajax
 																listener="#{sucursalCRUDBean.actualizarProvincias()}"
-																execute="@this" render="cmbProvincia cmbDistrito"></f:ajax>
+																execute="@this" render="cmbProvincia"></f:ajax>
 														</h:selectOneMenu>
 													</div>
 												</div>
@@ -180,7 +181,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="buttons p6n-api-consent-screen-inputs">
 											<div class="tiptip">
-												<h:commandLink styleClass="button left" title="Nueva bóveda">
+												<h:commandLink styleClass="button left" title="Nueva">
 													<f:ajax
 														listener="#{sucursalCRUDBean.openDialogForCreateAgencia()}"
 														render="dlgAgencia formDlgAgencia"></f:ajax>
@@ -246,6 +247,7 @@
 						style="opacity: 0.4; width: 1366px; height: 802px;"></div>
 					<div class="modal-dialog p6n-popup" style="left: 402px; top: 50px;">
 						<h:form id="formDlgAgencia">
+							<p:focus for="txtDenominacionAgencia"></p:focus>
 							<div class="modal-dialog-content p6n-acl-add-member-popup"
 								style="width: 385px;">
 								<div class="p6n-api-consent-screen-inputs">

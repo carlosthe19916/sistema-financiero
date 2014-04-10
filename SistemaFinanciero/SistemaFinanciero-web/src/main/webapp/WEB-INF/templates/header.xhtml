@@ -23,10 +23,6 @@
 							<td class="sf-header-td">
 								<div class="sf-header-td-right">
 									<ul>	
-										<li>
-											<h:outputLabel value="USUARIO:" />											
-											<h:outputLabel value="#{usuarioMB.usuario.username}" styleClass="sf-label-bold"/>										
-										</li>
 										<h:panelGroup
 											rendered="#{cajaBean.caja.idcaja == null ? false : true}">
 											<li><h:outputLabel value="CAJA:" /> <h:outputLabel
@@ -46,6 +42,22 @@
 												<h:commandLink value="Cerrar sesión" actionListener="#{usuarioMB.logout()}" />
 											</h:form>
 										</li>
+										<li><h:form>
+												<p:commandLink id="dynaButton"
+													value="▼ #{usuarioMB.usuario.username}" />
+												<p:menu overlay="true" trigger="dynaButton" my="left top"
+													at="left bottom">
+													<p:submenu style="float: none; width: 0px">
+														<p:menuitem value="Modificar Perfil" outcome="/miPerfil/updateUsuario"
+															icon="ui-icon-pencil">
+															<f:param name="id" value="#{usuarioMB.usuario.idusuario}" />
+														</p:menuitem>
+														<p:separator />
+														<p:menuitem value="Cerrar Sesión"
+															icon="ui-icon-closethick" actionListener="#{usuarioMB.logout()}"/>
+													</p:submenu>
+												</p:menu>
+											</h:form></li>
 									</ul>
 								</div>
 							</td>
@@ -82,7 +94,9 @@
 				</ul>
 				
 				<!-- Menu Ayuda -->
+				
 				<ul class="sf-menu-ul sf-menu-ul-left">
+					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="/miPerfil/updateUsuario.xhtml">Mi Perfil</a></li>
 					<li class="sf-menu-ul-li"><a class="sf-menu-ul-li-a" href="#">Ayuda</a></li>
 				</ul>
 			</div>
