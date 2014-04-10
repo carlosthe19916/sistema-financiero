@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<f:metadata>
+		<f:viewParam name="id" value="#{modificarPerfilBean.idusuario}" />
+		<f:viewAction action="#{modificarPerfilBean.loadUsuarioForEdit()}" />
+	</f:metadata>
+
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Nuevo" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+			<br />
+
+			<h:panelGroup rendered="#{modificarPerfilBean.failure}">
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
+			<h:form id="formPrincipal">
+				<p:focus id="updateFocus" for="txtUsuario"/>
+				<div style="margin-left: 50px;">
+					<div>
+						<div>
+							<div class="p6n-api-consent-screen-title">Crear Usuario</div>
+							<div class="p6n-api-consent-screen-inputs">
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">
+										AGENCIA</div>
+									<div>
+										<h:outputLabel value="#{modificarPerfilBean.agencia.denominacion}" />
+									</div>
+								</div>
+
+								<h:panelGroup id="resumenTrabajador">
+									<div class="p6n-api-consent-screen-preview-image"
+										style="height: 244px;">
+										<div class="p6n-api-consent-screen-preview-image-bg">
+
+											<div class="p6n-api-consent-screen-inputs">
+												<div class="p6n-api-consent-screen-input-section">
+													<div>
+														<div class="p6n-api-consent-screen-label"
+															style="width: 150px; text-align: left; margin-left: 20px; font-size: 14px;">NRO
+															DOCUMENTO</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{modificarPerfilBean.trabajador.personanatural.tipodocumento.abreviatura}: #{modificarPerfilBean.trabajador.personanatural.numerodocumento}" />
+														</div>
+													</div>
+												</div>
+												<div class="p6n-api-consent-screen-input-section">
+													<div>
+														<div class="p6n-api-consent-screen-label"
+															style="width: 350px; text-align: left; margin-left: 20px; font-size: 14px;">TRABAJADOR</div>
+														<div
+															style="text-align: left; margin-left: 20px; font-size: 16px;">
+															<h:outputLabel
+																value="#{modificarPerfilBean.trabajador.personanatural.apellidopaterno} #{modificarPerfilBean.trabajador.personanatural.apellidomaterno},#{modificarPerfilBean.trabajador.personanatural.nombres}" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</h:panelGroup>
+
+
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">TRABAJADOR</div>
+									<div>
+										<div style="float: left;">
+											<h:inputText id="txtTrabajador" size="40"
+												value="#{modificarPerfilBean.trabajador.personanatural.apellidopaterno} #{modificarPerfilBean.trabajador.personanatural.apellidomaterno} #{modificarPerfilBeantrabajador.personanatural.nombres}"
+												required="true" requiredMessage="Ingrese trabajador"
+												readonly="true" />
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg"
+									style="float: inherit;">
+									<h:message for="txtTrabajador" />
+								</div>
+								<br /> <br />
+
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">USUARIO</div>
+									<div>
+										<div>
+											<h:inputText id="txtUsuario" autocomplete="off"
+												value="#{modificarPerfilBean.username}" maxlength="150"
+												required="true" requiredMessage="Ingrese usuario" />
+										</div>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtUsuario" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">PASSWORD</div>
+									<div>
+										<h:panelGroup id="panelPassword">
+											<h:panelGroup rendered="#{!modificarPerfilBean.passwordChanged}">
+												<h:outputLabel value="*************" />
+												&nbsp;&nbsp;&nbsp;&nbsp;
+												<h:commandLink value="Edit">
+													<f:ajax
+														listener="#{modificarPerfilBean.setPasswordChanged(true)}"
+														render="panelPassword"></f:ajax>
+												</h:commandLink>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{modificarPerfilBean.passwordChanged}">
+												<h:inputSecret id="txtPassword"
+													value="#{modificarPerfilBean.password}" maxlength="150"
+													required="true" requiredMessage="Ingrese password" />
+													&nbsp;&nbsp;&nbsp;&nbsp;
+												<h:commandLink value="Cancelar">
+													<f:ajax
+														listener="#{modificarPerfilBean.setPasswordChanged(false)}"
+														render="panelPassword"></f:ajax>
+												</h:commandLink>
+											</h:panelGroup>
+										</h:panelGroup>
+									</div>
+								</div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtPassword" />
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label" style="width: 150px;">ASIGNAR
+										GRUPOS</div>
+									<div>
+										<p:pickList value="#{modificarPerfilBean.gruposPickList}"
+											var="grupo" itemLabel="#{grupo}" itemValue="#{grupo}"
+											converter="GrupoDualPickListConverter">
+											<f:facet name="sourceCaption">No asignados</f:facet>
+											<f:facet name="targetCaption">Asignados</f:facet>
+										</p:pickList>
+									</div>
+								</div>
+								<br /> <br />
+								<div>
+									<h:commandButton action="#{modificarPerfilBean.updateUsuario()}"
+										value="Actualizar" styleClass="action green"
+										onclick="onSubmitButton();" />
+									<h:commandButton value="Cancelar"
+										action="/caja/index?faces-redirect=true" immediate="true"
+										styleClass="action" />
+
+									<h:panelGroup rendered="#{modificarPerfilBean.succes}">
+										<div class="modal-dialog-bg"
+											style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+										<div class="modal-dialog p6n-popup"
+											style="left: 502px; top: 200px;">
+											<div class="modal-dialog-content ng-binding">El usuario
+												fue actualizado satistactoriamente.</div>
+											<div class="modal-dialog-buttons">												
+												<h:commandButton value="Volver"
+													action="/caja/index?faces-redirect=true" immediate="true" />
+											</div>
+										</div>
+									</h:panelGroup>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>
