@@ -16,14 +16,18 @@ import org.ventura.entity.schema.sucursal.Agencia;
 @NamedQuery(name = "Trabajador.findAll", query = "SELECT t FROM Trabajador t")
 @NamedQueries({
 		@NamedQuery(name = Trabajador.f_idagencia, query = "SELECT t FROM Trabajador t INNER JOIN t.agencia a WHERE a.idagencia = :idagencia"),
+		@NamedQuery(name = Trabajador.f_searched, query = "SELECT t FROM Trabajador t INNER JOIN t.personanatural p INNER JOIN t.agencia a WHERE t.estado = TRUE AND ( UPPER(CONCAT(p.apellidopaterno,' ', p.apellidomaterno,' ', p.nombres)) LIKE :searched OR p.numerodocumento LIKE :searched ) "),
 		@NamedQuery(name = Trabajador.f_idagencia_searched, query = "SELECT t FROM Trabajador t INNER JOIN t.personanatural p INNER JOIN t.agencia a WHERE a.idagencia = :idagencia AND ( UPPER(CONCAT(p.apellidopaterno,' ', p.apellidomaterno,' ', p.nombres)) LIKE :searched OR p.numerodocumento LIKE :searched ) AND t.estado = TRUE"),
+		@NamedQuery(name = Trabajador.f_idtipodocumento_numerodocumento, query = "SELECT t FROM Trabajador t INNER JOIN t.personanatural p INNER JOIN t.agencia a WHERE p.tipodocumento.idtipodocumento = :idtipodocumento AND p.numerodocumento = :numerodocumento AND t.estado = TRUE"),
 		@NamedQuery(name = Trabajador.f_idagencia_idtipodocumento_numerodocumento, query = "SELECT t FROM Trabajador t INNER JOIN t.personanatural p INNER JOIN t.agencia a WHERE a.idagencia = :idagencia AND p.tipodocumento.idtipodocumento = :idtipodocumento AND p.numerodocumento = :numerodocumento AND t.estado = TRUE") })
 public class Trabajador implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static String f_idagencia = "org.ventura.entity.schema.rrhh.Trabajador.f_idusuario";
-	public final static String f_idagencia_searched = "org.ventura.entity.schema.rrhh.Trabajador.f_searched";
-	public final static String f_idagencia_idtipodocumento_numerodocumento = "org.ventura.entity.schema.rrhh.Trabajador.f_idtipodocumento_numerodocumento";
+	public final static String f_searched = "org.ventura.entity.schema.rrhh.Trabajador.f_searched";
+	public final static String f_idagencia_searched = "org.ventura.entity.schema.rrhh.Trabajador.f_idagencia_searched";
+	public final static String f_idtipodocumento_numerodocumento = "org.ventura.entity.schema.rrhh.Trabajador.f_idtipodocumento_numerodocumento";
+	public final static String f_idagencia_idtipodocumento_numerodocumento = "org.ventura.entity.schema.rrhh.Trabajador.f_idagencia_idtipodocumento_numerodocumento";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

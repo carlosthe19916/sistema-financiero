@@ -59,16 +59,28 @@ public class TrabajadorServiceBean implements TrabajadorServiceLocal {
 		List<Trabajador> list = null;
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			if(tipodocumento == null){
-				parameters.put("idagencia", agencia.getIdagencia());
-				parameters.put("searched", "%" + valorBusqueda.toUpperCase() + "%");
-				list = trabajadorDAO.findByNamedQuery(Trabajador.f_idagencia_searched, parameters,10);
+			if(agencia == null){
+				if(tipodocumento == null){
+					parameters.put("searched", "%" + valorBusqueda.toUpperCase() + "%");
+					list = trabajadorDAO.findByNamedQuery(Trabajador.f_searched, parameters,10);
+				} else {
+					parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
+					parameters.put("numerodocumento", valorBusqueda);
+					list = trabajadorDAO.findByNamedQuery(Trabajador.f_idtipodocumento_numerodocumento, parameters,10);
+				}
 			} else {
-				parameters.put("idagencia", agencia.getIdagencia());
-				parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
-				parameters.put("numerodocumento", valorBusqueda);
-				list = trabajadorDAO.findByNamedQuery(Trabajador.f_idagencia_idtipodocumento_numerodocumento, parameters,10);
-			}		
+				if(tipodocumento == null){
+					parameters.put("idagencia", agencia.getIdagencia());
+					parameters.put("searched", "%" + valorBusqueda.toUpperCase() + "%");
+					list = trabajadorDAO.findByNamedQuery(Trabajador.f_idagencia_searched, parameters,10);
+				} else {
+					parameters.put("idagencia", agencia.getIdagencia());
+					parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
+					parameters.put("numerodocumento", valorBusqueda);
+					list = trabajadorDAO.findByNamedQuery(Trabajador.f_idagencia_idtipodocumento_numerodocumento, parameters,10);
+				}	
+			}
+				
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());

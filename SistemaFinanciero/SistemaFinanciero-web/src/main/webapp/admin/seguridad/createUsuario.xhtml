@@ -10,8 +10,7 @@
 <f:view>
 	<f:metadata>
 		<f:viewParam name="id" value="#{usuarioCRUDAdminBean.idAgencia}" />
-		<f:viewAction
-			action="#{usuarioCRUDAdminBean.loadAgencia()}" />
+		<f:viewAction action="#{usuarioCRUDAdminBean.loadAgencia()}" />
 		<f:viewAction action="#{menuMB.updateMenu(32)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
@@ -26,6 +25,37 @@
 
 			<h:outputStylesheet library="css" name="main.css" />
 			<br />
+
+			<h:panelGroup rendered="#{usuarioCRUDAdminBean.agencia == null}">
+				<div class="modal-dialog-bg"
+					style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
+				<div class="modal-dialog p6n-popup" style="left: 502px; top: 200px;">
+					<div class="modal-dialog-title modal-dialog-title-draggable">
+						<span class="modal-dialog-title-text">Error</span><span
+							class="modal-dialog-title-close"></span>
+					</div>
+					<div class="modal-dialog-content ng-binding">Debe de
+						seleccionar una agencia antes de crear un usuario.</div>
+					<div class="modal-dialog-buttons">
+						<h:commandButton value="Crear Nuevo"
+							action="createUsuario?faces-redirect=true" immediate="true" />
+						<h:commandButton value="Volver" action="list?faces-redirect=true"
+							immediate="true" />
+					</div>
+				</div>
+
+				<h:form>
+					<div class="p6n-api-access-in-page-error" style="left: 516px;">
+						<div>
+							<div>
+								<p>
+									Debe de seleccionar una agencia antes de crear un usuario.<a></a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
 
 			<h:panelGroup rendered="#{usuarioCRUDAdminBean.failure}">
 				<h:form>
@@ -52,7 +82,8 @@
 									<div class="p6n-api-consent-screen-label" style="width: 150px;">
 										AGENCIA</div>
 									<div>
-										<h:outputLabel value="#{usuarioCRUDAdminBean.agencia.denominacion}" />
+										<h:outputLabel
+											value="#{usuarioCRUDAdminBean.agencia.denominacion}" />
 									</div>
 								</div>
 
@@ -157,7 +188,8 @@
 								</div>
 								<br /> <br />
 								<div>
-									<h:commandButton action="#{usuarioCRUDAdminBean.createUsuario()}"
+									<h:commandButton
+										action="#{usuarioCRUDAdminBean.createUsuario()}"
 										value="Guardar" styleClass="action blue"
 										onclick="onSubmitButton();" />
 									<h:commandButton value="Cancelar"
