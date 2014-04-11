@@ -29,20 +29,6 @@
 			<h:panelGroup rendered="#{usuarioCRUDAdminBean.agencia == null}">
 				<div class="modal-dialog-bg"
 					style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
-				<div class="modal-dialog p6n-popup" style="left: 502px; top: 200px;">
-					<div class="modal-dialog-title modal-dialog-title-draggable">
-						<span class="modal-dialog-title-text">Error</span><span
-							class="modal-dialog-title-close"></span>
-					</div>
-					<div class="modal-dialog-content ng-binding">Debe de
-						seleccionar una agencia antes de crear un usuario.</div>
-					<div class="modal-dialog-buttons">
-						<h:commandButton value="Crear Nuevo"
-							action="createUsuario?faces-redirect=true" immediate="true" />
-						<h:commandButton value="Volver" action="list?faces-redirect=true"
-							immediate="true" />
-					</div>
-				</div>
 
 				<h:form>
 					<div class="p6n-api-access-in-page-error" style="left: 516px;">
@@ -51,6 +37,11 @@
 								<p>
 									Debe de seleccionar una agencia antes de crear un usuario.<a></a>
 								</p>
+							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Volver"
+									action="/admin/seguridad/list?faces-redirect=true"
+									immediate="true" styleClass="p6n-api-access-in-page-error-link" />
 							</div>
 						</div>
 					</div>
@@ -190,7 +181,7 @@
 								<div>
 									<h:commandButton
 										action="#{usuarioCRUDAdminBean.createUsuario()}"
-										value="Guardar" styleClass="action blue"
+										value="Guardar" styleClass="action green"
 										onclick="onSubmitButton();" />
 									<h:commandButton value="Cancelar"
 										action="list?faces-redirect=true" immediate="true"
@@ -307,14 +298,14 @@
 								</h:form>
 							</div>
 							<div class="modal-dialog-buttons">
-								<h:commandButton value="Aceptar" styleClass="action blue">
+								<h:commandButton value="Aceptar" styleClass="action green" actionListener="#{usuarioCRUDAdminBean.generarUserName()}">
 									<f:ajax
 										listener="#{usuarioCRUDAdminBean.setDlgBuscarTrabajador(false)}"
-										render=":dlgBuscarTrabajador :formPrincipal:resumenTrabajador :formPrincipal:txtTrabajador"
+										render=":dlgBuscarTrabajador :formPrincipal:resumenTrabajador :formPrincipal:txtTrabajador :formPrincipal:txtUsuario"
 										execute="@form"></f:ajax>
 								</h:commandButton>
 								<h:commandButton value="Cancelar" styleClass="action">
-									<f:ajax render=":dlgBuscarTrabajador"
+									<f:ajax render=":dlgBuscarTrabajador" immediate="true"
 										listener="#{usuarioCRUDAdminBean.setDlgBuscarTrabajador(false)}"></f:ajax>
 								</h:commandButton>
 							</div>

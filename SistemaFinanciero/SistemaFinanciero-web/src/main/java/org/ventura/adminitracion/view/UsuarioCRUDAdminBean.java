@@ -177,6 +177,17 @@ public class UsuarioCRUDAdminBean implements Serializable {
 		}
 	}
 	
+	public void generarUserName(){
+		if (dlgBuscarTrabajador == false) {
+			String nombres = trabajador.getPersonanatural().getNombres().toLowerCase();
+			String[] arrayNombres = nombres.split(" ");
+			String primerNombre = arrayNombres[0];
+			
+			String apellidoPaterno = trabajador.getPersonanatural().getApellidopaterno().toLowerCase();
+			username  = primerNombre + "." + apellidoPaterno;
+		}
+	}
+	
 	public Agencia getAgencia() {
 		return agencia;
 	}

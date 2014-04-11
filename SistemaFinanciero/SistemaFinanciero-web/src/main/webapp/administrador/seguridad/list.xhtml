@@ -58,7 +58,7 @@
 						</div>
 						<br /> <br />
 						<h:form>
-							<div>
+							<!-- <div>
 								<div class="tiptip">
 									<h:commandLink action="createUsuario?faces-redirect=true" disabled="true"
 										styleClass="button left" title="Nuevo usuario">
@@ -66,7 +66,7 @@
 										<span class="label">Nuevo</span>
 									</h:commandLink>
 								</div>
-							</div>
+							</div> -->
 							<div>
 								<p:dataTable var="usuario"
 									value="#{seguridadBean.tablaUsuario.rows}"
@@ -81,7 +81,7 @@
 									<p:column headerText="USUARIO" sortBy="username">
 										<h:outputText value="#{usuario.username}" />
 									</p:column>
-									<p:column headerText="TRABAJADOR">
+									<p:column headerText="TRABAJADOR" sortBy="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno}, #{usuario.trabajador.personanatural.nombres}">
 										<h:outputText
 											value="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno}, #{usuario.trabajador.personanatural.nombres}" />
 									</p:column>
@@ -92,15 +92,15 @@
 									<p:column headerText="GRUPOS">
 										<h:outputText value="#{seguridadBean.listarGrupos(usuario)}" />
 									</p:column>
-									<p:column headerText="ESTADO">
+									<p:column headerText="ESTADO" sortBy="#{usuario.estado}">
 										<h:outputText
 											value="#{usuario.estado ? 'Activo' : 'Inactivo'}" />
 									</p:column>
 									<p:column headerText="STATUS" style="text-align:center;"
 										width="137">
 										<div class="buttons">
-											<h:button value="Edit" outcome="updateUsuario"
-												styleClass="action" style="margin: 0 2px 0 0;">
+											<h:button value="Edit" outcome="updateUsuario" disabled="true"
+												styleClass="action blue" style="margin: 0 2px 0 0;">
 												<f:param name="id" value="#{usuario.idusuario}" />
 											</h:button>
 
@@ -260,11 +260,11 @@
 							</div>
 							<div class="modal-dialog-buttons">
 
-								<h:commandButton value="Guardar" styleClass="action" disabled="true">
+								<!-- <h:commandButton value="Guardar" styleClass="action green" disabled="true">
 									<f:ajax render=":dlgGrupo"
 										listener="#{seguridadBean.guardarMiembrosDeGrupo()}"
 										execute="@form"></f:ajax>
-								</h:commandButton>
+								</h:commandButton> -->
 								<h:commandButton value="Cancelar" styleClass="action">
 									<f:ajax render=":dlgGrupo"
 										listener="#{seguridadBean.setDlgGrupo(false)}"></f:ajax>
