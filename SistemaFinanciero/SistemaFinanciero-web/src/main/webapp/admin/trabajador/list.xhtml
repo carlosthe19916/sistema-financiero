@@ -25,6 +25,22 @@
 			<h:outputStylesheet library="css" name="main.css" />
 			<br></br>
 
+			<h:panelGroup id="panelStatus">
+				<h:panelGroup rendered="#{administrarTrabajadorAdminBean.failure}">
+					<h:form>
+						<div class="p6n-api-access-in-page-error" style="left: 516px;">
+							<div>
+								<div>
+									<p>
+										<h:messages />
+									</p>
+								</div>
+							</div>
+						</div>
+					</h:form>
+				</h:panelGroup>
+			</h:panelGroup>
+			
 			<div style="margin-left: 50px;">
 				<div>
 					<div>
@@ -125,11 +141,9 @@
 													<f:convertDateTime pattern="dd/MM/yyyy" />
 												</h:outputText>
 											</p:column>
-											<p:column headerText="AGENCIA"
-												style="text-align:center;">
-												<h:outputText
-													value="#{trabajador.agencia.denominacion}">
-													
+											<p:column headerText="AGENCIA" style="text-align:center;">
+												<h:outputText value="#{trabajador.agencia.denominacion}">
+
 												</h:outputText>
 											</p:column>
 											<p:column headerText="STATUS" width="137">
@@ -142,7 +156,7 @@
 														style="margin: 0 0 0 2px;">
 														<f:ajax
 															listener="#{administrarTrabajadorAdminBean.deleteTrabajador(trabajador)}"
-															render="@form"></f:ajax>
+															render="@form :panelStatus"></f:ajax>
 													</h:commandButton>
 												</div>
 											</p:column>

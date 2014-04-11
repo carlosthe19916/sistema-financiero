@@ -18,9 +18,11 @@ import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TrabajadorServiceLocal;
 import org.ventura.boundary.remote.TrabajadorServiceRemote;
 import org.ventura.dao.impl.TrabajadorDAO;
+import org.ventura.dao.impl.UsuarioDAO;
 import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.entity.schema.rrhh.Trabajador;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.util.logger.Log;
 
@@ -35,6 +37,7 @@ public class TrabajadorServiceBean implements TrabajadorServiceLocal {
 	private Log log;
 
 	@EJB private TrabajadorDAO trabajadorDAO;
+	@EJB private UsuarioDAO usuarioDAO;
 	
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	
@@ -123,6 +126,12 @@ public class TrabajadorServiceBean implements TrabajadorServiceLocal {
 	@Override
 	public void delete(Trabajador trabajador) throws Exception {
 		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idtrabajador", trabajador.getIdtrabajador());
+			List<Usuario> list = usuarioDAO.findByNamedQuery(Usuario.f_idtrabajador, parameters);
+			if(list.size() != 0){
+				throw new Exception("Debe de eliminar los usuarios asignados, antes de eliminar el trabajadpr");
+			}
 			Trabajador trabajadorDB = trabajadorDAO.find(trabajador.getIdtrabajador());
 			trabajadorDB.setEstado(false);
 			trabajadorDAO.update(trabajadorDB);

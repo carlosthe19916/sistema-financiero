@@ -31,8 +31,12 @@ public class AdministrarTrabajadorAdminBean implements Serializable {
 	
 	@EJB private TrabajadorServiceLocal trabajadorServiceLocal;
 
+	private boolean success;
+	private boolean failure;
+	
 	public AdministrarTrabajadorAdminBean() {
-		
+		success = false;
+		failure = false;
 	}
 
 	@PostConstruct
@@ -46,6 +50,7 @@ public class AdministrarTrabajadorAdminBean implements Serializable {
 			tablaTrabajador.clean();
 			tablaTrabajador.setRows(resultList);
 		} catch (Exception e) {
+			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
@@ -55,6 +60,7 @@ public class AdministrarTrabajadorAdminBean implements Serializable {
 			trabajadorServiceLocal.delete(trabajador);
 			tablaTrabajador.removeRow(trabajador);
 		} catch (Exception e) {
+			failure = true;
 			JsfUtil.addErrorMessage(e, "Error al Inactivar Boveda");
 		}
 	}
@@ -73,6 +79,22 @@ public class AdministrarTrabajadorAdminBean implements Serializable {
 
 	public void setSearched(String searched) {
 		this.searched = searched;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public boolean isFailure() {
+		return failure;
+	}
+
+	public void setFailure(boolean failure) {
+		this.failure = failure;
 	}
 
 }
