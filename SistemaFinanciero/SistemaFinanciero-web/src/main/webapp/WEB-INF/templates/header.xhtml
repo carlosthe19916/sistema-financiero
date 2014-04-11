@@ -33,33 +33,25 @@
 											<h:outputLabel value="ROL:" />											
 											<h:outputLabel value="#{usuarioMB.rol.descripcion}" styleClass="sf-label-bold"/>										
 										</li>									
-										<li>			
-											<h:outputLabel value="AGENCIA:" />										
+										<li>											
 											<h:outputLabel value="#{usuarioMB.usuario.trabajador.agencia.denominacion}" styleClass="sf-label-bold"/>										
-										</li>
-										<li>
-											<h:form>
-												<h:commandLink value="Cerrar sesión" actionListener="#{usuarioMB.logout()}" />
-											</h:form>
 										</li>
 										<li><h:form>
 												<p:commandLink id="dynaButton"
 													value="▼ #{usuarioMB.usuario.username}" />
 												<p:menu overlay="true" trigger="dynaButton" my="left top"
-													at="left bottom">
-													<p:submenu style="float: none; width: 0px">
-														<p:menuitem value="Modificar Perfil" outcome="/miPerfil/updateUsuario"
-															icon="ui-icon-pencil">
-															<f:param name="id" value="#{usuarioMB.usuario.idusuario}" />
-														</p:menuitem>
-														<p:separator />
-														<p:menuitem value="Cerrar Sesión"
-															icon="ui-icon-closethick" actionListener="#{usuarioMB.logout()}"/>
-													</p:submenu>
+													at="left bottom" styleClass="sf-menu" style="height: 55px;">
+													<p:menuitem style="color: honeydew; font-weight: bold;" value="Modificar Usuario"
+														outcome="/miPerfil/updateUsuario" icon="ui-icon-pencil">
+														<f:param name="id" value="#{usuarioMB.usuario.idusuario}" />
+													</p:menuitem>
+													<p:separator />
+													<p:menuitem style="color: honeydew; font-weight: bold;" value="Cerrar Sesión" icon="ui-icon-closethick"
+														actionListener="#{usuarioMB.logout()}" />
 												</p:menu>
 											</h:form></li>
 									</ul>
-								</div>
+								</div>								
 							</td>
 						</tr>
 					</tbody>

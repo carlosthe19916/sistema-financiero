@@ -2,23 +2,20 @@ package org.ventura.adminitracion.view;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.ejb.SessionContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.model.DualListModel;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.SeguridadServiceLocal;
-import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.rrhh.Trabajador;
 import org.ventura.entity.schema.seguridad.Grupo;
 import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
+import org.ventura.session.UsuarioMB;
 import org.venturabank.util.JsfUtil;
 import org.venturabank.util.MD5Util;
 
@@ -28,15 +25,10 @@ public class ModificarPerfilBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	
+	@Inject private UsuarioMB usuarioMB;
 	@Inject private AgenciaBean agenciaBean;
 
 	private Trabajador trabajador;
-	@Inject private TablaBean<Trabajador> tablaTrabajador;
-	
-	//private boolean dlgBuscarTrabajador;
-	//private String valorBusqueda;
-	//@Inject private ComboBean<Tipodocumento> comboTipoDocumento;
 	
 	private Agencia agencia;
 	private String username;
@@ -51,14 +43,12 @@ public class ModificarPerfilBean implements Serializable {
 	private boolean failure;
 	
 	@EJB private SeguridadServiceLocal seguridadServiceLocal;
-	//@EJB private TrabajadorServiceLocal trabajadorServiceLocal;
 	@EJB private MaestrosServiceLocal maestrosServiceLocal;
 
 	public ModificarPerfilBean() {
 		passwordChanged = false;
 		succes = false;
 		failure = false;
-		
 		idusuario = -1;
 	}
 	
@@ -67,12 +57,9 @@ public class ModificarPerfilBean implements Serializable {
 		try {
 			this.agencia = agenciaBean.getAgencia();
 			List<Grupo> grupos = seguridadServiceLocal.getGrupos();
-			//List<Tipodocumento> tipodocumentos = maestrosServiceLocal.getTipodocumentoForPersonaNatural();
 						
 			gruposPickList = new DualListModel<Grupo>();
 			gruposPickList.setSource(grupos);
-			
-			//comboTipoDocumento.setItems(tipodocumentos);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -92,7 +79,6 @@ public class ModificarPerfilBean implements Serializable {
 				
 				gruposPickList.setTarget(gruposAsignados);
 				gruposPickList.setSource(gruposNoAsignados);
-				
 				
 			} else {
 				JsfUtil.addErrorMessage("No se encontró el usuario");
@@ -115,8 +101,10 @@ public class ModificarPerfilBean implements Serializable {
 				usuario.setGrupos(grupos);
 
 				this.seguridadServiceLocal.update(usuario);
+				
 				succes = true;
 				JsfUtil.addSuccessMessage("Usuario actualizado");
+				usuarioMB.logout();
 			}		
 		} catch (Exception e) {
 			failure = true;
@@ -202,14 +190,6 @@ public class ModificarPerfilBean implements Serializable {
 
 	public void setTrabajador(Trabajador trabajador) {
 		this.trabajador = trabajador;
-	}
-
-	public TablaBean<Trabajador> getTablaTrabajador() {
-		return tablaTrabajador;
-	}
-
-	public void setTablaTrabajador(TablaBean<Trabajador> tablaTrabajador) {
-		this.tablaTrabajador = tablaTrabajador;
 	}
 
 }
