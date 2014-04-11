@@ -242,6 +242,16 @@ public class SeguridadAdminBean implements Serializable {
 		return result;
 	}
 	
+	public void deleteUsuario(Usuario usuario){
+		try {
+			seguridadServiceLocal.delete(usuario);
+			tablaUsuario.removeRow(usuario);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
 	public void changeAgencia() {
 		Agencia agencia = comboAgencia.getObjectItemSelected();
 		try {

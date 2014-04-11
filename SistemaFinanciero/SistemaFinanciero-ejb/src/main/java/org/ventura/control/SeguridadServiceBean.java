@@ -318,6 +318,22 @@ public class SeguridadServiceBean implements SeguridadServiceLocal {
 			throw new EJBException(e.getMessage());
 		}
 	}
+	
+	@Override
+	public void delete(Usuario usuario) {
+		try {	
+			Usuario usuarioDB = usuarioDAO.find(usuario.getIdusuario());
+			if(usuarioDB == null){
+				throw new Exception("Usuario no existente en la base de datos");
+			}
+			usuarioDAO.delete(usuario);
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
 
 	@Override
 	public List<Usuario> findByNamedQuery(String namedQueryName,
