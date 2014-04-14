@@ -247,12 +247,12 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			
 			//crear las tasas de interes para la cuenta
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
+			//BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasaValor);
+			cuentabancariaTipotasa.setTasainteres(tea);
 			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
@@ -317,7 +317,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Cuentabancaria createCuentaahorroPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia) throws Exception {
+	public Cuentabancaria createCuentaahorroPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia, BigDecimal tea) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personajuridica);
 			if(socio == null){
@@ -349,12 +349,12 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			
 			//crear las tasas de interes para la cuenta
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_AHORRO_TASA_INTERES);
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
+			//BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentaahorro(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasaValor);
+			cuentabancariaTipotasa.setTasainteres(tea);
 			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
@@ -376,7 +376,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentacorrientePersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia) throws Exception {
+	public Cuentabancaria createCuentacorrientePersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia, BigDecimal tea) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personanatural);
 			if(socio == null){
@@ -408,12 +408,12 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			
 			//crear tasas de interes para la cuenta bancaria
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
+			//BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasaValor);
+			cuentabancariaTipotasa.setTasainteres(tea);
 			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);
@@ -435,7 +435,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia)throws Exception {
+	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia, BigDecimal tea)throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personajuridica);
 			if(socio == null){
@@ -467,12 +467,12 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			
 			//crear tasas de interes para cuenta bancaria
 			Tipotasa tipotasa = ProduceObjectTasainteres.getTasaInteres(TipotasaCuentasPersonalesType.CUENTA_CORRIENTE_TASA_INTERES);
-			BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
+			//BigDecimal tasaValor = tasainteresServiceLocal.getTasainteresCuentacorriente(cuentabancaria.getTipomoneda());
 			
 			CuentabancariaTipotasa cuentabancariaTipotasa =  new CuentabancariaTipotasa();
 			CuentabancariaTipotasaPK pk = new CuentabancariaTipotasaPK();
 			cuentabancariaTipotasa.setId(pk);
-			cuentabancariaTipotasa.setTasainteres(tasaValor);
+			cuentabancariaTipotasa.setTasainteres(tea);
 			pk.setIdcuentabancaria(cuentabancaria.getIdcuentabancaria());
 			pk.setIdtipotasa(tipotasa.getIdtipotasa());	
 			cuentabancariaTipotasaDAO.create(cuentabancariaTipotasa);

@@ -20,6 +20,72 @@
 
 		<h:outputStylesheet library="css" name="main.css" />
 
+		<h:panelGroup
+			rendered="#{aperturaCuentacorrienteBean.loginBean.dlgLogin}">
+			<div class="modal-dialog-bg"
+				style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+			<div class="modal-dialog p6n-popup"
+				style="left: 512.5px; top: 100px;">
+				<div>AUTENTICACION</div>
+				<h:form id="form">
+					<p:focus for="txtUsuario"></p:focus>
+					<div class="modal-dialog-content">
+						<div id="p6n-cloudsql-content">
+							<div>
+								<div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:outputLabel value="Usuario y/o password invalidos"
+										rendered="#{!aperturaCuentacorrienteBean.loginBean.autenticado and aperturaCuentacorrienteBean.loginBean.success}" />
+								</div>
+								<div class="p6n-api-consent-screen-inputs">
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">USUARIO</div>
+										<div>
+											<h:inputText id="txtUsuario"
+												value="#{aperturaCuentacorrienteBean.loginBean.usuario}"
+												required="true" requiredMessage="Ingrese usuario"
+												autocomplete="off" />
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtUsuario" />
+									</div>
+									<div class="p6n-api-consent-screen-input-section">
+										<div class="p6n-api-consent-screen-label"
+											style="width: 150px;">PASSWORD</div>
+										<div>
+											<h:inputSecret id="txtPassword"
+												value="#{aperturaCuentacorrienteBean.loginBean.password}"
+												required="true" requiredMessage="Ingrese password"
+												autocomplete="off" />
+										</div>
+									</div>
+									<div
+										class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+										<h:message for="txtPassword" />
+									</div>
+								</div>
+							</div>
+							<br></br>
+						</div>
+					</div>
+
+					<div class="modal-dialog-buttons">
+						<br />
+						<h:commandButton value="Aceptar"
+							actionListener="#{aperturaCuentacorrienteBean.loginBean.login()}"
+							styleClass="action green" onclick="onSubmitButton();" />
+						<h:commandButton value="Cancelar"
+							action="#{aperturaCuentacorrienteBean.loginBean.setDlgLogin(false)}"
+							immediate="true" styleClass="action" onclick="onSubmitButton();">
+						</h:commandButton>
+					</div>
+				</h:form>
+			</div>
+		</h:panelGroup>
+
 		<h:form id="formDatos">
 		<p:focus for="cmbTipomonedaCuentaplazofijo"></p:focus>
 			<div style="margin-left: 50px;">
@@ -61,6 +127,36 @@
 									<div>
 										<div>
 											<label>0.00</label>
+										</div>
+									</div>
+								</div>
+								<div class="p6n-api-consent-screen-input-section">
+									<div class="p6n-api-consent-screen-label">TEA (%)</div>
+									<div>
+										<div>
+											<h:panelGroup
+												rendered="#{!aperturaCuentacorrienteBean.loginBean.autenticado}">
+												<h:outputLabel id="tea"
+													value="#{aperturaCuentacorrienteBean.tea}" />
+													&nbsp;&nbsp;&nbsp;&nbsp;
+												<h:commandLink
+													action="#{aperturaCuentacorrienteBean.loginBean.setDlgLogin(true)}"
+													immediate="true">
+													<h:outputText value="Editar" />
+												</h:commandLink>
+											</h:panelGroup>
+
+											<h:panelGroup
+												rendered="#{aperturaCuentacorrienteBean.loginBean.autenticado}">
+												<h:inputText id="txtTea" size="5" required="true"
+													requiredMessage="Ingrese una tasa de interés"
+													converterMessage="Ingrese tasa de interés valido Ejemplo: 9.99"
+													pt:placeholder="0.00"
+													value="#{aperturaCuentacorrienteBean.tea}" maxlenght="5">
+													<f:converter converterId="javax.faces.BigDecimal"
+														maxFractionDigits="2" minFractionDigits="2" />
+												</h:inputText>
+											</h:panelGroup>
 										</div>
 									</div>
 								</div>
