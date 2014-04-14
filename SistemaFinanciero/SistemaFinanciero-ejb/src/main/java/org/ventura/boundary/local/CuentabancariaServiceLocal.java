@@ -24,7 +24,7 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 
 	public Cuentabancaria create(Cuentabancaria cuentabancaria) throws Exception;
 	
-	public Cuentabancaria createCuentaahorroPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia) throws Exception;
+	public Cuentabancaria createCuentaahorroPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia, BigDecimal tea) throws Exception;
 	
 	public Cuentabancaria createCuentaahorroPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia) throws Exception;
 	

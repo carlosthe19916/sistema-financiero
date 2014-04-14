@@ -22,6 +22,7 @@ import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
+import org.ventura.caja.view.LoginBean;
 import org.ventura.dependent.ComboBean;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
@@ -129,11 +130,15 @@ public class AperturaCuentaahorroBean implements Serializable {
 	private Integer porcentajeBeneficio;
 	
 	@Inject AgenciaBean agenciaBean;
+	@Inject private LoginBean loginBean;
 	
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
 	@EJB private MaestrosServiceLocal maestrosServiceLocal;
+	
+	//private BigDecimal tea;
+	private BigDecimal tea = new BigDecimal("1.00");
 	
 	public AperturaCuentaahorroBean() {
 		cuentaValida = true;
@@ -230,7 +235,8 @@ public class AperturaCuentaahorroBean implements Serializable {
 					cuentabancaria.setTitulares(listTitulares);
 					cuentabancaria.setBeneficiarios(listBeneficiarios);
 					
-					cuentabancaria = cuentabancariaServiceLocal.createCuentaahorroPersonanatural(cuentabancaria, personaNaturalSocio,agenciaBean.getAgencia());
+					BigDecimal teaReal = tea.divide(new BigDecimal(100));
+					cuentabancaria = cuentabancariaServiceLocal.createCuentaahorroPersonanatural(cuentabancaria, personaNaturalSocio,agenciaBean.getAgencia(), teaReal);
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();
 					fechaApertura = cuentabancaria.getFechaapertura();
@@ -1442,6 +1448,22 @@ public class AperturaCuentaahorroBean implements Serializable {
 
 	public void setCuentaCreada(boolean cuentaCreada) {
 		this.cuentaCreada = cuentaCreada;
+	}
+
+	public LoginBean getLoginBean() {
+		return loginBean;
+	}
+
+	public void setLoginBean(LoginBean loginBean) {
+		this.loginBean = loginBean;
+	}
+
+	public BigDecimal getTea() {
+		return tea;
+	}
+
+	public void setTea(BigDecimal tea) {
+		this.tea = tea;
 	}
 
 }

@@ -215,7 +215,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 
 	@Override
-	public Cuentabancaria createCuentaahorroPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia) throws Exception {
+	public Cuentabancaria createCuentaahorroPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural, Agencia agencia, BigDecimal tea) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personanatural);
 			if(socio == null){

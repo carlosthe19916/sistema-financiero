@@ -26,8 +26,13 @@
 			<h:outputStylesheet library="css" name="main.css" />
 
 			<h:panelGroup rendered="#{trabajadorCRUDBean.succes}">
-				<h:form>
-					<p:focus id="bottomFocus" for="salir" />
+				<h:form id="form">
+					<script type="text/javascript">
+						window.onload = function test(){
+        					document.getElementById('form:volver').focus();
+        				}
+    				</script>
+    					
 					<div class="modal-dialog-bg"
 						style="opacity: 0.4; width: 1366px; height: 1002px;"></div>
 					<div class="modal-dialog p6n-popup"
@@ -41,7 +46,7 @@
 						<div class="modal-dialog-buttons">
 							<h:commandButton value="Crear nuevo"
 								action="create?faces-redirect=true" immediate="true" />
-							<h:commandButton id="salir" value="Volver"
+							<h:commandButton id="volver" value="Volver"
 								action="list?faces-redirect=true" immediate="true" />
 						</div>
 					</div>
