@@ -113,7 +113,8 @@
 											value="#{administrarTrabajadorAdminBean.tablaTrabajador.rows}"
 											selectionMode="single"
 											selection="#{administrarTrabajadorAdminBean.tablaTrabajador.selectedRow}"
-											rowKey="#{trabajador}" rowIndexVar="row">
+											rowKey="#{trabajador}" rowIndexVar="row" paginator="true" rows="15" paginatorPosition="bottom" rowsPerPageTemplate="15,30,50"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 											<p:column headerText="Nº" width="5px"
 												style="text-align:center; font-size: 11px;">
 												<h:outputText value="#{row + 1}" />
@@ -152,7 +153,7 @@
 											<p:column headerText="AGENCIA" style="text-align:center; font-size: 11px;" sortBy="#{trabajador.agencia.denominacion}">
 												<h:outputText value="#{trabajador.agencia.denominacion}"/>
 											</p:column>
-											<p:column headerText="STATUS" width="137" style="font-size: 11px;">
+											<p:column headerText="STATUS" width="180" style="font-size: 11px;">
 												<div class="buttons">
 													<h:button value="Editar" outcome="update"
 														styleClass="action green" style="margin: 0 2px 0 0;">

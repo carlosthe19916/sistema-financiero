@@ -116,7 +116,8 @@
 									value="#{seguridadAdminBean.tablaUsuario.rows}"
 									selectionMode="single"
 									selection="#{seguridadAdminBean.tablaUsuario.selectedRow}"
-									rowKey="#{usuario}" rowIndexVar="row">
+									rowKey="#{usuario}" rowIndexVar="row" paginator="true" rows="15" paginatorPosition="bottom" rowsPerPageTemplate="10,25,50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 									<p:column headerText="Nº" width="5%"
 										style="text-align:center;">
 										<h:outputText value="#{row + 1}" />

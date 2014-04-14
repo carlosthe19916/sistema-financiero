@@ -112,7 +112,8 @@
 											value="#{administrarTrabajadorBean.tablaTrabajador.rows}"
 											selectionMode="single"
 											selection="#{administrarTrabajadorBean.tablaTrabajador.selectedRow}"
-											rowKey="#{trabajador}" rowIndexVar="row">
+											rowKey="#{trabajador}" rowIndexVar="row" paginator="true" rows="15" paginatorPosition="bottom" rowsPerPageTemplate="15,30,50"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 											<p:column headerText="Nº" width="5px"
 												style="text-align:center;">
 												<h:outputText value="#{row + 1}" />

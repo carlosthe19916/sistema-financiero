@@ -65,22 +65,22 @@ public class TrabajadorServiceBean implements TrabajadorServiceLocal {
 			if(agencia == null){
 				if(tipodocumento == null){
 					parameters.put("searched", "%" + valorBusqueda.toUpperCase() + "%");
-					list = trabajadorDAO.findByNamedQuery(Trabajador.f_searched, parameters,10);
+					list = trabajadorDAO.findByNamedQuery(Trabajador.f_searched, parameters,25);
 				} else {
 					parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
 					parameters.put("numerodocumento", valorBusqueda);
-					list = trabajadorDAO.findByNamedQuery(Trabajador.f_idtipodocumento_numerodocumento, parameters,10);
+					list = trabajadorDAO.findByNamedQuery(Trabajador.f_idtipodocumento_numerodocumento, parameters,25);
 				}
 			} else {
 				if(tipodocumento == null){
 					parameters.put("idagencia", agencia.getIdagencia());
 					parameters.put("searched", "%" + valorBusqueda.toUpperCase() + "%");
-					list = trabajadorDAO.findByNamedQuery(Trabajador.f_idagencia_searched, parameters,10);
+					list = trabajadorDAO.findByNamedQuery(Trabajador.f_idagencia_searched, parameters,25);
 				} else {
 					parameters.put("idagencia", agencia.getIdagencia());
 					parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
 					parameters.put("numerodocumento", valorBusqueda);
-					list = trabajadorDAO.findByNamedQuery(Trabajador.f_idagencia_idtipodocumento_numerodocumento, parameters,10);
+					list = trabajadorDAO.findByNamedQuery(Trabajador.f_idagencia_idtipodocumento_numerodocumento, parameters,25);
 				}	
 			}
 				
