@@ -44,8 +44,11 @@ public interface SeguridadServiceLocal extends SeguridadServiceRemote{
 
 	public void update(Usuario usuario) throws Exception;
 
+	public void delete(Usuario usuario);
 	/*caja*/
 	public List<Usuario> findByNamedQuery(String namedQueryName, Map<String, Object> parameters) throws Exception;
+
+	
 
 	
 }
