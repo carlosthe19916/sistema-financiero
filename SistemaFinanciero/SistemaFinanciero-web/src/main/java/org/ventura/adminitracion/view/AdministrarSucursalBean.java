@@ -5,15 +5,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.dependent.TablaBean;
-import org.ventura.entity.schema.persona.Personanatural;
 import org.ventura.entity.schema.sucursal.Sucursal;
 import org.venturabank.util.JsfUtil;
 
@@ -27,7 +24,14 @@ public class AdministrarSucursalBean implements Serializable {
 	private TablaBean<Sucursal> tablaSucursal;
 
 	@EJB private SucursalServiceLocal sucursalServiceLocal;
+	
+	private boolean failure;
 
+	
+	public AdministrarSucursalBean(){
+		failure = false;
+	}
+	
 	@PostConstruct
 	private void initialize() throws Exception {
 		try {
@@ -42,19 +46,14 @@ public class AdministrarSucursalBean implements Serializable {
 		
 	}
 	
-	public void deleteSucursal() throws Exception {
-		/*try {
-			//loadBoveda();
-			Boveda boveda =  new Boveda();
-			boveda.setIdboveda(idboveda);
-			bovedaServiceLocal.inactive(boveda);
-			refreshBean();
-
-			JsfUtil.addSuccessMessage("Boveda Desactivada");
+	public void deleteSucursal(Sucursal sucursal) throws Exception {
+		try {
+			sucursalServiceLocal.delete(sucursal);
+			tablaSucursal.removeRow(sucursal);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			JsfUtil.addErrorMessage(e, "Error al Inactivar Boveda");
-		}*/
+			failure = true;
+			JsfUtil.addErrorMessage(e, "Error al eliminar Sucursal");
+		}
 	}
 
 	public TablaBean<Sucursal> getTablaSucursal() {
@@ -64,6 +63,13 @@ public class AdministrarSucursalBean implements Serializable {
 	public void setTablaSucursal(TablaBean<Sucursal> tablaSucursal) {
 		this.tablaSucursal = tablaSucursal;
 	}
-	
+
+	public boolean isFailure() {
+		return failure;
+	}
+
+	public void setFailure(boolean failure) {
+		this.failure = failure;
+	}
 	
 }

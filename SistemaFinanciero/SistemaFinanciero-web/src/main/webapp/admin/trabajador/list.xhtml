@@ -35,8 +35,16 @@
 										<h:messages />
 									</p>
 								</div>
+								<div style="text-align: center;">
+									<h:commandLink value="Aceptar"
+										action="/admin/trabajador/list?faces-redirect=true"
+										immediate="true"
+										styleClass="p6n-api-access-in-page-error-link" />
+								</div>
 							</div>
 						</div>
+						<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 1200px;"></div>
 					</h:form>
 				</h:panelGroup>
 			</h:panelGroup>
@@ -106,53 +114,51 @@
 											selectionMode="single"
 											selection="#{administrarTrabajadorAdminBean.tablaTrabajador.selectedRow}"
 											rowKey="#{trabajador}" rowIndexVar="row">
-											<p:column headerText="Nro" width="5%"
-												style="text-align:center;">
+											<p:column headerText="Nº" width="5px"
+												style="text-align:center; font-size: 11px;">
 												<h:outputText value="#{row + 1}" />
 											</p:column>
-											<p:column headerText="TIPO DOCUMENTO"
-												style="text-align:center;">
+											<p:column headerText="TIPO DOC."
+												style="text-align:center; font-size: 11px;" sortBy="#{trabajador.personanatural.tipodocumento.abreviatura}">
 												<h:outputText
 													value="#{trabajador.personanatural.tipodocumento.abreviatura}" />
 											</p:column>
-											<p:column headerText="NUMERO DOCUMENTO">
+											<p:column headerText="NÚMERO DOC." style="font-size: 11px;">
 												<h:outputText
 													value="#{trabajador.personanatural.numerodocumento}" />
 											</p:column>
-											<p:column headerText="APELLIDO PATERNO">
+											<p:column headerText="AP. PATERNO" style="font-size: 11px;" sortBy="#{trabajador.personanatural.apellidopaterno}">
 												<h:outputText
 													value="#{trabajador.personanatural.apellidopaterno}" />
 											</p:column>
-											<p:column headerText="APELLIDO MATERNO">
+											<p:column headerText="AP. MATERNO" style="font-size: 11px;" sortBy="#{trabajador.personanatural.apellidomaterno}">
 												<h:outputText
 													value="#{trabajador.personanatural.apellidomaterno}" />
 											</p:column>
-											<p:column headerText="NOMBRES">
+											<p:column headerText="NOMBRES" style="font-size: 11px;" sortBy="#{trabajador.personanatural.nombres}">
 												<h:outputText value="#{trabajador.personanatural.nombres}" />
 											</p:column>
-											<p:column headerText="SEXO">
+											<p:column headerText="SEXO" style="font-size: 11px;">
 												<h:outputText
 													value="#{trabajador.personanatural.sexo.denominacion}" />
 											</p:column>
-											<p:column headerText="FECHA NACIMIENTO"
-												style="text-align:center;">
+											<p:column headerText="FEC. NACIMIENTO"
+												style="text-align:center; font-size: 11px;">
 												<h:outputText
 													value="#{trabajador.personanatural.fechanacimiento}">
 													<f:convertDateTime pattern="dd/MM/yyyy" />
 												</h:outputText>
 											</p:column>
-											<p:column headerText="AGENCIA" style="text-align:center;">
-												<h:outputText value="#{trabajador.agencia.denominacion}">
-
-												</h:outputText>
+											<p:column headerText="AGENCIA" style="text-align:center; font-size: 11px;" sortBy="#{trabajador.agencia.denominacion}">
+												<h:outputText value="#{trabajador.agencia.denominacion}"/>
 											</p:column>
-											<p:column headerText="STATUS" width="137">
+											<p:column headerText="STATUS" width="137" style="font-size: 11px;">
 												<div class="buttons">
-													<h:button value="Edit" outcome="update"
+													<h:button value="Editar" outcome="update"
 														styleClass="action green" style="margin: 0 2px 0 0;">
 														<f:param name="id" value="#{trabajador.idtrabajador}" />
 													</h:button>
-													<h:commandButton value="Delete" styleClass="action red"
+													<h:commandButton value="Eliminar" styleClass="action red"
 														style="margin: 0 0 0 2px;">
 														<f:ajax
 															listener="#{administrarTrabajadorAdminBean.deleteTrabajador(trabajador)}"

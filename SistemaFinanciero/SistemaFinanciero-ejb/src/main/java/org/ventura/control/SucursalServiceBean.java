@@ -120,6 +120,28 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 			throw new EJBException(e.getMessage());
 		}
 	}
+	
+	@Override
+	public void delete(Sucursal sucursal) throws Exception {
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idsucursal", sucursal.getIdsucursal());
+			List<Agencia> list = agenciaDAO.findByNamedQuery(Agencia.f_idsucursal, parameters);
+			if(list.size() != 0){
+				throw new Exception("Primero elimine las Agencias, Luego elimine la Sucursal");
+			}
+			Sucursal sucursalDB = sucursalDAO.find(sucursal.getIdsucursal());
+			sucursalDB.setEstado(false);
+			sucursalDAO.update(sucursalDB);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+	}
+	
 	@Override
 	public List<Sucursal> getAllActive() throws Exception {
 		List<Sucursal> list;

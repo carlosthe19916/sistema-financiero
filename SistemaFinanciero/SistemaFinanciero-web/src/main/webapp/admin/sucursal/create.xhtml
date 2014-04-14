@@ -10,7 +10,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(30)}" />
+		<f:viewAction action="#{menuMB.updateMenu(32)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -88,7 +88,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">ABREVIATURA</div>
 										<div>
-											<h:inputText id="txtAbreviatura" required="true" onkeyup="this.value = this.value.toUpperCase();"
+											<h:inputText id="txtAbreviatura" onkeyup="this.value = this.value.toUpperCase();"
 												value="#{sucursalCRUDBean.abreviatura}" maxlength="10" />
 										</div>
 									</div>
@@ -211,13 +211,13 @@
 												<h:outputText
 													value="#{agencia.estado ? 'Activo' : 'Inactivo'}" />
 											</p:column>
-											<p:column headerText="STATUS" style="text-align:center;">
-												<h:commandButton value="Edit" styleClass="action green">
+											<p:column headerText="STATUS" style="text-align:center;" width="180">
+												<h:commandButton value="Editar" styleClass="action green">
 													<f:ajax
 														listener="#{sucursalCRUDBean.openDialogForEditAgencia(agencia)}"
 														render="dlgAgencia formDlgAgencia"></f:ajax>
 												</h:commandButton>
-												<h:commandButton value="Delete" styleClass="action red">
+												<h:commandButton value="Eliminar" styleClass="action red">
 													<f:ajax
 														listener="#{sucursalCRUDBean.deleteAgencia(agencia)}"
 														render="tablaAgencias"></f:ajax>
@@ -229,7 +229,7 @@
 									<div class="sf-buttons" style="float: left;">
 										<h:commandButton value="Guardar"
 											action="#{sucursalCRUDBean.createSucursal()}"
-											styleClass="action blue" />
+											styleClass="action green" />
 										<h:commandButton value="Cancelar" immediate="true"
 											action="list?faces-redirect=true" styleClass="action" />
 									</div>
@@ -294,7 +294,7 @@
 								<br />
 							</div>
 							<div class="modal-dialog-buttons" style="float: left;">
-								<h:commandButton value="Guardar" styleClass="action blue"
+								<h:commandButton value="Guardar" styleClass="action green"
 									style="float:left">
 									<f:ajax listener="#{sucursalCRUDBean.saveAgencia()}"
 										execute="@form"

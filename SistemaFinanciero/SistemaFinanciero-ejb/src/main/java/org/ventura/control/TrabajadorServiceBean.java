@@ -130,7 +130,7 @@ public class TrabajadorServiceBean implements TrabajadorServiceLocal {
 			parameters.put("idtrabajador", trabajador.getIdtrabajador());
 			List<Usuario> list = usuarioDAO.findByNamedQuery(Usuario.f_idtrabajador, parameters);
 			if(list.size() != 0){
-				throw new Exception("Debe de eliminar los usuarios asignados, antes de eliminar el trabajadpr");
+				throw new Exception("Primero elimine al usuario antes de eliminar al trabajador");
 			}
 			Trabajador trabajadorDB = trabajadorDAO.find(trabajador.getIdtrabajador());
 			trabajadorDB.setEstado(false);

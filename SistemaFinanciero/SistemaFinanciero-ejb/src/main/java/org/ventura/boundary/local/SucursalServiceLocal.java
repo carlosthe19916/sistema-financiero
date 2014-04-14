@@ -16,6 +16,8 @@ public interface SucursalServiceLocal extends SucursalServiceRemote {
 	
 	public void update(Sucursal sucursal) throws Exception;
 	
+	public void delete(Sucursal sucursal) throws Exception;
+	
 	public List<Sucursal> getAllActive() throws Exception;
 
 	public Sucursal find(Object idsucursal) throws Exception;

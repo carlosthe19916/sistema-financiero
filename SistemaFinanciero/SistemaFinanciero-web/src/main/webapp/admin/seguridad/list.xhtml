@@ -117,14 +117,14 @@
 									selectionMode="single"
 									selection="#{seguridadAdminBean.tablaUsuario.selectedRow}"
 									rowKey="#{usuario}" rowIndexVar="row">
-									<p:column headerText="Nro" width="5%"
+									<p:column headerText="Nº" width="5%"
 										style="text-align:center;">
 										<h:outputText value="#{row + 1}" />
 									</p:column>
-									<p:column headerText="USUARIO">
+									<p:column headerText="USUARIO" sortBy="#{usuario.username}">
 										<h:outputText value="#{usuario.username}" />
 									</p:column>
-									<p:column headerText="TRABAJADOR">
+									<p:column headerText="TRABAJADOR" sortBy="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno}, #{usuario.trabajador.personanatural.nombres}">
 										<h:outputText
 											value="#{usuario.trabajador.personanatural.apellidopaterno} #{usuario.trabajador.personanatural.apellidomaterno},#{usuario.trabajador.personanatural.nombres}" />
 									</p:column>

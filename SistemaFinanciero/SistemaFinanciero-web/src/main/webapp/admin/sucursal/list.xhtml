@@ -9,7 +9,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<f:metadata>
-		<f:viewAction action="#{menuMB.updateMenu(30)}" />
+		<f:viewAction action="#{menuMB.updateMenu(32)}" />
 	</f:metadata>
 	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -24,6 +24,30 @@
 
 			<h:outputStylesheet library="css" name="main.css" />
 			<br></br>
+
+			<h:panelGroup id="panelStatus">
+				<h:panelGroup rendered="#{administrarSucursalBean.failure}">
+					<h:form>
+						<div class="p6n-api-access-in-page-error" style="left: 516px;">
+							<div>
+								<div>
+									<p>
+										<h:messages />
+									</p>
+								</div>
+								<div style="text-align: center;">
+									<h:commandLink value="Aceptar"
+										action="/admin/sucursal/list?faces-redirect=true"
+										immediate="true"
+										styleClass="p6n-api-access-in-page-error-link" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 1200px;"></div>
+					</h:form>
+				</h:panelGroup>
+			</h:panelGroup>
 
 			<div style="margin-left: 50px;">
 				<div>
@@ -77,12 +101,18 @@
 												<h:outputText
 													value="#{sucursal.estado ? 'Activo' : 'Inactivo'}" />
 											</p:column>
-											<p:column headerText="STATUS" style="text-align:center;">
+											<p:column headerText="STATUS" style="text-align:center;" width="150">
 												<h:button value="Editar" outcome="update"
 													styleClass="action green" style="margin: 0px;"
 													target="_blank">
 													<f:param name="id" value="#{sucursal.idsucursal}" />
 												</h:button>
+												<h:commandButton value="Eliminar" styleClass="action red"
+													style="margin: 0 0 0 2px;">
+													<f:ajax
+														listener="#{administrarSucursalBean.deleteSucursal(sucursal)}"
+														render="@form :panelStatus"></f:ajax>
+												</h:commandButton>
 											</p:column>
 										</p:dataTable>
 									</div>
