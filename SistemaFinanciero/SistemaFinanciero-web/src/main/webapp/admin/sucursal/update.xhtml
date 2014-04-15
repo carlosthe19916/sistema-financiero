@@ -195,17 +195,17 @@
 											selectionMode="single"
 											selection="#{sucursalCRUDBean.tablaAgencias.selectedRow}"
 											rowKey="#{agencia}" rowIndexVar="row">
-											<p:column headerText="Nro" width="5%"
+											<p:column headerText="Nº" width="5%"
 												style="text-align:center;">
 												<h:outputText value="#{row + 1}" />
 											</p:column>
-											<p:column headerText="DENOMINACION">
+											<p:column headerText="DENOMINACION" sortBy="#{agencia.denominacion}">
 												<h:outputText value="#{agencia.denominacion}" />
 											</p:column>
-											<p:column headerText="ABREVIATURA">
+											<p:column headerText="ABREVIATURA" sortBy="#{agencia.abreviatura}">
 												<h:outputText value="#{agencia.abreviatura}" />
 											</p:column>
-											<p:column headerText="CODIGO">
+											<p:column headerText="CODIGO" sortBy="#{agencia.codigoagencia}">
 												<h:outputText value="#{agencia.codigoagencia}" />
 											</p:column>
 											<p:column headerText="ESTADO">
@@ -230,7 +230,7 @@
 									<div class="sf-buttons" style="float: left;">
 										<h:commandButton value="Guardar"
 											action="#{sucursalCRUDBean.updateSucursal()}"
-											styleClass="action blue" />
+											styleClass="action green" />
 										<h:commandButton value="Cancelar" immediate="true"
 											action="list?faces-redirect=true" styleClass="action" />
 									</div>

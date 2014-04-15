@@ -82,14 +82,14 @@
 											selectionMode="single"
 											selection="#{administrarSucursalBean.tablaSucursal.selectedRow}"
 											rowKey="#{sucursal}" rowIndexVar="row">
-											<p:column headerText="Nro" width="5%"
+											<p:column headerText="Nº" width="5%"
 												style="text-align:center;">
 												<h:outputText value="#{row + 1}" />
 											</p:column>
-											<p:column headerText="DENOMINACION">
+											<p:column headerText="DENOMINACION" sortBy="#{sucursal.denominacion}">
 												<h:outputText value="#{sucursal.denominacion}" />
 											</p:column>
-											<p:column headerText="ABREVIATURA">
+											<p:column headerText="ABREVIATURA" sortBy="#{sucursal.abreviatura}">
 												<h:outputText value="#{sucursal.abreviatura}" />
 											</p:column>
 											<p:column headerText="AGENCIAS">
