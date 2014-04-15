@@ -111,6 +111,19 @@ public class CuentabancariaView implements Serializable {
 	@Column(name = "id_socio")
 	private Integer idSocio;
 	
+	@Column(name = "direccion_socio")
+	private String direccionSocio;
+	
+	@Column(name = "telefono_socio")
+	private String telefonoSocio;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fecha_nac_const_socio")
+	private Date fechaNacConstSocio;
+	
+	@Column(name = "ocupacion_actividad_socio")
+	private String ocupacionActividadSocio;
+	
 	public CuentabancariaView() {
 	}
 
@@ -298,6 +311,38 @@ public class CuentabancariaView implements Serializable {
 
 	public void setSocio(String socio) {
 		this.socio = socio;
+	}
+
+	public String getDireccionSocio() {
+		return direccionSocio;
+	}
+
+	public void setDireccionSocio(String direccionSocio) {
+		this.direccionSocio = direccionSocio;
+	}
+
+	public String getTelefonoSocio() {
+		return telefonoSocio;
+	}
+
+	public void setTelefonoSocio(String telefonoSocio) {
+		this.telefonoSocio = telefonoSocio;
+	}
+
+	public Date getFechaNacConstSocio() {
+		return fechaNacConstSocio;
+	}
+
+	public void setFechaNacConstSocio(Date fechaNacConstSocio) {
+		this.fechaNacConstSocio = fechaNacConstSocio;
+	}
+
+	public String getOcupacionActividadSocio() {
+		return ocupacionActividadSocio;
+	}
+
+	public void setOcupacionActividadSocio(String ocupacionActividadSocio) {
+		this.ocupacionActividadSocio = ocupacionActividadSocio;
 	}
 
 }

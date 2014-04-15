@@ -124,9 +124,9 @@
 										operaciones son de responsabilidad del usuario en session</div>
 								</div>
 							</div>
-							<br />
-							<br />
-							<div class="p6n-api-consent-screen-title">TRANSACCIÓN CUENTA APORTES</div>
+							<br /> <br />
+							<div class="p6n-api-consent-screen-title">TRANSACCIÓN
+								CUENTA APORTES</div>
 
 							<!-- voucher -->
 							<h:panelGroup id="voucher"
@@ -248,6 +248,8 @@
 											action="transaccionCuentaaporte?faces-redirect=true" />
 									</div>
 								</div>
+
+								
 							</h:panelGroup>
 
 
@@ -561,7 +563,8 @@
 											class="p6n-cloudsql-form-control p6n-cloudsql-form-control-name">
 											<div class="p6n-cloudsql-name-input ">
 												<div class="p6n-input-prepend" style="display: initial;">
-													<p:dataTable id="tblResultadoBusqueda" var="cuenta" style="width:650px"
+													<p:dataTable id="tblResultadoBusqueda" var="cuenta"
+														style="width:650px"
 														value="#{transaccionCuentaaporteCajaBean.tablaCuentaaporte.rows}"
 														selectionMode="single"
 														selection="#{transaccionCuentaaporteCajaBean.cuentaaporteViewSelected}"

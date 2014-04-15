@@ -38,7 +38,6 @@ import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.persona.Tipodocumento;
-import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.session.CajaBean;
 import org.ventura.session.UsuarioMB;
 import org.ventura.tipodato.Moneda;
@@ -63,12 +62,14 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	@Inject
 	private Caja caja;
 
-	private boolean isValidBean;
 	private boolean isCuentabancariaValid;
 	private boolean success;
 	private boolean failure;
 	private boolean isTitular;
 
+	private boolean isOperacionMayorCuantia;
+	@Inject private OperacionMayorCuantiaBean operacionMayorCuantiaBean;
+	
 	// busqueda de cuentabancaria
 	@Inject
 	private TablaBean<CuentabancariaView> tablaCuentabancaria;
@@ -107,13 +108,14 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	private CajaServiceLocal cajaServiceLocal;
 
 	public TransaccionCuentabancariaCajaBean() {
-		isValidBean = true;
 		isCuentabancariaValid = true;
 		success = false;
 		failure = false;
 		monto = new Moneda();
 		isTitular = false;
 		dlgBusquedaCuentaOpen = false;
+		
+		isOperacionMayorCuantia = false;
 	}
 
 	@PostConstruct
@@ -147,7 +149,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 			Tipodocumento tipodocumento = ProduceObject.getTipodocumento(TipodocumentoType.DNI);
 			comboTipodocumento.setItemSelected(tipodocumento);
 		} catch (Exception e) {
-			isValidBean = false;
+			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
@@ -161,35 +163,63 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 					Tipocuentabancaria tipocuentabancaria = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
 					if(!tipocuentabancaria.equals(cuentabancaria.getTipocuentabancaria())){
 						if(monto.getValue().compareTo(BigDecimal.ZERO) > 0){
-							try {
-								Map<Denominacionmoneda, Integer> detalleTranssaccion = calculadoraBean.getDenominaciones();
+							
+							//validar si la operacion es de mayor cuantia
+							if(monto.isGreaterThan(new Moneda("15000")) && isOperacionMayorCuantia == false){
+								isOperacionMayorCuantia = true;
+								Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();
+								String numeroCuenta = cuentabancariaView.getNumerocuenta();
+								Tipomoneda moneda = comboTipomoneda.getObjectItemSelected();
+								BigDecimal importe = monto.getValue();
 								
-								Transaccioncuentabancaria transaccioncuentabancaria = new Transaccioncuentabancaria();
+								this.operacionMayorCuantiaBean.setTipotransaccion(tipotransaccion);
+								this.operacionMayorCuantiaBean.setCuentaBeneficiario(numeroCuenta);
+								this.operacionMayorCuantiaBean.setTipomoneda(moneda);
+								this.operacionMayorCuantiaBean.setMonto(importe);
+								
+								//beneficiario
+								Tipodocumento tipodocumentoBeneficiario = new Tipodocumento();
+								tipodocumentoBeneficiario.setIdtipodocumento(cuentabancariaView.getIdTipodocumento());
+								tipodocumentoBeneficiario.setDenominacion(cuentabancariaView.getDenominacionTipodocumento());
+								tipodocumentoBeneficiario.setAbreviatura(cuentabancariaView.getAbreviaturaTipodocumento());
+								this.operacionMayorCuantiaBean.setTipodocumentoBeneficiario(tipodocumentoBeneficiario);
+								this.operacionMayorCuantiaBean.setNumerodocumentoBeneficiario(cuentabancariaView.getNumeroDocumento());
+								this.operacionMayorCuantiaBean.setApellidosnombresRazonsocialBeneficiario(cuentabancariaView.getSocio());
+								this.operacionMayorCuantiaBean.setDireccionBeneficiario(cuentabancariaView.getDireccionSocio());
+								this.operacionMayorCuantiaBean.setTelefonoBeneficiario(cuentabancariaView.getTelefonoSocio());
+								this.operacionMayorCuantiaBean.setFechanacimientoConstitucionBeneficiario(cuentabancariaView.getFechaNacConstSocio());
+								this.operacionMayorCuantiaBean.setOcupacionActividadEconomicaBeneficiario(cuentabancariaView.getOcupacionActividadSocio());
+							} else {
+								try {
+									Map<Denominacionmoneda, Integer> detalleTranssaccion = calculadoraBean.getDenominaciones();
+									
+									Transaccioncuentabancaria transaccioncuentabancaria = new Transaccioncuentabancaria();
 
-								transaccioncuentabancaria.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
-								transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
-								transaccioncuentabancaria.setMonto(monto);
-								transaccioncuentabancaria.setReferencia(referencia);
-								transaccioncuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
-				
-								Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();								
-								TipoTransaccionType tipoTransaccionType = ProduceObject.getTipotransaccion(tipotransaccion);
-								switch (tipoTransaccionType) {
-								case DEPOSITO:
-									this.transaccioncuentabancaria = transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion, usuarioMB.getUsuario());
-									break;
-								case RETIRO:
-									this.transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion, usuarioMB.getUsuario());
-									break;
-								default:
-									break;
-								}								
-								success = true;
-								cargarVoucher();
-							} catch (Exception e) {
-								JsfUtil.addErrorMessage(e.getMessage());
-								failure = true;
-							}
+									transaccioncuentabancaria.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
+									transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
+									transaccioncuentabancaria.setMonto(monto);
+									transaccioncuentabancaria.setReferencia(referencia);
+									transaccioncuentabancaria.setTipomoneda(comboTipomoneda.getObjectItemSelected());
+					
+									Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();								
+									TipoTransaccionType tipoTransaccionType = ProduceObject.getTipotransaccion(tipotransaccion);
+									switch (tipoTransaccionType) {
+									case DEPOSITO:
+										this.transaccioncuentabancaria = transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion, usuarioMB.getUsuario());
+										break;
+									case RETIRO:
+										this.transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion, usuarioMB.getUsuario());
+										break;
+									default:
+										break;
+									}								
+									success = true;
+									cargarVoucher();
+								} catch (Exception e) {
+									JsfUtil.addErrorMessage(e.getMessage());
+									failure = true;
+								}
+							}							
 						} else {
 							failure = true;
 							JsfUtil.addErrorMessage("El monto:" + monto + " no es un monto válido");
@@ -413,15 +443,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 	public void setCaja(Caja caja) {
 		this.caja = caja;
-	}
-
-	public boolean isValidBean() {
-		return isValidBean;
-	}
-
-	public void setValidBean(boolean isValidBean) {
-		this.isValidBean = isValidBean;
-	}
+	}	
 
 	public boolean isCuentabancariaValid() {
 		return isCuentabancariaValid;
@@ -544,5 +566,22 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 
 	public void setDlgBusquedaCuentaOpen(boolean dlgBusquedaCuentaOpen) {
 		this.dlgBusquedaCuentaOpen = dlgBusquedaCuentaOpen;
+	}
+
+	public boolean isOperacionMayorCuantia() {
+		return isOperacionMayorCuantia;
+	}
+
+	public void setOperacionMayorCuantia(boolean isOperacionMayorCuantia) {
+		this.isOperacionMayorCuantia = isOperacionMayorCuantia;
+	}
+
+	public OperacionMayorCuantiaBean getOperacionMayorCuantiaBean() {
+		return operacionMayorCuantiaBean;
+	}
+
+	public void setOperacionMayorCuantiaBean(
+			OperacionMayorCuantiaBean operacionMayorCuantiaBean) {
+		this.operacionMayorCuantiaBean = operacionMayorCuantiaBean;
 	}
 }
