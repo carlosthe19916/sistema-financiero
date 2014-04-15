@@ -26,7 +26,7 @@
 			<h:outputStylesheet library="css" name="main.css" />
 
 			<h:form>
-
+				<p:focus for="cmbTipodocumento"></p:focus>
 				<br />
 				<div>
 					<div style="margin-left: 50px;">
@@ -61,7 +61,7 @@
 											<div class="p6n-api-consent-screen-label">NUMERO
 												DOCUMENTO</div>
 											<div>
-												<h:inputText id="txtDni"
+												<h:inputText id="txtDni" autocomplete="off"
 													value="#{personanaturalCRUDBean.numerodocumento}"
 													required="true"
 													maxlength="#{personanaturalCRUDBean.longitudDocumento}"
@@ -86,7 +86,7 @@
 												PATERNO</div>
 											<div>
 												<div>
-													<h:inputText id="txtApellidoPaterno"
+													<h:inputText id="txtApellidoPaterno" autocomplete="off"
 														value="#{personanaturalCRUDBean.apellidopaterno}"
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido paterno"
@@ -102,7 +102,7 @@
 											<div>
 
 												<div>
-													<h:inputText id="txtApellidoMaterno"
+													<h:inputText id="txtApellidoMaterno" autocomplete="off"
 														value="#{personanaturalCRUDBean.apellidomaterno}"
 														required="true" maxlength="50"
 														requiredMessage="Ingrese apellido materno"
@@ -122,7 +122,7 @@
 										<div class="p6n-api-consent-screen-label">NOMBRES</div>
 										<div>
 											<div>
-												<h:inputText id="txtNombres"
+												<h:inputText id="txtNombres" autocomplete="off"
 													value="#{personanaturalCRUDBean.nombres}" required="true"
 													maxlength="60" requiredMessage="Ingrese nombres"
 													onkeyup="this.value = this.value.toUpperCase();"
@@ -157,7 +157,7 @@
 												NACIMIENTO</div>
 											<div>
 												<div>
-													<p:calendar id="txtFechanacimiento"
+													<p:calendar id="txtFechanacimiento" autocomplete="off"
 														value="#{personanaturalCRUDBean.fechanacimiento}"
 														navigator="true" pattern="dd/MM/yy" required="true"
 														requiredMessage="Ingrese fecha de nacimiento"
@@ -197,7 +197,7 @@
 											<div style="display: inline-block;">
 												<div class="p6n-api-consent-screen-label">OCUPACION</div>
 												<div>
-													<h:inputText value="#{personanaturalCRUDBean.ocupacion}"
+													<h:inputText value="#{personanaturalCRUDBean.ocupacion}" autocomplete="off"
 														onkeyup="this.value = this.value.toUpperCase();"
 														maxlength="70" pt:placeholder="Ocupacion" />
 												</div>
@@ -209,7 +209,7 @@
 											<div class="p6n-api-consent-screen-label">DIRECCION</div>
 											<div>
 												<div>
-													<h:inputText value="#{personanaturalCRUDBean.direccion}"
+													<h:inputText value="#{personanaturalCRUDBean.direccion}" autocomplete="off"
 														onkeyup="this.value = this.value.toUpperCase();"
 														maxlength="150" pt:placeholder="Direccion">
 													</h:inputText>
@@ -220,7 +220,7 @@
 											<div class="p6n-api-consent-screen-label">REFERENCIA</div>
 											<div>
 												<div>
-													<h:inputText value="#{personanaturalCRUDBean.referencia}"
+													<h:inputText value="#{personanaturalCRUDBean.referencia}" autocomplete="off"
 														onkeyup="this.value = this.value.toUpperCase();"
 														maxlength="100" pt:placeholder="Referencia">
 													</h:inputText>
@@ -233,7 +233,7 @@
 											<div class="p6n-api-consent-screen-label">TELEFONO</div>
 											<div>
 												<div>
-													<h:inputText value="#{personanaturalCRUDBean.telefono}"
+													<h:inputText value="#{personanaturalCRUDBean.telefono}" autocomplete="off"
 														maxlength="25" pt:placeholder="066000000">
 													</h:inputText>
 												</div>
@@ -243,7 +243,7 @@
 											<div class="p6n-api-consent-screen-label">CELULAR</div>
 											<div>
 												<div>
-													<h:inputText value="#{personanaturalCRUDBean.celular}"
+													<h:inputText value="#{personanaturalCRUDBean.celular}" autocomplete="off"
 														maxlength="25" pt:placeholder="Ceular/RPM">
 													</h:inputText>
 												</div>
@@ -254,7 +254,7 @@
 										<div class="p6n-api-consent-screen-label">EMAIL</div>
 										<div>
 											<div>
-												<h:inputText value="#{personanaturalCRUDBean.email}"
+												<h:inputText value="#{personanaturalCRUDBean.email}" autocomplete="off"
 													onkeyup="this.value = this.value.toUpperCase();"
 													maxlength="50" pt:placeholder="example@domain.com"
 													style="width:339px;" />
@@ -265,7 +265,7 @@
 									<div class="sf-buttons" style="float: left;">
 										<h:commandButton value="Guardar"
 											action="#{personanaturalCRUDBean.createPersona()}"
-											styleClass="action blue" />
+											styleClass="action green" />
 										<h:commandButton value="Cancelar" immediate="true"
 											action="list?faces-redirect=true" styleClass="action" />
 									</div>
@@ -304,8 +304,15 @@
 									<h:messages />
 								</p>
 							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Aceptar"
+									action="/administrador/persona/personaNatural/list?faces-redirect=true"
+									immediate="true" styleClass="p6n-api-access-in-page-error-link" />
+							</div>
 						</div>
 					</div>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 900px;"></div>
 				</h:form>
 			</h:panelGroup>
 

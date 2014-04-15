@@ -173,14 +173,29 @@ public class TrabajadorCRUDAdminBean implements Serializable {
 				trabajador.setAgencia(comboAgencia.getObjectItemSelected());
 				trabajador.setEstado(true);
 				trabajador.setPersonanatural(personanatural);
-				trabajadorServiceLocal.create(trabajador);
 				
-				succes = true;
+				Personanatural personaNat = buscarPersonanatural(trabajador.getPersonanatural().getTipodocumento(), trabajador.getPersonanatural().getNumerodocumento());
+				if (personaNat == null) {
+					trabajadorServiceLocal.create(trabajador);
+					succes = true;
+				}else {
+					throw new Exception("El trabajador ya esta registrdo, no se puede crear nuevamente");
+				}
 			}
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
+	}
+	
+	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
+		Personanatural personanatural = null;
+		try {
+			personanatural = personanaturalServiceLocal.find(tipodocumento, numeroDocumento);
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, e.getMessage());
+		}
+		return personanatural;
 	}
 	
 	public void buscarPersonanatural(){
@@ -221,16 +236,6 @@ public class TrabajadorCRUDAdminBean implements Serializable {
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 		}
-	}
-	
-	public Personanatural buscarPersonanatural(Tipodocumento tipodocumento, String numeroDocumento){
-		Personanatural personanatural = null;
-		try {
-			personanatural = personanaturalServiceLocal.find(tipodocumento, numeroDocumento);
-		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, e.getMessage());
-		}
-		return personanatural;
 	}
 		
 	public void changeTipodocumento(ValueChangeEvent event) {
