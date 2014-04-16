@@ -167,6 +167,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 							//validar si la operacion es de mayor cuantia
 							if(monto.isGreaterThan(new Moneda("15000")) && isOperacionMayorCuantia == false){
 								isOperacionMayorCuantia = true;
+								
 								Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();
 								String numeroCuenta = cuentabancariaView.getNumerocuenta();
 								Tipomoneda moneda = comboTipomoneda.getObjectItemSelected();

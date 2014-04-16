@@ -144,45 +144,52 @@ public class OperacionMayorCuantiaBean implements Serializable {
 
 	public Transaccionmayorcuantia getTransaccionmayorcuantiaObject(){
 		//datos generales
-		transaccionmayorcuantia.setFechaTransaccion(fecha);
-		transaccionmayorcuantia.setIdtipotransaccion(tipotransaccion.getIdtipotransaccion());
-		transaccionmayorcuantia.setNumerocuenta(cuentaBeneficiario);
-		transaccionmayorcuantia.setIdtipomoneda(tipomoneda.getIdtipomoneda());
-		transaccionmayorcuantia.setImporte(monto);
-		transaccionmayorcuantia.setOrigenimporte(origenImporte);
-		transaccionmayorcuantia.setPropositoimporte(propositoImporte);
-		//datos solicitante
-		transaccionmayorcuantia.setIdtipodocumentoSolicitante(comboTipodocumentoSolicitante.getObjectItemSelected().getIdtipodocumento());
-		transaccionmayorcuantia.setNumerodocumentoSolicitante(numerodocumentoSolicitante);
-		transaccionmayorcuantia.setNacionalidadSolicitante(nacionalidadSolicitante);
-		transaccionmayorcuantia.setApellidosNombresSolicitante(apellidosnombresSolicitante);
-		transaccionmayorcuantia.setDireccionSolicitante(direccionSolicitante);
-		transaccionmayorcuantia.setUbigeoSolicitante(idDepartamentoSelectedSolicitante+idProvinciaSelectedSolicitante+idDistritoSelectedSolicitante);
-		transaccionmayorcuantia.setTelefonoSolicitante(telefonoSolicitante);
-		transaccionmayorcuantia.setFechaNacimientoSolicitante(fechanacimientoSolicitante);
-		transaccionmayorcuantia.setOcupacionSolicitante(ocupacionSolicitante);
-		//datos beneficiario	
-		transaccionmayorcuantia.setIdtipodocumentoBeneficiario(tipodocumentoBeneficiario.getIdtipodocumento());
-		transaccionmayorcuantia.setNumerodocumentoBeneficiario(numerodocumentoBeneficiario);;
-		transaccionmayorcuantia.setNacionalidadBeneficiario(nacionalidadBeneficiario);
-		transaccionmayorcuantia.setApellidosnombresRazonsocialBeneficiario(apellidosnombresRazonsocialBeneficiario);
-		transaccionmayorcuantia.setDireccionBeneficiario(direccionBeneficiario);
-		transaccionmayorcuantia.setUbigeoBeneficiario(idDepartamentoSelectedBeneficiario+idProvinciaSelectedBeneficiario+idDistritoSelectedBeneficiario);
-		transaccionmayorcuantia.setTelefonoBeneficiario(telefonoBeneficiario);
-		transaccionmayorcuantia.setFechanacimientoConstitucionBeneficiario(fechanacimientoConstitucionBeneficiario);
-		transaccionmayorcuantia.setOcupacionActividadeconomicaBeneficiario(ocupacionActividadEconomicaBeneficiario);
-		//datos del ordenante
-		transaccionmayorcuantia.setIdtipodocumentoOrdenante(comboTipodocumentoOrdenante.getObjectItemSelected().getIdtipodocumento());
-		transaccionmayorcuantia.setNumerodocumentoOrdenante(numerodocumentoOrdenante);
-		transaccionmayorcuantia.setNacionalidadOrdenante(nacionalidadOrdenante);
-		transaccionmayorcuantia.setApellidosnombresRazonsocialOrdenante(apellidosYnombresOrdenante);
-		transaccionmayorcuantia.setDireccionOrdenante(direccionOrdenante);
-		transaccionmayorcuantia.setUgibeoOrdenante(idDepartamentoSelectedOrdenante+idProvinciaSelectedOrdenante+idDistritoSelectedOrdenante);
-		transaccionmayorcuantia.setTelefonoOrdenante(telefonoOrdenante);
-		transaccionmayorcuantia.setFechanacimientoConstitucionOrdenante(fechanacimientoConstitucionOrdenante);
-		transaccionmayorcuantia.setOcupacionActividadeconomicaOrdenante(ocupacionActividadEconomicaOrdenante);
+		if(transaccionmayorcuantia.getFechaTransaccion() != null){
+			transaccionmayorcuantia.setFechaTransaccion(fecha);
+			transaccionmayorcuantia.setIdtipotransaccion(tipotransaccion.getIdtipotransaccion());
+			transaccionmayorcuantia.setNumerocuenta(cuentaBeneficiario);
+			transaccionmayorcuantia.setIdtipomoneda(tipomoneda.getIdtipomoneda());
+			transaccionmayorcuantia.setImporte(monto);
+			transaccionmayorcuantia.setOrigenimporte(origenImporte);
+			transaccionmayorcuantia.setPropositoimporte(propositoImporte);
+			//datos solicitante
+			transaccionmayorcuantia.setIdtipodocumentoSolicitante(comboTipodocumentoSolicitante.getObjectItemSelected().getIdtipodocumento());
+			transaccionmayorcuantia.setNumerodocumentoSolicitante(numerodocumentoSolicitante);
+			transaccionmayorcuantia.setNacionalidadSolicitante(nacionalidadSolicitante);
+			transaccionmayorcuantia.setApellidosNombresSolicitante(apellidosnombresSolicitante);
+			transaccionmayorcuantia.setDireccionSolicitante(direccionSolicitante);
+			transaccionmayorcuantia.setUbigeoSolicitante(idDepartamentoSelectedSolicitante+idProvinciaSelectedSolicitante+idDistritoSelectedSolicitante);
+			transaccionmayorcuantia.setTelefonoSolicitante(telefonoSolicitante);
+			transaccionmayorcuantia.setFechaNacimientoSolicitante(fechanacimientoSolicitante);
+			transaccionmayorcuantia.setOcupacionSolicitante(ocupacionSolicitante);
+			//datos beneficiario	
+			transaccionmayorcuantia.setIdtipodocumentoBeneficiario(tipodocumentoBeneficiario.getIdtipodocumento());
+			transaccionmayorcuantia.setNumerodocumentoBeneficiario(numerodocumentoBeneficiario);;
+			transaccionmayorcuantia.setNacionalidadBeneficiario(nacionalidadBeneficiario);
+			transaccionmayorcuantia.setApellidosnombresRazonsocialBeneficiario(apellidosnombresRazonsocialBeneficiario);
+			transaccionmayorcuantia.setDireccionBeneficiario(direccionBeneficiario);
+			transaccionmayorcuantia.setUbigeoBeneficiario(idDepartamentoSelectedBeneficiario+idProvinciaSelectedBeneficiario+idDistritoSelectedBeneficiario);
+			transaccionmayorcuantia.setTelefonoBeneficiario(telefonoBeneficiario);
+			transaccionmayorcuantia.setFechanacimientoConstitucionBeneficiario(fechanacimientoConstitucionBeneficiario);
+			transaccionmayorcuantia.setOcupacionActividadeconomicaBeneficiario(ocupacionActividadEconomicaBeneficiario);
+			//datos del ordenante
+			transaccionmayorcuantia.setIdtipodocumentoOrdenante(comboTipodocumentoOrdenante.getObjectItemSelected().getIdtipodocumento());
+			transaccionmayorcuantia.setNumerodocumentoOrdenante(numerodocumentoOrdenante);
+			transaccionmayorcuantia.setNacionalidadOrdenante(nacionalidadOrdenante);
+			transaccionmayorcuantia.setApellidosnombresRazonsocialOrdenante(apellidosYnombresOrdenante);
+			transaccionmayorcuantia.setDireccionOrdenante(direccionOrdenante);
+			transaccionmayorcuantia.setUgibeoOrdenante(idDepartamentoSelectedOrdenante+idProvinciaSelectedOrdenante+idDistritoSelectedOrdenante);
+			transaccionmayorcuantia.setTelefonoOrdenante(telefonoOrdenante);
+			transaccionmayorcuantia.setFechanacimientoConstitucionOrdenante(fechanacimientoConstitucionOrdenante);
+			transaccionmayorcuantia.setOcupacionActividadeconomicaOrdenante(ocupacionActividadEconomicaOrdenante);
+			
+			return this.transaccionmayorcuantia;
+		} else {
+			return null;
+		}
+		
 				
-		return this.transaccionmayorcuantia;
+		
 	}
 	
 	public Map<String, String> ordenarMap(Map<String, String> map){
