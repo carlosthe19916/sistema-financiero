@@ -18,6 +18,7 @@ import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.SucursalServiceLocal;
 import org.ventura.dependent.TablaBean;
 import org.ventura.entity.schema.maestro.Ubigeo;
+import org.ventura.entity.schema.rrhh.Trabajador;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.schema.sucursal.Sucursal;
 import org.venturabank.util.JsfUtil;
@@ -71,6 +72,7 @@ public class SucursalCRUDBean implements Serializable {
 	@PostConstruct
 	private void initialize() throws Exception {
 		Map<String, String> mapDepartamentosNoOrdenados = new HashMap<String, String>();
+		
 		try {
 			List<Ubigeo> listDepartamentos = maestrosServiceLocal.getDepartamentos();	
 			for (Ubigeo u : listDepartamentos) {
@@ -220,13 +222,32 @@ public class SucursalCRUDBean implements Serializable {
 	
 	public void addAgencia(){
 		Agencia agencia = new Agencia();
-		
+
 		agencia.setDenominacion(denominacionAgencia);
 		agencia.setAbreviatura(abreviaturaAgencia);
 		agencia.setCodigoagencia(codigoAgencia);
 		agencia.setEstado(true);
 		
 		tablaAgencias.addRow(agencia);
+	}
+	
+	public String generateCodigoAgencia(){
+		String codigoAgencia = null;
+		try {
+			int codigo = sucursalServiceLocal.countAgencias();
+			
+			if(codigo >= 0 && codigo < 9){
+				codigoAgencia = "00" + (codigo + 1);
+			}if (codigo >= 9 && codigo < 99) {
+				codigoAgencia = "0" + (codigo + 1);
+			}if (codigo >=99) {
+				codigoAgencia = "" + (codigo+ 1);
+			}
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+		return codigoAgencia;
 	}
 	
 	public void editAgencia(){
@@ -236,10 +257,22 @@ public class SucursalCRUDBean implements Serializable {
 	}
 	
 	public void deleteAgencia(Agencia agencia){
-		tablaAgencias.removeRow(agencia);
+		try {
+			List<Trabajador> list = sucursalServiceLocal.deleteAgencia(agencia);
+			if (list.size() == 0) {
+				tablaAgencias.removeRow(agencia);
+			}else {
+				failure = true;
+				JsfUtil.addErrorMessage("Elimine primero los trabajadores de esta agencia, luego proceda a eliminar la agencia");
+			}
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage("Error al eliminar la agencia");
+		}
 	}
 	
 	public void openDialogForCreateAgencia(){
+		codigoAgencia = generateCodigoAgencia();
 		dlgAgencia = true;
 		isEditingAgencia = false;
 	}

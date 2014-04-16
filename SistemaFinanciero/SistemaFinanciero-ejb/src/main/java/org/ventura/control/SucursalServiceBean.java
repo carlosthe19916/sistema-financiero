@@ -22,7 +22,9 @@ import org.ventura.boundary.remote.SucursalServiceRemote;
 import org.ventura.dao.impl.AgenciaDAO;
 import org.ventura.dao.impl.CajaDAO;
 import org.ventura.dao.impl.SucursalDAO;
+import org.ventura.dao.impl.TrabajadorDAO;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.rrhh.Trabajador;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.entity.schema.sucursal.Sucursal;
 import org.ventura.util.exception.IllegalEntityException;
@@ -44,6 +46,7 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 	private @EJB SucursalDAO sucursalDAO;
 	private @EJB AgenciaDAO agenciaDAO;
 	private @EJB CajaDAO cajaDAO;
+	private @EJB TrabajadorDAO trabajadorDAO;
 	
 	@Override
 	public void create(Sucursal sucursal) throws Exception {
@@ -96,7 +99,8 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 				
 			for (Integer key : restDelete) {
 				Agencia agencia = mapFromDB.get(key);
-				agenciaDAO.delete(agencia);
+				//agenciaDAO.delete(agencia);
+				agencia.setEstado(false);
 			}
 			
 			for (Integer key : intersection) {
@@ -143,6 +147,23 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 	}
 	
 	@Override
+	public List<Trabajador> deleteAgencia(Agencia agencia) throws Exception{
+		List<Trabajador> list;
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idagencia", agencia.getIdagencia());
+			list = trabajadorDAO.findByNamedQuery(Agencia.f_allTrabajadorActiveByAgencia, parameters);
+			
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw new EJBException(e.getMessage());
+		}
+		return list;
+	}
+	
+	@Override
 	public List<Sucursal> getAllActive() throws Exception {
 		List<Sucursal> list;
 		try {
@@ -169,7 +190,8 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 			sucursal = sucursalDAO.find(idsucursal);
 			List<Agencia> listAgencias = new ArrayList<Agencia>();			
 			for (Agencia agencia : sucursal.getAgencias()) {
-				listAgencias.add(agencia); 
+				if(agencia.getEstado())
+					listAgencias.add(agencia); 
 			}
 			sucursal.setAgencias(listAgencias);
 		} catch (Exception e) {
@@ -179,6 +201,20 @@ public class SucursalServiceBean implements SucursalServiceLocal {
 			throw e;
 		}
 		return sucursal;
+	}
+	
+	@Override
+	public int countAgencias() throws Exception{
+		int countAgencias;
+		try {
+			countAgencias = agenciaDAO.count();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return countAgencias;
 	}
 
 	@Override

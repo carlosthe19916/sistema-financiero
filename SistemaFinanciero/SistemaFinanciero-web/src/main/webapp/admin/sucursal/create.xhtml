@@ -39,9 +39,7 @@
 						<div class="modal-dialog-content ng-binding">La sucursal fue
 							creada satistactoriamente.</div>
 						<div class="modal-dialog-buttons">
-							<h:commandButton value="Crear nuevo"
-								action="create?faces-redirect=true" />
-							<h:commandButton value="Volver" action="list?faces-redirect=true"
+							<h:commandButton value="Aceptar" action="list?faces-redirect=true"
 								immediate="true" />
 						</div>
 					</div>
@@ -56,8 +54,15 @@
 									<h:messages />
 								</p>
 							</div>
+							<div style="text-align: center;">
+								<h:commandLink value="Aceptar"
+									action="list?faces-redirect=true"
+									immediate="true" styleClass="p6n-api-access-in-page-error-link" />
+							</div>
 						</div>
 					</div>
+					<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 1200px;"></div>
 				</h:form>
 			</h:panelGroup>
 
@@ -78,7 +83,7 @@
 										<div class="p6n-api-consent-screen-label">DENOMINACION</div>
 										<div>
 											<h:inputText id="txtDenominacion" required="true" onkeyup="this.value = this.value.toUpperCase();"
-												value="#{sucursalCRUDBean.denominacion}" maxlength="140" />
+												value="#{sucursalCRUDBean.denominacion}" maxlength="140" autocomplete="off" />
 										</div>
 									</div>
 									<div
@@ -89,7 +94,7 @@
 										<div class="p6n-api-consent-screen-label">ABREVIATURA</div>
 										<div>
 											<h:inputText id="txtAbreviatura" onkeyup="this.value = this.value.toUpperCase();"
-												value="#{sucursalCRUDBean.abreviatura}" maxlength="10" />
+												value="#{sucursalCRUDBean.abreviatura}" maxlength="10"  autocomplete="off"/>
 										</div>
 									</div>
 									<div
@@ -257,7 +262,7 @@
 										<div class="p6n-api-consent-screen-label">DENOMINACION</div>
 										<div>
 											<h:inputText id="txtDenominacionAgencia" onkeyup="this.value = this.value.toUpperCase();"
-												value="#{sucursalCRUDBean.denominacionAgencia}"
+												value="#{sucursalCRUDBean.denominacionAgencia}" autocomplete="off"
 												required="true" requiredMessage="Ingrese denominacion"
 												maxlength="140" />
 										</div>
@@ -270,7 +275,7 @@
 										<div class="p6n-api-consent-screen-label">ABREVIATURA</div>
 										<div>
 											<h:inputText id="txtAbreviaturaAgencia" onkeyup="this.value = this.value.toUpperCase();"
-												value="#{sucursalCRUDBean.abreviaturaAgencia}"
+												value="#{sucursalCRUDBean.abreviaturaAgencia}" autocomplete="off"
 												required="true" requiredMessage="Ingrese abreviatura"
 												maxlength="10" />
 										</div>
@@ -282,7 +287,7 @@
 									<div class="p6n-api-consent-screen-input-section">
 										<div class="p6n-api-consent-screen-label">CODIGO</div>
 										<div>
-											<h:inputText id="txtCodigoAgencia"
+											<h:inputText id="txtCodigoAgencia" readonly="true" disabled="true"
 												value="#{sucursalCRUDBean.codigoAgencia}" required="true"
 												requiredMessage="Ingrese codigo" maxlength="3" />
 										</div>

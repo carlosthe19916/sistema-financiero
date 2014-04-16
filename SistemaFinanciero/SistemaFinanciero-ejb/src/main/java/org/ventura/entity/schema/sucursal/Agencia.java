@@ -13,13 +13,16 @@ import javax.persistence.*;
 @NamedQuery(name = "Agencia.findAll", query = "SELECT a FROM Agencia a")
 @NamedQueries({
 		@NamedQuery(name = Agencia.f_allActive, query = "SELECT a FROM Agencia a WHERE a.estado = TRUE"),
-		@NamedQuery(name = Agencia.f_idsucursal, query = "SELECT a FROM Agencia a WHERE a.sucursal.idsucursal = :idsucursal AND a.estado = TRUE") })
+		@NamedQuery(name = Agencia.f_idsucursal, query = "SELECT a FROM Agencia a WHERE a.sucursal.idsucursal = :idsucursal AND a.estado = TRUE"), 
+		@NamedQuery(name = Agencia.f_allTrabajadorActiveByAgencia, query = "SELECT t FROM Trabajador t WHERE t.agencia.idagencia = :idagencia AND t.estado = TRUE")})
+
 public class Agencia implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String f_allActive = "org.ventura.entity.schema.sucursal.f_allActive";
 	public final static String f_idsucursal = "org.ventura.entity.schema.sucursal.f_idsucursal";
+	public final static String f_allTrabajadorActiveByAgencia = "org.ventura.entity.schema.sucursal.f_allTrabajadorActiveByAgencia";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
