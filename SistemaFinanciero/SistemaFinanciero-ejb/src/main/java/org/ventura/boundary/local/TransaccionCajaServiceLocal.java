@@ -14,6 +14,7 @@ import org.ventura.entity.schema.caja.Transaccioncajacaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.Transaccionmayorcuantia;
 import org.ventura.entity.schema.caja.view.CajaMovimientoView;
 import org.ventura.entity.schema.caja.view.ViewvouchercompraventaView;
 import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
@@ -45,7 +46,7 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	/**
 	 * Operaciones transaccionales*/
 	
-	public Transaccioncuentabancaria deposito(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion, Usuario usuario) throws Exception;
+	public Transaccioncuentabancaria deposito(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion, Usuario usuario, Transaccionmayorcuantia transasccionmayorcuantia) throws Exception;
 	
 	public Transaccioncuentabancaria retiro(Caja caja, Cuentabancaria cuentabancaria, Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion, Usuario usuario) throws Exception;
 	

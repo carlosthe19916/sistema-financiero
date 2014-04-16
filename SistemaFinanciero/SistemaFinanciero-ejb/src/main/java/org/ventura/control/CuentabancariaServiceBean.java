@@ -528,7 +528,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(new Moneda(monto));
 			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO));
-			transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,null, usuario);
+			transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,null, usuario, null);
 			
 			//crear titulares y beneficiarios
 			cuentabancaria.setTitulares(listTitulares);

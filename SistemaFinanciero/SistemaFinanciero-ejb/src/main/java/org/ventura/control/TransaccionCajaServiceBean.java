@@ -37,6 +37,7 @@ import org.ventura.dao.impl.TransaccioncajacajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
+import org.ventura.dao.impl.TransaccionmayorcuantiaDAO;
 import org.ventura.dao.impl.VouchercajaCuentaaporteViewDAO;
 import org.ventura.dao.impl.VouchercajaViewDAO;
 import org.ventura.dao.impl.VouchercompraventaViewDAO;
@@ -55,6 +56,7 @@ import org.ventura.entity.schema.caja.Transaccioncajacaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.Transaccionmayorcuantia;
 import org.ventura.entity.schema.caja.view.CajaMovimientoView;
 import org.ventura.entity.schema.caja.view.ViewvouchercompraventaView;
 import org.ventura.entity.schema.caja.view.VouchercajaCuentaaporteView;
@@ -113,6 +115,9 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	private TasainteresDAO tasainteresDAO;
 	@EJB
 	private DetalletransaccioncajaDAO detalletransaccioncajaDAO;
+	
+	@EJB
+	private TransaccionmayorcuantiaDAO transasccionmayorcuantiaDAO;
 	
 	@EJB
 	private CajaMovimientoViewDAO cajaMovimientoViewDAO;
@@ -731,7 +736,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	/**
 	 * Transccionales*/
 	@Override
-	public Transaccioncuentabancaria deposito(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion, Usuario usuario) throws Exception {
+	public Transaccioncuentabancaria deposito(Caja caja,Cuentabancaria cuentabancariaVista,Transaccioncuentabancaria transaccioncuentabancaria, Map<Denominacionmoneda, Integer> detalleTransaccion, Usuario usuario, Transaccionmayorcuantia transasccionmayorcuantia) throws Exception {
 		try {
 			int cuentabancariaPKey = cuentabancariaVista.getIdcuentabancaria();			
 			Cuentabancaria cuentabancaria = cuentabancariaServiceLocal.find(cuentabancariaPKey);		
@@ -773,6 +778,10 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 					detalletransaccioncajaDAO.create(detalletransaccioncaja);
 				}				
 			}
+			
+			//si el monto es mucho se crea una transaccion de mayor cuantia
+			if(transasccionmayorcuantia != null)
+				transasccionmayorcuantiaDAO.create(transasccionmayorcuantia);
 			
 			//
 			Moneda saldoFinal = cuentabancaria.getSaldo();

@@ -566,25 +566,39 @@
 							<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipotransaccion.denominacion}</td>
 							<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.cuentaBeneficiario}</td>
 							<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.denominacion}</td>
-							<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.abreviatura}#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.monto}</td>
+							<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.abreviatura}#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.montoAsString}</td>
 						</tr>
 						<tr>
-							<td colspan="3" style="font-weight: bold; font-size: 12px;">El
+							<td colspan="4" style="font-weight: bold; font-size: 12px;">El
 								importe en efectivo proviene de:</td>
 						</tr>
 						<tr>
-							<td colspan="4"><h:inputTextarea
+							<td colspan="4"><h:inputTextarea id="txtOrigenImporte"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.origenImporte}"
-									cols="75" rows="3" /></td>
+									required="true" cols="75" rows="3"
+									requiredMessage="Ingrese Origen de efectivo" /></td>
 						</tr>
 						<tr>
-							<td colspan="3" style="font-weight: bold; font-size: 12px;">El
+							<td colspan="4"><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtOrigenImporte" />
+								</div></td>
+						</tr>
+						<tr>
+							<td colspan="4" style="font-weight: bold; font-size: 12px;">El
 								proposito o destino de esta operacion es:</td>
 						</tr>
 						<tr>
-							<td colspan="4"><h:inputTextarea
+							<td colspan="4"><h:inputTextarea id="txtPropositoImporte"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.propositoImporte}"
+									required="true" requiredMessage="Ingrese proposito de dinero"
 									cols="75" rows="3" /></td>
+						</tr>
+						<tr>
+							<td colspan="3"><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtPropositoImporte" />
+								</div></td>
 						</tr>
 						<tr>
 							<td colspan="4"
@@ -608,25 +622,48 @@
 										var="val" itemLabel="#{val.value.abreviatura}"
 										itemValue="#{val.key}" />
 								</h:selectOneMenu></td>
-							<td><h:inputText
-									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.numerodocumentoSolicitante}">
+							<td><h:inputText id="txtNumerodocumentoSolicitante"
+									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.numerodocumentoSolicitante}"
+									required="true" requiredMessage="Ingrese numero documento">
 									<f:ajax execute="@this cmbTipodocumentoSolicitante"
 										event="blur"
 										render="txtApellidosNombresSolicitante txtDireccionSolicitante txtTelefonoSolicitante txtFechaNacimientoSolicitante txtOcupacionSolicitante"
 										listener="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.buscarPersonanaturalSolicitante()}"></f:ajax>
 								</h:inputText></td>
-							<td><h:inputText
-									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.nacionalidadSolicitante}" /></td>
+							<td><h:inputText id="txtNacionalidadSolicitante"
+									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.nacionalidadSolicitante}"
+									required="true" requiredMessage="Ingrese nacionalidad" /></td>
 						</tr>
 						<tr>
-							<td colspan="4" style="font-weight: bold; font-size: 12px;">Apellidos
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipodocumentoSolicitante" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtNumerodocumentoSolicitante" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtNacionalidadSolicitante" />
+								</div></td>
+						</tr>
+						<tr>
+							<td colspan="3" style="font-weight: bold; font-size: 12px;">Apellidos
 								y nombres</td>
 						</tr>
 						<tr>
 							<td colspan="4"><h:inputText
 									id="txtApellidosNombresSolicitante"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.apellidosnombresSolicitante}"
-									size="95" /></td>
+									size="95" required="true"
+									requiredMessage="Ingrese apellidos y nombres" /></td>
+						</tr>
+						<tr>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtApellidosNombresSolicitante" />
+								</div></td>
 						</tr>
 						<tr>
 							<td colspan="4" style="font-weight: bold; font-size: 12px;">Direccion
@@ -635,7 +672,13 @@
 						<tr>
 							<td colspan="4"><h:inputText id="txtDireccionSolicitante"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.direccionSolicitante}"
-									size="97" /></td>
+									size="95" required="true" requiredMessage="Ingrese direccion" /></td>
+						</tr>
+						<tr>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtDireccionSolicitante" />
+								</div></td>
 						</tr>
 						<tr>
 							<td style="font-weight: bold; font-size: 12px;">Region</td>
@@ -645,7 +688,7 @@
 						<tr>
 							<td><h:selectOneMenu id="cmbDepartamentoSolicitante"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDepartamentoSelectedSolicitante}"
-									required="true" requiredMessage="Seleccione tipo departamento">
+									required="true" requiredMessage="Seleccione departamento">
 									<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 									<f:selectItems
 										value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDepartamentosSolicitante.entrySet()}"
@@ -667,12 +710,26 @@
 								</h:selectOneMenu></td>
 							<td><h:selectOneMenu id="cmbDistritoSolicitante"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDistritoSelectedSolicitante}"
-									required="true" requiredMessage="Seleccione tipo provincia">
+									required="true" requiredMessage="Seleccione provincia">
 									<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 									<f:selectItems
 										value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDistritoSolicitante.entrySet()}"
 										var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
 								</h:selectOneMenu></td>
+						</tr>
+						<tr>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbDepartamentoSolicitante" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbProvinciaSolicitante" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbDistritoSolicitante" />
+								</div></td>
 						</tr>
 						<tr>
 							<td style="font-weight: bold; font-size: 12px;">Telefono</td>
@@ -695,6 +752,14 @@
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.ocupacionSolicitante }" /></td>
 						</tr>
 						<tr>
+							<td></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtFechaNacimientoSolicitante" />
+								</div></td>
+							<td></td>
+						</tr>
+						<tr>
 							<td>&nbsp;</td>
 						</tr>
 						<tr>
@@ -715,8 +780,17 @@
 							</td>
 							<td><h:outputText
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.numerodocumentoBeneficiario}" /></td>
-							<td><h:inputText
-									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.nacionalidadBeneficiario}" /></td>
+							<td><h:inputText id="txtNacionalidadBeneficiario"
+									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.nacionalidadBeneficiario}"
+									required="true" requiredMessage="Ingrese nacionalidad" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtNacionalidadBeneficiario" />
+								</div></td>
 						</tr>
 						<tr>
 							<td colspan="4" style="font-weight: bold; font-size: 12px;">Apellidos
@@ -731,9 +805,15 @@
 								(Si se encuentra en transito indicar el lugar donde se aloja)</td>
 						</tr>
 						<tr>
-							<td colspan="4"><h:inputText
+							<td colspan="3"><h:inputText id="txtDireccionBeneficiario"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.direccionBeneficiario}"
-									size="97" /></td>
+									size="95" required="true" requiredMessage="Ingrese direccion" /></td>
+						</tr>
+						<tr>
+							<td colspan="3"><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtDireccionBeneficiario" />
+								</div></td>
 						</tr>
 						<tr>
 							<td style="font-weight: bold; font-size: 12px;">Region</td>
@@ -743,7 +823,7 @@
 						<tr>
 							<td><h:selectOneMenu id="cmbDepartamentoBeneficiario"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDepartamentoSelectedBeneficiario}"
-									required="true" requiredMessage="Seleccione tipo departamento">
+									required="true" requiredMessage="Seleccione departamento">
 									<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 									<f:selectItems
 										value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDepartamentosBeneficiario.entrySet()}"
@@ -765,12 +845,26 @@
 								</h:selectOneMenu></td>
 							<td><h:selectOneMenu id="cmbDistritoBeneficiario"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDistritoSelectedBeneficiario}"
-									required="true" requiredMessage="Seleccione tipo provincia">
+									required="true" requiredMessage="Seleccione provincia">
 									<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 									<f:selectItems
 										value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDistritoBeneficiario.entrySet()}"
 										var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
 								</h:selectOneMenu></td>
+						</tr>
+						<tr>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbDepartamentoBeneficiario" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbProvinciaBeneficiario" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbDistritoBeneficiario" />
+								</div></td>
 						</tr>
 						<tr>
 							<td style="font-weight: bold; font-size: 12px;">Telefono</td>
@@ -796,6 +890,14 @@
 							</td>
 						</tr>
 						<tr>
+							<td></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtFechaNacimientoBeneficiario" />
+								</div></td>
+							<td></td>
+						</tr>
+						<tr>
 							<td colspan="4"
 								style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">ORDENANTE
 								(NOMBRE DE QUIEN ORDENA LA OPERACION)</td>
@@ -817,33 +919,62 @@
 										var="val" itemLabel="#{val.value.abreviatura}"
 										itemValue="#{val.key}" />
 								</h:selectOneMenu></td>
-							<td><h:inputText
-									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.numerodocumentoOrdenante}">
+							<td><h:inputText id="txtNumeroDocumentoOrdenante"
+									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.numerodocumentoOrdenante}"
+									required="true" requiredMessage="Ingrese numero documento">
 									<f:ajax execute="@this cmbTipodocumentoOrdenante" event="blur"
 										render="txtApellidosNombresOrdenante txtDireccionOrdenante txtTelefonoOrdenante txtFechaNacimientoOrdenante txtOcupacionOrdenante"
 										listener="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.buscarPersonanaturalOrdenanate()}"></f:ajax>
 								</h:inputText></td>
-							<td><h:inputText
-									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.nacionalidadOrdenante}" /></td>
+							<td><h:inputText id="txtNacionalidadOrdenante"
+									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.nacionalidadOrdenante}"
+									required="true" requiredMessage="Ingrese nacionalidad" /></td>
 						</tr>
 						<tr>
-							<td colspan="4" style="font-weight: bold; font-size: 12px;">Apellidos
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbTipodocumentoOrdenante" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtNumeroDocumentoOrdenante" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtNacionalidadOrdenante" />
+								</div></td>
+						</tr>
+						<tr>
+							<td colspan="3" style="font-weight: bold; font-size: 12px;">Apellidos
 								y nombres</td>
 						</tr>
 						<tr>
-							<td colspan="4"><h:inputText
+							<td colspan="3"><h:inputText
 									id="txtApellidosNombresOrdenante"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.apellidosYnombresOrdenante}"
-									size="95" /></td>
+									size="95" required="true"
+									requiredMessage="Ingrese apellidos y nombres" /></td>
 						</tr>
 						<tr>
-							<td colspan="4" style="font-weight: bold; font-size: 12px;">Direccion
+							<td colspan="3"><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtApellidosNombresOrdenante" />
+								</div></td>
+						</tr>
+						<tr>
+							<td colspan="3" style="font-weight: bold; font-size: 12px;">Direccion
 								(Si se encuentra en transito indicar el lugar donde se aloja)</td>
 						</tr>
 						<tr>
-							<td colspan="4"><h:inputText id="txtDireccionOrdenante"
+							<td colspan="3"><h:inputText id="txtDireccionOrdenante"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.direccionOrdenante}"
-									size="97" /></td>
+									size="95" required="true" requiredMessage="Ingrese direccion" /></td>
+						</tr>
+						<tr>
+							<td colspan="3"><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtDireccionOrdenante" />
+								</div></td>
 						</tr>
 						<tr>
 							<td style="font-weight: bold; font-size: 12px;">Region</td>
@@ -853,7 +984,7 @@
 						<tr>
 							<td><h:selectOneMenu id="cmbDepartamentoOrdenante"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDepartamentoSelectedOrdenante}"
-									required="true" requiredMessage="Seleccione tipo departamento">
+									required="true" requiredMessage="Seleccione departamento">
 									<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 									<f:selectItems
 										value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDepartamentosOrdenante.entrySet()}"
@@ -875,12 +1006,26 @@
 								</h:selectOneMenu></td>
 							<td><h:selectOneMenu id="cmbDistritoOrdenante"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDistritoSelectedOrdenante}"
-									required="true" requiredMessage="Seleccione tipo provincia">
+									required="true" requiredMessage="Seleccione provincia">
 									<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
 									<f:selectItems
 										value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDistritoOrdenante.entrySet()}"
 										var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
 								</h:selectOneMenu></td>
+						</tr>
+						<tr>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbDepartamentoOrdenante" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbProvinciaOrdenante" />
+								</div></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="cmbDistritoOrdenante" />
+								</div></td>
 						</tr>
 						<tr>
 							<td style="font-weight: bold; font-size: 12px;">Telefono</td>
@@ -901,6 +1046,14 @@
 								</p:calendar></td>
 							<td><h:inputText id="txtOcupacionOrdenante"
 									value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.ocupacionActividadEconomicaOrdenante }" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><div
+									class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+									<h:message for="txtFechaNacimientoOrdenante" />
+								</div></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>&nbsp;</td>
@@ -937,7 +1090,7 @@
 					<div class="sf-buttons" style="float: left;">
 						<h:commandButton value="Guardar"
 							action="#{transaccionCuentabancariaCajaBean.createTransaccioncaja()}"
-							styleClass="action blue" onclick="onSubmitButton();"/>
+							styleClass="action blue" onclick="onSubmitButton();" />
 						<h:commandButton value="Cancelar" immediate="true"
 							action="transaccionCuentabancaria?faces-redirect=true"
 							styleClass="action" />

@@ -205,7 +205,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 									TipoTransaccionType tipoTransaccionType = ProduceObject.getTipotransaccion(tipotransaccion);
 									switch (tipoTransaccionType) {
 									case DEPOSITO:
-										this.transaccioncuentabancaria = transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion, usuarioMB.getUsuario());
+										this.transaccioncuentabancaria = transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion, usuarioMB.getUsuario(), this.operacionMayorCuantiaBean.getTransaccionmayorcuantiaObject());
 										break;
 									case RETIRO:
 										this.transaccioncuentabancaria = transaccionCajaServiceLocal.retiro(caja, cuentabancaria, transaccioncuentabancaria,detalleTranssaccion, usuarioMB.getUsuario());
