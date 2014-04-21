@@ -87,7 +87,7 @@ public class TransaccionBovedaBean implements Serializable {
 	private void initialize() {
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("agencia", agenciaBean.getAgencia());
+			parameters.put("agencia", getAgenciaBean().getAgencia());
 			parameters.put("estadoapertura",ProduceObject.getEstadoapertura(EstadoAperturaType.ABIERTO));		
 			parameters.put("estadomovimiento",ProduceObject.getEstadomovimiento(EstadoMovimientoType.DESCONGELADO));
 			
@@ -437,6 +437,14 @@ public class TransaccionBovedaBean implements Serializable {
 
 	public void setComboAgencia(ComboBean<Agencia> comboAgencia) {
 		this.comboAgencia = comboAgencia;
+	}
+
+	public AgenciaBean getAgenciaBean() {
+		return agenciaBean;
+	}
+
+	public void setAgenciaBean(AgenciaBean agenciaBean) {
+		this.agenciaBean = agenciaBean;
 	}
 
 }

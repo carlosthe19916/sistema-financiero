@@ -240,11 +240,11 @@
 									</h:panelGroup>
 									<div class="modal-dialog-buttons">
 										<h:commandButton value="Imprimir" type="button"
-											icon="ui-icon-print" styleClass="action blue">
+											icon="ui-icon-print" styleClass="action green">
 											<p:printer target="printVoucher" />
 										</h:commandButton>
 
-										<h:commandButton value="Salir" styleClass="action red"
+										<h:commandButton value="Salir" styleClass="action"
 											action="transaccionCuentaaporte?faces-redirect=true" />
 									</div>
 								</div>
@@ -392,7 +392,7 @@
 									<div class="sf-buttons" style="float: left;">
 										<h:commandButton
 											action="#{transaccionCuentaaporteCajaBean.createTransaccioncaja()}"
-											value="Aceptar" styleClass="action blue" />
+											value="Aceptar" styleClass="action green" />
 									</div>
 								</div>
 
@@ -664,7 +664,7 @@
 						</div>
 					</div>
 					<div class="modal-dialog-buttons">
-						<h:commandButton value="Guardar" styleClass="action blue">
+						<h:commandButton value="Guardar" styleClass="action green">
 							<f:ajax execute="@form"
 								listener="#{transaccionCuentaaporteCajaBean.setMontoFromCalculadora()}"
 								render="formCalculadora :formTransaccion:txtMonto"

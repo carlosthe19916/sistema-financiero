@@ -404,6 +404,10 @@
 								action="#{transaccionCompraVentaCajaBean.createTransaccioncaja()}"
 								value="Aceptar" styleClass="action green">
 							</h:commandButton>
+							<h:commandButton
+								action="/caja/operaciones/index?faces-redirect=true"
+								onclick="onSubmitButton();" immediate="true" value="Cancelar"
+								styleClass="action" />
 						</div>
 					</div>
 				</div>

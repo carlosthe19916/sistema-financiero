@@ -170,7 +170,7 @@
 																maxlength="6" requiredMessage="requerido"
 																styleClass="jfk-textinput p6n-api-consent-screen-homepage-url label-input-label"
 																style="text-align:left; width:100px; height:20px">
-																<f:ajax event="blur" execute="@this" render="tabla"/>
+																<f:ajax event="blur" execute="@this" render="subTotal"/>
 															</h:inputText>
 															<div
 																class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
@@ -186,12 +186,11 @@
 														<f:facet name="footer">
 															<h:outputText style="font-size: 13px;"
 																value="TOTAL: #{boveda.key.abreviatura}" />
-															<h:outputText style="font-size: 13px;"
+															<h:outputText id="hola" style="font-size: 13px;"
 																value="#{abrirCajaBean.getTotal(boveda.key)}"/>
 														</f:facet>
 														
 													</p:dataTable>
-													
 												</p:outputPanel>
 											</p:panelGrid>
 										</p:tab>
