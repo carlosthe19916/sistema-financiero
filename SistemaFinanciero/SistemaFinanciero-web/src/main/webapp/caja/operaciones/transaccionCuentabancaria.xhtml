@@ -66,7 +66,6 @@
 
 			<h:panelGroup
 				rendered="#{transaccionCuentabancariaCajaBean.operacionMayorCuantia == false and transaccionCuentabancariaCajaBean.success == false}">
-
 				<h:form id="formTransaccion">
 					<br />
 					<div style="margin-left: 50px;">
@@ -1102,7 +1101,7 @@
 			<h:panelGroup rendered="#{transaccionCuentabancariaCajaBean.success}">
 				<br />
 				<h:form>
-					<div style="text-align: center; border-bottom: solid 1px;">
+					<div style="text-align: center; border-bottom: solid 1px; margin-bottom: 10px;">
 						<div style="display: inline-block; width: 400px;">
 							<div>
 								<div>
@@ -1357,321 +1356,319 @@
 						<br />
 					</div>
 
-					<h:panelGroup rendered="#{transaccionCuentabancariaCajaBean.operacionMayorCuantia}">
+					<h:panelGroup
+						rendered="#{transaccionCuentabancariaCajaBean.operacionMayorCuantia}">
 						<div style="text-align: center;">
 							<div style="margin-left: 125px;">
 								<h:panelGroup id="panelTransaccionMayorCuantia">
 									<table
-										style="width: 650px; border: solid 0px #E9E6E6; margin-left: 10px; margin-top: 20px;">
+										style="width: 650px; border: solid 0px #E9E6E6; margin-left: 10px; margin-top: 0px;">
 										<tr>
 											<td colspan="1"
 												style="text-align: center; font-weight: bold; font-size: 12px;">
 												<p:graphicImage name="logo_coop_contrato.png"
-													library="images/logo_coop" />
+													library="images/logo_coop" height="40" />
 											</td>
 											<td colspan="3"
-												style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle; text-decoration: underline">
-												<br /> <h:outputText style="font-size: 14px;"
+												style="text-align: center; font-weight: bold; font-size: 11px; vertical-align: middle; text-decoration: underline">
+												<br /> <h:outputText style="font-size: 11px;"
 													value="REGISTRO DE OPERACIONES EN EFECTIVO DE MAYOR CUANTIA" />
-												<br /> <h:outputText style="font-size: 12px;"
+												<br /> <h:outputText style="font-size: 10px;"
 													value="Ley Nº 27693 y su modificatoria Ley Nº 28306" />
 											</td>
 										</tr>
 										<tr>
 											<td colspan="2"></td>
-											<td style="font-weight: bold; font-size: 12px;">Fecha</td>
-											<td style="font-weight: bold; font-size: 12px;">Hora</td>
+											<td style="font-weight: bold; font-size: 11px;">Fecha</td>
+											<td style="font-weight: bold; font-size: 11px;">Hora</td>
 										</tr>
 										<tr>
-											<td colspan="2"></td>
-											<td><h:outputText
+											<td colspan="2" style="font-size: 11px;"></td>
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.getFechaAsString()}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.getHoraAsString()}" /></td>
 										</tr>
 										<tr>
 											<td colspan="4"
-												style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DATOS
+												style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">DATOS
 												DE LA OPERACION</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Tipo de
+											<td style="font-weight: bold; font-size: 11px;">Tipo de
 												operacion</td>
-											<td style="font-weight: bold; font-size: 12px;">Cuenta
+											<td style="font-weight: bold; font-size: 11px;">Cuenta
 												del beneficiario</td>
-											<td style="font-weight: bold; font-size: 12px;">Moneda</td>
-											<td style="font-weight: bold; font-size: 12px;">Importe</td>
+											<td style="font-weight: bold; font-size: 11px;">Moneda</td>
+											<td style="font-weight: bold; font-size: 11px;">Importe</td>
 										</tr>
 										<tr>
-											<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipotransaccion.denominacion}</td>
-											<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.cuentaBeneficiario}</td>
-											<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.denominacion}</td>
-											<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.abreviatura}#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.montoAsString}</td>
+											<td style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipotransaccion.denominacion}</td>
+											<td style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.cuentaBeneficiario}</td>
+											<td style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.denominacion}</td>
+											<td style="font-size: 11px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.abreviatura}#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.montoAsString}</td>
 										</tr>
 										<tr>
-											<td colspan="4" style="font-weight: bold; font-size: 12px;">El
+											<td colspan="4" style="font-weight: bold; font-size: 11px;">El
 												importe en efectivo proviene de:</td>
 										</tr>
 										<tr>
-											<td colspan="4"><h:outputText
+											<td colspan="4" style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.origenImporte}" />
 											</td>
 										</tr>
 										<tr>
-											<td colspan="4" style="font-weight: bold; font-size: 12px;">El
+											<td colspan="4" style="font-weight: bold; font-size: 11px;">El
 												proposito o destino de esta operacion es:</td>
 										</tr>
 										<tr>
-											<td colspan="4"><h:outputText
+											<td colspan="4" style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.propositoImporte}" />
 											</td>
 										</tr>
 										<tr>
 											<td colspan="4"
-												style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">SOLICITANTE
+												style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">SOLICITANTE
 												(QUIEN FISICAMENTE REALIZA LA OPERACION)</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Tipo de
+											<td style="font-weight: bold; font-size: 11px;">Tipo de
 												documento</td>
-											<td style="font-weight: bold; font-size: 12px;">Numero
+											<td style="font-weight: bold; font-size: 11px;">Numero
 												de documento</td>
-											<td style="font-weight: bold; font-size: 12px;">Nacionalidad</td>
+											<td style="font-weight: bold; font-size: 11px;">Nacionalidad</td>
 										</tr>
 										<tr>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.comboTipodocumentoSolicitante.objectItemSelected.abreviatura}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.numerodocumentoSolicitante}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.nacionalidadSolicitante}" />
 											</td>
 										</tr>
 										<tr>
-											<td colspan="3" style="font-weight: bold; font-size: 12px;">Apellidos
+											<td colspan="3" style="font-weight: bold; font-size: 11px;">Apellidos
 												y nombres</td>
 										</tr>
 										<tr>
-											<td colspan="4"><h:outputText
+											<td colspan="4" style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.apellidosnombresSolicitante}" />
 											</td>
 										</tr>
 										<tr>
-											<td colspan="4" style="font-weight: bold; font-size: 12px;">Direccion
+											<td colspan="4" style="font-weight: bold; font-size: 11px;">Direccion
 												(Si se encuentra en transito indicar el lugar donde se
 												aloja)</td>
 										</tr>
 										<tr>
-											<td colspan="4"><h:outputText
+											<td colspan="4" style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.direccionSolicitante}" />
 											</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Region</td>
-											<td style="font-weight: bold; font-size: 12px;">Provincia</td>
-											<td style="font-weight: bold; font-size: 12px;">Distrito</td>
+											<td style="font-weight: bold; font-size: 11px;">Region</td>
+											<td style="font-weight: bold; font-size: 11px;">Provincia</td>
+											<td style="font-weight: bold; font-size: 11px;">Distrito</td>
 										</tr>
 										<tr>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDepartamentosSolicitante.get(transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDepartamentoSelectedSolicitante)}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapProvinciasSolicitante.get(transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idProvinciaSelectedSolicitante)}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDistritoSolicitante.get(transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDistritoSelectedSolicitante)}" />
 											</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Telefono</td>
-											<td style="font-weight: bold; font-size: 12px;">Fecha de
+											<td style="font-weight: bold; font-size: 11px;">Telefono</td>
+											<td style="font-weight: bold; font-size: 11px;">Fecha de
 												nacimiento</td>
-											<td style="font-weight: bold; font-size: 12px;">Ocupacion</td>
+											<td style="font-weight: bold; font-size: 11px;">Ocupacion</td>
 										</tr>
 										<tr>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.telefonoSolicitante}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.fechanacimientoSolicitante}">
 													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" />
 												</h:outputText></td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.ocupacionSolicitante} " />
 											</td>
 										</tr>
 										<tr>
 											<td colspan="4"
-												style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">BENEFICIARIO
+												style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">BENEFICIARIO
 												(A FAVOR DE QUIEN SE REALIZA LA OPERACION)</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Tipo de
+											<td style="font-weight: bold; font-size: 11px;">Tipo de
 												documento</td>
-											<td style="font-weight: bold; font-size: 12px;">Numero
+											<td style="font-weight: bold; font-size: 11px;">Numero
 												de documento</td>
-											<td style="font-weight: bold; font-size: 12px;">Nacionalidad</td>
+											<td style="font-weight: bold; font-size: 11px;">Nacionalidad</td>
 										</tr>
 										<tr>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipodocumentoBeneficiario.abreviatura}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.numerodocumentoBeneficiario}" /></td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.nacionalidadBeneficiario}" />
 											</td>
 										</tr>
 										<tr>
-											<td colspan="4" style="font-weight: bold; font-size: 12px;">Apellidos
+											<td colspan="4" style="font-weight: bold; font-size: 11px;">Apellidos
 												y nombres/Razon social</td>
 										</tr>
 										<tr>
-											<td colspan="4"><h:outputText
+											<td colspan="4" style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.apellidosnombresRazonsocialBeneficiario}" /></td>
 										</tr>
 										<tr>
-											<td colspan="4" style="font-weight: bold; font-size: 12px;">Direccion
+											<td colspan="4" style="font-weight: bold; font-size: 11px;">Direccion
 												(Si se encuentra en transito indicar el lugar donde se
 												aloja)</td>
 										</tr>
 										<tr>
-											<td colspan="3"><h:outputText
+											<td colspan="3" style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.direccionBeneficiario}" />
 											</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Region</td>
-											<td style="font-weight: bold; font-size: 12px;">Provincia</td>
-											<td style="font-weight: bold; font-size: 12px;">Distrito</td>
+											<td style="font-weight: bold; font-size: 11px;">Region</td>
+											<td style="font-weight: bold; font-size: 11px;">Provincia</td>
+											<td style="font-weight: bold; font-size: 11px;">Distrito</td>
 										</tr>
 										<tr>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDepartamentosBeneficiario.get(transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDepartamentoSelectedBeneficiario)}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapProvinciasBeneficiario.get(transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idProvinciaSelectedBeneficiario)}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDistritoBeneficiario.get(transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDistritoSelectedBeneficiario)}" />
 											</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Telefono</td>
-											<td style="font-weight: bold; font-size: 12px;">Fecha de
+											<td style="font-weight: bold; font-size: 11px;">Telefono</td>
+											<td style="font-weight: bold; font-size: 11px;">Fecha de
 												nacim./Constitucion</td>
-											<td style="font-weight: bold; font-size: 12px;">Ocupacion/Actividad
+											<td style="font-weight: bold; font-size: 11px;">Ocupacion/Actividad
 												economica</td>
 										</tr>
 										<tr>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.telefonoBeneficiario}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.fechanacimientoConstitucionBeneficiario}">
 													<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 												</h:outputText></td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.ocupacionActividadEconomicaBeneficiario}" />
 											</td>
 										</tr>
 										<tr>
 											<td colspan="4"
-												style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">ORDENANTE
+												style="font-weight: bold; font-size: 11px; background-color: green; color: white; vertical-align: middle;">ORDENANTE
 												(NOMBRE DE QUIEN ORDENA LA OPERACION)</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Tipo de
+											<td style="font-weight: bold; font-size: 11px;">Tipo de
 												documento</td>
-											<td style="font-weight: bold; font-size: 12px;">Numero
+											<td style="font-weight: bold; font-size: 11px;">Numero
 												de documento</td>
-											<td style="font-weight: bold; font-size: 12px;">Nacionalidad</td>
+											<td style="font-weight: bold; font-size: 11px;">Nacionalidad</td>
 										</tr>
 										<tr>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.comboTipodocumentoOrdenante.objectItemSelected.abreviatura}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.numerodocumentoOrdenante}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.nacionalidadOrdenante}" />
 											</td>
 										</tr>
 										<tr>
-											<td colspan="3" style="font-weight: bold; font-size: 12px;">Apellidos
+											<td colspan="3" style="font-weight: bold; font-size: 11px;">Apellidos
 												y nombres</td>
 										</tr>
 										<tr>
-											<td colspan="3"><h:outputText
+											<td colspan="3" style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.apellidosYnombresOrdenante}" />
 											</td>
 										</tr>
 										<tr>
-											<td colspan="3" style="font-weight: bold; font-size: 12px;">Direccion
+											<td colspan="3" style="font-weight: bold; font-size: 11px;">Direccion
 												(Si se encuentra en transito indicar el lugar donde se
 												aloja)</td>
 										</tr>
 										<tr>
-											<td colspan="3"><h:outputText
+											<td colspan="3" style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.direccionOrdenante}" />
 											</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Region</td>
-											<td style="font-weight: bold; font-size: 12px;">Provincia</td>
-											<td style="font-weight: bold; font-size: 12px;">Distrito</td>
+											<td style="font-weight: bold; font-size: 11px;">Region</td>
+											<td style="font-weight: bold; font-size: 11px;">Provincia</td>
+											<td style="font-weight: bold; font-size: 11px;">Distrito</td>
 										</tr>
 										<tr>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDepartamentosOrdenante.get(transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDepartamentoSelectedOrdenante)}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapProvinciasOrdenante.get(transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idProvinciaSelectedOrdenante)}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.mapDistritoOrdenante.get(transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.idDistritoSelectedOrdenante)}" />
 											</td>
 										</tr>
 										<tr>
-											<td style="font-weight: bold; font-size: 12px;">Telefono</td>
-											<td style="font-weight: bold; font-size: 12px;">Fecha de
+											<td style="font-weight: bold; font-size: 11px;">Telefono</td>
+											<td style="font-weight: bold; font-size: 11px;">Fecha de
 												nacimiento</td>
-											<td style="font-weight: bold; font-size: 12px;">Ocupacion</td>
+											<td style="font-weight: bold; font-size: 11px;">Ocupacion</td>
 										</tr>
 										<tr>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.telefonoOrdenante}" />
 											</td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.fechanacimientoConstitucionOrdenante}">
 													<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
 												</h:outputText></td>
-											<td><h:outputText
+											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.ocupacionActividadEconomicaOrdenante}" />
 											</td>
 										</tr>
 										<tr>
 											<td></td>
-											<td><div
+											<td style="font-size: 11px;"><div
 													class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
 													<h:message for="txtFechaNacimientoOrdenante" />
 												</div></td>
 											<td></td>
 										</tr>
 										<tr>
-											<td>&nbsp;</td>
-										</tr>
-										<tr>
-											<td colspan="3">
+											<td colspan="3" style="font-size: 11px;">
 												<div>
 													<div
-														style="display: inline-block; width: 49%; height: 80px; border: 1px solid #000000;"></div>
+														style="display: inline-block; width: 49%; height: 70px; border: 1px solid #000000;"></div>
 													<div
-														style="display: inline-block; width: 49%; height: 80px; border: 1px solid #000000;"></div>
+														style="display: inline-block; width: 49%; height: 70px; border: 1px solid #000000;"></div>
 												</div>
 												<div>
 													<div style="display: inline-block; width: 49%">
@@ -1684,13 +1681,9 @@
 													</div>
 												</div>
 											</td>
-
 										</tr>
-										<tr>
-											<td>&nbsp;</td>
-										</tr>
-										<tr>
-											<td colspan="4">El suscrito declara que los datos
+										<tr >
+											<td colspan="4" style="font-size: 11px;">El suscrito declara que los datos
 												consiganados son correctos y en señal d conformidad firma</td>
 										</tr>
 									</table>

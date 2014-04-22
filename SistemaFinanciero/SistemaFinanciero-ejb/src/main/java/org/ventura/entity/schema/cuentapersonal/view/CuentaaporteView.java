@@ -85,6 +85,20 @@ public class CuentaaporteView implements Serializable {
 
 	@Column(name = "id_tipomoneda")
 	private Integer idTipomoneda;
+	
+	
+	@Column(name = "direccion_socio")
+	private String direccionTitular;
+	
+	@Column(name = "telefono_socio")
+	private String telefonoTitular;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fechanacimiento_constitucion_socio")
+	private Date fechanacimientoConstitucionTitular;
+	
+	@Column(name = "ocupacion_actividad_socio")
+	private String ocupacionActividadTitular;
 
 	@Column(name = "numero_documento")
 	private String numeroDocumento;
@@ -299,6 +313,39 @@ public class CuentaaporteView implements Serializable {
 
 	public void setApoderado(String apoderado) {
 		this.apoderado = apoderado;
+	}
+
+	public String getDireccionTitular() {
+		return direccionTitular;
+	}
+
+	public void setDireccionTitular(String direccionTitular) {
+		this.direccionTitular = direccionTitular;
+	}
+
+	public String getTelefonoTitular() {
+		return telefonoTitular;
+	}
+
+	public void setTelefonoTitular(String telefonoTitular) {
+		this.telefonoTitular = telefonoTitular;
+	}
+
+	public Date getFechanacimientoConstitucionTitular() {
+		return fechanacimientoConstitucionTitular;
+	}
+
+	public void setFechanacimientoConstitucionTitular(
+			Date fechanacimientoConstitucionTitular) {
+		this.fechanacimientoConstitucionTitular = fechanacimientoConstitucionTitular;
+	}
+
+	public String getOcupacionActividadTitular() {
+		return ocupacionActividadTitular;
+	}
+
+	public void setOcupacionActividadTitular(String ocupacionActividadTitular) {
+		this.ocupacionActividadTitular = ocupacionActividadTitular;
 	}
 
 }

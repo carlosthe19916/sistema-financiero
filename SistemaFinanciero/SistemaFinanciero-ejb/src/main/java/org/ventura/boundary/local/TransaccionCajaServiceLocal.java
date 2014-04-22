@@ -30,7 +30,7 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	
 	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja, Transaccioncompraventa transaccioncompraventa, Usuario usuario) throws Exception;
 	
-	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte, Usuario usuario) throws Exception;
+	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte, Usuario usuario, Transaccionmayorcuantia transasccionmayorcuantia) throws Exception;
 
 	public VouchercajaView getVoucherTransaccionBancaria(Transaccioncuentabancaria transaccioncuentabancaria) throws Exception;
 	
