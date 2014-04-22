@@ -7,7 +7,9 @@ import javax.ejb.Local;
 import org.ventura.boundary.remote.LoginServiceRemote;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.maestro.Ubigeo;
+import org.ventura.entity.schema.maestro.VariableSistema;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.util.maestro.VariableSistemaType;
 
 @Local
 public interface MaestrosServiceLocal extends LoginServiceRemote {
@@ -25,4 +27,7 @@ public interface MaestrosServiceLocal extends LoginServiceRemote {
 	public List<Ubigeo> getProvincias(Ubigeo ubigeo) throws Exception;
 	
 	public List<Ubigeo> getDistritos(Ubigeo ubigeo) throws Exception;
+	
+	public VariableSistema getVariableSistema(VariableSistemaType variableSistemaType) throws Exception;
+	
 }

@@ -4,30 +4,29 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the variable_sistema database table.
  * 
  */
 @Entity
-@Table(name="variable_sistema")
-@NamedQuery(name="VariableSistema.findAll", query="SELECT v FROM VariableSistema v")
+@Table(name = "variable_sistema", schema = "maestro")
+@NamedQuery(name = "VariableSistema.findAll", query = "SELECT v FROM VariableSistema v")
 public class VariableSistema implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private Integer idvariablesistema;
 
-	@Column(nullable=false, length=100)
+	@Column(nullable = false, length = 100)
 	private String denominacion;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String descripcion;
 
 	private Integer idtipomoneda;
 
-	@Column(nullable=false, precision=18, scale=3)
+	@Column(nullable = false, precision = 18, scale = 3)
 	private BigDecimal valor;
 
 	public VariableSistema() {
