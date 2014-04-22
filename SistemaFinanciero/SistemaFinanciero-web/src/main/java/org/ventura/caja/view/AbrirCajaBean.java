@@ -20,6 +20,7 @@ import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.PendienteCaja;
+import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
@@ -27,6 +28,7 @@ import org.ventura.session.CajaBean;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipoTransaccionType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -43,6 +45,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	private boolean dlgVerificarSaldos;
 	
+	//pendiente caja
 	private boolean dlgCrearPendiente;
 	private boolean successPendiente;
 	private BigDecimal montoPendiente;
@@ -55,6 +58,30 @@ public class AbrirCajaBean implements Serializable{
 	
 	private Map<Tipomoneda, BigDecimal> mapDiferenciaSaldos;
 	private Moneda totalCaja;
+	
+	//Resumen operaciones
+	private Date fechaResumenOp;
+	private int totalDepositos;
+	private int totalDepositosAporte;
+	private int totalDepositosAhorro;
+	private int totalDepositosPlazoFijo;
+	private int totalDepositosCorriente;
+	private int totalRetiros;
+	private int totalRetirosAporte;
+	private int totalRetirosAhorro;
+	private int totalRetirosPlazoFijo;
+	private int totalRetirosCorriente;
+	private int totalCompraVenta;
+	private int totalCompra;
+	private int totalVenta;
+	private int totalMayorCuantia;
+	private int totalDepositosMayorCuantia;
+	private int totalRetirosMayorCuantia;
+	private int totalCVMayorCuantia;
+	private int totalTransCajaCaja;
+	private int totalTransCajaBoveda;
+	private int totalSobrantes;
+	private int totalFaltantes;
 	
 	@Inject private CajaBean cajaBean;
 	@Inject private Caja caja;
@@ -102,6 +129,8 @@ public class AbrirCajaBean implements Serializable{
 			for (Tipomoneda t : mapDetalleHistorialcajaCierre.keySet()) {
 				mapDiferenciaSaldos.put(t, BigDecimal.ZERO);
 			}
+			
+			fechaResumenOp = Calendar.getInstance().getTime();
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -133,11 +162,38 @@ public class AbrirCajaBean implements Serializable{
 					this.cajaServiceLocal.closeCaja(caja, mapDetalleHistorialcajaCierre);
 					success = true;
 					setDlgVerificarSaldos(false);
+					resumenOperaciones();
 				} else {
 					failure = true;
 					JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");			
 				}
 			}
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	// metodos de resumen de operaciones
+	public void resumenOperaciones(){
+		depositosAporte();
+		retirosAporte();
+	}
+	
+	public void depositosAporte() {
+		try {
+			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			totalDepositosAporte = cajaServiceLocal.countTransaccionCuentaAporte(caja, deposito);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void retirosAporte() {
+		try {
+			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+			totalRetirosAporte = cajaServiceLocal.countTransaccionCuentaAporte(caja, retiro);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -408,16 +464,10 @@ public class AbrirCajaBean implements Serializable{
 		this.print = print;
 	}
 
-	/**
-	 * @return the pendientecaja
-	 */
 	public PendienteCaja getPendientecaja() {
 		return pendientecaja;
 	}
 
-	/**
-	 * @param pendientecaja the pendientecaja to set
-	 */
 	public void setPendientecaja(PendienteCaja pendientecaja) {
 		this.pendientecaja = pendientecaja;
 	}
@@ -428,5 +478,29 @@ public class AbrirCajaBean implements Serializable{
 
 	public void setLoginBean(LoginBean loginBean) {
 		this.loginBean = loginBean;
+	}
+
+	public Date getFechaResumenOp() {
+		return fechaResumenOp;
+	}
+
+	public void setFechaResumenOp(Date fechaResumenOp) {
+		this.fechaResumenOp = fechaResumenOp;
+	}
+
+	public int getTotalDepositosAporte() {
+		return totalDepositosAporte;
+	}
+
+	public void setTotalDepositosAporte(int totalDepositosAporte) {
+		this.totalDepositosAporte = totalDepositosAporte;
+	}
+
+	public int getTotalDepositos() {
+		return totalDepositos;
+	}
+
+	public void setTotalDepositos(int totalDepositos) {
+		this.totalDepositos = totalDepositos;
 	}
 }

@@ -186,7 +186,7 @@ public class BovedaView implements Serializable {
 	}
 
 	public String getSaldoAsString() {
-		return Moneda.getMonedaFormat(saldo);
+		return saldo == null ? "" : Moneda.getMonedaFormat(saldo);
 	}
 	
 	public void setSaldo(BigDecimal saldo) {

@@ -129,21 +129,20 @@ public abstract class AbstractDAO<T> {
 		return list;
 	}
 
-	public List<T> findByNamedQuery(String namedQueryName,
-			Map<String, Object> parameters) throws RollbackFailureException {
+	public List<T> findByNamedQuery(String queryName, int resultLimit) throws RollbackFailureException, Exception {
 		List<T> list = null;
 		try {
-			list = findByNamedQuery(namedQueryName, parameters, 0);
+			list = getEntityManager().createNamedQuery(queryName).setMaxResults(resultLimit).getResultList();
 		} catch (Exception exception) {
 			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
 		return list;
 	}
-
-	public List<T> findByNamedQuery(String queryName, int resultLimit) throws RollbackFailureException, Exception {
+	
+	public List<T> findByNamedQuery(String namedQueryName, Map<String, Object> parameters) throws RollbackFailureException {
 		List<T> list = null;
 		try {
-			list = getEntityManager().createNamedQuery(queryName).setMaxResults(resultLimit).getResultList();
+			list = findByNamedQuery(namedQueryName, parameters, 0);
 		} catch (Exception exception) {
 			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
@@ -169,9 +168,7 @@ public abstract class AbstractDAO<T> {
 		} catch (Exception exception) {
 			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
-
 		return list;
-
 	}
 
 	public int count() throws RollbackFailureException {
@@ -187,8 +184,23 @@ public abstract class AbstractDAO<T> {
 		} catch (Exception exception) {
 			throw new RollbackFailureException("Entity: " + " rollback", exception);
 		}
-
 		return count;
+	}
+	
+	public List executeQuerry(String namedQueryName, Map<String, Object> parameters) throws RollbackFailureException, Exception{
+		List list = null;
+		try {
+			Set<Entry<String, Object>> rawParameters = parameters.entrySet();
+			Query query = getEntityManager().createNamedQuery(namedQueryName);
+			
+			for (Entry<String, Object> entry : rawParameters) {
+				query.setParameter(entry.getKey(), entry.getValue());
+			}
+			list = query.getResultList();
+		} catch (Exception exception) {
+			throw new RollbackFailureException("Entity: " + " rollback", exception);
+		}
+		return list;
 	}
 	
 	public int executeQuerry(String namedQueryName, Object parameters) throws RollbackFailureException, Exception{
@@ -214,20 +226,4 @@ public abstract class AbstractDAO<T> {
 		}
 		return object;
 	}	
-	
-	public List executeQuerry(String namedQueryName, Map<String, Object> parameters) throws RollbackFailureException, Exception{
-		List list = null;
-		try {
-			Set<Entry<String, Object>> rawParameters = parameters.entrySet();
-			Query query = getEntityManager().createNamedQuery(namedQueryName);
-			
-			for (Entry<String, Object> entry : rawParameters) {
-				query.setParameter(entry.getKey(), entry.getValue());
-			}
-			list = query.getResultList();
-		} catch (Exception exception) {
-			throw new RollbackFailureException("Entity: " + " rollback", exception);
-		}
-		return list;
-	}
 }

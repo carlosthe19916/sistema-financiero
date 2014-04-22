@@ -893,6 +893,28 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw new Exception("Caja cerrada, no se pueden Congelar/Descongelar caja");
 		}
 	}
+	
+	@Override
+	public int countTransaccionCuentaAporte(Caja caja, Tipotransaccion tipoTransaccion) throws Exception{
+		int countTransaccionCuentaAporte;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		List<Transaccioncuentaaporte> list;
+		
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcaja", caja.getIdcaja());
+			parameters.put("idtipotransaccion", tipoTransaccion.getIdtipotransaccion());
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			list = transaccioncuentaaporteDAO.findByNamedQuery(Transaccioncuentaaporte.f_count_aportes, parameters);
+			countTransaccionCuentaAporte = list.size();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return countTransaccionCuentaAporte;
+	}
 
 	public Moneda getTotalCajaSoles() {
 		return totalCajaSoles;

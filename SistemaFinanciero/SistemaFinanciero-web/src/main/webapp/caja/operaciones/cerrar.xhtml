@@ -405,17 +405,200 @@
 			<h:panelGroup rendered="#{abrirCajaBean.success}">
 				<h:form>
 					<div class="modal-dialog-bg"
-						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+						style="opacity: 0.4; width: 1366px; height: 2000px;"></div>
 					<div class="modal-dialog p6n-popup"
-						style="left: 452px; top: 150px;">
-						<div class="modal-dialog-title modal-dialog-title-draggable">
-							<span class="modal-dialog-title-text">Caja Cerrada
-								Satisfactoriamente</span><span class="modal-dialog-title-close"></span>
+						style="left: 450px; top: 5px;">
+						<div class="modal-dialog-content ng-binding" style="color: green;">
+							<div>Caja Cerrada Satisfactoriamente...</div>
 						</div>
-						<div class="modal-dialog-content ng-binding">
-							<div>La caja se cerro correctamente...</div>
-						</div>
+						<p:separator></p:separator>
+						<h:panelGroup id="resumenOperaciones">
+							<table
+								style="width: 220px; border: solid 0px #E9E6E6; margin-bottom: 0px;">
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="text-align: center; font-weight: bold; font-size: 12px; vertical-align: middle">
+										<p:graphicImage name="logo_coop_voucher.png"
+											library="images/logo_coop" />
+									</td>
+									<td colspan="3"
+										style="text-align: left; font-weight: bold; font-size: 9px; vertical-align: middle; font-family: Century Gothic;">
+										<h:outputText value="C.A.C." /> <br /> <h:outputText
+											style="font-size: 16px;" value="CAJA VENTURA" />
+									</td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="4"
+										style="text-align: center; font-weight: bold; font-size: 11px; font-family: Century Gothic;">RESUMEN DE OPERACIONES</td>
+								</tr>
+								<tr>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic; font-weight: bold;">CAJA:</td>
+									<td colspan="3"
+										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.caja.abreviatura}  -  #{abrirCajaBean.agencia.abreviatura}</td>
+								</tr>
+								<tr>
+									<td colspan="1" style="font-weight: bold; font-size: 10px;">USUARIO:</td>
+									<td colspan="3"
+										style="font-size: 11px; font-family: Century Gothic;"><h:outputText
+											value="#{usuarioMB.usuario.username}" /></td>
+								</tr>
+								<tr>
+									<td colspan="1" style="font-weight: bold; font-size: 10px;">FECHA:</td>
+									<td colspan="3"
+										style="font-size: 10px; font-family: Century Gothic;"><h:outputText
+											value="#{abrirCajaBean.fechaResumenOp}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+												timeZone="EST" />
+										</h:outputText></td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="2"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">DEPOSITOS (TOTAL):</td>
+									<td colspan="2"
+										style="font-size: 10px; font-family: Century Gothic;">5000</td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Aporte:</td>
+										<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalDepositosAporte}</td>
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Ahorro:</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">1500</td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Plazo Fijo:</td>
+										<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">2000</td>
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Corriente:</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">1500</td>
+								</tr>
+								
+								<tr style="vertical-align: center;">
+									<td colspan="2"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">RETIROS (TOTAL):</td>
+									<td colspan="2"
+										style="font-size: 10px; font-family: Century Gothic;">5000</td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Aporte:</td>
+										<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">2000</td>
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Ahorro:</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">1500</td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Plazo Fijo:</td>
+										<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">2000</td>
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Corriente:</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">1500</td>
+								</tr>
+								
+								<tr style="vertical-align: center;">
+									<td colspan="2"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">COMP/VENT (TOTAL):</td>
+									<td colspan="2"
+										style="font-size: 10px; font-family: Century Gothic;">5000</td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">COMPRA:</td>
+										<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">2000</td>
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">VENTA:</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">1500</td>
+								</tr>
+				
+								<tr style="vertical-align: center;">
+									<td colspan="2"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">MAY CUANTÍA(TOTAL):</td>
+									<td colspan="2"
+										style="font-size: 10px; font-family: Century Gothic;">50000</td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Depositos:</td>
+										<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">2000</td>
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Retiros:</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">1500</td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Compra/Venta:</td>
+										<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">20000</td>
+								</tr>
+								
+								<tr style="vertical-align: center;">
+									<td colspan="3"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">TRANS. CAJA - CAJA (TOTAL):</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">50000</td>
+								</tr>
+								
+								<tr style="vertical-align: center;">
+									<td colspan="3"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">TRANS. CAJA - BOVEDA (TOTAL):</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">50000</td>
+								</tr>
+								
+								<tr>
+									<td colspan="4" style="font-size: 5px">&nbsp;</td>
+								</tr>
+								
+								<tr style="vertical-align: center;">
+									<td colspan="4"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">CIERRE CAJA (PENDIENTES)</td>
+								</tr>
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Sobrantes:</td>
+										<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">2000</td>
+									<td colspan="1"
+										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Faltantes:</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">1500</td>
+								</tr>
+
+								<tr>
+									<td colspan="4" style="font-size: 10px">&nbsp;</td>
+								</tr>
+								
+								<tr>
+									<td colspan="2" style="text-align: center;">................</td>
+									<td colspan="2" style="text-align: center;">................</td>
+								</tr>
+								<tr>
+									<td colspan="2"
+										style="text-align: center; font-weight: bold; font-size: 10px;">JEFE CAJA</td>
+									<td colspan="2"
+										style="text-align: center; font-weight: bold; font-size: 10px;">CAJERO</td>
+								</tr>
+							</table>
+						</h:panelGroup>
 						<div class="modal-dialog-buttons">
+							<h:commandButton value="Imprimir" id="print" icon="ui-icon-print" styleClass="action green"> 
+								<p:printer target="resumenOperaciones" />
+							</h:commandButton>
 							<h:commandButton value="Salir"
 								action="/caja/index?faces-redirect=true" immediate="true"
 								styleClass="action" />

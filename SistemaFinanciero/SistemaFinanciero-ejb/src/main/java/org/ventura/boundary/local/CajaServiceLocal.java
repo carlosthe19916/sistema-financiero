@@ -14,6 +14,7 @@ import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.PendienteCaja;
+import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
 import org.ventura.entity.schema.caja.view.CajaTransaccionesBovedaView;
@@ -92,4 +93,7 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	public List<PendientesView> getPendientesCaja(Agencia agencia) throws Exception;
 	
 	public PendientesView finPendienteCaja(Object id) throws Exception;
+	
+	/*Resumen Operaciones*/
+	public int countTransaccionCuentaAporte(Caja caja, Tipotransaccion tipoTransaccion) throws Exception;
 }

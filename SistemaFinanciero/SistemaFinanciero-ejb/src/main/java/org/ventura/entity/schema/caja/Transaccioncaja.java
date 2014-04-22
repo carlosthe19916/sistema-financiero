@@ -1,8 +1,6 @@
 package org.ventura.entity.schema.caja;
 
 import java.io.Serializable;
-import java.math.BigInteger;
-
 import javax.persistence.*;
 
 import org.ventura.entity.schema.seguridad.Usuario;
