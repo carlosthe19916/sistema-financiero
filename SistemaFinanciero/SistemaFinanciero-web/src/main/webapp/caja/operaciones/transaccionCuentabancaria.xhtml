@@ -566,7 +566,7 @@
 							<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipotransaccion.denominacion}</td>
 							<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.cuentaBeneficiario}</td>
 							<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.denominacion}</td>
-							<td style="font-size: 12px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.abreviatura}#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.montoAsString}</td>
+							<td style="font-size: 12px; min-width: 80px;">#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.tipomoneda.abreviatura}#{transaccionCuentabancariaCajaBean.operacionMayorCuantiaBean.montoAsString}</td>
 						</tr>
 						<tr>
 							<td colspan="4" style="font-weight: bold; font-size: 12px;">El
@@ -1357,7 +1357,7 @@
 						<br />
 					</div>
 
-					<h:panelGroup rendered="isOperacionMayorCuantia">
+					<h:panelGroup rendered="#{transaccionCuentabancariaCajaBean.operacionMayorCuantia}">
 						<div style="text-align: center;">
 							<div style="margin-left: 125px;">
 								<h:panelGroup id="panelTransaccionMayorCuantia">
