@@ -34,14 +34,18 @@
 				</h:panelGroup>
 				<!-- end transaccion Compra Venta -->
 
-				<!-- Voucher Compra Venta -->
-				<ui:include src="/caja/operaciones/voucherCompraVenta.xhtml">
-					<ui:param name="managedBean"
-						value="#{transaccionCompraVentaCajaBean}" />
-					<ui:param name="componentName" value="voucherCompraVenta" />
-				</ui:include>
-				<!-- end Voucher Compra Venta -->
-
+				<div
+					style="text-align: center; border-bottom: solid 1px; margin-bottom: 10px;">
+					<div style="display: inline-block; width: 400px;">
+						<!-- Voucher Compra Venta -->
+						<ui:include src="/caja/operaciones/voucherCompraVenta.xhtml">
+							<ui:param name="managedBean"
+								value="#{transaccionCompraVentaCajaBean}" />
+							<ui:param name="componentName" value="voucherCompraVenta" />
+						</ui:include>
+						<!-- end Voucher Compra Venta -->
+					</div>
+				</div>
 
 				<h:panelGroup id="mayorCuantia"
 					rendered="#{transaccionCompraVentaCajaBean.operacionMayorCuantia and transaccionCompraVentaCajaBean.success == false }">
@@ -642,7 +646,7 @@
 
 				<h:form>
 					<h:panelGroup
-						rendered="#{transaccionCompraVentaCajaBean.operacionMayorCuantia}">
+						rendered="#{transaccionCompraVentaCajaBean.operacionMayorCuantia and transaccionCompraVentaCajaBean.success == true}">
 						<div style="text-align: center;">
 							<div style="margin-left: 125px;">
 								<h:panelGroup id="panelTransaccionMayorCuantia">

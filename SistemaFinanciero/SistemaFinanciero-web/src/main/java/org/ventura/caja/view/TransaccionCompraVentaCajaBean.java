@@ -305,7 +305,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 								this.operacionMayorCuantiaBean.setMonto(montoTransaccion.getValue());																															
 							} else {
 								try {
-									transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta, usuarioMB.getUsuario());
+									transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta, usuarioMB.getUsuario(),this.operacionMayorCuantiaBean.getTransaccionmayorcuantiaObject() );
 									ViewvouchercompraventaView vouchercompraventaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionCompraVentaMoneda(transaccionCompraVenta);
 									setVoucherCompraVenta(vouchercompraventaView);
 									success = true;

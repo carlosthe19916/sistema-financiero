@@ -144,7 +144,7 @@ public class OperacionMayorCuantiaBean implements Serializable {
 
 	public Transaccionmayorcuantia getTransaccionmayorcuantiaObject(){
 		//datos generales
-		if(transaccionmayorcuantia.getFechaTransaccion() != null){
+		if(getMonto() != null){
 			transaccionmayorcuantia.setFechaTransaccion(fecha);
 			transaccionmayorcuantia.setTipotransaccion(tipotransaccion);;
 			transaccionmayorcuantia.setNumerocuenta(cuentaBeneficiario);

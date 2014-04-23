@@ -569,7 +569,7 @@
 							<td style="font-weight: bold; font-size: 12px;">Importe</td>
 						</tr>
 						<tr>
-							<td style="font-size: 12px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipotransaccion.denominacion}</td>
+							<td style="font-size: 12px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipotransaccion}</td>
 							<td style="font-size: 12px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.cuentaBeneficiario}</td>
 							<td style="font-size: 12px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipomoneda.denominacion}</td>
 							<td style="font-size: 12px; min-width: 80px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipomoneda.abreviatura}#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.montoAsString}</td>
@@ -782,7 +782,7 @@
 						</tr>
 						<tr>
 							<td><h:outputText
-									value="#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipodocumentoBeneficiario.abreviatura}" />
+									value="#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.comboTipodocumentoBeneficiario.objectItemSelected.abreviatura}" />
 							</td>
 							<td><h:outputText
 									value="#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.numerodocumentoBeneficiario}" /></td>
@@ -1275,7 +1275,7 @@
 											<td style="font-weight: bold; font-size: 11px;">Importe</td>
 										</tr>
 										<tr>
-											<td style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipotransaccion.denominacion}</td>
+											<td style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipotransaccion}</td>
 											<td style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.cuentaBeneficiario}</td>
 											<td style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipomoneda.denominacion}</td>
 											<td style="font-size: 11px;">#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipomoneda.abreviatura}#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.montoAsString}</td>
@@ -1388,7 +1388,7 @@
 										</tr>
 										<tr>
 											<td style="font-size: 11px;"><h:outputText
-													value="#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.tipodocumentoBeneficiario.abreviatura}" />
+													value="#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.comboTipodocumentoBeneficiario.objectItemSelected.abreviatura}" />
 											</td>
 											<td style="font-size: 11px;"><h:outputText
 													value="#{transaccionCuentaaporteCajaBean.operacionMayorCuantiaBean.numerodocumentoBeneficiario}" /></td>
