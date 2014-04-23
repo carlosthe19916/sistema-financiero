@@ -476,6 +476,7 @@
 													value="#{transaccionCajaCajaBean.comboTipomoneda.items.entrySet()}"
 													var="val" itemLabel="#{val.value.denominacion}"
 													itemValue="#{val.key}" />
+												<f:ajax render="txtAbreviaturaMoneda"></f:ajax>
 											</h:selectOneMenu>
 										</div>
 									</div>
@@ -487,6 +488,7 @@
 										<div class="p6n-api-consent-screen-label">MONTO</div>
 										<div>
 											<div>
+												<h:outputText style="vertical-align: -webkit-baseline-middle; font-size: 15px; font-weight: bold;" id="txtAbreviaturaMoneda" value="#{transaccionCajaCajaBean.comboTipomoneda.objectItemSelected.abreviatura}" />
 												<h:inputText id="txtMonto"
 													value="#{transaccionCajaCajaBean.monto}" required="true"
 													requiredMessage="Ingrese monto" pt:placeholder="Monto"
@@ -503,7 +505,7 @@
 								</div>
 							</div>
 							<div class="modal-dialog-buttons">
-								<h:commandButton value="Guardar"
+								<h:commandButton value="Aceptar"
 									action="#{transaccionCajaCajaBean.createTransaccion()}"
 									styleClass="action green" onclick="onSubmitButton();">
 								</h:commandButton>

@@ -965,6 +965,99 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 		return countTransaccionCompraVenta;
 	}
+	
+	@Override
+	public int countMayorCuantiaAportes(Caja caja, Tipotransaccion tipoTransaccion, Moneda monto) throws Exception{
+		int countMayorCuantiaAportes;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		List<Transaccioncuentaaporte> list;
+		
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcaja", caja.getIdcaja());
+			parameters.put("idtipotransaccion", tipoTransaccion.getIdtipotransaccion());
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			parameters.put("monto", monto);
+			list = transaccioncuentaaporteDAO.findByNamedQuery(Transaccioncuentaaporte.f_count_mayor_cuantia_aportes, parameters);
+			countMayorCuantiaAportes = list.size();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return countMayorCuantiaAportes;
+	}
+	
+	@Override
+	public int countMayorCuantiaCBancaria(Caja caja, Tipotransaccion tipoTransaccion, Moneda monto) throws Exception{
+		int countMayorCuantiaCBancaria;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		List<Transaccioncuentabancaria> list;
+		
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcaja", caja.getIdcaja());
+			parameters.put("idtipotransaccion", tipoTransaccion.getIdtipotransaccion());
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			parameters.put("monto", monto);
+			list = transaccioncuentabancariaDAO.findByNamedQuery(Transaccioncuentabancaria.f_count_mayor_cuantia_cuenta_bancaria, parameters);
+			countMayorCuantiaCBancaria = list.size();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return countMayorCuantiaCBancaria;
+	}
+	
+	@Override
+	public int countMayorCuantiaCompra(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto) throws Exception {
+		int countMayorCuantiaCompra;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		List<Transaccioncompraventa> list;
+
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcaja", caja.getIdcaja());
+			parameters.put("idtipotransaccioncompraventa", tipotransaccioncompraventa.getIdtipotransaccioncompraventa());
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			parameters.put("monto", monto);
+			list = transaccioncompraventaDAO.findByNamedQuery(Transaccioncompraventa.f_count_mayor_cuantia_compra, parameters);
+			countMayorCuantiaCompra = list.size();
+
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return countMayorCuantiaCompra;
+	}
+	
+	@Override
+	public int countMayorCuantiaVenta(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto) throws Exception{
+		int countMayorCuantiaVenta;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		List<Transaccioncompraventa> list;
+		
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcaja", caja.getIdcaja());
+			parameters.put("idtipotransaccioncompraventa", tipotransaccioncompraventa.getIdtipotransaccioncompraventa());
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			parameters.put("monto", monto);
+			list = transaccioncompraventaDAO.findByNamedQuery(Transaccioncompraventa.f_count_mayor_cuantia_venta, parameters);
+			countMayorCuantiaVenta = list.size();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return countMayorCuantiaVenta;
+	}
 
 	public Moneda getTotalCajaSoles() {
 		return totalCajaSoles;

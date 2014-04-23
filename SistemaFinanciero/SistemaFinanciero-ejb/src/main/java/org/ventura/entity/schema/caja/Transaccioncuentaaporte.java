@@ -21,7 +21,8 @@ import java.util.Date;
 @NamedQueries({
 		@NamedQuery(name = Transaccioncuentaaporte.f_idtransaccioncaja, query = "SELECT t FROM Transaccioncuentaaporte t INNER JOIN t.transaccioncaja tc WHERE tc.idtransaccioncaja = :idtransaccioncaja"),
 		@NamedQuery(name = Transaccioncuentaaporte.f_get_begindate_idcuentaaporte, query = "SELECT t FROM Transaccioncuentaaporte t INNER JOIN t.cuentaaporte ca INNER JOIN t.transaccioncaja tc WHERE ca.idcuentaaporte = :idcuentaaporte AND tc.hora > :begindate"),
-		@NamedQuery(name = Transaccioncuentaaporte.f_count_aportes, query = "SELECT tcap FROM Transaccioncuentaaporte tcap INNER JOIN tcap.transaccioncaja tc INNER JOIN tc.historialcaja hc INNER JOIN hc.caja c WHERE c.idcaja = :idcaja AND tcap.tipotransaccion.idtipotransaccion = :idtipotransaccion AND hc.idcreacion = :idcreacion")})
+		@NamedQuery(name = Transaccioncuentaaporte.f_count_aportes, query = "SELECT tcap FROM Transaccioncuentaaporte tcap INNER JOIN tcap.transaccioncaja tc INNER JOIN tc.historialcaja hc INNER JOIN hc.caja c WHERE c.idcaja = :idcaja AND tcap.tipotransaccion.idtipotransaccion = :idtipotransaccion AND hc.idcreacion = :idcreacion"),
+		@NamedQuery(name = Transaccioncuentaaporte.f_count_mayor_cuantia_aportes, query = "SELECT tcap FROM Transaccioncuentaaporte tcap INNER JOIN tcap.transaccioncaja tc INNER JOIN tc.historialcaja hc INNER JOIN hc.caja c WHERE c.idcaja = :idcaja AND tcap.tipotransaccion.idtipotransaccion = :idtipotransaccion AND hc.idcreacion = :idcreacion AND (tcap.monto) >= :monto")})
 public class Transaccioncuentaaporte implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +30,7 @@ public class Transaccioncuentaaporte implements Serializable {
 	public final static String f_idtransaccioncaja = "org.ventura.entity.schema.caja.Transaccioncuentaaporte.f_idtransaccioncaja";
 	public final static String f_get_begindate_idcuentaaporte = "org.ventura.entity.schema.caja.Transaccioncuentaaporte.f_get_begindate_idcuentaaporte";
 	public final static String f_count_aportes = "org.ventura.entity.schema.caja.Transaccioncuentaaporte.f_count_aportes";
+	public final static String f_count_mayor_cuantia_aportes = "org.ventura.entity.schema.caja.Transaccioncuentaaporte.f_count_mayor_cuantia_aportes";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
