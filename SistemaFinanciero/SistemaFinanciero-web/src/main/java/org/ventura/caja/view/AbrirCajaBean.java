@@ -20,7 +20,9 @@ import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
 import org.ventura.entity.schema.caja.Historialcaja;
 import org.ventura.entity.schema.caja.PendienteCaja;
+import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Tipotransaccion;
+import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.sucursal.Agencia;
 import org.ventura.session.AgenciaBean;
@@ -28,7 +30,9 @@ import org.ventura.session.CajaBean;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.EstadoAperturaType;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipoTransaccionCompraVentaType;
 import org.ventura.util.maestro.TipoTransaccionType;
+import org.ventura.util.maestro.TipocuentabancariaType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -176,10 +180,26 @@ public class AbrirCajaBean implements Serializable{
 	
 	// metodos de resumen de operaciones
 	public void resumenOperaciones(){
+		//operaciones en depositos y retiros en aportes y cuenta bancaria
 		depositosAporte();
+		depositosCuentaAhorro();
+		depositosCuentaPlazoFijo();
+		depositosCuentaCorriente();
 		retirosAporte();
+		retirosCuentaAhorro();
+		retirosCuentaPlazoFijo();
+		retirosCuentaCorriente();
+		//totales
+		calcularTotalDepositos();
+		calcularTotalRetiros();
+		
+		//operaciones en compra venta
+		transaccionesCompra();
+		transaccionesVenta();
+		calcularTotalTransaccionesCompraVenta();
 	}
 	
+	//operaciones de deposito y retiro de aportes y cuenta bancaria
 	public void depositosAporte() {
 		try {
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
@@ -188,6 +208,43 @@ public class AbrirCajaBean implements Serializable{
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
+	}
+	
+	public void depositosCuentaAhorro() {
+		try {
+			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			Tipocuentabancaria ahorro = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_AHORRO);
+			totalDepositosAhorro = cajaServiceLocal.countTransaccionCuentaBancaria(caja, ahorro, deposito);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void depositosCuentaPlazoFijo() {
+		try {
+			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			Tipocuentabancaria plazoFijo = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
+			totalDepositosPlazoFijo = cajaServiceLocal.countTransaccionCuentaBancaria(caja, plazoFijo, deposito);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void depositosCuentaCorriente() {
+		try {
+			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			Tipocuentabancaria cuentaCorriente = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_CORRIENTE);
+			totalDepositosCorriente = cajaServiceLocal.countTransaccionCuentaBancaria(caja, cuentaCorriente, deposito);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void calcularTotalDepositos(){
+		totalDepositos = totalDepositosAporte + totalDepositosAhorro + totalDepositosPlazoFijo + totalDepositosCorriente;
 	}
 	
 	public void retirosAporte() {
@@ -199,6 +256,70 @@ public class AbrirCajaBean implements Serializable{
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
+	
+	public void retirosCuentaAhorro() {
+		try {
+			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+			Tipocuentabancaria ahorro = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_AHORRO);
+			totalRetirosAhorro = cajaServiceLocal.countTransaccionCuentaBancaria(caja, ahorro, retiro);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void retirosCuentaPlazoFijo() {
+		try {
+			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+			Tipocuentabancaria plazoFijo = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_PLAZO_FIJO);
+			totalRetirosPlazoFijo = cajaServiceLocal.countTransaccionCuentaBancaria(caja, plazoFijo, retiro);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void retirosCuentaCorriente() {
+		try {
+			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+			Tipocuentabancaria cuentaCorriente = ProduceObject.getTipocuentabancaria(TipocuentabancariaType.CUENTA_CORRIENTE);
+			totalRetirosCorriente = cajaServiceLocal.countTransaccionCuentaBancaria(caja, cuentaCorriente, retiro);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void calcularTotalRetiros(){
+		totalRetiros = totalRetirosAporte + totalRetirosAhorro + totalRetirosPlazoFijo + totalRetirosCorriente;
+	}
+	
+	
+	//operaciones de compra venta
+	public void transaccionesCompra() {
+		try {
+			Tipotransaccioncompraventa compra = ProduceObject.getTipotransaccioncompraventa(TipoTransaccionCompraVentaType.COMPRA);
+			totalCompra = cajaServiceLocal.countTransaccionCompraVenta(caja, compra);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void transaccionesVenta() {
+		try {
+			Tipotransaccioncompraventa venta = ProduceObject.getTipotransaccioncompraventa(TipoTransaccionCompraVentaType.VENTA);
+			totalVenta = cajaServiceLocal.countTransaccionCompraVenta(caja, venta);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void calcularTotalTransaccionesCompraVenta(){
+		totalCompraVenta = totalCompra + totalVenta;
+	}
+	
 	
 	public String getTotal(Tipomoneda key){
 		List<Detallehistorialcaja> list = retornarDetalle(key);
@@ -502,5 +623,157 @@ public class AbrirCajaBean implements Serializable{
 
 	public void setTotalDepositos(int totalDepositos) {
 		this.totalDepositos = totalDepositos;
+	}
+
+	public int getTotalRetirosAporte() {
+		return totalRetirosAporte;
+	}
+
+	public void setTotalRetirosAporte(int totalRetirosAporte) {
+		this.totalRetirosAporte = totalRetirosAporte;
+	}
+
+	public int getTotalDepositosAhorro() {
+		return totalDepositosAhorro;
+	}
+
+	public void setTotalDepositosAhorro(int totalDepositosAhorro) {
+		this.totalDepositosAhorro = totalDepositosAhorro;
+	}
+
+	public int getTotalDepositosPlazoFijo() {
+		return totalDepositosPlazoFijo;
+	}
+
+	public void setTotalDepositosPlazoFijo(int totalDepositosPlazoFijo) {
+		this.totalDepositosPlazoFijo = totalDepositosPlazoFijo;
+	}
+
+	public int getTotalDepositosCorriente() {
+		return totalDepositosCorriente;
+	}
+
+	public void setTotalDepositosCorriente(int totalDepositosCorriente) {
+		this.totalDepositosCorriente = totalDepositosCorriente;
+	}
+
+	public int getTotalRetiros() {
+		return totalRetiros;
+	}
+
+	public void setTotalRetiros(int totalRetiros) {
+		this.totalRetiros = totalRetiros;
+	}
+
+	public int getTotalRetirosAhorro() {
+		return totalRetirosAhorro;
+	}
+
+	public void setTotalRetirosAhorro(int totalRetirosAhorro) {
+		this.totalRetirosAhorro = totalRetirosAhorro;
+	}
+
+	public int getTotalRetirosPlazoFijo() {
+		return totalRetirosPlazoFijo;
+	}
+
+	public void setTotalRetirosPlazoFijo(int totalRetirosPlazoFijo) {
+		this.totalRetirosPlazoFijo = totalRetirosPlazoFijo;
+	}
+
+	public int getTotalRetirosCorriente() {
+		return totalRetirosCorriente;
+	}
+
+	public void setTotalRetirosCorriente(int totalRetirosCorriente) {
+		this.totalRetirosCorriente = totalRetirosCorriente;
+	}
+
+	public int getTotalCompraVenta() {
+		return totalCompraVenta;
+	}
+
+	public void setTotalCompraVenta(int totalCompraVenta) {
+		this.totalCompraVenta = totalCompraVenta;
+	}
+
+	public int getTotalCompra() {
+		return totalCompra;
+	}
+
+	public void setTotalCompra(int totalCompra) {
+		this.totalCompra = totalCompra;
+	}
+
+	public int getTotalVenta() {
+		return totalVenta;
+	}
+
+	public void setTotalVenta(int totalVenta) {
+		this.totalVenta = totalVenta;
+	}
+
+	public int getTotalMayorCuantia() {
+		return totalMayorCuantia;
+	}
+
+	public void setTotalMayorCuantia(int totalMayorCuantia) {
+		this.totalMayorCuantia = totalMayorCuantia;
+	}
+
+	public int getTotalDepositosMayorCuantia() {
+		return totalDepositosMayorCuantia;
+	}
+
+	public void setTotalDepositosMayorCuantia(int totalDepositosMayorCuantia) {
+		this.totalDepositosMayorCuantia = totalDepositosMayorCuantia;
+	}
+
+	public int getTotalRetirosMayorCuantia() {
+		return totalRetirosMayorCuantia;
+	}
+
+	public void setTotalRetirosMayorCuantia(int totalRetirosMayorCuantia) {
+		this.totalRetirosMayorCuantia = totalRetirosMayorCuantia;
+	}
+
+	public int getTotalCVMayorCuantia() {
+		return totalCVMayorCuantia;
+	}
+
+	public void setTotalCVMayorCuantia(int totalCVMayorCuantia) {
+		this.totalCVMayorCuantia = totalCVMayorCuantia;
+	}
+
+	public int getTotalTransCajaCaja() {
+		return totalTransCajaCaja;
+	}
+
+	public void setTotalTransCajaCaja(int totalTransCajaCaja) {
+		this.totalTransCajaCaja = totalTransCajaCaja;
+	}
+
+	public int getTotalTransCajaBoveda() {
+		return totalTransCajaBoveda;
+	}
+
+	public void setTotalTransCajaBoveda(int totalTransCajaBoveda) {
+		this.totalTransCajaBoveda = totalTransCajaBoveda;
+	}
+
+	public int getTotalSobrantes() {
+		return totalSobrantes;
+	}
+
+	public void setTotalSobrantes(int totalSobrantes) {
+		this.totalSobrantes = totalSobrantes;
+	}
+
+	public int getTotalFaltantes() {
+		return totalFaltantes;
+	}
+
+	public void setTotalFaltantes(int totalFaltantes) {
+		this.totalFaltantes = totalFaltantes;
 	}
 }

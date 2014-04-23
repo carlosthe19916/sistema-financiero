@@ -15,12 +15,14 @@ import org.ventura.tipodato.TasaCambio;
 @Entity
 @Table(name = "transaccioncompraventa", schema = "caja")
 @NamedQuery(name = "Transaccioncompraventa.findAll", query = "SELECT t FROM Transaccioncompraventa t")
-@NamedQueries({ @NamedQuery(name = Transaccioncompraventa.f_idtransaccioncaja, query = "SELECT t FROM Transaccioncompraventa t INNER JOIN t.transaccioncaja tc WHERE tc.idtransaccioncaja = :idtransaccioncaja") })
+@NamedQueries({ @NamedQuery(name = Transaccioncompraventa.f_idtransaccioncaja, query = "SELECT t FROM Transaccioncompraventa t INNER JOIN t.transaccioncaja tc WHERE tc.idtransaccioncaja = :idtransaccioncaja"),
+@NamedQuery(name = Transaccioncompraventa.f_count_compraventa, query = "SELECT tcv FROM Transaccioncompraventa tcv INNER JOIN tcv.transaccioncaja tc INNER JOIN tc.historialcaja hc INNER JOIN hc.caja c WHERE c.idcaja = :idcaja AND tcv.tipotransaccioncompraventa.idtipotransaccioncompraventa = :idtipotransaccioncompraventa AND hc.idcreacion = :idcreacion")})
 public class Transaccioncompraventa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String f_idtransaccioncaja = "org.ventura.entity.schema.caja.Transaccioncompraventa.f_idtransaccioncaja";
+	public final static String f_count_compraventa = "org.ventura.entity.schema.caja.Transaccioncompraventa.f_count_compraventa";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

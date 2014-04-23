@@ -25,22 +25,21 @@
 
 			<h:outputStylesheet library="css" name="main.css" />
 		<h:form id="formTransaccion">
-			<h:panelGroup
-				rendered="#{!estadoCuentaBean.isValidBean()}">
-				<div class="p6n-api-access-in-page-error" style="left: 416px;">
-					<div>
+				<h:panelGroup rendered="#{!estadoCuentaBean.isValidBean()}">
+					<div class="p6n-api-access-in-page-error" style="left: 416px;">
 						<div>
-							<p>
-								<h:messages />
-							</p>
+							<div>
+								<p>
+									<h:messages />
+								</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="modal-dialog-bg"
-					style="opacity: 0.4; width: 1366px; height: 902px;"></div>
-			</h:panelGroup>
-			
-			<h:panelGroup rendered="#{estadoCuentaBean.failure}">
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 902px;"></div>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{estadoCuentaBean.failure}">
 				<div class="p6n-api-access-in-page-error" style="left: 516px;">
 					<div>
 						<div>
