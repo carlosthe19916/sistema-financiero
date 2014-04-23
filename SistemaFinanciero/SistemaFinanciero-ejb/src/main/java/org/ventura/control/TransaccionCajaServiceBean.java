@@ -275,7 +275,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja,Transaccioncompraventa transaccioncompraventa, Usuario usuario) throws Exception {
+	public Transaccioncompraventa createTransaccionCompraVenta(Caja caja,Transaccioncompraventa transaccioncompraventa, Usuario usuario, Transaccionmayorcuantia transasccionmayorcuantia) throws Exception {
 		try {
 			boolean extornar = false;
 			Transaccioncaja transaccioncaja = new Transaccioncaja();
@@ -288,6 +288,10 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncompraventa.setTransaccioncaja(transaccioncaja);
 			transaccioncompraventaDAO.create(transaccioncompraventa);
 
+			//creando la transaccion de mayor cuantia en caso de existir
+			if(transasccionmayorcuantia != null)
+				transasccionmayorcuantiaDAO.create(transasccionmayorcuantia);
+			
 			//actualizando saldo de caja TipomonedaType tipomonedaRecibido
 			actualizarMontoEntregadoCaja(caja, transaccioncompraventa, extornar); 
 			actualizarMontoRecibidoCaja(caja, transaccioncompraventa, extornar);
