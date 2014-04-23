@@ -174,8 +174,9 @@ public class TrabajadorCRUDAdminBean implements Serializable {
 				trabajador.setEstado(true);
 				trabajador.setPersonanatural(personanatural);
 				
-				Personanatural personaNat = buscarPersonanatural(trabajador.getPersonanatural().getTipodocumento(), trabajador.getPersonanatural().getNumerodocumento());
-				if (personaNat == null) {
+				Trabajador trab = trabajadorServiceLocal.findByPersonanatural(trabajador.getPersonanatural().getTipodocumento(), trabajador.getPersonanatural().getNumerodocumento());
+				
+				if (trab == null) {
 					trabajadorServiceLocal.create(trabajador);
 					succes = true;
 				}else {
