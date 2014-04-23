@@ -30,7 +30,8 @@ import org.ventura.tipodato.Moneda;
 @NamedQueries({
 		@NamedQuery(name = Transaccioncuentabancaria.f_idtransaccioncaja, query = "SELECT t FROM Transaccioncuentabancaria t INNER JOIN t.transaccioncaja tc WHERE tc.idtransaccioncaja = :idtransaccioncaja"),
 		@NamedQuery(name = Transaccioncuentabancaria.f_get_begindate_idcuentaaporte, query = "SELECT t FROM Transaccioncuentabancaria t INNER JOIN t.cuentabancaria cb INNER JOIN t.transaccioncaja tc WHERE cb.idcuentabancaria = :idcuentabancaria AND tc.hora > :begindate"),
-		@NamedQuery(name = Transaccioncuentabancaria.f_count_cuentabancaria, query = "SELECT tcb FROM Transaccioncuentabancaria tcb INNER JOIN tcb.cuentabancaria cb INNER JOIN tcb.transaccioncaja tc INNER JOIN tc.historialcaja hc INNER JOIN hc.caja c WHERE c.idcaja = :idcaja AND cb.tipocuentabancaria.idtipocuentabancaria = :idtipocuentabancaria AND tcb.tipotransaccion.idtipotransaccion = :idtipotransaccion AND hc.idcreacion = :idcreacion")})
+		@NamedQuery(name = Transaccioncuentabancaria.f_count_cuentabancaria, query = "SELECT tcb FROM Transaccioncuentabancaria tcb INNER JOIN tcb.cuentabancaria cb INNER JOIN tcb.transaccioncaja tc INNER JOIN tc.historialcaja hc INNER JOIN hc.caja c WHERE c.idcaja = :idcaja AND cb.tipocuentabancaria.idtipocuentabancaria = :idtipocuentabancaria AND tcb.tipotransaccion.idtipotransaccion = :idtipotransaccion AND hc.idcreacion = :idcreacion"),
+		@NamedQuery(name = Transaccioncuentabancaria.f_count_mayor_cuantia_cuenta_bancaria, query = "SELECT tcb FROM Transaccioncuentabancaria tcb INNER JOIN tcb.transaccioncaja tc INNER JOIN tc.historialcaja hc INNER JOIN hc.caja c WHERE c.idcaja = :idcaja AND tcb.tipotransaccion.idtipotransaccion = :idtipotransaccion AND hc.idcreacion = :idcreacion AND (tcb.monto) >= :monto")})
 public class Transaccioncuentabancaria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -38,6 +39,7 @@ public class Transaccioncuentabancaria implements Serializable {
 	public final static String f_idtransaccioncaja = "org.ventura.entity.schema.caja.Transaccioncuentabancaria.f_idtransaccioncaja";
 	public final static String f_get_begindate_idcuentaaporte = "org.ventura.entity.schema.caja.Transaccioncuentabancaria.f_get_begindate_idcuentaaporte";
 	public final static String f_count_cuentabancaria = "org.ventura.entity.schema.caja.Transaccioncuentabancaria.f_count_cuentabancaria";
+	public final static String f_count_mayor_cuantia_cuenta_bancaria = "org.ventura.entity.schema.caja.Transaccioncuentabancaria.f_count_mayor_cuantia_cuenta_bancaria";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
