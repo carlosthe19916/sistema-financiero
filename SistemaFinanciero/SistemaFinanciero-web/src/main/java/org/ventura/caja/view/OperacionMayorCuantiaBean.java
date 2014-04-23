@@ -20,7 +20,6 @@ import javax.inject.Named;
 import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.dependent.ComboBean;
-import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Transaccionmayorcuantia;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.maestro.Ubigeo;
@@ -43,7 +42,7 @@ public class OperacionMayorCuantiaBean implements Serializable {
 	// datos de la operacion
 	private Date fecha;
 	
-	private Tipotransaccion tipotransaccion;
+	private String tipotransaccion;
 	private String cuentaBeneficiario;
 	private Tipomoneda tipomoneda;
 	private BigDecimal monto;
@@ -69,7 +68,7 @@ public class OperacionMayorCuantiaBean implements Serializable {
 	private String ocupacionSolicitante;
 
 	//beneficiario
-	private Tipodocumento tipodocumentoBeneficiario;
+	private @Inject ComboBean<Tipodocumento> comboTipodocumentoBeneficiario;
 	private String numerodocumentoBeneficiario;
 	private String nacionalidadBeneficiario;
 	private String apellidosnombresRazonsocialBeneficiario;
@@ -127,6 +126,7 @@ public class OperacionMayorCuantiaBean implements Serializable {
 	public void initialize() throws Exception {
 		List<Tipodocumento> listTipodocumento = maestrosServiceLocal.getTipodocumentoForPersonaNatural();
 		comboTipodocumentoSolicitante.setItems(listTipodocumento);
+		comboTipodocumentoBeneficiario.setItems(new ArrayList<>(listTipodocumento));
 		comboTipodocumentoOrdenante.setItems(new ArrayList<>(listTipodocumento));
 		
 		Map<String, String> mapDepartamentosNoOrdenados = new HashMap<String, String>();
@@ -146,7 +146,7 @@ public class OperacionMayorCuantiaBean implements Serializable {
 		//datos generales
 		if(transaccionmayorcuantia.getFechaTransaccion() != null){
 			transaccionmayorcuantia.setFechaTransaccion(fecha);
-			transaccionmayorcuantia.setIdtipotransaccion(tipotransaccion.getIdtipotransaccion());
+			transaccionmayorcuantia.setTipotransaccion(tipotransaccion);;
 			transaccionmayorcuantia.setNumerocuenta(cuentaBeneficiario);
 			transaccionmayorcuantia.setIdtipomoneda(tipomoneda.getIdtipomoneda());
 			transaccionmayorcuantia.setImporte(monto);
@@ -163,7 +163,7 @@ public class OperacionMayorCuantiaBean implements Serializable {
 			transaccionmayorcuantia.setFechaNacimientoSolicitante(fechanacimientoSolicitante);
 			transaccionmayorcuantia.setOcupacionSolicitante(ocupacionSolicitante);
 			//datos beneficiario	
-			transaccionmayorcuantia.setIdtipodocumentoBeneficiario(tipodocumentoBeneficiario.getIdtipodocumento());
+			transaccionmayorcuantia.setIdtipodocumentoBeneficiario(comboTipodocumentoBeneficiario.getObjectItemSelected().getIdtipodocumento());
 			transaccionmayorcuantia.setNumerodocumentoBeneficiario(numerodocumentoBeneficiario);;
 			transaccionmayorcuantia.setNacionalidadBeneficiario(nacionalidadBeneficiario);
 			transaccionmayorcuantia.setApellidosnombresRazonsocialBeneficiario(apellidosnombresRazonsocialBeneficiario);
@@ -362,6 +362,34 @@ public class OperacionMayorCuantiaBean implements Serializable {
 		}
 	}
 	
+	public void buscarPersonanaturalBeneficiario(){
+		try {
+			Tipodocumento tipodocumento = comboTipodocumentoBeneficiario.getObjectItemSelected();
+			String numeroDocumento = numerodocumentoBeneficiario;
+			Personanatural personaNatural = buscarPersonanatural(tipodocumento, numeroDocumento);
+			
+			if(personaNatural != null){
+				
+				this.comboTipodocumentoBeneficiario.setItemSelected(personaNatural.getTipodocumento());
+				this.numerodocumentoBeneficiario = personaNatural.getNumerodocumento();
+				this.apellidosnombresRazonsocialBeneficiario = personaNatural.getApellidopaterno() + " " +  personaNatural.getApellidomaterno() + "," + personaNatural.getNombres();				
+				this.fechanacimientoConstitucionBeneficiario = personaNatural.getFechanacimiento();				
+				this.ocupacionActividadEconomicaBeneficiario = personaNatural.getOcupacion();
+				this.direccionBeneficiario = personaNatural.getDireccion();
+				this.telefonoBeneficiario = personaNatural.getTelefono();				
+				
+			} else {
+				this.apellidosnombresRazonsocialBeneficiario = "";				
+				this.fechanacimientoConstitucionBeneficiario = null;				
+				this.ocupacionActividadEconomicaBeneficiario = "";
+				this.direccionBeneficiario = "";
+				this.telefonoBeneficiario = "";	
+			}
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, e.getMessage());
+		}
+	}
+	
 	public void buscarPersonanaturalOrdenanate(){
 		try {
 			Tipodocumento tipodocumento = comboTipodocumentoOrdenante.getObjectItemSelected();
@@ -416,14 +444,6 @@ public class OperacionMayorCuantiaBean implements Serializable {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
-	}
-
-	public Tipotransaccion getTipotransaccion() {
-		return tipotransaccion;
-	}
-
-	public void setTipotransaccion(Tipotransaccion tipotransaccion) {
-		this.tipotransaccion = tipotransaccion;
 	}
 
 	public String getCuentaBeneficiario() {
@@ -525,15 +545,6 @@ public class OperacionMayorCuantiaBean implements Serializable {
 
 	public void setOcupacionSolicitante(String ocupacionSolicitante) {
 		this.ocupacionSolicitante = ocupacionSolicitante;
-	}
-
-	public Tipodocumento getTipodocumentoBeneficiario() {
-		return tipodocumentoBeneficiario;
-	}
-
-	public void setTipodocumentoBeneficiario(
-			Tipodocumento tipodocumentoBeneficiario) {
-		this.tipodocumentoBeneficiario = tipodocumentoBeneficiario;
 	}
 
 	public String getNumerodocumentoBeneficiario() {
@@ -851,6 +862,23 @@ public class OperacionMayorCuantiaBean implements Serializable {
 	public void setComboTipodocumentoOrdenante(
 			ComboBean<Tipodocumento> comboTipodocumentoOrdenante) {
 		this.comboTipodocumentoOrdenante = comboTipodocumentoOrdenante;
+	}
+
+	public void setTipotransaccion(String tipotransaccion) {
+		this.tipotransaccion = tipotransaccion;
+	}
+
+	public String getTipotransaccion() {
+		return tipotransaccion;
+	}
+
+	public ComboBean<Tipodocumento> getComboTipodocumentoBeneficiario() {
+		return comboTipodocumentoBeneficiario;
+	}
+
+	public void setComboTipodocumentoBeneficiario(
+			ComboBean<Tipodocumento> comboTipodocumentoBeneficiario) {
+		this.comboTipodocumentoBeneficiario = comboTipodocumentoBeneficiario;
 	}
 
 }

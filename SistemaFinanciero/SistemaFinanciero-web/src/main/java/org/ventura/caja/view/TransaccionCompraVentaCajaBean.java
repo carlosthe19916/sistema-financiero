@@ -1,6 +1,7 @@
 package org.ventura.caja.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +16,14 @@ import javax.inject.Named;
 
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
+import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TipocambioServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Estadoapertura;
@@ -44,6 +47,7 @@ import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.ProduceObjectTipocambio;
 import org.ventura.util.maestro.TipoCambioCompraVentaType;
 import org.ventura.util.maestro.TipodocumentoType;
+import org.ventura.util.maestro.VariableSistemaType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -110,9 +114,21 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 	@Inject
 	private UsuarioMB usuarioMB;
 	
+	
+	private boolean isOperacionMayorCuantia;
+	@Inject private OperacionMayorCuantiaBean operacionMayorCuantiaBean;
+	
+	private boolean success;
+	
+	@EJB MaestrosServiceLocal maestrosServiceLocal;
+	
 	public TransaccionCompraVentaCajaBean(){
 		isValidBean = true;
 		setValidateSaldoTotalCaja(true);
+		
+		isOperacionMayorCuantia = false;
+		
+		success = false;
 	}
 	
 	@PostConstruct
@@ -227,14 +243,82 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 					if (validateSaldoCaja(caja, transaccionCompraVenta)) {
 						try {
-							transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta, usuarioMB.getUsuario());
-							ViewvouchercompraventaView vouchercompraventaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionCompraVentaMoneda(transaccionCompraVenta);
-							setVoucherCompraVenta(vouchercompraventaView);
+							
+							//validando los montos maximos de transaccion
+							BigDecimal montoMaximoTransaccion = null;
+							Moneda montoTransaccion = null;
+							
+							if(isCompra()){		
+								montoTransaccion = montoRecibido;
+								TipomonedaType tipomonedaType = ProduceObject.getTipomoneda(tipomonedaRecibido) ;
+								try {
+									switch (tipomonedaType) {
+									case NUEVO_SOL:
+										montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_NUEVO_SOL).getValor();
+										break;
+									case DOLAR:
+										montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_DOLAR).getValor();
+										break;
+									case EURO:
+										montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_EURO).getValor();
+										break;
+									default:
+										break;
+									}
+								} catch (Exception e) {
+									JsfUtil.addErrorMessage(e.getMessage());
+									return null;
+								}
+							}
+							if(isVenta()){	
+								montoTransaccion = montoEntregado;
+								TipomonedaType tipomonedaType = ProduceObject.getTipomoneda(tipomonedaEntregado) ;
+								try {
+									switch (tipomonedaType) {
+									case NUEVO_SOL:
+										montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_NUEVO_SOL).getValor();
+										break;
+									case DOLAR:
+										montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_DOLAR).getValor();
+										break;
+									case EURO:
+										montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_EURO).getValor();
+										break;
+									default:
+										break;
+									}
+								} catch (Exception e) {
+									JsfUtil.addErrorMessage(e.getMessage());
+									return null;
+								}
+							}
+														
+							if(montoTransaccion.isGreaterThanOrEqual(new Moneda(montoMaximoTransaccion)) && isOperacionMayorCuantia == false){
+								isOperacionMayorCuantia = true;
+								
+																
+								Tipomoneda moneda = isCompra() ? tipomonedaRecibido : tipomonedaEntregado;
+								this.operacionMayorCuantiaBean.setTipotransaccion("COMPRA/VENTA");
+								//this.operacionMayorCuantiaBean.setTipotransaccion(tipotransaccion);
+								this.operacionMayorCuantiaBean.setCuentaBeneficiario("*****************************");
+								this.operacionMayorCuantiaBean.setTipomoneda(moneda);
+								this.operacionMayorCuantiaBean.setMonto(montoTransaccion.getValue());																															
+							} else {
+								try {
+									transaccionCompraVenta = transaccionCompraVentaServiceLocal.createTransaccionCompraVenta(cajaBean.getCaja(),transaccionCompraVenta, usuarioMB.getUsuario());
+									ViewvouchercompraventaView vouchercompraventaView = transaccionCompraVentaServiceLocal.getVoucherTransaccionCompraVentaMoneda(transaccionCompraVenta);
+									setVoucherCompraVenta(vouchercompraventaView);
+									success = true;
+									pageVoucher = true;
+									return null;
+								} catch (Exception e) {
+									JsfUtil.addErrorMessage(e.getMessage());
+									return null;
+								}
+							}																
 						} catch (Exception e) {
 							
-						}
-						pageVoucher = true;
-						return null;
+						}						
 					}else {
 						JsfUtil.addErrorMessage("La caja no tiene suficiente dinero para realizar la transacción");
 						return null;
@@ -247,6 +331,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 			JsfUtil.addErrorMessage("La caja no tiene permitido realizar transacciones");
 			return null;
 		}
+		return null;
 	}
 
 	public boolean validateSaldoCaja(Caja caja, Transaccioncompraventa transaccioncompraventa) {
@@ -588,5 +673,30 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 
 	public void setLoginsuccess(boolean loginsuccess) {
 		this.loginsuccess = loginsuccess;
+	}
+
+	public boolean isOperacionMayorCuantia() {
+		return isOperacionMayorCuantia;
+	}
+
+	public void setOperacionMayorCuantia(boolean isOperacionMayorCuantia) {
+		this.isOperacionMayorCuantia = isOperacionMayorCuantia;
+	}
+
+	public OperacionMayorCuantiaBean getOperacionMayorCuantiaBean() {
+		return operacionMayorCuantiaBean;
+	}
+
+	public void setOperacionMayorCuantiaBean(
+			OperacionMayorCuantiaBean operacionMayorCuantiaBean) {
+		this.operacionMayorCuantiaBean = operacionMayorCuantiaBean;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 }

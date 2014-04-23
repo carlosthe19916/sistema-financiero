@@ -67,7 +67,7 @@ public class Transaccionmayorcuantia implements Serializable {
 	private Integer idtipomoneda;
 
 	@Column(nullable = false)
-	private Integer idtipotransaccion;
+	private String tipotransaccion;
 
 	@Column(nullable = false, precision = 18, scale = 2)
 	private BigDecimal importe;
@@ -247,14 +247,6 @@ public class Transaccionmayorcuantia implements Serializable {
 		this.idtipomoneda = idtipomoneda;
 	}
 
-	public Integer getIdtipotransaccion() {
-		return this.idtipotransaccion;
-	}
-
-	public void setIdtipotransaccion(Integer idtipotransaccion) {
-		this.idtipotransaccion = idtipotransaccion;
-	}
-
 	public BigDecimal getImporte() {
 		return this.importe;
 	}
@@ -416,6 +408,14 @@ public class Transaccionmayorcuantia implements Serializable {
 
 	public void setFechaTransaccion(Date fechaTransaccion) {
 		this.fechaTransaccion = fechaTransaccion;
+	}
+
+	public String getTipotransaccion() {
+		return tipotransaccion;
+	}
+
+	public void setTipotransaccion(String tipotransaccion) {
+		this.tipotransaccion = tipotransaccion;
 	}
 
 }

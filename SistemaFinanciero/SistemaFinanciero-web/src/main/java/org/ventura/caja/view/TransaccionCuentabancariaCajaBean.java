@@ -199,7 +199,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 								Tipomoneda moneda = comboTipomoneda.getObjectItemSelected();
 								BigDecimal importe = monto.getValue();
 								
-								this.operacionMayorCuantiaBean.setTipotransaccion(tipotransaccion);
+								this.operacionMayorCuantiaBean.setTipotransaccion(tipotransaccion.getDenominacion());
 								this.operacionMayorCuantiaBean.setCuentaBeneficiario(numeroCuenta);
 								this.operacionMayorCuantiaBean.setTipomoneda(moneda);
 								this.operacionMayorCuantiaBean.setMonto(importe);
@@ -209,7 +209,7 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 								tipodocumentoBeneficiario.setIdtipodocumento(cuentabancariaView.getIdTipodocumento());
 								tipodocumentoBeneficiario.setDenominacion(cuentabancariaView.getDenominacionTipodocumento());
 								tipodocumentoBeneficiario.setAbreviatura(cuentabancariaView.getAbreviaturaTipodocumento());
-								this.operacionMayorCuantiaBean.setTipodocumentoBeneficiario(tipodocumentoBeneficiario);
+								this.operacionMayorCuantiaBean.getComboTipodocumentoBeneficiario().setItemSelected(tipodocumentoBeneficiario);
 								this.operacionMayorCuantiaBean.setNumerodocumentoBeneficiario(cuentabancariaView.getNumeroDocumento());
 								this.operacionMayorCuantiaBean.setApellidosnombresRazonsocialBeneficiario(cuentabancariaView.getSocio());
 								this.operacionMayorCuantiaBean.setDireccionBeneficiario(cuentabancariaView.getDireccionSocio());
