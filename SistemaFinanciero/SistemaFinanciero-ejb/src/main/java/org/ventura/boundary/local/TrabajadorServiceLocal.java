@@ -23,4 +23,6 @@ public interface TrabajadorServiceLocal extends TrabajadorServiceRemote{
 	public List<Trabajador> find(Agencia agencia, Tipodocumento tipodocumento,String valorBusqueda) throws Exception;
 	
 	public Trabajador find(Object id) throws Exception;
+	
+	public Trabajador findByPersonanatural(Tipodocumento tipodocumento, String numerodocumento) throws Exception;
 }

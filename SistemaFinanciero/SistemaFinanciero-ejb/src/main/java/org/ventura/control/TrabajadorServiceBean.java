@@ -157,5 +157,32 @@ public class TrabajadorServiceBean implements TrabajadorServiceLocal {
 		return trabajador;
 	}
 
+	@Override
+	public Trabajador findByPersonanatural(Tipodocumento tipodocumento,
+			String numerodocumento) throws Exception {
+		Trabajador trabajador = null;
+		try{
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idtipodocumento", tipodocumento.getIdtipodocumento());
+			parameters.put("numerodocumento", numerodocumento);
+			List<Trabajador> list = trabajadorDAO.findByNamedQuery(Trabajador.f_tipodocumento_numerodocumento, parameters);
+			if(list.size() == 1){
+				trabajador = list.get(0);
+			} else {
+				if(list.size() == 0){
+					trabajador = null;
+				} else {
+					throw new Exception("Existen 2 o mas resultados para la consulta");	
+				}
+			}
+		} catch(Exception e){
+			log.error(e.getMessage());
+			log.error("Cause:" + e.getCause());
+			log.error("Class:" + e.getClass());
+			throw e;
+		}
+		return trabajador;
+	}
+
 	
 }
