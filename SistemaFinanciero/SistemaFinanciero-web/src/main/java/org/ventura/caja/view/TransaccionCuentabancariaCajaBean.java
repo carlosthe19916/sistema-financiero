@@ -21,10 +21,12 @@ import javax.inject.Named;
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentabancariaServiceLocal;
 import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
+import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
 import org.ventura.dependent.TablaBean;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Denominacionmoneda;
 import org.ventura.entity.schema.caja.Estadoapertura;
@@ -47,6 +49,7 @@ import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipoTransaccionType;
 import org.ventura.util.maestro.TipocuentabancariaType;
 import org.ventura.util.maestro.TipodocumentoType;
+import org.ventura.util.maestro.VariableSistemaType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -106,7 +109,9 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 	private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB
 	private CajaServiceLocal cajaServiceLocal;
-
+	@EJB
+	private MaestrosServiceLocal maestrosServiceLocal;
+	
 	public TransaccionCuentabancariaCajaBean() {
 		isCuentabancariaValid = true;
 		success = false;
@@ -164,8 +169,29 @@ public class TransaccionCuentabancariaCajaBean implements Serializable {
 					if(!tipocuentabancaria.equals(cuentabancaria.getTipocuentabancaria())){
 						if(monto.getValue().compareTo(BigDecimal.ZERO) > 0){
 							
+							BigDecimal montoMaximoTransaccion = null;
+							TipomonedaType tipomonedaType = ProduceObject.getTipomoneda(comboTipomoneda.getObjectItemSelected()) ;
+							try {
+								switch (tipomonedaType) {
+								case NUEVO_SOL:
+									montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_NUEVO_SOL).getValor();
+									break;
+								case DOLAR:
+									montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_DOLAR).getValor();
+									break;
+								case EURO:
+									montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_EURO).getValor();
+									break;
+								default:
+									break;
+								}
+							} catch (Exception e) {
+								JsfUtil.addErrorMessage(e.getMessage());
+								failure = true;
+							}
+							
 							//validar si la operacion es de mayor cuantia
-							if(monto.isGreaterThan(new Moneda("15000")) && isOperacionMayorCuantia == false){
+							if(monto.isGreaterThanOrEqual(new Moneda(montoMaximoTransaccion)) && isOperacionMayorCuantia == false){
 								isOperacionMayorCuantia = true;
 								
 								Tipotransaccion tipotransaccion = comboTipotransaccion.getObjectItemSelected();

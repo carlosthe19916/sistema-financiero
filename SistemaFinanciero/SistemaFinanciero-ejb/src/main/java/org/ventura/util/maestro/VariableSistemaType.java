@@ -1,0 +1,15 @@
+package org.ventura.util.maestro;
+
+public enum VariableSistemaType {
+
+	MONTO_APORTE_MENOR_EDAD,
+	
+	MONTO_APORTE_MAYOR_EDAD,
+	
+	MONTO_MAXIMO_TRANSACCION_NUEVO_SOL,
+	
+	MONTO_MAXIMO_TRANSACCION_DOLAR,
+	
+	MONTO_MAXIMO_TRANSACCION_EURO
+
+}

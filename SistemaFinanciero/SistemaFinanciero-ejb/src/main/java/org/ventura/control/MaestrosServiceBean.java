@@ -1,11 +1,7 @@
 package org.ventura.control;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,10 +18,15 @@ import org.ventura.boundary.remote.MaestrosServiceRemote;
 import org.ventura.dao.CrudService;
 import org.ventura.dao.impl.TipomonedaDAO;
 import org.ventura.dao.impl.UbigeoDAO;
+import org.ventura.dao.impl.VariableSistemaDAO;
 import org.ventura.entity.schema.maestro.Tipomoneda;
 import org.ventura.entity.schema.maestro.Ubigeo;
+import org.ventura.entity.schema.maestro.VariableSistema;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.util.logger.Log;
+import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.ProduceObjectVariableSistema;
+import org.ventura.util.maestro.VariableSistemaType;
 
 @Stateless
 @Local(MaestrosServiceLocal.class)
@@ -42,6 +43,8 @@ public class MaestrosServiceBean implements MaestrosServiceLocal {
 	private CrudService crudService;
 	@EJB
 	private UbigeoDAO ubigeoDAO;
+	@EJB
+	private VariableSistemaDAO variableSistemaDAO;
 	
 	@Override
 	public List<Tipodocumento> getTipodocumentoForPersonaNatural() throws Exception {
@@ -105,7 +108,6 @@ public class MaestrosServiceBean implements MaestrosServiceLocal {
 				mapDepartamentos.put(idDepartamento, ubigeo);
 			}	
 			list = new ArrayList<Ubigeo>(mapDepartamentos.values());
-			
 		} catch (Exception e) {
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
@@ -151,5 +153,12 @@ public class MaestrosServiceBean implements MaestrosServiceLocal {
 			throw e;
 		}
 		return list;
+	}
+
+	@Override
+	public VariableSistema getVariableSistema(VariableSistemaType variableSistemaType) throws Exception {
+		VariableSistema variableSistema = ProduceObjectVariableSistema.getVariableSistema(variableSistemaType);
+		variableSistema = variableSistemaDAO.find(variableSistema.getIdvariablesistema());
+		return variableSistema;
 	}
 }

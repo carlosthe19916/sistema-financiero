@@ -10,8 +10,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -20,6 +18,7 @@ import javax.inject.Named;
 import org.ventura.boundary.local.CajaServiceLocal;
 import org.ventura.boundary.local.CuentaaporteServiceLocal;
 import org.ventura.boundary.local.DenominacionmonedaServiceLocal;
+import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.boundary.local.TransaccionCajaServiceLocal;
 import org.ventura.dependent.CalculadoraBean;
 import org.ventura.dependent.ComboBean;
@@ -46,6 +45,7 @@ import org.ventura.util.maestro.EstadoMovimientoType;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipoTransaccionType;
 import org.ventura.util.maestro.TipodocumentoType;
+import org.ventura.util.maestro.VariableSistemaType;
 import org.venturabank.util.DateUtil;
 import org.venturabank.util.JsfUtil;
 
@@ -62,10 +62,11 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	@Inject private Estadomovimiento estadomovimientoCaja;
 	@Inject private Estadoapertura estadoaperturaCaja;
 	
-	private boolean isValidBean;
-	private boolean isCuentabancariaValid;
 	private boolean success;
 	private boolean failure;
+	
+	private boolean isOperacionMayorCuantia;
+	@Inject private OperacionMayorCuantiaBean operacionMayorCuantiaBean;
 	
 	// busqueda de cuentabancaria
 	private boolean dlgBusquedaCuentaOpen;
@@ -96,13 +97,14 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	@EJB private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
 	@EJB private CuentaaporteServiceLocal cuentaaporteServiceLocal;
 	@EJB private CajaServiceLocal cajaServiceLocal;
+	@EJB private MaestrosServiceLocal maestrosServiceLocal;
 	
 	public TransaccionCuentaaporteCajaBean() {
-		isValidBean = true;
-		isCuentabancariaValid = true;
 		success = false;
 		failure = false;
-		dlgBusquedaCuentaOpen = false;		
+		dlgBusquedaCuentaOpen = false;	
+		
+		isOperacionMayorCuantia = false;
 	}
 
 	@PostConstruct
@@ -139,14 +141,13 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 			comboTipodocumento.setItemSelected(tipodocumento);
 			monto = new Moneda("10.00");
 		} catch (Exception e) {
-			isValidBean = false;
+			failure = false;
 			JsfUtil.addErrorMessage(e.getMessage());
 		}
 	}
 
 	public void createTransaccioncaja() {
 		if (success == false) {
-			if (isCuentabancariaValid == true) {
 				Tipotransaccion tipotransaccion = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 				if(tipotransaccion.equals(comboTipotransaccion.getObjectItemSelected())){
 					Tipomoneda tipomoneda = new Tipomoneda();
@@ -154,36 +155,90 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 					this.tipomoneda = comboTipomoneda.getObjectItemSelected();
 					if (this.tipomoneda.equals(tipomoneda)) {
 						if(monto.isGreaterThan(new Moneda(BigDecimal.ZERO))){
-							AportesCuentaaporteView aportesCuentaaporteViewSelected;
-							Object object = tablaAportes.getSelectedRow();
-							if (object instanceof AportesCuentaaporteView) {
+							
+							if(monto.getValue().compareTo(BigDecimal.ZERO) > 0){
+								
+								//validar si la operacion es de mayor cuantia								
+								BigDecimal montoMaximoTransaccion = null;
+								TipomonedaType tipomonedaType = ProduceObject.getTipomoneda(comboTipomoneda.getObjectItemSelected()) ;
 								try {
-									aportesCuentaaporteViewSelected = (AportesCuentaaporteView) object;
-			
-									Transaccioncuentaaporte transaccioncuentaaporte = new Transaccioncuentaaporte();
-			
-									Cuentaaporte cuentaaporte = new Cuentaaporte();
-									cuentaaporte.setNumerocuentaaporte(numeroCuentabancaria);
-			
-									transaccioncuentaaporte.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
-									transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
-									transaccioncuentaaporte.setMonto(monto);
-									transaccioncuentaaporte.setReferencia(referencia);
-									transaccioncuentaaporte.setTipomoneda(tipomoneda);
-									transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getId().getMes());
-					
-									transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja,transaccioncuentaaporte, usuarioMB.getUsuario());
-									
-									this.transaccioncuentaaporte = transaccioncuentaaporte;
-									success = true;
-									cargarVoucher();
+									switch (tipomonedaType) {
+									case NUEVO_SOL:
+										montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_NUEVO_SOL).getValor();
+										break;
+									case DOLAR:
+										montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_DOLAR).getValor();
+										break;
+									case EURO:
+										montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_EURO).getValor();
+										break;
+									default:
+										break;
+									}
 								} catch (Exception e) {
 									JsfUtil.addErrorMessage(e.getMessage());
-								}	
-							} else {
-								failure = true;
-								JsfUtil.addErrorMessage("No se selecciono el mes de pago");
-							}
+									failure = true;
+								}
+								
+								if(monto.isGreaterThan(new Moneda(montoMaximoTransaccion)) && isOperacionMayorCuantia == false){
+									isOperacionMayorCuantia = true;
+									
+									Tipotransaccion tipotransa = comboTipotransaccion.getObjectItemSelected();
+									String numeroCuenta = numeroCuentabancaria;
+									Tipomoneda moneda = comboTipomoneda.getObjectItemSelected();
+									BigDecimal importe = monto.getValue();
+									
+									this.operacionMayorCuantiaBean.setTipotransaccion(tipotransa);
+									this.operacionMayorCuantiaBean.setCuentaBeneficiario(numeroCuenta);
+									this.operacionMayorCuantiaBean.setTipomoneda(moneda);
+									this.operacionMayorCuantiaBean.setMonto(importe);
+									
+									//beneficiario
+									Tipodocumento tipodocumentoBeneficiario = new Tipodocumento();
+									tipodocumentoBeneficiario.setIdtipodocumento(cuentaaporteViewSelected.getIdTipodocumento());
+									tipodocumentoBeneficiario.setDenominacion(cuentaaporteViewSelected.getDenominacionTipodocumento());
+									tipodocumentoBeneficiario.setAbreviatura(cuentaaporteViewSelected.getAbreviaturaTipodocumento());
+									this.operacionMayorCuantiaBean.setTipodocumentoBeneficiario(tipodocumentoBeneficiario);
+									this.operacionMayorCuantiaBean.setNumerodocumentoBeneficiario(cuentaaporteViewSelected.getNumeroDocumento());
+									this.operacionMayorCuantiaBean.setApellidosnombresRazonsocialBeneficiario(cuentaaporteViewSelected.getTitular());
+									this.operacionMayorCuantiaBean.setDireccionBeneficiario(cuentaaporteViewSelected.getDireccionTitular());
+									this.operacionMayorCuantiaBean.setTelefonoBeneficiario(cuentaaporteViewSelected.getTelefonoTitular());
+									this.operacionMayorCuantiaBean.setFechanacimientoConstitucionBeneficiario(cuentaaporteViewSelected.getFechanacimientoConstitucionTitular());
+									this.operacionMayorCuantiaBean.setOcupacionActividadEconomicaBeneficiario(cuentaaporteViewSelected.getOcupacionActividadTitular());
+								} else {
+									AportesCuentaaporteView aportesCuentaaporteViewSelected;
+									Object object = tablaAportes.getSelectedRow();
+									if (object instanceof AportesCuentaaporteView) {
+										try {
+											aportesCuentaaporteViewSelected = (AportesCuentaaporteView) object;
+					
+											Transaccioncuentaaporte transaccioncuentaaporte = new Transaccioncuentaaporte();
+					
+											Cuentaaporte cuentaaporte = new Cuentaaporte();
+											cuentaaporte.setNumerocuentaaporte(numeroCuentabancaria);
+					
+											transaccioncuentaaporte.setTipotransaccion(comboTipotransaccion.getObjectItemSelected());
+											transaccioncuentaaporte.setCuentaaporte(cuentaaporte);
+											transaccioncuentaaporte.setMonto(monto);
+											transaccioncuentaaporte.setReferencia(referencia);
+											transaccioncuentaaporte.setTipomoneda(tipomoneda);
+											transaccioncuentaaporte.setMesafecta(aportesCuentaaporteViewSelected.getId().getMes());
+							
+											transaccioncuentaaporte = transaccionCajaServiceLocal.createTransaccionCuentaaporte(caja,transaccioncuentaaporte, usuarioMB.getUsuario(), this.operacionMayorCuantiaBean.getTransaccionmayorcuantiaObject());
+											
+											this.transaccioncuentaaporte = transaccioncuentaaporte;
+											success = true;
+											cargarVoucher();
+										} catch (Exception e) {
+											failure = true;
+											JsfUtil.addErrorMessage(e.getMessage());
+										}	
+									} else {
+										failure = true;
+										JsfUtil.addErrorMessage("No se selecciono el mes de pago");
+									}
+								}
+							}	
 						} else {
 							failure = true;
 							JsfUtil.addErrorMessage("El monto:" + monto + " no es un monto válido");
@@ -196,10 +251,6 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 					failure = true;
 					JsfUtil.addErrorMessage("No se permiten RETIROS de una cuenta de aportes. Debe de cancelar la cuenta para realizar la operación");
 				}		
-			} else {
-				failure = true;
-				JsfUtil.addErrorMessage("La cuenta de aoprtes no es valida");
-			}
 		} else {
 			cargarVoucher();
 		}
@@ -227,30 +278,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 			tablaCuentaaporte.setRows(cuentaaporteViews);
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
-			e.printStackTrace();
-		}
-	}
-
-	public void findCuentabancariaByNumerocuenta() {
-		CuentaaporteView cuentaaporteView;
-		try {
-			cuentaaporteView = cuentaaporteServiceLocal.findCuentaaporteViewByNumerocuenta(this.numeroCuentabancaria);
-			if (cuentaaporteView != null) {
-				this.cuentaaporteViewSelected = cuentaaporteView;
-				isCuentabancariaValid = true;	
-	
-				//probando list para eliminar linea
-				loadDetalleAportesCuenta();
-			} else {
-				this.cuentaaporteViewSelected = new CuentaaporteView();
-				isCuentabancariaValid = false;
-
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Cuenta aporte no encontrada","Cuenta aporte no encontrada");
-				FacesContext.getCurrentInstance().addMessage("msgBuscarCuentabancaria", facesMsg);
-			}
-		} catch (Exception e) {
-			isCuentabancariaValid = false;
-			JsfUtil.addErrorMessage(e.getMessage());
+			failure = true;
 		}
 	}
 
@@ -458,14 +486,6 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 		this.caja = caja;
 	}
 
-	public boolean isValidBean() {
-		return isValidBean;
-	}
-
-	public void setValidBean(boolean isValidBean) {
-		this.isValidBean = isValidBean;
-	}
-
 	public Estadomovimiento getEstadomovimientoCaja() {
 		return estadomovimientoCaja;
 	}
@@ -480,14 +500,6 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 
 	public void setEstadoaperturaCaja(Estadoapertura estadoaperturaCaja) {
 		this.estadoaperturaCaja = estadoaperturaCaja;
-	}
-
-	public boolean isCuentabancariaValid() {
-		return isCuentabancariaValid;
-	}
-
-	public void setCuentabancariaValid(boolean isCuentabancariaValid) {
-		this.isCuentabancariaValid = isCuentabancariaValid;
 	}
 
 	public TablaBean<CuentaaporteView> getTablaCuentaaporte() {
@@ -572,6 +584,23 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 	public void setVouchercajaCuentaaporteView(
 			VouchercajaCuentaaporteView vouchercajaCuentaaporteView) {
 		this.vouchercajaCuentaaporteView = vouchercajaCuentaaporteView;
+	}
+
+	public boolean isOperacionMayorCuantia() {
+		return isOperacionMayorCuantia;
+	}
+
+	public void setOperacionMayorCuantia(boolean isOperacionMayorCuantia) {
+		this.isOperacionMayorCuantia = isOperacionMayorCuantia;
+	}
+
+	public OperacionMayorCuantiaBean getOperacionMayorCuantiaBean() {
+		return operacionMayorCuantiaBean;
+	}
+
+	public void setOperacionMayorCuantiaBean(
+			OperacionMayorCuantiaBean operacionMayorCuantiaBean) {
+		this.operacionMayorCuantiaBean = operacionMayorCuantiaBean;
 	}
 
 }

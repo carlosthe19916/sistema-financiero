@@ -594,7 +594,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 	}
 
 	@Override
-	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte, Usuario usuario) throws Exception {
+	public Transaccioncuentaaporte createTransaccionCuentaaporte(Caja caja, Transaccioncuentaaporte transaccioncuentaaporte, Usuario usuario, Transaccionmayorcuantia transasccionmayorcuantia) throws Exception {
 		try {
 			String numeroCuentaaporte = transaccioncuentaaporte.getCuentaaporte().getNumerocuentaaporte();
 			Cuentaaporte cuentaaporte = cuentaaporteServiceLocal.findByNumerocuenta(numeroCuentaaporte);
@@ -668,6 +668,10 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 										
 			cuentaaporte.setSaldo(saldoFinal);		
 			cuentaaporteDAO.update(cuentaaporte);
+			
+			//creando la transaccion de mayor cuantia en caso de existir
+			if(transasccionmayorcuantia != null)
+				transasccionmayorcuantiaDAO.create(transasccionmayorcuantia);
 			
 			//actualizando saldo de caja
 			Tipomoneda tipomoneda = transaccioncuentaaporte.getTipomoneda();
