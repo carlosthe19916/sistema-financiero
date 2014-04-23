@@ -25,6 +25,7 @@ import org.ventura.boundary.local.PersonajuridicaServiceLocal;
 import org.ventura.boundary.local.PersonanaturalServiceLocal;
 import org.ventura.boundary.local.TasainteresServiceLocal;
 import org.ventura.caja.view.LoginBean;
+import org.ventura.caja.view.OperacionMayorCuantiaBean;
 import org.ventura.dependent.ComboBean;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Caja;
@@ -44,6 +45,7 @@ import org.ventura.session.CajaBean;
 import org.ventura.session.UsuarioMB;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.VariableSistemaType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -154,6 +156,10 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	@Inject private Caja caja;
 	@Inject private LoginBean loginBean;
 	
+	
+	private boolean isOperacionMayorCuantia;
+	@Inject private OperacionMayorCuantiaBean operacionMayorCuantiaBean;
+	
 	@EJB private CuentabancariaServiceLocal cuentabancariaServiceLocal;
 	@EJB private PersonanaturalServiceLocal personanaturalServiceLocal;
 	@EJB private PersonajuridicaServiceLocal personajuridicaServiceLocal;
@@ -185,6 +191,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 		
 		porcentajeParticipacionAccionista = new BigDecimal(0);
 		porcentajeParticipacionAccionista.setScale(2);
+		
+		isOperacionMayorCuantia = false;
 	}
 
 	@PostConstruct
@@ -231,6 +239,29 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 			}
 			
 			if(cuentaCreada == false){		
+				
+				//validando que la operacion sea de mayor cuantia
+				/*BigDecimal montoMaximoTransaccion = null;
+				TipomonedaType tipomonedaType = ProduceObject.getTipomoneda(comboTipomoneda.getObjectItemSelected()) ;
+				try {
+					switch (tipomonedaType) {
+					case NUEVO_SOL:
+						montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_NUEVO_SOL).getValor();
+						break;
+					case DOLAR:
+						montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_DOLAR).getValor();
+						break;
+					case EURO:
+						montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_EURO).getValor();
+						break;
+					default:
+						break;
+					}
+				} catch (Exception e) {
+					JsfUtil.addErrorMessage(e.getMessage());
+					failure = true;
+				}*/
+				
 				if (isPersonanatural) {
 					Personanatural personaNaturalSocio = new Personanatural();
 					personaNaturalSocio.setTipodocumento(comboTipodocumentoPersonanatural.getObjectItemSelected());
@@ -1617,5 +1648,22 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 	public void setIdCuentaPlazoFijoPersonaJuridica(
 			int idCuentaPlazoFijoPersonaJuridica) {
 		this.idCuentaPlazoFijoPersonaJuridica = idCuentaPlazoFijoPersonaJuridica;
+	}
+
+	public boolean isOperacionMayorCuantia() {
+		return isOperacionMayorCuantia;
+	}
+
+	public void setOperacionMayorCuantia(boolean isOperacionMayorCuantia) {
+		this.isOperacionMayorCuantia = isOperacionMayorCuantia;
+	}
+
+	public OperacionMayorCuantiaBean getOperacionMayorCuantiaBean() {
+		return operacionMayorCuantiaBean;
+	}
+
+	public void setOperacionMayorCuantiaBean(
+			OperacionMayorCuantiaBean operacionMayorCuantiaBean) {
+		this.operacionMayorCuantiaBean = operacionMayorCuantiaBean;
 	}
 }
