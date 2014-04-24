@@ -297,6 +297,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			actualizarMontoRecibidoCaja(caja, transaccioncompraventa, extornar);
 		} catch (Exception e) {
 			transaccioncompraventa.setIdtransaccioncompraventa(null);
+			transasccionmayorcuantia.setIdtransaccionmayorcuantia(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());
@@ -810,6 +811,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			cajaServiceLocal.updateSaldo(caja, transaccioncuentabancaria);	
 		} catch (Exception e) {
 			transaccioncuentabancaria.setIdtransaccioncuentabancaria(null);
+			transasccionmayorcuantia.setIdtransaccionmayorcuantia(null);
 			log.error("Exception:" + e.getClass());
 			log.error(e.getMessage());
 			log.error("Caused by:" + e.getCause());

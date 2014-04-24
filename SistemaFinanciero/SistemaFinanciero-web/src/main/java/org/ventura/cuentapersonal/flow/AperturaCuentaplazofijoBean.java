@@ -304,7 +304,9 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 					
 					BigDecimal teaReal = tea.divide(new BigDecimal(100));
 					//BigDecimal treaReal = trea.divide(new BigDecimal(100));
-					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio,montoApertura, teaReal, caja, agenciaBean.getAgencia(), usuarioMB.getUsuario());
+					cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonanatural(cuentabancaria, personaNaturalSocio,montoApertura, teaReal, caja, agenciaBean.getAgencia(), usuarioMB.getUsuario(), this.operacionMayorCuantiaBean.getTransaccionmayorcuantiaObject());
+					
+					this.operacionMayorCuantiaBean.setCuentaBeneficiario(cuentabancaria.getNumerocuenta());
 					
 					cuentaCreada = true;
 					numeroCuenta = cuentabancaria.getNumerocuenta();
@@ -369,6 +371,8 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 						
 						BigDecimal teaReal = tea.divide(new BigDecimal(100));
 						cuentabancaria = cuentabancariaServiceLocal.createCuentaplazofijoPersonajuridica(cuentabancaria, personaJuridicaSocio, teaReal, agenciaBean.getAgencia());
+						
+						this.operacionMayorCuantiaBean.setCuentaBeneficiario(cuentabancaria.getNumerocuenta());
 						
 						cuentaCreada = true;
 						numeroCuenta = cuentabancaria.getNumerocuenta();

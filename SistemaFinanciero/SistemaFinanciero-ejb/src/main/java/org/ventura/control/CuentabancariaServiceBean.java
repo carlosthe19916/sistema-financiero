@@ -35,6 +35,7 @@ import org.ventura.dao.impl.TitularcuentaDAO;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.Transaccionmayorcuantia;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.CuentabancariaTipotasa;
@@ -494,7 +495,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 	}
 	
 	@Override
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia, Usuario usuario) throws Exception {
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia, Usuario usuario, Transaccionmayorcuantia transaccionmayorcuantia) throws Exception {
 		try {				
 			Socio socio = socioServiceLocal.find(personanatural);
 			if(socio == null){
@@ -520,6 +521,9 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			cuentabancaria.setSaldo(new Moneda());
 			cuentabancariaDAO.create(cuentabancaria);
 			
+			if(transaccionmayorcuantia != null)
+				transaccionmayorcuantia.setNumerocuenta(transaccionmayorcuantia.getNumerocuenta());
+			
 			//crear transaccion del deposito 
 			Transaccioncuentabancaria transaccioncuentabancaria = new Transaccioncuentabancaria();
 			transaccioncuentabancaria.setCuentabancaria(cuentabancaria);
@@ -528,7 +532,7 @@ public class CuentabancariaServiceBean implements CuentabancariaServiceLocal {
 			transaccioncuentabancaria.setSaldodisponible(new Moneda(monto));
 			transaccioncuentabancaria.setTipomoneda(cuentabancaria.getTipomoneda());
 			transaccioncuentabancaria.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO));
-			transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,null, usuario, null);
+			transaccionCajaServiceLocal.deposito(caja, cuentabancaria, transaccioncuentabancaria,null, usuario, transaccionmayorcuantia);
 			
 			//crear titulares y beneficiarios
 			cuentabancaria.setTitulares(listTitulares);

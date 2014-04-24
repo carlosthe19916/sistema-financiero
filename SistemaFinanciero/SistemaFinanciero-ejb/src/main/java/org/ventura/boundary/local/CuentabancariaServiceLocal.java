@@ -9,6 +9,7 @@ import javax.ejb.Local;
 import org.ventura.boundary.remote.CuentabancariaServiceRemote;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
+import org.ventura.entity.schema.caja.Transaccionmayorcuantia;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.view.CuentabancariaView;
 import org.ventura.entity.schema.persona.Personajuridica;
@@ -32,7 +33,7 @@ public interface CuentabancariaServiceLocal extends CuentabancariaServiceRemote 
 	
 	public Cuentabancaria createCuentacorrientePersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, Agencia agencia, BigDecimal tea) throws Exception;
 	
-	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia, Usuario usuario) throws Exception;
+	public Cuentabancaria createCuentaplazofijoPersonanatural(Cuentabancaria cuentabancaria, Personanatural personanatural,BigDecimal monto, BigDecimal tea, Caja caja, Agencia agencia, Usuario usuario, Transaccionmayorcuantia transaccionmayorcuantia) throws Exception;
 	
 	public Cuentabancaria createCuentaplazofijoPersonajuridica(Cuentabancaria cuentabancaria, Personajuridica personajuridica, BigDecimal tea, Agencia agencia) throws Exception;
 	
