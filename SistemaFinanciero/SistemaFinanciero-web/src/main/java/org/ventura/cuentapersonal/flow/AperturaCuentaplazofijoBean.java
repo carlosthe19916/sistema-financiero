@@ -29,6 +29,7 @@ import org.ventura.caja.view.OperacionMayorCuantiaBean;
 import org.ventura.dependent.ComboBean;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Caja;
+import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.cuentapersonal.Beneficiario;
 import org.ventura.entity.schema.cuentapersonal.Cuentabancaria;
 import org.ventura.entity.schema.cuentapersonal.Titular;
@@ -45,6 +46,7 @@ import org.ventura.session.CajaBean;
 import org.ventura.session.UsuarioMB;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.maestro.ProduceObject;
+import org.ventura.util.maestro.TipoTransaccionType;
 import org.ventura.util.maestro.VariableSistemaType;
 import org.venturabank.util.JsfUtil;
 
@@ -885,6 +887,68 @@ public class AperturaCuentaplazofijoBean implements Serializable {
 			String keyMap = beneficiario.getApellidopaterno()+beneficiario.getApellidomaterno()+beneficiario.getNombres();
 			this.beneficiarios.remove(keyMap);
 		} 
+	}
+	
+	public String siguiente() {	
+		BigDecimal montoMaximoTransaccion = null;
+		TipomonedaType tipomonedaType = ProduceObject.getTipomoneda(comboTipomoneda.getObjectItemSelected()) ;
+		try {
+			switch (tipomonedaType) {
+			case NUEVO_SOL:
+				montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_NUEVO_SOL).getValor();
+				break;
+			case DOLAR:
+				montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_DOLAR).getValor();
+				break;
+			case EURO:
+				montoMaximoTransaccion = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_EURO).getValor();
+				break;
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e.getMessage());		
+		}
+		
+		//validar si la operacion es de mayor cuantia
+		if(montoApertura.compareTo(montoMaximoTransaccion) >= 0){
+			isOperacionMayorCuantia = true;
+			
+			Tipotransaccion tipotransaccion = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			tipotransaccion.setDenominacion("DEPOSITO");
+			Tipomoneda moneda = comboTipomoneda.getObjectItemSelected();			
+			
+			this.operacionMayorCuantiaBean.setTipotransaccion(tipotransaccion.getDenominacion());
+			this.operacionMayorCuantiaBean.setCuentaBeneficiario(numeroCuenta);
+			this.operacionMayorCuantiaBean.setTipomoneda(moneda);
+			this.operacionMayorCuantiaBean.setMonto(montoApertura);
+			
+			//beneficiario
+			if(isPersonanatural){
+				Tipodocumento tipodocumentoBeneficiario = comboTipodocumentoPersonanatural.getObjectItemSelected();				
+				this.operacionMayorCuantiaBean.getComboTipodocumentoBeneficiario().setItemSelected(tipodocumentoBeneficiario);
+				this.operacionMayorCuantiaBean.setNumerodocumentoBeneficiario(numeroDocumentoPersonanatural);
+				this.operacionMayorCuantiaBean.setApellidosnombresRazonsocialBeneficiario(apellidoPaternoPersonanatural + " " + apellidoMaternoPersonanatural + " " + nombresPersonanatural);
+				this.operacionMayorCuantiaBean.setDireccionBeneficiario(direccionPersonanatural);
+				this.operacionMayorCuantiaBean.setTelefonoBeneficiario(telefonoPersonanatural);
+				this.operacionMayorCuantiaBean.setFechanacimientoConstitucionBeneficiario(fechaNacimientoPersonanatural);
+				this.operacionMayorCuantiaBean.setOcupacionActividadEconomicaBeneficiario(ocupacionPersonanatural);
+			}
+			if(isPersonajuridica){
+				Tipodocumento tipodocumentoBeneficiario = comboTipodocumentoPersonajuridica.getObjectItemSelected();				
+				this.operacionMayorCuantiaBean.getComboTipodocumentoBeneficiario().setItemSelected(tipodocumentoBeneficiario);
+				this.operacionMayorCuantiaBean.setNumerodocumentoBeneficiario(numeroDocumentoPersonajuridica);
+				this.operacionMayorCuantiaBean.setApellidosnombresRazonsocialBeneficiario(razonSocial);
+				this.operacionMayorCuantiaBean.setDireccionBeneficiario(direccionPersonajuridica);
+				this.operacionMayorCuantiaBean.setTelefonoBeneficiario(telefonoPersonajuridica);
+				this.operacionMayorCuantiaBean.setFechanacimientoConstitucionBeneficiario(fechaConstitucion);
+				this.operacionMayorCuantiaBean.setOcupacionActividadEconomicaBeneficiario(actividadPrincipal);
+			}	
+			return "aperturaCuentaplazofijo-flowD";
+		} else {
+			return "aperturaCuentaplazofijo-flowE";
+		} 
+		//return "aperturaCuentaplazofijo-flowD";
 	}
 	
 	public void changeTipodocumentoPersonanatural(ValueChangeEvent event) {

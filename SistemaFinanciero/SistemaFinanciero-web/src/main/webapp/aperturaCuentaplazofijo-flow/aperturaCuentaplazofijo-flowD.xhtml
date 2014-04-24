@@ -5,7 +5,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
 
@@ -19,32 +20,585 @@
 
 		<h:outputStylesheet library="css" name="main.css" />
 
-		<div id="homepage">
-			<div>
-				<div>
-					<br></br>
-					<div class="p6n-api-consent-screen-header ng-scope">
-						<div class="p6n-api-consent-screen-title">APERTURA
-							FINALIZADA CORRECTAMENTE</div>
-						<div>La cuenta a plazo fijo fue creada.</div>
-					</div>
+		<h:panelGroup id="mayorCuantia"
+			rendered="#{aperturaCuentaplazofijoBean.operacionMayorCuantia}">
+			<h:form>
+				<table
+					style="width: 650px; border: solid 0px #E9E6E6; margin-left: 10px; margin-top: 20px;">
+					<tr>
+						<td colspan="1"
+							style="text-align: center; font-weight: bold; font-size: 12px;">
+							<p:graphicImage name="logo_coop_contrato.png"
+								library="images/logo_coop" />
+						</td>
+						<td colspan="3"
+							style="text-align: center; font-weight: bold; font-size: 14px; vertical-align: middle; text-decoration: underline">
+							<br /> <h:outputText style="font-size: 14px;"
+								value="REGISTRO DE OPERACIONES EN EFECTIVO DE MAYOR CUANTIA" />
+							<br /> <h:outputText style="font-size: 12px;"
+								value="Ley Nº 27693 y su modificatoria Ley Nº 28306" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td style="font-weight: bold; font-size: 12px;">Fecha</td>
+						<td style="font-weight: bold; font-size: 12px;">Hora</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td><h:outputText
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.getFechaAsString()}" />
+						</td>
+						<td><h:outputText
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.getHoraAsString()}" /></td>
+					</tr>
+					<tr>
+						<td colspan="4"
+							style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">DATOS
+							DE LA OPERACION</td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Tipo de
+							operacion</td>
+						<td style="font-weight: bold; font-size: 12px;">Cuenta del
+							beneficiario</td>
+						<td style="font-weight: bold; font-size: 12px;">Moneda</td>
+						<td style="font-weight: bold; font-size: 12px;">Importe</td>
+					</tr>
+					<tr>
+						<td style="font-size: 12px;">#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.tipotransaccion}</td>
+						<td style="font-size: 12px;">#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.cuentaBeneficiario}</td>
+						<td style="font-size: 12px;">#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.tipomoneda.denominacion}</td>
+						<td style="font-size: 12px; min-width: 80px;">#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.tipomoneda.abreviatura}#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.montoAsString}</td>
+					</tr>
+					<tr>
+						<td colspan="4" style="font-weight: bold; font-size: 12px;">El
+							importe en efectivo proviene de:</td>
+					</tr>
+					<tr>
+						<td colspan="4"><h:inputTextarea id="txtOrigenImporte"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.origenImporte}"
+								required="true" cols="75" rows="3"
+								requiredMessage="Ingrese Origen de efectivo" /></td>
+					</tr>
+					<tr>
+						<td colspan="4"><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtOrigenImporte" />
+							</div></td>
+					</tr>
+					<tr>
+						<td colspan="4" style="font-weight: bold; font-size: 12px;">El
+							proposito o destino de esta operacion es:</td>
+					</tr>
+					<tr>
+						<td colspan="4"><h:inputTextarea id="txtPropositoImporte"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.propositoImporte}"
+								required="true" requiredMessage="Ingrese proposito de dinero"
+								cols="75" rows="3" /></td>
+					</tr>
+					<tr>
+						<td colspan="3"><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtPropositoImporte" />
+							</div></td>
+					</tr>
+					<tr>
+						<td colspan="4"
+							style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">SOLICITANTE
+							(QUIEN FISICAMENTE REALIZA LA OPERACION)</td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Tipo de
+							documento</td>
+						<td style="font-weight: bold; font-size: 12px;">Numero de
+							documento</td>
+						<td style="font-weight: bold; font-size: 12px;">Nacionalidad</td>
+					</tr>
+					<tr>
+						<td><h:selectOneMenu id="cmbTipodocumentoSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.comboTipodocumentoSolicitante.itemSelected}"
+								required="true" requiredMessage="Seleccione tipo de documento">
+								<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.comboTipodocumentoSolicitante.items.entrySet()}"
+									var="val" itemLabel="#{val.value.abreviatura}"
+									itemValue="#{val.key}" />
+							</h:selectOneMenu></td>
+						<td><h:inputText id="txtNumerodocumentoSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.numerodocumentoSolicitante}"
+								required="true" requiredMessage="Ingrese numero documento">
+								<f:ajax execute="@this cmbTipodocumentoSolicitante" event="blur"
+									render="txtApellidosNombresSolicitante txtDireccionSolicitante txtTelefonoSolicitante txtFechaNacimientoSolicitante txtOcupacionSolicitante"
+									listener="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.buscarPersonanaturalSolicitante()}"></f:ajax>
+							</h:inputText></td>
+						<td><h:inputText id="txtNacionalidadSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.nacionalidadSolicitante}"
+								required="true" requiredMessage="Ingrese nacionalidad" /></td>
+					</tr>
+					<tr>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbTipodocumentoSolicitante" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtNumerodocumentoSolicitante" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtNacionalidadSolicitante" />
+							</div></td>
+					</tr>
+					<tr>
+						<td colspan="3" style="font-weight: bold; font-size: 12px;">Apellidos
+							y nombres</td>
+					</tr>
+					<tr>
+						<td colspan="4"><h:inputText
+								id="txtApellidosNombresSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.apellidosnombresSolicitante}"
+								size="95" required="true"
+								requiredMessage="Ingrese apellidos y nombres" /></td>
+					</tr>
+					<tr>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtApellidosNombresSolicitante" />
+							</div></td>
+					</tr>
+					<tr>
+						<td colspan="4" style="font-weight: bold; font-size: 12px;">Direccion
+							(Si se encuentra en transito indicar el lugar donde se aloja)</td>
+					</tr>
+					<tr>
+						<td colspan="4"><h:inputText id="txtDireccionSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.direccionSolicitante}"
+								size="95" required="true" requiredMessage="Ingrese direccion" /></td>
+					</tr>
+					<tr>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtDireccionSolicitante" />
+							</div></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Region</td>
+						<td style="font-weight: bold; font-size: 12px;">Provincia</td>
+						<td style="font-weight: bold; font-size: 12px;">Distrito</td>
+					</tr>
+					<tr>
+						<td><h:selectOneMenu id="cmbDepartamentoSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.idDepartamentoSelectedSolicitante}"
+								required="true" requiredMessage="Seleccione departamento">
+								<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.mapDepartamentosSolicitante.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+								<f:ajax
+									listener="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.actualizarProvinciasSolicitante()}"
+									execute="@this" render="cmbProvinciaSolicitante"></f:ajax>
+							</h:selectOneMenu></td>
+						<td><h:selectOneMenu id="cmbProvinciaSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.idProvinciaSelectedSolicitante}"
+								required="true" requiredMessage="Seleccione provincia">
+								<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.mapProvinciasSolicitante.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+								<f:ajax
+									listener="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.actualizarDistritosSolicitante()}"
+									execute="@this" render="cmbDistritoSolicitante"></f:ajax>
+							</h:selectOneMenu></td>
+						<td><h:selectOneMenu id="cmbDistritoSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.idDistritoSelectedSolicitante}"
+								required="true" requiredMessage="Seleccione provincia">
+								<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.mapDistritoSolicitante.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+							</h:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbDepartamentoSolicitante" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbProvinciaSolicitante" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbDistritoSolicitante" />
+							</div></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Telefono</td>
+						<td style="font-weight: bold; font-size: 12px;">Fecha de
+							nacimiento</td>
+						<td style="font-weight: bold; font-size: 12px;">Ocupacion</td>
+					</tr>
+					<tr>
+						<td><h:inputText id="txtTelefonoSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.telefonoSolicitante }" /></td>
+						<td><p:calendar id="txtFechaNacimientoSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.fechanacimientoSolicitante}"
+								navigator="true" pattern="dd/MM/yy" required="true"
+								requiredMessage="Ingrese fecha de nacimiento"
+								converterMessage="formato incorrecto"
+								pt:placeholder="dd/mm/yyyy">
+								<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
+							</p:calendar></td>
+						<td><h:inputText id="txtOcupacionSolicitante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.ocupacionSolicitante }" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtFechaNacimientoSolicitante" />
+							</div></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="4"
+							style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">BENEFICIARIO
+							(A FAVOR DE QUIEN SE REALIZA LA OPERACION)</td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Tipo de
+							documento</td>
+						<td style="font-weight: bold; font-size: 12px;">Numero de
+							documento</td>
+						<td style="font-weight: bold; font-size: 12px;">Nacionalidad</td>
+					</tr>
+					<tr>
+						<td><h:outputText
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.comboTipodocumentoBeneficiario.objectItemSelected.abreviatura }" />
+						</td>
+						<td><h:outputText
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.numerodocumentoBeneficiario}" /></td>
+						<td><h:inputText id="txtNacionalidadBeneficiario"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.nacionalidadBeneficiario}"
+								required="true" requiredMessage="Ingrese nacionalidad" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtNacionalidadBeneficiario" />
+							</div></td>
+					</tr>
+					<tr>
+						<td colspan="4" style="font-weight: bold; font-size: 12px;">Apellidos
+							y nombres/Razon social</td>
+					</tr>
+					<tr>
+						<td colspan="4"><h:outputText
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.apellidosnombresRazonsocialBeneficiario}" /></td>
+					</tr>
+					<tr>
+						<td colspan="4" style="font-weight: bold; font-size: 12px;">Direccion
+							(Si se encuentra en transito indicar el lugar donde se aloja)</td>
+					</tr>
+					<tr>
+						<td colspan="3"><h:inputText id="txtDireccionBeneficiario"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.direccionBeneficiario}"
+								size="95" required="true" requiredMessage="Ingrese direccion" /></td>
+					</tr>
+					<tr>
+						<td colspan="3"><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtDireccionBeneficiario" />
+							</div></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Region</td>
+						<td style="font-weight: bold; font-size: 12px;">Provincia</td>
+						<td style="font-weight: bold; font-size: 12px;">Distrito</td>
+					</tr>
+					<tr>
+						<td><h:selectOneMenu id="cmbDepartamentoBeneficiario"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.idDepartamentoSelectedBeneficiario}"
+								required="true" requiredMessage="Seleccione departamento">
+								<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.mapDepartamentosBeneficiario.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+								<f:ajax
+									listener="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.actualizarProvinciasBeneficiario()}"
+									execute="@this" render="cmbProvinciaBeneficiario"></f:ajax>
+							</h:selectOneMenu></td>
+						<td><h:selectOneMenu id="cmbProvinciaBeneficiario"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.idProvinciaSelectedBeneficiario}"
+								required="true" requiredMessage="Seleccione provincia">
+								<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.mapProvinciasBeneficiario.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+								<f:ajax
+									listener="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.actualizarDistritosBeneficiario()}"
+									execute="@this" render="cmbDistritoBeneficiario"></f:ajax>
+							</h:selectOneMenu></td>
+						<td><h:selectOneMenu id="cmbDistritoBeneficiario"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.idDistritoSelectedBeneficiario}"
+								required="true" requiredMessage="Seleccione provincia">
+								<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.mapDistritoBeneficiario.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+							</h:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbDepartamentoBeneficiario" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbProvinciaBeneficiario" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbDistritoBeneficiario" />
+							</div></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Telefono</td>
+						<td style="font-weight: bold; font-size: 12px;">Fecha de
+							nacim./Constitucion</td>
+						<td style="font-weight: bold; font-size: 12px;">Ocupacion/Actividad
+							economica</td>
+					</tr>
+					<tr>
+						<td><h:inputText
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.telefonoBeneficiario}" />
+						</td>
+						<td><p:calendar id="txtFechaNacimientoBeneficiario"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.fechanacimientoConstitucionBeneficiario}"
+								navigator="true" pattern="dd/MM/yy" required="true"
+								requiredMessage="Ingrese fecha de nacimiento"
+								converterMessage="formato incorrecto"
+								pt:placeholder="dd/mm/yyyy">
+								<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
+							</p:calendar></td>
+						<td><h:inputText
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.ocupacionActividadEconomicaBeneficiario}" />
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtFechaNacimientoBeneficiario" />
+							</div></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="4"
+							style="font-weight: bold; font-size: 12px; background-color: green; color: white; vertical-align: middle;">ORDENANTE
+							(NOMBRE DE QUIEN ORDENA LA OPERACION)</td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Tipo de
+							documento</td>
+						<td style="font-weight: bold; font-size: 12px;">Numero de
+							documento</td>
+						<td style="font-weight: bold; font-size: 12px;">Nacionalidad</td>
+					</tr>
+					<tr>
+						<td><h:selectOneMenu id="cmbTipodocumentoOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.comboTipodocumentoOrdenante.itemSelected}"
+								required="true" requiredMessage="Seleccione tipo de documento">
+								<f:selectItem itemLabel="--Seleccione--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.comboTipodocumentoOrdenante.items.entrySet()}"
+									var="val" itemLabel="#{val.value.abreviatura}"
+									itemValue="#{val.key}" />
+							</h:selectOneMenu></td>
+						<td><h:inputText id="txtNumeroDocumentoOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.numerodocumentoOrdenante}"
+								required="true" requiredMessage="Ingrese numero documento">
+								<f:ajax execute="@this cmbTipodocumentoOrdenante" event="blur"
+									render="txtApellidosNombresOrdenante txtDireccionOrdenante txtTelefonoOrdenante txtFechaNacimientoOrdenante txtOcupacionOrdenante"
+									listener="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.buscarPersonanaturalOrdenanate()}"></f:ajax>
+							</h:inputText></td>
+						<td><h:inputText id="txtNacionalidadOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.nacionalidadOrdenante}"
+								required="true" requiredMessage="Ingrese nacionalidad" /></td>
+					</tr>
+					<tr>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbTipodocumentoOrdenante" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtNumeroDocumentoOrdenante" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtNacionalidadOrdenante" />
+							</div></td>
+					</tr>
+					<tr>
+						<td colspan="3" style="font-weight: bold; font-size: 12px;">Apellidos
+							y nombres</td>
+					</tr>
+					<tr>
+						<td colspan="3"><h:inputText
+								id="txtApellidosNombresOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.apellidosYnombresOrdenante}"
+								size="95" required="true"
+								requiredMessage="Ingrese apellidos y nombres" /></td>
+					</tr>
+					<tr>
+						<td colspan="3"><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtApellidosNombresOrdenante" />
+							</div></td>
+					</tr>
+					<tr>
+						<td colspan="3" style="font-weight: bold; font-size: 12px;">Direccion
+							(Si se encuentra en transito indicar el lugar donde se aloja)</td>
+					</tr>
+					<tr>
+						<td colspan="3"><h:inputText id="txtDireccionOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.direccionOrdenante}"
+								size="95" required="true" requiredMessage="Ingrese direccion" /></td>
+					</tr>
+					<tr>
+						<td colspan="3"><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtDireccionOrdenante" />
+							</div></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Region</td>
+						<td style="font-weight: bold; font-size: 12px;">Provincia</td>
+						<td style="font-weight: bold; font-size: 12px;">Distrito</td>
+					</tr>
+					<tr>
+						<td><h:selectOneMenu id="cmbDepartamentoOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.idDepartamentoSelectedOrdenante}"
+								required="true" requiredMessage="Seleccione departamento">
+								<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.mapDepartamentosOrdenante.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+								<f:ajax
+									listener="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.actualizarProvinciasOrdenante()}"
+									execute="@this" render="cmbProvinciaOrdenante"></f:ajax>
+							</h:selectOneMenu></td>
+						<td><h:selectOneMenu id="cmbProvinciaOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.idProvinciaSelectedOrdenante}"
+								required="true" requiredMessage="Seleccione provincia">
+								<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.mapProvinciasOrdenante.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+								<f:ajax
+									listener="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.actualizarDistritosOrdenante()}"
+									execute="@this" render="cmbDistritoOrdenante"></f:ajax>
+							</h:selectOneMenu></td>
+						<td><h:selectOneMenu id="cmbDistritoOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.idDistritoSelectedOrdenante}"
+								required="true" requiredMessage="Seleccione provincia">
+								<f:selectItem itemLabel="--SELECCIONE--" itemValue="" />
+								<f:selectItems
+									value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.mapDistritoOrdenante.entrySet()}"
+									var="val" itemLabel="#{val.value}" itemValue="#{val.key}" />
+							</h:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbDepartamentoOrdenante" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbProvinciaOrdenante" />
+							</div></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="cmbDistritoOrdenante" />
+							</div></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; font-size: 12px;">Telefono</td>
+						<td style="font-weight: bold; font-size: 12px;">Fecha de
+							nacimiento</td>
+						<td style="font-weight: bold; font-size: 12px;">Ocupacion</td>
+					</tr>
+					<tr>
+						<td><h:inputText id="txtTelefonoOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.telefonoOrdenante }" /></td>
+						<td><p:calendar id="txtFechaNacimientoOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.fechanacimientoConstitucionOrdenante}"
+								navigator="true" pattern="dd/MM/yy" required="true"
+								requiredMessage="Ingrese fecha de nacimiento"
+								converterMessage="formato incorrecto"
+								pt:placeholder="dd/mm/yyyy">
+								<f:convertDateTime pattern="dd/MM/yy" timeZone="EST" />
+							</p:calendar></td>
+						<td><h:inputText id="txtOcupacionOrdenante"
+								value="#{aperturaCuentaplazofijoBean.operacionMayorCuantiaBean.ocupacionActividadEconomicaOrdenante }" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><div
+								class="p6n-api-consent-screen-input-error p6n-api-consent-screen-product-name-error-msg">
+								<h:message for="txtFechaNacimientoOrdenante" />
+							</div></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<div>
+								<div
+									style="display: inline-block; width: 49%; height: 80px; border: 1px solid #000000;"></div>
+								<div
+									style="display: inline-block; width: 49%; height: 80px; border: 1px solid #000000;"></div>
+							</div>
+							<div>
+								<div style="display: inline-block; width: 49%">
+									<label style="font-weight: bold;">Firma o huella del
+										Solicitante</label>
+								</div>
+								<div style="display: inline-block; width: 49%">
+									<label style="font-weight: bold;">Firma o huella del
+										soclicitante</label>
+								</div>
+							</div>
+						</td>
 
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="4">El suscrito declara que los datos
+							consiganados son correctos y en señal d conformidad firma</td>
+					</tr>
+				</table>
+				<div class="sf-buttons" style="float: left;">
+					<h:commandButton value="Siguiente >>"
+						action="aperturaCuentaplazofijo-flowE"
+						styleClass="action" onclick="onSubmitButton();" />
+					<h:commandButton value="atras" immediate="true"
+						action="aperturaCuentaplazofijo-flowC"
+						styleClass="action" />
 				</div>
-				<div>
-					<h:form>
-						<div class="sf-separator">
-							<h:commandButton value="Crear nueva Cuenta a Plazo fijo"
-								styleClass="action green" action="aperturaCuentaplazofijo-flow" />
-							<h:commandButton action="/caja/index?faces-redirect=true"
-								value="Volver" />
-						</div>
-					</h:form>
-				</div>
-			</div>
-			<div></div>
-			<div></div>
-			<div class="sf-buttons" style="float: left;"></div>
-		</div>
+			</h:form>
+		</h:panelGroup>
 
 
 	</ui:define>

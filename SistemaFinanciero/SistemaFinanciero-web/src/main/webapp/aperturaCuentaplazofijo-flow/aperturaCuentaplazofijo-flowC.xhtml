@@ -265,12 +265,11 @@
 							<br />
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton value="« Anterior" immediate="true"
-									action="aperturaCuentaplazofijo-flowB"
-									actionListener="#{aperturaCuentaplazofijoBean.removeTitularDefecto()}"
+									action="aperturaCuentaplazofijo-flowB"									
 									styleClass="action" />
 								<h:commandButton value="Siguiente »"
 									actionListener="#{aperturaCuentaplazofijoBean.calcularInteresGenerado()}"
-									action="aperturaCuentaplazofijo-flowD"
+									action="#{aperturaCuentaplazofijoBean.siguiente()}"
 									styleClass="action green" />
 							</div>
 						</div>
