@@ -52,7 +52,7 @@ public interface TransaccionCajaServiceLocal extends TransaccionCajaServiceRemot
 	
 	public Transaccioncuentaaporte deposito(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;
 	
-	public Transaccioncuentaaporte retiro(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception;	
+	public Transaccioncuentaaporte retiro(Caja caja, Cuentaaporte cuentaaporte, Transaccioncuentaaporte transaccioncuentaaporte, Usuario usuario) throws Exception;	
 	
 	public void extornarTransaccion(CajaMovimientoView cajaMovimientoView) throws Exception;
 	

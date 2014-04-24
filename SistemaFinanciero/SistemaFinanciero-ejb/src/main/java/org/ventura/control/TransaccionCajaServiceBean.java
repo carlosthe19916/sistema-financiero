@@ -951,7 +951,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 
 
 	@Override
-	public Transaccioncuentaaporte retiro(Caja caja, Cuentaaporte cuentaaporteVista, Transaccioncuentaaporte transaccioncuentaaporte) throws Exception {
+	public Transaccioncuentaaporte retiro(Caja caja, Cuentaaporte cuentaaporteVista, Transaccioncuentaaporte transaccioncuentaaporte, Usuario usuario) throws Exception {
 		try {
 			int cuentaaportePK = cuentaaporteVista.getIdcuentaaporte();
 			Cuentaaporte cuentaaporte = cuentaaporteServiceLocal.find(cuentaaportePK);		
@@ -985,6 +985,7 @@ public class TransaccionCajaServiceBean implements TransaccionCajaServiceLocal {
 			transaccioncaja.setFecha(calendar.getTime());
 			transaccioncaja.setHora(calendar.getTime());
 			transaccioncaja.setHistorialcaja(cajaServiceLocal.getHistorialcajaLastActive(caja));
+			transaccioncaja.setUsuario(usuario);
 			transaccioncajaDAO.create(transaccioncaja);
 			
 			transaccioncuentaaporte.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));

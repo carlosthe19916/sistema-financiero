@@ -12,6 +12,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.schema.seguridad.Usuario;
 
 public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 			
@@ -23,7 +24,7 @@ public interface CuentaaporteServiceLocal extends CuentaaporteServiceRemote{
 
 	public List<AportesCuentaaporteView> getTableAportesPorpagar(Integer idcuentaaporte,Date startDate, Date endDate) throws Exception;
 	
-	public Transaccioncuentaaporte cancelarCuentaaporte(Caja caja, Cuentaaporte cuentaaporte, Date fechaCancelacion) throws Exception;
+	public Transaccioncuentaaporte cancelarCuentaaporte(Caja caja, Cuentaaporte cuentaaporte, Date fechaCancelacion, Usuario usuario) throws Exception;
 	
 	
 	public Cuentaaporte findByNumerocuenta(String numerocuenta) throws Exception;	

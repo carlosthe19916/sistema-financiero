@@ -37,6 +37,7 @@ import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteView;
 import org.ventura.entity.schema.cuentapersonal.view.AportesCuentaaporteViewPK;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Tipodocumento;
+import org.ventura.entity.schema.seguridad.Usuario;
 import org.ventura.entity.schema.socio.Socio;
 import org.ventura.tipodato.Moneda;
 import org.ventura.util.logger.Log;
@@ -222,7 +223,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 	}
 
 	@Override
-	public Transaccioncuentaaporte cancelarCuentaaporte(Caja caja, Cuentaaporte cuentaaporte, Date fechaCancelacion) throws Exception {
+	public Transaccioncuentaaporte cancelarCuentaaporte(Caja caja, Cuentaaporte cuentaaporte, Date fechaCancelacion, Usuario usuario) throws Exception {
 		Transaccioncuentaaporte transaccioncuentaaporte = null;
 		try {
 			cuentaaporte = find(cuentaaporte.getIdcuentaaporte());			
@@ -237,7 +238,7 @@ public class CuentaaporteServiceBean implements CuentaaporteServiceLocal{
 			transaccioncuentaaporte.setSaldodisponible(cuentaaporte.getSaldo().subtract(transaccioncuentaaporte.getMonto()).getValue());
 			transaccioncuentaaporte.setTipomoneda(cuentaaporte.getTipomoneda());
 			transaccioncuentaaporte.setTipotransaccion(ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO));			
-			transaccioncuentaaporte = transaccionCajaServiceLocal.retiro(caja, cuentaaporte, transaccioncuentaaporte);
+			transaccioncuentaaporte = transaccionCajaServiceLocal.retiro(caja, cuentaaporte, transaccioncuentaaporte, usuario);
 			//desactivar al socio y la cuenta de aportes
 			Socio socio = socioServiceLocal.find(cuentaaporte);
 			socioServiceLocal.desactivarSocio(socio);

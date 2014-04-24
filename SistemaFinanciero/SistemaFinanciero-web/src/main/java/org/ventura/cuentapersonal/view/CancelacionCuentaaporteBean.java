@@ -23,6 +23,7 @@ import org.ventura.entity.schema.cuentapersonal.Cuentaaporte;
 import org.ventura.entity.schema.cuentapersonal.view.CuentaaporteView;
 import org.ventura.entity.schema.persona.Tipodocumento;
 import org.ventura.session.CajaBean;
+import org.ventura.session.UsuarioMB;
 import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipodocumentoType;
 import org.venturabank.util.JsfUtil;
@@ -51,6 +52,8 @@ public class CancelacionCuentaaporteBean implements Serializable{
 	
 	@EJB private CuentaaporteServiceLocal cuentaaporteServiceLocal;
 	@EJB private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
+	
+	@Inject UsuarioMB usuarioMB;
 	
 	public CancelacionCuentaaporteBean() {
 		Calendar calendar = Calendar.getInstance();
@@ -81,7 +84,7 @@ public class CancelacionCuentaaporteBean implements Serializable{
 				Cuentaaporte cuentaaporte =  new Cuentaaporte();
 				cuentaaporte.setIdcuentaaporte(cuentaaporteView.getIdCuentaaporte());
 				
-				transaccioncuentaaporte = cuentaaporteServiceLocal.cancelarCuentaaporte(caja, cuentaaporte, fechaCancelacion);
+				transaccioncuentaaporte = cuentaaporteServiceLocal.cancelarCuentaaporte(caja, cuentaaporte, fechaCancelacion, usuarioMB.getUsuario());
 				success = true;
 				failure = false;
 				loadVoucher();
