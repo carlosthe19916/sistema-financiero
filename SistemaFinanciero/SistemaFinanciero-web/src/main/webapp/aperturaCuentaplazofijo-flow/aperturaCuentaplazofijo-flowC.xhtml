@@ -208,7 +208,8 @@
 												value="#{aperturaCuentaplazofijoBean.periodoDeposito}">
 												<f:convertNumber integerOnly="true" type="number"
 													groupingUsed="false" />
-												<f:ajax render=":recalculo" execute="@this cmbTipomonedaCuentaplazofijo txtMonto"
+												<f:ajax render=":recalculo"
+													execute="@this cmbTipomonedaCuentaplazofijo txtMonto"
 													listener="#{aperturaCuentaplazofijoBean.calcularInteresGenerado()}"></f:ajax>
 											</h:inputText>
 										</div>
@@ -265,8 +266,8 @@
 							<br />
 							<div class="sf-buttons" style="float: left;">
 								<h:commandButton value="« Anterior" immediate="true"
-									action="aperturaCuentaplazofijo-flowB"									
-									styleClass="action" />
+									actionListener="#{aperturaCuentaplazofijoBean.removeTitularDefecto()}"
+									action="aperturaCuentaplazofijo-flowB" styleClass="action" />
 								<h:commandButton value="Siguiente »"
 									actionListener="#{aperturaCuentaplazofijoBean.calcularInteresGenerado()}"
 									action="#{aperturaCuentaplazofijoBean.siguiente()}"
