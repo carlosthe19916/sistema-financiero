@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<f:metadata>
+		<f:viewAction action="#{menuMB.updateMenu(22)}" />
+	</f:metadata>
+	<ui:composition template="/WEB-INF/templates/defaultLayout.xhtml">
+
+		<!-- Definiendo la cabecera de la pagina -->
+		<ui:define name="title">
+			<h:outputText value="Administracion" />
+		</ui:define>
+
+		<!-- Definiendo el cuerpo de la pagina -->
+		<ui:define name="content">
+
+			<h:outputStylesheet library="css" name="main.css" />
+
+
+			<table>
+				<tr>
+					<td style="width: 50%;"><p:panel id="panelMontosMaximos"
+							header="MONTOS MAXIMOS DE TRASACCION">
+							<h:form>
+								<p:messages id="messages" autoUpdate="false" closable="true"
+									redisplay="false" />
+								<p:panelGrid>
+									<f:facet name="header">
+										<p:row>
+											<p:column>Moneda</p:column>
+											<p:column>Valor</p:column>
+											<p:column>Tipo cambio</p:column>
+										</p:row>
+									</f:facet>
+									<p:row>
+										<p:column>
+											<h:outputLabel value="S/. Nuevos soles:" />
+										</p:column>
+										<p:column>
+											<h:inputText id="txtNuevosSoles"
+												value="#{administrarVariableSistemaBean.montoMaximoTransaccionNuevoSol.valor}"
+												required="true" requiredMessage="Ingrese monto soles" />
+										</p:column>
+										<p:column>
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputLabel value="$ Dolares:" />
+										</p:column>
+										<p:column>
+											<h:inputText id="txtDolar"
+												value="#{administrarVariableSistemaBean.montoMaximoTransaccionDolar.valor}"
+												required="true" readonly="true" />
+										</p:column>
+										<p:column>
+											<h:inputText id="txtTasaCambioDolar"
+												value="#{administrarVariableSistemaBean.tasaCambioDolar}"
+												required="true" requiredMessage="Ingrese tasa cambio dolar" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputLabel value="€ Euros:" />
+										</p:column>
+										<p:column>
+											<h:inputText id="txtEuros"
+												value="#{administrarVariableSistemaBean.montoMaximoTransaccionEuro.valor}"
+												required="true" readonly="true" />
+										</p:column>
+										<p:column>
+											<h:inputText id="txtTasaCambioEuro"
+												value="#{administrarVariableSistemaBean.tasaCambioEuro}"
+												required="true" requiredMessage="Ingrese tasa cambio euro" />
+										</p:column>
+									</p:row>
+									<f:facet name="footer">
+										<p:row>
+											<p:column colspan="3">
+												<p:commandButton value="Recalcular"
+													action="#{administrarVariableSistemaBean.recalcularMontosTransaccion()}"
+													update=":panelMontosMaximos"
+													icon="ui-icon ui-icon-arrowrefresh-1-s"
+													style="margin: 0 1px 0 0;" />
+												<p:commandButton value="Actualizar"
+													action="#{administrarVariableSistemaBean.updateMontosTransaccion()}"
+													update=":panelMontosMaximos" icon="ui-icon-check"
+													style="margin: 0 0 0 1px;" />
+											</p:column>
+										</p:row>
+									</f:facet>
+								</p:panelGrid>
+							</h:form>
+						</p:panel></td>
+					<td style="width: 50%;"><p:panel id="panelMontosAportes"
+							header="MONTOS MAXIMOS DE APORTES">
+							<h:form>
+								<p:messages id="messagesAportes" autoUpdate="false"
+									closable="true" />
+								<p:panelGrid>
+									<f:facet name="header">
+										<p:row>
+											<p:column>Variable</p:column>
+											<p:column>Valor</p:column>
+										</p:row>
+									</f:facet>
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Menor de edad:" />
+										</p:column>
+										<p:column>
+											<h:inputText id="txtAporteMayores"
+												value="#{administrarVariableSistemaBean.montoMaximoAporteMenorEdad.valor}"
+												required="true"
+												requiredMessage="Ingrese monto para menor de edad" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Mayor de edad:" />
+										</p:column>
+										<p:column>
+											<h:inputText id="txtAporteMenores"
+												value="#{administrarVariableSistemaBean.montoMaximoAporteMayorEdad.valor}"
+												required="true"
+												requiredMessage="Ingrese monto para mayor de edad" />
+										</p:column>
+									</p:row>
+									<f:facet name="footer">
+										<p:row>
+											<p:column colspan="2">
+												<p:commandButton value="Actualizar"
+													action="#{administrarVariableSistemaBean.updateMontosAportes()}"
+													update=":panelMontosAportes" icon="ui-icon-check" style="margin:0" />
+											</p:column>
+										</p:row>
+									</f:facet>
+								</p:panelGrid>
+							</h:form>
+						</p:panel></td>
+				</tr>
+			</table>
+
+
+		</ui:define>
+
+	</ui:composition>
+</f:view>
+</html>

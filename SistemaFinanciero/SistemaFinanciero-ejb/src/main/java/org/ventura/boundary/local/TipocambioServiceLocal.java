@@ -19,5 +19,6 @@ public interface TipocambioServiceLocal extends TipocambioServiceRemote{
 	public void create(Tipocambio tipocambio) throws Exception;
 	
 	public void update(Tipocambio tipocambio) throws Exception;
+	
 }
 
