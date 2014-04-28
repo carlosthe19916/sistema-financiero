@@ -93,7 +93,10 @@ public class AbrirCajaBean implements Serializable{
 	private int mayorCuantiaCompra;
 	private int mayorCuantiaVenta;
 	//caja - caja
+	private int transaccionCajaCajaEnviados;
+	private int transaccionCajaCajaRecibidos;
 	private int totalTransCajaCaja;
+	
 	private int totalTransCajaBoveda;
 	//pendientes
 	private int totalSobrantes;
@@ -223,10 +226,15 @@ public class AbrirCajaBean implements Serializable{
 		calcularTotalMayorCuantia();
 		
 		//transacciones caja - caja
+		transaccionCajaCajaEnviados();
+		transaccionCajaCajaRecibidos();
+		calcularTotalTransaccionCajaCaja();
 		
 		//transacciones caja - boveda
 		
 		//pendientes
+		totalPendientesFaltantes();
+		totalPendientesSobrantes();
 	}
 	
 	//operaciones de deposito y retiro de aportes y cuenta bancaria
@@ -428,12 +436,51 @@ public class AbrirCajaBean implements Serializable{
 		totalCVMayorCuantia = mayorCuantiaCompra + mayorCuantiaVenta;
 	}
 	
-	
 	public void calcularTotalMayorCuantia(){
 		totalMayorCuantia = totalDepositosMayorCuantia + totalRetirosMayorCuantia + totalCVMayorCuantia;
 	}
 	
-
+	public void transaccionCajaCajaEnviados(){
+		try {
+			transaccionCajaCajaEnviados = cajaServiceLocal.countTransaccionCajaCajaEnviados(caja);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void transaccionCajaCajaRecibidos(){
+		try {
+			transaccionCajaCajaRecibidos = cajaServiceLocal.countTransaccionCajaCajaRecibidos(caja);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void calcularTotalTransaccionCajaCaja(){
+		totalTransCajaCaja = transaccionCajaCajaEnviados + transaccionCajaCajaRecibidos;
+	}
+	
+	public void totalPendientesSobrantes(){
+		try {
+			String tipopendiente = "FALTANTE";
+			totalSobrantes = cajaServiceLocal.countPendientes(caja, tipopendiente);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void totalPendientesFaltantes(){
+		try {
+			String tipopendiente = "SOBRANTE";
+			totalFaltantes = cajaServiceLocal.countPendientes(caja, tipopendiente);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
 	
 	
 	public String getTotal(Tipomoneda key){
@@ -940,5 +987,21 @@ public class AbrirCajaBean implements Serializable{
 
 	public void setMayorCuantiaVenta(int mayorCuantiaVenta) {
 		this.mayorCuantiaVenta = mayorCuantiaVenta;
+	}
+
+	public int getTransaccionCajaCajaEnviados() {
+		return transaccionCajaCajaEnviados;
+	}
+
+	public void setTransaccionCajaCajaEnviados(int transaccionCajaCajaEnviados) {
+		this.transaccionCajaCajaEnviados = transaccionCajaCajaEnviados;
+	}
+
+	public int getTransaccionCajaCajaRecibidos() {
+		return transaccionCajaCajaRecibidos;
+	}
+
+	public void setTransaccionCajaCajaRecibidos(int transaccionCajaCajaRecibidos) {
+		this.transaccionCajaCajaRecibidos = transaccionCajaCajaRecibidos;
 	}
 }

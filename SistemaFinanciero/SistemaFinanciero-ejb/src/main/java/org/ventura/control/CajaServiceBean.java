@@ -34,6 +34,7 @@ import org.ventura.dao.impl.DenominacionmonedaDAO;
 import org.ventura.dao.impl.DetallehistorialcajaDAO;
 import org.ventura.dao.impl.HistorialcajaDAO;
 import org.ventura.dao.impl.PendienteCajaDAO;
+import org.ventura.dao.impl.TransaccioncajacajaDAO;
 import org.ventura.dao.impl.TransaccioncompraventaDAO;
 import org.ventura.dao.impl.TransaccioncuentaaporteDAO;
 import org.ventura.dao.impl.TransaccioncuentabancariaDAO;
@@ -53,6 +54,7 @@ import org.ventura.entity.schema.caja.PendienteCaja;
 import org.ventura.entity.schema.caja.Tipocuentabancaria;
 import org.ventura.entity.schema.caja.Tipotransaccion;
 import org.ventura.entity.schema.caja.Tipotransaccioncompraventa;
+import org.ventura.entity.schema.caja.Transaccioncajacaja;
 import org.ventura.entity.schema.caja.Transaccioncompraventa;
 import org.ventura.entity.schema.caja.Transaccioncuentaaporte;
 import org.ventura.entity.schema.caja.Transaccioncuentabancaria;
@@ -100,6 +102,8 @@ public class CajaServiceBean implements CajaServiceLocal{
 	@EJB private TransaccioncuentabancariaDAO transaccioncuentabancariaDAO;
 	@EJB private TransaccioncuentaaporteDAO transaccioncuentaaporteDAO;
 	@EJB private TransaccioncompraventaDAO transaccioncompraventaDAO;
+	@EJB private TransaccioncajacajaDAO transaccioncajacajaDAO;
+	
 	@EJB private TransaccionCajaServiceLocal transaccionCajaServiceLocal;
 	@EJB private PendienteCajaDAO pendienteCajaDAO;
 	@EJB private ViewPendienteCajaDAO viewPendienteCajaDAO;
@@ -1057,6 +1061,67 @@ public class CajaServiceBean implements CajaServiceLocal{
 			throw e;
 		}
 		return countMayorCuantiaVenta;
+	}
+	
+	@Override
+	public int countTransaccionCajaCajaEnviados(Caja caja) throws Exception{
+		int countTransaccionCajaCaja;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		List<Transaccioncajacaja> list;
+		
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			list = transaccioncajacajaDAO.findByNamedQuery(Transaccioncajacaja.f_count_trans_caja_caja_enviados, parameters);
+			countTransaccionCajaCaja = list.size();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return countTransaccionCajaCaja;
+	}
+	
+	@Override
+	public int countTransaccionCajaCajaRecibidos(Caja caja) throws Exception{
+		int countTransaccionCajaCaja;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		List<Transaccioncajacaja> list;
+		
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			list = transaccioncajacajaDAO.findByNamedQuery(Transaccioncajacaja.f_count_trans_caja_caja_recibidos, parameters);
+			countTransaccionCajaCaja = list.size();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return countTransaccionCajaCaja;
+	}
+	
+	@Override
+	public int countPendientes(Caja caja, String tipopendiente) throws Exception{
+		int countPendietes;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		List<PendienteCaja> list;
+		
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			parameters.put("tipopendiente", tipopendiente);
+			list = pendienteCajaDAO.findByNamedQuery(PendienteCaja.f_count_pendiente, parameters);
+			countPendietes = list.size();
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return countPendietes;
 	}
 
 	public Moneda getTotalCajaSoles() {

@@ -21,13 +21,17 @@ import java.util.Date;
 @NamedQuery(name = "Transaccioncajacaja.findAll", query = "SELECT t FROM Transaccioncajacaja t")
 @NamedQueries({
 		@NamedQuery(name = Transaccioncajacaja.f_idhistorialorigen, query = "SELECT t FROM Transaccioncajacaja t WHERE t.historialcajaorigen.idhistorialcaja = :idhistorialcajaorigen"),
-		@NamedQuery(name = Transaccioncajacaja.f_idhistorialdestino, query = "SELECT t FROM Transaccioncajacaja t WHERE t.historialcajadestino.idhistorialcaja = :idhistorialcajadestino") })
+		@NamedQuery(name = Transaccioncajacaja.f_idhistorialdestino, query = "SELECT t FROM Transaccioncajacaja t WHERE t.historialcajadestino.idhistorialcaja = :idhistorialcajadestino"),
+		@NamedQuery(name = Transaccioncajacaja.f_count_trans_caja_caja_enviados, query = "SELECT tcc FROM Transaccioncajacaja tcc WHERE tcc.estadosolicitud = true AND tcc.estadoconfirmacion  = true AND tcc.historialcajaorigen.idcreacion = :idcreacion"),
+		@NamedQuery(name = Transaccioncajacaja.f_count_trans_caja_caja_recibidos, query = "SELECT tcc FROM Transaccioncajacaja tcc WHERE tcc.estadosolicitud = true AND tcc.estadoconfirmacion  = true AND tcc.historialcajadestino.idcreacion = :idcreacion")})
 public class Transaccioncajacaja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public final static String f_idhistorialorigen = "org.ventura.entity.schema.caja.Transaccioncajacaja.f_idhistorialorigen";
 	public final static String f_idhistorialdestino = "org.ventura.entity.schema.caja.Transaccioncajacaja.f_idhistorialdestino";
+	public final static String f_count_trans_caja_caja_enviados = "org.ventura.entity.schema.caja.Transaccioncajacaja.f_count_trans_caja_caja_enviados";
+	public final static String f_count_trans_caja_caja_recibidos = "org.ventura.entity.schema.caja.Transaccioncajacaja.f_count_trans_caja_caja_recibidos";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
