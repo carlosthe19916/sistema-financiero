@@ -13,7 +13,7 @@ import org.ventura.tipodato.Moneda;
 @Entity
 @Table(name = "detalletransaccionboveda", schema = "caja")
 @NamedQuery(name = "Detalletransaccionboveda.findAll", query = "SELECT d FROM Detalletransaccionboveda d")
-@NamedQueries({ @NamedQuery(name = Detalletransaccionboveda.ALL_ACTIVE_BY_TRANSACCION, query = "SELECT d FROM Detalletransaccionboveda d WHERE d.transaccionboveda = :transaccionboveda") })
+//@NamedQueries({ @NamedQuery(name = Detalletransaccionboveda.ALL_ACTIVE_BY_TRANSACCION, query = "SELECT d FROM Detalletransaccionboveda d WHERE d.transaccionboveda = :transaccionboveda") })
 public class Detalletransaccionboveda implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -33,9 +33,9 @@ public class Detalletransaccionboveda implements Serializable {
 	private Denominacionmoneda denominacionmoneda;
 
 	@ManyToOne
-	@JoinColumn(name = "idtransaccionboveda", nullable = false)
-	private Transaccionboveda transaccionboveda;
-
+	@JoinColumn(name = "idtransaccionbovedacaja")
+	private Transaccionbovedacaja transaccionbovedacaja;
+	
 	public Detalletransaccionboveda() {
 	}
 
@@ -63,14 +63,6 @@ public class Detalletransaccionboveda implements Serializable {
 		this.denominacionmoneda = denominacionmoneda;
 	}
 
-	public Transaccionboveda getTransaccionboveda() {
-		return this.transaccionboveda;
-	}
-
-	public void setTransaccionboveda(Transaccionboveda transaccionboveda) {
-		this.transaccionboveda = transaccionboveda;
-	}
-
 	public Moneda getSubtotal() {
 		Moneda result = new Moneda();
 		if (this.cantidad != null) {
@@ -92,6 +84,14 @@ public class Detalletransaccionboveda implements Serializable {
 	@Override
 	public int hashCode() {
 		return iddetalletransaccionboveda;
+	}
+
+	public Transaccionbovedacaja getTransaccionbovedacaja() {
+		return transaccionbovedacaja;
+	}
+
+	public void setTransaccionbovedacaja(Transaccionbovedacaja transaccionbovedacaja) {
+		this.transaccionbovedacaja = transaccionbovedacaja;
 	}
 
 }
