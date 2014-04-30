@@ -19,18 +19,27 @@
 
 		<h:outputStylesheet library="css" name="main.css" />
 
-		<h:panelGroup rendered="#{!aperturaCuentaaporteBean.cuentaValida}">
-			<div class="p6n-api-access-in-page-error" style="left: 516px;">
-				<div>
+		<h:form>
+			<h:panelGroup rendered="#{!aperturaCuentaaporteBean.cuentaValida}">
+				<div class="p6n-api-access-in-page-error" style="left: 516px;">
 					<div>
-						<p>
-							<h:messages />
-						</p>
+						<div>
+							<p>
+								<h:messages />
+							</p>
+						</div>
+						<div style="text-align: center;">
+							<h:commandLink value="Cerrar"
+								action="/caja/cuentasPersonales/index?faces-redirect=true" immediate="true"
+								styleClass="p6n-api-access-in-page-error-link" />
+						</div>
 					</div>
 				</div>
-			</div>
-		</h:panelGroup>
-
+				<div class="modal-dialog-bg"
+							style="opacity: 0.4; width: 1366px; height: 1200px;"></div>
+			</h:panelGroup>
+		</h:form>
+		
 		<h:panelGroup id="panelGroupPrint">
 			<h:panelGroup rendered="#{aperturaCuentaaporteBean.personanatural}">
 				<div

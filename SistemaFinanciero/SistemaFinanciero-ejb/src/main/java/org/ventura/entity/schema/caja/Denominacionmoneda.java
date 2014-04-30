@@ -13,7 +13,7 @@ import org.ventura.tipodato.Moneda;
 @Entity
 @Table(name = "denominacionmoneda", schema = "caja")
 @NamedQuery(name = "Denominacionmoneda.findAll", query = "SELECT d FROM Denominacionmoneda d")
-@NamedQueries({ @NamedQuery(name = Denominacionmoneda.findAllByTipoMoneda, query = "SELECT d FROM Denominacionmoneda d WHERE d.idtipomoneda = :idtipomoneda AND d.estado = true") })
+@NamedQueries({ @NamedQuery(name = Denominacionmoneda.findAllByTipoMoneda, query = "SELECT d FROM Denominacionmoneda d WHERE d.idtipomoneda = :idtipomoneda AND d.estado = true order by d.valor") })
 public class Denominacionmoneda implements Serializable {
 
 	private static final long serialVersionUID = 1L;

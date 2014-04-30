@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CajaServiceLocal;
+import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
 import org.ventura.entity.schema.caja.Estadoapertura;
@@ -97,10 +98,33 @@ public class AbrirCajaBean implements Serializable{
 	private int transaccionCajaCajaRecibidos;
 	private int totalTransCajaCaja;
 	
+	//caja - boveda
 	private int totalTransCajaBoveda;
+	
 	//pendientes
 	private int totalSobrantes;
 	private int totalFaltantes;
+	
+	
+	//monto total depositos y retiro
+	private Moneda montoTotalDepositoSoles;
+	private Moneda montoTotalDepositoDolares;
+	private Moneda montoTotalDepositoEuros;
+	private Moneda montoTotalRetiroSoles;
+	private Moneda montoTotalRetiroDolares;
+	private Moneda montoTotalRetiroEuros;
+	
+	//monto total depositos y retiro cuenta aporte
+	private Moneda montoTotalDepositosAporte;
+	private Moneda montoTotalRetirosAporte;
+	
+	//monto total depositos y retiro cuenta bancaria
+	private Moneda montoTotalDepositosCBancariaSoles;
+	private Moneda montoTotalDepositosCBancariaDolares;
+	private Moneda montoTotalDepositosCBancariaEuros;
+	private Moneda montoTotalRetirosCBancariaSoles;
+	private Moneda montoTotalRetirosCBancariaDolares;
+	private Moneda montoTotalRetirosCBancariaEuros;
 	
 	@Inject private CajaBean cajaBean;
 	@Inject private Caja caja;
@@ -182,6 +206,7 @@ public class AbrirCajaBean implements Serializable{
 					success = true;
 					setDlgVerificarSaldos(false);
 					resumenOperaciones();
+					resumenCierreCaja();
 				} else {
 					failure = true;
 					JsfUtil.addErrorMessage("Caja Cerrada, Imposible cerrar caja");			
@@ -464,7 +489,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void totalPendientesSobrantes(){
 		try {
-			String tipopendiente = "FALTANTE";
+			String tipopendiente = "SOBRANTE";
 			totalSobrantes = cajaServiceLocal.countPendientes(caja, tipopendiente);
 		} catch (Exception e) {
 			failure = true;
@@ -474,7 +499,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void totalPendientesFaltantes(){
 		try {
-			String tipopendiente = "SOBRANTE";
+			String tipopendiente = "FALTANTE";
 			totalFaltantes = cajaServiceLocal.countPendientes(caja, tipopendiente);
 		} catch (Exception e) {
 			failure = true;
@@ -482,6 +507,112 @@ public class AbrirCajaBean implements Serializable{
 		}
 	}
 	
+	public void resumenCierreCaja(){
+		totalDepositosAporte();
+		totalRetirosAporte();
+		totalDepositosCBancariaSoles();
+		totalDepositosCBancariaDolares();
+		totalDepositosCBancariaEuros();
+		totalRetirosCBancariaSoles();
+		totalRetirosCBancariaDolares();
+		totalRetirosCBancariaEuros();
+	}
+	
+	public void totalDepositosAporte(){
+		try {
+			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			montoTotalDepositosAporte = cajaServiceLocal.montoDepositosRetirosAportes(caja, deposito, soles);
+			System.out.println("monto Deposito Aporte " + montoTotalDepositosAporte);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void totalDepositosCBancariaSoles(){
+		try {
+			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			montoTotalDepositosCBancariaSoles = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, deposito, soles);
+			System.out.println("monto Deposito Soles: " + montoTotalDepositosCBancariaSoles);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void totalDepositosCBancariaDolares(){
+		try {
+			Tipomoneda dolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			montoTotalDepositosCBancariaDolares = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, deposito, dolares);
+			System.out.println("monto Deposito dolares: " + montoTotalDepositosCBancariaDolares);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void totalDepositosCBancariaEuros(){
+		try {
+			Tipomoneda euros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
+			montoTotalDepositosCBancariaEuros = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, deposito, euros);
+			System.out.println("monto Deposito euros: " + montoTotalDepositosCBancariaDolares);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void totalRetirosAporte(){
+		try {
+			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+			montoTotalRetirosAporte = cajaServiceLocal.montoDepositosRetirosAportes(caja, retiro, soles);
+			System.out.println("monto Retiro aporte " + getMontoTotalRetirosAporte());
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void totalRetirosCBancariaSoles(){
+		try {
+			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+			montoTotalRetirosCBancariaSoles = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, retiro, soles);
+			System.out.println("monto retiro Soles: " + montoTotalRetirosCBancariaSoles);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void totalRetirosCBancariaDolares(){
+		try {
+			Tipomoneda dolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+			montoTotalRetirosCBancariaDolares = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, retiro, dolares);
+			System.out.println("monto Retiro Dolares: " + montoTotalRetirosCBancariaDolares);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void totalRetirosCBancariaEuros(){
+		try {
+			Tipomoneda euro = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
+			montoTotalRetirosCBancariaEuros = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, retiro, euro);
+			System.out.println("monto Retiro Euros: " + montoTotalRetirosCBancariaEuros);
+		} catch (Exception e) {
+			failure = true;
+			JsfUtil.addErrorMessage(e.getMessage());
+		}
+	}
 	
 	public String getTotal(Tipomoneda key){
 		List<Detallehistorialcaja> list = retornarDetalle(key);
@@ -492,7 +623,6 @@ public class AbrirCajaBean implements Serializable{
 				total = total.add(detallehistorialcaja.getSubtotal());
 			}
 		}
-		
 		return total.toString();
 	}
 	
@@ -1003,5 +1133,123 @@ public class AbrirCajaBean implements Serializable{
 
 	public void setTransaccionCajaCajaRecibidos(int transaccionCajaCajaRecibidos) {
 		this.transaccionCajaCajaRecibidos = transaccionCajaCajaRecibidos;
+	}
+
+	public Moneda getMontoTotalDepositoSoles() {
+		return montoTotalDepositoSoles;
+	}
+
+	public void setMontoTotalDepositoSoles(Moneda montoTotalDepositoSoles) {
+		this.montoTotalDepositoSoles = montoTotalDepositoSoles;
+	}
+
+	public Moneda getMontoTotalDepositoDolares() {
+		return montoTotalDepositoDolares;
+	}
+
+	public void setMontoTotalDepositoDolares(Moneda montoTotalDepositoDolares) {
+		this.montoTotalDepositoDolares = montoTotalDepositoDolares;
+	}
+
+	public Moneda getMontoTotalDepositoEuros() {
+		return montoTotalDepositoEuros;
+	}
+
+	public void setMontoTotalDepositoEuros(Moneda montoTotalDepositoEuros) {
+		this.montoTotalDepositoEuros = montoTotalDepositoEuros;
+	}
+
+	public Moneda getMontoTotalRetiroSoles() {
+		return montoTotalRetiroSoles;
+	}
+
+	public void setMontoTotalRetiroSoles(Moneda montoTotalRetiroSoles) {
+		this.montoTotalRetiroSoles = montoTotalRetiroSoles;
+	}
+
+	public Moneda getMontoTotalRetiroDolares() {
+		return montoTotalRetiroDolares;
+	}
+
+	public void setMontoTotalRetiroDolares(Moneda montoTotalRetiroDolares) {
+		this.montoTotalRetiroDolares = montoTotalRetiroDolares;
+	}
+
+	public Moneda getMontoTotalRetiroEuros() {
+		return montoTotalRetiroEuros;
+	}
+
+	public void setMontoTotalRetiroEuros(Moneda montoTotalRetiroEuros) {
+		this.montoTotalRetiroEuros = montoTotalRetiroEuros;
+	}
+
+	public Moneda getMontoTotalDepositosAporte() {
+		return montoTotalDepositosAporte;
+	}
+
+	public void setMontoTotalDepositosAporte(Moneda montoTotalDepositosAporte) {
+		this.montoTotalDepositosAporte = montoTotalDepositosAporte;
+	}
+
+	public Moneda getMontoTotalRetirosAporte() {
+		return montoTotalRetirosAporte;
+	}
+
+	public void setMontoTotalRetirosAporte(Moneda montoTotalRetirosAporte) {
+		this.montoTotalRetirosAporte = montoTotalRetirosAporte;
+	}
+
+	public Moneda getMontoTotalDepositosCBancariaSoles() {
+		return montoTotalDepositosCBancariaSoles;
+	}
+
+	public void setMontoTotalDepositosCBancariaSoles(
+			Moneda montoTotalDepositosCBancariaSoles) {
+		this.montoTotalDepositosCBancariaSoles = montoTotalDepositosCBancariaSoles;
+	}
+
+	public Moneda getMontoTotalDepositosCBancariaDolares() {
+		return montoTotalDepositosCBancariaDolares;
+	}
+
+	public void setMontoTotalDepositosCBancariaDolares(
+			Moneda montoTotalDepositosCBancariaDolares) {
+		this.montoTotalDepositosCBancariaDolares = montoTotalDepositosCBancariaDolares;
+	}
+
+	public Moneda getMontoTotalDepositosCBancariaEuros() {
+		return montoTotalDepositosCBancariaEuros;
+	}
+
+	public void setMontoTotalDepositosCBancariaEuros(
+			Moneda montoTotalDepositosCBancariaEuros) {
+		this.montoTotalDepositosCBancariaEuros = montoTotalDepositosCBancariaEuros;
+	}
+
+	public Moneda getMontoTotalRetirosCBancariaSoles() {
+		return montoTotalRetirosCBancariaSoles;
+	}
+
+	public void setMontoTotalRetirosCBancariaSoles(
+			Moneda montoTotalRetirosCBancariaSoles) {
+		this.montoTotalRetirosCBancariaSoles = montoTotalRetirosCBancariaSoles;
+	}
+
+	public Moneda getMontoTotalRetirosCBancariaDolares() {
+		return montoTotalRetirosCBancariaDolares;
+	}
+
+	public void setMontoTotalRetirosCBancariaDolares(
+			Moneda montoTotalRetirosCBancariaDolares) {
+		this.montoTotalRetirosCBancariaDolares = montoTotalRetirosCBancariaDolares;
+	}
+
+	public Moneda getMontoTotalRetirosCBancariaEuros() {
+		return montoTotalRetirosCBancariaEuros;
+	}
+
+	public void setMontoTotalRetirosCBancariaEuros(
+			Moneda montoTotalRetirosCBancariaEuros) {
+		this.montoTotalRetirosCBancariaEuros = montoTotalRetirosCBancariaEuros;
 	}
 }

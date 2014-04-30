@@ -145,8 +145,8 @@
 														</f:facet>
 													</p:dataTable>
 												</p:outputPanel>
-												<p:outputPanel>
-													
+												
+												<p:outputPanel>	
 													<p:dataTable id="tabla" var="cajaDetalle"
 														value="#{abrirCajaBean.retornarDetalle(boveda.key)}"
 														rowKey="#{cajaDetalle}" rowIndexVar="row">
@@ -189,9 +189,9 @@
 															<h:outputText id="hola" style="font-size: 13px;"
 																value="#{abrirCajaBean.getTotal(boveda.key)}"/>
 														</f:facet>
-														
 													</p:dataTable>
 												</p:outputPanel>
+												
 											</p:panelGrid>
 										</p:tab>
 									</p:accordionPanel>
@@ -408,10 +408,6 @@
 						style="opacity: 0.4; width: 1366px; height: 2000px;"></div>
 					<div class="modal-dialog p6n-popup"
 						style="left: 450px; top: 5px;">
-						<div class="modal-dialog-content ng-binding" style="color: green;">
-							<div>Caja Cerrada Satisfactoriamente...</div>
-						</div>
-						<p:separator></p:separator>
 						<h:panelGroup id="resumenOperaciones">
 							<table
 								style="width: 220px; border: solid 0px #E9E6E6; margin-bottom: 0px;">
@@ -422,9 +418,9 @@
 											library="images/logo_coop" />
 									</td>
 									<td colspan="3"
-										style="text-align: left; font-weight: bold; font-size: 9px; vertical-align: middle; font-family: Century Gothic;">
+										style="text-align: left; font-weight: bold; font-size: 8px; vertical-align: middle; font-family: Century Gothic;">
 										<h:outputText value="C.A.C." /> <br /> <h:outputText
-											style="font-size: 16px;" value="CAJA VENTURA" />
+											style="font-size: 14px;" value="CAJA VENTURA" />
 									</td>
 								</tr>
 								<tr style="vertical-align: center;">
@@ -432,21 +428,17 @@
 										style="text-align: center; font-weight: bold; font-size: 11px; font-family: Century Gothic;">RESUMEN DE OPERACIONES</td>
 								</tr>
 								<tr>
-									<td colspan="1"
-										style="font-size: 10px; font-family: Century Gothic; font-weight: bold;">CAJA:</td>
-									<td colspan="3"
-										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.caja.abreviatura}  -  #{abrirCajaBean.agencia.abreviatura}</td>
+									<td colspan="4"
+										style="font-size: 10px; font-family: Century Gothic;">CAJA: #{abrirCajaBean.caja.abreviatura} - #{abrirCajaBean.agencia.abreviatura}</td>
 								</tr>
 								<tr>
-									<td colspan="1" style="font-weight: bold; font-size: 10px;">USUARIO:</td>
-									<td colspan="3"
-										style="font-size: 11px; font-family: Century Gothic;"><h:outputText
-											value="#{usuarioMB.usuario.username}" /></td>
+									<td colspan="4" style="font-size: 10px; font-family: Century Gothic;">USUARIO: #{usuarioMB.usuario.username}</td>
 								</tr>
-								<tr>
-									<td colspan="1" style="font-weight: bold; font-size: 10px;">FECHA:</td>
-									<td colspan="3"
-										style="font-size: 10px; font-family: Century Gothic;"><h:outputText
+								<tr style="vertical-align: center;">
+									<td colspan="4"><h:outputText
+											style="font-size: 10px; font-family: Century Gothic;"
+											value="FECHA: " /> <h:outputText
+											style="font-size: 10px; font-family: Century Gothic;"
 											value="#{abrirCajaBean.fechaResumenOp}">
 											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
 												timeZone="EST" />
@@ -460,21 +452,21 @@
 								</tr>
 								<tr style="vertical-align: center;">
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Aporte:</td>
+										style="font-size: 10px; font-family: Century Gothic;">C. Aporte:</td>
 										<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalDepositosAporte}</td>
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Ahorro:</td>
+										style="font-size: 10px; font-family: Century Gothic;">C. Ahorro:</td>
 									<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalDepositosAhorro}</td>
 								</tr>
 								<tr style="vertical-align: center;">
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Plazo Fijo:</td>
+										style="font-size: 10px; font-family: Century Gothic;">C. Plazo Fijo:</td>
 										<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalDepositosPlazoFijo}</td>
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Corriente:</td>
+										style="font-size: 10px; font-family: Century Gothic;">C. Corriente:</td>
 									<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalDepositosCorriente}</td>
 								</tr>
@@ -487,21 +479,21 @@
 								</tr>
 								<tr style="vertical-align: center;">
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Aporte:</td>
+										style="font-size: 10px; font-family: Century Gothic;">C. Aporte:</td>
 										<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalRetirosAporte}</td>
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Ahorro:</td>
+										style="font-size: 10px; font-family: Century Gothic;">C. Ahorro:</td>
 									<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalRetirosAhorro}</td>
 								</tr>
 								<tr style="vertical-align: center;">
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Plazo Fijo:</td>
+										style="font-size: 10px; font-family: Century Gothic;">C. Plazo Fijo:</td>
 										<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalRetirosPlazoFijo}</td>
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">C. Corriente:</td>
+										style="font-size: 10px; font-family: Century Gothic;">C. Corriente:</td>
 									<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalRetirosCorriente}</td>
 								</tr>
@@ -514,11 +506,11 @@
 								</tr>
 								<tr style="vertical-align: center;">
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">COMPRA:</td>
+										style="font-size: 10px; font-family: Century Gothic;">COMPRA:</td>
 										<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalCompra}</td>
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">VENTA:</td>
+										style="font-size: 10px; font-family: Century Gothic;">VENTA:</td>
 									<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalVenta}</td>
 								</tr>
@@ -531,17 +523,17 @@
 								</tr>
 								<tr style="vertical-align: center;">
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Depositos:</td>
+										style="font-size: 10px; font-family: Century Gothic;">Depositos:</td>
 										<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalDepositosMayorCuantia}</td>
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Retiros:</td>
+										style="font-size: 10px; font-family: Century Gothic;">Retiros:</td>
 									<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalRetirosMayorCuantia}</td>
 								</tr>
 								<tr style="vertical-align: center;">
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Compra/Venta:</td>
+										style="font-size: 10px; font-family: Century Gothic;">Compra/Venta:</td>
 										<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalCVMayorCuantia}</td>
 								</tr>
@@ -554,11 +546,11 @@
 								</tr>
 								<tr style="vertical-align: center;">
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Enviados:</td>
+										style="font-size: 10px; font-family: Century Gothic;">Enviados:</td>
 										<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.transaccionCajaCajaEnviados}</td>
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Recibidos:</td>
+										style="font-size: 10px; font-family: Century Gothic;">Recibidos:</td>
 									<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.transaccionCajaCajaRecibidos}</td>
 								</tr>
@@ -566,9 +558,18 @@
 									<td colspan="3"
 										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">TRANS. CAJA - BOVEDA (TOTAL):</td>
 									<td colspan="1"
-										style="font-size: 10px; font-family: Century Gothic;">50000</td>
+										style="font-size: 10px; font-family: Century Gothic;">2</td>
 								</tr>
-								
+								<tr style="vertical-align: center;">
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">Enviados:</td>
+										<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">2</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">Recibidos:</td>
+									<td colspan="1"
+										style="font-size: 10px; font-family: Century Gothic;">1</td>
+								</tr>
 								<tr>
 									<td colspan="4" style="font-size: 5px">&nbsp;</td>
 								</tr>
@@ -579,11 +580,11 @@
 								</tr>
 								<tr style="vertical-align: center;">
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Sobrantes:</td>
+										style="font-size: 10px; font-family: Century Gothic;">Sobrantes:</td>
 										<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalSobrantes}</td>
 									<td colspan="1"
-										style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">Faltantes:</td>
+										style="font-size: 10px; font-family: Century Gothic;">Faltantes:</td>
 									<td colspan="1"
 										style="font-size: 10px; font-family: Century Gothic;">#{abrirCajaBean.totalFaltantes}</td>
 								</tr>
@@ -598,13 +599,13 @@
 								</tr>
 								<tr>
 									<td colspan="2"
-										style="text-align: center; font-weight: bold; font-size: 10px;">JEFE CAJA</td>
+										style="text-align: center; font-size: 10px;">JEFE CAJA</td>
 									<td colspan="2"
-										style="text-align: center; font-weight: bold; font-size: 10px;">CAJERO</td>
+										style="text-align: center; font-size: 10px;">CAJERO</td>
 								</tr>
 							</table>
 						</h:panelGroup>
-						<div class="modal-dialog-buttons">
+						<div>
 							<h:commandButton value="Imprimir" id="print" icon="ui-icon-print" styleClass="action green"> 
 								<p:printer target="resumenOperaciones" />
 							</h:commandButton>
@@ -612,6 +613,160 @@
 								action="/caja/index?faces-redirect=true" immediate="true"
 								styleClass="action" />
 						</div>
+					</div>
+				</h:form>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{abrirCajaBean.success}">
+				<h:form>
+					<div class="modal-dialog-bg"
+						style="opacity: 0.4; width: 1366px; height: 2000px;"></div>
+					<div class="modal-dialog p6n-popup" style="left: 758px; top: 5px;">
+						<p:tabView orientation="left" style="width: 400px;" value="#{abrirCajaBean.mapDetalleHistorialcajaApertura.entrySet().toArray()}" var="boveda">
+							<p:tab title="#{boveda.key.denominacion}">
+								<h:panelGrid>
+									<h:panelGroup id="balanceCaja">
+										<table
+											style="width: 220px; border: solid 0px #E9E6E6; margin-bottom: 0px;">
+											<tr style="vertical-align: center;">
+												<td colspan="3"
+													style="text-align: center; font-weight: bold; font-size: 8px; vertical-align: middle; font-family: Century Gothic;">
+													<h:outputText style="font-size: 14px;" value="CAJA VENTURA" />
+												</td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="4">
+														<h:outputText style="font-size: 9px; font-family: Century Gothic;" value="BALANCE CAJA &nbsp;&nbsp;&nbsp; CAJA:#{abrirCajaBean.caja.abreviatura}-#{abrirCajaBean.agencia.abreviatura}" />
+													</td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="4">
+														<h:outputText style="font-size: 9px; font-family: Century Gothic;" value="USUARIO: #{usuarioMB.usuario.username}"/>
+													</td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="4"><h:outputText
+														style="font-size: 9px; font-family: Century Gothic;"
+														value="FECHA: " /> <h:outputText
+														style="font-size: 9px; font-family: Century Gothic;"
+														value="#{abrirCajaBean.fechaResumenOp}">
+														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+															timeZone="EST" />
+													</h:outputText></td>
+											</tr>
+	
+											<tr>
+												<td colspan="4">
+													<table
+														style="width: 210px; border: solid 1px #E9E6E6; margin-bottom: 0px; margin: 0 auto;">
+														<thead>
+															<tr>
+																<th style="text-align: right;"><label
+																	style="font-weight: bold; font-size: 9px; font-family: Century Gothic;">
+																		DENOMINACION</label></th>
+																<th style="text-align: right;"><label
+																	style="font-weight: bold; font-size: 9px; font-family: Century Gothic;">
+																		CANTIDAD</label></th>
+																<th style="text-align: right;"><label
+																	style="font-weight: bold; font-size: 9px; font-family: Century Gothic;">
+																		TOTAL</label></th>
+															</tr>
+														</thead>
+														<tbody>
+															<ui:repeat
+																value="#{abrirCajaBean.retornarDetalle(boveda.key)}"
+																var="cajaDetalle">
+																<h:panelGroup rendered="#{cajaDetalle.cantidad == 0 ? false : true}">
+																	<tr class="ng-scope">
+																		<td style="text-align: center; font-size: 10px; font-family: Century Gothic;"><h:outputLabel
+																				value="#{cajaDetalle.denominacionmoneda.denominacion}" /></td>
+																		<td style="text-align: center; font-size: 10px; font-family: Century Gothic;"><h:outputLabel
+																				value="#{cajaDetalle.cantidad}" /></td>
+																		<td style="text-align: center; font-size: 10px; font-family: Century Gothic;"><h:outputLabel
+																				value="#{cajaDetalle.getSubtotal()}" /></td>
+																	</tr>
+																</h:panelGroup>
+															</ui:repeat>
+														</tbody>
+													</table>
+				
+												</td>
+											</tr>
+											
+											<tr style="vertical-align: center;">
+												<td colspan="1"
+													style="font-weight: bold; font-size: 10px; font-family: Century Gothic;">TOTAL</td>
+												<td colspan="3"
+													style="font-weight: bold; font-size: 10px; font-family: Century Gothic; text-align: right;">#{boveda.key.abreviatura} #{abrirCajaBean.getTotal(boveda.key)}</td>
+											</tr>
+											
+											<tr>
+												<td colspan="4" style="font-size: 5px">&nbsp;</td>
+											</tr>
+											
+											<tr style="vertical-align: center;">
+												<td colspan="1"
+													style="font-size: 10px; font-family: Century Gothic;">Saldo Ayer</td>
+												<td colspan="3"
+													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{boveda.key.abreviatura} #{abrirCajaBean.getTotalAbrir(boveda.key)}</td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="1"
+													style="font-size: 10px; font-family: Century Gothic;">Entradas</td>
+												<td colspan="3"
+													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="1"
+													style="font-size: 10px; font-family: Century Gothic;">Salidas</td>
+												<td colspan="3"
+													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="2"
+													style="font-size: 10px; font-family: Century Gothic;">Sobrates de Caja</td>
+												<td colspan="2"
+													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="2"
+													style="font-size: 10px; font-family: Century Gothic;">Faltantes de Caja</td>
+												<td colspan="2"
+													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+											</tr>
+											<tr style="vertical-align: center;">
+												<td colspan="2"
+													style="font-size: 10px; font-family: Century Gothic;">Saldo por Devolver</td>
+												<td colspan="2"
+													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+											</tr>
+
+											<tr>
+												<td colspan="4" style="font-size: 10px">&nbsp;</td>
+											</tr>
+
+											<tr>
+												<td colspan="2" style="text-align: center;">..................</td>
+												<td colspan="2" style="text-align: center;">..................</td>
+											</tr>
+											<tr>
+												<td colspan="2"
+													style="text-align: center; font-size: 10px; font-family: FontB11;">JEFE
+													CAJA</td>
+												<td colspan="2"
+													style="text-align: center; font-size: 10px; font-family: fontB11;">CAJERO</td>
+											</tr>
+										</table>
+									</h:panelGroup>
+									<div>
+										<h:commandButton value="Imprimir" id="print"
+											icon="ui-icon-print" styleClass="action green">
+											<p:printer target="balanceCaja" />
+										</h:commandButton>
+									</div>
+								</h:panelGrid>
+							</p:tab>
+						</p:tabView>
 					</div>
 				</h:form>
 			</h:panelGroup>

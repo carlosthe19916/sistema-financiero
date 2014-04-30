@@ -1123,6 +1123,55 @@ public class CajaServiceBean implements CajaServiceLocal{
 		}
 		return countPendietes;
 	}
+	
+	
+	@Override
+	public Moneda montoDepositosRetirosAportes(Caja caja, Tipotransaccion tipotransaccion, Tipomoneda tipomoneda) throws Exception{
+		Moneda monto = new Moneda("0.00");
+		List<Transaccioncuentaaporte> list;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			parameters.put("idtipotransaccion", tipotransaccion.getIdtipotransaccion());
+			parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
+			list = transaccioncuentaaporteDAO.findByNamedQuery(Transaccioncuentaaporte.f_total_deposito_retiro_aportes, parameters);
+			for (Transaccioncuentaaporte transaccioncuentaaporte : list) {
+				monto = monto.add(transaccioncuentaaporte.getMonto());
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return monto;
+	}
+	
+	@Override
+	public Moneda montoDepositosRetirosCuentaBancaria(Caja caja, Tipotransaccion tipotransaccion, Tipomoneda tipomoneda) throws Exception{
+		Moneda monto = new Moneda("0.00");
+		List<Transaccioncuentabancaria> list;
+		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
+		
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("idcreacion", historialcaja.getIdcreacion());
+			parameters.put("idtipotransaccion", tipotransaccion.getIdtipotransaccion());
+			parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
+			list = transaccioncuentabancariaDAO.findByNamedQuery(Transaccioncuentabancaria.f_total_deposito_retiro, parameters);
+			for (Transaccioncuentabancaria transaccioncuentabancaria : list) {
+				monto = monto.add(transaccioncuentabancaria.getMonto());
+			}
+		} catch (Exception e) {
+			log.error("Exception:" + e.getClass());
+			log.error(e.getMessage());
+			log.error("Caused by:" + e.getCause());
+			throw e;
+		}
+		return monto;
+	}
 
 	public Moneda getTotalCajaSoles() {
 		return totalCajaSoles;
