@@ -97,6 +97,7 @@
 		<class>org.ventura.entity.schema.caja.Transaccionmayorcuantia</class>
 		<class>org.ventura.entity.schema.maestro.VariableSistema</class>
 		<class>org.ventura.entity.schema.caja.Transaccionbovedacaja</class>
+		<class>org.ventura.entity.schema.caja.Transaccionboveda</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="validate" />

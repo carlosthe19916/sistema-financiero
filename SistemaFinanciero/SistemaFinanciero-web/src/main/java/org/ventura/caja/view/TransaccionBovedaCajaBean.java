@@ -65,10 +65,10 @@ public class TransaccionBovedaCajaBean implements Serializable {
 	@PostConstruct
 	private void initialize() {
 		try {
-			List<Transaccionbovedacaja> transasccionesEnviadas = bovedaServiceLocal.getTransaccionesEnviadasCaja(cajaBean.getCaja());
-			List<Transaccionbovedacaja> transasccionesSolicitadas = bovedaServiceLocal.getTransaccionesPorConfirmarCaja(cajaBean.getCaja());
-			tablaTransasccionesEnviadas.setRows(transasccionesEnviadas);
-			tablaTransasccionesSolicitadas.setRows(transasccionesSolicitadas);
+			//List<Transaccionbovedacaja> transasccionesEnviadas = bovedaServiceLocal.getTransaccionesEnviadasCaja(cajaBean.getCaja());
+			//List<Transaccionbovedacaja> transasccionesSolicitadas = bovedaServiceLocal.getTransaccionesPorConfirmarCaja(cajaBean.getCaja());
+			//tablaTransasccionesEnviadas.setRows(transasccionesEnviadas);
+			//tablaTransasccionesSolicitadas.setRows(transasccionesSolicitadas);
 			
 			List<Boveda> listBovedas = cajaServiceLocal.getBovedas(cajaBean.getCaja());
 			comboBovedas.setItems(listBovedas);
@@ -87,7 +87,7 @@ public class TransaccionBovedaCajaBean implements Serializable {
 				transaccionbovedacaja.setMonto(getTotalTransaccion().getValue());
 				transaccionbovedacaja.setOrigen("CAJA");
 					
-				this.transaccionbovedacaja = bovedaServiceLocal.crearTransaccionBovedacaja(transaccionbovedacaja, cajaBean.getCaja(), comboBovedas.getObjectItemSelected(), usuarioMB.getUsuario());
+				//this.transaccionbovedacaja = bovedaServiceLocal.crearTransaccionBovedacaja(transaccionbovedacaja, cajaBean.getCaja(), comboBovedas.getObjectItemSelected(), usuarioMB.getUsuario());
 				
 				successCrearTransaccion = true;
 				dlgCrearTransasccion = false;
@@ -109,10 +109,10 @@ public class TransaccionBovedaCajaBean implements Serializable {
 	
 	public void cancelarTransaccion(Transaccionbovedacaja transaccionbovedacaja){
 		try {
-			bovedaServiceLocal.cancelarTransaccionbovedacaja(transaccionbovedacaja);
+			//bovedaServiceLocal.cancelarTransaccionbovedacaja(transaccionbovedacaja);
 			
-			List<Transaccionbovedacaja> transasccionesEnviadas = bovedaServiceLocal.getTransaccionesEnviadasCaja(cajaBean.getCaja());			
-			tablaTransasccionesEnviadas.setRows(transasccionesEnviadas);
+			//List<Transaccionbovedacaja> transasccionesEnviadas = bovedaServiceLocal.getTransaccionesEnviadasCaja(cajaBean.getCaja());			
+			//tablaTransasccionesEnviadas.setRows(transasccionesEnviadas);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());

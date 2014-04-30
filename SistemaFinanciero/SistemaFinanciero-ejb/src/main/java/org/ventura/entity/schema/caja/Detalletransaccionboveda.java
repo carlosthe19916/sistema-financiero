@@ -33,6 +33,18 @@ public class Detalletransaccionboveda implements Serializable {
 	private Denominacionmoneda denominacionmoneda;
 
 	@ManyToOne
+	@JoinColumn(name = "idtransaccionboveda")
+	private Transaccionboveda transaccionboveda;
+	
+	public Transaccionboveda getTransaccionboveda() {
+		return transaccionboveda;
+	}
+
+	public void setTransaccionboveda(Transaccionboveda transaccionboveda) {
+		this.transaccionboveda = transaccionboveda;
+	}
+
+	@ManyToOne
 	@JoinColumn(name = "idtransaccionbovedacaja")
 	private Transaccionbovedacaja transaccionbovedacaja;
 	
