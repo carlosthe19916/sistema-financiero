@@ -105,11 +105,11 @@ public interface CajaServiceLocal extends CajaServiceRemote{
 	
 	public int countMayorCuantiaAportes(Caja caja, Tipotransaccion tipoTransaccion, Moneda monto) throws Exception;
 	
-	public int countMayorCuantiaCBancaria(Caja caja, Tipotransaccion tipoTransaccion, Moneda monto) throws Exception;
+	public int countMayorCuantiaCBancaria(Caja caja, Tipotransaccion tipoTransaccion, Moneda monto, Tipomoneda tipomoneda) throws Exception;
 	
-	public int countMayorCuantiaCompra(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto) throws Exception;
+	public int countMayorCuantiaCompra(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto, Tipomoneda tipomoneda) throws Exception;
 	
-	public int countMayorCuantiaVenta(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto) throws Exception;
+	public int countMayorCuantiaVenta(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto, Tipomoneda tipomoneda) throws Exception;
 	
 	public int countTransaccionCajaCajaEnviados(Caja caja) throws Exception;
 	

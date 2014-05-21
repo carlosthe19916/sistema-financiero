@@ -180,7 +180,7 @@ public class TransaccionCuentaaporteCajaBean implements Serializable {
 									failure = true;
 								}
 								
-								if(monto.isGreaterThan(new Moneda(montoMaximoTransaccion)) && isOperacionMayorCuantia == false){
+								if(monto.isGreaterThanOrEqual(new Moneda(montoMaximoTransaccion)) && isOperacionMayorCuantia == false){
 									isOperacionMayorCuantia = true;
 									
 									Tipotransaccion tipotransa = comboTipotransaccion.getObjectItemSelected();

@@ -994,7 +994,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 	}
 	
 	@Override
-	public int countMayorCuantiaCBancaria(Caja caja, Tipotransaccion tipoTransaccion, Moneda monto) throws Exception{
+	public int countMayorCuantiaCBancaria(Caja caja, Tipotransaccion tipoTransaccion, Moneda monto, Tipomoneda tipomoneda) throws Exception{
 		int countMayorCuantiaCBancaria;
 		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
 		List<Transaccioncuentabancaria> list;
@@ -1005,6 +1005,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 			parameters.put("idtipotransaccion", tipoTransaccion.getIdtipotransaccion());
 			parameters.put("idcreacion", historialcaja.getIdcreacion());
 			parameters.put("monto", monto);
+			parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
 			list = transaccioncuentabancariaDAO.findByNamedQuery(Transaccioncuentabancaria.f_count_mayor_cuantia_cuenta_bancaria, parameters);
 			countMayorCuantiaCBancaria = list.size();
 		} catch (Exception e) {
@@ -1017,7 +1018,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 	}
 	
 	@Override
-	public int countMayorCuantiaCompra(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto) throws Exception {
+	public int countMayorCuantiaCompra(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto, Tipomoneda tipomoneda) throws Exception {
 		int countMayorCuantiaCompra;
 		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
 		List<Transaccioncompraventa> list;
@@ -1028,6 +1029,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 			parameters.put("idtipotransaccioncompraventa", tipotransaccioncompraventa.getIdtipotransaccioncompraventa());
 			parameters.put("idcreacion", historialcaja.getIdcreacion());
 			parameters.put("monto", monto);
+			parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
 			list = transaccioncompraventaDAO.findByNamedQuery(Transaccioncompraventa.f_count_mayor_cuantia_compra, parameters);
 			countMayorCuantiaCompra = list.size();
 
@@ -1041,7 +1043,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 	}
 	
 	@Override
-	public int countMayorCuantiaVenta(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto) throws Exception{
+	public int countMayorCuantiaVenta(Caja caja, Tipotransaccioncompraventa tipotransaccioncompraventa, Moneda monto, Tipomoneda tipomoneda) throws Exception{
 		int countMayorCuantiaVenta;
 		Historialcaja historialcaja = getHistorialcajaLastActive(caja);
 		List<Transaccioncompraventa> list;
@@ -1052,6 +1054,7 @@ public class CajaServiceBean implements CajaServiceLocal{
 			parameters.put("idtipotransaccioncompraventa", tipotransaccioncompraventa.getIdtipotransaccioncompraventa());
 			parameters.put("idcreacion", historialcaja.getIdcreacion());
 			parameters.put("monto", monto);
+			parameters.put("idtipomoneda", tipomoneda.getIdtipomoneda());
 			list = transaccioncompraventaDAO.findByNamedQuery(Transaccioncompraventa.f_count_mayor_cuantia_venta, parameters);
 			countMayorCuantiaVenta = list.size();
 		} catch (Exception e) {
