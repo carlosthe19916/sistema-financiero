@@ -385,7 +385,7 @@ public class AbrirCajaBean implements Serializable{
 	//operaciones de mayor cuantía en depositos, retiros y c/v
 	public void mayorCuantiaDepositosAporte() {
 		try {
-			Moneda monto = new Moneda("10");
+			Moneda monto = new Moneda("13900");
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 			mayorCuantiaDepositosAporte = cajaServiceLocal.countMayorCuantiaAportes(caja, deposito, monto);
 		} catch (Exception e) {
@@ -411,7 +411,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaRetirosAporte() {
 		try {
-			Moneda monto = new Moneda("10");
+			Moneda monto = new Moneda("13900");
 			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
 			mayorCuantiaRetirosAporte = cajaServiceLocal.countMayorCuantiaAportes(caja, retiro, monto);
 		} catch (Exception e) {
