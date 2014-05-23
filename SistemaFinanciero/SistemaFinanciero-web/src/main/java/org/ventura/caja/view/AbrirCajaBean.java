@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.ventura.boundary.local.CajaServiceLocal;
+import org.ventura.boundary.local.MaestrosServiceLocal;
 import org.ventura.entity.GeneratedTipomoneda.TipomonedaType;
 import org.ventura.entity.schema.caja.Caja;
 import org.ventura.entity.schema.caja.Detallehistorialcaja;
@@ -34,6 +35,7 @@ import org.ventura.util.maestro.ProduceObject;
 import org.ventura.util.maestro.TipoTransaccionCompraVentaType;
 import org.ventura.util.maestro.TipoTransaccionType;
 import org.ventura.util.maestro.TipocuentabancariaType;
+import org.ventura.util.maestro.VariableSistemaType;
 import org.venturabank.util.JsfUtil;
 
 @Named
@@ -100,13 +102,10 @@ public class AbrirCajaBean implements Serializable{
 	private int mayorCuantiaVentaDolares;
 	private int mayorCuantiaVentaEuros;
 	
-	//caja - caja
+	//transacciones caja - caja
 	private int transaccionCajaCajaEnviados;
 	private int transaccionCajaCajaRecibidos;
 	private int totalTransCajaCaja;
-	
-	//caja - boveda
-	private int totalTransCajaBoveda;
 	
 	//pendientes
 	private int totalSobrantes;
@@ -143,9 +142,16 @@ public class AbrirCajaBean implements Serializable{
 	
 	@EJB private CajaServiceLocal cajaServiceLocal;
 	
+	@EJB MaestrosServiceLocal maestrosServiceLocal;
+	
 	private PendienteCaja pendientecaja;
 	
 	private boolean print;
+	
+	BigDecimal montoMaximoTransaccionSoles;
+	BigDecimal montoMaximoTransaccionDolares;
+	BigDecimal montoMaximoTransaccionEuros;
+	
 	
 	public AbrirCajaBean() {
 		pendientecaja = new PendienteCaja();
@@ -164,6 +170,10 @@ public class AbrirCajaBean implements Serializable{
 		try {
 			caja = cajaBean.getCaja();
 			agencia = agenciaBean.getAgencia();
+			
+			montoMaximoTransaccionSoles = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_NUEVO_SOL).getValor();
+			montoMaximoTransaccionDolares = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_DOLAR).getValor();
+			montoMaximoTransaccionEuros = maestrosServiceLocal.getVariableSistema(VariableSistemaType.MONTO_MAXIMO_TRANSACCION_EURO).getValor();
 			
 			Estadoapertura estadoapertura = ProduceObject.getEstadoapertura(EstadoAperturaType.CERRADO);
 			Estadoapertura estadoapertura2 = this.caja.getEstadoapertura();
@@ -187,6 +197,32 @@ public class AbrirCajaBean implements Serializable{
 		}
 	}
 	
+	public boolean isSoles(Tipomoneda moneda){
+		boolean valor = false;
+		Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
+		if (moneda.getIdtipomoneda() == soles.getIdtipomoneda()) {
+			valor = true;
+		}
+		return valor;
+	}
+	
+	public boolean isDolares(Tipomoneda moneda){
+		boolean valor = false;
+		Tipomoneda dolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
+		if (moneda.getIdtipomoneda() == dolares.getIdtipomoneda()) {
+			valor = true;
+		}
+		return valor;
+	}
+	
+	public boolean isEuros(Tipomoneda moneda){
+		boolean valor = false;
+		Tipomoneda euros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
+		if (moneda.getIdtipomoneda() == euros.getIdtipomoneda()) {
+			valor = true;
+		}
+		return valor;
+	}
 	
 	public List<Detallehistorialcaja> retornarDetalle(Tipomoneda tipomoneda){
 		return mapDetalleHistorialcajaCierre.get(tipomoneda);
@@ -402,7 +438,7 @@ public class AbrirCajaBean implements Serializable{
 	//operaciones de mayor cuantía en depositos, retiros y c/v
 	public void mayorCuantiaDepositosAporte() {
 		try {
-			Moneda monto = new Moneda("13900");
+			Moneda monto = new Moneda(montoMaximoTransaccionSoles);
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 			mayorCuantiaDepositosAporte = cajaServiceLocal.countMayorCuantiaAportes(caja, deposito, monto);
 		} catch (Exception e) {
@@ -413,7 +449,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaDepositosCuentaBancariaSoles() {
 		try {
-			Moneda monto = new Moneda("13900");
+			Moneda monto = new Moneda(montoMaximoTransaccionSoles);
 			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 			mayorCuantiaDepositosCBancariaSoles = cajaServiceLocal.countMayorCuantiaCBancaria(caja, deposito, monto, soles);
@@ -425,7 +461,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaDepositosCuentaBancariaDolares() {
 		try {
-			Moneda monto = new Moneda("5000");
+			Moneda monto = new Moneda(montoMaximoTransaccionDolares);
 			Tipomoneda dolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 			mayorCuantiaDepositosCBancariaDolares = cajaServiceLocal.countMayorCuantiaCBancaria(caja, deposito, monto, dolares);
@@ -437,7 +473,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaDepositosCuentaBancariaEuros() {
 		try {
-			Moneda monto = new Moneda("3700");
+			Moneda monto = new Moneda(montoMaximoTransaccionEuros);
 			Tipomoneda euros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 			mayorCuantiaDepositosCBancariaEuros = cajaServiceLocal.countMayorCuantiaCBancaria(caja, deposito, monto, euros);
@@ -453,7 +489,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaRetirosAporte() {
 		try {
-			Moneda monto = new Moneda("13900");
+			Moneda monto = new Moneda(montoMaximoTransaccionSoles);
 			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
 			mayorCuantiaRetirosAporte = cajaServiceLocal.countMayorCuantiaAportes(caja, retiro, monto);
 		} catch (Exception e) {
@@ -464,7 +500,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaRetirosCuentaBancariaSoles() {
 		try {
-			Moneda monto = new Moneda("13900");
+			Moneda monto = new Moneda(montoMaximoTransaccionSoles);
 			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
 			mayorCuantiaRetirosCBancariaSoles = cajaServiceLocal.countMayorCuantiaCBancaria(caja, retiro, monto, soles);
@@ -476,7 +512,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaRetirosCuentaBancariaDolares() {
 		try {
-			Moneda monto = new Moneda("5000");
+			Moneda monto = new Moneda(montoMaximoTransaccionDolares);
 			Tipomoneda dolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
 			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
 			mayorCuantiaRetirosCBancariaDolares = cajaServiceLocal.countMayorCuantiaCBancaria(caja, retiro, monto, dolares);
@@ -488,7 +524,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaRetirosCuentaBancariaEuros() {
 		try {
-			Moneda monto = new Moneda("3700");
+			Moneda monto = new Moneda(montoMaximoTransaccionEuros);
 			Tipomoneda euros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
 			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
 			mayorCuantiaRetirosCBancariaEuros = cajaServiceLocal.countMayorCuantiaCBancaria(caja, retiro, monto, euros);
@@ -504,7 +540,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaTransaccionesCompraDolares() {
 		try {
-			Moneda monto = new Moneda("5000");
+			Moneda monto = new Moneda(montoMaximoTransaccionDolares);
 			Tipomoneda dolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
 			Tipotransaccioncompraventa compra = ProduceObject.getTipotransaccioncompraventa(TipoTransaccionCompraVentaType.COMPRA);
 			mayorCuantiaCompraDolares = cajaServiceLocal.countMayorCuantiaCompra(caja, compra, monto, dolares);
@@ -516,7 +552,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaTransaccionesCompraEuros() {
 		try {
-			Moneda monto = new Moneda("3700");
+			Moneda monto = new Moneda(montoMaximoTransaccionEuros);
 			Tipomoneda euros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
 			Tipotransaccioncompraventa compra = ProduceObject.getTipotransaccioncompraventa(TipoTransaccionCompraVentaType.COMPRA);
 			mayorCuantiaCompraEuros = cajaServiceLocal.countMayorCuantiaCompra(caja, compra, monto, euros);
@@ -528,7 +564,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaTransaccionesVentaDolares() {
 		try {
-			Moneda monto = new Moneda("5000");
+			Moneda monto = new Moneda(montoMaximoTransaccionDolares);
 			Tipomoneda dolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
 			Tipotransaccioncompraventa venta = ProduceObject.getTipotransaccioncompraventa(TipoTransaccionCompraVentaType.VENTA);
 			mayorCuantiaVentaDolares = cajaServiceLocal.countMayorCuantiaVenta(caja, venta, monto, dolares);
@@ -540,7 +576,7 @@ public class AbrirCajaBean implements Serializable{
 	
 	public void mayorCuantiaTransaccionesVentaEuros() {
 		try {
-			Moneda monto = new Moneda("3700");
+			Moneda monto = new Moneda(montoMaximoTransaccionEuros);
 			Tipomoneda euros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
 			Tipotransaccioncompraventa venta = ProduceObject.getTipotransaccioncompraventa(TipoTransaccionCompraVentaType.VENTA);
 			mayorCuantiaVentaEuros = cajaServiceLocal.countMayorCuantiaVenta(caja, venta, monto, euros);
@@ -616,7 +652,6 @@ public class AbrirCajaBean implements Serializable{
 			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 			montoTotalDepositosAporte = cajaServiceLocal.montoDepositosRetirosAportes(caja, deposito, soles);
-			System.out.println("monto Deposito Aporte " + montoTotalDepositosAporte);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -628,7 +663,6 @@ public class AbrirCajaBean implements Serializable{
 			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 			montoTotalDepositosCBancariaSoles = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, deposito, soles);
-			System.out.println("monto Deposito Soles: " + montoTotalDepositosCBancariaSoles);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -640,7 +674,6 @@ public class AbrirCajaBean implements Serializable{
 			Tipomoneda dolares = ProduceObject.getTipomoneda(TipomonedaType.DOLAR);
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 			montoTotalDepositosCBancariaDolares = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, deposito, dolares);
-			System.out.println("monto Deposito dolares: " + montoTotalDepositosCBancariaDolares);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -652,7 +685,6 @@ public class AbrirCajaBean implements Serializable{
 			Tipomoneda euros = ProduceObject.getTipomoneda(TipomonedaType.EURO);
 			Tipotransaccion deposito = ProduceObject.getTipotransaccion(TipoTransaccionType.DEPOSITO);
 			montoTotalDepositosCBancariaEuros = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, deposito, euros);
-			System.out.println("monto Deposito euros: " + montoTotalDepositosCBancariaDolares);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -664,7 +696,6 @@ public class AbrirCajaBean implements Serializable{
 			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
 			montoTotalRetirosAporte = cajaServiceLocal.montoDepositosRetirosAportes(caja, retiro, soles);
-			System.out.println("monto Retiro aporte " + getMontoTotalRetirosAporte());
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -676,7 +707,6 @@ public class AbrirCajaBean implements Serializable{
 			Tipomoneda soles = ProduceObject.getTipomoneda(TipomonedaType.NUEVO_SOL);
 			Tipotransaccion retiro = ProduceObject.getTipotransaccion(TipoTransaccionType.RETIRO);
 			montoTotalRetirosCBancariaSoles = cajaServiceLocal.montoDepositosRetirosCuentaBancaria(caja, retiro, soles);
-			System.out.println("monto retiro Soles: " + montoTotalRetirosCBancariaSoles);
 		} catch (Exception e) {
 			failure = true;
 			JsfUtil.addErrorMessage(e.getMessage());
@@ -1138,14 +1168,6 @@ public class AbrirCajaBean implements Serializable{
 		this.totalTransCajaCaja = totalTransCajaCaja;
 	}
 
-	public int getTotalTransCajaBoveda() {
-		return totalTransCajaBoveda;
-	}
-
-	public void setTotalTransCajaBoveda(int totalTransCajaBoveda) {
-		this.totalTransCajaBoveda = totalTransCajaBoveda;
-	}
-
 	public int getTotalSobrantes() {
 		return totalSobrantes;
 	}
@@ -1240,75 +1262,5 @@ public class AbrirCajaBean implements Serializable{
 
 	public void setMontoTotalRetiroEuros(Moneda montoTotalRetiroEuros) {
 		this.montoTotalRetiroEuros = montoTotalRetiroEuros;
-	}
-
-	public Moneda getMontoTotalDepositosAporte() {
-		return montoTotalDepositosAporte;
-	}
-
-	public void setMontoTotalDepositosAporte(Moneda montoTotalDepositosAporte) {
-		this.montoTotalDepositosAporte = montoTotalDepositosAporte;
-	}
-
-	public Moneda getMontoTotalRetirosAporte() {
-		return montoTotalRetirosAporte;
-	}
-
-	public void setMontoTotalRetirosAporte(Moneda montoTotalRetirosAporte) {
-		this.montoTotalRetirosAporte = montoTotalRetirosAporte;
-	}
-
-	public Moneda getMontoTotalDepositosCBancariaSoles() {
-		return montoTotalDepositosCBancariaSoles;
-	}
-
-	public void setMontoTotalDepositosCBancariaSoles(
-			Moneda montoTotalDepositosCBancariaSoles) {
-		this.montoTotalDepositosCBancariaSoles = montoTotalDepositosCBancariaSoles;
-	}
-
-	public Moneda getMontoTotalDepositosCBancariaDolares() {
-		return montoTotalDepositosCBancariaDolares;
-	}
-
-	public void setMontoTotalDepositosCBancariaDolares(
-			Moneda montoTotalDepositosCBancariaDolares) {
-		this.montoTotalDepositosCBancariaDolares = montoTotalDepositosCBancariaDolares;
-	}
-
-	public Moneda getMontoTotalDepositosCBancariaEuros() {
-		return montoTotalDepositosCBancariaEuros;
-	}
-
-	public void setMontoTotalDepositosCBancariaEuros(
-			Moneda montoTotalDepositosCBancariaEuros) {
-		this.montoTotalDepositosCBancariaEuros = montoTotalDepositosCBancariaEuros;
-	}
-
-	public Moneda getMontoTotalRetirosCBancariaSoles() {
-		return montoTotalRetirosCBancariaSoles;
-	}
-
-	public void setMontoTotalRetirosCBancariaSoles(
-			Moneda montoTotalRetirosCBancariaSoles) {
-		this.montoTotalRetirosCBancariaSoles = montoTotalRetirosCBancariaSoles;
-	}
-
-	public Moneda getMontoTotalRetirosCBancariaDolares() {
-		return montoTotalRetirosCBancariaDolares;
-	}
-
-	public void setMontoTotalRetirosCBancariaDolares(
-			Moneda montoTotalRetirosCBancariaDolares) {
-		this.montoTotalRetirosCBancariaDolares = montoTotalRetirosCBancariaDolares;
-	}
-
-	public Moneda getMontoTotalRetirosCBancariaEuros() {
-		return montoTotalRetirosCBancariaEuros;
-	}
-
-	public void setMontoTotalRetirosCBancariaEuros(
-			Moneda montoTotalRetirosCBancariaEuros) {
-		this.montoTotalRetirosCBancariaEuros = montoTotalRetirosCBancariaEuros;
 	}
 }

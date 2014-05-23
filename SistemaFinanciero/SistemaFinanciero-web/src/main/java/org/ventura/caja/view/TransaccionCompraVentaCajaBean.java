@@ -271,7 +271,7 @@ public class TransaccionCompraVentaCajaBean implements Serializable {
 								}
 							}
 							if(isVenta()){	
-								montoTransaccion = montoEntregado;
+								montoTransaccion = montoRecibido;
 								TipomonedaType tipomonedaType = ProduceObject.getTipomoneda(tipomonedaEntregado) ;
 								try {
 									switch (tipomonedaType) {

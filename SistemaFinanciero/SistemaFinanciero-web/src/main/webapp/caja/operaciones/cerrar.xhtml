@@ -645,15 +645,15 @@
 														style="width: 210px; border: solid 1px #E9E6E6; margin-bottom: 0px; margin: 0 auto;">
 														<thead>
 															<tr>
-																<th style="text-align: right;"><h:outputText
+																<th style="text-align: right;"><label
 																	style="font-size: 8px; font-family: Century Gothic;">
-																		DENOMINACION</h:outputText></th>
-																<th style="text-align: right;"><h:outputText
+																		DENOMINACION</label></th>
+																<th style="text-align: right;"><label
 																	style="font-size: 8px; font-family: Century Gothic;">
-																		CANTIDAD</h:outputText></th>
-																<th style="text-align: right;"><h:outputText
+																		CANTIDAD</label></th>
+																<th style="text-align: right;"><label
 																	style="font-size: 8px; font-family: Century Gothic;">
-																		TOTAL</h:outputText></th>
+																		TOTAL</label></th>
 															</tr>
 														</thead>
 														<tbody>
@@ -694,37 +694,107 @@
 												<td colspan="3"
 													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{boveda.key.abreviatura} #{abrirCajaBean.getTotalAbrir(boveda.key)}</td>
 											</tr>
-											<tr style="vertical-align: center;">
-												<td colspan="1"
-													style="font-size: 10px; font-family: Century Gothic;">Entradas</td>
-												<td colspan="3"
-													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
-											</tr>
-											<tr style="vertical-align: center;">
-												<td colspan="1"
-													style="font-size: 10px; font-family: Century Gothic;">Salidas</td>
-												<td colspan="3"
-													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
-											</tr>
-											<tr style="vertical-align: center;">
-												<td colspan="2"
-													style="font-size: 10px; font-family: Century Gothic;">Sobrates de Caja</td>
-												<td colspan="2"
-													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
-											</tr>
-											<tr style="vertical-align: center;">
-												<td colspan="2"
-													style="font-size: 10px; font-family: Century Gothic;">Faltantes de Caja</td>
-												<td colspan="2"
-													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+											<tr>
+												<td colspan="4">
+													<h:panelGroup rendered="#{abrirCajaBean.isSoles(boveda.key)}">
+														<table>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Entradas</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Salidas</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Sobrates
+																	de Caja</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Faltantes
+																	de Caja</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+														</table>
+													</h:panelGroup>
+													<h:panelGroup rendered="#{abrirCajaBean.isDolares(boveda.key)}">
+														<table>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Entradas</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Salidas</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Sobrates
+																	de Caja</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Faltantes
+																	de Caja</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+														</table>
+													</h:panelGroup>
+													<h:panelGroup rendered="#{abrirCajaBean.isEuros(boveda.key)}">
+														<table>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Entradas</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Salidas</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Sobrates
+																	de Caja</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+															<tr style="vertical-align: center;">
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic;">Faltantes
+																	de Caja</td>
+																<td colspan="2"
+																	style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+															</tr>
+														</table>
+													</h:panelGroup>
+												</td>
 											</tr>
 											<tr style="vertical-align: center;">
 												<td colspan="2"
 													style="font-size: 10px; font-family: Century Gothic;">Saldo por Devolver</td>
 												<td colspan="2"
-													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{abrirCajaBean.totalSobrantes}</td>
+													style="font-size: 10px; font-family: Century Gothic; text-align: right;">#{boveda.key.abreviatura} #{abrirCajaBean.getTotal(boveda.key)}</td>
 											</tr>
-
+											
 											<tr>
 												<td colspan="4" style="font-size: 10px">&nbsp;</td>
 											</tr>
