@@ -71,7 +71,7 @@
 														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasaCambioBean.tipoCambioCompraDolarSol.tipocambio}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaCambioConverter"></f:converter>
-														<f:ajax event="blur" render="@this tipoCambioCompraED tipoCambioVentaDE" listener="#{actualizarTasaCambioBean.calculateTasaCambioCompra()}"></f:ajax>
+														<f:ajax event="blur" render="@this tipoCambioCompraDE tipoCambioVentaED" listener="#{actualizarTasaCambioBean.calculateTasaCambioCompra()}"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>
@@ -97,7 +97,7 @@
 														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasaCambioBean.tipoCambioCompraEuroSol.tipocambio}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaCambioConverter"></f:converter>
-														<f:ajax event="blur" render="@this tipoCambioCompraDE tipoCambioVentaED" listener="#{actualizarTasaCambioBean.calculateTasaCambioVenta()}"></f:ajax>
+														<f:ajax event="blur" render="@this tipoCambioCompraED tipoCambioVentaDE" listener="#{actualizarTasaCambioBean.calculateTasaCambioVenta()}"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>
@@ -176,7 +176,7 @@
 														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasaCambioBean.tipoCambioVentaDolarSol.tipocambio}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaCambioConverter"></f:converter>
-														<f:ajax event="blur" render="@this tipoCambioCompraDE tipoCambioVentaED" listener="#{actualizarTasaCambioBean.calculateTasaCambioVenta()}"></f:ajax>
+														<f:ajax event="blur" render="@this tipoCambioCompraED tipoCambioVentaDE" listener="#{actualizarTasaCambioBean.calculateTasaCambioVenta()}"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>
@@ -202,7 +202,7 @@
 														requiredMessage="Ingrese el tipo de cambio" value="#{actualizarTasaCambioBean.tipoCambioVentaEuroSol.tipocambio}"
 														size="15" maxlength="5">
 														<f:converter converterId="TasaCambioConverter"></f:converter>
-														<f:ajax event="blur" render="@this tipoCambioCompraED tipoCambioVentaDE" listener="#{actualizarTasaCambioBean.calculateTasaCambioCompra()}"></f:ajax>
+														<f:ajax event="blur" render="@this tipoCambioCompraDE tipoCambioVentaED" listener="#{actualizarTasaCambioBean.calculateTasaCambioCompra()}"></f:ajax>
 													</h:inputText>
 												</div>
 											</div>

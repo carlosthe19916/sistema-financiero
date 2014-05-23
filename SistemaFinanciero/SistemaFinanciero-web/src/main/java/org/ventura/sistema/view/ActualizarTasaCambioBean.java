@@ -444,20 +444,20 @@ public class ActualizarTasaCambioBean implements Serializable {
 	
 	//calcula las tasas de dolar a euro y viceversa en compra
 	public void calculateTasaCambioCompra(){
+	 	TasaCambio compraDolarSol = tipoCambioCompraDolarSol.getTipocambio();
+		TasaCambio ventaEuroSol = tipoCambioVentaEuroSol.getTipocambio();
+		
+		tipoCambioCompraDolarEuro.setTipocambio(compraDolarSol.divide(ventaEuroSol));
+		tipoCambioVentaEuroDolar.setTipocambio(compraDolarSol.divide(ventaEuroSol));
+	}
+	
+	//calcula las tasas de dolar a euro y viceversa en venta
+	public void calculateTasaCambioVenta(){
 		TasaCambio ventaDolarSol = tipoCambioVentaDolarSol.getTipocambio();
 		TasaCambio compraEuroSol = tipoCambioCompraEuroSol.getTipocambio();
 		
 		tipoCambioCompraEuroDolar.setTipocambio(compraEuroSol.divide(ventaDolarSol));
 	 	tipoCambioVentaDolarEuro.setTipocambio(compraEuroSol.divide(ventaDolarSol));
-	}
-	
-	//calcula las tasas de dolar a euro y viceversa en venta
-	public void calculateTasaCambioVenta(){
-		TasaCambio compraDolarSol = tipoCambioCompraDolarSol.getTipocambio();
-		TasaCambio ventaEuroSol = tipoCambioVentaEuroSol.getTipocambio();	
-		
-		tipoCambioCompraDolarEuro.setTipocambio(compraDolarSol.divide(ventaEuroSol));
-		tipoCambioVentaEuroDolar.setTipocambio(compraDolarSol.divide(ventaEuroSol));
 	}
 
 	public boolean isValidBean() {
