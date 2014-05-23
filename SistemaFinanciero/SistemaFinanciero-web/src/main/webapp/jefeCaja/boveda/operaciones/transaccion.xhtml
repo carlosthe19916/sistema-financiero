@@ -187,7 +187,7 @@
 													<tr>
 														<td colspan="2"
 															style="font-weight: bold; font-size: 12px;">TOTAL
-															DISPONIBLE:</td>
+															DISPONIBLE EN BOVEDA:</td>
 														<td colspan="2" style="font-size: 12px; text-align: center;"><h:outputText
 																value="#{transaccionBovedaBean.voucherBovedaView.abreviaturaTipomoneda} #{transaccionBovedaBean.voucherBovedaView.saldodisponibleTransaccionboveda}" /></td>
 													</tr>
@@ -218,10 +218,10 @@
 														</tr>
 														<tr>
 															<td colspan="2"
-																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE DE CAJA #{agenciaBean.agencia.denominacion}</td>
+																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE DE CAJA #{agenciaBean.agencia.abreviatura}</td>
 															<td colspan="2"
 																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE DE
-																CAJA #{transaccionBovedaBean.comboAgencia.objectItemSelected.denominacion}</td>
+																CAJA #{transaccionBovedaBean.comboAgencia.objectItemSelected.abreviatura}</td>
 														</tr>
 													</h:panelGroup>
 													<h:panelGroup rendered="#{transaccionBovedaBean.isOtro()}">
@@ -231,9 +231,9 @@
 														</tr>
 														<tr>
 															<td colspan="2" 
-																style="text-align: center; font-weight: bold; font-size: 12px;">ADMINISTRADOR #{agenciaBean.agencia.denominacion}</td>
+																style="text-align: center; font-weight: bold; font-size: 12px;">ADMINISTRADOR #{agenciaBean.agencia.abreviatura}</td>
 															<td colspan="2"
-																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE DE CAJA #{agenciaBean.agencia.denominacion}</td>
+																style="text-align: center; font-weight: bold; font-size: 12px;">JEFE DE CAJA #{agenciaBean.agencia.abreviatura}</td>
 														</tr>
 													</h:panelGroup>
 												</table>
